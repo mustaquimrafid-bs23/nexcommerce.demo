@@ -195,3 +195,99 @@ img {
   color: #ffffff !important;
   border-color: #121212 !important;
 }
+
+/* ─── Header & Minimal Navigation Glass Bar ────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(11, 11, 14, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 300ms var(--ease-luxury), border-color 300ms var(--ease-luxury);
+}
+.site-header.scrolled {
+  background: rgba(11, 11, 14, 0.96);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.nav-inner {
+  height: 76px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.nav-link:hover {
+  color: var(--accent-gold);
+}
+
+.nav-logo {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+.nav-action-btn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--touch-target-min);
+  padding: 0 8px;
+}
+.nav-action-btn:hover {
+  color: var(--accent-gold);
+}
+.bag-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .nav-inner { grid-template-columns: auto 1fr auto; }
+  .nav-logo { text-align: left; font-size: 20px; }
+}
+
