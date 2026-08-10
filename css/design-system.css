@@ -414,31 +414,98 @@ img {
   color: var(--text-secondary);
 }
 
-/* ─── Trust Signals Component ──────────────────────────────────────── */
-.trust-signals-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 24px;
-  padding: 24px;
-  background: rgba(20, 20, 24, 0.6);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  margin-top: 24px;
-  flex-wrap: wrap;
+/* ─── Storytelling Break (Warm Stone Variant) ───────────────────────── */
+.story-section {
+  padding: var(--space-section) 0;
+  background-color: var(--bg-warm-stone);
+  color: var(--text-dark);
 }
 
-.trust-item {
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.story-content {
+  max-width: 540px;
+}
+
+.story-media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.story-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.story-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-luxury);
+}
+.story-img-wrap:hover img {
+  transform: scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+  .story-media-grid { height: 380px; }
+  .story-img-wrap { height: 100%; }
+}
+
+/* ─── Intelligent Assistance Bar (Curated For You) ─────────────────── */
+.personalized-bar-section {
+  padding: 80px 0;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.chips-container {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.chip-btn {
+  min-height: 44px;
+  padding: 12px 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   font-family: var(--font-body);
   font-size: 12px;
-  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: all 300ms var(--ease-luxury);
+  cursor: pointer;
 }
-.trust-icon {
+
+.chip-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.chip-btn.active {
+  background: var(--accent-gold-soft);
   color: var(--accent-gold);
-  font-weight: 700;
+  border-color: var(--accent-gold);
+  font-weight: 600;
 }
+
 
 
