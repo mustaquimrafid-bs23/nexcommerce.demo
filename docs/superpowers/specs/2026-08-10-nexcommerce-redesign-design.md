@@ -1,13 +1,14 @@
 # nexCommerce — Technical Design Specification
 **Date:** 2026-08-10  
 **Project:** nexCommerce Luxury Lifestyle E-Commerce Redesign  
-**Status:** Approved Specification  
+**Status:** Approved Frozen Specification  
 
 ---
 
 ## 🎯 Central Axiom & Philosophy
 
 > **"AI enhances the shopping experience; it must never become the shopping experience."**  
+> **"All core commerce functionality must remain fully operational without AI services. AI is a progressive enhancement and may influence discovery, recommendations, or assistance, but it must never be a hard dependency for browsing, product selection, cart, checkout, payment, or order completion."**  
 > **"Premium enough to feel special. Warm enough to feel human. Simple enough to feel trustworthy. Intelligent enough to feel modern."**
 
 ---
@@ -49,6 +50,7 @@ The application is strictly decoupled into 4 architectural domains:
  ── ProductStory     ── FilterBar            ── CartDrawer      ── FitAdvisor
                      ── ProductQuickView     ── Checkout
                                              ── TrustSignal
+                                             ── Wishlist (Phase 2)
 ```
 
 ---
@@ -57,7 +59,7 @@ The application is strictly decoupled into 4 architectural domains:
 
 ### 3.1 Homepage Journey: Emotion → Discovery → Story → Personalization → Navigation
 1. **Header (Minimal Glass Chrome):**
-   * Desktop: `[Shop] [Collections] [Stories]` | `nexCommerce` (Center Anchor) | `Search` `Account` `Bag (N)`
+   * Desktop: `[Shop] [Collections] [Stories]` | `nexCommerce` (Center Anchor) | `Search` `Account` `Wishlist` `Bag (N)`
    * Mobile: `☰` | `nexCommerce` | `Bag (N)`
    * Scroll behavior: Becomes visually quieter on scroll down with a subtle backdrop blur.
 2. **Hero (Dark Obsidian `#0b0b0e`):** Full-bleed human lifestyle visual, Garamond headline (*"Move Without Limits."*), Warm Ivory primary CTA (*"Explore Collection"*).
@@ -67,9 +69,12 @@ The application is strictly decoupled into 4 architectural domains:
 6. **Footer (Dark Obsidian `#0b0b0e`):** Sitemap, trust badges, currency selector, newsletter.
 
 ### 3.2 Product Listing Page (PLP)
-* **Header Bar:** Category Title → Product Count → Progressive `Filters` Button → `Sort` Selector.
-* **Progressive Filter Panel:** Clicking `Filters` opens a non-disruptive filter panel (Size, Color, Material, Price Range).
-* **Adaptive Grid Density:** Desktop discovery (4 cols), Editorial/Feature story (2 cols), Tablet/Mobile (2 cols).
+* **Desktop:** Header Bar (Category Title → Product Count → Progressive `Filters` Button → `Sort` Selector) + Adaptive Grid Density (4 cols discovery, 2 cols editorial).
+* **Mobile PLP:**
+  * Top bar: Category Title + Progressive `[Filter]` button.
+  * Secondary bar: `[Sort]` selector.
+  * Grid: 2-column responsive product grid.
+  * Controls: Filter opens a clean bottom-sheet filter panel. Preserves scroll position upon closure. Lazy-loaded images with reserved skeleton aspect ratios.
 
 ### 3.3 Product Detail Page (PDP)
 * **Visual Hierarchy (60/40 Split):**
@@ -90,14 +95,20 @@ The application is strictly decoupled into 4 architectural domains:
 ## 4. Interactive Components & States
 
 ### 4.1 `SlideOverDrawer` (Cart / Shopping Bag)
-* **Guest → Account → Server Synchronization:**
+* **Guest → Account → Server Synchronization & SKU Merging:**
   ```text
-  Guest (localStorage) ──(on login)──> Merge with Account Cart ──> Server Sync API
+  Guest (localStorage) ──(on login)──> Merge with Account Cart (SKU quantity aggregation) ──> Server Sync API
   ```
+  *Cart Merge Rule:* If the guest cart and account cart contain the same SKU/variant, quantities are merged according to the server's cart rules rather than creating duplicate line items.
 * **Empty State:** Warm empty state graphic (*"Your bag is waiting. Discover something you'll love."*) with `[ Continue Shopping ]` CTA.
 * **Active State:** Progress bar for Free Express Shipping, item list with stepper (`− 1 +`), Subtotal, `TrustSignal` badges, and prominent Warm Ivory `Proceed to Checkout` button. Quantity steppers are temporarily disabled during API network updates.
 
-### 4.2 `SmartSearch` (Intelligent Overlay with Fallback)
+### 4.2 `Wishlist` Architecture (Phase 2 / Optional)
+* **Guest Persistence:** LocalStorage guest wishlist state (`wishlist_items`).
+* **Logged-in Sync:** Deduplicated merging with user account state upon authentication.
+* **States:** Add/remove heart toggle, empty wishlist placeholder, unavailable/sold-out item handling.
+
+### 4.3 `SmartSearch` (Intelligent Overlay with Fallback)
 * **Trigger:** Click `Search` or keyboard shortcut `Ctrl/Cmd + K`.
 * **Resilient Query Pipeline:**
   ```text
@@ -106,17 +117,17 @@ The application is strictly decoupled into 4 architectural domains:
                                         └─ No  ──> Standard Search ──┴─> Render Overlay Results
   ```
 
-### 4.3 `AddToBag` Async State Control
+### 4.4 `AddToBag` Async State Control
 * **Async Flow:** Clicking `Add to Bag` sets state to `Adding...` and disables input. Only transitions to `✓ Added to Bag` and opens the Cart Drawer AFTER the server API confirms success. If the request fails, displays an inline error and keeps the user on the PDP.
 
-### 4.4 `FitAdvisor` (Low-Friction Assistance)
+### 4.5 `FitAdvisor` (Low-Friction Assistance)
 * **Initial Question:** *"What's your usual fit?"* (`Slim`, `Regular`, `Relaxed`).
 * **Optional Follow-up:** Height / weight sliders + direct link to *"View standard size guide"*.
 
-### 4.5 `TrustSignal` Component
+### 4.6 `TrustSignal` Component
 * Reusable badge displaying: `✓ 30-Day Complimentary Returns`, `✓ Encrypted SSL Checkout`, `✓ Guaranteed Authentic`. Prevents dark luxury UI from creating psychological distance.
 
-### 4.6 `ProductQuickView`
+### 4.7 `ProductQuickView`
 * Optional modal on PLP allowing quick inspection of images, variants, and `Add to Bag` without leaving the listing page.
 
 ---
@@ -130,7 +141,7 @@ The application is strictly decoupled into 4 architectural domains:
 * All primary mobile touch targets (`Add to Bag`, `Checkout`, `Close buttons`, `Quantity controls`, `Nav links`) are strictly **48×48px minimum**.
 
 ### 5.3 Skeleton Loaders & Layout Stability
-* Image containers pre-reserve explicit aspect ratios before media load, eliminating layout shifts (CLS = 0).
+* Reserve explicit dimensions/aspect ratios for media and dynamic content to minimize CLS and prevent visible layout shifts.
 
 ### 5.4 Unified Error & Notification Taxonomy
 * **Toast Notifications (Temporary):** Success confirmations (*"Item added to wishlist"*).
@@ -141,7 +152,7 @@ The application is strictly decoupled into 4 architectural domains:
 
 ## 6. Accessibility (WCAG 2.1 AA Compliance)
 
-* **Color Contrast:** Minimum 4.5:1 ratio for body text against dark `#0b0b0e` and warm `#f4f2ee` backgrounds.
+* **Contrast Standard:** All normal text combinations must be verified to meet WCAG 2.1 AA contrast requirements; muted text may not be used where it fails the required contrast ratio.
 * **Keyboard & Focus:** All drawers, overlays, and modals feature focus trapping, visible focus rings, and close on `ESC` press.
 * **Screen Reader Support:** Full ARIA labels for swatches, quantity steppers, cart triggers, and semantic HTML structure (`h1` per page).
 * **Motion Sensitivity:** Respects `@media (prefers-reduced-motion: reduce)` by disabling non-essential transitions.
@@ -153,4 +164,5 @@ The application is strictly decoupled into 4 architectural domains:
 - [x] **Placeholder Scan:** Zero `TODO`, `TBD`, or vague implementation notes found.
 - [x] **Internal Consistency:** Colors, typography, component names, and flow definitions match perfectly across all sections.
 - [x] **Scope Check:** Well-bounded e-commerce scope separated into Brand, Discovery, Commerce, and Intelligence layers.
-- [x] **Ambiguity Check:** All async states, fallback pipelines, and error taxonomies explicitly defined.
+- [x] **Ambiguity Check:** All async states, fallback pipelines, cart SKU merging, and error taxonomies explicitly defined.
+- [x] **AI Boundary Constraint:** Explicit non-negotiable architectural rule included.
