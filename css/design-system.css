@@ -291,3 +291,154 @@ img {
   .nav-logo { text-align: left; font-size: 20px; }
 }
 
+/* ─── Product Card & Grid System ───────────────────────────────────── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-grid);
+}
+
+@media (max-width: 1024px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg-surface);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.product-img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 800ms var(--ease-luxury), opacity 400ms var(--ease-luxury);
+}
+.product-img.secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.product-card:hover .product-img.primary {
+  transform: scale(1.04);
+}
+.product-card:hover .product-img.secondary {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.product-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 4px 10px;
+  background: rgba(11, 11, 14, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--accent-gold);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(200, 178, 149, 0.2);
+}
+
+.quick-view-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 10;
+  opacity: 0;
+  min-height: var(--touch-target-min);
+  padding: 12px 24px;
+  background: rgba(244, 244, 246, 0.94);
+  backdrop-filter: blur(8px);
+  color: #0b0b0e;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  white-space: nowrap;
+  transition: all 300ms var(--ease-luxury);
+}
+.product-card:hover .quick-view-btn {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.quick-view-btn:hover {
+  background: #ffffff;
+}
+
+.product-info {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.product-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+.product-price {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ─── Trust Signals Component ──────────────────────────────────────── */
+.trust-signals-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 24px;
+  background: rgba(20, 20, 24, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.trust-icon {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+
