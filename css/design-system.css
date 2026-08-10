@@ -1,0 +1,197 @@
+/* ─── nexCommerce Luxury Design System Tokens ───────────────────────── */
+:root {
+  --bg-base:          #0b0b0e;
+  --bg-surface:       #141418;
+  --bg-card:          #1b1b22;
+  --bg-warm-stone:    #f4f2ee;
+  
+  --text-primary:     #f5f5f7;
+  --text-secondary:   #a1a1aa;
+  --text-muted:       #71717a;
+  --text-dark:        #121212;
+  --text-white:       #ffffff;
+
+  --cta-primary:      #f4f4f6;
+  --cta-primary-text: #0b0b0e;
+  --accent-gold:      #c8b295;
+  --accent-gold-soft: rgba(200, 178, 149, 0.15);
+
+  --border-subtle:    rgba(255, 255, 255, 0.08);
+  --border-medium:    rgba(255, 255, 255, 0.16);
+  --border-dark:      rgba(0, 0, 0, 0.12);
+
+  --font-serif:       'Cormorant Garamond', Georgia, serif;
+  --font-body:        'Inter', system-ui, -apple-system, sans-serif;
+
+  --space-section:    110px;
+  --space-grid:       32px;
+  --radius-sm:        2px;
+  --touch-target-min: 48px;
+
+  --ease-luxury:      cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--cta-primary);
+  color: var(--cta-primary-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 200ms var(--ease-luxury);
+}
+a:hover { opacity: 0.8; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+button {
+  cursor: pointer;
+  min-height: var(--touch-target-min);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Layout Containers */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.container-narrow {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Typography Helpers */
+.heading-hero {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 5.8vw, 88px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.heading-section {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 3.5vw, 54px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.label-editorial {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Primary Warm Ivory Button */
+.btn-luxury {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: var(--touch-target-min);
+  padding: 16px 40px;
+  background: var(--cta-primary);
+  color: var(--cta-primary-text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--cta-primary);
+  transition: all 300ms var(--ease-luxury);
+}
+.btn-luxury:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+.btn-luxury:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 3px;
+}
+
+/* Secondary Translucent Button */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: var(--touch-target-min);
+  padding: 16px 40px;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-medium);
+  transition: all 300ms var(--ease-luxury);
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-primary);
+}
+
+/* Warm Stone Section Variant */
+.theme-warm-stone {
+  background-color: var(--bg-warm-stone) !important;
+  color: var(--text-dark) !important;
+}
+.theme-warm-stone .heading-section,
+.theme-warm-stone .heading-hero {
+  color: var(--text-dark) !important;
+}
+.theme-warm-stone .label-editorial {
+  color: #7c684d !important;
+}
+.theme-warm-stone .btn-luxury {
+  background: #121212 !important;
+  color: #ffffff !important;
+  border-color: #121212 !important;
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details — nexCommerce Luxury</title>
+  <meta name="description" content="Discover precision-crafted luxury apparel, acoustics, and timepieces at nexCommerce.">
+
+  <!-- Google Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+
+  <style>
+    :root {
+      --bg-base: #f8f6f2;
+      --bg-surface: #ffffff;
+      --bg-card: #f2efe9;
+      --text-primary: #0a0a0a;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --text-white: #ffffff;
+      --accent-dark: #121212;
+      --border-light: #e5e2dc;
+      --border-medium: #d1ccc4;
+      --overlay: rgba(10, 10, 10, 0.4);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 40px; }
+
+    #announcement-bar {
+      background-color: var(--accent-dark);
+      color: var(--text-white);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 10px 16px;
+    }
+
+    #header {
+      background-color: var(--bg-base);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      height: 80px;
+    }
+
+    .nav-menu { display: flex; gap: 32px; list-style: none; }
+    .nav-link {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 200ms ease;
+    }
+    .nav-link:hover { color: var(--text-primary); }
+
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-actions { display: flex; justify-content: flex-end; gap: 24px; }
+    .nav-action-btn {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      transition: color 200ms ease;
+    }
+    .nav-action-btn:hover { color: var(--text-primary); }
+
+    /* PDP Layout */
+    .pdp-layout {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 64px;
+      padding: 60px 0 100px;
+    }
+
+    /* Gallery Left */
+    .gallery-container { display: flex; flex-direction: column; gap: 16px; }
+    .main-image-wrap {
+      width: 100%;
+      height: 640px;
+      background: var(--bg-card);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+    .main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 500ms var(--ease-luxury);
+    }
+    .main-image-wrap:hover img { transform: scale(1.03); }
+
+    .thumbnail-strip { display: flex; gap: 12px; }
+    .thumb-img {
+      width: 100px;
+      height: 120px;
+      object-fit: cover;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 200ms ease;
+    }
+    .thumb-img.active, .thumb-img:hover {
+      opacity: 1;
+      border-color: var(--accent-dark);
+    }
+
+    /* Info Right */
+    .pdp-info-col { display: flex; flex-direction: column; }
+    .breadcrumb { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+    .pdp-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px; }
+    .pdp-title { font-family: var(--font-serif); font-size: 40px; font-weight: 400; color: var(--text-primary); margin-bottom: 12px; }
+    .pdp-price { font-size: 22px; font-weight: 500; color: var(--text-primary); margin-bottom: 24px; }
+    .pdp-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px; }
+
+    /* AI Size Advisor */
+    .size-advisor-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .advisor-header {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .advisor-note { font-size: 12px; color: var(--text-secondary); }
+
+    /* Size Selector */
+    .size-section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 12px; }
+    .size-grid { display: flex; gap: 10px; margin-bottom: 32px; }
+    .size-btn {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border-medium);
+      background: var(--bg-surface);
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms ease;
+    }
+    .size-btn.selected, .size-btn:hover {
+      background: var(--accent-dark);
+      color: var(--text-white);
+      border-color: var(--accent-dark);
+    }
+
+    .btn-luxury {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent-dark);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 18px 36px;
+      border: 1px solid var(--accent-dark);
+      transition: all 300ms var(--ease-luxury);
+      cursor: pointer;
+    }
+    .btn-luxury:hover {
+      background-color: transparent;
+      color: var(--text-primary);
+    }
+
+    /* Accordions */
+    .accordion-item { border-top: 1px solid var(--border-light); padding: 20px 0; }
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .accordion-content { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-top: 12px; display: none; }
+    .accordion-item.open .accordion-content { display: block; }
+
+    /* Complete the Look */
+    .bundle-section { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--border-light); }
+    .bundle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+    .bundle-card {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: transform 200ms ease;
+    }
+    .bundle-card:hover { transform: translateY(-2px); border-color: var(--border-medium); }
+    .bundle-card img { width: 60px; height: 72px; object-fit: cover; }
+
+    /* Modals & Drawers shared styles */
+    .modal-backdrop { position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(8px); z-index: 300; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 300ms ease; }
+    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer-backdrop { position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(8px); z-index: 250; opacity: 0; pointer-events: none; transition: opacity 300ms ease; }
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+    .bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 480px; max-width: 100vw; background: var(--bg-surface); border-left: 1px solid var(--border-light); z-index: 260; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 400ms var(--ease-luxury); box-shadow: -16px 0 48px rgba(0,0,0,0.15); }
+    .bag-drawer.open { transform: translateX(0); }
+
+    /* Footer */
+    #footer { background: #111111; color: #fcfbf9; padding-top: 80px; padding-bottom: 40px; font-family: var(--font-body); }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 60px; }
+    .footer-brand-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; margin-bottom: 16px; }
+    .footer-brand-desc { font-size: 13px; color: #bdbdbd; line-height: 1.7; max-width: 320px; }
+    .footer-col-title { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; margin-bottom: 24px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { font-size: 13px; color: #bdbdbd; transition: color 200ms ease; }
+    .footer-links a:hover { color: #ffffff; }
+    .footer-bottom { padding-top: 40px; border-top: 1px solid #222222; display: flex; justify-content: space-between; font-size: 11px; color: #999999; }
+
+    @media (max-width: 1024px) {
+      .pdp-layout { grid-template-columns: 1fr; gap: 40px; }
+      .main-image-wrap { height: 480px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div id="announcement-bar" role="region" aria-label="Announcement Bar">
+    Complimentary Worldwide Shipping On Orders Over $250 &nbsp;·&nbsp; Autumn / Winter 2026 Edition
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header id="header" role="banner">
+    <div class="container">
+      <div class="nav-inner">
+        <nav aria-label="Main Navigation">
+          <ul class="nav-menu">
+            <li><a href="category.html?cat=new" class="nav-link">New Season</a></li>
+            <li><a href="category.html?cat=outerwear" class="nav-link">Outerwear</a></li>
+            <li><a href="category.html?cat=footwear" class="nav-link">Footwear</a></li>
+            <li><a href="category.html?cat=objects" class="nav-link">Objects</a></li>
+            <li><a href="lookbook.html" class="nav-link">Editorial</a></li>
+          </ul>
+        </nav>
+
+        <a href="index.html" class="nav-logo">NEXCOMMERCE</a>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" aria-label="Search"><span>Search</span></button>
+          <button class="nav-action-btn" aria-label="Wishlist"><span>Saved</span></button>
+          <button class="nav-action-btn" id="cart-trigger" aria-label="Shopping Bag">
+            <span>Bag</span> <span class="bag-count" id="header-bag-count">(2)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PDP CONTENT -->
+  <main id="main-content">
+    <div class="container">
+      <div class="pdp-layout">
+        <!-- Gallery Left -->
+        <div class="gallery-container">
+          <div class="main-image-wrap">
+            <img id="pdp-main-img" src="" alt="Main Product View">
+          </div>
+          <div class="thumbnail-strip" id="pdp-thumb-strip">
+            <!-- Thumbnails rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Details Right -->
+        <div class="pdp-info-col">
+          <div class="breadcrumb">Home / <span id="pdp-cat-crumb">Outerwear</span> / <span id="pdp-title-crumb">Wool Minimalist Jacket</span></div>
+          <div class="pdp-brand" id="pdp-brand">Arc</div>
+          <h1 class="pdp-title" id="pdp-title">Wool Minimalist Jacket</h1>
+          <div class="pdp-price" id="pdp-price">$310</div>
+
+          <p class="pdp-desc" id="pdp-desc">
+            Crafted from dense Japanese wool blend with concealed Horn button closures and a refined relaxed silhouette.
+          </p>
+
+          <!-- AI Size Advisor -->
+          <div class="size-advisor-box">
+            <div class="advisor-header">
+              <span>✦</span> AI Size Advisor: Recommended Size <span id="pdp-rec-size">UK 8</span> (<span id="pdp-rec-conf">88%</span> Fit Confidence)
+            </div>
+            <div class="advisor-note" id="pdp-rec-note">Based on your past purchases and brand fit profile</div>
+          </div>
+
+          <!-- Size Selector -->
+          <div class="size-section-title">Select Size</div>
+          <div class="size-grid">
+            <button class="size-btn">UK 7</button>
+            <button class="size-btn selected">UK 8</button>
+            <button class="size-btn">UK 9</button>
+            <button class="size-btn">UK 10</button>
+            <button class="size-btn">UK 11</button>
+          </div>
+
+          <!-- Actions -->
+          <div style="display: flex; gap: 16px; margin-bottom: 40px;">
+            <button class="btn-luxury" style="flex: 1;" onclick="addToBag()">Add to Bag &rarr;</button>
+            <button class="btn-luxury" style="background: transparent; color: var(--text-primary); border-color: var(--border-medium);">♡ Save</button>
+          </div>
+
+          <!-- Accordions -->
+          <div class="accordion-item open" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <span>Product Details & Care</span> <span>↓</span>
+            </div>
+            <div class="accordion-content">
+              • 90% Japanese Melton Wool, 10% Cashmere<br>
+              • Concealed horn button front placket<br>
+              • Dry clean only &nbsp;·&nbsp; Crafted in Osaka, Japan
+            </div>
+          </div>
+
+          <div class="accordion-item" onclick="toggleAccordion(this)">
+            <div class="accordion-header">
+              <span>Complimentary Delivery & Returns</span> <span>↓</span>
+            </div>
+            <div class="accordion-content">
+              Complimentary express shipping on all orders over $250. 30-day hassle-free returns with prepaid return label included.
+            </div>
+          </div>
+
+          <!-- Complete the Look Bundles -->
+          <div class="bundle-section">
+            <div class="pdp-brand" style="color: var(--text-primary);">Complete the Look — AI Outfit Pairings</div>
+            <div class="bundle-grid" id="pdp-bundle-grid">
+              <!-- Dynamically populated via NexAI.getBundleSuggestions() -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- LUXURY FOOTER -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-title">NEXCOMMERCE</div>
+          <p class="footer-brand-desc">A global destination for architectural apparel, acoustic objects, and refined everyday footwear.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Collections</div>
+          <ul class="footer-links">
+            <li><a href="category.html?cat=outerwear">Outerwear</a></li>
+            <li><a href="category.html?cat=footwear">Footwear</a></li>
+            <li><a href="category.html?cat=objects">Acoustics</a></li>
+            <li><a href="lookbook.html">Lookbook</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Client Support</div>
+          <ul class="footer-links">
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">Size Advisor</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">The Gazette</div>
+          <p style="font-size: 13px; color: #bdbdbd; margin-bottom: 16px;">Private collection previews & editorial issues.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 nexCommerce Inc. All Rights Reserved.</div>
+        <div style="display: flex; gap: 24px;"><span>Apple Pay</span><span>Visa</span><span>Amex</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/ai-engine.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id') || 'p4';
+
+    function toggleAccordion(el) {
+      el.classList.toggle('open');
+    }
+
+    function addToBag() {
+      alert('Added object to shopping bag.');
+    }
+
+    function renderPDP() {
+      const p = NexAI.catalog[productId] || NexAI.catalog['p4'];
+      if (!p) return;
+
+      NexAI.trackUserEvent('view', p.id);
+
+      document.getElementById('pdp-brand').textContent = p.brand;
+      document.getElementById('pdp-title').textContent = p.title;
+      document.getElementById('pdp-price').textContent = p.price;
+      document.getElementById('pdp-desc').textContent = p.desc;
+      document.getElementById('pdp-cat-crumb').textContent = p.category;
+      document.getElementById('pdp-title-crumb').textContent = p.title;
+      document.getElementById('pdp-main-img').src = p.img;
+      document.title = `${p.title} — nexCommerce`;
+
+      // Thumbnails
+      const thumbStrip = document.getElementById('pdp-thumb-strip');
+      thumbStrip.innerHTML = '';
+      [p.img, p.img, p.img].forEach((imgUrl, idx) => {
+        const img = document.createElement('img');
+        img.className = `thumb-img ${idx === 0 ? 'active' : ''}`;
+        img.src = imgUrl;
+        img.onclick = () => {
+          document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+          img.classList.add('active');
+          document.getElementById('pdp-main-img').src = imgUrl;
+        };
+        thumbStrip.appendChild(img);
+      });
+
+      // Size Advisor
+      const sizeInfo = NexAI.getRecommendedSize(p.id);
+      document.getElementById('pdp-rec-size').textContent = sizeInfo.recommendedSize;
+      document.getElementById('pdp-rec-conf').textContent = sizeInfo.confidence;
+      document.getElementById('pdp-rec-note').textContent = sizeInfo.note;
+
+      // Bundles
+      const bundles = NexAI.getBundleSuggestions(p.id, 2);
+      const bundleGrid = document.getElementById('pdp-bundle-grid');
+      bundleGrid.innerHTML = '';
+      bundles.forEach(b => {
+        const card = document.createElement('div');
+        card.className = 'bundle-card';
+        card.onclick = () => window.location.href = `product.html?id=${b.id}`;
+        card.innerHTML = `
+          <img src="${b.img}" alt="${b.title}">
+          <div>
+            <div style="font-size: 8px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);">${b.brand}</div>
+            <div style="font-family: var(--font-serif); font-size: 13px; color: var(--text-primary);">${b.title}</div>
+            <div style="font-size: 11px; font-weight: 600;">${b.price}</div>
+          </div>
+        `;
+        bundleGrid.appendChild(card);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', renderPDP);
+  </script>
+</body>
+</html>
