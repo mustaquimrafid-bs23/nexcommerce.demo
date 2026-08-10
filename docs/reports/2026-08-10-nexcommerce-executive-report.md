@@ -17,6 +17,23 @@ The design and technical architecture strictly adhere to our core philosophy:
 
 ---
 
+## 🛠️ Technology Stack & Usage Matrix (Which Tech Was Used For What)
+
+Below is the complete breakdown of every technology, language, API, framework, and tool utilized in this project:
+
+| Technology / Tool | Category | Specific Usage & Implementation in nexCommerce |
+| :--- | :--- | :--- |
+| **HTML5 (Semantic Markup)** | Core Structure | Semantic page structure (`header`, `main`, `section`, `article`, `nav`, `footer`), accessibility attributes (`aria-expanded`, `aria-modal`, `role="dialog"`), and responsive media containers (`picture`, `img loading="lazy"`). |
+| **CSS3 (Vanilla Design System)** | Styling & Design Tokens | Custom CSS custom properties (`:root` tokens for `#0b0b0e`, `#f4f2ee`, `#f4f4f6`, `#c8b295`), glassmorphism (`backdrop-filter: blur(16px)`), CSS Grid & Flexbox, hardware-accelerated animations, and responsive media query breakpoints. |
+| **JavaScript ES6+ (Native Modules)** | Logic & Interactivity | Decoupled ES modules (`import`/`export`), async event handlers, DOM manipulation, state managers, and modal overlay controllers without heavy external framework overhead. |
+| **Google Fonts API** | Typography | High-performance CDN loading for **Cormorant Garamond** (editorial serif headlines) and **Inter** (clean grotesque for UI chrome, pricing, and specs). |
+| **HTML5 Web Storage API (`localStorage`)** | State Persistence | Persistence for guest cart items (`nex_cart`), variant SKU aggregation, subtotal recalculations across page reloads, and error-guarded JSON serialization. |
+| **Vanilla DOM API & Custom Events** | Event Handling | Keyboard event listeners (`Ctrl/Cmd + K` for search, `ESC` for modal closing), focus trapping, scroll-quieting class toggling (`window.scrollY`), and stepper quantity controls. |
+| **Git & Git Flow** | Version Control | Local repository management, atomic commit tracking (`abde142` through `0de925b`), branch hygiene, and progress ledger maintenance (`.superpowers/sdd/progress.md`). |
+| **Subagent SDD Engine** | Agentic Automation | Subagent-driven task isolation, plan execution, self-review verification loops, and WCAG contrast audits. |
+
+---
+
 ## 📊 Summary of Accomplishments (What We Built)
 
 ### 1. Brand Identity & Visual Design System
