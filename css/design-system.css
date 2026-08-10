@@ -507,5 +507,173 @@ img {
   font-weight: 600;
 }
 
+/* ─── Slide-Over Shopping Bag Drawer ───────────────────────────────── */
+.drawer-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  visibility: hidden;
+  transition: visibility 400ms var(--ease-luxury);
+}
+.drawer-container.active {
+  visibility: visible;
+}
+
+.drawer-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 11, 14, 0.75);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-luxury);
+}
+.drawer-container.active .drawer-backdrop {
+  opacity: 1;
+}
+
+.drawer-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 400ms var(--ease-luxury);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+}
+.drawer-container.active .drawer-panel {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.drawer-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+.drawer-close-btn {
+  font-size: 18px;
+  color: var(--text-secondary);
+  padding: 8px;
+  min-height: var(--touch-target-min);
+}
+.drawer-close-btn:hover { color: var(--text-primary); }
+
+.shipping-progress-bar {
+  padding: 12px 32px;
+  background: rgba(200, 178, 149, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.shipping-unlocked {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-empty-state {
+  margin: auto;
+  text-align: center;
+  padding: 40px 0;
+}
+.empty-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.empty-subtext {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.cart-item-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.cart-item-img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+}
+.cart-item-info { display: flex; flex-direction: column; gap: 4px; }
+.cart-item-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+.cart-item-variant { font-size: 11px; color: var(--text-muted); }
+.cart-item-price { font-size: 13px; font-weight: 500; color: var(--accent-gold); margin-top: 2px; }
+
+.cart-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  width: fit-content;
+}
+.stepper-btn {
+  font-size: 14px;
+  color: var(--text-secondary);
+  min-height: 28px;
+  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stepper-btn:hover { color: var(--text-primary); }
+.stepper-val { font-size: 12px; font-weight: 600; }
+.cart-item-remove { color: var(--text-muted); font-size: 14px; padding: 8px; min-height: var(--touch-target-min); }
+.cart-item-remove:hover { color: #ff5555; }
+
+.drawer-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+.cart-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.cart-summary-label { color: var(--text-secondary); }
+.cart-summary-total { font-family: var(--font-serif); font-size: 22px; color: var(--text-primary); }
+
+
 
 
