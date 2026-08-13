@@ -1,1911 +1,421 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nexCommerce — Luxury Lifestyle & Objects</title>
-  <meta name="description" content="nexCommerce — A curated collection of modern apparel, footwear, and lifestyle objects.">
-  
-  <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Inter (Clean Grotesque) -->
+  <title>nexCommerce â€” Intelligent Shopping & Intent Discovery</title>
+  <meta name="description" content="A premium shopping experience that understands your intent and helps you make confident choices.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
-
-  <style>
-    /* ─── LAYER 1: LUXURY NEUTRAL DESIGN SYSTEM ─────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; background-color: var(--bg-base); color: var(--text-primary); }
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      letter-spacing: -0.01em;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-    ::selection { background: #111111; color: #ffffff; }
-    a { color: inherit; text-decoration: none; transition: opacity 200ms ease; }
-    a:hover { opacity: 0.7; }
-    button, input, select, textarea { font: inherit; color: inherit; background: none; border: none; outline: none; }
-    button { cursor: pointer; }
-    img { display: block; max-width: 100%; height: auto; object-fit: cover; }
-
-    /* ─── DESIGN TOKENS (SSENSE / NET-A-PORTER STANDARD) ───────────── */
-    :root {
-      --bg-base:        #fcfbf9;
-      --bg-surface:     #ffffff;
-      --bg-card:        #f4f2ee;
-      --bg-subtle:      #eae7e1;
-      --overlay:        rgba(15, 15, 15, 0.65);
-
-      --border-light:   rgba(0, 0, 0, 0.08);
-      --border-medium:  rgba(0, 0, 0, 0.16);
-
-      --text-primary:   #121212;
-      --text-secondary: #555555;
-      --text-muted:     #888888;
-      --text-white:     #ffffff;
-
-      --accent-dark:    #111111;
-      --accent-warm:    #8c7355;
-
-      --font-serif:     'Cormorant Garamond', Georgia, serif;
-      --font-body:      'Inter', system-ui, -apple-system, sans-serif;
-
-      --space-section:  120px;
-      --space-grid:     32px;
-      --radius-sm:      2px;
-
-      --ease-luxury:    cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    /* Layout Containers */
-    .container { max-width: 1440px; margin: 0 auto; padding: 0 40px; }
-    .container-narrow { max-width: 960px; margin: 0 auto; padding: 0 32px; }
-    .flex-between { display: flex; align-items: center; justify-content: space-between; }
-    .flex-center { display: flex; align-items: center; justify-content: center; }
-
-    /* Luxury Editorial Typography */
-    .heading-hero {
-      font-family: var(--font-serif);
-      font-size: clamp(52px, 6.2vw, 92px);
-      font-weight: 400;
-      line-height: 0.98;
-      letter-spacing: -0.025em;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-    .heading-section {
-      font-family: var(--font-serif);
-      font-size: clamp(32px, 3.5vw, 54px);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-    .label-editorial {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    /* Buttons */
-    .btn-luxury {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 18px 44px;
-      background: var(--accent-dark);
-      color: var(--text-white);
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: 1px solid var(--accent-dark);
-      transition: all 300ms var(--ease-luxury);
-    }
-    .btn-luxury:hover {
-      background: #333333;
-      border-color: #333333;
-    }
-
-    /* Minimal Top Announcement */
-    #announcement-bar {
-      background: #121212;
-      color: #fcfbf9;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-align: center;
-      padding: 10px 20px;
-    }
-
-    /* ─── LAYER 2: MINIMAL NAVIGATION HEADER ───────────────────────── */
-    #header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(252, 251, 249, 0.94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-light);
-    }
-    .nav-inner {
-      height: 76px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 20px;
-    }
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      list-style: none;
-    }
-    .nav-link {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      white-space: nowrap;
-    }
-    .nav-logo {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      text-align: center;
-      white-space: nowrap;
-    }
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 20px;
-    }
-    .nav-action-btn {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-    .bag-count { font-size: 11px; color: var(--text-secondary); }
-
-    /* ─── LAYER 3: EDITORIAL HERO SECTION ──────────────────────────── */
-    #hero {
-      position: relative;
-      min-height: calc(100vh - 116px);
-      display: flex;
-      align-items: center;
-      background: var(--bg-base);
-      overflow: hidden;
-      padding: 60px 0;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .hero-content { max-width: 580px; }
-    .hero-subhead {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 40px;
-      font-weight: 300;
-    }
-    .hero-image-wrap {
-      position: relative;
-      width: 100%;
-      height: 72vh;
-      min-height: 520px;
-      background: var(--bg-card);
-      overflow: hidden;
-    }
-    .hero-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      filter: contrast(1.02);
-      transition: transform 1.2s var(--ease-luxury);
-    }
-    .hero-image-wrap:hover img { transform: scale(1.03); }
-    .hero-caption {
-      position: absolute;
-      bottom: 24px;
-      right: 24px;
-      font-family: var(--font-body);
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(18, 18, 18, 0.6);
-      backdrop-filter: blur(8px);
-      padding: 6px 14px;
-    }
-
-    /* ─── LAYER 4: EDITORIAL CATEGORY TILES ────────────────────────── */
-    #categories {
-      padding-top: var(--space-section);
-      padding-bottom: var(--space-section);
-      background: var(--bg-base);
-      border-top: 1px solid var(--border-light);
-    }
-    .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-grid);
-    }
-    .cat-tile { display: block; position: relative; }
-    .cat-img-wrap {
-      position: relative;
-      width: 100%;
-      height: 540px;
-      background: var(--bg-card);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .cat-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 800ms var(--ease-luxury);
-    }
-    .cat-tile:hover .cat-img-wrap img { transform: scale(1.04); }
-    .cat-title {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .cat-link-text {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    /* ─── LAYER 5: FRAMELESS PRODUCT CATALOG ───────────────────────── */
-    #catalog {
-      padding-top: var(--space-section);
-      padding-bottom: var(--space-section);
-      background: var(--bg-base);
-      border-top: 1px solid var(--border-light);
-    }
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-grid);
-    }
-    .product-card-luxury { display: block; cursor: pointer; }
-    .product-thumb-wrap {
-      position: relative;
-      width: 100%;
-      height: 420px;
-      background: var(--bg-card);
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .product-thumb-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 600ms var(--ease-luxury);
-    }
-    .product-card-luxury:hover .product-thumb-img { transform: scale(1.04); }
-    .product-brand {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-    .product-title {
-      font-family: var(--font-serif);
-      font-size: 20px;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .product-subtitle {
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      font-weight: 300;
-    }
-    .product-price {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .product-tag {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      font-family: var(--font-body);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: #121212;
-      color: #ffffff;
-      padding: 4px 10px;
-    }
-
-    /* ─── LAYER 6: LUXURY PRODUCT QUICK-VIEW MODAL ─────────────────── */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: var(--overlay);
-      backdrop-filter: blur(12px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      opacity: 0;
-      transition: opacity 300ms ease;
-    }
-    .modal-backdrop.open { display: flex; opacity: 1; }
-    
-    .modal-card-luxury {
-      background: var(--bg-surface);
-      max-width: 1040px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.25);
-      position: relative;
-      overflow: hidden;
-    }
-    .modal-close-btn {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      font-size: 20px;
-      color: var(--text-primary);
-      z-index: 10;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-img-col {
-      height: 600px;
-      background: var(--bg-card);
-    }
-    .modal-img-col img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .modal-info-col {
-      padding: 56px 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .modal-size-matrix {
-      display: flex;
-      gap: 8px;
-      margin: 24px 0 36px;
-    }
-    .size-option {
-      width: 44px;
-      height: 44px;
-      border: 1px solid var(--border-medium);
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 200ms ease;
-    }
-    .size-option.selected, .size-option:hover {
-      background: var(--accent-dark);
-      color: var(--text-white);
-      border-color: var(--accent-dark);
-    }
-
-    /* ─── LAYER 7: LUXURY SHOPPING BAG DRAWER ──────────────────────── */
-    .drawer-backdrop {
-      position: fixed;
-      inset: 0;
-      background: var(--overlay);
-      backdrop-filter: blur(8px);
-      z-index: 250;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 300ms ease;
-    }
-    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
-
-    .bag-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 480px;
-      max-width: 100vw;
-      background: var(--bg-surface);
-      border-left: 1px solid var(--border-light);
-      z-index: 260;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 400ms var(--ease-luxury);
-      box-shadow: -16px 0 48px rgba(0,0,0,0.15);
-    }
-    .bag-drawer.open { transform: translateX(0); }
-
-    .drawer-header {
-      padding: 32px 40px;
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .drawer-title {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 400;
-    }
-    .drawer-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 32px 40px;
-    }
-    .bag-item {
-      display: flex;
-      gap: 20px;
-      padding-bottom: 28px;
-      margin-bottom: 28px;
-      border-bottom: 1px solid var(--border-light);
-    }
-    .bag-item-img {
-      width: 90px;
-      height: 110px;
-      background: var(--bg-card);
-      object-fit: cover;
-    }
-    .bag-item-details { flex: 1; }
-    .bag-item-brand {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 2px;
-    }
-    .bag-item-title {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .bag-item-variant {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-    .qty-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .qty-picker {
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--border-medium);
-    }
-    .qty-btn {
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .qty-num {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 0 8px;
-    }
-
-    .drawer-footer {
-      padding: 32px 40px;
-      border-top: 1px solid var(--border-light);
-      background: var(--bg-base);
-    }
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-    }
-    .summary-row.total {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-primary);
-      padding-top: 14px;
-      margin-top: 14px;
-      border-top: 1px solid var(--border-light);
-    }
-
-    /* ─── LAYER 8: EDITORIAL JOURNAL & PERSONALIZATION ─────────────── */
-    #journal {
-      padding-top: var(--space-section);
-      padding-bottom: var(--space-section);
-      background: var(--bg-base);
-      border-top: 1px solid var(--border-light);
-    }
-    .journal-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
-      align-items: start;
-    }
-    .journal-article { display: block; }
-    .journal-img-wrap {
-      position: relative;
-      width: 100%;
-      height: 480px;
-      background: var(--bg-card);
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-    .journal-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 800ms var(--ease-luxury);
-    }
-    .journal-article:hover .journal-img-wrap img { transform: scale(1.03); }
-    .journal-meta {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-    .journal-title {
-      font-family: var(--font-serif);
-      font-size: 32px;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-      line-height: 1.2;
-    }
-    .journal-excerpt {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 20px;
-      font-weight: 300;
-    }
-    .curated-column {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-      padding: 48px;
-    }
-    .curated-card {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      padding-bottom: 24px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border-light);
-    }
-    .curated-card:last-child {
-      padding-bottom: 0;
-      margin-bottom: 0;
-      border-bottom: none;
-    }
-    .curated-thumb {
-      width: 100px;
-      height: 120px;
-      background: var(--bg-card);
-      object-fit: cover;
-    }
-
-    /* ─── LAYER 9: ORDER CONCIERGE & DISPATCH TRACKER ───────────────── */
-    #concierge {
-      padding-top: var(--space-section);
-      padding-bottom: var(--space-section);
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-light);
-    }
-    .concierge-box {
-      border: 1px solid var(--border-light);
-      padding: 64px;
-      background: var(--bg-base);
-    }
-    .timeline-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin: 48px 0 40px;
-      position: relative;
-    }
-    .timeline-step { text-align: center; position: relative; }
-    .step-num {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid var(--border-medium);
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      background: var(--bg-surface);
-      color: var(--text-secondary);
-    }
-    .timeline-step.done .step-num {
-      background: var(--accent-dark);
-      color: var(--text-white);
-      border-color: var(--accent-dark);
-    }
-    .timeline-step.active .step-num {
-      border-color: var(--accent-dark);
-      color: var(--accent-dark);
-      font-weight: 600;
-    }
-    .step-label {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .step-detail { font-size: 11px; color: var(--text-muted); }
-    .concierge-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 32px;
-      border-top: 1px solid var(--border-light);
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    /* ─── LAYER 10: LUXURY FOOTER & RESPONSIVE POLISH (STEP 10) ──────── */
-    #footer {
-      background: #111111;
-      color: #fcfbf9;
-      padding-top: 100px;
-      padding-bottom: 40px;
-      font-family: var(--font-body);
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-      gap: 60px;
-      margin-bottom: 80px;
-    }
-    .footer-brand-title {
-      font-family: var(--font-serif);
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin-bottom: 16px;
-    }
-    .footer-brand-desc {
-      font-size: 13px;
-      color: #bdbdbd;
-      line-height: 1.7;
-      max-width: 320px;
-    }
-    .footer-col-title {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin-bottom: 24px;
-    }
-    .footer-links {
-      list-style: none;
-    }
-    .footer-links li {
-      margin-bottom: 12px;
-    }
-    .footer-links a {
-      font-size: 13px;
-      color: #bdbdbd;
-      transition: color 200ms ease;
-    }
-    .footer-links a:hover { color: #ffffff; }
-
-    .newsletter-form {
-      display: flex;
-      border-bottom: 1px solid #444444;
-      padding-bottom: 12px;
-      margin-top: 16px;
-    }
-    .newsletter-input {
-      flex: 1;
-      font-size: 13px;
-      color: #ffffff;
-    }
-    .newsletter-input::placeholder { color: #888888; }
-    .newsletter-btn {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #ffffff;
-    }
-
-    .footer-bottom {
-      padding-top: 40px;
-      border-top: 1px solid #222222;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      color: #999999;
-    }
-
-    /* Press Bar */
-    .press-bar {
-      padding: 24px 0;
-      border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 40px;
-    }
-    .press-title {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .press-logos {
-      display: flex;
-      gap: 32px;
-      font-family: var(--font-serif);
-      font-size: 16px;
-      color: var(--text-secondary);
-      letter-spacing: 0.08em;
-    }
-
-    /* Scroll Fade Animations */
-    .fade-in-scroll {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 800ms var(--ease-luxury), transform 800ms var(--ease-luxury);
-    }
-    .fade-in-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .mobile-menu-btn { display: none; }
-    .mobile-nav-drawer {
-      position: fixed; inset: 0; background: var(--bg-base); z-index: 280; padding: 40px 24px;
-      display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 400ms var(--ease-luxury);
-    }
-    .mobile-nav-drawer.open { transform: translateX(0); }
-    .mobile-nav-links { list-style: none; margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
-    .mobile-nav-links a { font-family: var(--font-serif); font-size: 28px; color: var(--text-primary); }
-
-    @media (max-width: 1024px) {
-      .nav-menu { display: none; }
-      .mobile-menu-btn { display: inline-flex; font-size: 18px; color: var(--text-primary); cursor: pointer; }
-      .nav-inner { grid-template-columns: auto 1fr auto; }
-      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-image-wrap { height: 55vh; }
-      .cat-grid { grid-template-columns: 1fr; }
-      .cat-img-wrap { height: 420px; }
-      .catalog-grid { grid-template-columns: repeat(2, 1fr); }
-      .product-thumb-wrap { height: 320px; }
-      .modal-card-luxury { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
-      .modal-img-col { height: 350px; }
-      .modal-info-col { padding: 32px 24px; }
-      .bag-drawer { width: 100vw; }
-      .journal-grid { grid-template-columns: 1fr; gap: 40px; }
-      .journal-img-wrap { height: 360px; }
-      .timeline-row { grid-template-columns: repeat(2, 1fr); }
-      .concierge-box { padding: 32px 24px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-    }
-
-    @media (max-width: 640px) {
-      .container { padding: 0 20px; }
-      .catalog-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-      .heading-hero { font-size: 40px; }
-      #concierge-trigger-btn { bottom: 20px; right: 20px; padding: 12px 18px; font-size: 10px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=20260812">
 </head>
 <body>
 
-  <!-- ANNOUNCEMENT BAR (Accessibility Fix) -->
-  <div id="announcement-bar" role="region" aria-label="Announcement Bar">
-    Complimentary Worldwide Shipping On Orders Over $250 &nbsp;·&nbsp; Autumn / Winter 2026 Edition
-  </div>
-
-  <!-- NAVIGATION HEADER -->
-  <header id="header" role="banner">
-    <div class="container">
-      <div class="nav-inner">
-        <!-- Left Mobile Hamburger / Desktop Nav Menu -->
-        <button class="mobile-menu-btn" onclick="toggleMobileNav(true)" aria-label="Open Navigation Menu">☰</button>
-        <nav aria-label="Main Navigation">
-          <ul class="nav-menu">
-            <li><a href="category.html?cat=new" class="nav-link">New Season</a></li>
-            <li><a href="category.html?cat=outerwear" class="nav-link">Outerwear</a></li>
-            <li><a href="category.html?cat=footwear" class="nav-link">Footwear</a></li>
-            <li><a href="category.html?cat=objects" class="nav-link">Objects</a></li>
-            <li><a href="lookbook.html" class="nav-link">Editorial</a></li>
-          </ul>
-        </nav>
-
-        <!-- Center Brand Logo -->
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
         <a href="index.html" class="nav-logo">
-          NEXCOMMERCE
+          <span>nexCommerce</span>
+          <span class="nav-logo-sub">Intelligent Commerce</span>
         </a>
+      </div>
 
-        <!-- Right Action Icons -->
-        <div class="nav-actions">
-          <button class="nav-action-btn" aria-label="Search">
-            <span>Search</span>
-          </button>
-          <button class="nav-action-btn" aria-label="Wishlist">
-            <span>Saved</span>
-          </button>
-          <button class="nav-action-btn" id="cart-trigger" aria-label="Shopping Bag">
-            <span>Bag</span>
-            <span class="bag-count" id="header-bag-count">(2)</span>
-          </button>
-        </div>
+      <nav class="nav-left nav-menu-links desktop-only">
+        <a href="category.html?cat=apparel" class="nav-item-link">Shop</a>
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover</a>
+      </nav>
+
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn">
+          <span class="search-pill-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
+        <a href="account.html" class="nav-item-link desktop-only">Account</a>
+        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
+          <span>Bag</span>
+          <span class="bag-badge" id="headerCartCount">1</span>
+        </a>
       </div>
     </div>
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER -->
-  <div id="mobile-nav-drawer" class="mobile-nav-drawer" role="dialog" aria-label="Mobile Navigation Menu">
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 600;">NEXCOMMERCE</div>
-      <button onclick="toggleMobileNav(false)" style="font-size: 32px;">&times;</button>
+      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã—</button>
     </div>
-    <ul class="mobile-nav-links">
-      <li><a href="category.html?cat=new" onclick="toggleMobileNav(false)">New Season</a></li>
-      <li><a href="category.html?cat=outerwear" onclick="toggleMobileNav(false)">Outerwear</a></li>
-      <li><a href="category.html?cat=footwear" onclick="toggleMobileNav(false)">Footwear</a></li>
-      <li><a href="category.html?cat=objects" onclick="toggleMobileNav(false)">Acoustics & Objects</a></li>
-      <li><a href="lookbook.html" onclick="toggleMobileNav(false)">Editorial Lookbook</a></li>
-    </ul>
+    <a href="category.html?cat=apparel" class="mobile-drawer-link">Shop</a>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag</a>
   </div>
 
-  <script>
-    function toggleMobileNav(open) {
-      const drawer = document.getElementById('mobile-nav-drawer');
-      if (drawer) {
-        if (open) drawer.classList.add('open');
-        else drawer.classList.remove('open');
-      }
-    }
-  </script>
 
-  <main id="main-content">
-    <!-- EDITORIAL HERO SECTION -->
-    <section id="hero" aria-label="Hero Collection Showcase">
-      <div class="container">
-        <div class="hero-grid">
-          <!-- Text Narrative -->
-          <div class="hero-content">
-            <span class="label-editorial">Autumn / Winter 2026</span>
-            <h1 class="heading-hero">Every Detail, Considered.</h1>
-            <p class="hero-subhead">
-              An architectural collection of tailored outerwear, studio-grade acoustics, and refined everyday footwear. Crafted for quiet confidence and effortless movement.
-            </p>
-            <a href="category.html?cat=all" class="btn-luxury">Explore Collection &rarr;</a>
-          </div>
-
-          <!-- Human Model Lifestyle Image -->
-          <div class="hero-image-wrap">
-            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Editorial Fashion Model wearing Autumn Outerwear in architectural light">
-            <div class="hero-caption">Look 04 &nbsp;·&nbsp; Tailored Wool Coat</div>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-ai-glow"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="hero-eyebrow">DISCOVER DIFFERENTLY</span>
+          <h1 class="hero-title">Shopping that<br>understands what<br>you mean.</h1>
+          <p class="hero-subtitle">Find pieces based on what you're doing, where you're going, and how you want to feel.</p>
+          <div class="hero-actions-row">
+            <a href="category.html" class="btn-primary-commerce hero-cta-primary">START SHOPPING</a>
+            <a href="discovery.html" class="link-text-nav hero-cta-secondary" id="heroDescribeLink">Describe what you're looking for â†’</a>
           </div>
         </div>
 
-        <!-- Press / Media Mention Bar -->
-        <div class="press-bar">
-          <span class="press-title">As Featured In</span>
-          <div class="press-logos">
-            <span>THE TIMES</span>
-            <span>VOGUE</span>
-            <span>WALLPAPER*</span>
-            <span>MONOCLE</span>
-            <span>GQ</span>
+        <div class="hero-product-visual">
+          <div class="hero-image-box">
+            <span class="hero-ai-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>AI MATCH</span>
+            <img src="hero_sweater.png" alt="Architectural Cashmere Sweater" />
           </div>
+          <div class="hero-product-meta">
+            <div class="hero-product-name">ARCHITECTURAL CASHMERE SWEATER</div>
+            <div class="hero-product-price">BDT 18,400</div>
+            <div class="hero-product-context">Warm enough after sunset without feeling heavy.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-carousel-dots">
+        <span class="hero-dot active"></span>
+        <span class="hero-dot"></span>
+        <span class="hero-dot"></span>
+        <span class="hero-dot"></span>
+      </div>
+    </section>
+
+
+    <!-- EXPERIENCE STRIP -->
+    <section class="trust-strip reveal-on-scroll">
+      <div class="container trust-grid">
+        <div class="trust-item-card">
+          <div class="trust-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="11" r="6"/>
+              <path d="m14 15 4 4"/>
+              <path d="m19 3-1 3-3 1 3 1 1 3 1-3 3-1-3-1-1-3z"/>
+            </svg>
+          </div>
+          <div class="trust-item-title">INTENT-BASED DISCOVERY</div>
+          <div class="trust-item-sub">Find products naturally, not by filters.</div>
+        </div>
+        <div class="trust-item-card">
+          <div class="trust-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+              <path d="M5 3v4"/><path d="M3 5h4"/>
+            </svg>
+          </div>
+          <div class="trust-item-title">SMART RECOMMENDATIONS</div>
+          <div class="trust-item-sub">Understand why something fits you, not just what's trending.</div>
+        </div>
+        <div class="trust-item-card">
+          <div class="trust-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+            </svg>
+          </div>
+          <div class="trust-item-title">EASY DELIVERY</div>
+          <div class="trust-item-sub">Clear options before you order.</div>
+        </div>
+        <div class="trust-item-card">
+          <div class="trust-item-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div class="trust-item-title">SECURE CHECKOUT</div>
+          <div class="trust-item-sub">Protected from cart to confirmation.</div>
         </div>
       </div>
     </section>
 
-    <!-- CURATED EDITORIAL CATEGORY TILES -->
-    <section id="categories" aria-label="Curated Categories">
-      <div class="container">
-        <div style="margin-bottom: 56px; text-align: center;">
-          <span class="label-editorial">Curated Editions</span>
-          <h2 class="heading-section">Form & Function</h2>
-        </div>
 
-        <div class="cat-grid">
-          <!-- Category 1: Tailored Apparel -->
-          <a href="category.html?cat=outerwear" class="cat-tile fade-in-scroll">
-            <div class="cat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop" alt="Model in Tailored Apparel">
-            </div>
-            <div class="cat-title">Tailored Outerwear</div>
-            <div class="cat-link-text">Shop Apparel &rarr;</div>
-          </a>
+    <!-- AI DISCOVERY SECTION -->
+    <section class="home-discovery-section reveal-on-scroll">
+      <div class="container" style="max-width: 840px; text-align: center;">
+        <span class="home-discovery-eyebrow">A BETTER WAY TO SEARCH</span>
+        <h2 class="home-discovery-heading">Tell us what you need.</h2>
+        <p class="home-discovery-subtitle">Describe an occasion, destination, weather, style, or anything else that matters to you.</p>
 
-          <!-- Category 2: Refined Footwear -->
-          <a href="category.html?cat=footwear" class="cat-tile fade-in-scroll">
-            <div class="cat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop" alt="Athlete Model wearing Carbon Footwear">
-            </div>
-            <div class="cat-title">Performance Footwear</div>
-            <div class="cat-link-text">Shop Footwear &rarr;</div>
-          </a>
+        <form id="homeDiscoveryForm" class="home-discovery-form">
+          <div class="home-discovery-input-box">
+            <span class="home-discovery-ai-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg></span>
+            <input type="text" id="homeDiscoveryInput" class="home-discovery-input" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
+            <button type="submit" class="home-discovery-submit-btn" aria-label="Submit Search">â†’</button>
+          </div>
+        </form>
 
-          <!-- Category 3: Acoustic Objects -->
-          <a href="category.html?cat=objects" class="cat-tile fade-in-scroll">
-            <div class="cat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop" alt="Model wearing Studio Headphones">
-            </div>
-            <div class="cat-title">Acoustic Objects</div>
-            <div class="cat-link-text">Shop Objects &rarr;</div>
-          </a>
+        <div class="home-discovery-suggestions">
+          <span class="home-discovery-suggest-label">Try:</span>
+          <button class="intent-suggestion-chip">Something comfortable for a long flight</button>
+          <button class="intent-suggestion-chip">An outfit for a dinner in Dhaka</button>
+          <button class="intent-suggestion-chip">Minimal everyday sneakers</button>
+          <button class="intent-suggestion-chip">Something warm but not bulky</button>
         </div>
       </div>
     </section>
 
-    <!-- FRAMELESS PRODUCT CATALOG GRID -->
-    <section id="catalog" aria-label="Product Catalog">
+
+    <!-- FEATURED COLLECTION -->
+    <section class="reveal-on-scroll" style="padding: 80px 0; background: var(--bg-surface);">
       <div class="container">
-        <div style="margin-bottom: 56px; text-align: center;">
-          <span class="label-editorial">The New Selection</span>
-          <h2 class="heading-section">New Season Arrivals</h2>
+        <div style="margin-bottom: 40px; display: flex; align-items: flex-end; justify-content: space-between;">
+          <div>
+            <span style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; display: block;">CURATED FOR YOU</span>
+            <h2 style="font-family: var(--font-serif); font-size: 40px; font-weight: 400; color: var(--text-primary);">Pieces worth discovering.</h2>
+          </div>
+          <a href="category.html" class="link-text-nav" style="font-size: 13px; white-space: nowrap; padding-bottom: 4px;">View all â†’</a>
         </div>
 
-        <div class="catalog-grid">
-          <!-- Product 1 -->
-          <div class="product-card-luxury fade-in-scroll" onclick="openProductModal('p1')">
-            <div class="product-thumb-wrap">
-              <span class="product-tag">New</span>
-              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop" alt="Apex Carbon Running Shoe" class="product-thumb-img">
-            </div>
-            <div class="product-brand">Apex</div>
-            <div class="product-title">Carbon Pro Running Shoe</div>
-            <div class="product-subtitle">Designed for distance & endurance</div>
-            <div class="product-price">$165</div>
-          </div>
-
-          <!-- Product 2 -->
-          <div class="product-card-luxury fade-in-scroll" onclick="openProductModal('p2')">
-            <div class="product-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop" alt="Form Studio Headphones" class="product-thumb-img">
-            </div>
-            <div class="product-brand">Form</div>
-            <div class="product-title">Studio Acoustic Headphones</div>
-            <div class="product-subtitle">Active noise cancellation</div>
-            <div class="product-price">$285</div>
-          </div>
-
-          <!-- Product 3 -->
-          <div class="product-card-luxury fade-in-scroll" onclick="openProductModal('p3')">
-            <div class="product-thumb-wrap">
-              <span class="product-tag">Edition</span>
-              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop" alt="Volta Titanium Watch" class="product-thumb-img">
-            </div>
-            <div class="product-brand">Volta</div>
-            <div class="product-title">Titanium Pulse Watch</div>
-            <div class="product-subtitle">Sapphire glass & wellness tracking</div>
-            <div class="product-price">$420</div>
-          </div>
-
-          <!-- Product 4 -->
-          <div class="product-card-luxury fade-in-scroll" onclick="openProductModal('p4')">
-            <div class="product-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop" alt="Arc Minimalist Bomber Jacket" class="product-thumb-img">
-            </div>
-            <div class="product-brand">Arc</div>
-            <div class="product-title">Wool Minimalist Jacket</div>
-            <div class="product-subtitle">Tailored Japanese wool blend</div>
-            <div class="product-price">$310</div>
-          </div>
+        <div class="category-grid-4col" id="featuredCollectionGrid">
+          <!-- Rendered dynamically by js/home.js -->
         </div>
       </div>
     </section>
 
-    <!-- EDITORIAL JOURNAL & PERSONALIZATION SECTION -->
-    <section id="journal" aria-label="Editorial Journal">
+    <!-- CATEGORY DISCOVERY -->
+    <section class="category-discovery-section reveal-on-scroll">
       <div class="container">
-        <div style="margin-bottom: 56px; text-align: center;">
-          <span class="label-editorial">The Journal</span>
-          <h2 class="heading-section">Stories & Pairings</h2>
-        </div>
-
-        <div class="journal-grid">
-          <!-- Featured Story -->
-          <a href="#" class="journal-article fade-in-scroll">
-            <div class="journal-img-wrap">
-              <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1000&auto=format&fit=crop" alt="Editorial Model in Motion">
-            </div>
-            <div class="journal-meta">Issue 14 &nbsp;·&nbsp; Architecture & Apparel</div>
-            <h3 class="journal-title">Notes on Quiet Luxury & Modern Motion</h3>
-            <p class="journal-excerpt">
-              Exploring the subtle intersection between technical high-performance textiles and tailored silhouettes. An interview with lead designer Julian Mercer on building objects meant to last.
-            </p>
-            <div class="cat-link-text">Read Article &rarr;</div>
-          </a>
-
-          <!-- Curated Member Selection (Dynamic AI Vector Personalization) -->
-          <div id="curated-recommendations-list" class="curated-column fade-in-scroll">
-            <!-- Dynamically rendered via renderPersonalizedRecommendations() -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ORDER CONCIERGE & DISPATCH TRACKER -->
-    <section id="concierge" aria-label="Order Concierge Services">
-      <div class="container">
-        <div class="concierge-box fade-in-scroll">
-          <div style="text-align: center;">
-            <span class="label-editorial">Order Concierge & Fulfillment</span>
-            <h2 class="heading-section">Dispatch Tracking</h2>
-            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-              Order #NX-84920 &nbsp;·&nbsp; Estimated Arrival: 22 Minutes
-            </p>
-          </div>
-
-          <div class="timeline-row">
-            <div class="timeline-step done">
-              <div class="step-num">✓</div>
-              <div class="step-label">Order Confirmed</div>
-              <div class="step-detail">14:20 EST</div>
-            </div>
-            <div class="timeline-step done">
-              <div class="step-num">✓</div>
-              <div class="step-label">Verified & Packed</div>
-              <div class="step-detail">Hub Bin A-12</div>
-            </div>
-            <div class="timeline-step active">
-              <div class="step-num">03</div>
-              <div class="step-label">In Transit</div>
-              <div class="step-detail">Courier Express</div>
-            </div>
-            <div class="timeline-step">
-              <div class="step-num">04</div>
-              <div class="step-label">Doorstep Delivery</div>
-              <div class="step-detail">Signature Required</div>
-            </div>
-          </div>
-
-          <div class="concierge-footer">
+        <div class="category-discovery-header">
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; width: 100%;">
             <div>
-              <span style="font-weight: 500; color: var(--text-primary);">Fulfillment Status:</span> Autonomous rerouting active (sub-second stock gap auto-resolution).
+              <span class="category-discovery-eyebrow">EXPLORE THE COLLECTION</span>
             </div>
-            <div style="text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; color: var(--text-secondary);">
-              Live Courier Tracking Active
+            <a href="category.html?cat=all" class="link-text-nav" style="font-size: 13px; white-space: nowrap; padding-bottom: 4px;">View all collections â†’</a>
+          </div>
+        </div>
+
+        <div class="category-discovery-grid">
+          <div class="category-tile" data-cat="apparel">
+            <img src="cat_apparel.png" alt="Apparel" />
+            <div class="category-tile-overlay">
+              <div class="category-tile-content">
+                <span class="category-tile-name">APPAREL</span>
+                <span class="category-tile-editorial">You don't need pieces<br>for every moment.</span>
+                <span class="category-tile-link">EXPLORE â†’</span>
+              </div>
+            </div>
+          </div>
+          <div class="category-tile" data-cat="accessories">
+            <img src="prod_tote.png" alt="Accessories" />
+            <div class="category-tile-overlay">
+              <div class="category-tile-content">
+                <span class="category-tile-name">ACCESSORIES</span>
+                <span class="category-tile-editorial">Designed to<br>complement you.</span>
+                <span class="category-tile-link">EXPLORE â†’</span>
+              </div>
+            </div>
+          </div>
+          <div class="category-tile" data-cat="footwear">
+            <img src="prod_runner.png" alt="Footwear" />
+            <div class="category-tile-overlay">
+              <div class="category-tile-content">
+                <span class="category-tile-name">FOOTWEAR</span>
+                <span class="category-tile-editorial">Comfort meets<br>modern design.</span>
+                <span class="category-tile-link">EXPLORE â†’</span>
+              </div>
+            </div>
+          </div>
+          <div class="category-tile" data-cat="acoustics">
+            <img src="prod_headphones.png" alt="Acoustics" />
+            <div class="category-tile-overlay">
+              <div class="category-tile-content">
+                <span class="category-tile-name">ACOUSTICS</span>
+                <span class="category-tile-editorial">Sound that<br>moves with you.</span>
+                <span class="category-tile-link">EXPLORE â†’</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- AI COMMERCE EXPLANATION -->
+    <section class="ai-explain-section reveal-on-scroll">
+      <div class="container">
+        <div class="ai-explain-header">
+          <span class="ai-explain-eyebrow">COMMERCE THAT UNDERSTANDS</span>
+          <h2 class="ai-explain-heading">Shopping becomes easier<br>when the experience understands context.</h2>
+        </div>
+
+        <div class="ai-explain-grid">
+          <div class="ai-explain-card">
+            <span class="ai-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/>
+              </svg>
+            </span>
+            <div class="ai-card-num">01</div>
+            <h3 class="ai-card-title">UNDERSTANDS INTENT</h3>
+            <p class="ai-card-desc">You don't need to know exactly what product you want. Describe what you need naturally.</p>
+          </div>
+          <div class="ai-explain-card">
+            <span class="ai-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 7h10v10"/>
+                <path d="M7 17 17 7"/>
+              </svg>
+            </span>
+            <div class="ai-card-num">02</div>
+            <h3 class="ai-card-title">CONNECTS CONTEXT</h3>
+            <p class="ai-card-desc">Occasion. Weather. Location. Style. Preference.</p>
+          </div>
+          <div class="ai-explain-card">
+            <span class="ai-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+              </svg>
+            </span>
+            <div class="ai-card-num">03</div>
+            <h3 class="ai-card-title">EXPLAINS THE MATCH</h3>
+            <p class="ai-card-desc">Recommendations don't just appear. The experience tells you why they fit.</p>
+          </div>
+        </div>
+
+        <!-- VISUAL FLOW DIAGRAM -->
+        <div class="ai-flow-container">
+          <div class="ai-flow-step">
+            <span class="ai-flow-step-label">WHAT YOU SAY</span>
+            <div class="ai-flow-box">"Dinner tonight in Dhaka"</div>
+          </div>
+          <div class="ai-flow-connector">â†’</div>
+          <div class="ai-flow-step">
+            <span class="ai-flow-step-label">CONTEXT</span>
+            <div class="ai-flow-chips">
+              <span class="ai-flow-chip">Evening</span>
+              <span class="ai-flow-chip">Dhaka</span>
+              <span class="ai-flow-chip">Minimal</span>
+            </div>
+          </div>
+          <div class="ai-flow-connector">â†’</div>
+          <div class="ai-flow-step">
+            <span class="ai-flow-step-label">RECOMMENDATIONS</span>
+            <div class="ai-flow-products">
+              <div class="ai-flow-prod-pill">Architectural Cashmere Sweater</div>
+              <div class="ai-flow-prod-pill">Structured Leather Tote</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- FINAL HOMEPAGE CTA BANNER -->
+    <section class="final-cta-section reveal-on-scroll">
+      <div class="container" style="max-width: 760px; text-align: center;">
+        <span class="final-cta-eyebrow">NOT SURE WHERE TO START?</span>
+        <h2 class="final-cta-heading">Tell us what you're looking for.<br>We'll help you find it.</h2>
+        <div class="final-cta-actions">
+          <button id="finalDescribeBtn" class="btn-primary-commerce final-cta-primary">DESCRIBE WHAT I NEED</button>
+          <a href="category.html" class="link-text-nav final-cta-secondary">BROWSE EVERYTHING â†’</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- STEP 10: LUXURY FOOTER -->
-  <footer id="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-grid">
-        <!-- Col 1 -->
-        <div>
-          <div class="footer-brand-title">NEXCOMMERCE</div>
-          <p class="footer-brand-desc">
-            A global destination for architectural apparel, acoustic objects, and refined everyday footwear. Crafted for quiet luxury and enduring quality.
-          </p>
-        </div>
-
-        <!-- Col 2 -->
-        <div>
-          <div class="footer-col-title">Collections</div>
-          <ul class="footer-links">
-            <li><a href="#catalog">New Arrivals</a></li>
-            <li><a href="#catalog">Tailored Outerwear</a></li>
-            <li><a href="#catalog">Performance Footwear</a></li>
-            <li><a href="#catalog">Acoustic Objects</a></li>
-            <li><a href="#journal">The Journal</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 3 -->
-        <div>
-          <div class="footer-col-title">Client Concierge</div>
-          <ul class="footer-links">
-            <li><a href="#">Shipping & Returns</a></li>
-            <li><a href="#">Size & Fitting Guide</a></li>
-            <li><a href="#concierge">Track Order #NX-84920</a></li>
-            <li><a href="#">Client Support</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4 -->
-        <div>
-          <div class="footer-col-title">The Gazette</div>
-          <p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom: 16px;">
-            Subscribe to receive private collection previews, editorial issues, and invitations.
-          </p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing.');">
-            <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
-            <button type="submit" class="newsletter-btn">Subscribe &rarr;</button>
-          </form>
-        </div>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">nexCommerce</div>
+        <div class="footer-sub">Intelligent Commerce Experience</div>
       </div>
-
-      <div class="footer-bottom">
-        <div>&copy; 2026 nexCommerce Inc. All Rights Reserved.</div>
-        <div style="display: flex; gap: 24px;">
-          <span>Apple Pay</span>
-          <span>Visa / Mastercard</span>
-          <span>Amex</span>
-          <span>Encrypted Checkout</span>
-        </div>
-      </div>
+      <nav class="footer-nav">
+        <a href="category.html" class="footer-link">Shop</a>
+        <a href="discovery.html" class="footer-link">Discover</a>
+        <a href="cart.html" class="footer-link">Cart</a>
+        <a href="tracking.html" class="footer-link">Tracking</a>
+      </nav>
+      <div class="footer-copy">Â© 2026 nexCommerce. All rights reserved.</div>
     </div>
   </footer>
 
-  <!-- LUXURY PRODUCT QUICK-VIEW MODAL -->
-  <div id="quickview-modal" class="modal-backdrop" role="dialog" aria-label="Product Details">
-    <div class="modal-card-luxury">
-      <button id="modal-close" class="modal-close-btn" aria-label="Close">&times;</button>
-      
-      <div class="modal-img-col">
-        <img id="modal-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop" alt="Product Image">
+
+  <!-- SEARCH OVERLAY MODAL -->
+  <div class="search-overlay-container" id="aiSearchModal">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div>
+          <span class="search-overlay-eyebrow">FIND SOMETHING THAT FITS</span>
+          <h2 style="font-family: var(--font-serif); font-size: 36px; font-weight: 500; color: var(--text-primary); margin-top: 4px;">What are you looking for?</h2>
+        </div>
+        <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search overlay">Ã—</button>
       </div>
 
-      <div class="modal-info-col" style="padding: 40px; overflow-y: auto;">
-        <div id="modal-brand" class="label-editorial" style="margin-bottom: 6px;">Apex</div>
-        <h2 id="modal-title" class="heading-section" style="font-size: 30px; margin-bottom: 8px;">Carbon Pro Running Shoe</h2>
-        <div id="modal-price" style="font-size: 18px; font-weight: 500; margin-bottom: 16px;">$165</div>
-        
-        <p id="modal-desc" style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
-          Engineered for lightweight distance running. Features an integrated carbon fiber propulsion plate encased in high-rebound cushioning.
-        </p>
+      <div class="search-input-wrapper">
+        <span class="search-ai-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg></span>
+        <input type="text" id="aiSearchInput" class="search-ai-input" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
+      </div>
 
-        <!-- AI Size Advisor Callout (Step 6) -->
-        <div id="modal-size-advisor" style="background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px 16px; margin-bottom: 20px; font-size: 11px;">
-          <div style="font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary); margin-bottom: 2px;">
-            ✦ AI Size Advisor: Recommended Size <span id="advisor-size-val">UK 8</span> (<span id="advisor-conf-val">88%</span> Fit Confidence)
-          </div>
-          <div id="advisor-note-val" style="color: var(--text-secondary); font-size: 11px;">Based on your purchase history and brand fit data</div>
+      <div class="search-prompts-group" id="aiSearchSuggestions">
+        <div class="search-prompt-label">TRY SOMETHING LIKE</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="search-prompt-btn" data-prompt="Something comfortable for a long flight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Something comfortable for a long flight</button>
+          <button class="search-prompt-btn" data-prompt="An outfit for a dinner in Dhaka"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>An outfit for a dinner in Dhaka</button>
+          <button class="search-prompt-btn" data-prompt="Something warm but not bulky"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Something warm but not bulky</button>
+          <button class="search-prompt-btn" data-prompt="Minimal everyday sneakers"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Minimal everyday sneakers</button>
         </div>
+      </div>
 
-        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary);">Select Size</div>
-        <div class="modal-size-matrix">
-          <button class="size-option">UK 7</button>
-          <button class="size-option selected">UK 8</button>
-          <button class="size-option">UK 9</button>
-          <button class="size-option">UK 10</button>
-          <button class="size-option">UK 11</button>
-        </div>
+      <div id="aiSearchResultsModal"></div>
+    </div>
+  </div>
 
-        <button id="modal-add-btn" class="btn-luxury" style="width: 100%; margin-bottom: 24px;">
-          Add to Bag &rarr;
+  <!-- MINI CART DRAWER -->
+  <div class="drawer-container" id="cartDrawer">
+    <div class="drawer-backdrop" id="cartDrawerBackdrop"></div>
+    <div class="drawer-panel" style="display: flex; flex-direction: column; height: 100vh;">
+      <div style="padding: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <span class="cart-title" style="font-size: 24px; margin: 0;">Your Bag</span>
+        <button id="cartDrawerClose" style="background: none; border: none; color: var(--text-primary); cursor: pointer;" aria-label="Close cart">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
-
-        <!-- Complete the Look Bundle Suggestions (Step 6) -->
-        <div id="modal-bundle-section" style="border-top: 1px solid var(--border-light); padding-top: 20px;">
-          <div class="label-editorial" style="margin-bottom: 12px; font-size: 10px;">Complete the Look — AI Outfit Pairings</div>
-          <div id="modal-bundle-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-            <!-- Dynamically populated via NexAI.getBundleSuggestions() -->
-          </div>
-        </div>
       </div>
-    </div>
-  </div>
-
-  <!-- LUXURY SHOPPING BAG SIDE DRAWER -->
-  <div id="bag-backdrop" class="drawer-backdrop"></div>
-  <aside id="bag-drawer" class="bag-drawer" role="dialog" aria-label="Shopping Bag">
-    <div class="drawer-header">
-      <div class="drawer-title">Shopping Bag</div>
-      <button id="drawer-close" class="modal-close-btn" style="position: static;" aria-label="Close Bag">&times;</button>
-    </div>
-
-    <div class="drawer-body">
-      <!-- Line Item 1 -->
-      <div class="bag-item">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=300&auto=format&fit=crop" alt="Apex Carbon Pro" class="bag-item-img">
-        <div class="bag-item-details">
-          <div class="bag-item-brand">Apex</div>
-          <div class="bag-item-title">Carbon Pro Running Shoe</div>
-          <div class="bag-item-variant">Size: UK 8 &nbsp;·&nbsp; Carbon Black</div>
-          
-          <div class="qty-row">
-            <div class="qty-picker">
-              <button class="qty-btn" onclick="updateBagQty('item1', -1)">−</button>
-              <span class="qty-num" id="qty-val-item1">1</span>
-              <button class="qty-btn" onclick="updateBagQty('item1', 1)">+</button>
-            </div>
-            <div style="font-size: 14px; font-weight: 500;">$165</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Line Item 2 -->
-      <div class="bag-item">
-        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=300&auto=format&fit=crop" alt="Form Studio Headphones" class="bag-item-img">
-        <div class="bag-item-details">
-          <div class="bag-item-brand">Form</div>
-          <div class="bag-item-title">Studio Acoustic Headphones</div>
-          <div class="bag-item-variant">Color: Matte Black</div>
-          
-          <div class="qty-row">
-            <div class="qty-picker">
-              <button class="qty-btn" onclick="updateBagQty('item2', -1)">−</button>
-              <span class="qty-num" id="qty-val-item2">1</span>
-              <button class="qty-btn" onclick="updateBagQty('item2', 1)">+</button>
-            </div>
-            <div style="font-size: 14px; font-weight: 500;">$285</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="drawer-footer">
-      <div class="summary-row">
-        <span>Subtotal</span>
-        <span id="bag-subtotal" style="font-weight: 500; color: var(--text-primary);">$450.00</span>
-      </div>
-      <div class="summary-row">
-        <span>Worldwide Shipping</span>
-        <span style="color: var(--text-primary);">Complimentary</span>
-      </div>
-      <div class="summary-row total">
-        <span>Total</span>
-        <span id="bag-total" style="font-weight: 600; color: var(--text-primary);">$450.00</span>
-      </div>
-
-      <button class="btn-luxury" style="width: 100%; margin-top: 24px;">
-        Proceed to Checkout &rarr;
-      </button>
-
-      <div style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 16px; letter-spacing: 0.1em; text-transform: uppercase;">
-        Encrypted 256-Bit Checkout &nbsp;·&nbsp; Apple Pay Accepted
-      </div>
-    </div>
-  </aside>
-
-  <!-- LUXURY AI STYLE CONCIERGE CHAT WIDGET (STEP 3) -->
-  <!-- Floating Concierge Pill Button -->
-  <button id="concierge-trigger-btn" aria-label="Open Client Concierge Chat" style="position: fixed; bottom: 32px; right: 32px; z-index: 180; background: #121212; color: #ffffff; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 24px; border: 1px solid #121212; box-shadow: 0 12px 32px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 10px; cursor: pointer; transition: transform 200ms ease, background 200ms ease;">
-    <span style="font-size: 14px;">✦</span>
-    <span>AI Concierge</span>
-  </button>
-
-  <!-- Concierge Chat Backdrop -->
-  <div id="concierge-chat-backdrop" class="drawer-backdrop"></div>
-
-  <!-- Concierge Chat Drawer -->
-  <aside id="concierge-chat-drawer" class="bag-drawer" style="width: 440px;" role="dialog" aria-label="AI Client Concierge">
-    <div class="drawer-header">
-      <div>
-        <div class="label-editorial" style="margin-bottom: 2px; font-size: 9px;">AI Style Concierge</div>
-        <div class="drawer-title" style="font-size: 20px;">Client Assistant</div>
-      </div>
-      <button id="concierge-chat-close" class="modal-close-btn" style="position: static;" aria-label="Close Concierge Chat">&times;</button>
-    </div>
-
-    <!-- Messages Container -->
-    <div id="concierge-chat-messages" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; background: var(--bg-base);">
-      <!-- Initial Assistant Welcome -->
-      <div class="chat-msg assistant">
-        <div class="msg-bubble">
-          Good day. I am your nexCommerce Client Concierge. I can assist you with curated wardrobe pairings, acoustic objects, or technical specifications. What are you looking to discover today?
-        </div>
-      </div>
-    </div>
-
-    <!-- Prompt Chips -->
-    <div style="padding: 12px 24px; background: var(--bg-surface); border-top: 1px solid var(--border-light); display: flex; gap: 6px; overflow-x: auto; white-space: nowrap;">
-      <button class="search-chip" onclick="sendConciergePrompt('Recommend a winter coat')">Winter Coat</button>
-      <button class="search-chip" onclick="sendConciergePrompt('Show acoustic headphones')">Acoustics</button>
-      <button class="search-chip" onclick="sendConciergePrompt('Performance footwear')">Footwear</button>
-      <button class="search-chip" onclick="sendConciergePrompt('Titanium watch')">Timepiece</button>
-    </div>
-
-    <!-- Input Bar -->
-    <div style="padding: 20px 24px; background: var(--bg-surface); border-top: 1px solid var(--border-light); display: flex; gap: 12px;">
-      <input type="text" id="concierge-chat-input" placeholder="Ask your concierge..." style="flex: 1; padding: 12px 16px; font-family: var(--font-body); font-size: 13px; border: 1px solid var(--border-medium); background: var(--bg-base); color: var(--text-primary);">
-      <button id="concierge-chat-send" class="btn-luxury" style="padding: 12px 20px; font-size: 11px;">Send &rarr;</button>
-    </div>
-  </aside>
-
-  <style>
-    .chat-msg { display: flex; flex-direction: column; max-width: 85%; }
-    .chat-msg.user { align-self: flex-end; }
-    .chat-msg.assistant { align-self: flex-start; }
-    .msg-bubble {
-      padding: 14px 18px;
-      font-size: 13px;
-      line-height: 1.6;
-      border: 1px solid var(--border-light);
-    }
-    .chat-msg.user .msg-bubble {
-      background: #121212;
-      color: #ffffff;
-      border-color: #121212;
-    }
-    .chat-msg.assistant .msg-bubble {
-      background: var(--bg-surface);
-      color: var(--text-primary);
-    }
-    .chat-product-card {
-      margin-top: 10px;
-      padding: 12px;
-      background: var(--bg-base);
-      border: 1px solid var(--border-medium);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      cursor: pointer;
-    }
-    .chat-product-card img {
-      width: 50px;
-      height: 60px;
-      object-fit: cover;
-    }
-  </style>
-
-  <!-- LUXURY SEARCH & VISUAL MATCH OVERLAY (STEPS 2 & 5) -->
-  <div id="search-modal" class="modal-backdrop" role="dialog" aria-label="Search and Visual Match">
-    <div style="background: var(--bg-base); max-width: 900px; width: 100%; padding: 48px; position: relative; border: 1px solid var(--border-light); box-shadow: 0 24px 64px rgba(0,0,0,0.18);">
-      <button id="search-close" class="modal-close-btn" aria-label="Close Search">&times;</button>
       
-      <!-- Search Mode Tabs -->
-      <div style="display: flex; gap: 24px; border-bottom: 1px solid var(--border-light); margin-bottom: 24px;">
-        <button id="tab-text-search" class="search-mode-tab active" onclick="switchSearchMode('text')">Natural Language Search</button>
-        <button id="tab-visual-search" class="search-mode-tab" onclick="switchSearchMode('visual')">Visual Search (Shop by Photo)</button>
-      </div>
-
-      <!-- Text Search Panel -->
-      <div id="panel-text-search">
-        <div style="position: relative; margin-bottom: 20px;">
-          <input type="text" id="search-input" placeholder="Try 'warm winter wool coat' or 'studio acoustic headphones'..." style="width: 100%; padding: 18px 24px; font-family: var(--font-serif); font-size: 22px; border: 1px solid var(--border-medium); background: var(--bg-surface); color: var(--text-primary);">
+      <div style="flex: 1; overflow-y: auto; padding: 24px;">
+        <div class="cart-items-list" id="cartItemsList">
+          <!-- Rendered dynamically by js/cart.js -->
         </div>
-
-        <!-- Prompt Chips -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-          <span style="font-size: 11px; color: var(--text-muted); align-self: center; margin-right: 8px;">Prompts:</span>
-          <button class="search-chip" onclick="executeSearchPrompt('warm winter wool coat')">warm winter wool coat</button>
-          <button class="search-chip" onclick="executeSearchPrompt('studio acoustic headphones')">studio acoustic headphones</button>
-          <button class="search-chip" onclick="executeSearchPrompt('carbon running shoes')">carbon running shoes</button>
-          <button class="search-chip" onclick="executeSearchPrompt('titanium smartwatch')">titanium smartwatch</button>
+        <div id="cartEmptyArea" class="cart-empty-box" style="display: none; text-align: center; margin-top: 40px;">
+          <h2 class="type-hero" style="font-size: 24px; font-weight: 500;">Your shopping bag is empty.</h2>
+          <a href="category.html" class="btn-primary-commerce" style="min-width: 200px; margin-top: 12px;" id="drawerStartShoppingBtn">START SHOPPING</a>
         </div>
       </div>
 
-      <!-- Visual Search Panel (Step 5) -->
-      <div id="panel-visual-search" style="display: none;">
-        <div id="visual-dropzone" style="border: 2px dashed var(--border-medium); background: var(--bg-surface); padding: 32px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: border-color 200ms ease;" onclick="triggerFileInput()">
-          <div style="font-size: 28px; margin-bottom: 8px;">📷</div>
-          <div style="font-family: var(--font-serif); font-size: 20px; color: var(--text-primary); margin-bottom: 4px;">Drag & Drop a photo, or click to upload</div>
-          <div style="font-size: 11px; color: var(--text-muted);">Accepts JPG, PNG, WebP up to 5MB</div>
-          <input type="file" id="visual-file-input" accept="image/*" style="display: none;" onchange="handleVisualUpload(event)">
-        </div>
-
-        <!-- Visual Sample Chips -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-          <span style="font-size: 11px; color: var(--text-muted); align-self: center; margin-right: 8px;">Sample Photos:</span>
-          <button class="search-chip" onclick="executeVisualPreset('coat')">📷 Wool Coat Photo</button>
-          <button class="search-chip" onclick="executeVisualPreset('headphone')">📷 Headphones Photo</button>
-          <button class="search-chip" onclick="executeVisualPreset('shoe')">📷 Running Shoe Photo</button>
-          <button class="search-chip" onclick="executeVisualPreset('watch')">📷 Watch Photo</button>
-        </div>
-      </div>
-
-      <!-- Search Results Container -->
-      <div id="search-results-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-height: 380px; overflow-y: auto;">
-        <!-- Dynamically rendered via NexAI.semanticSearch() or NexAI.visualSearch() -->
+      <div id="cartSummaryArea">
+        <!-- Rendered dynamically by js/cart.js -->
       </div>
     </div>
   </div>
 
-  <style>
-    .search-mode-tab {
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding-bottom: 12px;
-      color: var(--text-muted);
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      background: none;
-      border-top: none; border-left: none; border-right: none;
-    }
-    .search-mode-tab.active {
-      color: var(--text-primary);
-      border-bottom-color: var(--accent-dark);
-    }
-  </style>
 
-  <style>
-    .search-chip {
-      font-family: var(--font-body);
-      font-size: 11px;
-      padding: 6px 14px;
-      border: 1px solid var(--border-medium);
-      background: var(--bg-surface);
-      color: var(--text-secondary);
-      transition: all 200ms ease;
-      cursor: pointer;
-    }
-    .search-chip:hover {
-      background: var(--accent-dark);
-      color: var(--text-white);
-      border-color: var(--accent-dark);
-    }
-    .search-result-card {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-      cursor: pointer;
-      transition: transform 200ms ease;
-    }
-    .search-result-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-medium);
-    }
-    .search-result-img {
-      width: 80px;
-      height: 96px;
-      object-fit: cover;
-      background: var(--bg-card);
-    }
-    .similarity-tag {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      background: #121212;
-      color: #ffffff;
-      padding: 2px 8px;
-      display: inline-block;
-      margin-bottom: 6px;
-    }
-  </style>
-
+  <script src="js/cart.js?v=2"></script>
   <script src="js/ai-engine.js"></script>
-  <script>
-
-    const PRODUCTS_DATA = {
-      p1: { brand: 'Apex', title: 'Carbon Pro Running Shoe', price: '$165', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop', desc: 'Engineered for lightweight distance running. Features an integrated carbon fiber propulsion plate encased in high-rebound cushioning.' },
-      p2: { brand: 'Form', title: 'Studio Acoustic Headphones', price: '$285', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop', desc: 'Precision 40mm beryllium drivers delivering uncompromised acoustic clarity with adaptive active noise cancellation.' },
-      p3: { brand: 'Volta', title: 'Titanium Pulse Watch', price: '$420', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop', desc: 'Grade-5 titanium case housing an always-on sapphire glass AMOLED screen. Real-time biometrics and GPS telemetry.' },
-      p4: { brand: 'Arc', title: 'Wool Minimalist Jacket', price: '$310', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop', desc: 'Crafted from dense Japanese wool blend with concealed Horn button closures and a refined relaxed silhouette.' }
-    };
-
-    const modalBackdrop = document.getElementById('quickview-modal');
-    const modalCloseBtn = document.getElementById('modal-close');
-    const modalAddBtn = document.getElementById('modal-add-btn');
-
-    const bagDrawer = document.getElementById('bag-drawer');
-    const bagBackdrop = document.getElementById('bag-backdrop');
-    const cartTrigger = document.getElementById('cart-trigger');
-    const drawerClose = document.getElementById('drawer-close');
-
-    // SEARCH MODAL DOM ELEMENTS
-    const searchModal = document.getElementById('search-modal');
-    const searchInput = document.getElementById('search-input');
-    const searchClose = document.getElementById('search-close');
-    const searchGrid = document.getElementById('search-results-grid');
-    const searchTrigger = document.querySelector('.nav-action-btn[aria-label="Search"]');
-
-    // CONCIERGE CHAT DOM ELEMENTS
-    const conciergeTriggerBtn = document.getElementById('concierge-trigger-btn');
-    const conciergeDrawer = document.getElementById('concierge-chat-drawer');
-    const conciergeBackdrop = document.getElementById('concierge-chat-backdrop');
-    const conciergeClose = document.getElementById('concierge-chat-close');
-    const conciergeMessages = document.getElementById('concierge-chat-messages');
-    const conciergeInput = document.getElementById('concierge-chat-input');
-    const conciergeSend = document.getElementById('concierge-chat-send');
-
-    const conciergeSessionId = 'session_' + Math.random().toString(36).substr(2, 9);
-
-    function toggleConciergeDrawer(open) {
-      if (open) {
-        conciergeDrawer.classList.add('open');
-        conciergeBackdrop.classList.add('open');
-        conciergeInput.focus();
-      } else {
-        conciergeDrawer.classList.remove('open');
-        conciergeBackdrop.classList.remove('open');
-      }
-    }
-
-    if (conciergeTriggerBtn) conciergeTriggerBtn.addEventListener('click', () => toggleConciergeDrawer(true));
-    if (conciergeClose) conciergeClose.addEventListener('click', () => toggleConciergeDrawer(false));
-    if (conciergeBackdrop) conciergeBackdrop.addEventListener('click', () => toggleConciergeDrawer(false));
-
-    function sendConciergePrompt(text) {
-      conciergeInput.value = text;
-      handleConciergeSend();
-    }
-
-    function handleConciergeSend() {
-      const text = conciergeInput.value.trim();
-      if (!text) return;
-
-      // Render User Message
-      const userDiv = document.createElement('div');
-      userDiv.className = 'chat-msg user';
-      userDiv.innerHTML = `<div class="msg-bubble">${text}</div>`;
-      conciergeMessages.appendChild(userDiv);
-
-      conciergeInput.value = '';
-      conciergeMessages.scrollTop = conciergeMessages.scrollHeight;
-
-      // Process with NexAI Engine
-      setTimeout(() => {
-        const response = NexAI.chatConcierge(conciergeSessionId, text);
-        
-        const assistantDiv = document.createElement('div');
-        assistantDiv.className = 'chat-msg assistant';
-        
-        let productsHtml = '';
-        if (response.products && response.products.length > 0) {
-          response.products.forEach(p => {
-            productsHtml += `
-              <div class="chat-product-card" onclick="toggleConciergeDrawer(false); openProductModal('${p.id}');">
-                <img src="${p.img}" alt="${p.title}">
-                <div>
-                  <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);">${p.brand}</div>
-                  <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 500; color: var(--text-primary);">${p.title}</div>
-                  <div style="font-size: 11px; font-weight: 600;">${p.price}</div>
-                </div>
-              </div>
-            `;
-          });
-        }
-
-        assistantDiv.innerHTML = `
-          <div class="msg-bubble">
-            ${response.reply}
-            ${productsHtml}
-          </div>
-        `;
-        conciergeMessages.appendChild(assistantDiv);
-        conciergeMessages.scrollTop = conciergeMessages.scrollHeight;
-      }, 400);
-    }
-
-    if (conciergeSend) conciergeSend.addEventListener('click', handleConciergeSend);
-    if (conciergeInput) {
-      conciergeInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleConciergeSend();
-      });
-    }
-
-
-    function switchSearchMode(mode) {
-      const tabText = document.getElementById('tab-text-search');
-      const tabVisual = document.getElementById('tab-visual-search');
-      const panelText = document.getElementById('panel-text-search');
-      const panelVisual = document.getElementById('panel-visual-search');
-
-      if (mode === 'visual') {
-        tabText.classList.remove('active');
-        tabVisual.classList.add('active');
-        panelText.style.display = 'none';
-        panelVisual.style.display = 'block';
-        executeVisualPreset('coat');
-      } else {
-        tabVisual.classList.remove('active');
-        tabText.classList.add('active');
-        panelVisual.style.display = 'none';
-        panelText.style.display = 'block';
-        renderSearchResults(searchInput.value);
-      }
-    }
-
-    function triggerFileInput() {
-      document.getElementById('visual-file-input').click();
-    }
-
-    function handleVisualUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        executeVisualPreset(file.name);
-      }
-    }
-
-    function executeVisualPreset(preset) {
-      const results = NexAI.visualSearch(preset);
-      searchGrid.innerHTML = '';
-
-      if (!results || results.length === 0) {
-        searchGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 32px;">No visual matches found. Try another photo.</div>';
-        return;
-      }
-
-      results.forEach(product => {
-        const pct = Math.round((product.visualScore || 0.88) * 100);
-        const card = document.createElement('div');
-        card.className = 'search-result-card';
-        card.onclick = () => {
-          closeSearchModal();
-          openProductModal(product.id);
-        };
-        card.innerHTML = `
-          <img src="${product.img}" alt="${product.title}" class="search-result-img">
-          <div>
-            <span class="similarity-tag" style="background: #8c7355;">📷 ${pct}% Visual Match</span>
-            <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary);">${product.brand}</div>
-            <div style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 2px 0;">${product.title}</div>
-            <div style="font-size: 13px; font-weight: 500; color: var(--text-primary);">${product.price}</div>
-          </div>
-        `;
-        searchGrid.appendChild(card);
-      });
-    }
-
-    function openSearchModal() {
-      searchModal.classList.add('open');
-      searchInput.focus();
-      renderSearchResults(searchInput.value);
-    }
-
-    function closeSearchModal() {
-      searchModal.classList.remove('open');
-    }
-
-    if (searchTrigger) {
-      searchTrigger.addEventListener('click', openSearchModal);
-    }
-    searchClose.addEventListener('click', closeSearchModal);
-    searchModal.addEventListener('click', (e) => { if (e.target === searchModal) closeSearchModal(); });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeSearchModal();
-        modalBackdrop.classList.remove('open');
-        toggleBagDrawer(false);
-      }
-    });
-
-    function executeSearchPrompt(text) {
-      searchInput.value = text;
-      renderSearchResults(text);
-    }
-
-    searchInput.addEventListener('input', (e) => {
-      renderSearchResults(e.target.value);
-    });
-
-    function renderSearchResults(query) {
-      const results = NexAI.semanticSearch(query);
-      searchGrid.innerHTML = '';
-
-      if (!results || results.length === 0) {
-        searchGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 32px;">No matching objects found. Try another query.</div>';
-        return;
-      }
-
-      results.forEach(product => {
-        const pct = Math.round((product.similarityScore || 0.85) * 100);
-        const card = document.createElement('div');
-        card.className = 'search-result-card';
-        card.onclick = () => {
-          closeSearchModal();
-          openProductModal(product.id);
-        };
-        card.innerHTML = `
-          <img src="${product.img}" alt="${product.title}" class="search-result-img">
-          <div>
-            <span class="similarity-tag">${pct}% Match</span>
-            <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary);">${product.brand}</div>
-            <div style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 2px 0;">${product.title}</div>
-            <div style="font-size: 13px; font-weight: 500; color: var(--text-primary);">${product.price}</div>
-          </div>
-        `;
-        searchGrid.appendChild(card);
-      });
-    }
-
-    function renderPersonalizedRecommendations() {
-      const container = document.getElementById('curated-recommendations-list');
-      if (!container || !window.NexAI) return;
-
-      const recs = NexAI.getPersonalizedRecommendations(2);
-      let html = `<div class="label-editorial" style="margin-bottom: 24px;">Recommended for You</div>`;
-
-      recs.forEach(product => {
-        const matchPct = Math.round(product.affinityScore * 100);
-        html += `
-          <div class="curated-card" onclick="openProductModal('${product.id}')" style="cursor: pointer;">
-            <img src="${product.img}" alt="${product.title}" class="curated-thumb">
-            <div>
-              <div style="font-size: 9px; font-weight: 600; text-transform: uppercase; background: #121212; color: #fff; padding: 2px 6px; display: inline-block; margin-bottom: 4px;">${matchPct}% Style Affinity</div>
-              <div class="product-brand">${product.brand}</div>
-              <div class="product-title" style="font-size: 18px;">${product.title}</div>
-              <div style="font-size: 11px; color: var(--text-secondary); margin: 2px 0 6px;">${product.reason}</div>
-              <div class="product-price">${product.price}</div>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    let item1Qty = 1;
-    let item2Qty = 1;
-
-    function openProductModal(id) {
-      const p = PRODUCTS_DATA[id];
-      if (!p) return;
-
-      if (window.NexAI) {
-        NexAI.trackUserEvent('view', id);
-        renderPersonalizedRecommendations();
-
-        // Render AI Size Advisor (Step 6)
-        const sizeInfo = NexAI.getRecommendedSize(id);
-        document.getElementById('advisor-size-val').textContent = sizeInfo.recommendedSize;
-        document.getElementById('advisor-conf-val').textContent = sizeInfo.confidence;
-        document.getElementById('advisor-note-val').textContent = sizeInfo.note;
-
-        // Render Complete the Look Bundles (Step 6)
-        const bundles = NexAI.getBundleSuggestions(id, 2);
-        const bundleGrid = document.getElementById('modal-bundle-grid');
-        if (bundleGrid) {
-          bundleGrid.innerHTML = '';
-          bundles.forEach(b => {
-            const card = document.createElement('div');
-            card.style.cssText = 'background: var(--bg-card); padding: 10px; border: 1px solid var(--border-light); cursor: pointer; display: flex; gap: 8px; align-items: center;';
-            card.onclick = () => openProductModal(b.id);
-            card.innerHTML = `
-              <img src="${b.img}" alt="${b.title}" style="width: 44px; height: 52px; object-fit: cover;">
-              <div>
-                <div style="font-size: 8px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);">${b.brand}</div>
-                <div style="font-family: var(--font-serif); font-size: 13px; line-height: 1.2;">${b.title}</div>
-                <div style="font-size: 10px; font-weight: 600;">${b.price}</div>
-              </div>
-            `;
-            bundleGrid.appendChild(card);
-          });
-        }
-      }
-
-      document.getElementById('modal-brand').textContent = p.brand;
-      document.getElementById('modal-title').textContent = p.title;
-      document.getElementById('modal-price').textContent = p.price;
-      document.getElementById('modal-img').src = p.img;
-      document.getElementById('modal-desc').textContent = p.desc;
-      modalBackdrop.classList.add('open');
-    }
-
-    // Initial Render of Recommendations
-    window.addEventListener('DOMContentLoaded', () => {
-      renderPersonalizedRecommendations();
-    });
-
-
-    modalCloseBtn.addEventListener('click', () => modalBackdrop.classList.remove('open'));
-    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) modalBackdrop.classList.remove('open'); });
-
-    document.querySelectorAll('.size-option').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-      });
-    });
-
-    function toggleBagDrawer(open) {
-      if (open) {
-        bagDrawer.classList.add('open');
-        bagBackdrop.classList.add('open');
-      } else {
-        bagDrawer.classList.remove('open');
-        bagBackdrop.classList.remove('open');
-      }
-    }
-
-    cartTrigger.addEventListener('click', () => toggleBagDrawer(true));
-    drawerClose.addEventListener('click', () => toggleBagDrawer(false));
-    bagBackdrop.addEventListener('click', () => toggleBagDrawer(false));
-
-    modalAddBtn.addEventListener('click', () => {
-      item1Qty++;
-      document.getElementById('qty-val-item1').textContent = item1Qty;
-      recalculateBag();
-      modalAddBtn.textContent = '✓ Added to Bag';
-      setTimeout(() => {
-        modalAddBtn.textContent = 'Add to Bag →';
-        modalBackdrop.classList.remove('open');
-        toggleBagDrawer(true);
-      }, 600);
-    });
-
-    function updateBagQty(item, change) {
-      if (item === 'item1') item1Qty = Math.max(1, item1Qty + change);
-      if (item === 'item2') item2Qty = Math.max(1, item2Qty + change);
-      document.getElementById('qty-val-item1').textContent = item1Qty;
-      document.getElementById('qty-val-item2').textContent = item2Qty;
-      recalculateBag();
-    }
-
-    function recalculateBag() {
-      const subtotal = (item1Qty * 165) + (item2Qty * 285);
-      const totalCount = item1Qty + item2Qty;
-      document.getElementById('header-bag-count').textContent = `(${totalCount})`;
-      document.getElementById('bag-subtotal').textContent = `$${subtotal}.00`;
-      document.getElementById('bag-total').textContent = `$${subtotal}.00`;
-    }
-
-    // Scroll Fade Intersection Observer
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('.fade-in-scroll').forEach(el => observer.observe(el));
-  </script>
-
+  <script src="js/intent-parser.js"></script>
+  <script src="js/catalog-engine.js"></script>
+  <script src="js/session-context.js"></script>
+  <script src="js/search-overlay.js"></script>
+  <script src="js/home.js?v=2"></script>
+  <script src="js/theme-switcher.js"></script>
 </body>
 </html>
 
