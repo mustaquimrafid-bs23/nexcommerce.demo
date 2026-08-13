@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intelligent Discovery — nexCommerce</title>
+  <meta name="description" content="Describe what you need naturally. nexCommerce AI interprets your intent, climate, location, and style to find your perfect match.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body class="discovery-page">
+
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <a href="index.html" class="nav-logo">nexCommerce</a>
+      <nav class="nav-left nav-menu-links">
+        <a href="category.html" class="nav-item-link">SHOP</a>
+        <a href="discovery.html" class="nav-item-link active">DISCOVER</a>
+        <a href="account.html" class="nav-item-link">ACCOUNT</a>
+      </nav>
+      <div class="nav-right" style="display:flex;align-items:center;gap:20px;">
+        <button class="nav-search-trigger" id="searchTriggerBtn" aria-label="Open search" aria-expanded="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>SEARCH</span>
+          <kbd class="search-kbd">&#8984;K</kbd>
+        </button>
+        <a href="cart.html" style="color:var(--text-primary);text-decoration:none;font-family:var(--font-body);font-size:11px;font-weight:500;letter-spacing:0.12em;display:flex;align-items:center;gap:6px;">
+          <span>BAG</span><span class="bag-badge" id="headerCartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- DISCOVERY HERO -->
+  <section class="discovery-hero-section" id="discoveryHeroSection">
+    <div class="container">
+      <div class="discovery-hero-content">
+
+        <div class="discovery-eyebrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+          Intelligent Discovery
+        </div>
+
+        <h1 class="discovery-hero-title">
+          Describe what<br><em>you need.</em>
+        </h1>
+
+        <p class="discovery-hero-subtitle">
+          No keywords. No filters. Tell us the occasion, the place, the weather, or the feeling — and we will find what fits.
+        </p>
+
+        <div id="aiFailureNotice" class="discovery-fallback-notice" style="display:none;" role="alert">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          AI search is currently unavailable. Standard keyword search is active.
+          <button onclick="window.NexDiscovery.disableAIFailure()" class="discovery-restore-ai-btn">Restore AI</button>
+        </div>
+
+        <div class="discovery-search-bar">
+          <div class="discovery-search-input-wrap" id="discoveryInputWrap">
+            <div class="discovery-search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+            </div>
+            <input type="text" id="discoveryMainInput" class="discovery-search-input"
+              placeholder="e.g. Something warm for a Dhaka evening..."
+              autocomplete="off" spellcheck="false"
+              aria-label="Describe what you are looking for" />
+            <div class="discovery-search-actions">
+              <button id="discoveryClearBtn" class="discovery-clear-btn" aria-label="Clear search" style="display:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </button>
+              <button id="discoverySubmitBtn" class="btn-primary-commerce discovery-submit-btn">DISCOVER</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="discovery-example-prompts" id="discoveryPrompts">
+          <span class="discovery-prompts-label">Try asking</span>
+          <div class="discovery-prompts-list">
+            <button class="discovery-prompt-chip" data-prompt="Something warm for a cool evening in Dhaka">Cool evening in Dhaka</button>
+            <button class="discovery-prompt-chip" data-prompt="Comfortable for a long flight">Long flight comfort</button>
+            <button class="discovery-prompt-chip" data-prompt="Minimal everyday sneakers">Minimal sneakers</button>
+            <button class="discovery-prompt-chip" data-prompt="A gift for my brother under BDT 15000">Gift under BDT 15,000</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS AREA -->
+  <section class="discovery-results-section" id="discoveryResultsSection" style="display:none;">
+    <div class="container">
+
+      <div class="discovery-context-bar" id="discoveryContextBar" style="display:none;">
+        <div class="discovery-context-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+          UNDERSTOOD AS
+        </div>
+        <div class="discovery-context-chips" id="discoveryContextChips"></div>
+        <button class="discovery-reset-btn" id="discoveryResetBtn" aria-label="Clear search and start over">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Start over
+        </button>
+      </div>
+
+      <div class="discovery-results-header" id="discoveryResultsHeader"></div>
+      <div class="discovery-results-grid" id="discoveryResultsGrid"></div>
+
+      <div class="discovery-refinement-bar" id="discoveryRefinementBar" style="display:none;">
+        <span class="discovery-refinement-label">Refine your request</span>
+        <div class="discovery-refinement-chips" id="discoveryRefinementChips">
+          <button class="discovery-refinement-chip" data-refine="more minimal">More minimal</button>
+          <button class="discovery-refinement-chip" data-refine="less expensive">Less expensive</button>
+          <button class="discovery-refinement-chip" data-refine="warmer">Warmer</button>
+          <button class="discovery-refinement-chip" data-refine="more casual">More casual</button>
+          <button class="discovery-refinement-chip" data-refine="show my size">Show my size</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DEV DEMO BAR -->
+  <div id="aiFailureToggleBar" class="discovery-dev-bar">
+    <span style="font-size:11px;color:var(--text-muted);">Demo</span>
+    <button id="toggleAIFailureBtn" onclick="window.NexDiscovery && window.NexDiscovery.toggleAIFailure()" class="discovery-dev-btn">
+      Simulate AI failure
+    </button>
+  </div>
+
+  <!-- SEARCH OVERLAY (global CMD+K) -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Describe what you need... (Esc to close)" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- WHY IT FITS MODAL -->
+  <div id="whyMatchesModal" class="why-matches-overlay" style="display:none;" role="dialog" aria-modal="true">
+    <div class="why-matches-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <span style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);">WHY IT FITS</span>
+        <button onclick="document.getElementById('whyMatchesModal').style.display='none'" style="background:none;border:none;color:var(--text-secondary);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div id="whyMatchesContent"></div>
+      <button class="btn-primary-commerce" style="width:100%;height:44px;margin-top:20px;" onclick="document.getElementById('whyMatchesModal').style.display='none'">Got it</button>
+    </div>
+  </div>
+
+  <footer style="background:var(--bg-main);border-top:1px solid var(--border-subtle);padding:40px 0;">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+      <div style="font-family:var(--font-serif);font-size:22px;color:var(--text-primary);">nexCommerce</div>
+      <div style="display:flex;gap:24px;">
+        <a href="index.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Home</a>
+        <a href="category.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Shop</a>
+        <a href="account.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Account</a>
+        <a href="tracking.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Tracking</a>
+      </div>
+      <div style="color:var(--text-secondary);font-family:var(--font-body);font-size:12px;">&#169; 2026 nexCommerce.</div>
+    </div>
+  </footer>
+
+  <script src="js/cart.js?v=2"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/intent-parser.js"></script>
+  <script src="js/catalog-engine.js"></script>
+  <script src="js/session-context.js"></script>
+  <script src="js/discovery-ui.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.NexDiscoveryUI) NexDiscoveryUI.renderDefaultState();
+
+      var mainInput  = document.getElementById('discoveryMainInput');
+      var submitBtn  = document.getElementById('discoverySubmitBtn');
+      var resetBtn   = document.getElementById('discoveryResetBtn');
+
+      if (mainInput) {
+        mainInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); NexDiscoveryUI.execute(mainInput.value); }
+        });
+      }
+      if (submitBtn) submitBtn.addEventListener('click', function() { NexDiscoveryUI.execute(mainInput ? mainInput.value : ''); });
+      if (resetBtn)  resetBtn.addEventListener('click', function() { NexDiscoveryUI.reset(); });
+
+      // URL query param (e.g. discovery.html?q=cool+evening)
+      var params = new URLSearchParams(window.location.search);
+      var urlQ = params.get('q');
+      if (urlQ && mainInput) { mainInput.value = urlQ; NexDiscoveryUI.execute(urlQ); }
+
+      // Delegated events
+      document.addEventListener('click', function(e) {
+        // Chip removal (State 8)
+        var removeBtn = e.target.closest('[data-remove-key]');
+        if (removeBtn) { NexDiscoveryUI.removeContextKey(removeBtn.getAttribute('data-remove-key')); return; }
+
+        // Refinement chips (State 9)
+        var refChip = e.target.closest('.discovery-refinement-chip[data-refine]');
+        if (refChip) {
+          document.querySelectorAll('.discovery-refinement-chip').forEach(function(c) { c.classList.remove('active'); });
+          refChip.classList.add('active');
+          NexDiscoveryUI.execute(refChip.getAttribute('data-refine'), true);
+          return;
+        }
+
+        // View product → navigate (AC-21)
+        var viewBtn = e.target.closest('.discovery-view-btn');
+        if (viewBtn) {
+          window.location.href = 'product.html?id=' + viewBtn.getAttribute('data-product-id');
+          return;
+        }
+
+        // Example prompts
+        var promptChip = e.target.closest('.discovery-prompt-chip[data-prompt]');
+        if (promptChip && mainInput) {
+          mainInput.value = promptChip.getAttribute('data-prompt');
+          NexDiscoveryUI.execute(promptChip.getAttribute('data-prompt'));
+        }
+      });
+    });
+  })();
+  </script>
+  <script src="js/theme-switcher.js"></script>
+</body>
+</html>
+
