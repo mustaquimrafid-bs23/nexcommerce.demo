@@ -15,7 +15,7 @@
       price: 18400,
       formattedPrice: 'BDT 18,400',
       description: 'Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.',
-      details: 'Mongolian 2-ply cashmere Â· Dropped shoulder seam Â· Machine-wash cold Â· Country of origin: Mongolia',
+      details: 'Mongolian 2-ply cashmere &middot; Dropped shoulder seam &middot; Machine-wash cold &middot; Country of origin: Mongolia',
       sizing: 'True to size. Size down for a tailored look or up for a relaxed drape.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['hero_sweater.png', 'sweater_texture.png', 'sweater_lifestyle.png'],
@@ -31,7 +31,7 @@
       price: 24500,
       formattedPrice: 'BDT 24,500',
       description: 'Unlined merino weave tailored for sharp evening silhouettes without thermal discomfort. Transitions effortlessly from meeting room to dinner.',
-      details: 'Merino wool blend Â· Unlined construction Â· Dry clean recommended Â· Country of origin: Italy',
+      details: 'Merino wool blend &middot; Unlined construction &middot; Dry clean recommended &middot; Country of origin: Italy',
       sizing: 'European tailored fit. Size up one if you prefer relaxed shoulders or plan to layer underneath.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['plp_blazer.png', 'hero_jeans_rack.png'],
@@ -47,7 +47,7 @@
       price: 16200,
       formattedPrice: 'BDT 16,200',
       description: 'Ultra-soft 2-ply cashmere with a classic crew neck designed for easy indoor/outdoor layering in any season.',
-      details: '2-ply Mongolian cashmere Â· Ribbed cuffs and hem Â· Hand-wash cold Â· Country of origin: Mongolia',
+      details: '2-ply Mongolian cashmere &middot; Ribbed cuffs and hem &middot; Hand-wash cold &middot; Country of origin: Mongolia',
       sizing: 'Runs slightly slim. Size up for a relaxed fit or true-to-size for a neat silhouette.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['plp_crewneck.png', 'hero_sweater.png'],
@@ -63,7 +63,7 @@
       price: 32000,
       formattedPrice: 'BDT 32,000',
       description: 'Active noise cancellation calibrated for focused work or travel. Memory foam ear cushions wrapped in lambskin for extended comfort.',
-      details: '40-hour battery Â· ANC + Transparency mode Â· USB-C charging Â· Foldable Â· Bluetooth 5.3',
+      details: '40-hour battery &middot; ANC + Transparency mode &middot; USB-C charging &middot; Foldable &middot; Bluetooth 5.3',
       sizing: 'One size fits all. Adjustable stainless steel headband with 15-step extension.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['prod_headphones.png', 'p4.png'],
@@ -78,7 +78,7 @@
       price: 28500,
       formattedPrice: 'BDT 28,500',
       description: 'Brushed titanium casing with a scratch-resistant sapphire crystal. Swiss movement with interchangeable leather and mesh straps.',
-      details: 'Swiss automatic movement Â· Sapphire crystal Â· 100m water resistance Â· Titanium case Â· 40mm diameter',
+      details: 'Swiss automatic movement &middot; Sapphire crystal &middot; 100m water resistance &middot; Titanium case &middot; 40mm diameter',
       sizing: 'Standard 20mm lug width. Compatible with any 20mm strap.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['search_watch.png', 'p3.png'],
@@ -93,7 +93,7 @@
       price: 19800,
       formattedPrice: 'BDT 19,800',
       description: 'Full-grain Italian leather upper with cushioned Vibram sole for all-day urban walkability without compromise.',
-      details: 'Full-grain Italian leather Â· Vibram outsole Â· Calfskin lining Â· Standard D width',
+      details: 'Full-grain Italian leather &middot; Vibram outsole &middot; Calfskin lining &middot; Standard D width',
       sizing: 'Fits true to size. Order your standard European size.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['prod_runner.png', 'p2.png'],
@@ -125,7 +125,7 @@
 
   /* â”€â”€ Dynamic Product Renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function renderProductPage(product) {
-    document.title = product.name + ' â€” nexCommerce';
+    document.title = product.name + ' &mdash; nexCommerce';
 
     // Breadcrumb
     const breadcrumbEl = document.querySelector('.pdp-breadcrumb');
@@ -410,7 +410,7 @@
       btn.addEventListener('click', function() {
         if (btn.disabled || btn.classList.contains('adding')) return;
         btn.classList.add('adding');
-        btn.textContent = 'ADDINGâ€¦';
+        btn.textContent = 'ADDING"¦';
 
         setTimeout(function() {
           if (window.nexCart && currentProduct) {
@@ -425,7 +425,7 @@
             });
           }
 
-          btn.textContent = 'âœ“ ADDED TO BAG';
+          btn.textContent = '&#10003; ADDED TO BAG';
           btn.style.background = '#58D68D';
           btn.style.color = '#071A3A';
 

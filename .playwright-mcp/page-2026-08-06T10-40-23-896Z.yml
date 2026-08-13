@@ -1,0 +1,189 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - text: 
+      - link [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Shwapno" [ref=e6]
+      - button [disabled] [ref=e8]:
+        - img "delivery" [ref=e9]
+      - generic [ref=e13]:
+        - textbox "Search your products" [ref=e15]
+        - button [ref=e16] [cursor=pointer]:
+          - img "logo" [ref=e18]
+      - link "Download the Shwapno app" [ref=e20] [cursor=pointer]:
+        - /url: /
+        - img "Download the Shwapno app" [ref=e21]
+      - button "বাংলা" [ref=e24] [cursor=pointer]
+      - text: 
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29] [cursor=pointer]:
+          - img "megamenutoggle" [ref=e30]
+          - text: SHOP BY CATEGORY
+        - text:    
+      - generic [ref=e33]:
+        - link [ref=e34] [cursor=pointer]:
+          - /url: /our-outlets
+          - img "Shwapno store Location" [ref=e35]
+          - text: Our outlets
+        - link [ref=e36] [cursor=pointer]:
+          - /url: /helpline
+          - img "Shwapno Help Line" [ref=e37]
+          - text: Help line
+  - generic [ref=e38]:
+    - list [ref=e40]:
+      - listitem [ref=e41]:
+        - link "Home" [ref=e42] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e43]: 
+      - button "Show all breadcrumb items" [ref=e44] [cursor=pointer]:
+        - strong [ref=e45]: ...
+        - generic [ref=e46]: 
+      - text:    
+      - listitem [ref=e47]:
+        - strong [ref=e48]: Beef Flank
+    - main [ref=e49]:
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - button "open image in lightbox" [ref=e56] [cursor=pointer]
+          - generic [ref=e57]:
+            - img "Picture of Beef Flank" [ref=e61]
+            - text: prev next
+        - generic [ref=e62]:
+          - heading "Beef Flank" [level=1] [ref=e63]
+          - button "Add to Bag" [disabled] [ref=e71]:
+            - generic [ref=e72]: 
+            - text: Add to Bag
+          - generic [ref=e73]:
+            - heading "Product Tags :" [level=4] [ref=e74]
+            - link "Dairy Products" [ref=e75] [cursor=pointer]:
+              - /url: Dairy-Products
+            - link "Meat & Poultry" [ref=e76] [cursor=pointer]:
+              - /url: Meat-Poultry
+      - generic [ref=e78]:
+        - paragraph [ref=e80]: "SKU: auto2700048_1kg"
+        - generic [ref=e84]:
+          - generic [ref=e85]: "Brand:"
+          - link "automation_test_product" [ref=e87] [cursor=pointer]:
+            - /url: /automation_test_product
+        - generic:
+          - paragraph
+        - generic [ref=e88]:
+          - button "Add to Wishlist" [ref=e89] [cursor=pointer]:
+            - generic [ref=e90]: 
+            - text: Add to Wishlist
+          - generic [ref=e91]:
+            - button "Share on Facebook" [ref=e93] [cursor=pointer]:
+              - img "social sharing fb" [ref=e94]
+            - button "Share in Messenger" [ref=e96] [cursor=pointer]:
+              - img "messenger" [ref=e97]
+            - button "Share on WhatsApp" [ref=e99] [cursor=pointer]:
+              - img "whatsapp" [ref=e100]
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: Other Payment Methods
+            - img "Other Payment Methods" [ref=e106]
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic "bKashDev Payment Methods" [ref=e109]
+              - img "bKashDev Payment Methods" [ref=e110]
+            - generic [ref=e111]:
+              - generic "Cash on Delivery Payment Methods" [ref=e112]
+              - img "Cash on Delivery Payment Methods" [ref=e113]
+            - generic [ref=e114]:
+              - generic "American Express Payment Methods" [ref=e115]
+              - img "American Express Payment Methods" [ref=e116]
+            - generic [ref=e117]:
+              - generic "Card Payment Methods" [ref=e118]
+              - img "Card Payment Methods" [ref=e119]
+            - generic [ref=e120]:
+              - generic "Nagad Payment Methods" [ref=e121]
+              - img "Nagad Payment Methods" [ref=e122]
+            - generic [ref=e123]:
+              - generic "Swipe on Delivery" [ref=e124]
+              - img "Swipe on Delivery" [ref=e125]
+    - complementary [ref=e127]:
+      - generic [ref=e130]:
+        - tablist [ref=e131]:
+          - tab "Reviews" [selected] [ref=e132] [cursor=pointer]
+        - tabpanel [ref=e134]
+      - generic [ref=e142]: prev next
+  - generic [ref=e276]:
+    - generic [ref=e277]: prev next
+    - generic [ref=e411]: prev next
+  - contentinfo [ref=e545]:
+    - generic [ref=e546]:
+      - generic [ref=e547]:
+        - img "logo"
+        - generic [ref=e548]:
+          - generic [ref=e549]: Always Here for You
+          - generic [ref=e550]: "Call Us: 16469 (8am-10pm, Everyday)"
+          - generic [ref=e551]: "Email Us: queries@acilogistics.net"
+          - generic [ref=e552]: ACI SHWAPNO E-COMMERCE LIMITED
+      - generic [ref=e553]:
+        - list [ref=e554]:
+          - listitem [ref=e555]: Information
+          - listitem [ref=e556]:
+            - link "FiFa Predict & Win" [ref=e557] [cursor=pointer]:
+              - /url: /football
+          - listitem [ref=e558]:
+            - link "Campaign Details" [ref=e559] [cursor=pointer]:
+              - /url: /campaigns
+          - listitem [ref=e560]:
+            - link "Office Address" [ref=e561] [cursor=pointer]:
+              - /url: /Office-Address
+          - listitem [ref=e562]:
+            - link "Shipping & returns" [ref=e563] [cursor=pointer]:
+              - /url: /ShippingInfo
+          - listitem [ref=e564]:
+            - link "About us" [ref=e565] [cursor=pointer]:
+              - /url: /AboutUs
+          - listitem [ref=e566]:
+            - link "Terms & Condition" [ref=e567] [cursor=pointer]:
+              - /url: /tac
+        - list [ref=e568]:
+          - listitem [ref=e569]: Customer Service
+          - listitem [ref=e570]:
+            - link "Contact Us" [ref=e571] [cursor=pointer]:
+              - /url: /ContactUs-2
+          - listitem [ref=e572]:
+            - link "Campaign Details" [ref=e573] [cursor=pointer]:
+              - /url: /campaigns
+          - listitem [ref=e574]:
+            - link "স্বপ্ন মানেই সেভিংস-" [ref=e575] [cursor=pointer]:
+              - /url: /shwapno-savings
+        - list [ref=e576]:
+          - listitem [ref=e577]: My Account
+          - listitem [ref=e578]:
+            - link "Privacy Policy" [ref=e579] [cursor=pointer]:
+              - /url: /Privacy-Policy
+          - listitem [ref=e580]:
+            - link "Campaign Details" [ref=e581] [cursor=pointer]:
+              - /url: /campaigns
+      - generic [ref=e582]:
+        - generic [ref=e583]:
+          - paragraph [ref=e584]: Pay With
+          - img "payment Methods" [ref=e586]
+        - generic [ref=e587]:
+          - paragraph [ref=e588]: Follow Us
+          - generic [ref=e589]:
+            - link "Shwapno on Facebook" [ref=e590] [cursor=pointer]:
+              - /url: https://www.facebook.com/Shwapno.ACILL/
+            - link "Shwapno on YouTube" [ref=e591] [cursor=pointer]:
+              - /url: https://www.youtube.com/shwapno
+  - generic [ref=e592]: Copyright © 2026
+  - button "0 items ৳0" [ref=e593] [cursor=pointer]:
+    - generic [ref=e594]: 0 items
+    - generic [ref=e595]: ৳0
+  - generic [ref=e596]:
+    - generic [ref=e597]:
+      - heading " 0 items" [level=3] [ref=e598]:
+        - generic [ref=e599]: 
+        - text: 0 items
+      - button "close" [ref=e600] [cursor=pointer]:
+        - generic [ref=e601]: 
+        - text: Close
+    - generic [ref=e602]: Looks like Your cart is empty. Start shopping
+    - button "close" [ref=e603] [cursor=pointer]: 
+  - text:   

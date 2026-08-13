@@ -91,8 +91,8 @@
     }
 
     if (header) {
-      var relaxNote = relaxedFilters.length > 0 ? '<div style="font-family:var(--font-body);font-size:12px;color:var(--accent-pink);margin-top:6px;">Budget relaxed — no exact matches found.</div>' : '';
-      var fallNote  = isFallback ? '<div style="font-family:var(--font-body);font-size:12px;color:var(--text-secondary);margin-top:6px;">AI unavailable — showing keyword matches.</div>' : '';
+      var relaxNote = relaxedFilters.length > 0 ? '<div style="font-family:var(--font-body);font-size:12px;color:var(--accent-pink);margin-top:6px;">Budget relaxed &mdash; no exact matches found.</div>' : '';
+      var fallNote  = isFallback ? '<div style="font-family:var(--font-body);font-size:12px;color:var(--text-secondary);margin-top:6px;">AI unavailable &mdash; showing keyword matches.</div>' : '';
       header.innerHTML = products.length > 0
         ? '<span class="discovery-results-eyebrow">Results for your request</span>'
           + '<div class="discovery-results-query">"' + escHtml(query) + '"</div>'
@@ -183,7 +183,7 @@
     if (section) section.style.display = 'block';
     if (grid) {
       grid.innerHTML = '<div class="discovery-out-of-scope" style="grid-column:1/-1;">'
-        + 'I\'m here to help you discover products.<br>Describe what you\'re shopping for — occasion, style, or budget.</div>';
+        + 'I\'m here to help you discover products.<br>Describe what you\'re shopping for &mdash; occasion, style, or budget.</div>';
     }
   }
 

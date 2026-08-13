@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order &mdash; nexCommerce</title>
+  <meta name="description" content="Track your nexCommerce order. View real-time delivery status and estimated arrival date.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    /* Page-specific overrides */
+    .tracking-page-bg {
+      background: var(--bg-main);
+      min-height: 100vh;
+    }
+    .tracking-top-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 24px;
+    }
+    .tracking-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .tracking-layout {
+        grid-template-columns: 1fr;
+        padding: 0 16px 80px;
+        gap: 28px;
+      }
+      .tracking-top-bar { padding: 32px 16px 16px; }
+    }
+    .tracking-summary-card {
+      background: #0B2147;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+    }
+    .tracking-eta-banner {
+      background: rgba(0, 200, 255, 0.06);
+      border: 1px solid rgba(0, 200, 255, 0.20);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .tracking-connector {
+      width: 2px;
+      height: 28px;
+      margin: 4px 0 4px 9px;
+      border-radius: 2px;
+    }
+    .tracking-connector.completed { background: rgba(0, 200, 255, 0.55); }
+    .tracking-connector.upcoming  { background: rgba(255, 255, 255, 0.12); }
+  </style>
+</head>
+<body class="tracking-page-bg">
+
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <a href="index.html" class="nav-logo">nexCommerce</a>
+      <nav class="nav-left nav-menu-links">
+        <a href="category.html" class="nav-item-link">SHOP</a>
+        <a href="discovery.html" class="nav-item-link">DISCOVER</a>
+      </nav>
+      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
+        <button class="search-trigger" id="searchTriggerBtn" style="background: none; border: none; color: var(--text-secondary); font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+          <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><span>SEARCH</span>
+        </button>
+        <a href="cart.html" style="color: var(--text-primary); text-decoration: none; font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; display: flex; align-items: center; gap: 6px;">
+          <span>BAG</span>
+          <span class="bag-badge" id="headerCartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="trackingMain">
+
+    <!-- ORDER HEADING -->
+    <div class="tracking-top-bar">
+      <div class="tracking-header-block">
+        <span id="trackingEyebrow" class="tracking-meta" style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;"></span>
+        <h1 class="tracking-title" id="trackingTitle">Track your order</h1>
+        <span class="tracking-meta" id="trackingMeta"></span>
+      </div>
+    </div>
+
+    <div class="tracking-layout">
+
+      <!-- LEFT COLUMN: Timeline + Status + Service Message -->
+      <div>
+
+        <!-- ETA BANNER -->
+        <div class="tracking-eta-banner" id="trackingETA" aria-live="polite"></div>
+
+        <!-- CURRENT STATUS BLOCK -->
+        <div id="trackingCurrentStatus" style="margin-bottom: 32px;"></div>
+
+        <!-- 6-STAGE TIMELINE -->
+        <div class="tracking-timeline-box" style="margin-bottom: 28px;">
+          <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 24px;">TRACKING</div>
+          <div class="tracking-timeline-list" id="trackingTimeline" role="list" aria-label="Order timeline"></div>
+        </div>
+
+        <!-- INTELLIGENT SERVICE MESSAGE + Q&A -->
+        <!-- TODO: Wire t&times;real AI delivery API -->
+        <div id="trackingServiceMsg"></div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Order Summary Card -->
+      <div>
+        <div class="tracking-summary-card" id="trackingOrderSummary">
+          <!-- Rendered dynamically by js/tracking.js -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="cart-skeleton-card" style="height: 80px; border-radius: var(--radius-sm);"></div>
+            <div class="cart-skeleton-card" style="height: 16px; width: 60%; border-radius: 4px;"></div>
+            <div class="cart-skeleton-card" style="height: 16px; width: 80%; border-radius: 4px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="background: var(--bg-main); border-top: 1px solid var(--border-subtle); padding: 40px 0; color: var(--text-secondary); font-family: var(--font-body); font-size: 13px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="font-family: var(--font-serif); font-size: 22px; color: var(--text-primary);">nexCommerce</div>
+      <div style="display: flex; gap: 24px;">
+        <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+        <a href="category.html" style="color: var(--text-secondary); text-decoration: none;">Shop</a>
+        <a href="cart.html" style="color: var(--text-secondary); text-decoration: none;">Cart</a>
+      </div>
+      <div>© 2026 nexCommerce. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/cart.js"></script>
+  <script src="js/tracking.js"></script>
+  <script src="js/theme-switcher.js"></script>
+</body>
+</html>

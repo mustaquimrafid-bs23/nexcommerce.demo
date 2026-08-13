@@ -63,7 +63,7 @@
 
       if (result.products.length === 0) {
         resultsContainer.innerHTML = '<div style="padding:24px 0;text-align:center;font-family:var(--font-body);font-size:13px;color:var(--text-secondary);">'
-          + 'No products found. <a href="discovery.html?q=' + encodeURIComponent(query) + '" style="color:var(--accent-cyan);">Search on discovery page →</a></div>';
+          + 'No products found. <a href="discovery.html?q=' + encodeURIComponent(query) + '" style="color:var(--accent-cyan);">Search on discovery page &rarr;</a></div>';
         return;
       }
 
@@ -90,7 +90,7 @@
 
       resultsContainer.innerHTML = chipsHtml
         + '<div class="search-results-grid">' + cardsHtml + '</div>'
-        + '<div style="text-align:center;margin-top:16px;"><a href="discovery.html?q=' + encodeURIComponent(query) + '" style="font-family:var(--font-body);font-size:12px;color:var(--accent-cyan);">See all results →</a></div>';
+        + '<div style="text-align:center;margin-top:16px;"><a href="discovery.html?q=' + encodeURIComponent(query) + '" style="font-family:var(--font-body);font-size:12px;color:var(--accent-cyan);">See all results &rarr;</a></div>';
 
       resultsContainer.querySelectorAll('.btn-view-product').forEach(function(btn) {
         btn.addEventListener('click', function() {

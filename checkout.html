@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout &mdash; nexCommerce</title>
+  <meta name="description" content="Secure checkout at nexCommerce.">
+
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+
+  <style>
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-header {
+      height: 76px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(7, 26, 58, 0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand-log&times;{
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .checkout-section { padding: 40px 0 80px; flex: 1; }
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 50px;
+      align-items: flex-start;
+    }
+
+    .checkout-form-col { display: flex; flex-direction: column; gap: 24px; }
+    .form-group-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 24px;
+    }
+    .group-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .input-box {
+      width: 100%;
+      background: rgba(7, 26, 58, 0.7);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 16px;
+      border-radius: 4px;
+      color: var(--text-primary);
+      font-size: 14px;
+      transition: border-color 0.18s ease;
+    }
+    .input-box:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.35);
+    }
+    .input-box.input-error {
+      border-color: #FF3CAC;
+    }
+    .field-error-msg {
+      display: none;
+      font-size: 11px;
+      color: #FF3CAC;
+      margin-top: 4px;
+    }
+    .field-error-msg.visible { display: block; }
+
+    /* Recovery banners */
+    .recovery-banner {
+      display: none;
+      padding: 16px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .recovery-banner.payment-fail {
+      background: rgba(255, 60, 172, 0.08);
+      border: 1px solid rgba(255, 60, 172, 0.3);
+    }
+    .recovery-banner.cart-warn {
+      background: rgba(255, 160, 0, 0.08);
+      border: 1px solid rgba(255, 160, 0, 0.3);
+    }
+    .recovery-banner.visible { display: block; }
+    .recovery-banner strong { color: var(--text-primary); }
+
+    /* Interactive payment method buttons */
+    .payment-method-btn {
+      padding: 12px 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      background: rgba(255,255,255,0.02);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      text-align: center;
+    }
+    .payment-method-btn:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .payment-method-btn.selected {
+      border-color: var(--text-primary);
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* Mobile Expandable Order Summary Bar (375px) */
+    .mobile-summary-bar {
+      display: none;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .mobile-summary-details {
+      display: none;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* Desktop Sticky Sidebar Order Summary (1440px) */
+    .order-summary-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 28px;
+      position: sticky;
+      top: 100px;
+    }
+
+    /* Delivery method option cards */
+    .delivery-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+    .delivery-option:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .delivery-option.selected {
+      border-color: var(--text-primary);
+      background: rgba(255,255,255,0.06);
+    }
+    .delivery-option input[type="radio"] { display: none; }
+    .delivery-option-check {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: border-color 0.18s;
+    }
+    .delivery-option.selected .delivery-option-check {
+      border-color: var(--text-primary);
+      background: var(--text-primary);
+    }
+    .delivery-option.selected .delivery-option-check::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 8px; height: 8px;
+      background: var(--bg-main);
+      border-radius: 50%;
+    }
+
+    /* Contextual guidance card */
+    .delivery-guidance {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: rgba(108, 59, 255, 0.06);
+      border: 1px solid rgba(108, 59, 255, 0.2);
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+    .delivery-guidance strong { color: var(--text-primary); }
+
+    @media (max-width: 900px) {
+      .checkout-grid { grid-template-columns: 1fr; gap: 24px; }
+      .order-summary-card { display: none; }
+      .mobile-summary-bar { display: block; }
+      .site-header { padding: 0 20px; }
+      .container { padding: 0 20px; }
+      .delivery-option { flex-wrap: wrap; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <a href="index.html" class="brand-logo">nexCommerce</a>
+    <div style="font-size:11px; color:#00E676; font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">
+      🔒 256-Bit Encrypted Secure Checkout
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="checkout-section">
+      
+      <!-- Back t&times;bag trigger -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding-bottom:12px; border-bottom:1px solid var(--border-subtle);">
+        <a href="category.html" class="link-text-nav">&larr; Continue Shopping</a>
+        <span style="font-size:12px; color:var(--text-secondary);">Checkout Step 1 of 2</span>
+      </div>
+
+      <!-- Empty Cart Container -->
+      <div id="checkout-empty-state" style="display:none; padding:60px 20px; text-align:center; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:6px; max-width:600px; margin:40px auto;">
+        <h2 style="font-family:var(--font-serif); font-size:32px; margin-bottom:12px;">Your shopping bag is empty.</h2>
+        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px;">Add items t&times;your bag before proceeding t&times;checkout.</p>
+        <a href="category.html" class="btn-primary-commerce">START SHOPPING</a>
+      </div>
+
+      <!-- Checkout Grid (Forms + Summary) -->
+      <div id="checkout-main-grid" class="checkout-grid">
+        
+        <!-- Left Column: Customer & Delivery Forms -->
+        <div class="checkout-form-col">
+          
+          <!-- Mobile Expandable Order Summary Bar (<= 900px) -->
+          <div class="mobile-summary-bar">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:14px; font-weight:600;" id="mobile-summary-title">Order summary &middot; BDT 0</div>
+                <div style="font-size:11px; color:var(--text-secondary);" id="mobile-summary-sub">0 Items</div>
+              </div>
+              <button id="mobile-summary-toggle" class="btn-secondary-action" onclick="toggleMobileSummary()">
+                View order details ↓
+              </button>
+            </div>
+            <div id="mobile-summary-details" class="mobile-summary-details">
+              <!-- Dynamically populated from nex_cart -->
+            </div>
+          </div>
+
+          <!-- Customer Information -->
+          <div class="form-group-card">
+            <h2 class="group-title">Customer Information</h2>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+              <div>
+                <input type="text" id="cust-name" class="input-box" value="Tanvir Hossain" placeholder="Full Name">
+                <div class="field-error-msg" id="err-cust-name">Please enter your full name.</div>
+              </div>
+              <div>
+                <input type="email" id="cust-email" class="input-box" value="tanvir@example.com" placeholder="Email Address">
+                <div class="field-error-msg" id="err-cust-email">Please enter a valid email address.</div>
+              </div>
+            </div>
+            <div>
+              <input type="tel" id="cust-phone" class="input-box" value="01711000000" placeholder="Phone Number (01XXXXXXXXX)">
+              <div class="field-error-msg" id="err-cust-phone">Please enter a valid Bangladeshi mobile number (01XXXXXXXXX).</div>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="form-group-card">
+            <h2 class="group-title">Delivery Address</h2>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div>
+                <input type="text" id="ship-address" class="input-box" value="House 42, Road 11, Banani" placeholder="Street Address">
+                <div class="field-error-msg" id="err-ship-address">Please enter your street address.</div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div>
+                  <input type="text" id="ship-city" class="input-box" value="Dhaka" placeholder="City">
+                  <div class="field-error-msg" id="err-ship-city">Please enter your city.</div>
+                </div>
+                <div>
+                  <input type="text" id="ship-postcode" class="input-box" value="1213" placeholder="Postal Code">
+                  <div class="field-error-msg" id="err-ship-postcode">Please enter a valid 4-digit postal code.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Method (9.8C Interactive Selection) -->
+          <div class="form-group-card">
+            <h2 class="group-title">Delivery Method</h2>
+
+            <!-- Contextual recommendation banner -->
+            <div id="delivery-guidance" class="delivery-guidance" style="margin-bottom:14px;">
+              <!-- Rendered by buildDeliveryGuidance() from real cart + city state -->
+            </div>
+
+            <!-- Option: Express Next Day -->
+            <label class="delivery-option selected" id="opt-express" onclick="selectDelivery('express')" style="margin-bottom:8px; gap:12px;">
+              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
+                <div class="delivery-option-check"></div>
+                <div>
+                  <div style="font-size:13px; font-weight:600;">Express Next Day</div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Guaranteed delivery by 8:00 PM tomorrow</div>
+                </div>
+              </div>
+              <div id="cost-express" style="font-size:13px; font-weight:600; white-space:nowrap; color:#00E676;">FREE</div>
+            </label>
+
+            <!-- Option: Standard 3&ndash;5 Days -->
+            <label class="delivery-option" id="opt-standard" onclick="selectDelivery('standard')" style="margin-bottom:8px; gap:12px;">
+              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
+                <div class="delivery-option-check"></div>
+                <div>
+                  <div style="font-size:13px; font-weight:600;">Standard Delivery</div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">3&ndash;5 business days</div>
+                </div>
+              </div>
+              <div id="cost-standard" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">BDT 100</div>
+            </label>
+
+            <!-- Option: Economy 7&ndash;10 Days -->
+            <label class="delivery-option" id="opt-economy" onclick="selectDelivery('economy')" style="gap:12px;">
+              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
+                <div class="delivery-option-check"></div>
+                <div>
+                  <div style="font-size:13px; font-weight:600;">Economy</div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">7&ndash;10 business days</div>
+                </div>
+              </div>
+              <div id="cost-economy" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">BDT 60</div>
+            </label>
+          </div>
+
+          <!-- Payment Failure Recovery Banner -->
+          <div id="banner-payment-fail" class="recovery-banner payment-fail">
+            <strong>Payment could not be processed.</strong><br>
+            Your order has not been placed and your bag is intact. Please try a different payment method or retry.
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn-secondary-action" onclick="retryPayment()">Try again</button>
+              <button class="btn-secondary-action" onclick="changePaymentMethod()">Choose another method</button>
+            </div>
+          </div>
+
+          <!-- Cart Availability Warning Banner -->
+          <div id="banner-cart-warn" class="recovery-banner cart-warn">
+            <strong>Some items in your bag are n&times;longer available.</strong><br>
+            Please return t&times;your bag t&times;review and update before placing your order.
+            <div style="margin-top:10px;">
+              <button class="btn-secondary-action" onclick="window.nexCart && window.nexCart.openDrawer()">Review bag</button>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-group-card">
+            <h2 class="group-title">Payment Method</h2>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;" id="payment-method-group">
+              <button class="payment-method-btn selected" id="pay-bkash" onclick="selectPayment('bkash')">bKash</button>
+              <button class="payment-method-btn" id="pay-card" onclick="selectPayment('card')">Card</button>
+              <button class="payment-method-btn" id="pay-cod" onclick="selectPayment('cod')">Cash on Delivery</button>
+            </div>
+          </div>
+
+          <!-- Primary Level 1 Commerce CTA -->
+          <button id="btn-place-order" class="btn-primary-commerce" style="width:100%; min-height:56px;" onclick="handlePlaceOrder()">
+            PLACE ORDER &middot; BDT 0
+          </button>
+
+        </div>
+
+        <!-- Right Column: Desktop Sticky Sidebar Order Summary -->
+        <aside class="order-summary-card">
+          <h2 style="font-family:var(--font-serif); font-size:22px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border-subtle);">Order Summary</h2>
+          
+          <div id="desktop-items-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px; max-height:300px; overflow-y:auto;">
+            <!-- Rendered dynamically from localStorage.nex_cart -->
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
+              <span>Subtotal</span>
+              <span id="summary-subtotal">BDT 0</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
+              <span>Shipping</span>
+              <span style="color:#00E676; font-weight:600;" id="summary-shipping">FREE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; color:var(--text-primary); padding-top:10px; border-top:1px solid var(--border-subtle);">
+              <span>Total Due</span>
+              <span id="summary-total">BDT 0</span>
+            </div>
+          </div>
+
+          <div style="font-size:11px; color:var(--text-secondary); display:flex; flex-direction:column; gap:4px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+            <div>🔒 256-Bit Encrypted Payment</div>
+            <div>&#10003; 30-Day Complimentary Returns</div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="js/cart.js"></script>
+  <script>
+    // ─── Delivery method state ───────────────────────────────────────────────
+    const DELIVERY_OPTIONS = {
+      express:  { label: 'Express Next Day',  cost: 0,   costLabel: 'FREE' },
+      standard: { label: 'Standard Delivery', cost: 100, costLabel: 'BDT 100' },
+      economy:  { label: 'Economy',           cost: 60,  costLabel: 'BDT 60'  }
+    };
+    let activeDelivery = 'express';   // Default selection
+    let cartSubtotal   = 0;           // Set by loadCheckoutState()
+    const FREE_SHIPPING_THRESHOLD = 20000;
+
+    // ─── Select delivery method ──────────────────────────────────────────────
+    function selectDelivery(method) {
+      if (!DELIVERY_OPTIONS[method]) return;
+      activeDelivery = method;
+
+      // Update visual selection state
+      ['express', 'standard', 'economy'].forEach(key => {
+        const el = document.getElementById('opt-' + key);
+        if (el) el.classList.toggle('selected', key === method);
+      });
+
+      // Recalculate totals with new shipping cost
+      updateSummaryTotals();
+    }
+
+    // ─── Update order summary totals (shipping-aware) ────────────────────────
+    function updateSummaryTotals() {
+      const deliveryMethod = DELIVERY_OPTIONS[activeDelivery];
+
+      // Express is FREE when subtotal >= threshold; else BDT 150
+      let shippingCost;
+      let shippingLabel;
+      if (activeDelivery === 'express') {
+        if (cartSubtotal >= FREE_SHIPPING_THRESHOLD) {
+          shippingCost = 0;
+          shippingLabel = 'FREE';
+        } else {
+          shippingCost = 150;
+          shippingLabel = 'BDT 150';
+        }
+        // Keep the express cost label live in the card
+        const costEl = document.getElementById('cost-express');
+        if (costEl) {
+          costEl.textContent = shippingLabel;
+          costEl.style.color = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
+        }
+      } else {
+        shippingCost  = deliveryMethod.cost;
+        shippingLabel = deliveryMethod.costLabel;
+      }
+
+      const grandTotal = cartSubtotal + shippingCost;
+
+      // Desktop sidebar
+      const shippingEl = document.getElementById('summary-shipping');
+      if (shippingEl) {
+        shippingEl.textContent   = shippingLabel;
+        shippingEl.style.color   = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
+        shippingEl.style.fontWeight = '600';
+      }
+      const totalEl = document.getElementById('summary-total');
+      if (totalEl) totalEl.textContent = `BDT ${grandTotal.toLocaleString()}`;
+
+      // Place Order CTA
+      const cta = document.getElementById('btn-place-order');
+      if (cta) cta.textContent = `PLACE ORDER &middot; BDT ${grandTotal.toLocaleString()}`;
+    }
+
+    // ─── Contextual delivery guidance (reads real cart + city) ───────────────
+    function buildDeliveryGuidance() {
+      const city    = (document.getElementById('ship-city')?.value || 'Dhaka').trim();
+      const subtotal = cartSubtotal;
+      const panel   = document.getElementById('delivery-guidance');
+      if (!panel) return;
+
+      let message;
+      if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+        // Free express already unlocked &mdash; gentle confirm
+        message = `<strong>A quick recommendation &mdash;</strong> Your order qualifies for <strong>free Express Next Day delivery</strong>. Your items will arrive by 8:00 PM tomorrow.`;
+      } else {
+        const diff = (FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString();
+        const isDhaka = city.toLowerCase().includes('dhaka');
+        if (isDhaka) {
+          message = `<strong>Delivering t&times;${city}.</strong> Add BDT ${diff} more t&times;unlock free Express Next Day delivery &mdash; or choose Standard for BDT 100 delivered in 3&ndash;5 days.`;
+        } else {
+          message = `<strong>Delivering t&times;${city}.</strong> Express Next Day covers most areas outside Dhaka for BDT 150. Standard delivery (3&ndash;5 days) is available for BDT 100.`;
+        }
+      }
+
+      panel.innerHTML = message;
+    }
+
+    // ─── Main checkout loader ────────────────────────────────────────────────
+    function loadCheckoutState() {
+      let cart = [];
+      try {
+        const raw = localStorage.getItem('nex_cart');
+        cart = raw ? JSON.parse(raw) : [];
+      } catch(e) {
+        cart = [];
+      }
+
+      const emptyState = document.getElementById('checkout-empty-state');
+      const mainGrid   = document.getElementById('checkout-main-grid');
+
+      if (!cart || cart.length === 0) {
+        emptyState.style.display = 'block';
+        mainGrid.style.display   = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      mainGrid.style.display   = 'grid';
+
+      // Derived from real cart &mdash; n&times;hardcoded values
+      cartSubtotal           = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const totalCount       = cart.reduce((sum, i) => sum + i.qty, 0);
+
+      // Render Desktop Order Summary List
+      const desktopList = document.getElementById('desktop-items-list');
+      if (desktopList) {
+        desktopList.innerHTML = cart.map(i => `
+          <div style="display:grid; grid-template-columns:50px 1fr auto; gap:12px; align-items:center;">
+            <img src="${i.image}" style="width:50px; height:62px; object-fit:cover; border-radius:2px; background:var(--bg-main);">
+            <div>
+              <div style="font-size:13px; font-weight:500;">${i.name}</div>
+              <div style="font-size:11px; color:var(--text-secondary);">${i.size} &middot; Qty ${i.qty}</div>
+            </div>
+            <div style="font-size:13px; font-weight:600;">BDT ${(i.price * i.qty).toLocaleString()}</div>
+          </div>
+        `).join('');
+      }
+
+      // Desktop subtotal row (shipping + total filled by updateSummaryTotals)
+      const subtotalEl = document.getElementById('summary-subtotal');
+      if (subtotalEl) subtotalEl.textContent = `BDT ${cartSubtotal.toLocaleString()}`;
+
+      // Mobile summary bar
+      const mobileTitle   = document.getElementById('mobile-summary-title');
+      const mobileSub     = document.getElementById('mobile-summary-sub');
+      const mobileDetails = document.getElementById('mobile-summary-details');
+      if (mobileTitle)   mobileTitle.textContent = `Order summary &middot; BDT ${cartSubtotal.toLocaleString()}`;
+      if (mobileSub)     mobileSub.textContent   = `${totalCount} Item${totalCount > 1 ? 's' : ''}`;
+      if (mobileDetails) {
+        mobileDetails.innerHTML = cart.map(i => `
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
+            <span>${i.name} (${i.size}) &times;${i.qty}</span>
+            <span>BDT ${(i.price * i.qty).toLocaleString()}</span>
+          </div>
+        `).join('') + `
+          <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:600; padding-top:8px; border-top:1px solid var(--border-subtle); margin-top:8px;">
+            <span>Subtotal</span><span>BDT ${cartSubtotal.toLocaleString()}</span>
+          </div>
+        `;
+      }
+
+      // Initial totals + guidance
+      updateSummaryTotals();
+      buildDeliveryGuidance();
+    }
+
+    // Rebuild guidance live when city field changes
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCheckoutState();
+      const cityInput = document.getElementById('ship-city');
+      if (cityInput) cityInput.addEventListener('input', buildDeliveryGuidance);
+    });
+
+    function toggleMobileSummary() {
+      const details = document.getElementById('mobile-summary-details');
+      const btn     = document.getElementById('mobile-summary-toggle');
+      if (!details) return;
+      const open = details.style.display === 'block';
+      details.style.display = open ? 'none' : 'block';
+      btn.textContent       = open ? 'View order details ↓' : 'Hide order details ↑';
+    }
+
+    // ─── Payment method selection ────────────────────────────────────────────
+    let activePayment = 'bkash';
+    function selectPayment(method) {
+      activePayment = method;
+      ['bkash','card','cod'].forEach(m => {
+        const btn = document.getElementById('pay-' + m);
+        if (btn) btn.classList.toggle('selected', m === method);
+      });
+      // If user changes payment after a failure, hide the failure banner
+      hideBanner('banner-payment-fail');
+    }
+
+    function retryPayment() {
+      hideBanner('banner-payment-fail');
+      // Re-enable the CTA for retry
+      resetOrderCTA();
+    }
+
+    function changePaymentMethod() {
+      hideBanner('banner-payment-fail');
+      resetOrderCTA();
+      const group = document.getElementById('payment-method-group');
+      if (group) group.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function hideBanner(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('visible');
+    }
+    function showBanner(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('visible');
+    }
+
+    // ─── Field validation helpers ────────────────────────────────────────────
+    function markField(inputId, errId, isValid) {
+      const input = document.getElementById(inputId);
+      const err   = document.getElementById(errId);
+      if (!input || !err) return isValid;
+      input.classList.toggle('input-error', !isValid);
+      err.classList.toggle('visible', !isValid);
+      return isValid;
+    }
+
+    function validateFields() {
+      let valid = true;
+
+      const name     = document.getElementById('cust-name')?.value.trim()  || '';
+      const email    = document.getElementById('cust-email')?.value.trim() || '';
+      const phone    = document.getElementById('cust-phone')?.value.trim() || '';
+      const address  = document.getElementById('ship-address')?.value.trim() || '';
+      const city     = document.getElementById('ship-city')?.value.trim()  || '';
+      const postcode = document.getElementById('ship-postcode')?.value.trim() || '';
+
+      // Required + max-length guards
+      if (!markField('cust-name', 'err-cust-name', name.length >= 2 && name.length <= 120)) valid = false;
+
+      // Email format
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!markField('cust-email', 'err-cust-email', emailOk)) valid = false;
+
+      // BD mobile: starts 01, 11 digits
+      const phoneOk = /^01[3-9]\d{8}$/.test(phone);
+      if (!markField('cust-phone', 'err-cust-phone', phoneOk)) valid = false;
+
+      if (!markField('ship-address', 'err-ship-address', address.length >= 5 && address.length <= 200)) valid = false;
+      if (!markField('ship-city',    'err-ship-city',    city.length >= 2))   valid = false;
+
+      // Postal code: 4 digits
+      const postOk = /^\d{4}$/.test(postcode);
+      if (!markField('ship-postcode', 'err-ship-postcode', postOk)) valid = false;
+
+      return valid;
+    }
+
+    // ─── CTA processing-state guard (prevents duplicate submission) ──────────
+    let orderSubmitting = false;
+
+    function setOrderCTAProcessing() {
+      const cta = document.getElementById('btn-place-order');
+      if (!cta) return;
+      cta.disabled = true;
+      cta.textContent = 'Processing…';
+      cta.style.opacity = '0.7';
+      cta.style.cursor  = 'not-allowed';
+    }
+
+    function resetOrderCTA() {
+      orderSubmitting = false;
+      const cta = document.getElementById('btn-place-order');
+      if (!cta) return;
+      const shipping = DELIVERY_OPTIONS[activeDelivery];
+      const shippingCost = activeDelivery === 'express'
+        ? (cartSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 150)
+        : shipping.cost;
+      const total = cartSubtotal + shippingCost;
+      cta.disabled    = false;
+      cta.textContent = `PLACE ORDER &middot; BDT ${total.toLocaleString()}`;
+      cta.style.opacity = '';
+      cta.style.cursor  = '';
+    }
+
+    // ─── Cart integrity check ─────────────────────────────────────────────────
+    function cartIntegrityOk() {
+      // Guard: cart must still contain items
+      try {
+        const raw  = localStorage.getItem('nex_cart');
+        const cart = raw ? JSON.parse(raw) : [];
+        return Array.isArray(cart) && cart.length > 0;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // ─── Place Order handler ─────────────────────────────────────────────────
+    function handlePlaceOrder() {
+      if (orderSubmitting) return;
+      hideBanner('banner-payment-fail');
+      hideBanner('banner-cart-warn');
+
+      const fieldsOk = validateFields();
+      if (!fieldsOk) {
+        const firstErr = document.querySelector('.input-error');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (!cartIntegrityOk()) {
+        showBanner('banner-cart-warn');
+        return;
+      }
+
+      orderSubmitting = true;
+      setOrderCTAProcessing();
+
+      // TODO (real backend): replace setTimeout with fetch('/api/orders', { method:'POST', body: JSON.stringify(orderPayload) })
+      // On success use the server-returned order ID instead of the client-generated ref.
+      setTimeout(() => {
+        const simulateSuccess = true; // Set false t&times;test payment failure recovery path
+        if (!simulateSuccess) {
+          orderSubmitting = false;
+          resetOrderCTA();
+          showBanner('banner-payment-fail');
+          return;
+        }
+
+        // Client-side order ref (replaced by server ID in production)
+        const orderRef = 'NX-' + Date.now().toString(36).toUpperCase().slice(-5);
+
+        const shippingCost = activeDelivery === 'express'
+          ? (cartSubtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 150)
+          : DELIVERY_OPTIONS[activeDelivery].cost;
+        const shippingLabel = shippingCost === 0 ? 'FREE' : `BDT ${shippingCost.toLocaleString()}`;
+        const grandTotal    = cartSubtotal + shippingCost;
+
+        let cartItems = [];
+        try { cartItems = JSON.parse(localStorage.getItem('nex_cart') || '[]'); } catch(e) {}
+
+        const confirmedOrder = {
+          ref:           orderRef,
+          placedAt:      new Date().toISOString(),
+          customerName:  document.getElementById('cust-name')?.value.trim()     || '',
+          customerEmail: document.getElementById('cust-email')?.value.trim()    || '',
+          customerPhone: document.getElementById('cust-phone')?.value.trim()    || '',
+          address:       document.getElementById('ship-address')?.value.trim()  || '',
+          city:          document.getElementById('ship-city')?.value.trim()     || '',
+          postcode:      document.getElementById('ship-postcode')?.value.trim() || '',
+          deliveryMethod: DELIVERY_OPTIONS[activeDelivery].label,
+          deliveryKey:    activeDelivery,
+          paymentMethod:  activePayment,
+          shippingCost,
+          shippingLabel,
+          subtotal:       cartSubtotal,
+          total:          grandTotal,
+          items:          cartItems
+        };
+
+        // Persist for confirmation.html (tab-session scoped &mdash; refresh-safe)
+        sessionStorage.setItem('nex_confirmed_order', JSON.stringify(confirmedOrder));
+
+        // Clear cart ONLY after order confirmed &mdash; not on mere CTA click
+        localStorage.removeItem('nex_cart');
+        window.dispatchEvent(new Event('cart-updated'));
+
+        orderSubmitting = false;
+        window.location.href = 'confirmation.html';
+      }, 600);
+    }
+  </script>
+  <script src="js/theme-switcher.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[    2547ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://admin-api-dev.shwapno.com/api/common/landing:0
+[    3475ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://admin-api-dev.shwapno.com/api/auth/RefreshToken:0
+[    4582ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://admin-dev.shwapno.com/#/account/login:0
+[   95797ms] [ERROR] Failed to subscribe to push notifications: Error: Notification permission not granted
+    at https://admin-dev.shwapno.com/main.a853dbe26562f32c.js:1:1015418
+    at Generator.next (<anonymous>)
+    at u (https://admin-dev.shwapno.com/main.a853dbe26562f32c.js:1:4882774)
+    at f (https://admin-dev.shwapno.com/main.a853dbe26562f32c.js:1:4882976)
+    at f.invoke (https://admin-dev.shwapno.com/polyfills.b71c14b9b839ec87.js:1:19384)
+    at Object.onInvoke (https://admin-dev.shwapno.com/main.a853dbe26562f32c.js:1:3307153)
+    at f.invoke (https://admin-dev.shwapno.com/polyfills.b71c14b9b839ec87.js:1:19324)
+    at M.run (https://admin-dev.shwapno.com/polyfills.b71c14b9b839ec87.js:1:14220)
+    at https://admin-dev.shwapno.com/polyfills.b71c14b9b839ec87.js:1:25822
+    at f.invokeTask (https://admin-dev.shwapno.com/polyfills.b71c14b9b839ec87.js:1:20002) @ https://admin-dev.shwapno.com/main.a853dbe26562f32c.js:0

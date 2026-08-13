@@ -1,5 +1,5 @@
 /**
- * nexCommerce AI Engine — Vector Similarity & Style Concierge Logic
+ * nexCommerce AI Engine &mdash; Vector Similarity & Style Concierge Logic
  * Stack: Semantic Vector Embeddings (1536-dim normalized feature vectors),
  * Cosine Similarity Ranker, Multi-Turn Context Manager
  */

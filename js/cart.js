@@ -138,7 +138,7 @@ export const CartState = {
       const currentTotal = this.getTotal();
       const diff = freeShippingThreshold - currentTotal;
       if (diff <= 0) {
-        progressEl.innerHTML = `<span class="shipping-unlocked">✓ Complimentary Express Delivery Unlocked</span>`;
+        progressEl.innerHTML = `<span class="shipping-unlocked">&#10003; Complimentary Express Delivery Unlocked</span>`;
       } else {
         progressEl.innerHTML = `Add <strong>৳ ${diff.toLocaleString()}</strong> for Complimentary Express Delivery`;
       }
@@ -157,7 +157,7 @@ export const CartState = {
             <button class="stepper-btn" data-action="inc" aria-label="Increase quantity">+</button>
           </div>
         </div>
-        <button class="cart-item-remove" data-action="remove" aria-label="Remove item">✕</button>
+        <button class="cart-item-remove" data-action="remove" aria-label="Remove item">&times;</button>
       </div>
     `).join('');
 

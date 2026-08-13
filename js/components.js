@@ -44,15 +44,15 @@ export function renderTrustSignals() {
   return `
     <div class="trust-signals-container">
       <div class="trust-item">
-        <span class="trust-icon" aria-hidden="true">✓</span>
+        <span class="trust-icon" aria-hidden="true">&#10003;</span>
         <span>30-Day Complimentary Returns</span>
       </div>
       <div class="trust-item">
-        <span class="trust-icon" aria-hidden="true">✓</span>
+        <span class="trust-icon" aria-hidden="true">&#10003;</span>
         <span>Encrypted SSL Checkout</span>
       </div>
       <div class="trust-item">
-        <span class="trust-icon" aria-hidden="true">✓</span>
+        <span class="trust-icon" aria-hidden="true">&#10003;</span>
         <span>Guaranteed Authentic</span>
       </div>
     </div>
@@ -68,7 +68,7 @@ export function renderQuickViewModal(product) {
   return `
     <div id="quick-view-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="qv-title">
       <div class="modal-content quick-view-content">
-        <button class="modal-close-btn" data-action="close-modal" aria-label="Close modal">✕</button>
+        <button class="modal-close-btn" data-action="close-modal" aria-label="Close modal">&times;</button>
         <div class="qv-grid">
           <div class="qv-image-wrap">
             <img src="${product.image}" alt="${product.name}">
