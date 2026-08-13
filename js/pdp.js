@@ -1,4 +1,4 @@
-﻿/* â”€â”€â”€ nexCommerce: Product Detail Page (PDP) Dynamic Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* â”€â”€â”€ nexCommerce: Product Detail Page (PDP) Dynamic Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
  * Reads ?id= from URL and renders the correct product.
  * Falls back to p1 (Cashmere Sweater) when no ID is provided.
  * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -425,7 +425,7 @@
             });
           }
 
-          btn.textContent = '&#10003; ADDED TO BAG';
+          btn.innerHTML = '&#10003; ADDED TO BAG';
           btn.style.background = '#58D68D';
           btn.style.color = '#071A3A';
 

@@ -1,0 +1,211 @@
+- generic [active] [ref=f41e1]:
+  - banner [ref=f41e2]:
+    - generic [ref=f41e3]:
+      - link "nexCommerce Intelligent Commerce" [ref=f41e5] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=f41e6]: nexCommerce
+        - generic [ref=f41e7]: Intelligent Commerce
+      - navigation [ref=f41e8]:
+        - link "Shop" [ref=f41e9] [cursor=pointer]:
+          - /url: category.html?cat=apparel
+        - link "Categories" [ref=f41e10] [cursor=pointer]:
+          - /url: category.html?cat=all
+        - link "New In" [ref=f41e11] [cursor=pointer]:
+          - /url: category.html?cat=new
+        - link "Discover" [ref=f41e12] [cursor=pointer]:
+          - /url: discovery.html
+      - button "What are you looking for? Ctrl + K" [ref=f41e14] [cursor=pointer]:
+        - generic [ref=f41e19]: What are you looking for?
+        - generic [ref=f41e20]: Ctrl + K
+      - generic [ref=f41e21]:
+        - button "Open Style Concierge" [ref=f41e22] [cursor=pointer]:
+          - generic [ref=f41e25]: CONCIERGE
+        - link "AI Profile" [ref=f41e26] [cursor=pointer]:
+          - /url: profile.html
+        - link "Demo" [ref=f41e27] [cursor=pointer]:
+          - /url: account.html
+        - link "Bag" [ref=f41e28] [cursor=pointer]:
+          - /url: cart.html
+  - generic [ref=f41e30]:
+    - generic [ref=f41e31]:
+      - generic [ref=f41e32]: nexCommerce
+      - button "Ã—" [ref=f41e33] [cursor=pointer]
+    - link "Shop" [ref=f41e34] [cursor=pointer]:
+      - /url: category.html?cat=apparel
+    - link "Categories" [ref=f41e35] [cursor=pointer]:
+      - /url: category.html?cat=all
+    - link "New In" [ref=f41e36] [cursor=pointer]:
+      - /url: category.html?cat=new
+    - link "Discover" [ref=f41e37] [cursor=pointer]:
+      - /url: discovery.html
+    - link "AI Profile" [ref=f41e38] [cursor=pointer]:
+      - /url: profile.html
+    - link "Demo" [ref=f41e39] [cursor=pointer]:
+      - /url: account.html
+    - link "Bag" [ref=f41e40] [cursor=pointer]:
+      - /url: cart.html
+  - main [ref=f41e41]:
+    - generic [ref=f41e43]:
+      - generic [ref=f41e44]:
+        - generic [ref=f41e45]: DISCOVER DIFFERENTLY
+        - heading "Shopping that understands what you mean." [level=1] [ref=f41e46]:
+          - generic [ref=f41e47]: Shopping
+          - generic [ref=f41e48]: that
+          - generic [ref=f41e49]: understands
+          - generic [ref=f41e50]: what
+          - generic [ref=f41e51]: you
+          - generic [ref=f41e52]: mean.
+        - paragraph [ref=f41e53]: Find pieces based on what you're doing, where you're going, and how you want to feel.
+        - generic [ref=f41e54]:
+          - link "START SHOPPING" [ref=f41e55] [cursor=pointer]:
+            - /url: category.html
+          - link "Describe what you're looking for →" [ref=f41e56] [cursor=pointer]:
+            - /url: discovery.html
+      - main [ref=f41e57]:
+        - navigation "Breadcrumb navigation" [ref=f41e58]:
+          - link "SHOP" [ref=f41e59] [cursor=pointer]:
+            - /url: index.html
+          - generic [ref=f41e60]: /
+          - generic [ref=f41e61]: APPAREL
+        - heading "APPAREL" [level=1] [ref=f41e62]
+        - paragraph [ref=f41e64]: Pieces designed around how you actually live.
+        - generic [ref=f41e65]:
+          - generic [ref=f41e66]: 6 PRODUCTS
+          - generic [ref=f41e67]:
+            - generic [ref=f41e68]: SORT BY
+            - combobox [ref=f41e69] [cursor=pointer]:
+              - option "Recommended â–¾" [selected]
+              - 'option "Price: Low to High"'
+              - 'option "Price: High to Low"'
+        - generic [ref=f41e70]:
+          - button "ALL" [ref=f41e71] [cursor=pointer]
+          - button "APPAREL" [ref=f41e72] [cursor=pointer]
+          - button "ACOUSTICS" [ref=f41e73] [cursor=pointer]
+          - button "ACCESSORIES" [ref=f41e74] [cursor=pointer]
+          - button "FOOTWEAR" [ref=f41e75] [cursor=pointer]
+        - generic [ref=f41e76]:
+          - generic [ref=f41e77]: CONTEXTUAL INTELLIGENCE
+          - heading "Recommended for your evening in Dhaka" [level=2] [ref=f41e81]
+          - generic [ref=f41e82]:
+            - generic [ref=f41e83]: â—‡ Evening
+            - generic [ref=f41e84]: â—‡ 18°C
+            - generic [ref=f41e85]: â—‡ Dhaka
+            - generic [ref=f41e86]: â—‡ Minimal Layering
+        - generic [ref=f41e87]:
+          - generic [ref=f41e88]:
+            - link [ref=f41e89] [cursor=pointer]:
+              - /url: product.html?id=p1
+              - img "Architectural Cashmere Sweater" [ref=f41e90]
+            - generic [ref=f41e91]:
+              - link "Architectural Cashmere Sweater" [ref=f41e92] [cursor=pointer]:
+                - /url: product.html?id=p1
+              - generic [ref=f41e93]: BDT 18,400
+            - generic [ref=f41e94]:
+              - generic [ref=f41e95]: Why this fits
+              - generic [ref=f41e98]: Light enough for an 18°C evening, warm enough after sunset.
+              - button "See why →" [ref=f41e99] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e100] [cursor=pointer]
+          - generic [ref=f41e101]:
+            - link [ref=f41e102] [cursor=pointer]:
+              - /url: product.html?id=p2
+              - img "Structured Wool Blazer" [ref=f41e103]
+            - generic [ref=f41e104]:
+              - link "Structured Wool Blazer" [ref=f41e105] [cursor=pointer]:
+                - /url: product.html?id=p2
+              - generic [ref=f41e106]: BDT 24,500
+            - generic [ref=f41e107]:
+              - generic [ref=f41e108]: Why this fits
+              - generic [ref=f41e111]: Unlined merino weave allows natural airflow for evening dinners.
+              - button "See why →" [ref=f41e112] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e113] [cursor=pointer]
+          - generic [ref=f41e114]:
+            - link [ref=f41e115] [cursor=pointer]:
+              - /url: product.html?id=p3
+              - img "Fine-Knit Cashmere Crew" [ref=f41e116]
+            - generic [ref=f41e117]:
+              - link "Fine-Knit Cashmere Crew" [ref=f41e118] [cursor=pointer]:
+                - /url: product.html?id=p3
+              - generic [ref=f41e119]: BDT 16,200
+            - generic [ref=f41e120]:
+              - generic [ref=f41e121]: Why this fits
+              - generic [ref=f41e124]: Ultra-soft 2-ply cashmere for easy indoor/outdoor layering.
+              - button "See why →" [ref=f41e125] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e126] [cursor=pointer]
+          - generic [ref=f41e127]:
+            - link [ref=f41e128] [cursor=pointer]:
+              - /url: product.html?id=p4
+              - img "Acoustics Headphone GT" [ref=f41e129]
+            - generic [ref=f41e130]:
+              - link "Acoustics Headphone GT" [ref=f41e131] [cursor=pointer]:
+                - /url: product.html?id=p4
+              - generic [ref=f41e132]: BDT 32,000
+            - generic [ref=f41e133]:
+              - generic [ref=f41e134]: Why this fits
+              - generic [ref=f41e137]: Active noise cancellation calibrated for focused work or travel.
+              - button "See why →" [ref=f41e138] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e139] [cursor=pointer]
+          - generic [ref=f41e140]:
+            - link [ref=f41e141] [cursor=pointer]:
+              - /url: product.html?id=p5
+              - img "Chronograph Minimalist Watch" [ref=f41e142]
+            - generic [ref=f41e143]:
+              - link "Chronograph Minimalist Watch" [ref=f41e144] [cursor=pointer]:
+                - /url: product.html?id=p5
+              - generic [ref=f41e145]: BDT 28,500
+            - generic [ref=f41e146]:
+              - generic [ref=f41e147]: Why this fits
+              - generic [ref=f41e150]: Brushed titanium casing with a scratch-resistant sapphire crystal.
+              - button "See why →" [ref=f41e151] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e152] [cursor=pointer]
+          - generic [ref=f41e153]:
+            - link [ref=f41e154] [cursor=pointer]:
+              - /url: product.html?id=p6
+              - img "Minimalist Leather Runner" [ref=f41e155]
+            - generic [ref=f41e156]:
+              - link "Minimalist Leather Runner" [ref=f41e157] [cursor=pointer]:
+                - /url: product.html?id=p6
+              - generic [ref=f41e158]: BDT 19,800
+            - generic [ref=f41e159]:
+              - generic [ref=f41e160]: Why this fits
+              - generic [ref=f41e163]: Cushioned Vibram sole for all-day urban walkability.
+              - button "See why →" [ref=f41e164] [cursor=pointer]
+            - button "ADD TO BAG" [ref=f41e165] [cursor=pointer]
+      - dialog [ref=f41e166]:
+        - generic [ref=f41e167]:
+          - generic [ref=f41e168]: Shopping Bag
+          - button [ref=f41e169] [cursor=pointer]: ×
+        - generic [ref=f41e171]:
+          - heading [level=3] [ref=f41e172]: Your bag is empty.
+          - paragraph [ref=f41e173]: Discover pieces selected around how you want to shop.
+          - link [ref=f41e174] [cursor=pointer]:
+            - /url: discovery.html
+            - text: EXPLORE DISCOVERY →
+  - region "Theme colour switcher" [ref=f41e175]:
+    - dialog "Theme colour options":
+      - generic:
+        - generic: Theme Colour
+        - button "Reset"
+      - generic:
+        - button "Cyan"
+        - button "Violet"
+        - button "Emerald"
+        - button "Amber"
+        - button "Rose"
+        - button "Coral"
+        - button "Indigo"
+        - button "Slate"
+      - generic: Custom Colour
+      - generic:
+        - generic "Click pick a colour":
+          - textbox: "#00c8ff"
+        - button "Apply Custom"
+      - generic: Persists across all pages via localStorage
+    - button "Open theme switcher" [ref=f41e176] [cursor=pointer]
+  - dialog [ref=f41e183]:
+    - generic [ref=f41e184]:
+      - generic [ref=f41e185]: Style Concierge
+      - button [ref=f41e188] [cursor=pointer]
+    - generic [ref=f41e195]:
+      - textbox [ref=f41e196]:
+        - /placeholder: Ask about a style, occasion, or budget...
+      - button [ref=f41e197] [cursor=pointer]

@@ -1,0 +1,100 @@
+- generic [active] [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - generic [ref=f4e4]:
+      - link "← Return to Storefront" [ref=f4e6] [cursor=pointer]:
+        - /url: index.html
+      - link "NEXCOMMERCE" [ref=f4e7] [cursor=pointer]:
+        - /url: index.html
+      - generic [ref=f4e8]:
+        - button "Search" [ref=f4e9] [cursor=pointer]:
+          - generic [ref=f4e14]: ⌘K
+        - generic [ref=f4e15]: Bag
+  - main [ref=f4e17]:
+    - navigation "Breadcrumb navigation" [ref=f4e18]:
+      - link "Home" [ref=f4e19] [cursor=pointer]:
+        - /url: index.html
+      - generic [ref=f4e20]: /
+      - link "Apparel" [ref=f4e21] [cursor=pointer]:
+        - /url: category.html?cat=apparel
+      - generic [ref=f4e22]: /
+      - link "Sweaters" [ref=f4e23] [cursor=pointer]:
+        - /url: category.html?cat=apparel
+      - generic [ref=f4e24]: /
+      - generic [ref=f4e25]: Architectural Cashmere Sweater
+    - generic [ref=f4e26]:
+      - generic [ref=f4e27]:
+        - generic [ref=f4e28]:
+          - img "Architectural Cashmere Sweater view 1" [ref=f4e29] [cursor=pointer]
+          - img "Architectural Cashmere Sweater view 2" [ref=f4e30] [cursor=pointer]
+          - img "Architectural Cashmere Sweater view 3" [ref=f4e31] [cursor=pointer]
+        - img "Architectural Cashmere Sweater" [ref=f4e33]
+      - generic [ref=f4e34]:
+        - generic [ref=f4e35]:
+          - text: APPAREL
+          - heading "Architectural Cashmere Sweater" [level=1] [ref=f4e36]:
+            - generic [ref=f4e37]: Architectural
+            - generic [ref=f4e38]: Cashmere
+            - generic [ref=f4e39]: Sweater
+          - generic [ref=f4e40]: BDT 18,400
+        - paragraph [ref=f4e41]: Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.
+        - generic [ref=f4e42]:
+          - generic [ref=f4e43]:
+            - text: "Color:"
+            - strong [ref=f4e44]: Midnight
+          - generic [ref=f4e45]:
+            - button "Midnight" [ref=f4e46] [cursor=pointer]
+            - button "Stone" [ref=f4e47] [cursor=pointer]
+            - button "Charcoal" [ref=f4e48] [cursor=pointer]
+        - generic [ref=f4e49]:
+          - generic [ref=f4e50]:
+            - generic [ref=f4e51]: Size
+            - button "FIND MY SIZE" [ref=f4e52] [cursor=pointer]
+          - generic [ref=f4e56]:
+            - button "XS" [ref=f4e57] [cursor=pointer]
+            - button "S" [ref=f4e58] [cursor=pointer]
+            - button "M" [ref=f4e59] [cursor=pointer]
+            - button "L" [ref=f4e60] [cursor=pointer]
+            - button "XL" [ref=f4e61] [cursor=pointer]
+        - button "ADD TO BAG" [ref=f4e62] [cursor=pointer]
+        - generic [ref=f4e63]:
+          - generic [ref=f4e64]: ✓ Express Next Day Delivery available (Free on orders over BDT 20,000)
+          - generic [ref=f4e65]: ✓ Easy 7-day returns included
+        - link "See another option →" [ref=f4e67] [cursor=pointer]:
+          - /url: index.html
+    - generic [ref=f4e68]:
+      - button "PRODUCT DETAILS +" [ref=f4e70] [cursor=pointer]:
+        - generic [ref=f4e71]: PRODUCT DETAILS
+        - generic [ref=f4e72]: +
+      - button "MATERIAL & CARE +" [ref=f4e74] [cursor=pointer]:
+        - generic [ref=f4e75]: MATERIAL & CARE
+        - generic [ref=f4e76]: +
+      - button "FIT & SILHOUETTE +" [ref=f4e78] [cursor=pointer]:
+        - generic [ref=f4e79]: FIT & SILHOUETTE
+        - generic [ref=f4e80]: +
+  - generic [ref=f4e81]:
+    - generic [ref=f4e82]:
+      - generic [ref=f4e83]: BDT 18,400
+      - generic [ref=f4e84]: Size M
+    - button "ADD TO BAG" [ref=f4e85] [cursor=pointer]
+  - text: "`r`n"
+  - region "Theme colour switcher" [ref=f4e86]:
+    - dialog "Theme colour options":
+      - generic:
+        - generic: Theme Colour
+        - button "Reset"
+      - generic:
+        - button "Cyan"
+        - button "Violet"
+        - button "Emerald"
+        - button "Amber"
+        - button "Rose"
+        - button "Coral"
+        - button "Indigo"
+        - button "Slate"
+      - generic: Custom Colour
+      - generic:
+        - generic "Click pick a colour":
+          - textbox: "#00c8ff"
+        - button "Apply Custom"
+      - generic: Persists across all pages via localStorage
+    - button "Open theme switcher" [ref=f4e87] [cursor=pointer]

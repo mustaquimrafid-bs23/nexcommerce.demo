@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
 
   <style>
     body {
@@ -34,7 +34,7 @@
       top: 0;
       z-index: 100;
     }
-    .brand-log&times;{
+    .brand-logo {
       font-family: var(--font-serif);
       font-size: 26px;
       font-weight: 600;
@@ -55,12 +55,12 @@
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      margin: 0 aut&times;20px;
+      margin: 0 auto 20px;
       animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
     @keyframes popIn {
       from { transform: scale(0.6); opacity: 0; }
-      t&times;  { transform: scale(1);   opacity: 1; }
+      to { transform: scale(1);   opacity: 1; }
     }
 
     .confirm-card {
@@ -98,7 +98,7 @@
       background: rgba(0, 200, 255, 0.06);
     }
 
-    /* "N&times;order found" fallback */
+    /* " order found" fallback */
     #no-order-state {
       display: none;
       text-align: center;
@@ -116,17 +116,66 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <a href="index.html" class="brand-logo">nexCommerce</a>
-    <div style="font-size:11px; color:#00E676; font-weight:600; text-transform:uppercase; letter-spacing:0.1em;">
-      Order Confirmed
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
+        <a href="index.html" class="nav-logo">
+          <span>nexCommerce</span>
+          <span class="nav-logo-sub">Intelligent Commerce</span>
+        </a>
+      </div>
+
+      <nav class="nav-left nav-menu-links desktop-only">
+<a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover</a>
+      </nav>
+
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn" aria-label="Open Style Concierge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>CONCIERGE</span>
+        </button>
+        <a href="profile.html" class="nav-item-link desktop-only">AI Profile</a>
+        <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
+        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
+          <span>Bag</span>
+          <span class="bag-badge" id="headerCartCount">1</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Fallback: n&times;session order found (refresh guard) -->
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+    </div>
+    <a href="category.html" class="mobile-drawer-link">Shop</a>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag</a>
+  </div>
+
+
+  <!-- Fallback:  session order found (refresh guard) -->
   <div id="no-order-state">
     <div style="font-size:40px; margin-bottom:16px;">🛍️</div>
-    <h2 style="font-family:var(--font-serif); font-size:28px; margin-bottom:10px;">N&times;active order found.</h2>
+    <h2 style="font-family:var(--font-serif); font-size:28px; margin-bottom:10px;">No active order found.</h2>
     <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px;">This page is only available immediately after placing an order. Your bag and any placed orders remain intact.</p>
     <a href="category.html" class="btn-primary-commerce">Continue Shopping</a>
   </div>
@@ -148,7 +197,7 @@
     <!-- Two-column layout -->
     <div class="confirm-grid" style="display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:flex-start;">
 
-      <!-- Left: items + delivery inf&times;-->
+      <!-- Left: items + delivery  -->
       <div style="display:flex; flex-direction:column; gap:20px;">
 
         <!-- Items summary -->
@@ -200,7 +249,7 @@
           </div>
         </div>
 
-        <!-- Next actions &mdash; restrained, n&times;upsell -->
+        <!-- Next actions &mdash; restrained,  upsell -->
         <div class="confirm-card">
           <div class="section-label">What's Next</div>
           <div style="display:flex; flex-direction:column; gap:10px;">
@@ -212,7 +261,7 @@
             </a>
           </div>
           <div style="margin-top:14px; font-size:11px; color:var(--text-secondary); line-height:1.6;">
-            A confirmation has been sent t&times;<span id="conf-email" style="color:var(--text-primary);"></span>
+            A confirmation has been sent to <span id="conf-email" style="color:var(--text-primary);"></span>
           </div>
         </div>
 
@@ -278,7 +327,7 @@
         document.getElementById('conf-shipping-cost').style.color = '#00E676';
       }
 
-      // Price breakdown &mdash; all from real order, n&times;hardcoded values
+      // Price breakdown &mdash; all from real order,  hardcoded values
       document.getElementById('conf-subtotal').textContent = `BDT ${order.subtotal.toLocaleString()}`;
       document.getElementById('conf-shipping').textContent = order.shippingLabel;
       if (order.shippingCost === 0) {
@@ -291,12 +340,47 @@
       document.getElementById('conf-payment').textContent =
         payLabels[order.paymentMethod] || order.paymentMethod;
 
-      // Track link &mdash; pass order ref t&times;tracking page
+      // Track link &mdash; pass order ref  tracking page
       document.getElementById('conf-track-link').href =
         `tracking.html?ref=${encodeURIComponent(order.ref)}`;
     })();
   </script>
 
   <script src="js/theme-switcher.js"></script>
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script type="module" src="js/animations.js?v=6"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/intent-parser.js"></script>
+  <script src="js/catalog-engine.js"></script>
+  <script src="js/style-profile.js"></script>
+  <script src="js/context-retention.js"></script>
+  <script src="js/concierge-engine.js"></script>
+  <script src="js/concierge.js"></script>
+  <script src="js/auth.js"></script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
 </body>
 </html>

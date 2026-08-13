@@ -5,14 +5,14 @@
    Spec compliance:
    - FR-1  Natural-language input
    - FR-2  Intent extraction (occasion, climate, location, budget, recipient)
-   - FR-3  Missing inf&times;handled gracefully (n&times;forced fields)
+   - FR-3  Missing info handled gracefully ( forced fields)
    - FR-4  Removable context chips (AC-3 compliance)
    - FR-5  Only real catalog products shown
    - FR-6  "Why it fits" per card
    - FR-7  Refinement preserves prior context
    - FR-8  Reset/clear search
-   - AC-7  AI failure fallback t&times;keyword search
-   <!-- TODO: Wire t&times;real AI API (Level 2) -->
+   - AC-7  AI failure fallback  keyword search
+   <!-- TODO: Wire to real AI API (Level 2) -->
    ========================================================================== */
 
 (function (window) {
@@ -176,7 +176,7 @@
       }
     }
 
-    // If n&times;intent context was extracted, use keyword fallback
+    // If  intent context was extracted, use keyword fallback
     const hasContext = ctx.occasion || ctx.climate || ctx.location || ctx.style;
     if (!hasContext && query) {
       const qL = query.toLowerCase();
@@ -349,7 +349,7 @@
     modal.style.display = 'flex';
   }
 
-  /* ── Save context t&times;sessionStorage for AI Context Retention (Feature 2) ── */
+  /* ── Save context to sessionStorage for AI Context Retention (Feature 2) ── */
   function saveSearchContext(productId, query, ctx) {
     try {
       sessionStorage.setItem('nexcommerce_search_context', JSON.stringify({
@@ -374,8 +374,8 @@
     const clearBtn = document.getElementById('discoveryClearBtn');
     if (clearBtn) clearBtn.style.display = 'flex';
 
-    // Collapse her&times;section
-    const her&times;= document.getElementById('discoveryHeroSection');
+    // Collapse  section
+    const  = document.getElementById('discoveryHeroSection');
     if (hero) hero.style.paddingBottom = '24px';
 
     // Hide example prompts when results are showing
@@ -387,7 +387,7 @@
     // Simulated AI processing delay (CF-7: immediate feedback, then result)
     setTimeout(() => {
       if (aiFailureMode) {
-        // AC-7: graceful degradation t&times;keyword search
+        // AC-7: graceful degradation  keyword search
         renderKeywordFallback(raw);
         return;
       }
@@ -395,7 +395,7 @@
       const intent = extractIntent(raw);
 
       if (isRefinement) {
-        // FR-7: merge refinement int&times;existing context, don't discard it
+        // FR-7: merge refinement into existing context, don't discard it
         activeContext = mergeRefinementContext(raw, activeContext);
       } else {
         activeContext = buildContextFromIntent(intent);
@@ -419,7 +419,7 @@
     const section = document.getElementById('discoveryResultsSection');
     if (section) section.style.display = 'none';
 
-    const her&times;= document.getElementById('discoveryHeroSection');
+    const  = document.getElementById('discoveryHeroSection');
     if (hero) hero.style.paddingBottom = '64px';
 
     const prompts = document.getElementById('discoveryPrompts');

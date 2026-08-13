@@ -105,11 +105,11 @@
   function init() {
     overlay          = document.getElementById('aiSearchModal');
     input            = document.querySelector('.search-ai-input');
-    resultsContainer = document.getElementById('aiSearchResults');
+    resultsContainer = document.getElementById('aiSearchResults') || document.getElementById('aiSearchResultsModal');
     if (!overlay || !input) return;
 
     // Open via nav search
-    document.querySelectorAll('[data-open-search], #navSearchBtn').forEach(function(btn) {
+    document.querySelectorAll('[data-open-search], #navSearchBtn, #searchTriggerBtn, .search-trigger').forEach(function(btn) {
       btn.addEventListener('click', openOverlay);
     });
 

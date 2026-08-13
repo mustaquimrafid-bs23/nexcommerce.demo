@@ -1,0 +1,170 @@
+[     396ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[     411ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[     418ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[   93087ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[   93095ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[   93109ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[   93404ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[   93731ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  109892ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  109900ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  109908ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  109908ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  110006ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  238769ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  238777ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  238789ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  238790ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  239099ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  247227ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  247235ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  247250ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  247251ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  247416ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  325013ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  325022ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  325031ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  325032ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  325329ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  325544ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://fonts.gstatic.com/s/inter/v20/UcCB3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfU5NJeWUdIOjBeTGiXZdND2M.woff2:0
+[  348260ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  700907ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  700916ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  700932ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  700933ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  701170ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  740114ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  903471ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js:2
+[  903480ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js:109
+[  903488ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js:112
+[  938429ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  938439ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  938442ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  938753ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  990628ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[  990637ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[  990642ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  990962ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[  991313ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[  992511ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1196126ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1196135ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1196140ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1196392ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1196666ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1197348ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1222477ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1222503ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1222507ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1223394ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1223578ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1224890ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1224906ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1224913ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1225642ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1225809ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1289139ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1289156ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1289169ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1289170ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1289183ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1317153ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1317195ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1319643ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1319657ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1319973ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1320934ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1321234ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1322066ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1443404ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1443413ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1443632ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1451479ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1451612ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1461218ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1461227ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1461380ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1462570ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1504903ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1505285ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1516844ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1517859ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1528566ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1651828ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1651853ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1651858ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1653150ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1653500ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1658843ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1658862ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1658868ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1664848ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1664866ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1671219ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1671536ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1675760ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1675773ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1675777ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1677557ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1677574ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1678514ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1678832ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1679147ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1681294ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1681728ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1682611ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1684845ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1684851ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1684856ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1686469ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1686487ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1693163ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1693179ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1693467ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1694586ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1694685ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1695018ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1695768ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1703203ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1703216ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1703224ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1711328ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1711346ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1711361ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1711393ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
+[ 1711620ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1712403ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1723458ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1723470ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1724277ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1724594ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1725243ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1727441ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1746602ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1746628ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1746632ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1833102ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1833112ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1833120ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1833657ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1833840ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1838946ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1838964ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1839918ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1840469ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1840967ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1843065ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1844349ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1848788ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1848801ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1848805ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1849561ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1849760ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1855145ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1855161ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1856144ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1856456ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1856922ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[ 1863890ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[ 1863902ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[ 1863906ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112

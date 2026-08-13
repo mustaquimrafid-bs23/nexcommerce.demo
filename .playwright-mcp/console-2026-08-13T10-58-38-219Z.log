@@ -1,0 +1,4 @@
+[     205ms] TypeError: Cannot read properties of undefined (reading '0')
+    at ye (https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm:7:6569)
+    at initHeroAnimations (http://localhost:8000/js/animations.js:74:17)
+    at HTMLDocument.<anonymous> (http://localhost:8000/js/animations.js:13:3)

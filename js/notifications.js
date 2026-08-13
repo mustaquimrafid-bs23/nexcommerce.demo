@@ -3,7 +3,7 @@
  * Manages Toast notifications, Notification Center slide-out drawer, 
  * unread badges, direct navigation routing, and localStorage persistence.
  *
- * TODO: Wire t&times;real WebSockets / SSE / Push Notification Server
+ * TODO: Wire  real WebSockets / SSE / Push Notification Server
  */
 
 (function () {
@@ -14,7 +14,7 @@
       id: 'notif-1',
       type: 'info',
       title: 'YOUR ORDER IS OUT FOR DELIVERY',
-      message: 'Order #NX-M4KZ9 is on its way t&times;Dhanmondi, Dhaka. Expected today between 2:00 PM &ndash; 5:00 PM.',
+      message: 'Order #NX-M4KZ9 is on its way to Dhanmondi, Dhaka. Expected today between 2:00 PM &ndash; 5:00 PM.',
       actionUrl: 'tracking.html?ref=NX-M4KZ9',
       createdAt: '10 mins ago',
       read: false
@@ -264,7 +264,7 @@
     }
   }
 
-  // Export Singleton t&times;global window
+  // Export Singleton  global window
   window.nexNotifications = new NotificationEngine();
 
   document.addEventListener('DOMContentLoaded', () => {

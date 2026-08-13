@@ -42,7 +42,12 @@
   function renderProcessingState(intent) {
     var grid = el('discoveryResultsGrid');
     var section = el('discoveryResultsSection');
-    if (section) section.style.display = 'block';
+    if (section) {
+      section.style.display = 'block';
+      setTimeout(function() {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
 
     var chips = buildChipList(intent);
     var chipHtml = '';

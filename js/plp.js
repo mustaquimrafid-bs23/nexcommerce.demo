@@ -12,6 +12,7 @@
       price: 18400,
       formattedPrice: 'BDT 18,400',
       image: 'hero_sweater.png',
+      isNew: true,
       reasoning: 'Light enough for an 18°C evening, warm enough after sunset.',
       whyExpanded: 'Crafted from 2-ply Mongolian cashmere with dropped shoulder seams for relaxed Dhaka evening layering.'
     },
@@ -22,7 +23,7 @@
       price: 24500,
       formattedPrice: 'BDT 24,500',
       image: 'plp_blazer.png',
-      reasoning: 'Unlined merin&times;weave allows natural airflow for evening dinners.',
+      reasoning: 'Unlined merino weave allows natural airflow for evening dinners.',
       whyExpanded: 'Unlined tailored construction keeps a sharp silhouette without causing thermal discomfort indoors.'
     },
     {
@@ -37,11 +38,12 @@
     },
     {
       id: 'p4',
-      name: 'Studi&times;Acoustics Headphone GT',
+      name: ' Acoustics Headphone GT',
       category: 'acoustics',
       price: 32000,
       formattedPrice: 'BDT 32,000',
       image: 'prod_headphones.png',
+      isNew: true,
       reasoning: 'Active noise cancellation calibrated for focused work or travel.',
       whyExpanded: 'Memory foam ear cushions wrapped in lambskin for extended listening comfort.'
     },
@@ -72,17 +74,56 @@
   let isAiEnabled = true;
 
   function initPLPEngine() {
+    // Parse URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('cat');
+    if (catParam) {
+      currentCategory = catParam.toLowerCase();
+    }
+
     initFilterPills();
+    updateCategoryHeader(currentCategory);
     initSortSelect();
     renderPLPGrid();
     initCardActions();
   }
 
+  function updateCategoryHeader(cat) {
+    const titleEl = document.getElementById('plpMainTitle');
+    const breadcrumbEl = document.getElementById('plpBreadcrumbCurrent');
+    
+    let titleText = 'ALL PRODUCTS';
+    if (cat === 'apparel') titleText = 'APPAREL';
+    if (cat === 'acoustics') titleText = 'ACOUSTICS';
+    if (cat === 'accessories') titleText = 'ACCESSORIES';
+    if (cat === 'footwear') titleText = 'FOOTWEAR';
+    if (cat === 'new') titleText = 'NEW IN';
+
+    if (titleEl) titleEl.textContent = titleText;
+    if (breadcrumbEl) breadcrumbEl.textContent = titleText;
+  }
+
   // 1. Filter Pills Handler
   function initFilterPills() {
     const pills = document.querySelectorAll('.plp-filter-pill');
+    
+    // Set initial active state based on currentCategory
+    pills.forEach(p => {
+      if (p.getAttribute('data-category') === currentCategory) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+
     pills.forEach(pill => {
       pill.addEventListener('click', function () {
+        const newCategory = this.getAttribute('data-category');
+        if (newCategory === currentCategory) return;
+        
+        currentCategory = newCategory;
+        updateCategoryHeader(currentCategory);
+        
         pills.forEach(p => p.classList.remove('active'));
         this.classList.add('active');
         currentCategory = (this.getAttribute('data-category') || 'all').toLowerCase();
@@ -128,6 +169,7 @@
     // Filter items
     let items = PLP_CATALOG.filter(item => {
       if (currentCategory === 'all') return true;
+      if (currentCategory === 'new') return item.isNew === true;
       return item.category === currentCategory;
     });
 
@@ -171,6 +213,7 @@
     return `
       <div class="plp-card" data-id="${item.id}">
         <a href="product.html?id=${item.id}" class="plp-card-img-wrap">
+          ${item.isNew ? '<div class="plp-badge-new">NEW</div>' : ''}
           <img src="${item.image}" alt="${escapeHtml(item.name)}">
         </a>
         <div style="display: flex; flex-direction: column; gap: 4px;">
@@ -180,7 +223,8 @@
 
         ${reasoningBlock}
 
-        <button class="btn-primary-commerce btn-plp-add-to-bag" style="width: 100%; height: 52px; margin-top: auto;">
+        <button class="add-to-bag-btn btn-plp-add-to-bag" style="width: 100%; height: 44px; margin-top: auto;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
           ADD TO BAG
         </button>
       </div>
@@ -221,7 +265,7 @@
         }
       }
 
-      // Add t&times;Bag CTA State Machine
+      // Add  Bag CTA State Machine
       const addBtn = e.target.closest('.btn-plp-add-to-bag');
       if (addBtn) {
         if (addBtn.disabled || addBtn.classList.contains('adding')) return;
@@ -252,14 +296,17 @@
             });
           }
 
-          addBtn.textContent = '&#10003; ADDED TO BAG';
-          addBtn.style.background = '#58D68D';
+          addBtn.innerHTML = '&#10003; ADDED TO BAG';
+          addBtn.style.background = '#ffffff';
+          addBtn.style.color = '#000000';
+          addBtn.style.borderColor = '#ffffff';
 
           setTimeout(() => {
             addBtn.classList.remove('adding');
-            addBtn.textContent = 'ADD TO BAG';
+            addBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> ADD TO BAG';
             addBtn.style.background = '';
             addBtn.style.color = '';
+            addBtn.style.borderColor = '';
           }, 2000);
         }, 400);
       }

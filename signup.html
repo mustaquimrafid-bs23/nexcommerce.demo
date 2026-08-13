@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account &mdash; nexCommerce</title>
+  <meta name="description" content="Create your nexCommerce account to unlock AI-powered style recommendations, personalised discovery, and smart size advice.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Layout ─────────────────────────────── */
+    .auth-shell {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left: Image Panel ───────────────────── */
+    .auth-image-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-image-panel img {
+      width: 100%;
+      height: 110%; /* oversized for Ken Burns headroom */
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transform-origin: center center;
+    }
+    .auth-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.1) 40%,
+        transparent 70%
+      );
+    }
+    .auth-image-caption {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      right: 40px;
+    }
+    .auth-image-caption blockquote {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      line-height: 1.35;
+      color: #fff;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .auth-image-caption cite {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      font-style: normal;
+    }
+
+    /* ── Right: Form Panel ───────────────────── */
+    .auth-form-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px 72px;
+      background: var(--bg-main);
+      border-left: 1px solid rgba(255,255,255,0.04);
+      overflow-y: auto;
+    }
+
+    .auth-logo {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: inline-block;
+      margin-bottom: 48px;
+    }
+
+    .auth-heading {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .auth-subheading {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* ── Benefits List ───────────────────────── */
+    .auth-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 40px;
+      padding: 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .benefit-item svg {
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    /* ── Form ────────────────────────────────── */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .form-field input {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-primary);
+      width: 100%;
+      transition: border-color 200ms ease;
+      outline: none;
+    }
+    .form-field input:focus { border-color: rgba(255,255,255,0.4); }
+    .form-field input.error { border-color: #e05555; }
+    .form-field input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Password Strength Bar */
+    .pw-strength-bar {
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.06);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .pw-strength-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 2px;
+      transition: width 300ms ease, background-color 300ms ease;
+    }
+
+    /* Error Banner */
+    .auth-error {
+      background: rgba(224,85,85,0.1);
+      border: 1px solid rgba(224,85,85,0.3);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: #e05555;
+      display: none;
+    }
+    .auth-error.visible { display: block; }
+
+    /* Terms */
+    .auth-terms {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .auth-terms a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* Submit */
+    .auth-submit {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      border: none;
+      border-radius: 6px;
+      padding: 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      width: 100%;
+      transition: opacity 200ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .auth-submit:hover { opacity: 0.85; }
+    .auth-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .auth-submit .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: var(--bg-main);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+    .auth-submit.loading .spinner { display: block; }
+    .auth-submit.loading .btn-label { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .auth-switch a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 1px;
+      transition: border-color 200ms ease;
+    }
+    .auth-switch a:hover { border-color: var(--text-primary); }
+
+    /* ── Success State ───────────────────────── */
+    .auth-success-panel {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .auth-success-panel.visible { display: flex; }
+    .success-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .success-heading {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      color: var(--text-primary);
+      line-height: 1.1;
+    }
+    .success-sub {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 380px;
+    }
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      border: none;
+      border-radius: 6px;
+      padding: 14px 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 200ms ease;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 14px 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms ease;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-primary);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    /* ── Mobile ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .auth-shell { grid-template-columns: 1fr; }
+      .auth-image-panel { display: none; }
+      .auth-form-panel { padding: 48px 24px; }
+    }
+    @media (max-width: 480px) {
+      .auth-form-panel { padding: 40px 20px; }
+      .auth-heading { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-shell">
+
+    <!-- Left: Image Panel -->
+    <div class="auth-image-panel">
+      <img src="auth_lifestyle.jpg" alt="Woman in tailored linen blazer walking through a sunlit Paris street with shopping bags">
+      <div class="auth-image-overlay"></div>
+      <div class="auth-image-caption">
+        <blockquote>Dress for the life you&rsquo;re building.</blockquote>
+        <cite>nexCommerce &mdash; Intelligent Commerce</cite>
+      </div>
+    </div>
+
+    <!-- Right: Form Panel -->
+    <div class="auth-form-panel">
+      <a href="index.html" class="auth-logo">nexCommerce</a>
+
+      <!-- Registration Form -->
+      <div id="formView">
+        <h1 class="auth-heading">Create your account.</h1>
+        <p class="auth-subheading">Join to unlock AI-powered style curation, smart size advice, and a shopping experience that learns your taste.</p>
+
+        <div class="auth-benefits">
+          <div class="benefit-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            AI Style Concierge &mdash; your personal shopping assistant
+          </div>
+          <div class="benefit-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Smart Size Advisor built from your body measurements
+          </div>
+          <div class="benefit-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Order tracking &amp; delivery intelligence
+          </div>
+        </div>
+
+        <div class="auth-error" id="authError" role="alert"></div>
+
+        <form class="auth-form" id="signUpForm" novalidate>
+
+          <div class="form-field">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Jane Smith"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+              autocomplete="new-password"
+              required
+            >
+            <div class="pw-strength-bar">
+              <div class="pw-strength-fill" id="pwStrengthFill"></div>
+            </div>
+            <span class="form-hint" id="pwStrengthLabel">At least 8 characters</span>
+          </div>
+
+          <div class="form-field">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+              autocomplete="new-password"
+              required
+            >
+          </div>
+
+          <button type="submit" class="auth-submit" id="signUpBtn">
+            <div class="spinner"></div>
+            <span class="btn-label">Create Account</span>
+          </button>
+
+          <p class="auth-terms">
+            By continuing, you agree to our
+            <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          </p>
+
+        </form>
+
+        <p class="auth-switch">
+          Already have an account? <a href="signin.html">Sign in</a>
+        </p>
+      </div>
+
+      <!-- Success Panel (shown after registration) -->
+      <div class="auth-success-panel" id="successView">
+        <div class="success-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h2 class="success-heading">Welcome to nexCommerce.</h2>
+        <p class="success-sub">Your account is ready. Complete your AI Style Profile to unlock personalised recommendations &mdash; it only takes 60 seconds.</p>
+        <div class="success-actions">
+          <a href="profile.html" class="btn-primary">Set Up My Style Profile</a>
+          <a href="index.html" class="btn-ghost">Browse the Collection</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script type="module">
+    import { animate, stagger, press } from 'https://cdn.jsdelivr.net/npm/motion@latest/+esm';
+
+    // Redirect if already logged in
+    if (window.NexAuth && NexAuth.isLoggedIn()) {
+      window.location.href = 'index.html';
+    }
+
+    /* ── 1. Ken Burns on lifestyle image ─────── */
+    animate(
+      '.auth-image-panel img',
+      { scale: [1, 1.06], y: [0, -20] },
+      { duration: 14, easing: 'linear', repeat: Infinity, repeatType: 'mirror' }
+    );
+
+    /* ── 2. Staggered form entry ────────────── */
+    const formItems = [
+      '.auth-logo',
+      '.auth-heading',
+      '.auth-subheading',
+      '.auth-benefits',
+      '.form-field',
+      '#signUpBtn',
+      '.auth-terms',
+      '.auth-switch'
+    ];
+
+    animate(
+      formItems.map(s => document.querySelector(s)).filter(Boolean),
+      { opacity: [0, 1], y: [20, 0] },
+      {
+        duration: 0.5,
+        easing: [0.16, 1, 0.3, 1],
+        delay: stagger(0.07, { start: 0.1 })
+      }
+    );
+
+    /* ── 3. Spring press on button ──────────── */
+    press('#signUpBtn', () => {
+      animate('#signUpBtn', { scale: 0.97 }, { duration: 0.1, easing: 'ease-out' });
+      return () => animate('#signUpBtn', { scale: 1 }, { type: 'spring', stiffness: 400, damping: 15 });
+    });
+
+    /* ── 4. Password strength ──────────────── */
+    const pwInput       = document.getElementById('password');
+    const strengthFill  = document.getElementById('pwStrengthFill');
+    const strengthLabel = document.getElementById('pwStrengthLabel');
+
+    function evalStrength(pw) {
+      let score = 0;
+      if (pw.length >= 8)  score++;
+      if (pw.length >= 12) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^A-Za-z0-9]/.test(pw)) score++;
+      return score;
+    }
+
+    pwInput.addEventListener('input', () => {
+      const pw    = pwInput.value;
+      const score = evalStrength(pw);
+      const pct   = (score / 5) * 100;
+      const colors = ['transparent', '#e05555', '#e07535', '#d4b800', '#82c882', '#4caf50'];
+      const labels = ['At least 8 characters', 'Too short', 'Weak', 'Fair', 'Good', 'Strong'];
+
+      // Animate the bar width with Motion
+      animate(strengthFill, { width: pct + '%' }, { duration: 0.3, easing: [0.16, 1, 0.3, 1] });
+      strengthFill.style.backgroundColor = colors[score];
+      strengthLabel.textContent = pw.length === 0 ? labels[0] : labels[score];
+    });
+
+    /* ── 5. Form submit + error shake + success ─ */
+    const form        = document.getElementById('signUpForm');
+    const errEl       = document.getElementById('authError');
+    const btn         = document.getElementById('signUpBtn');
+    const formView    = document.getElementById('formView');
+    const successView = document.getElementById('successView');
+
+    function showError(msg) {
+      errEl.textContent = msg;
+      errEl.classList.add('visible');
+      animate(
+        '.auth-form',
+        { x: [0, -10, 10, -8, 8, -4, 4, 0] },
+        { duration: 0.55, easing: 'ease-in-out' }
+      );
+      animate(errEl, { opacity: [0, 1], y: [-6, 0] }, { duration: 0.3, easing: [0.16, 1, 0.3, 1] });
+    }
+
+    function clearError() {
+      errEl.classList.remove('visible');
+    }
+
+    function setLoading(state) {
+      btn.disabled = state;
+      btn.classList.toggle('loading', state);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearError();
+
+      const name     = document.getElementById('fullName').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm  = document.getElementById('confirmPassword').value;
+
+      if (password !== confirm) {
+        showError('Passwords do not match. Please try again.');
+        document.getElementById('confirmPassword').classList.add('error');
+        return;
+      }
+
+      setLoading(true);
+
+      setTimeout(() => {
+        const result = NexAuth.signUp({ name, email, password });
+        setLoading(false);
+
+        if (result.success) {
+          // Fade out form, then animate success panel in
+          animate(formView, { opacity: [1, 0], y: [0, -16] }, { duration: 0.3 }).then(() => {
+            formView.style.display = 'none';
+            successView.classList.add('visible');
+
+            // Stagger the success elements in
+            animate(
+              ['.success-icon', '.success-heading', '.success-sub', '.success-actions'],
+              { opacity: [0, 1], y: [24, 0] },
+              {
+                duration: 0.5,
+                easing: [0.16, 1, 0.3, 1],
+                delay: stagger(0.1)
+              }
+            );
+
+            // Spring-in the checkmark icon
+            animate(
+              '.success-icon',
+              { scale: [0, 1] },
+              { type: 'spring', stiffness: 300, damping: 20, delay: 0.05 }
+            );
+          });
+        } else {
+          showError(result.error);
+        }
+      }, 700);
+    });
+
+    // Clear error on field input
+    ['fullName', 'email', 'password', 'confirmPassword'].forEach(id => {
+      document.getElementById(id).addEventListener('input', clearError);
+    });
+  </script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+</body>
+</html>

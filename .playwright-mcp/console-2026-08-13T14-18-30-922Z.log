@@ -1,0 +1,7 @@
+[     996ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[    1013ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[   18792ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
+[   18807ms] [LOG] initScrollReveals called! @ http://localhost:8080/js/animations.js?v=6:109
+[   18817ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[   20609ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112
+[   20791ms] [LOG] inView triggered for JSHandle@node @ http://localhost:8080/js/animations.js?v=6:112

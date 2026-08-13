@@ -66,7 +66,7 @@
 
     .nav-inner {
       display: grid;
-      grid-template-columns: 1fr aut&times;1fr;
+      grid-template-columns: 1fr  1fr;
       align-items: center;
       height: 80px;
     }
@@ -82,7 +82,7 @@
     }
     .nav-link:hover, .nav-link.active { color: var(--text-primary); }
 
-    .nav-log&times;{
+    .nav- {
       font-family: var(--font-serif);
       font-size: 26px;
       font-weight: 600;
@@ -102,8 +102,8 @@
     }
     .nav-action-btn:hover { color: var(--text-primary); }
 
-    /* Campaign Her&times;*/
-    .campaign-her&times;{
+    /* Campaign  */
+    .campaign- {
       position: relative;
       height: 80vh;
       width: 100%;
@@ -114,7 +114,7 @@
       color: #ffffff;
       margin-bottom: 100px;
     }
-    .campaign-her&times;img {
+    .campaign- img {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -152,7 +152,7 @@
     /* Pull Quote Section */
     .editorial-quote-section {
       max-width: 860px;
-      margin: 0 aut&times;120px;
+      margin: 0  120px;
       text-align: center;
     }
     .pull-quote {
@@ -198,7 +198,7 @@
     }
     .look-card:hover .look-img-wrap img { transform: scale(1.05); }
 
-    .look-inf&times;{ padding: 24px; }
+    .look- { padding: 24px; }
     .look-num { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
     .look-title { font-family: var(--font-serif); font-size: 22px; font-weight: 400; color: var(--text-primary); margin-bottom: 12px; }
     .look-products { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
@@ -237,7 +237,7 @@
     @media (max-width: 1024px) {
       .lookbook-grid { grid-template-columns: repeat(2, 1fr); }
       .campaign-title { font-size: 44px; }
-      .campaign-her&times;{ padding: 40px; height: 60vh; }
+      .campaign- { padding: 40px; height: 60vh; }
     }
     @media (max-width: 640px) {
       .lookbook-grid { grid-template-columns: 1fr; }
@@ -279,14 +279,14 @@
   </header>
 
   <main id="main-content">
-    <!-- Campaign Her&times;Cover -->
+    <!-- Campaign  Cover -->
     <section class="campaign-hero">
       <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1600&auto=format&fit=crop" alt="Editorial Campaign Lookbook Cover">
       <div class="campaign-hero-content">
         <div class="campaign-tag">Seasonal Campaign &nbsp;&middot;&nbsp; Issue 14</div>
         <h1 class="campaign-title">The Winter Edit 2026</h1>
         <p class="campaign-subhead">
-          An investigation int&times;architectural restraint, Japanese wool blends, and studi&times;acoustic objects. Photographed on location in Osaka.
+          An investigation into architectural restraint, Japanese wool blends, and studio acoustic objects. Photographed on location in Osaka.
         </p>
         <a href="#looks" class="btn-luxury" style="background: #ffffff; color: #121212; border-color: #ffffff;">Explore The Looks &rarr;</a>
       </div>
@@ -296,7 +296,7 @@
     <section class="container">
       <div class="editorial-quote-section">
         <div class="pull-quote">
-          "We started with a single question: What should a coat feel like when n&times;one is watching? The answer is weightlessness encased in structure."
+          "We started with a single question: What should a coat feel like when no one is watching? The answer is weightlessness encased in structure."
         </div>
         <div class="quote-author">Julian Mercer &nbsp;&middot;&nbsp; Creative Director</div>
       </div>
@@ -330,7 +330,7 @@
             <div class="look-info">
               <div class="look-num">Look 02 &nbsp;&middot;&nbsp; Knitwear</div>
               <h3 class="look-title">Mongolian Cashmere Roll-Neck</h3>
-              <div class="look-products">Paired with: Studi&times;Acoustic Headphones ($285)</div>
+              <div class="look-products">Paired with: Studio Acoustic Headphones ($285)</div>
               <a href="product.html?id=p6" class="look-link">Shop Look 02 &rarr;</a>
             </div>
           </div>
@@ -342,7 +342,7 @@
             </div>
             <div class="look-info">
               <div class="look-num">Look 03 &nbsp;&middot;&nbsp; Footwear</div>
-              <h3 class="look-title">Carbon Pr&times;Distance Runner</h3>
+              <h3 class="look-title">Carbon Pro Distance Runner</h3>
               <div class="look-products">Paired with: Titanium Pulse Smartwatch ($420)</div>
               <a href="product.html?id=p1" class="look-link">Shop Look 03 &rarr;</a>
             </div>
@@ -431,5 +431,39 @@
 
   <script src="js/ai-engine.js"></script>
   <script src="js/theme-switcher.js"></script>
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script type="module" src="js/animations.js?v=6"></script>
+  <script src="js/intent-parser.js"></script>
+  <script src="js/catalog-engine.js"></script>
+  <script src="js/style-profile.js"></script>
+  <script src="js/context-retention.js"></script>
+  <script src="js/concierge-engine.js"></script>
+  <script src="js/concierge.js"></script>
+  <script src="js/auth.js"></script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
 </body>
 </html>

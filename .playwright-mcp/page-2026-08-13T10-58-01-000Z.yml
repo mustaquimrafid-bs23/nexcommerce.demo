@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: nexCommerce
+    - generic [ref=e4]: 🔒 Secure Checkout
+  - main [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: Step 8C — Mobile Checkout Summary Test
+        - generic [ref=e9]: Desktop Sticky Summary (1440px) vs Top Mobile Expandable Summary (375px)
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - heading "Customer Information" [level=2] [ref=e13]
+            - generic [ref=e14]:
+              - textbox "Name" [ref=e15]: Tanvir Hossain
+              - textbox "Email" [ref=e16]: tanvir@example.com
+          - generic [ref=e17]:
+            - heading "Delivery Address" [level=2] [ref=e18]
+            - generic [ref=e19]:
+              - textbox [ref=e20]: House 42, Road 11, Banani
+              - generic [ref=e21]:
+                - textbox [ref=e22]: Dhaka
+                - textbox [ref=e23]: "1213"
+          - generic [ref=e24]:
+            - heading "Delivery Method" [level=2] [ref=e25]
+            - generic [ref=e26]:
+              - generic [ref=e27]:
+                - generic [ref=e28]: Express Delivery (Next Day)
+                - generic [ref=e29]: Guaranteed delivery by 8:00 PM tomorrow
+              - generic [ref=e30]: FREE
+          - generic [ref=e31]:
+            - heading "Payment Method" [level=2] [ref=e32]
+            - generic [ref=e33]:
+              - button "bKash" [ref=e34] [cursor=pointer]
+              - button "Card" [ref=e35] [cursor=pointer]
+              - button "COD" [ref=e36] [cursor=pointer]
+          - button "PLACE ORDER · BDT 18,400" [ref=e37] [cursor=pointer]
+        - complementary [ref=e38]:
+          - heading "Order Summary" [level=2] [ref=e39]
+          - generic [ref=e40]:
+            - generic [ref=e42]:
+              - generic [ref=e43]: Architectural Cashmere
+              - generic [ref=e44]: Midnight · M · Qty 1
+            - generic [ref=e45]: BDT 18,400
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - generic [ref=e48]: Subtotal
+              - generic [ref=e49]: BDT 18,400
+            - generic [ref=e50]:
+              - generic [ref=e51]: Shipping
+              - generic [ref=e52]: FREE
+            - generic [ref=e53]:
+              - generic [ref=e54]: Total Due
+              - generic [ref=e55]: BDT 18,400
+          - generic [ref=e56]:
+            - generic [ref=e57]: 🔒 256-Bit Encrypted Payment
+            - generic [ref=e58]: ✓ 30-Day Complimentary Returns

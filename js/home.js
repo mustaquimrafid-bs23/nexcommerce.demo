@@ -1,6 +1,6 @@
 /**
  * nexCommerce &mdash; Homepage Engine (js/home.js)
- * Manages her&times;entrance animations, intent prompt suggestions, featured collection rendering,
+ * Manages  entrance animations, intent prompt suggestions, featured collection rendering,
  * category tile navigation, and add-to-bag integration.
  */
 
@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initCategoryTiles();
   initFinalCTA();
   initScrollReveal();
-  initCartDrawer();
 });
 
 
 /**
- * 1. Her&times;Entrance Animations (500ms content / 700ms image)
+ * 1.  Entrance Animations (500ms content / 700ms image)
  */
 function initHeroAnimations() {
   const content = document.querySelector('.hero-content');
@@ -63,7 +62,7 @@ function initIntentSuggestions() {
         input.value = text;
         input.focus();
       }
-      // Navigate t&times;discovery or open search overlay
+      // Navigate  discovery or open search overlay
       window.location.href = `discovery.html?q=${encodeURIComponent(text)}`;
     });
   });
@@ -81,7 +80,7 @@ function initIntentSuggestions() {
 }
 
 /**
- * 3. Render Featured Collection Grid with Reasoning & Add t&times;Bag (H6)
+ * 3. Render Featured Collection Grid with Reasoning & Add  Bag (H6)
  */
 function renderFeaturedCollection() {
   const grid = document.getElementById('featuredCollectionGrid');
@@ -114,7 +113,7 @@ function renderFeaturedCollection() {
     },
     {
       id: 'p4',
-      name: 'Studi&times;Acoustics Headphone GT',
+      name: ' Acoustics Headphone GT',
       category: 'ACOUSTICS',
       price: 32000,
       image: 'prod_headphones.png',
@@ -180,13 +179,15 @@ function renderFeaturedCollection() {
           image: item.image,
           category: item.category
         });
-        btn.textContent = '&#10003; ADDED TO BAG';
-        btn.style.background = 'var(--accent-cyan)';
-        btn.style.color = 'var(--bg-main)';
+        btn.innerHTML = '&#10003; ADDED TO BAG';
+        btn.style.background = '#ffffff';
+        btn.style.color = '#000000';
+        btn.style.borderColor = '#ffffff';
         setTimeout(() => {
-          btn.textContent = 'ADD TO BAG';
-          btn.style.background = 'var(--cta-primary)';
-          btn.style.color = 'var(--cta-primary-text)';
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> ADD TO BAG';
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
         }, 1500);
       }
     });
@@ -247,46 +248,3 @@ function initScrollReveal() {
     observer.observe(el);
   });
 }
-
-/**
- * 7. Mini Cart Drawer
- */
-function initCartDrawer() {
-  const cartBtn = document.getElementById('headerCartLink');
-  const cartDrawer = document.getElementById('cartDrawer');
-  const cartDrawerBackdrop = document.getElementById('cartDrawerBackdrop');
-  const cartDrawerClose = document.getElementById('cartDrawerClose');
-  const drawerStartShoppingBtn = document.getElementById('drawerStartShoppingBtn');
-
-  function openDrawer(e) {
-    if (e) e.preventDefault();
-    if (cartDrawer) {
-      cartDrawer.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeDrawer() {
-    if (cartDrawer) {
-      cartDrawer.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  if (cartBtn) {
-    cartBtn.addEventListener('click', openDrawer);
-  }
-
-  if (cartDrawerClose) {
-    cartDrawerClose.addEventListener('click', closeDrawer);
-  }
-
-  if (cartDrawerBackdrop) {
-    cartDrawerBackdrop.addEventListener('click', closeDrawer);
-  }
-  
-  if (drawerStartShoppingBtn) {
-    drawerStartShoppingBtn.addEventListener('click', closeDrawer);
-  }
-}
-

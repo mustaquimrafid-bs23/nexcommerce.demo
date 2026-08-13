@@ -1,6 +1,6 @@
 /* ─── nexCommerce Theme Switcher ─────────────────────────────────────────
- * Self-contained floating palette widget. Drop the script int&times;any page.
- * Overrides CSS custom properties on :root t&times;switch theme colours.
+ * Self-contained floating palette widget. Drop the script  any page.
+ * Overrides CSS custom properties on :root to switch theme colours.
  * Theme is persisted across pages via localStorage.
  * ──────────────────────────────────────────────────────────────────────── */
 
@@ -465,7 +465,7 @@
 
       <div class="nex-ts-custom-label">Custom Colour</div>
       <div class="nex-ts-custom-row">
-        <div class="nex-ts-color-input-wrap" title="Click t&times;pick a colour">
+        <div class="nex-ts-color-input-wrap" title="Click  pick a colour">
           <input type="color" id="nexTsColorPicker" value="#00C8FF">
           <div class="nex-ts-color-preview" id="nexTsColorPreview" style="background:#00C8FF;"></div>
         </div>
@@ -568,7 +568,7 @@
       panel.querySelectorAll('.nex-ts-swatch').forEach(s => s.classList.remove('active'));
     });
 
-    // Reset t&times;default
+    // Reset  default
     panel.querySelector('#nexTsReset').addEventListener('click', () => {
       localStorage.removeItem(LS_KEY);
       applyThemeById('default');
@@ -579,7 +579,7 @@
       preview.style.background = '#00C8FF';
     });
 
-    // Keyboard: Escape t&times;close
+    // Keyboard: Escape  close
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) {
         closePanel();
@@ -590,7 +590,7 @@
 
   /* ── Boot ────────────────────────────────────────────────────────────── */
   function init() {
-    restoreTheme();  // Apply immediately t&times;avoid FOUC
+    restoreTheme();  // Apply immediately  avoid FOUC
     injectStyles();
     const result = createWidget();
     if (result) wireEvents(result.panel, result.toggle);

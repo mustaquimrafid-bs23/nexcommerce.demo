@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,34 +10,68 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
 </head>
 <body>
 
-  <!-- SITE HEADER -->
-  <header class="site-header">
-    <div class="container">
-      <div class="nav-inner">
-        <div class="nav-left">
-          <a href="index.html" class="nav-link">&larr; Return to Storefront</a>
-        </div>
-        <a href="index.html" class="nav-logo">NEXCOMMERCE</a>
-        <div class="nav-right">
-          <button class="nav-action-btn nav-search-trigger" aria-label="Search" aria-expanded="false">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Search</span>
-            <kbd class="search-kbd">&#8984;K</kbd>
-          </button>
-          <div class="nav-action-btn" id="cart-trigger">
-            <span>Bag</span>
-            <span class="bag-badge" id="header-bag-count">0</span>
-          </div>
-        </div>
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
+        <a href="index.html" class="nav-logo">
+          <span>nexCommerce</span>
+          <span class="nav-logo-sub">Intelligent Commerce</span>
+        </a>
+      </div>
+
+      <nav class="nav-left nav-menu-links desktop-only">
+<a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover</a>
+      </nav>
+
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn" aria-label="Open Style Concierge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>CONCIERGE</span>
+        </button>
+        <a href="profile.html" class="nav-item-link desktop-only">AI Profile</a>
+        <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
+        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
+          <span>Bag</span>
+          <span class="bag-badge" id="headerCartCount">1</span>
+        </a>
       </div>
     </div>
   </header>
 
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+    </div>
+    <a href="category.html" class="mobile-drawer-link">Shop</a>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag</a>
+  </div>
+
+
   <!-- PART 5 PDP MAIN SECTION -->
-  <main class="container pdp-section">
+  <main class="container pdp-section reveal-on-scroll">
     <!-- Breadcrumb -->
     <nav class="pdp-breadcrumb" aria-label="Breadcrumb navigation">
       <a href="index.html">Home</a>
@@ -52,7 +86,7 @@
     <!-- AI Context Retention Bar (Populated by js/pdp.js) -->
     <div id="pdpContextRetentionBar" class="pdp-retention-bar" style="display:none;" role="status">
       <div class="pdp-retention-left">
-        <svg class="pdp-retention-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+        <i data-lucide="sparkles" class="pdp-retention-icon" style="width: 14px; height: 14px;"></i>
         <span class="pdp-retention-text" id="pdpRetentionText"></span>
       </div>
       <button class="pdp-retention-clear" id="pdpRetentionClearBtn" aria-label="Clear search context">âœ&bull;</button>
@@ -99,7 +133,7 @@
             <span class="pdp-label">Size</span>
             <!-- Level 2 Secondary Action: AI Fit Assistant Button -->
             <button id="btnFitAssistant" class="btn-secondary-action" style="height: 36px; padding: 0 12px; font-size: 11px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>FIND MY SIZE
+              <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>FIND MY SIZE
             </button>
           </div>
 
@@ -131,7 +165,7 @@
     </div>
 
     <!-- Collapsible Product Details Accordion -->
-    <div class="pdp-accordion-group">
+    <div class="pdp-accordion-group reveal-on-scroll">
       <div class="pdp-accordion-item">
         <button class="pdp-accordion-header">
           <span>PRODUCT DETAILS</span>
@@ -164,7 +198,7 @@
     </div>
 
     <!-- AI Alternative Recommendations Section -->
-    <section id="pdpAlternativeRecs" class="pdp-recommendations-section" style="display:none;">
+    <section id="pdpAlternativeRecs" class="pdp-recommendations-section reveal-on-scroll" style="display:none;">
       <div class="pdp-rec-header">
         <h2 id="pdpAlternativeRecsTitle" class="pdp-rec-title">More options for your search</h2>
       </div>
@@ -179,7 +213,7 @@
     <div class="fit-modal-backdrop"></div>
     <div class="fit-modal-panel">
       <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px;">
-        <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-cyan);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>FIND YOUR SIZE</span>
+        <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>FIND YOUR SIZE</span>
         <button class="fit-modal-close btn-secondary-action" style="min-width: 36px; height: 36px; padding: 0;">âœ&bull;</button>
       </div>
 
@@ -230,7 +264,7 @@
     <div class="search-panel">
       <div class="search-header-bar">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
+          <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
         </div>
         <button class="search-close-btn" aria-label="Close Search Overlay (ESC)">âœ&bull;</button>
       </div>
@@ -241,7 +275,7 @@
       </div>
 
       <div class="search-input-wrapper">
-        <span class="search-ai-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <span class="search-ai-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
         <input type="text" class="search-ai-input" placeholder='Try "something comfortable for a rainy evening"' aria-label="Search for products or describe what you need" />
         <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
       </div>
@@ -250,15 +284,19 @@
         <div class="search-prompts-group">
           <span class="search-prompt-label">START WITH A MOMENT</span>
           <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Dhaka">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Something for a winter evening in Dhaka
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something for a winter evening in Dhaka
           </button>
           <button class="search-prompt-btn" data-prompt="A minimal outfit for work">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>For the office
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>For the office
           </button>
         </div>
       </div>
     </div>
   </div>
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <script src="js/cart.js?v=2"></script>
   <script src="js/pdp.js?v=2"></script>
@@ -267,8 +305,34 @@
   <script src="js/catalog-engine.js"></script>
   <script src="js/session-context.js"></script>
   <script src="js/style-profile.js"></script>`r`n  <script src="js/context-retention.js"></script>
-  <script src="js/search-overlay.js"></script>
+  <script src="js/search-overlay.js?v=2"></script>
   <script src="js/theme-switcher.js"></script>
+  <script type="module" src="js/animations.js?v=6"></script>
+  <script src="js/concierge-engine.js"></script>
+  <script src="js/concierge.js"></script>
+  <script src="js/auth.js"></script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
 </body>
 </html>
 

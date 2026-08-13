@@ -25,7 +25,7 @@
         warmth: 'Ideal for 18°C',
         fit: 'Regular Minimal',
         occasion: 'Evening Out',
-        material: 'Merin&times;Wool Blend',
+        material: ' Wool Blend',
         versatility: 'High'
       },
       tags: ['evening', 'cool weather', 'dhaka', 'lightweight', 'minimal', 'apparel', 'sweater', 'cashmere']
@@ -301,10 +301,10 @@
 
     saveRecentSearch(query);
     
-    // Extract intent FIRST t&times;show parsing state
+    // Extract intent FIRST  show parsing state
     const intent = extractIntent(query);
     
-    // Pass intent t&times;processing state t&times;show what AI parsed
+    // Pass intent  processing state  show what AI parsed
     renderProcessingState(targetContainer, intent);
 
     setTimeout(() => {
@@ -319,7 +319,7 @@
       }
 
       renderSearchResultPage(targetContainer, query, intent);
-    }, 800); // Increased delay slightly t&times;let user see the parsing state
+    }, 800); // Increased delay slightly to let user see the parsing state
   }
 
   function renderInitialState(container) {
@@ -554,7 +554,7 @@
       <div style="padding: 40px 20px; text-align: center; background: #0B2147; border: 1px solid var(--border-subtle); border-radius: 14px;">
         <span style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary);">NOTHING FOUND</span>
         <h3 style="font-family: var(--font-serif); font-size: 32px; font-weight: 500; color: var(--text-primary); margin: 8px 0;">We couldn't find an exact match</h3>
-        <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); max-width: 400px; margin: 0 aut&times;24px; line-height: 1.6;">
+        <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px; line-height: 1.6;">
           Try a different description or explore these popular categories.
         </p>
 
@@ -586,7 +586,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  // Aut&times;Init
+  //  Init
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAISearchEngine);
   } else {

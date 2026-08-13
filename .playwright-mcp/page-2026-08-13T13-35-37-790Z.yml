@@ -1,0 +1,33 @@
+- generic [active] [ref=f13e1]:
+  - generic [ref=f13e2]:
+    - generic [ref=f13e3]:
+      - img "Woman in tailored linen blazer walking through a sunlit Paris street with shopping bags" [ref=f13e4]
+      - generic [ref=f13e6]:
+        - blockquote [ref=f13e7]: Style is knowing who you are.
+        - generic [ref=f13e8]: nexCommerce — Intelligent Commerce
+    - generic [ref=f13e9]:
+      - link "nexCommerce" [ref=f13e10] [cursor=pointer]:
+        - /url: index.html
+      - heading "Welcome back." [level=1] [ref=f13e11]
+      - paragraph [ref=f13e12]: Sign in to access your orders and AI style preferences.
+      - generic [ref=f13e13]:
+        - generic [ref=f13e14]:
+          - generic [ref=f13e15]: Email Address
+          - textbox "Email Address" [ref=f13e16]:
+            - /placeholder: you@example.com
+        - generic [ref=f13e17]:
+          - generic [ref=f13e18]: Password
+          - textbox "Password" [ref=f13e19]:
+            - /placeholder: ••••••••
+        - link "Forgot your password?" [ref=f13e21] [cursor=pointer]:
+          - /url: "#"
+        - generic [ref=f13e22]: or
+        - button "Sign In" [ref=f13e24] [cursor=pointer]
+      - paragraph [ref=f13e26]:
+        - text: New to nexCommerce?
+        - link "Create an account" [ref=f13e27] [cursor=pointer]:
+          - /url: signup.html
+  - dialog [ref=f13e28]:
+    - generic [ref=f13e29]:
+      - generic [ref=f13e30]: Shopping Bag
+      - button [ref=f13e31] [cursor=pointer]: ×

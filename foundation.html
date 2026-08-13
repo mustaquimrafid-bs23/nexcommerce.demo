@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/design-system.css?v=4">
   <style>
     .showcase-header {
       padding: 60px 0 40px;
@@ -52,26 +52,76 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container">
-      <div class="nav-inner">
-        <div class="nav-left">
-          <a href="index.html" class="nav-link">&larr; Return t&times;Storefront</a>
-        </div>
-        <div class="nav-logo">NEXCOMMERCE</div>
-        <div class="nav-right">
-          <button class="nav-search-trigger" aria-label="Open Search Overlay">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Search</span>
-            <kbd class="search-kbd">&#8984;K</kbd>
-          </button>
-          <div class="nav-action-btn">
-            <span>Bag</span>
-            <span class="bag-badge">0</span>
-          </div>
-        </div>
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
+        <a href="index.html" class="nav-logo">
+          <span>nexCommerce</span>
+          <span class="nav-logo-sub">Intelligent Commerce</span>
+        </a>
+      </div>
+
+      <nav class="nav-left nav-menu-links desktop-only">
+<a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover</a>
+      </nav>
+
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn" aria-label="Open Style Concierge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>CONCIERGE</span>
+        </button>
+        <a href="profile.html" class="nav-item-link desktop-only">AI Profile</a>
+        <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
+        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
+          <span>Bag</span>
+          <span class="bag-badge" id="headerCartCount">1</span>
+        </a>
       </div>
     </div>
   </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+    </div>
+    <a href="category.html" class="mobile-drawer-link">Shop</a>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag</a>
+  </div>
+
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-ai-glow"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="hero-eyebrow">DISCOVER DIFFERENTLY</span>
+          <h1 class="hero-title">Shopping that<br>understands what<br>you mean.</h1>
+          <p class="hero-subtitle">Find pieces based on what you're doing, where you're going, and how you want to feel.</p>
+          <div class="hero-actions-row">
+            <a href="category.html" class="btn-primary-commerce hero-cta-primary">START SHOPPING</a>
+            <a href="discovery.html" class="link-text-nav hero-cta-secondary" id="heroDescribeLink">Describe what you're looking for &rarr;</a>
+          </div>
+        </div>
 
   <main class="container section-padding">
     <div class="showcase-header">
@@ -127,7 +177,7 @@
       <h2 class="type-section" style="margin-bottom: 24px;">2. Typography Scale</h2>
       <div style="display: flex; flex-direction: column; gap: 24px;">
         <div>
-          <span class="type-metadata">Her&times;Display (64px Desktop / 40px Mobile)</span>
+          <span class="type-metadata">Hero Display (64px Desktop / 40px Mobile)</span>
           <h1 class="type-hero">Move Without Limits.</h1>
         </div>
         <div>
@@ -136,7 +186,7 @@
         </div>
         <div>
           <span class="type-metadata">Body Primary (16px / line-height 1.6)</span>
-          <p class="type-body">Designed for distance and refined warmth. A merin&times;wool build that keeps up on every cool evening.</p>
+          <p class="type-body">Designed for distance and refined warmth. A merino wool build that keeps up on every cool evening.</p>
         </div>
         <div>
           <span class="type-metadata">Body Secondary (14px)</span>
@@ -160,7 +210,7 @@
     <!-- AI SEARCH LAUNCHER SECTION -->
     <section class="showcase-block">
       <h2 class="type-section" style="margin-bottom: 16px;">4. AI Discovery Search Launcher</h2>
-      <p class="type-body-sm" style="margin-bottom: 16px;">Click the trigger button below or press <code>Ctrl + K</code> / <code>Cmd + K</code> t&times;launch the Part 2 / Part 3 AI Search Overlay Modal.</p>
+      <p class="type-body-sm" style="margin-bottom: 16px;">Click the trigger button below or press <code>Ctrl + K</code> / <code>Cmd + K</code> to launch the Part 2 / Part 3 AI Search Overlay Modal.</p>
       <button class="btn-primary-commerce nav-search-trigger" style="min-width: 280px; justify-content: space-between;">
         <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Launch AI Search</span>
         <kbd class="search-kbd">&#8984;K</kbd>
@@ -193,7 +243,7 @@
 
     <!-- HOMEPAGE / HERO EXPERIENCE HARNESS -->
     <section class="showcase-block">
-      <h2 class="type-section" style="margin-bottom: 16px;">11. Homepage / Her&times;Experience Page</h2>
+      <h2 class="type-section" style="margin-bottom: 16px;">11. Homepage / Hero Experience Page</h2>
       <p class="type-body-sm" style="margin-bottom: 16px;">Test the full Homepage layout: 2-column hero, DISCOVER DIFFERENTLY eyebrow, 64px Cormorant Garamond title, trust signal strip, AI discovery input, 4-column featured collection, category visual tiles, and final CTA banner.</p>
       <a href="index.html" class="btn-primary-commerce">Open Homepage (index.html) &rarr;</a>
     </section>
@@ -245,5 +295,32 @@
   </div>
 
   <script src="js/ai-search.js"></script>
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script type="module" src="js/animations.js?v=6"></script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
 </body>
 </html>

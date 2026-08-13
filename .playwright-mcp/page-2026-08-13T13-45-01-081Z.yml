@@ -1,0 +1,219 @@
+- generic [active] [ref=f20e1]:
+  - banner [ref=f20e2]:
+    - generic [ref=f20e3]:
+      - link "nexCommerce Intelligent Commerce" [ref=f20e5] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=f20e6]: nexCommerce
+        - generic [ref=f20e7]: Intelligent Commerce
+      - navigation [ref=f20e8]:
+        - link "Shop" [ref=f20e9] [cursor=pointer]:
+          - /url: category.html?cat=apparel
+        - link "Categories" [ref=f20e10] [cursor=pointer]:
+          - /url: category.html?cat=all
+        - link "New In" [ref=f20e11] [cursor=pointer]:
+          - /url: category.html?cat=new
+        - link "Discover" [ref=f20e12] [cursor=pointer]:
+          - /url: discovery.html
+      - button "What are you looking for? Ctrl + K" [ref=f20e14] [cursor=pointer]:
+        - generic [ref=f20e19]: What are you looking for?
+        - generic [ref=f20e20]: Ctrl + K
+      - generic [ref=f20e21]:
+        - button "Open Style Concierge" [ref=f20e22] [cursor=pointer]:
+          - generic [ref=f20e25]: CONCIERGE
+        - link "AI Profile" [ref=f20e26] [cursor=pointer]:
+          - /url: profile.html
+        - link "Demo" [ref=f20e27] [cursor=pointer]:
+          - /url: account.html
+        - link "Bag 4" [ref=f20e28] [cursor=pointer]:
+          - /url: cart.html
+          - generic [ref=f20e29]: Bag
+          - generic [ref=f20e30]: "4"
+  - generic [ref=f20e31]:
+    - generic [ref=f20e32]:
+      - generic [ref=f20e33]: nexCommerce
+      - button "Ã—" [ref=f20e34] [cursor=pointer]
+    - link "Shop" [ref=f20e35] [cursor=pointer]:
+      - /url: category.html?cat=apparel
+    - link "Categories" [ref=f20e36] [cursor=pointer]:
+      - /url: category.html?cat=all
+    - link "New In" [ref=f20e37] [cursor=pointer]:
+      - /url: category.html?cat=new
+    - link "Discover" [ref=f20e38] [cursor=pointer]:
+      - /url: discovery.html
+    - link "AI Profile" [ref=f20e39] [cursor=pointer]:
+      - /url: profile.html
+    - link "Demo" [ref=f20e40] [cursor=pointer]:
+      - /url: account.html
+    - link "Bag" [ref=f20e41] [cursor=pointer]:
+      - /url: cart.html
+  - main [ref=f20e42]:
+    - generic [ref=f20e44]:
+      - generic [ref=f20e45]:
+        - generic [ref=f20e46]: DISCOVER DIFFERENTLY
+        - heading "Shopping that understands what you mean." [level=1] [ref=f20e47]:
+          - generic [ref=f20e48]: Shopping
+          - generic [ref=f20e49]: that
+          - generic [ref=f20e50]: understands
+          - generic [ref=f20e51]: what
+          - generic [ref=f20e52]: you
+          - generic [ref=f20e53]: mean.
+        - paragraph [ref=f20e54]: Find pieces based on what you're doing, where you're going, and how you want to feel.
+        - generic [ref=f20e55]:
+          - link "START SHOPPING" [ref=f20e56] [cursor=pointer]:
+            - /url: category.html
+          - link "Describe what you're looking for →" [ref=f20e57] [cursor=pointer]:
+            - /url: discovery.html
+      - main [ref=f20e58]:
+        - generic [ref=f20e59]:
+          - generic [ref=f20e60]:
+            - generic [ref=f20e61]: "⚙ DEV STATE SWITCHER:"
+            - combobox [ref=f20e62]:
+              - option "Signed In (With Orders & Profile)" [selected]
+              - option "Signed In (Empty State — No Orders)"
+              - option "Signed Out (Sign-In Screen)"
+          - generic [ref=f20e63]:
+            - generic [ref=f20e64]: ACCOUNT
+            - heading "Welcome back, Shazzad" [level=1] [ref=f20e65]
+            - paragraph [ref=f20e66]: Manage your orders, delivery details, and preferences.
+          - generic [ref=f20e67]:
+            - navigation "Account Navigation" [ref=f20e68]:
+              - tablist [ref=f20e69]:
+                - tab "Overview" [selected] [ref=f20e70] [cursor=pointer]
+                - tab "Orders" [ref=f20e71] [cursor=pointer]
+                - tab "Addresses" [ref=f20e72] [cursor=pointer]
+                - tab "Style & Fit Profile" [ref=f20e73] [cursor=pointer]
+              - button "Sign Out" [ref=f20e75] [cursor=pointer]
+            - generic [ref=f20e76]:
+              - generic [ref=f20e77]:
+                - generic [ref=f20e78]: YOUR CURRENT ORDER
+                - generic [ref=f20e79]:
+                  - generic [ref=f20e80]:
+                    - generic [ref=f20e81]: "Order #NX-M4KZ9"
+                    - generic [ref=f20e82]: Expected 19 August 2026
+                  - generic [ref=f20e83]: Preparing
+                - generic [ref=f20e84]:
+                  - img "Architectural Cashmere Sweater" [ref=f20e85]
+                  - generic [ref=f20e86]:
+                    - generic [ref=f20e87]: Architectural Cashmere Sweater
+                    - generic [ref=f20e88]: Midnight / M · Qty 1
+                    - generic [ref=f20e89]: BDT 18,400
+                - link "TRACK ORDER →" [ref=f20e91] [cursor=pointer]:
+                  - /url: tracking.html?ref=NX-M4KZ9
+              - generic [ref=f20e92]:
+                - generic [ref=f20e93]: RECENT ORDERS
+                - table [ref=f20e95]:
+                  - rowgroup [ref=f20e96]:
+                    - row [ref=f20e97]:
+                      - columnheader "ORDER" [ref=f20e98]
+                      - columnheader "DATE" [ref=f20e99]
+                      - columnheader "STATUS" [ref=f20e100]
+                      - columnheader "TOTAL" [ref=f20e101]
+                      - columnheader "ACTION" [ref=f20e102]
+                  - rowgroup [ref=f20e103]:
+                    - row [ref=f20e104]:
+                      - cell "#NX-M4KZ9" [ref=f20e105]
+                      - cell "11 Aug 2026" [ref=f20e106]
+                      - cell "Preparing" [ref=f20e107]
+                      - cell "BDT 18,400" [ref=f20e109]
+                      - cell [ref=f20e110]:
+                        - link "VIEW ORDER →" [ref=f20e111] [cursor=pointer]:
+                          - /url: tracking.html?ref=NX-M4KZ9
+                    - row [ref=f20e112]:
+                      - cell "#NX-K82P1" [ref=f20e113]
+                      - cell "02 Aug 2026" [ref=f20e114]
+                      - cell "Delivered" [ref=f20e115]
+                      - cell "BDT 8,900" [ref=f20e117]
+                      - cell [ref=f20e118]:
+                        - link "VIEW ORDER →" [ref=f20e119] [cursor=pointer]:
+                          - /url: tracking.html?ref=NX-K82P1
+                    - row [ref=f20e120]:
+                      - cell "#NX-J71Q4" [ref=f20e121]
+                      - cell "27 Jul 2026" [ref=f20e122]
+                      - cell "Delivered" [ref=f20e123]
+                      - cell "BDT 14,200" [ref=f20e125]
+                      - cell [ref=f20e126]:
+                        - link "VIEW ORDER →" [ref=f20e127] [cursor=pointer]:
+                          - /url: tracking.html?ref=NX-J71Q4
+      - generic [ref=f20e129]:
+        - generic [ref=f20e130]: nexCommerce
+        - generic [ref=f20e131]:
+          - link "Home" [ref=f20e132] [cursor=pointer]:
+            - /url: index.html
+          - link "Shop" [ref=f20e133] [cursor=pointer]:
+            - /url: category.html
+          - link "Demo" [ref=f20e134] [cursor=pointer]:
+            - /url: account.html
+          - link "Tracking" [ref=f20e135] [cursor=pointer]:
+            - /url: tracking.html
+        - generic [ref=f20e136]: © 2026 nexCommerce. All rights reserved.
+      - dialog [ref=f20e137]:
+        - generic [ref=f20e138]:
+          - generic [ref=f20e139]: Shopping Bag
+          - button [ref=f20e140] [cursor=pointer]: ×
+        - generic [ref=f20e141]:
+          - generic [ref=f20e144]:
+            - generic [ref=f20e145]: Minimalist Leather Runner
+            - generic [ref=f20e146]: "White / 42 · Qty: 1"
+            - generic [ref=f20e147]:
+              - generic [ref=f20e148]: BDT 19,800
+              - button [ref=f20e149] [cursor=pointer]: Remove
+          - generic [ref=f20e152]:
+            - generic [ref=f20e153]: Acoustics Headphone GT
+            - generic [ref=f20e154]: "Matte Black · Qty: 1"
+            - generic [ref=f20e155]:
+              - generic [ref=f20e156]: BDT 32,000
+              - button [ref=f20e157] [cursor=pointer]: Remove
+          - generic [ref=f20e160]:
+            - generic [ref=f20e161]: Smartwatch Pro
+            - generic [ref=f20e162]: "Navy · Qty: 1"
+            - generic [ref=f20e163]:
+              - generic [ref=f20e164]: BDT 18,400
+              - button [ref=f20e165] [cursor=pointer]: Remove
+          - generic [ref=f20e168]:
+            - generic [ref=f20e169]: Fine-Knit Cashmere Crew
+            - generic [ref=f20e170]: "Camel / S · Qty: 1"
+            - generic [ref=f20e171]:
+              - generic [ref=f20e172]: BDT 16,200
+              - button [ref=f20e173] [cursor=pointer]: Remove
+        - generic [ref=f20e174]:
+          - generic [ref=f20e175]:
+            - generic [ref=f20e176]: Subtotal
+            - generic [ref=f20e177]: BDT 86,400
+          - link [ref=f20e178] [cursor=pointer]:
+            - /url: cart.html
+            - text: VIEW BAG & CHECKOUT
+  - dialog "Notification Center" [ref=f20e179]:
+    - generic [ref=f20e180]:
+      - generic [ref=f20e181]: NOTIFICATIONS
+      - generic [ref=f20e182]:
+        - button "MARK ALL READ" [ref=f20e183] [cursor=pointer]
+        - button "×" [ref=f20e184] [cursor=pointer]
+  - region "Theme colour switcher" [ref=f20e186]:
+    - dialog "Theme colour options":
+      - generic:
+        - generic: Theme Colour
+        - button "Reset"
+      - generic:
+        - button "Cyan"
+        - button "Violet"
+        - button "Emerald"
+        - button "Amber"
+        - button "Rose"
+        - button "Coral"
+        - button "Indigo"
+        - button "Slate"
+      - generic: Custom Colour
+      - generic:
+        - generic "Click pick a colour":
+          - textbox: "#00c8ff"
+        - button "Apply Custom"
+      - generic: Persists across all pages via localStorage
+    - button "Open theme switcher" [ref=f20e187] [cursor=pointer]
+  - dialog [ref=f20e194]:
+    - generic [ref=f20e195]:
+      - generic [ref=f20e196]: Style Concierge
+      - button [ref=f20e199] [cursor=pointer]
+    - generic [ref=f20e206]:
+      - textbox [ref=f20e207]:
+        - /placeholder: Ask about a style, occasion, or budget...
+      - button [ref=f20e208] [cursor=pointer]
