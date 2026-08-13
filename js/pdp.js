@@ -1,12 +1,12 @@
-/* ─── nexCommerce: Product Detail Page (PDP) Dynamic Engine ───────────────────
+﻿/* â”€â”€â”€ nexCommerce: Product Detail Page (PDP) Dynamic Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
  * Reads ?id= from URL and renders the correct product.
  * Falls back to p1 (Cashmere Sweater) when no ID is provided.
- * ────────────────────────────────────────────────────────────────────── */
+ * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 (function () {
   'use strict';
 
-  /* ── Product Catalog ───────────────────────────────────────────────── */
+  /* â”€â”€ Product Catalog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const PRODUCT_CATALOG = {
     p1: {
       id: 'p1',
@@ -15,12 +15,13 @@
       price: 18400,
       formattedPrice: 'BDT 18,400',
       description: 'Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.',
-      details: 'Mongolian 2-ply cashmere · Dropped shoulder seam · Machine-wash cold · Country of origin: Mongolia',
+      details: 'Mongolian 2-ply cashmere Â· Dropped shoulder seam Â· Machine-wash cold Â· Country of origin: Mongolia',
       sizing: 'True to size. Size down for a tailored look or up for a relaxed drape.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['hero_sweater.png', 'sweater_texture.png', 'sweater_lifestyle.png'],
       colors: ['Midnight', 'Ivory', 'Slate'],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
+      sizeChart: { XS: {min: 80, max: 87}, S: {min: 88, max: 94}, M: {min: 95, max: 101}, L: {min: 102, max: 108}, XL: {min: 109, max: 115} },
       breadcrumb: [{ label: 'Apparel', href: 'category.html?cat=apparel' }, { label: 'Sweaters', href: 'category.html?cat=apparel' }]
     },
     p2: {
@@ -30,12 +31,13 @@
       price: 24500,
       formattedPrice: 'BDT 24,500',
       description: 'Unlined merino weave tailored for sharp evening silhouettes without thermal discomfort. Transitions effortlessly from meeting room to dinner.',
-      details: 'Merino wool blend · Unlined construction · Dry clean recommended · Country of origin: Italy',
+      details: 'Merino wool blend Â· Unlined construction Â· Dry clean recommended Â· Country of origin: Italy',
       sizing: 'European tailored fit. Size up one if you prefer relaxed shoulders or plan to layer underneath.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['plp_blazer.png', 'hero_jeans_rack.png'],
       colors: ['Charcoal', 'Navy', 'Sand'],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
+      sizeChart: { XS: {min: 80, max: 87}, S: {min: 88, max: 94}, M: {min: 95, max: 101}, L: {min: 102, max: 108}, XL: {min: 109, max: 115} },
       breadcrumb: [{ label: 'Apparel', href: 'category.html?cat=apparel' }, { label: 'Blazers', href: 'category.html?cat=apparel' }]
     },
     p3: {
@@ -45,12 +47,13 @@
       price: 16200,
       formattedPrice: 'BDT 16,200',
       description: 'Ultra-soft 2-ply cashmere with a classic crew neck designed for easy indoor/outdoor layering in any season.',
-      details: '2-ply Mongolian cashmere · Ribbed cuffs and hem · Hand-wash cold · Country of origin: Mongolia',
+      details: '2-ply Mongolian cashmere Â· Ribbed cuffs and hem Â· Hand-wash cold Â· Country of origin: Mongolia',
       sizing: 'Runs slightly slim. Size up for a relaxed fit or true-to-size for a neat silhouette.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['plp_crewneck.png', 'hero_sweater.png'],
       colors: ['Oatmeal', 'Black', 'Camel'],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
+      sizeChart: { XS: {min: 80, max: 87}, S: {min: 88, max: 94}, M: {min: 95, max: 101}, L: {min: 102, max: 108}, XL: {min: 109, max: 115} },
       breadcrumb: [{ label: 'Apparel', href: 'category.html?cat=apparel' }, { label: 'Knitwear', href: 'category.html?cat=apparel' }]
     },
     p4: {
@@ -60,7 +63,7 @@
       price: 32000,
       formattedPrice: 'BDT 32,000',
       description: 'Active noise cancellation calibrated for focused work or travel. Memory foam ear cushions wrapped in lambskin for extended comfort.',
-      details: '40-hour battery · ANC + Transparency mode · USB-C charging · Foldable · Bluetooth 5.3',
+      details: '40-hour battery Â· ANC + Transparency mode Â· USB-C charging Â· Foldable Â· Bluetooth 5.3',
       sizing: 'One size fits all. Adjustable stainless steel headband with 15-step extension.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['prod_headphones.png', 'p4.png'],
@@ -75,7 +78,7 @@
       price: 28500,
       formattedPrice: 'BDT 28,500',
       description: 'Brushed titanium casing with a scratch-resistant sapphire crystal. Swiss movement with interchangeable leather and mesh straps.',
-      details: 'Swiss automatic movement · Sapphire crystal · 100m water resistance · Titanium case · 40mm diameter',
+      details: 'Swiss automatic movement Â· Sapphire crystal Â· 100m water resistance Â· Titanium case Â· 40mm diameter',
       sizing: 'Standard 20mm lug width. Compatible with any 20mm strap.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['search_watch.png', 'p3.png'],
@@ -90,7 +93,7 @@
       price: 19800,
       formattedPrice: 'BDT 19,800',
       description: 'Full-grain Italian leather upper with cushioned Vibram sole for all-day urban walkability without compromise.',
-      details: 'Full-grain Italian leather · Vibram outsole · Calfskin lining · Standard D width',
+      details: 'Full-grain Italian leather Â· Vibram outsole Â· Calfskin lining Â· Standard D width',
       sizing: 'Fits true to size. Order your standard European size.',
       shipping: 'Express Next Day available. Free standard delivery on orders over BDT 20,000.',
       images: ['prod_runner.png', 'p2.png'],
@@ -104,7 +107,7 @@
   let selectedSize = '';
   let fitPreference = 'Regular';
 
-  /* ── Main Init ───────────────────────────────────────────────────── */
+  /* â”€â”€ Main Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initPDPEngine() {
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id') || 'p1';
@@ -120,9 +123,9 @@
     initMobileStickyBar();
   }
 
-  /* ── Dynamic Product Renderer ───────────────────────────────────────── */
+  /* â”€â”€ Dynamic Product Renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function renderProductPage(product) {
-    document.title = product.name + ' — nexCommerce';
+    document.title = product.name + ' â€” nexCommerce';
 
     // Breadcrumb
     const breadcrumbEl = document.querySelector('.pdp-breadcrumb');
@@ -185,7 +188,7 @@
     if (stickyName) stickyName.textContent = product.name;
   }
 
-  /* ── AI Context Retention Bar & Feature 2 Context Match ─────────────── */
+  /* â”€â”€ AI Context Retention Bar & Feature 2 Context Match â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initSearchContext() {
     if (!window.NexSessionContext || !window.NexContextEngine) return;
 
@@ -262,7 +265,7 @@
     }
   }
 
-  /* ── Gallery Switcher ─────────────────────────────────────────────────── */
+  /* â”€â”€ Gallery Switcher â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initGallerySwitcher() {
     var thumbStrip = document.querySelector('.pdp-thumb-strip');
     var mainImg = document.getElementById('pdpMainImg');
@@ -277,7 +280,7 @@
     });
   }
 
-  /* ── Size Selectors ────────────────────────────────────────────────────── */
+  /* â”€â”€ Size Selectors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initVariantSelectors() {
     var sizesContainer = document.querySelector('.pdp-sizes-row');
     if (!sizesContainer) return;
@@ -291,7 +294,7 @@
     });
   }
 
-  /* ── Fit Assistant Modal ─────────────────────────────────────────────── */
+  /* â”€â”€ Fit Assistant Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initFitAssistant() {
     var fitBtn = document.getElementById('btnFitAssistant');
     var modal = document.getElementById('fitModal');
@@ -299,14 +302,17 @@
 
     var closeBtn = modal.querySelector('.fit-modal-close');
     var backdrop = modal.querySelector('.fit-modal-backdrop');
+    
+    var chestInput = document.getElementById('fitChestInput');
+    var unitSelect = document.getElementById('fitUnitSelect');
+    var errorMsg = document.getElementById('fitErrorMsg');
     var fitOptions = modal.querySelectorAll('.fit-option-btn');
-    var recResult = document.getElementById('fitRecResult');
+    var calcBtn = document.getElementById('btnCalculateSize');
+    
+    var recResultBox = document.getElementById('fitRecResult');
+    var recSizeText = document.getElementById('fitRecSizeText');
+    var recExplanation = document.getElementById('fitRecExplanation');
     var useSizeBtn = document.getElementById('btnUseRecSize');
-
-    fitBtn.addEventListener('click', function() {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
 
     function closeFitModal() {
       modal.classList.remove('active');
@@ -316,36 +322,71 @@
     if (closeBtn) closeBtn.addEventListener('click', closeFitModal);
     if (backdrop) backdrop.addEventListener('click', closeFitModal);
 
+    fitBtn.addEventListener('click', function() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Load saved preferences from AI Style Profile
+      if (window.NexStyleProfile) {
+        var activeProfile = window.NexStyleProfile.getActiveProfile();
+        if (activeProfile && activeProfile.fitPreference) {
+          fitPreference = activeProfile.fitPreference.charAt(0).toUpperCase() + activeProfile.fitPreference.slice(1);
+          fitOptions.forEach(function(o) { o.classList.remove('selected'); });
+          var matchBtn = Array.from(fitOptions).find(b => b.getAttribute('data-fit') === fitPreference);
+          if (matchBtn) matchBtn.classList.add('selected');
+        }
+      }
+
+      // Load saved measurements if any
+      if (window.NexSizeAdvisor) {
+        var savedMeas = window.NexSizeAdvisor.loadMeasurements();
+        if (savedMeas && savedMeas.chest) {
+          chestInput.value = savedMeas.chest;
+          if (savedMeas.unit) unitSelect.value = savedMeas.unit;
+        }
+      }
+      
+      errorMsg.style.display = 'none';
+      recResultBox.style.display = 'none';
+    });
+
     fitOptions.forEach(function(opt) {
       opt.addEventListener('click', function() {
         fitOptions.forEach(function(o) { o.classList.remove('selected'); });
         this.classList.add('selected');
         fitPreference = this.getAttribute('data-fit') || 'Regular';
-
-        var sizes = currentProduct ? currentProduct.sizes : ['S', 'M', 'L'];
-        var recommended = sizes[Math.floor(sizes.length / 2)] || 'M';
-        var garment = currentProduct ? currentProduct.name.toLowerCase() : 'garment';
-        var explanation = 'A regular fit in ' + recommended + ' gives you enough room through the shoulders without making the ' + garment + ' feel oversized.';
-
-        if (fitPreference === 'Slim') {
-          recommended = sizes[1] || sizes[0] || 'S';
-          explanation = 'A slim fit contours cleanly for a tailored silhouette. Size ' + recommended + ' ensures the ' + garment + ' sits close to the body.';
-        } else if (fitPreference === 'Relaxed') {
-          recommended = sizes[sizes.length - 2] || sizes[sizes.length - 1] || 'L';
-          explanation = 'A relaxed fit offers comfortable layering room and subtle drape. Size ' + recommended + ' will give this ' + garment + ' a modern, oversized aesthetic.';
-        }
-
-        if (recResult) {
-          recResult.innerHTML = '<div style="padding:14px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);border-radius:6px;"><div style="font-size:11px;font-weight:600;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:4px;">Recommended Size</div><div style="font-family:var(--font-serif);font-size:28px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Size ' + recommended + '</div><p style="font-size:13px;color:var(--text-secondary);line-height:1.4;">' + explanation + '</p></div>';
-        }
-
-        if (useSizeBtn) {
-          useSizeBtn.style.display = 'block';
-          useSizeBtn.textContent = 'USE SIZE ' + recommended;
-          useSizeBtn.setAttribute('data-rec-size', recommended);
-        }
       });
     });
+
+    if (calcBtn) {
+      calcBtn.addEventListener('click', function() {
+        if (!window.NexSizeAdvisor) return;
+        
+        var val = chestInput.value;
+        var unit = unitSelect.value;
+        var sizeChart = currentProduct ? currentProduct.sizeChart : null;
+        
+        var result = window.NexSizeAdvisor.calculateSize(val, unit, fitPreference, sizeChart);
+        
+        if (result.error) {
+          errorMsg.textContent = result.error;
+          errorMsg.style.display = 'block';
+          recResultBox.style.display = 'none';
+        } else {
+          errorMsg.style.display = 'none';
+          recSizeText.textContent = 'Size ' + result.recommendedSize;
+          recExplanation.textContent = result.explanation;
+          
+          useSizeBtn.textContent = 'USE SIZE ' + result.recommendedSize;
+          useSizeBtn.setAttribute('data-rec-size', result.recommendedSize);
+          
+          recResultBox.style.display = 'block';
+          
+          // Save measurements for next time
+          window.NexSizeAdvisor.saveMeasurements({ chest: val, unit: unit });
+        }
+      });
+    }
 
     if (useSizeBtn) {
       useSizeBtn.addEventListener('click', function() {
@@ -362,14 +403,14 @@
     }
   }
 
-  /* ── Add to Bag ───────────────────────────────────────────────────────── */
+  /* â”€â”€ Add to Bag â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initAddToBag() {
     var addBtns = document.querySelectorAll('.btn-pdp-add-to-bag');
     addBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         if (btn.disabled || btn.classList.contains('adding')) return;
         btn.classList.add('adding');
-        btn.textContent = 'ADDING…';
+        btn.textContent = 'ADDINGâ€¦';
 
         setTimeout(function() {
           if (window.nexCart && currentProduct) {
@@ -384,7 +425,7 @@
             });
           }
 
-          btn.textContent = '✓ ADDED TO BAG';
+          btn.textContent = 'âœ“ ADDED TO BAG';
           btn.style.background = '#58D68D';
           btn.style.color = '#071A3A';
 
@@ -399,7 +440,7 @@
     });
   }
 
-  /* ── Accordions ────────────────────────────────────────────────────────── */
+  /* â”€â”€ Accordions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initAccordions() {
     document.querySelectorAll('.pdp-accordion-header').forEach(function(hdr) {
       hdr.addEventListener('click', function() {
@@ -408,13 +449,13 @@
         if (body) {
           var isOpen = body.style.display === 'block';
           body.style.display = isOpen ? 'none' : 'block';
-          if (icon) icon.textContent = isOpen ? '+' : '−';
+          if (icon) icon.textContent = isOpen ? '+' : 'âˆ’';
         }
       });
     });
   }
 
-  /* ── Mobile Sticky Bar ───────────────────────────────────────────────── */
+  /* â”€â”€ Mobile Sticky Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initMobileStickyBar() {
     var stickyBar = document.getElementById('mobileStickyBar');
     var mainCTA = document.getElementById('btnMainPdpAdd');
@@ -448,3 +489,4 @@
     initPDPEngine();
   }
 })();
+
