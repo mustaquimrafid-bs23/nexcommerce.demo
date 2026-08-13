@@ -3,7 +3,7 @@
  * Manages Overview, Orders history & filtering, Delivery Addresses,
  * Preferences, AI Style Signals, 3-Product Personalized Discovery, and Auth/Empty states.
  *
- * TODO: Wire t&times;real Auth & Orders API &rarr; GET /api/user/account
+ * TODO: Wire to real Auth & Orders API &rarr; GET /api/user/account
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,7 +58,7 @@ const ACCOUNT_DATA = {
       statusLabel: 'Delivered',
       items: [
         {
-          name: 'Merin&times;Layer Top',
+          name: 'Merino Layer Top',
           category: 'APPAREL',
           variant: 'Charcoal / L',
           qty: 1,
@@ -141,7 +141,7 @@ const ACCOUNT_DATA = {
     },
     {
       id: 'rec-2',
-      title: 'Merin&times;Layer',
+      title: 'Merino Layer',
       price: 9600,
       image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80',
       reason: 'A lighter option for the evening temperatures you usually shop for.'
@@ -169,7 +169,7 @@ function initAccount() {
       const parsed = JSON.parse(confirmed);
       if (parsed && parsed.ref) {
         // Prepend or update confirmed order in ACCOUNT_DATA
-        const idx = ACCOUNT_DATA.orders.findIndex(&times;=> o.ref === parsed.ref);
+        const idx = ACCOUNT_DATA.orders.findIndex(o => o.ref === parsed.ref);
         const orderObj = {
           ref: parsed.ref,
           date: 'Today',
@@ -233,7 +233,7 @@ function renderAccountPage() {
       <span>⚙ DEV STATE SWITCHER:</span>
       <select onchange="changeDevAuthState(this.value)">
         <option value="signed_in" ${currentAuthState === 'signed_in' ? 'selected' : ''}>Signed In (With Orders & Profile)</option>
-        <option value="empty_account" ${currentAuthState === 'empty_account' ? 'selected' : ''}>Signed In (Empty State &mdash; N&times;Orders)</option>
+        <option value="empty_account" ${currentAuthState === 'empty_account' ? 'selected' : ''}>Signed In (Empty State &mdash; No Orders)</option>
         <option value="signed_out" ${currentAuthState === 'signed_out' ? 'selected' : ''}>Signed Out (Sign-In Screen)</option>
       </select>
     </div>
@@ -293,7 +293,7 @@ function renderTabPanel(tab) {
 
 /* ─── 1. Overview Panel ──────────────────────────────────────── */
 function renderOverviewPanel() {
-  const currentOrder = ACCOUNT_DATA.orders.find(&times;=> o.status === 'preparing') || ACCOUNT_DATA.orders[0];
+  const currentOrder = ACCOUNT_DATA.orders.find(o => o.status === 'preparing') || ACCOUNT_DATA.orders[0];
 
   const recentRowsHtml = ACCOUNT_DATA.orders.map(order => `
     <tr>
@@ -387,7 +387,7 @@ function renderOrdersPanel() {
     </tr>
   `).join('') : `
     <tr>
-      <td colspan="5" style="text-align: center; padding: 32px; color: var(--text-secondary);">N&times;${activeOrderFilter.toLowerCase()} orders found.</td>
+      <td colspan="5" style="text-align: center; padding: 32px; color: var(--text-secondary);">No ${activeOrderFilter.toLowerCase()} orders found.</td>
     </tr>
   `;
 
@@ -548,7 +548,7 @@ function renderPreferencesPanel() {
   const styles = ['Minimal', 'Classic', 'Relaxed', 'Statement'];
   const fits = ['Slim', 'Regular', 'Relaxed'];
   const colors = ['Monochrome', 'Earth Tones', 'Jewel Tones', 'Brights'];
-  const brands = ['Lor&times;Piana', 'Brunell&times;Cucinelli', 'Acne Studios', 'Jil Sander'];
+  const brands = ['Loro Piana', 'Brunello Cucinelli', 'Acne Studios', 'Jil Sander'];
 
   const styleChipsHtml = styles.map(s => `
     <button class="preference-chip ${ACCOUNT_DATA.preferences.style === s ? 'active' : ''}" onclick="setPreference('style', '${s}')">${s}</button>
@@ -571,7 +571,7 @@ function renderPreferencesPanel() {
       <span class="style-signal-name">${sig.name}</span>
       <span class="style-signal-badge">${sig.level}</span>
     </div>
-  `).join('') : '<div style="color: var(--text-secondary); font-size: 13px;">N&times;signals collected yet.</div>';
+  `).join('') : '<div style="color: var(--text-secondary); font-size: 13px;">No signals collected yet.</div>';
 
   return `
     <!-- CARD 1: EXPLICIT PREFERENCES -->
@@ -620,8 +620,8 @@ function renderPreferencesPanel() {
     <div class="account-card" style="background: rgba(255, 0, 85, 0.03); border-color: rgba(255, 0, 85, 0.16);">
       <div class="account-card-title" style="color: var(--accent-pink);">DATA TRANSPARENCY</div>
       <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px;">
-        nexCommerce uses your explicit preferences and implicit search signals t&times;tailor product recommendations and discovery results. 
-        We d&times;not sell this data. You can clear your AI profile at any time, which will reset your discovery experience t&times;the default catalog.
+        nexCommerce uses your explicit preferences and implicit search signals to tailor product recommendations and discovery results. 
+        We do not sell this data. You can clear your AI profile at any time, which will reset your discovery experience to the default catalog.
       </p>
       
       <button class="btn-secondary-action" style="color: var(--accent-pink); border-color: rgba(255, 0, 85, 0.4);" onclick="clearAiProfile()">CLEAR AI PROFILE DATA</button>
@@ -630,7 +630,7 @@ function renderPreferencesPanel() {
 }
 
 window.clearAiProfile = function() {
-  if(confirm("Are you sure you want t&times;clear your AI Profile? This will reset your recommendations.")) {
+  if(confirm("Are you sure you want to clear your AI Profile? This will reset your recommendations.")) {
     ACCOUNT_DATA.preferences.style = '';
     ACCOUNT_DATA.preferences.fit = '';
     ACCOUNT_DATA.preferences.color = '';
@@ -655,16 +655,14 @@ function renderSignedOutState(container) {
       <select onchange="changeDevAuthState(this.value)">
         <option value="signed_out" selected>Signed Out (Sign-In Screen)</option>
         <option value="signed_in">Signed In (With Orders & Profile)</option>
-        <option value="empty_account">Signed In (Empty State &mdash; N&times;Orders)</option>
+        <option value="empty_account">Signed In (Empty State &mdash; No Orders)</option>
       </select>
     </div>
 
     <div style="min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center;">
       <span class="tracking-meta" style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;">ACCOUNT</span>
       <h1 class="account-title" style="margin-top: 8px; margin-bottom: 12px;">WELCOME BACK</h1>
-      <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); max-width: 400px; line-height: 1.6; margin-bottom: 32px;">
-        Sign in t&times;view your orders, saved details, and preferences.
-      </p>
+      <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">Sign in to view your orders, saved details, and preferences.</p>
 
       <form onsubmit="handleSignInSubmit(event)" style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
         <div>
@@ -696,7 +694,7 @@ function renderEmptyAccountState(container) {
     <div class="dev-state-harness">
       <span>⚙ DEV STATE SWITCHER:</span>
       <select onchange="changeDevAuthState(this.value)">
-        <option value="empty_account" selected>Signed In (Empty State &mdash; N&times;Orders)</option>
+        <option value="empty_account" selected>Signed In (Empty State &mdash; No Orders)</option>
         <option value="signed_in">Signed In (With Orders & Profile)</option>
         <option value="signed_out">Signed Out (Sign-In Screen)</option>
       </select>
