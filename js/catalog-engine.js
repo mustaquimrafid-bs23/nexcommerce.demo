@@ -67,6 +67,30 @@
         });
       }
 
+      // Feature 3: AI Style Profile Soft Signals (AC-11)
+      if (window.NexStyleProfile) {
+        var profile = window.NexStyleProfile.getActiveProfile();
+        if (profile) {
+          // Rule AC-10: Current explicit intent priority. If intent has explicit color, don't let profile color override it.
+          // But as soft signals, we just add minor boosts.
+          if (profile.stylePreferences) {
+            profile.stylePreferences.forEach(function(pst) { if (kw.includes(pst) || desc.includes(pst)) score += 0.05; });
+          }
+          if (profile.colorPreferences) {
+            profile.colorPreferences.forEach(function(pcl) { 
+              // Only boost color if not directly contradicted by explicit search (though a small boost is harmless if it's sorting below hard matches)
+              if (kw.includes(pcl) || desc.includes(pcl)) score += 0.04; 
+            });
+          }
+          if (profile.lifestylePreferences) {
+            profile.lifestylePreferences.forEach(function(pls) { if (kw.includes(pls) || desc.includes(pls)) score += 0.05; });
+          }
+          if (profile.fitPreference) {
+            if (kw.includes(profile.fitPreference) || desc.includes(profile.fitPreference)) score += 0.06;
+          }
+        }
+      }
+
       return Object.assign({}, p, { _score: Math.min(0.99, score) });
     });
 

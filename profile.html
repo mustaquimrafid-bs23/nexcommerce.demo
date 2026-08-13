@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Style Profile — nexCommerce</title>
+  <meta name="description" content="Personalize your nexCommerce shopping experience.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-left">
+          <a href="index.html" class="nav-link">← Return to Storefront</a>
+        </div>
+        <a href="index.html" class="nav-logo">NEXCOMMERCE</a>
+        <div class="nav-right">
+          <!-- Auth placeholder -->
+          <a href="#" class="nav-link">Account</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="aiProfileContainer">
+    <div class="profile-section">
+      
+      <div class="profile-header">
+        <span class="ai-personalized-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
+          AI STYLE PROFILE
+        </span>
+        <h1 class="profile-title">Your style preferences</h1>
+        <p class="profile-subtitle">Tell us what you usually like and we'll use it to personalize your shopping experience. Select your preferences below.</p>
+        <div id="profileMsg" class="profile-msg"></div>
+      </div>
+
+      <div class="preference-group">
+        <label class="preference-label">STYLE (Multiple)</label>
+        <div class="chip-grid">
+          <button class="pref-chip" data-cat="style" data-val="Minimal">Minimal</button>
+          <button class="pref-chip" data-cat="style" data-val="Classic">Classic</button>
+          <button class="pref-chip" data-cat="style" data-val="Trendy">Trendy</button>
+          <button class="pref-chip" data-cat="style" data-val="Sporty">Sporty</button>
+          <button class="pref-chip" data-cat="style" data-val="Formal">Formal</button>
+          <button class="pref-chip" data-cat="style" data-val="Casual">Casual</button>
+        </div>
+      </div>
+
+      <div class="preference-group">
+        <label class="preference-label">FIT (Select one)</label>
+        <div class="chip-grid">
+          <button class="pref-chip" data-cat="fit" data-val="Fitted">Fitted</button>
+          <button class="pref-chip" data-cat="fit" data-val="Regular">Regular</button>
+          <button class="pref-chip" data-cat="fit" data-val="Relaxed">Relaxed</button>
+          <button class="pref-chip" data-cat="fit" data-val="Oversized">Oversized</button>
+        </div>
+      </div>
+
+      <div class="preference-group">
+        <label class="preference-label">COLOR PALETTE (Multiple)</label>
+        <div class="chip-grid">
+          <button class="pref-chip" data-cat="color" data-val="Neutral">Neutral</button>
+          <button class="pref-chip" data-cat="color" data-val="Black">Black</button>
+          <button class="pref-chip" data-cat="color" data-val="White">White</button>
+          <button class="pref-chip" data-cat="color" data-val="Earth tones">Earth tones</button>
+          <button class="pref-chip" data-cat="color" data-val="Bright colors">Bright colors</button>
+          <button class="pref-chip" data-cat="color" data-val="Pastels">Pastels</button>
+        </div>
+      </div>
+
+      <div class="preference-group">
+        <label class="preference-label">LIFESTYLE (Multiple)</label>
+        <div class="chip-grid">
+          <button class="pref-chip" data-cat="lifestyle" data-val="Office">Office</button>
+          <button class="pref-chip" data-cat="lifestyle" data-val="Everyday">Everyday</button>
+          <button class="pref-chip" data-cat="lifestyle" data-val="Travel">Travel</button>
+          <button class="pref-chip" data-cat="lifestyle" data-val="Fitness">Fitness</button>
+          <button class="pref-chip" data-cat="lifestyle" data-val="Outdoor">Outdoor</button>
+          <button class="pref-chip" data-cat="lifestyle" data-val="Social">Social</button>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <div class="toggle-group">
+          <label class="toggle-switch">
+            <input type="checkbox" id="togglePersonalization" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span style="font-size: 13px; color: var(--text-primary); font-weight: 500;">Use my style profile for recommendations</span>
+        </div>
+        
+        <div style="display: flex; gap: 16px;">
+          <button id="btnDeleteProfile" class="btn-secondary-action" style="height: 48px; border-color: rgba(255,0,0,0.4); color: #ff5555;">DELETE PROFILE</button>
+          <button id="btnSaveProfile" class="btn-primary-commerce" style="height: 48px; padding: 0 32px;">SAVE PREFERENCES</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/style-profile.js"></script>
+  <script src="js/theme-switcher.js"></script>
+</body>
+</html>

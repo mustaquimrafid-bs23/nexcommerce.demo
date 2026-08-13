@@ -227,11 +227,12 @@
       });
     }
 
-    // 2. Context Match "Why This Fits" (Feature 2)
+    // 2. Context Match "Why This Fits" (Feature 2 & 3)
     var matchResult = window.NexContextEngine.evaluateMatch(savedContext, currentProduct);
     if (matchResult && matchResult.isMatch && matchBox) {
+      var badgeText = matchResult.isProfileMatch ? 'PERSONALIZED FOR YOU' : 'SELECTED FOR YOUR SEARCH';
       matchBox.innerHTML = '<div class="pdp-context-match">'
-        + '<div class="pdp-context-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>SELECTED FOR YOUR SEARCH</div>'
+        + '<div class="pdp-context-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>' + badgeText + '</div>'
         + '<div class="pdp-context-body">' + escapeHtml(matchResult.explanation) + '</div>'
         + '<a href="discovery.html?q=' + encodeURIComponent(savedContext.raw) + '" class="pdp-context-link">Refine search &rarr;</a>'
         + '</div>';

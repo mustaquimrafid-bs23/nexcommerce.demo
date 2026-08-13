@@ -6,6 +6,10 @@
 
     var claims = [];
     var isMatch = false;
+    var profileMatch = false;
+
+    // Feature 3: Read profile
+    var profile = window.NexStyleProfile ? window.NexStyleProfile.getActiveProfile() : null;
 
     // Budget match
     if (intent.budget && intent.budget.max) {
@@ -56,6 +60,26 @@
       }
     }
 
+    // Feature 3 Profile logic
+    if (profile) {
+      var haystackProf = [(product.keywords || []).join(' '), product.desc || ''].join(' ').toLowerCase();
+      if (profile.fitPreference && haystackProf.includes(profile.fitPreference)) {
+        styleOccasion.push('matches your ' + profile.fitPreference + ' fit profile');
+        isMatch = true;
+        profileMatch = true;
+      }
+      if (profile.colorPreferences && profile.colorPreferences.length > 0) {
+        profile.colorPreferences.forEach(function(pcl) {
+          // Add claim only if not already claimed by intent
+          if (haystackProf.includes(pcl) && !claims.some(function(c) { return c.includes(pcl); })) {
+            claims.push(pcl + ' color profile');
+            isMatch = true;
+            profileMatch = true;
+          }
+        });
+      }
+    }
+
     if (!isMatch) return null;
 
     // Construct grounded explanation
@@ -77,7 +101,8 @@
 
     return {
       isMatch: true,
-      explanation: explanation
+      explanation: explanation,
+      isProfileMatch: profileMatch
     };
   }
 
