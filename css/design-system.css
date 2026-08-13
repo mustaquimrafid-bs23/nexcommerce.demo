@@ -6616,3 +6616,68 @@ textarea.input-field {
 .discovery-out-of-scope { padding: 40px 0; text-align: center; font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 @keyframes nex-chip-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
 .discovery-parsing-chip { animation: nex-chip-pulse 1.4s ease-in-out infinite; }
+
+/* --- Feature 2: Context Match & Recommendations -------------------------- */
+.pdp-context-match {
+  padding: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  margin-top: 24px;
+}
+.pdp-context-eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pdp-context-body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.pdp-context-link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pdp-context-link:hover {
+  text-decoration: underline;
+}
+
+/* Recommendations Section */
+.pdp-recommendations-section {
+  padding: 80px 0 60px;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 80px;
+}
+.pdp-rec-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+.pdp-rec-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.pdp-rec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1024px) { .pdp-rec-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .pdp-rec-grid { grid-template-columns: 1fr; } }
