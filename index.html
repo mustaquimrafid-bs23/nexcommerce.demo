@@ -7,46 +7,64 @@
   <meta name="description" content="A premium shopping experience that understands your intent and helps you make confident choices.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=11">
 </head>
 <body>
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-announcement-bar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="truck" style="width: 13px; height: 13px;"></i> Free delivery on orders over BDT 2,000</span>
+      <span class="announcement-divider">|</span>
+      <span class="announcement-item"><i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i> Easy returns</span>
+      <span class="announcement-divider">|</span>
+      <span class="announcement-item"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Secure checkout</span>
+    </div>
+  </div>
 
   <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
-        <a href="index.html" class="nav-logo">
-          <span>nexCommerce</span>
-          <span class="nav-logo-sub">Intelligent Commerce</span>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
       <nav class="nav-left nav-menu-links desktop-only">
-<a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=all" class="nav-item-link">Shop</a>
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="discovery.html" class="nav-item-link">Discover</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
       </nav>
 
       <div class="nav-search-pill-wrap desktop-only">
-        <button class="nav-search-pill search-trigger" id="searchTriggerBtn">
-          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
           <span class="search-pill-placeholder">What are you looking for?</span>
           <span class="search-kbd">Ctrl + K</span>
         </button>
       </div>
 
-      <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn" aria-label="Open Style Concierge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           <span>CONCIERGE</span>
         </button>
-        <a href="profile.html" class="nav-item-link desktop-only">AI Profile</a>
-        <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
-        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
+        <a data-auth-account href="account.html" class="nav-action-link desktop-only" aria-label="My Account">
+          <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+          <span>Account</span>
+        </a>
+        <a href="discovery.html" class="nav-action-link desktop-only" aria-label="Wishlist">
+          <i data-lucide="heart" style="width: 16px; height: 16px;"></i>
+          <span>Wishlist</span>
+        </a>
+        <a href="cart.html" class="cart-trigger nav-action-link" id="headerCartLink" aria-label="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i>
           <span>Bag</span>
-          <span class="bag-badge" id="headerCartCount">1</span>
+          <span class="bag-count-badge" id="headerCartCount">3</span>
         </a>
       </div>
     </div>
@@ -54,283 +72,778 @@
 
   <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
     </div>
-    <a href="category.html" class="mobile-drawer-link">Shop</a>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Shop</a>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">3</span>)</a>
   </div>
 
-
   <main>
-    <!-- HERO SECTION -->
-    <section class="hero-section">
+    <!-- HERO SECTION (CALIBRATED LIFESTYLE MODEL & GLOWING PILL DOTS) -->
+    <section class="hero-section" aria-roledescription="carousel" aria-label="Featured Collection">
       <div class="hero-ai-glow"></div>
+
       <div class="container hero-grid">
         <div class="hero-content">
           <span class="hero-eyebrow">DISCOVER DIFFERENTLY</span>
           <h1 class="hero-title">Shopping that<br>understands what<br>you mean.</h1>
           <p class="hero-subtitle">Find pieces based on what you're doing, where you're going, and how you want to feel.</p>
           <div class="hero-actions-row">
-            <a href="category.html" class="btn-primary-commerce hero-cta-primary">START SHOPPING</a>
-            <a href="discovery.html" class="link-text-nav hero-cta-secondary" id="heroDescribeLink">Describe what you're looking for &rarr;</a>
+            <a href="category.html?cat=all" class="btn-hero-primary">START SHOPPING</a>
+            <a href="discovery.html" class="btn-hero-secondary" id="heroDescribeLink">DESCRIBE WHAT YOU NEED &rarr;</a>
           </div>
         </div>
 
-        <div class="hero-product-visual">
-          <div class="hero-image-box">
-            <span class="hero-ai-badge"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>AI MATCH</span>
-            <img src="hero_sweater.png" alt="Architectural Cashmere Sweater" />
-          </div>
-          <div class="hero-product-meta">
-            <div class="hero-product-name">ARCHITECTURAL CASHMERE SWEATER</div>
-            <div class="hero-product-price">BDT 18,400</div>
-            <div class="hero-product-context">Warm enough after sunset without feeling heavy.</div>
+        <div class="hero-visual-frame" id="heroVisualFrame">
+          <div class="hero-model-box" id="heroModelBox">
+            <div class="hero-img-stack" id="heroImgStack">
+              <img src="sweater_lifestyle.png" alt="Architectural Cashmere Sweater on Model" class="hero-layer-img hero-layer-active" id="heroLayerA" draggable="false" />
+              <img src="runner_lifestyle.png" alt="Featured Story" class="hero-layer-img hero-layer-incoming" id="heroLayerB" draggable="false" />
+            </div>
+            <div class="hero-model-gradient-vignette"></div>
+
+            <!-- Floating Frosted Glass Overlay -->
+            <div class="hero-hotspot-card hero-glass-overlay" id="heroHotspotCard" data-id="p1">
+              <div class="hero-overlay-row-top">
+                <span class="hero-hotspot-badge"><i data-lucide="sparkles" style="width: 10px; height: 10px;"></i> AI MATCH</span>
+                <div class="hero-hotspot-price" id="heroHotspotPrice">BDT 18,400</div>
+              </div>
+              <div class="hero-overlay-row-main">
+                <div class="hero-overlay-text-col" id="heroOverlayTextCol">
+                  <div class="hero-hotspot-title" id="heroHotspotTitle">ARCHITECTURAL CASHMERE SWEATER</div>
+                  <div class="hero-hotspot-sub" id="heroHotspotSub">Minimal layering · Evening</div>
+                </div>
+                <button class="hero-hotspot-add-btn" id="heroHotspotAddBtn" aria-label="Quick Add to Bag" title="Quick Add to Bag">
+                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="hero-carousel-dots">
-        <span class="hero-dot active"></span>
-        <span class="hero-dot"></span>
-        <span class="hero-dot"></span>
-        <span class="hero-dot"></span>
+      <!-- Restored Sleek Glowing Pill Dots with Live Auto-Advance Progress -->
+      <div class="hero-carousel-dots" id="heroCarouselDots" role="tablist" aria-label="Slide Selector">
+        <span class="hero-dot active" data-index="0" role="tab" aria-selected="true" aria-label="Slide 1"><span class="hero-dot-fill"></span></span>
+        <span class="hero-dot" data-index="1" role="tab" aria-selected="false" aria-label="Slide 2"><span class="hero-dot-fill"></span></span>
+        <span class="hero-dot" data-index="2" role="tab" aria-selected="false" aria-label="Slide 3"><span class="hero-dot-fill"></span></span>
+        <span class="hero-dot" data-index="3" role="tab" aria-selected="false" aria-label="Slide 4"><span class="hero-dot-fill"></span></span>
+      </div>
+    </section>
+
+    <!-- SHOP BY CATEGORY (QUICK-PILLS) -->
+    <section class="home-category-quick-section reveal-on-scroll">
+      <div class="container">
+        <div class="home-section-header-row">
+          <h2 class="home-section-title">Shop by category</h2>
+          <a href="category.html?cat=all" class="home-section-link">View all categories &rarr;</a>
+        </div>
+
+        <div class="home-cat-quick-grid">
+          <a href="category.html?cat=apparel" class="home-cat-pill" data-cat="apparel">
+            <div class="home-cat-pill-img-wrap">
+              <img src="cat_apparel.png" alt="Apparel" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Apparel</span>
+          </a>
+
+          <a href="category.html?cat=footwear" class="home-cat-pill" data-cat="footwear">
+            <div class="home-cat-pill-img-wrap">
+              <img src="cat_footwear.jpg" alt="Footwear" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Footwear</span>
+          </a>
+
+          <a href="category.html?cat=accessories" class="home-cat-pill" data-cat="accessories">
+            <div class="home-cat-pill-img-wrap">
+              <img src="cat_accessories.jpg" alt="Accessories" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Accessories</span>
+          </a>
+
+          <a href="category.html?cat=acoustics" class="home-cat-pill" data-cat="acoustics">
+            <div class="home-cat-pill-img-wrap">
+              <img src="cat_acoustics.jpg" alt="Acoustics" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Acoustics</span>
+          </a>
+
+          <a href="category.html?cat=accessories" class="home-cat-pill" data-cat="accessories">
+            <div class="home-cat-pill-img-wrap">
+              <img src="search_watch.png" alt="Timepieces" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Timepieces</span>
+          </a>
+
+          <a href="category.html?cat=accessories" class="home-cat-pill" data-cat="accessories">
+            <div class="home-cat-pill-img-wrap">
+              <img src="prod_tote.png" alt="Leather Goods" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Leather Goods</span>
+          </a>
+
+          <a href="category.html?cat=apparel" class="home-cat-pill" data-cat="apparel">
+            <div class="home-cat-pill-img-wrap">
+              <img src="plp_overcoat.png" alt="Outerwear" loading="lazy" />
+            </div>
+            <span class="home-cat-pill-name">Outerwear</span>
+          </a>
+
+          <a href="category.html?cat=all" class="home-cat-pill" data-cat="all">
+            <div class="home-cat-pill-icon">
+              <i data-lucide="layout-grid" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="home-cat-pill-name">More</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODAY'S DEALS (FLASH SALE & COUNTDOWN) -->
+    <section class="home-deals-section reveal-on-scroll">
+      <div class="container">
+        <div class="home-section-header-row">
+          <div>
+            <h2 class="home-section-title">Today's Deals</h2>
+            <div class="home-section-sub">Limited-time prices on selected products.</div>
+          </div>
+          <div class="deals-countdown-box">
+            <span>Ends in</span>
+            <span class="deal-timer-unit" id="dealHours">04</span>
+            <span>:</span>
+            <span class="deal-timer-unit" id="dealMins">32</span>
+            <span>:</span>
+            <span class="deal-timer-unit" id="dealSecs">15</span>
+          </div>
+        </div>
+
+        <div class="deals-carousel-grid" id="dealsCarouselGrid">
+          <!-- Deal 1 -->
+          <div class="deal-product-card" data-id="p1">
+            <span class="deal-badge">20% OFF</span>
+            <button class="deal-wishlist-btn" aria-label="Add to Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="deal-img-box">
+              <img src="hero_sweater.png" alt="Merino Knit Sweater" loading="lazy" />
+            </div>
+            <div class="deal-card-body">
+              <div class="deal-card-title">Merino Knit Sweater</div>
+              <div class="deal-card-cat">Apparel</div>
+              <div class="deal-card-pricing">
+                <span class="deal-price-current">BDT 1,990</span>
+                <span class="deal-price-original">BDT 2,490</span>
+              </div>
+              <div class="deal-card-rating">
+                <i data-lucide="star" style="width: 12px; height: 12px; fill: #FBBF24; stroke: none;"></i>
+                <span>4.6</span>
+                <span class="deal-card-reviews">(128)</span>
+              </div>
+              <button class="deal-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="1990" data-img="hero_sweater.png" data-cat="Apparel">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Deal 2 -->
+          <div class="deal-product-card" data-id="p6">
+            <span class="deal-badge">25% OFF</span>
+            <button class="deal-wishlist-btn" aria-label="Add to Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="deal-img-box">
+              <img src="prod_runner.png" alt="Minimal Runner" loading="lazy" />
+            </div>
+            <div class="deal-card-body">
+              <div class="deal-card-title">Minimal Runner</div>
+              <div class="deal-card-cat">Footwear</div>
+              <div class="deal-card-pricing">
+                <span class="deal-price-current">BDT 5,990</span>
+                <span class="deal-price-original">BDT 7,990</span>
+              </div>
+              <div class="deal-card-rating">
+                <i data-lucide="star" style="width: 12px; height: 12px; fill: #FBBF24; stroke: none;"></i>
+                <span>4.7</span>
+                <span class="deal-card-reviews">(94)</span>
+              </div>
+              <button class="deal-add-btn" data-id="p6" data-name="Minimal Runner" data-price="5990" data-img="prod_runner.png" data-cat="Footwear">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Deal 3 -->
+          <div class="deal-product-card" data-id="p5">
+            <span class="deal-badge">15% OFF</span>
+            <button class="deal-wishlist-btn" aria-label="Add to Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="deal-img-box">
+              <img src="search_watch.png" alt="Classic Leather Watch" loading="lazy" />
+            </div>
+            <div class="deal-card-body">
+              <div class="deal-card-title">Classic Leather Watch</div>
+              <div class="deal-card-cat">Accessories</div>
+              <div class="deal-card-pricing">
+                <span class="deal-price-current">BDT 3,380</span>
+                <span class="deal-price-original">BDT 3,980</span>
+              </div>
+              <div class="deal-card-rating">
+                <i data-lucide="star" style="width: 12px; height: 12px; fill: #FBBF24; stroke: none;"></i>
+                <span>4.5</span>
+                <span class="deal-card-reviews">(72)</span>
+              </div>
+              <button class="deal-add-btn" data-id="p5" data-name="Classic Leather Watch" data-price="3380" data-img="search_watch.png" data-cat="Accessories">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Deal 4 -->
+          <div class="deal-product-card" data-id="p2">
+            <span class="deal-badge">30% OFF</span>
+            <button class="deal-wishlist-btn" aria-label="Add to Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="deal-img-box">
+              <img src="plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
+            </div>
+            <div class="deal-card-body">
+              <div class="deal-card-title">Tailored Wool Blazer</div>
+              <div class="deal-card-cat">Apparel</div>
+              <div class="deal-card-pricing">
+                <span class="deal-price-current">BDT 8,450</span>
+                <span class="deal-price-original">BDT 12,000</span>
+              </div>
+              <div class="deal-card-rating">
+                <i data-lucide="star" style="width: 12px; height: 12px; fill: #FBBF24; stroke: none;"></i>
+                <span>4.8</span>
+                <span class="deal-card-reviews">(64)</span>
+              </div>
+              <button class="deal-add-btn" data-id="p2" data-name="Tailored Wool Blazer" data-price="8450" data-img="plp_blazer.png" data-cat="Apparel">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Deal 5 -->
+          <div class="deal-product-card" data-id="p8">
+            <span class="deal-badge">30% OFF</span>
+            <button class="deal-wishlist-btn" aria-label="Add to Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="deal-img-box">
+              <img src="search_earbuds.png" alt="Noise Canceling Earbuds" loading="lazy" />
+            </div>
+            <div class="deal-card-body">
+              <div class="deal-card-title">Noise Canceling Earbuds</div>
+              <div class="deal-card-cat">Electronics</div>
+              <div class="deal-card-pricing">
+                <span class="deal-price-current">BDT 3,390</span>
+                <span class="deal-price-original">BDT 4,890</span>
+              </div>
+              <div class="deal-card-rating">
+                <i data-lucide="star" style="width: 12px; height: 12px; fill: #FBBF24; stroke: none;"></i>
+                <span>4.6</span>
+                <span class="deal-card-reviews">(45)</span>
+              </div>
+              <button class="deal-add-btn" data-id="p8" data-name="Noise Canceling Earbuds" data-price="3390" data-img="search_earbuds.png" data-cat="Electronics">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
 
-    <!-- EXPERIENCE STRIP -->
+    <!-- CONVERSATIONAL INTENT DISCOVERY CARD ("TELL US WHAT YOU NEED") -->
+    <section class="home-intent-card-section reveal-on-scroll">
+      <div class="container">
+        <div class="home-intent-card">
+          <div class="intent-card-top">
+            <div class="intent-card-left">
+              <div class="intent-sparkle-icon">
+                <i data-lucide="sparkles" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <h3 class="intent-text-heading">Tell us what you need.</h3>
+                <p class="intent-text-sub">Describe an occasion, destination, weather, style, or anything else that matters to you.</p>
+              </div>
+            </div>
+
+            <form id="homeIntentForm" class="intent-input-wrap">
+              <input type="text" id="homeIntentInput" class="intent-input-field" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
+              <button type="submit" class="intent-submit-circle-btn" aria-label="Submit Search">
+                <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+              </button>
+            </form>
+          </div>
+
+          <div class="intent-card-bottom">
+            <span class="intent-try-label">Try:</span>
+            <button type="button" class="intent-chip-pill" data-query="Dinner outfit">Dinner outfit</button>
+            <button type="button" class="intent-chip-pill" data-query="Weekend trip">Weekend trip</button>
+            <button type="button" class="intent-chip-pill" data-query="Comfortable for work">Comfortable for work</button>
+            <button type="button" class="intent-chip-pill" data-query="Gift for him">Gift for him</button>
+            <button type="button" class="intent-chip-pill" data-query="Light for summer">Light for summer</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIECES WORTH DISCOVERING (AI CURATED LUXURY GRID) -->
+    <section class="home-curated-section reveal-on-scroll">
+      <div class="container">
+        <div class="home-section-header-row">
+          <div>
+            <h2 class="home-section-title">Pieces worth discovering.</h2>
+            <div class="home-section-sub">Curated by AI for your style and needs.</div>
+          </div>
+          <a href="category.html?cat=all" class="home-section-link">View all &rarr;</a>
+        </div>
+
+        <div class="curated-grid-4col" id="curatedGrid">
+          <!-- Curated Item 1 -->
+          <div class="curated-product-card" data-id="p10">
+            <span class="curated-badge"><i data-lucide="sparkles" style="width: 10px; height: 10px; display:inline-block; vertical-align:-0.125em; margin-right:3px;"></i>AI PICK</span>
+            <button class="curated-wishlist-btn" aria-label="Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="curated-img-box">
+              <img src="plp_turtleneck.png" alt="Cashmere Ribbed Turtleneck" loading="lazy" />
+            </div>
+            <div class="curated-card-body">
+              <div class="curated-card-title">Cashmere Ribbed Turtleneck</div>
+              <div class="curated-card-cat">Apparel</div>
+              <div class="curated-card-price">BDT 18,400</div>
+              <div class="curated-card-reason">Warm enough after sunset without feeling heavy.</div>
+              <button class="curated-add-btn" data-id="p10" data-name="Cashmere Ribbed Turtleneck" data-price="18400" data-img="plp_turtleneck.png" data-cat="Apparel">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Curated Item 2 -->
+          <div class="curated-product-card" data-id="p2">
+            <span class="curated-badge"><i data-lucide="sparkles" style="width: 10px; height: 10px; display:inline-block; vertical-align:-0.125em; margin-right:3px;"></i>AI PICK</span>
+            <button class="curated-wishlist-btn" aria-label="Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="curated-img-box">
+              <img src="prod_tote.png" alt="Structured Leather Tote" loading="lazy" />
+            </div>
+            <div class="curated-card-body">
+              <div class="curated-card-title">Structured Leather Tote</div>
+              <div class="curated-card-cat">Leather Goods</div>
+              <div class="curated-card-price">BDT 14,900</div>
+              <div class="curated-card-reason">Italian pebbled leather with dedicated padded laptop compartment.</div>
+              <button class="curated-add-btn" data-id="p2" data-name="Structured Leather Tote" data-price="14900" data-img="prod_tote.png" data-cat="Leather Goods">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Curated Item 3 -->
+          <div class="curated-product-card" data-id="p7">
+            <span class="curated-badge"><i data-lucide="sparkles" style="width: 10px; height: 10px; display:inline-block; vertical-align:-0.125em; margin-right:3px;"></i>AI PICK</span>
+            <button class="curated-wishlist-btn" aria-label="Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="curated-img-box">
+              <img src="plp_trousers.png" alt="Tailored Chino Trousers" loading="lazy" />
+            </div>
+            <div class="curated-card-body">
+              <div class="curated-card-title">Tailored Chino Trousers</div>
+              <div class="curated-card-cat">Apparel</div>
+              <div class="curated-card-price">BDT 6,800</div>
+              <div class="curated-card-reason">Four-way stretch wool blend crafted for breathable all-day comfort.</div>
+              <button class="curated-add-btn" data-id="p7" data-name="Tailored Chino Trousers" data-price="6800" data-img="plp_trousers.png" data-cat="Apparel">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Curated Item 4 -->
+          <div class="curated-product-card" data-id="p4">
+            <span class="curated-badge"><i data-lucide="sparkles" style="width: 10px; height: 10px; display:inline-block; vertical-align:-0.125em; margin-right:3px;"></i>AI PICK</span>
+            <button class="curated-wishlist-btn" aria-label="Wishlist">
+              <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+            </button>
+            <div class="curated-img-box">
+              <img src="prod_headphones.png" alt="Sonic Aurora Headphones GT" loading="lazy" />
+            </div>
+            <div class="curated-card-body">
+              <div class="curated-card-title">Sonic Aurora Headphones GT</div>
+              <div class="curated-card-cat">Electronics</div>
+              <div class="curated-card-price">BDT 27,300</div>
+              <div class="curated-card-reason">Active noise cancellation for focused evening or travel.</div>
+              <button class="curated-add-btn" data-id="p4" data-name="Sonic Aurora Headphones GT" data-price="27300" data-img="prod_headphones.png" data-cat="Electronics">
+                <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i> ADD TO BAG
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-COLUMN MICRO-MERCHANDISING CLUSTER -->
+    <section class="home-micro-merch-section reveal-on-scroll">
+      <div class="container">
+          <div class="micro-merch-grid-3col">
+            <!-- Column 1: New Arrivals -->
+            <div class="micro-merch-col">
+              <div class="micro-col-header">
+                <span class="micro-col-title">New Arrivals</span>
+                <a href="category.html?sort=newest" class="micro-col-link">See all &rarr;</a>
+              </div>
+              <div class="micro-item-list">
+                <div class="micro-item-row" data-id="p3">
+                  <div class="micro-item-thumb">
+                    <img src="plp_crewneck.png" alt="Fine-Knit Merino Crew" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Fine-Knit Merino Crew</div>
+                    <div class="micro-item-cat">Apparel</div>
+                    <div class="micro-item-price">BDT 2,490</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p3" data-name="Fine-Knit Merino Crew" data-price="2490" data-img="plp_crewneck.png" data-cat="Apparel" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p2">
+                  <div class="micro-item-thumb">
+                    <img src="prod_tote.png" alt="Structured Leather Tote" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Structured Leather Tote</div>
+                    <div class="micro-item-cat">Leather Goods</div>
+                    <div class="micro-item-price">BDT 14,900</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p2" data-name="Structured Leather Tote" data-price="14900" data-img="prod_tote.png" data-cat="Leather Goods" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p5_bag">
+                  <div class="micro-item-thumb">
+                    <img src="cat_accessories.jpg" alt="Canvas Weekender Bag" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Canvas Weekender Bag</div>
+                    <div class="micro-item-cat">Accessories</div>
+                    <div class="micro-item-price">BDT 4,990</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p5_bag" data-name="Canvas Weekender Bag" data-price="4990" data-img="cat_accessories.jpg" data-cat="Accessories" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p7">
+                  <div class="micro-item-thumb">
+                    <img src="plp_trousers.png" alt="Tailored Chino Trousers" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Tailored Chino Trousers</div>
+                    <div class="micro-item-cat">Apparel</div>
+                    <div class="micro-item-price">BDT 6,800</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p7" data-name="Tailored Chino Trousers" data-price="6800" data-img="plp_trousers.png" data-cat="Apparel" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Best Sellers -->
+            <div class="micro-merch-col">
+              <div class="micro-col-header">
+                <span class="micro-col-title">Best Sellers</span>
+                <a href="category.html?sort=popular" class="micro-col-link">See all &rarr;</a>
+              </div>
+              <div class="micro-item-list">
+                <div class="micro-item-row" data-id="p1">
+                  <div class="micro-item-thumb">
+                    <img src="hero_sweater.png" alt="Architectural Cashmere Sweater" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Architectural Cashmere Sweater</div>
+                    <div class="micro-item-cat">Apparel</div>
+                    <div class="micro-item-price">BDT 18,400</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p1" data-name="Architectural Cashmere Sweater" data-price="18400" data-img="hero_sweater.png" data-cat="Apparel" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p6">
+                  <div class="micro-item-thumb">
+                    <img src="prod_runner.png" alt="Minimalist Leather Runner" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Minimalist Leather Runner</div>
+                    <div class="micro-item-cat">Footwear</div>
+                    <div class="micro-item-price">BDT 11,900</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p6" data-name="Minimalist Leather Runner" data-price="11900" data-img="prod_runner.png" data-cat="Footwear" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p9">
+                  <div class="micro-item-thumb">
+                    <img src="plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Tailored Wool Blazer</div>
+                    <div class="micro-item-cat">Apparel</div>
+                    <div class="micro-item-price">BDT 8,450</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p9" data-name="Tailored Wool Blazer" data-price="8450" data-img="plp_blazer.png" data-cat="Apparel" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p5">
+                  <div class="micro-item-thumb">
+                    <img src="search_watch.png" alt="Classic Chronograph Watch" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Classic Chronograph Watch</div>
+                    <div class="micro-item-cat">Timepieces</div>
+                    <div class="micro-item-price">BDT 3,380</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p5" data-name="Classic Chronograph Watch" data-price="3380" data-img="search_watch.png" data-cat="Timepieces" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3: Picked for you -->
+            <div class="micro-merch-col">
+              <div class="micro-col-header">
+                <span class="micro-col-title">Picked for you</span>
+                <a href="discovery.html" class="micro-col-link">See all &rarr;</a>
+              </div>
+              <div class="micro-item-list">
+                <div class="micro-item-row" data-id="p10">
+                  <div class="micro-item-thumb">
+                    <img src="plp_turtleneck.png" alt="Ribbed Cashmere Turtleneck" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Ribbed Cashmere Turtleneck</div>
+                    <div class="micro-item-cat">Apparel</div>
+                    <div class="micro-item-price">BDT 18,400</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p10" data-name="Ribbed Cashmere Turtleneck" data-price="18400" data-img="plp_turtleneck.png" data-cat="Apparel" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p4">
+                  <div class="micro-item-thumb">
+                    <img src="prod_headphones.png" alt="Sonic Aurora Headphones GT" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Sonic Aurora Headphones GT</div>
+                    <div class="micro-item-cat">Electronics</div>
+                    <div class="micro-item-price">BDT 27,300</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p4" data-name="Sonic Aurora Headphones GT" data-price="27300" data-img="prod_headphones.png" data-cat="Electronics" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p11">
+                  <div class="micro-item-thumb">
+                    <img src="plp_overcoat.png" alt="Charcoal Wool Overcoat" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Charcoal Wool Overcoat</div>
+                    <div class="micro-item-cat">Outerwear</div>
+                    <div class="micro-item-price">BDT 24,500</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p11" data-name="Charcoal Wool Overcoat" data-price="24500" data-img="plp_overcoat.png" data-cat="Outerwear" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <div class="micro-item-row" data-id="p12">
+                  <div class="micro-item-thumb">
+                    <img src="cat_footwear.jpg" alt="Beige Suede Runner" loading="lazy" />
+                  </div>
+                  <div class="micro-item-info">
+                    <div class="micro-item-title">Beige Suede Runner</div>
+                    <div class="micro-item-cat">Footwear</div>
+                    <div class="micro-item-price">BDT 12,500</div>
+                  </div>
+                  <button class="micro-item-add-btn" data-id="p12" data-name="Beige Suede Runner" data-price="12500" data-img="cat_footwear.jpg" data-cat="Footwear" aria-label="Add to Bag">
+                    <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST / VALUE PROPOSITION STRIP -->
     <section class="trust-strip reveal-on-scroll">
       <div class="container trust-grid">
-        <div class="trust-item-card">
-          <div class="trust-item-icon">
-            <i data-lucide="target" style="width: 20px; height: 20px;"></i>
-          </div>
-          <div class="trust-item-title">INTENT-BASED DISCOVERY</div>
-          <div class="trust-item-sub">Find products naturally, not by filters.</div>
-        </div>
         <div class="trust-item-card">
           <div class="trust-item-icon">
             <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
           </div>
           <div class="trust-item-title">SMART RECOMMENDATIONS</div>
-          <div class="trust-item-sub">Understand why something fits you, not just what's trending.</div>
+          <div class="trust-item-sub">Find products naturally from your very first intent.</div>
         </div>
         <div class="trust-item-card">
           <div class="trust-item-icon">
             <i data-lucide="truck" style="width: 20px; height: 20px;"></i>
           </div>
           <div class="trust-item-title">EASY DELIVERY</div>
-          <div class="trust-item-sub">Clear options before you order.</div>
+          <div class="trust-item-sub">Hyperlocal courier routing right to your door.</div>
         </div>
         <div class="trust-item-card">
           <div class="trust-item-icon">
-            <i data-lucide="lock" style="width: 20px; height: 20px;"></i>
+            <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
           </div>
           <div class="trust-item-title">SECURE CHECKOUT</div>
-          <div class="trust-item-sub">Protected from cart to confirmation.</div>
+          <div class="trust-item-sub">Protected bKash, Nagad, and Card transactions.</div>
         </div>
-      </div>
-    </section>
-
-
-    <!-- AI DISCOVERY SECTION -->
-    <section class="home-discovery-section reveal-on-scroll">
-      <div class="container" style="max-width: 840px; text-align: center;">
-        <span class="home-discovery-eyebrow">A BETTER WAY TO SEARCH</span>
-        <h2 class="home-discovery-heading">Tell us what you need.</h2>
-        <p class="home-discovery-subtitle">Describe an occasion, destination, weather, style, or anything else that matters to you.</p>
-
-        <form id="homeDiscoveryForm" class="home-discovery-form">
-          <div class="home-discovery-input-box">
-            <span class="home-discovery-ai-icon"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
-            <input type="text" id="homeDiscoveryInput" class="home-discovery-input" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
-            <button type="submit" class="home-discovery-submit-btn" aria-label="Submit Search">&rarr;</button>
+        <div class="trust-item-card">
+          <div class="trust-item-icon">
+            <i data-lucide="refresh-cw" style="width: 20px; height: 20px;"></i>
           </div>
-        </form>
-
-        <div class="home-discovery-suggestions">
-          <span class="home-discovery-suggest-label">Try:</span>
-          <button class="intent-suggestion-chip">Something comfortable for a long flight</button>
-          <button class="intent-suggestion-chip">An outfit for a dinner in Dhaka</button>
-          <button class="intent-suggestion-chip">Minimal everyday sneakers</button>
-          <button class="intent-suggestion-chip">Something warm but not bulky</button>
+          <div class="trust-item-title">EASY RETURNS</div>
+          <div class="trust-item-sub">Hassle-free 14-day exchange and returns.</div>
         </div>
       </div>
     </section>
 
-
-    <!-- FEATURED COLLECTION -->
-    <section class="reveal-on-scroll" style="padding: 80px 0; background: var(--bg-surface);">
+    <!-- PRE-FOOTER EDITORIAL BANNER -->
+    <section class="home-editorial-banner-section reveal-on-scroll">
       <div class="container">
-        <div style="margin-bottom: 40px; display: flex; align-items: flex-end; justify-content: space-between;">
-          <div>
-            <span style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; display: block;">CURATED FOR YOU</span>
-            <h2 style="font-family: var(--font-serif); font-size: 40px; font-weight: 400; color: var(--text-primary);">Pieces worth discovering.</h2>
-          </div>
-          <a href="category.html" class="link-text-nav" style="font-size: 13px; white-space: nowrap; padding-bottom: 4px;">View all &rarr;</a>
-        </div>
-
-        <div class="category-grid-4col" id="featuredCollectionGrid">
-          <!-- Rendered dynamically by js/home.js -->
-        </div>
-      </div>
-    </section>
-
-    <!-- CATEGORY DISCOVERY -->
-    <section class="category-discovery-section reveal-on-scroll">
-      <div class="container">
-        <div class="category-discovery-header">
-          <div style="display: flex; align-items: flex-end; justify-content: space-between; width: 100%;">
-            <div>
-              <span class="category-discovery-eyebrow">EXPLORE THE COLLECTION</span>
+        <div class="editorial-banner-card">
+          <div class="editorial-banner-grid">
+            <div class="editorial-banner-image-wrap">
+              <img src="img_apparel_1.png" alt="nexCommerce Personalized Lifestyle" loading="lazy" />
             </div>
-            <a href="category.html?cat=all" class="link-text-nav" style="font-size: 13px; white-space: nowrap; padding-bottom: 4px;">View all collections &rarr;</a>
-          </div>
-        </div>
-
-        <div class="category-discovery-grid">
-          <div class="category-tile" data-cat="apparel">
-            <img src="cat_apparel.png" alt="Apparel" />
-            <div class="category-tile-overlay">
-              <div class="category-tile-content">
-                <span class="category-tile-name">APPAREL</span>
-                <span class="category-tile-editorial">You don't need pieces<br>for every moment.</span>
-                <span class="category-tile-link">EXPLORE &rarr;</span>
-              </div>
+            <div class="editorial-banner-content">
+              <span class="editorial-banner-eyebrow">PERSONALIZED COMMERCE</span>
+              <h2 class="editorial-banner-title">Shopping should<br>feel personal.</h2>
+              <p class="editorial-banner-desc">No endless scrolling through things you don't want. Just tell us what you're looking for, and we'll do the rest.</p>
+              <button type="button" class="editorial-banner-btn" id="editorialDescribeBtn">
+                DESCRIBE WHAT YOU NEED <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </button>
             </div>
           </div>
-          <div class="category-tile" data-cat="accessories">
-            <img src="prod_tote.png" alt="Accessories" />
-            <div class="category-tile-overlay">
-              <div class="category-tile-content">
-                <span class="category-tile-name">ACCESSORIES</span>
-                <span class="category-tile-editorial">Designed to<br>complement you.</span>
-                <span class="category-tile-link">EXPLORE &rarr;</span>
-              </div>
-            </div>
-          </div>
-          <div class="category-tile" data-cat="footwear">
-            <img src="prod_runner.png" alt="Footwear" />
-            <div class="category-tile-overlay">
-              <div class="category-tile-content">
-                <span class="category-tile-name">FOOTWEAR</span>
-                <span class="category-tile-editorial">Comfort meets<br>modern design.</span>
-                <span class="category-tile-link">EXPLORE &rarr;</span>
-              </div>
-            </div>
-          </div>
-          <div class="category-tile" data-cat="acoustics">
-            <img src="prod_headphones.png" alt="Acoustics" />
-            <div class="category-tile-overlay">
-              <div class="category-tile-content">
-                <span class="category-tile-name">ACOUSTICS</span>
-                <span class="category-tile-editorial">Sound that<br>moves with you.</span>
-                <span class="category-tile-link">EXPLORE &rarr;</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AI COMMERCE EXPLANATION -->
-    <section class="ai-explain-section reveal-on-scroll">
-      <div class="container">
-        <div class="ai-explain-header">
-          <span class="ai-explain-eyebrow">COMMERCE THAT UNDERSTANDS</span>
-          <h2 class="ai-explain-heading">Shopping becomes easier<br>when the experience understands context.</h2>
-        </div>
-
-        <div class="ai-explain-grid">
-          <div class="ai-explain-card">
-            <span class="ai-card-icon">
-              <i data-lucide="message-circle" style="width: 24px; height: 24px;"></i>
-            </span>
-            <div class="ai-card-num">01</div>
-            <h3 class="ai-card-title">UNDERSTANDS INTENT</h3>
-            <p class="ai-card-desc">You don't need to know exactly what product you want. Describe what you need naturally.</p>
-          </div>
-          <div class="ai-explain-card">
-            <span class="ai-card-icon">
-              <i data-lucide="link" style="width: 24px; height: 24px;"></i>
-            </span>
-            <div class="ai-card-num">02</div>
-            <h3 class="ai-card-title">CONNECTS CONTEXT</h3>
-            <p class="ai-card-desc">Occasion. Weather. Location. Style. Preference.</p>
-          </div>
-          <div class="ai-explain-card">
-            <span class="ai-card-icon">
-              <i data-lucide="lightbulb" style="width: 24px; height: 24px;"></i>
-            </span>
-            <div class="ai-card-num">03</div>
-            <h3 class="ai-card-title">EXPLAINS THE MATCH</h3>
-            <p class="ai-card-desc">Recommendations don't just appear. The experience tells you why they fit.</p>
-          </div>
-        </div>
-
-        <!-- VISUAL FLOW DIAGRAM -->
-        <div class="ai-flow-container">
-          <div class="ai-flow-step">
-            <span class="ai-flow-step-label">WHAT YOU SAY</span>
-            <div class="ai-flow-box">"Dinner tonight in Dhaka"</div>
-          </div>
-          <div class="ai-flow-connector">&rarr;</div>
-          <div class="ai-flow-step">
-            <span class="ai-flow-step-label">CONTEXT</span>
-            <div class="ai-flow-chips">
-              <span class="ai-flow-chip">Evening</span>
-              <span class="ai-flow-chip">Dhaka</span>
-              <span class="ai-flow-chip">Minimal</span>
-            </div>
-          </div>
-          <div class="ai-flow-connector">&rarr;</div>
-          <div class="ai-flow-step">
-            <span class="ai-flow-step-label">RECOMMENDATIONS</span>
-            <div class="ai-flow-products">
-              <div class="ai-flow-prod-pill">Architectural Cashmere Sweater</div>
-              <div class="ai-flow-prod-pill">Structured Leather Tote</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- FINAL HOMEPAGE CTA BANNER -->
-    <section class="final-cta-section reveal-on-scroll">
-      <div class="container" style="max-width: 760px; text-align: center;">
-        <span class="final-cta-eyebrow">NOT SURE WHERE TO START?</span>
-        <h2 class="final-cta-heading">Tell us what you're looking for.<br>We'll help you find it.</h2>
-        <div class="final-cta-actions">
-          <button id="finalDescribeBtn" class="btn-primary-commerce final-cta-primary">DESCRIBE WHAT I NEED</button>
-          <a href="category.html" class="link-text-nav final-cta-secondary">BROWSE EVERYTHING &rarr;</a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
+  <!-- 5-COLUMN LUXURY FOOTER -->
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">nexCommerce</div>
-        <div class="footer-sub">Intelligent Commerce Experience</div>
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Newsletter -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="footer-logo-img" />
+          </a>
+          <p class="footer-mission-text">Commerce that understands what happens next. Natural intent discovery, agentic assistance, and effortless fulfillment.</p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">BE THE FIRST TO KNOW</span>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to nexCommerce private edits.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email" required />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Shop -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">SHOP</span>
+          <a href="category.html?cat=apparel" class="footer-link-item">Apparel</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear</a>
+          <a href="category.html?cat=accessories" class="footer-link-item">Accessories</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">Electronics</a>
+          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
+          <a href="category.html?cat=deals" class="footer-link-item">Today's Deals</a>
+        </div>
+
+        <!-- Col 3: Discover -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">DISCOVER</span>
+          <a href="discovery.html" class="footer-link-item">Intent Search</a>
+          <a href="concierge.html" class="footer-link-item">AI Concierge</a>
+          <a href="lookbook.html" class="footer-link-item">Personalized Edits</a>
+          <a href="lookbook.html" class="footer-link-item">Lookbook</a>
+          <a href="product.html?id=p1" class="footer-link-item">Size Advisor</a>
+        </div>
+
+        <!-- Col 4: Customer Care -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CUSTOMER CARE</span>
+          <a href="tracking.html" class="footer-link-item">Track Your Order</a>
+          <a href="checkout.html" class="footer-link-item">Shipping & Delivery</a>
+          <a href="checkout.html" class="footer-link-item">Returns & Exchanges</a>
+          <a href="account.html" class="footer-link-item">Order History</a>
+          <a href="concierge.html" class="footer-link-item">Contact Concierge</a>
+        </div>
+
+        <!-- Col 5: Account & Legal -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">ACCOUNT & LEGAL</span>
+          <a href="account.html" class="footer-link-item">My Profile</a>
+          <a href="account.html" class="footer-link-item">Saved Wishlist</a>
+          <a href="foundation.html" class="footer-link-item">Privacy Policy</a>
+          <a href="foundation.html" class="footer-link-item">Terms of Service</a>
+          <a href="foundation.html" class="footer-link-item">Security Statement</a>
+        </div>
       </div>
-      <nav class="footer-nav">
-        <a href="category.html" class="footer-link">Shop</a>
-        <a href="discovery.html" class="footer-link">Discover</a>
-        <a href="cart.html" class="footer-link">Cart</a>
-        <a href="tracking.html" class="footer-link">Tracking</a>
-      </nav>
-      <div class="footer-copy">© 2026 nexCommerce. All rights reserved.</div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Bangladesh / English</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <!-- bKash Official Vector Logo -->
+          <div class="payment-logo-badge" title="bKash">
+            <img src="bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+
+          <!-- Nagad Official Vector Logo -->
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+
+          <!-- VISA Official Vector Logo -->
+          <div class="payment-logo-badge" title="Visa">
+            <img src="visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+
+          <!-- Mastercard Official Vector Logo -->
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -344,12 +857,13 @@
           <span class="search-overlay-eyebrow">FIND SOMETHING THAT FITS</span>
           <h2 style="font-family: var(--font-serif); font-size: 36px; font-weight: 500; color: var(--text-primary); margin-top: 4px;">What are you looking for?</h2>
         </div>
-        <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search overlay">Ã&mdash;</button>
+        <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search overlay" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
       </div>
 
       <div class="search-input-wrapper">
         <span class="search-ai-icon"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
         <input type="text" id="aiSearchInput" class="search-ai-input" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
+        <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
       </div>
 
       <div class="search-prompts-group" id="aiSearchSuggestions">
@@ -374,7 +888,7 @@
 <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
   <div class="minicart-header">
     <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
   </div>
   <div id="minicartBody" class="minicart-body" data-lenis-prevent>
     <!-- Populated by cart.js -->
@@ -394,18 +908,18 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <script src="js/cart.js?v=3"></script>
-  <script src="js/ai-engine.js"></script>
+  <script src="js/ai-engine.js?v=3"></script>
   <script src="js/intent-parser.js"></script>
   <script src="js/catalog-engine.js"></script>
   <script src="js/session-context.js"></script>
   <script src="js/search-overlay.js?v=2"></script>
-  <script src="js/home.js?v=5"></script>
-  <script src="js/theme-switcher.js"></script>
+  <script src="js/home.js?v=6"></script>
+  <script src="js/theme-switcher.js?v=3"></script>
   <script type="module" src="js/animations.js?v=6"></script>
   <script src="js/style-profile.js"></script>
   <script src="js/context-retention.js"></script>
-  <script src="js/concierge-engine.js"></script>
-  <script src="js/concierge.js"></script>
+  <script src="js/concierge-engine.js?v=3"></script>
+  <script src="js/concierge.js?v=3"></script>
   <script src="js/auth.js"></script>
 
 </body>

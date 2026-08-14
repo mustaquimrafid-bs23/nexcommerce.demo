@@ -9,7 +9,7 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-system.css?v=4">
 </head>
 <body>
@@ -18,10 +18,9 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
-        <a href="index.html" class="nav-logo">
-          <span>nexCommerce</span>
-          <span class="nav-logo-sub">Intelligent Commerce</span>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
@@ -57,10 +56,9 @@
   <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
     </div>
-    <a href="category.html" class="mobile-drawer-link">Shop</a>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="discovery.html" class="mobile-drawer-link">Discover</a>
@@ -89,7 +87,7 @@
         <i data-lucide="sparkles" class="pdp-retention-icon" style="width: 14px; height: 14px;"></i>
         <span class="pdp-retention-text" id="pdpRetentionText"></span>
       </div>
-      <button class="pdp-retention-clear" id="pdpRetentionClearBtn" aria-label="Clear search context">âœ&bull;</button>
+      <button class="pdp-retention-clear" id="pdpRetentionClearBtn" aria-label="Clear search context" style="display: inline-flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 14px; height: 14px;"></i></button>
     </div>
 
     <div class="pdp-grid">
@@ -171,7 +169,7 @@
           <span>PRODUCT DETAILS</span>
           <span class="accordion-icon">+</span>
         </button>
-        <div class="pdp-accordion-body">
+        <div class="pdp-accordion-body" id="accordionDetailsBody">
           Precision-knitted from 100% Mongolian cashmere featuring ribbed trims, drop shoulder seams, and breathable thermal regulation. Designed specifically for cool evening transitions.
         </div>
       </div>
@@ -181,7 +179,7 @@
           <span>MATERIAL & CARE</span>
           <span class="accordion-icon">+</span>
         </button>
-        <div class="pdp-accordion-body">
+        <div class="pdp-accordion-body" id="accordionMaterialBody">
           100% Grade-A 2-Ply Mongolian Cashmere. Dry clean only. Store folded in a cool, dry place.
         </div>
       </div>
@@ -191,71 +189,125 @@
           <span>FIT & SILHOUETTE</span>
           <span class="accordion-icon">+</span>
         </button>
-        <div class="pdp-accordion-body">
+        <div class="pdp-accordion-body" id="accordionSizingBody">
           Relaxed architectural fit. True to size for standard layering; choose one size smaller for a close-to-body silhouette.
         </div>
       </div>
     </div>
 
-    <!-- AI Alternative Recommendations Section -->
-    <section id="pdpAlternativeRecs" class="pdp-recommendations-section reveal-on-scroll" style="display:none;">
-      <div class="pdp-rec-header">
-        <h2 id="pdpAlternativeRecsTitle" class="pdp-rec-title">More options for your search</h2>
+    <!-- EDITORIAL "COMPLETE THE LOOK" SECTION -->
+    <section id="pdpCompleteLookSection" class="pdp-complete-look-section reveal-on-scroll">
+      <div class="pdp-complete-look-header">
+        <div>
+          <span class="pdp-complete-look-eyebrow">
+            <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
+            CURATED STYLING &middot; COMPLETE THE LOOK
+          </span>
+          <h2 class="pdp-complete-look-title">Style With Enduring Essentials</h2>
+          <p class="pdp-complete-look-sub">Hand-selected pairings calibrated for seamless layering, proportion, and texture harmony.</p>
+        </div>
+
+        <div class="pdp-bundle-quick-checkout">
+          <div class="pdp-bundle-pricing">
+            <span class="pdp-bundle-original-price" id="pdpBundleOriginalPrice">BDT 0</span>
+            <span class="pdp-bundle-discount-badge">SAVE 10%</span>
+            <span class="pdp-bundle-final-price" id="pdpBundleFinalPrice">BDT 0</span>
+          </div>
+          <button id="btnAddCompleteLookBtn" class="btn-primary-commerce pdp-bundle-btn">
+            <i data-lucide="shopping-bag" style="width: 14px; height: 14px; margin-right: 8px;"></i>
+            <span id="pdpBundleBtnText">ADD ENTIRE LOOK (3 PIECES)</span>
+          </button>
+        </div>
       </div>
-      <div id="pdpAlternativeRecsGrid" class="pdp-rec-grid">
-        <!-- populated by js/pdp.js -->
+
+      <!-- 3-Piece Styled Grid -->
+      <div id="pdpCompleteLookGrid" class="pdp-complete-look-grid">
+        <!-- Populated dynamically by js/pdp.js -->
       </div>
     </section>
   </main>
 
-  <!-- AI FIT ASSISTANT MODAL (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>FIND MY SIZE) -->
-  <div id="fitModal" class="fit-modal-container" role="dialog" aria-modal="true" aria-label="AI Fit Assistant Modal">
+  <!-- SMART SIZE & FIT ADVISOR MODAL -->
+  <div id="fitModal" class="fit-modal-container" role="dialog" aria-modal="true" aria-label="Smart Size &amp; Fit Advisor">
     <div class="fit-modal-backdrop"></div>
     <div class="fit-modal-panel">
-      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px;">
-        <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>FIND YOUR SIZE</span>
-        <button class="fit-modal-close btn-secondary-action" style="min-width: 36px; height: 36px; padding: 0;">âœ&bull;</button>
+      <!-- Modal Header -->
+      <div class="fit-modal-header">
+        <div class="fit-modal-badge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
+          <span>SMART SIZE &amp; FIT ADVISOR</span>
+        </div>
+        <button class="fit-modal-close" aria-label="Close Size Advisor">&times;</button>
       </div>
 
-      <div>
-        <h3 class="type-her&#10003; style="font-size: 24px; font-weight: 500; margin-bottom: 8px;">How do you prefer your clothes to fit?</h3>
-        <p class="type-body-sm" style="color: var(--text-secondary);">Select your silhouette preference to get a tailored size recommendation.</p>
+      <!-- Title & Subtitle -->
+      <div class="fit-modal-intro">
+        <h3 class="fit-modal-heading">Find Your Ideal Fit</h3>
+        <p class="fit-modal-sub">Input your measurements and silhouette preference for a tailored sizing recommendation.</p>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <button class="fit-option-btn" data-fit="Slim">
-          <span>Slim Fit</span>
-          <span style="font-size: 12px; color: var(--text-secondary);">Contoured silhouette</span>
-        </button>
-        <button class="fit-option-btn selected" data-fit="Regular">
-          <span>Regular Fit</span>
-          <span style="font-size: 12px; color: var(--accent-cyan);">Standard balanced fit</span>
-        </button>
-        <button class="fit-option-btn" data-fit="Relaxed">
-          <span>Relaxed Fit</span>
-          <span style="font-size: 12px; color: var(--text-secondary);">Subtle drape & room</span>
-        </button>
-      </div>
-
-      <div id="fitRecResult">
-        <div style="padding: 14px; background: rgba(0, 200, 255, 0.08); border: 1px solid rgba(0, 200, 255, 0.2); border-radius: 6px;">
-          <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">Recommended Size</div>
-          <div style="font-family: var(--font-serif); font-size: 28px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">Size M</div>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.4;">A regular fit in M gives you enough room through the shoulders without making the silhouette oversized.</p>
+      <!-- Measurements Section -->
+      <div class="fit-metrics-grid">
+        <div class="fit-input-group">
+          <label for="fitHeightInput" class="fit-input-label">Height</label>
+          <div class="fit-input-wrap">
+            <input type="number" id="fitHeightInput" class="fit-metric-input" value="178" min="140" max="215" />
+            <span class="fit-input-unit">cm</span>
+          </div>
+        </div>
+        <div class="fit-input-group">
+          <label for="fitWeightInput" class="fit-input-label">Weight</label>
+          <div class="fit-input-wrap">
+            <input type="number" id="fitWeightInput" class="fit-metric-input" value="74" min="40" max="150" />
+            <span class="fit-input-unit">kg</span>
+          </div>
         </div>
       </div>
 
-      <button id="btnUseRecSize" class="btn-primary-commerce" style="width: 100%; height: 48px; margin-top: 8px;" data-rec-size="M">USE SIZE M</button>
+      <!-- Silhouette Preference -->
+      <div class="fit-preference-section">
+        <label class="fit-input-label">Preferred Silhouette</label>
+        <div class="fit-options-grid">
+          <button class="fit-option-btn" data-fit="Slim">
+            <span class="fit-option-title">Slim</span>
+            <span class="fit-option-desc">Tailored</span>
+          </button>
+          <button class="fit-option-btn selected" data-fit="Regular">
+            <span class="fit-option-title">Regular</span>
+            <span class="fit-option-desc">Balanced</span>
+          </button>
+          <button class="fit-option-btn" data-fit="Relaxed">
+            <span class="fit-option-title">Relaxed</span>
+            <span class="fit-option-desc">Airy Drape</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recommendation Result Card -->
+      <div id="fitRecResult" class="fit-recommendation-card">
+        <div class="fit-rec-badge">RECOMMENDED FOR YOU</div>
+        <div class="fit-rec-size-display" id="fitRecSizeText">Size M</div>
+        <p class="fit-rec-reasoning" id="fitRecExplanation">
+          For 178cm / 74kg with a Regular silhouette, Size M gives you balanced room across the chest and ideal sleeve length.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="fit-modal-actions">
+        <button id="btnUseRecSize" class="btn-primary-commerce fit-modal-apply-btn" data-rec-size="M">
+          SELECT SIZE M &amp; APPLY
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- MOBILE STICKY PURCHASE BAR (64px) -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
-    <div>
-      <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);">BDT 18,400</div>
-      <div id="stickySizeLabel" style="font-size: 11px; color: var(--text-secondary);">Size M</div>
+    <div class="mobile-sticky-bar-info">
+      <div id="stickyPriceLabel" class="mobile-sticky-bar-price">BDT 18,500</div>
+      <div id="stickySizeLabel" class="mobile-sticky-bar-meta">Size M &middot; Midnight</div>
     </div>
-    <button class="btn-primary-commerce btn-pdp-add-to-bag" style="height: 44px; padding: 0 20px;">ADD TO BAG</button>
+    <button class="btn-primary-commerce btn-pdp-add-to-bag mobile-sticky-bar-cta">ADD TO BAG</button>
   </div>
 
   <!-- AI SEARCH OVERLAY MODAL -->
@@ -266,7 +318,7 @@
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
         </div>
-        <button class="search-close-btn" aria-label="Close Search Overlay (ESC)">âœ&bull;</button>
+        <button class="search-close-btn" aria-label="Close Search Overlay (ESC)" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
       </div>
 
       <div style="text-align: center; margin: 12px 0 8px;">
@@ -293,21 +345,117 @@
       </div>
     </div>
   </div>
+  <!-- ==========================================================================
+       LUXURY 5-COLUMN FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Newsletter -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="footer-logo-img" />
+          </a>
+          <p class="footer-mission-text">Commerce that understands what happens next. Natural intent discovery, agentic assistance, and effortless fulfillment.</p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">BE THE FIRST TO KNOW</span>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to nexCommerce private edits.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email" required />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Shop -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">SHOP</span>
+          <a href="category.html?cat=apparel" class="footer-link-item">Apparel</a>
+          <a href="category.html?cat=outerwear" class="footer-link-item">Outerwear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear</a>
+          <a href="category.html?cat=accessories" class="footer-link-item">Accessories</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">Acoustics</a>
+          <a href="category.html?cat=new" class="footer-link-item">New Arrivals</a>
+        </div>
+
+        <!-- Col 3: Discover -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">DISCOVER</span>
+          <a href="discovery.html" class="footer-link-item">Intent Search</a>
+          <a href="concierge.html" class="footer-link-item">AI Concierge</a>
+          <a href="lookbook.html" class="footer-link-item">Personalized Edits</a>
+          <a href="lookbook.html" class="footer-link-item">Lookbook</a>
+          <a href="product.html?id=p1" class="footer-link-item">Size Advisor</a>
+        </div>
+
+        <!-- Col 4: Customer Care -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CUSTOMER CARE</span>
+          <a href="tracking.html" class="footer-link-item">Track Your Order</a>
+          <a href="checkout.html" class="footer-link-item">Shipping & Delivery</a>
+          <a href="checkout.html" class="footer-link-item">Returns & Exchanges</a>
+          <a href="account.html" class="footer-link-item">Order History</a>
+          <a href="concierge.html" class="footer-link-item">Contact Concierge</a>
+        </div>
+
+        <!-- Col 5: Account & Legal -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">ACCOUNT & LEGAL</span>
+          <a href="account.html" class="footer-link-item">My Profile</a>
+          <a href="account.html" class="footer-link-item">Saved Wishlist</a>
+          <a href="foundation.html" class="footer-link-item">Privacy Policy</a>
+          <a href="foundation.html" class="footer-link-item">Terms of Service</a>
+          <a href="foundation.html" class="footer-link-item">Security Statement</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Bangladesh / English</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <!-- bKash Official Vector Logo -->
+          <div class="payment-logo-badge" title="bKash">
+            <img src="bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+
+          <!-- Nagad Official Vector Logo -->
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+
+          <!-- VISA Official Vector Logo -->
+          <div class="payment-logo-badge" title="Visa">
+            <img src="visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+
+          <!-- Mastercard Official Vector Logo -->
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
-  <script src="js/cart.js?v=2"></script>
-  <script src="js/pdp.js?v=2"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/pdp.js"></script>
   <script src="js/ai-engine.js"></script>
   <script src="js/intent-parser.js"></script>
   <script src="js/catalog-engine.js"></script>
   <script src="js/session-context.js"></script>
-  <script src="js/style-profile.js"></script>`r`n  <script src="js/context-retention.js"></script>
-  <script src="js/search-overlay.js?v=2"></script>
+  <script src="js/style-profile.js"></script>
+  <script src="js/context-retention.js"></script>
+  <script src="js/search-overlay.js"></script>
   <script src="js/theme-switcher.js"></script>
-  <script type="module" src="js/animations.js?v=6"></script>
+  <script type="module" src="js/animations.js"></script>
   <script src="js/concierge-engine.js"></script>
   <script src="js/concierge.js"></script>
   <script src="js/auth.js"></script>

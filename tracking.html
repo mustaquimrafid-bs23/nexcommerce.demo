@@ -7,7 +7,7 @@
   <meta name="description" content="Track your nexCommerce order. View real-time delivery status and estimated arrival date.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-system.css?v=4">
   <style>
     /* Page-specific overrides */
@@ -69,10 +69,9 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
-        <a href="index.html" class="nav-logo">
-          <span>nexCommerce</span>
-          <span class="nav-logo-sub">Intelligent Commerce</span>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
@@ -108,10 +107,9 @@
   <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
     </div>
-    <a href="category.html" class="mobile-drawer-link">Shop</a>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="discovery.html" class="mobile-drawer-link">Discover</a>
@@ -170,35 +168,117 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer style="background: var(--bg-main); border-top: 1px solid var(--border-subtle); padding: 40px 0; color: var(--text-secondary); font-family: var(--font-body); font-size: 13px;">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-      <div style="font-family: var(--font-serif); font-size: 22px; color: var(--text-primary);">nexCommerce</div>
-      <div style="display: flex; gap: 24px;">
-        <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
-        <a href="category.html" style="color: var(--text-secondary); text-decoration: none;">Shop</a>
-        <a href="cart.html" style="color: var(--text-secondary); text-decoration: none;">Cart</a>
+  <!-- ==========================================================================
+       LUXURY 5-COLUMN FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Newsletter -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="footer-logo-img" />
+          </a>
+          <p class="footer-mission-text">Commerce that understands what happens next. Natural intent discovery, agentic assistance, and effortless fulfillment.</p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">BE THE FIRST TO KNOW</span>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to nexCommerce private edits.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email" required />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Shop -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">SHOP</span>
+          <a href="category.html?cat=apparel" class="footer-link-item">Apparel</a>
+          <a href="category.html?cat=outerwear" class="footer-link-item">Outerwear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear</a>
+          <a href="category.html?cat=accessories" class="footer-link-item">Accessories</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">Acoustics</a>
+          <a href="category.html?cat=new" class="footer-link-item">New Arrivals</a>
+        </div>
+
+        <!-- Col 3: Discover -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">DISCOVER</span>
+          <a href="discovery.html" class="footer-link-item">Intent Search</a>
+          <a href="concierge.html" class="footer-link-item">AI Concierge</a>
+          <a href="lookbook.html" class="footer-link-item">Personalized Edits</a>
+          <a href="lookbook.html" class="footer-link-item">Lookbook</a>
+          <a href="product.html?id=p1" class="footer-link-item">Size Advisor</a>
+        </div>
+
+        <!-- Col 4: Customer Care -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CUSTOMER CARE</span>
+          <a href="tracking.html" class="footer-link-item">Track Your Order</a>
+          <a href="checkout.html" class="footer-link-item">Shipping & Delivery</a>
+          <a href="checkout.html" class="footer-link-item">Returns & Exchanges</a>
+          <a href="account.html" class="footer-link-item">Order History</a>
+          <a href="concierge.html" class="footer-link-item">Contact Concierge</a>
+        </div>
+
+        <!-- Col 5: Account & Legal -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">ACCOUNT & LEGAL</span>
+          <a href="account.html" class="footer-link-item">My Profile</a>
+          <a href="account.html" class="footer-link-item">Saved Wishlist</a>
+          <a href="foundation.html" class="footer-link-item">Privacy Policy</a>
+          <a href="foundation.html" class="footer-link-item">Terms of Service</a>
+          <a href="foundation.html" class="footer-link-item">Security Statement</a>
+        </div>
       </div>
-      <div>© 2026 nexCommerce. All rights reserved.</div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Bangladesh / English</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <!-- bKash Official Vector Logo -->
+          <div class="payment-logo-badge" title="bKash">
+            <img src="bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+
+          <!-- Nagad Official Vector Logo -->
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+
+          <!-- VISA Official Vector Logo -->
+          <div class="payment-logo-badge" title="Visa">
+            <img src="visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+
+          <!-- Mastercard Official Vector Logo -->
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="js/cart.js"></script>
   <script src="js/delivery-assistant.js"></script>
   <script src="js/tracking.js"></script>
-  <script src="js/theme-switcher.js"></script>
+  <script src="js/theme-switcher.js?v=3"></script>
   <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script type="module" src="js/animations.js?v=6"></script>
-  <script src="js/ai-engine.js"></script>
+  <script src="js/ai-engine.js?v=3"></script>
   <script src="js/intent-parser.js"></script>
   <script src="js/catalog-engine.js"></script>
   <script src="js/style-profile.js"></script>
   <script src="js/context-retention.js"></script>
-  <script src="js/concierge-engine.js"></script>
-  <script src="js/concierge.js"></script>
+  <script src="js/concierge-engine.js?v=3"></script>
+  <script src="js/concierge.js?v=3"></script>
   <script src="js/auth.js"></script>
   <script>NexAuth.requireAuth();</script>
 

@@ -158,10 +158,80 @@ function updateMeta(order) {
   const eyebrow = document.getElementById('trackingEyebrow');
   const title   = document.getElementById('trackingTitle');
   const meta    = document.getElementById('trackingMeta');
+  const payMap  = { bkash: 'bKash Direct', nagad: 'Nagad Wallet', card: 'Credit / Debit Card', cod: 'Cash on Delivery' };
+  const payLabel = payMap[order.paymentMethod] || order.paymentMethod || 'bKash';
   if (eyebrow) eyebrow.textContent = 'YOUR ORDER';
   if (title)   title.textContent   = `Order #${order.ref}`;
-  if (meta)    meta.textContent    = `Placed ${order.placedDate} &middot; ${order.paymentMethod}`;
+  if (meta)    meta.textContent    = `Placed ${order.placedDate} · ${payLabel}`;
   document.title = `Order #${order.ref} &mdash; nexCommerce`;
+}
+
+function renderOrderSummary(order) {
+  const el = document.getElementById('trackingOrderSummary');
+  if (!el) return;
+
+  const itemsHtml = (order.items || []).map(item => {
+    const qty = item.qty || item.quantity || 1;
+    const variant = item.variant || item.size || 'Standard';
+    const price = Number(item.price) || 0;
+    const image = item.image || 'p1.png';
+    return `
+      <div style="display: flex; gap: 14px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px;">
+        <img src="${image}" alt="${item.name}" onerror="this.src='p1.png'" style="width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-main); flex-shrink: 0;" />
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary);">${item.category || 'APPAREL'}</div>
+          <div style="font-family: var(--font-serif); font-size: 16px; color: var(--text-primary);">${item.name}</div>
+          <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">${variant} &middot; Qty ${qty}</div>
+          <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary);">BDT ${(price * qty).toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const subtotal = Number(order.subtotal) || 0;
+  const discountAmt = Number(order.discountAmt) || 0;
+  const shippingCost = Number(order.deliveryCost ?? order.shippingCost ?? 0);
+  const total = Number(order.total) || (subtotal - discountAmt + shippingCost);
+  const deliveryLabel = shippingCost === 0 ? 'FREE' : `BDT ${shippingCost.toLocaleString()}`;
+
+  const discountRowHtml = discountAmt > 0 ? `
+    <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: #00E676;">
+      <span>Discount ${order.discountCode ? `(${order.discountCode})` : ''}</span>
+      <span>−BDT ${discountAmt.toLocaleString()}</span>
+    </div>
+  ` : '';
+
+  el.innerHTML = `
+    <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 20px;">ORDER SUMMARY</div>
+
+    ${itemsHtml}
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
+        <span>Subtotal</span>
+        <span>BDT ${subtotal.toLocaleString()}</span>
+      </div>
+      ${discountRowHtml}
+      <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
+        <span>Delivery</span>
+        <span style="${shippingCost === 0 ? 'color:#00E676; font-weight:600;' : ''}">${deliveryLabel}</span>
+      </div>
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary);">TOTAL</span>
+        <span style="font-family: var(--font-serif); font-size: 24px; color: var(--text-primary);">BDT ${total.toLocaleString()}</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+      <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 10px;">DELIVERING TO</div>
+      <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary); line-height: 1.6;">${order.customer?.name || order.customerName || 'Client'}<br>${order.customer?.address || order.address || 'Dhaka, Bangladesh'}</div>
+    </div>
+
+    <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+      <button class="btn-primary-commerce" style="width: 100%; height: 52px;" onclick="window.print()">VIEW ORDER DETAILS</button>
+      <a href="category.html" style="display: block; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none;">CONTINUE SHOPPING &rarr;</a>
+    </div>
+  `;
 }
 
 function renderETABanner(order) {

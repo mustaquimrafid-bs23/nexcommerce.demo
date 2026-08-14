@@ -24,14 +24,20 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 - Use structured task tracking (Jira, Linear, GitHub Projects, Notion).
 
 ### Full Stack Development — Preferred Stack
-- **Backend**: ASP.NET Core / .NET Core (primary), Node.js (optional)
-- **Frontend**: Angular (primary), React (secondary), Vue (optional)
-- **Database**: SQL Server, PostgreSQL, MySQL
+> See `.agents/rules/tech-stack-and-engineering-standards.md` for the full canonical stack reference.
+
+- **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
+- **Backend**: Node.js / NestJS + TypeScript (primary), ASP.NET Core / C# (secondary)
+- **Database**: PostgreSQL (primary), MySQL / SQL Server (secondary)
+- **NoSQL**: MongoDB (only where document-first data is justified)
 - **Caching**: Redis
-- **Search**: Elasticsearch / Lucene
-- **Storage**: AWS S3, Azure Blob
-- **Auth**: JWT, OAuth
-- **APIs**: REST, versioned, documented
+- **Search**: OpenSearch / Elasticsearch
+- **Queue**: RabbitMQ / AWS SQS
+- **Storage**: AWS S3
+- **Auth**: OAuth2 / OIDC (JWT + refresh tokens)
+- **APIs**: REST (primary, versioned, documented), GraphQL (where justified)
+- **Cloud**: AWS (primary)
+- **Architecture**: Modular Monolith first → Microservices only where justified
 
 ### Architecture Thinking
 - Default to Clean Architecture + Repository Pattern + SOLID Principles.
@@ -77,13 +83,30 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 
 You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are responsible for the entire user experience and visual design lifecycle — from research to developer handoff. You do not just create attractive screens; you design interfaces that improve usability, conversions, and customer satisfaction.
 
-### UX Mindset
-- Before designing any screen, think: Who is the user? What is their goal? What are their pain points?
-- Conduct competitor analysis and reference design patterns from leading e-commerce platforms.
-- Map customer journeys before wireframing — understand the full flow end-to-end.
-- Practice progressive disclosure: don't overwhelm users; reveal complexity only when needed.
-- Reduce cognitive load: simplify choices, use familiar patterns (Jakob's Law).
-- Apply Hick's Law (fewer choices = faster decisions) and Fitts's Law (bigger targets = easier clicks).
+> **CANONICAL STOREFRONT SPECIFICATION:**
+> All storefront design, development, component architecture, state management, responsive behavior, accessibility (WCAG 2.1 AA), and QA MUST unconditionally follow the 48-section master blueprint in:
+> `.agents/rules/premium-ecommerce-storefront-master-instruction.md`
+
+### UX Mindset & Human-Centered Design
+- **Start with the user, their goals, and the problem, not the screen**: UI is the visible surface; UX is the entire system of understanding the user and helping them accomplish their goal effortlessly.
+- **The 4-Step UX Questioning Framework**:
+  1. *How can I make this experience easier, clearer, faster, and more trustworthy?*
+  2. *What does the user need to understand at this exact moment?*
+  3. *What is the simplest interface that helps them accomplish it?*
+  4. *How do I verify and measure that this actually works?*
+- **The Complete UI/UX Lifecycle**: Research → Problem Definition → Information Architecture → User Flows → Wireframes → Interaction Design → Visual Design → Prototype → Usability Testing → Analytics/Measurement → Iterate.
+- **Cognitive Psychology & Behavioral Design**:
+  - **Cognitive load**: Minimize mental effort — avoid visual clutter, competing calls-to-action, and unnecessary input fields.
+  - **Mental models & Jakob's Law**: Design in harmony with existing user mental models (e.g. cart, checkout, navigation conventions).
+  - **Hick's Law & Progressive Disclosure**: Reduce choice overload; reveal complexity only as needed.
+  - **Fitts's Law**: Make primary interactive targets large and easy to reach (minimum 44×44px touch targets).
+  - **Gestalt Principles**: Group related elements (image, price, rating, CTA) logically via proximity and similarity without box clutter.
+  - **Visual Hierarchy**: Align with natural scanning patterns (what to notice 1st, 2nd, and action to take).
+  - **Recognition over Recall & Serial Position**: Display clear summaries, history, and auto-suggestions; position key items at list edges.
+  - **Ethical Persuasion**: Use genuine trust signals and clear defaults; strictly forbid dark patterns.
+- **Root-Cause Research & Usability Testing**:
+  - Dig into the "Why?" behind user friction and drop-offs.
+  - Test via task-based observation (watch behavior, hesitation, confusion) rather than asking for subjective opinions.
 
 ### Information Architecture & User Flows
 - Always define sitemap and navigation structure before designing pages.
@@ -134,7 +157,8 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Gestalt Principles**: Proximity, similarity, continuity, closure — group related elements, create visual flow.
 - **Material Design & Apple HIG**: Reference as baseline for interaction patterns and platform conventions.
 
-### Tools Awareness
+### Tools Awareness & Stitch MCP Integration
+- **Stitch MCP (`StitchMCP`)**: Always leverage Stitch MCP tools (`create_project`, `get_project`, `create_design_system`, `generate_screen_from_text`, `edit_screens`, `generate_variants`, `apply_design_system`, etc.) when thinking about UI architecture, exploring screen variants, generating component layouts, or synchronizing design systems during development.
 - **Figma**: Expert-level — Auto Layout, Components & Variants, design tokens, prototyping, developer handoff.
 - **FigJam**: User journey mapping, brainstorming.
 - **Maze / Miro**: Usability testing and collaborative research.
@@ -670,5 +694,122 @@ When building Product Listing Pages (PLPs) or filtered views, the URL parameters
 **The Rule:** Before writing JavaScript to control a global component (like a cart drawer, navigation, or search modal), you MUST globally search the codebase to verify the exact HTML IDs and classes used across ALL .html pages. Do not assume IDs are uniform. If inconsistencies are found, standardize the HTML IDs across all files before binding the JavaScript.
 
 ### 25. FAB Positioning Constraints (Z-Index Overlap)
-**The Problem:** The theme switcher Floating Action Button (FAB) was positioned at ottom: 32px; left: 32px. Because most content (headers, text, chips, grid layouts) is left-aligned in standard LTR layouts, the FAB permanently obscured vital UI elements like the "Try asking" label and the edges of product cards.
-**The Rule:** Utility FABs (like theme switchers, chat bots, or scroll-to-top buttons) MUST ALWAYS be anchored to the bottom right (ight: 32px; bottom: 32px). Never place fixed UI overlays on the left side of the screen unless specifically mandated by the design system, as they will inevitably overlap primary content.
+**The Problem:** The theme switcher Floating Action Button (FAB) was positioned at bottom: 32px; left: 32px. Because most content (headers, text, chips, grid layouts) is left-aligned in standard LTR layouts, the FAB permanently obscured vital UI elements like the "Try asking" label and the edges of product cards.
+**The Rule:** Utility FABs (like theme switchers, chat bots, or scroll-to-top buttons) MUST ALWAYS be anchored to the bottom right (right: 32px; bottom: 32px). Never place fixed UI overlays on the left side of the screen unless specifically mandated by the design system, as they will inevitably overlap primary content.
+
+### 26. UI and Code Verification (Post-Implementation)
+**The Problem:** Claiming a task is complete based purely on logic or code structure without verifying the rendered visual output leads to missed bugs, layout issues, and broken experiences that the user has to catch.
+**The Rule:** When you fix or create any new or existing feature, after completing the implementation:
+1. **Test the Code**: Ensure all functional requirements are met and no console errors/build errors exist.
+2. **Test the UI**: You MUST take a screenshot from the browser preview (using browser snapshot/screenshot tools via MCP or subagents).
+3. **Visual Verification**: Review the screenshot to verify that the feature is rendering correctly, matches the expected design standard, and is working perfectly before presenting the final result to the user.
+
+### 27. Lenis Smooth Scrolling & Modals
+**The Problem**: When creating a modal for the search overlay with `overflow-y: auto`, scrolling inside it didn't work because Lenis intercepted wheel events globally, preventing default scrolling inside the nested container while the `document.body` was locked.
+**The Rule**: When creating new scrollable modals, side-drawers, or floating overlays (using `overflow-y: auto`), you MUST explicitly prevent **Lenis** from hijacking the scroll events. If you fail to do this, scrolling inside the modal will completely break.
+**How to fix**: Either add the `data-lenis-prevent` attribute directly to the scrollable HTML element, OR add the element's class/ID to the `prevent` function in the global Lenis initialization (usually located in `animations.js` or similar).
+
+### 28. nexCommerce Official Brand Standards & Design Guidelines v1.0 (Source of Truth)
+
+**The Rule**: Whenever designing, building, styling, or drafting content for nexCommerce, you MUST adhere strictly to the Design Source of Truth at [`docs/brand/nexcommerce-brand-guidelines-v1.0.md`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/docs/brand/nexcommerce-brand-guidelines-v1.0.md) and [`nexcommerce-brand/SKILL.md`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/.agents/skills/nexcommerce-brand/SKILL.md):
+
+1. **Source of Truth Hierarchy**:
+   ```
+   1. Official nexCommerce logo / brand assets (logo_light.png / logo_dark.png)
+                     ↓
+   2. Brand Guidelines v1.0 (docs/brand/nexcommerce-brand-guidelines-v1.0.md)
+                     ↓
+   3. Design System / CSS Tokens (css/design-system.css)
+                     ↓
+   4. Page-specific design & components
+                     ↓
+   5. Developer implementation
+   ```
+
+2. **5 Core Brand Design Principles**:
+   - **Principle 01 — Commerce First**: E-commerce platform first; AI enhances shopping rather than replacing it.
+   - **Principle 02 — Intelligence in the Background**: Invisible assistant (prefer *"Picked for your evening"* over *"AI Recommendation Engine Result"*).
+   - **Principle 03 — Explain, Don't Impress**: Contextual utility (*"Why this fits: Lightweight enough for a cool evening..."*) rather than exposing AI scores/metrics.
+   - **Principle 04 — Premium but Practical**: Visually sophisticated while remaining intuitive to shop.
+   - **Principle 05 — Motion Has a Purpose**: State, hierarchy, continuity, and feedback.
+
+3. **Color System & Usage Ratios**:
+   - **Navy / Deep Navy (70–80%)**: Primary base `--brand-navy: #003371; --bg-main: #012148; --bg-deep: #001838; --bg-surface: #0A2A54;`.
+   - **White / Soft White (15–20%)**: Primary text `--text-primary: #F8FAFF; --text-secondary: #D8DEE9;`.
+   - **Brand Pink / Crimson Accent (5–8%)**: Signature gradient `--accent-gradient: linear-gradient(135deg, #F13365, #E60C45);` for `AI MATCH` badges, primary buttons, active pills, and bag counter. Pink is strictly an accent, never dominating the UI.
+   - **Secondary Cyan**: `--accent-cyan: #3DE0FF;` for eyebrows, focus rings, and ambient glows.
+   - **Anti-Pattern Guard**: Prohibit generic purple/magenta SaaS gradients (`#7C3AED`, `#6C3BFF`).
+
+4. **Typography System**:
+   - **Headlines & Display**: **`Outfit`** (Bold / ExtraBold) — matches the rounded geometric forms of the official wordmark.
+   - **Body Copy, Labels & Eyebrows**: **`Work Sans`** (weights 400, 500, 600) supported by Inter.
+
+5. **Brand Statements & Voice**:
+   - **Brand Promise**: *"Shopping that understands what you mean."*
+   - **Tagline**: *"next generation e-commerce"* / Sign-off: *"nexCommerce — Commerce that understands what happens next."*
+   - **Personality**: Premium + Intelligent + Human + Modern + Trustworthy.
+   - **Philosophy**: *"Commerce first. Intelligence in the background."* (Human-led, agent-assisted).
+   - **Scope**: *"From first search to final delivery"*.
+
+6. **CSS Duplication Defense**: When updating design tokens, always verify that legacy duplicate CSS rules lower down in stylesheets do not silently overwrite brand gradient tokens.
+
+### 29. AI Concierge & Conversational Commerce Architecture
+
+**The Rule**: When building conversational shopping assistants (Style Concierge):
+1. **No Artificial Query Blocking**: Never block natural shopping queries containing weather, climate, or destination terms (e.g. *"Something for a winter evening in Dhaka"*). Natural context must seamlessly refine catalog search vectors and occasion filters.
+2. **Dedicated Sizing & Fit Guidance**: Sizing inquiries (`"Check sizing"`, `"What size"`) must never fall back to generic product search loops. Provide clear structured guidance:
+   - Garment silhouette & drape behavior (true-to-size vs. sizing up for layering).
+   - Standard chest scale measurements (XS: 36" · S: 38" · M: 40" · L: 42" · XL: 44").
+   - Footwear sizing notes (EU/UK scale + footbed ergonomic traits).
+3. **Operational Commerce Transparency**: Handle fulfillment, express delivery (4–6h Dhaka, 24–48h nationwide), 14-day doorstep returns, and luxury fabric care (2-ply cashmere, merino, titanium, leather) with deterministic plain-language facts and direct CTA links (`[TRACK LIVE ORDER →]`).
+4. **Interactive In-Chat Commerce Cards**:
+   - Product cards must have clickable links navigating to the PDP (`product.html?id=...`).
+   - Cards must display a contextual `✦ Why this fits` reasoning badge.
+   - Complete look bundles must calculate live totals in `BDT` with an `[ ADD ALL TO BAG ]` CTA.
+
+### 30. Secondary Utility Controls & Footer Popovers
+
+**The Rule**: In luxury lifestyle and fashion e-commerce:
+1. **No Floating Action Buttons (FABs)**: Never place floating circular FAB buttons over product photography, editorial heroes, or lookbook galleries. They degrade perceived brand value and create visual noise.
+2. **Footer-Anchored Popovers**: Secondary user controls (Theme pickers, Currency switchers, Language selectors) must be anchored in the site footer:
+   - **Default state**: Compact trigger pill showing active state (e.g. `[ 🔵 Theme: Cyber Cyan ⌃ ]`).
+   - **Active state**: Clicking the pill opens a small, glassmorphic popover upwards with curated options, active indicators, and reset capability.
+   - **Interaction**: Closes cleanly on outside click or <kbd>Escape</kbd>.
+3. **Safe DOM Insertion**: When dynamically injecting components next to reference nodes in footers, always verify `refNode.parentNode` before calling `insertBefore` to avoid `NotFoundError` across diverse page layouts.
+
+### 31. Strict Brand Guidelines Enforcement, Viewport Budgeting & Cinematic Motion Invariants
+
+**The Rule**: When designing, refactoring, or animating storefront components (especially Hero and Above-The-Fold areas):
+
+1. **Strict Brand Guideline Adherence (nexCommerce)**:
+   - **Primary Action**: MUST use the verified brand signature crimson gradient `linear-gradient(135deg, #F13365, #E60C45)` with ambient shadow `0 4px 18px rgba(230, 12, 69, 0.4)`. Never replace with generic monochrome white buttons.
+   - **Secondary Action**: Translucent glass outline button (`rgba(255, 255, 255, 0.04)`, `1px solid rgba(255, 255, 255, 0.2)`).
+   - **Eyebrow & Badges**: Crimson `DISCOVER DIFFERENTLY` eyebrow and `AI MATCH` chip with stroke `<i data-lucide="sparkles"></i>` icon.
+   - **Pagination**: Sleek 4-dot pill navigation (`.hero-carousel-dots`). Active dot smoothly morphs from 8px circle to 28px elongated crimson gradient pill. Never use numbered lines, text dashes, or raw text progress bars.
+   - **Brand Statements**: Uphold core brand copy (*"Shopping that understands what you mean."*).
+
+2. **Laptop Viewport Height Fit Invariant (1280x585 & 1366x768 Standard)**:
+   - **Strict Height Budgeting**: Above-the-fold hero sections MUST fit 100% within the browser viewport without pushing controls below the fold or clipping pagination.
+   - **Fluid Clamp Formula**: Constrain visual cards using `max-width: clamp(240px, calc(100vh - 240px), 410px); aspect-ratio: 1/1;` and compact padding `clamp(6px, 1.4vh, 24px) 0 clamp(6px, 1.2vh, 16px)`.
+   - **Zero Vertical Cutoff**: Header, typography, buttons, image, metadata overlay, and pagination dots MUST all be visible simultaneously on `1280x585` laptop viewports.
+
+3. **Floating Glassmorphic Overlay Architecture (Zero Truncation)**:
+   - Never cramp product metadata into narrow external bars that cause text ellipses (`CASHMERE...`).
+   - Embed metadata cards directly inside the photo frame as a **Floating Frosted Glass Overlay** (`.hero-glass-overlay`):
+     - **Row 1**: Badge + Price.
+     - **Row 2**: Full-width bold Title + dedicated context Subtext + circular `+` Quick Add button.
+   - Saves ~50px of vertical height while guaranteeing **100% text legibility with zero clipping**.
+
+4. **60fps Zero-Flash Dual-Layer Motion Engine**:
+   - Never swap `img.src` synchronously on a single image node (which causes browser repaint flashes).
+   - Use a **Dual-Layer Ping-Pong Image Stack** (`heroLayerA` & `heroLayerB`):
+     - Incoming image pre-sets to `scale(1.05)` and smoothly dissolves in while settling to `scale(1.0)` over 700ms with `cubic-bezier(0.22, 1, 0.36, 1)`.
+     - Outgoing image smoothly recedes to `scale(0.97)` and fades out.
+     - Staggered text micro-reveal (`opacity 350ms, translateY(6px) -> 0` with 60ms delay).
+
+5. **Live Auto-Advance Progress & Granular Hover Control**:
+   - Provide a **Live Linear Progress Animation** (`.hero-dot-fill`) that visibly fills from 0% to 100% inside the active glowing pill dot over the slide duration (5000ms).
+   - Constrain hover-pause strictly to interactive cards (`.hero-glass-overlay`) rather than pausing across the entire background.
+
+
+

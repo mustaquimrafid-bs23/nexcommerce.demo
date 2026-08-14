@@ -63,7 +63,8 @@
 
       if (result.products.length === 0) {
         resultsContainer.innerHTML = '<div style="padding:24px 0;text-align:center;font-family:var(--font-body);font-size:13px;color:var(--text-secondary);">'
-          + 'No products found. <a href="discovery.html?q=' + encodeURIComponent(query) + '" style="color:var(--accent-cyan);">Search on discovery page &rarr;</a></div>';
+          + 'No products found. <a href="discovery.html?q=' + encodeURIComponent(query) + '" class="see-all-results-link" style="color:var(--accent-cyan);">Search on discovery page &rarr;</a></div>';
+        attachSeeAllListener();
         return;
       }
 
@@ -90,7 +91,7 @@
 
       resultsContainer.innerHTML = chipsHtml
         + '<div class="search-results-grid">' + cardsHtml + '</div>'
-        + '<div style="text-align:center;margin-top:16px;"><a href="discovery.html?q=' + encodeURIComponent(query) + '" style="font-family:var(--font-body);font-size:12px;color:var(--accent-cyan);">See all results &rarr;</a></div>';
+        + '<div style="text-align:center;margin-top:16px;"><a href="discovery.html?q=' + encodeURIComponent(query) + '" class="see-all-results-link" style="font-family:var(--font-body);font-size:12px;color:var(--accent-cyan);">See all results &rarr;</a></div>';
 
       resultsContainer.querySelectorAll('.btn-view-product').forEach(function(btn) {
         btn.addEventListener('click', function() {
@@ -99,7 +100,20 @@
           window.location.href = 'product.html?id=' + pid;
         });
       });
+
+      attachSeeAllListener();
     }, 800);
+  }
+
+  function attachSeeAllListener() {
+    if (!resultsContainer) return;
+    resultsContainer.querySelectorAll('.see-all-results-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeOverlay();
+        window.location.href = link.getAttribute('href');
+      });
+    });
   }
 
   function init() {
@@ -126,8 +140,8 @@
     if (submitBtn) submitBtn.addEventListener('click', function() { execute(input.value); });
 
     // Prompt chips inside overlay
-    if (resultsContainer) {
-      resultsContainer.addEventListener('click', function(e) {
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
         var promptBtn = e.target.closest('[data-prompt]');
         if (promptBtn) { input.value = promptBtn.getAttribute('data-prompt'); execute(input.value); }
       });

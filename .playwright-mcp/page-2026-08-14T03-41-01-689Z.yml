@@ -1,0 +1,268 @@
+- generic [active] [ref=f8e1]:
+  - banner [ref=f8e2]:
+    - generic [ref=f8e3]:
+      - link "nexCommerce Home" [ref=f8e5] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce — next generation e-commerce" [ref=f8e6]
+      - navigation [ref=f8e7]:
+        - link "Categories" [ref=f8e8] [cursor=pointer]:
+          - /url: category.html?cat=all
+        - link "New In" [ref=f8e9] [cursor=pointer]:
+          - /url: category.html?cat=new
+        - link "Discover" [ref=f8e10] [cursor=pointer]:
+          - /url: discovery.html
+      - button "What are you looking for? Ctrl + K" [ref=f8e12] [cursor=pointer]:
+        - generic [ref=f8e17]: What are you looking for?
+        - generic [ref=f8e18]: Ctrl + K
+      - generic [ref=f8e19]:
+        - button "Open Style Concierge" [ref=f8e20] [cursor=pointer]:
+          - generic [ref=f8e23]: CONCIERGE
+        - link "AI Profile" [ref=f8e24] [cursor=pointer]:
+          - /url: profile.html
+        - link "Alex" [ref=f8e25] [cursor=pointer]:
+          - /url: account.html
+        - link "Bag" [ref=f8e26] [cursor=pointer]:
+          - /url: cart.html
+  - generic [ref=f8e28]:
+    - generic [ref=f8e29]:
+      - link "nexCommerce Home" [ref=f8e30] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce" [ref=f8e31]
+      - button "Close mobile menu" [ref=f8e32] [cursor=pointer]
+    - link "Categories" [ref=f8e36] [cursor=pointer]:
+      - /url: category.html?cat=all
+    - link "New In" [ref=f8e37] [cursor=pointer]:
+      - /url: category.html?cat=new
+    - link "Discover" [ref=f8e38] [cursor=pointer]:
+      - /url: discovery.html
+    - link "AI Profile" [ref=f8e39] [cursor=pointer]:
+      - /url: profile.html
+    - link "Alex" [ref=f8e40] [cursor=pointer]:
+      - /url: account.html
+    - link "Bag" [ref=f8e41] [cursor=pointer]:
+      - /url: cart.html
+  - main [ref=f8e42]:
+    - generic [ref=f8e43]:
+      - generic [ref=f8e44]:
+        - generic [ref=f8e45]:
+          - generic [ref=f8e46]: AGENTIC COMMERCE · HUMAN-LED, AGENT-ASSISTED
+          - heading "Shopping that understands what you mean." [level=1] [ref=f8e47]:
+            - generic [ref=f8e48]: Shopping
+            - generic [ref=f8e49]: that
+            - generic [ref=f8e50]: understands
+            - generic [ref=f8e51]: what
+            - generic [ref=f8e52]: you
+            - generic [ref=f8e53]: mean.
+          - paragraph [ref=f8e54]: Transforms every customer move into the next best action — from first search to final delivery.
+          - generic [ref=f8e55]:
+            - link "START SHOPPING" [ref=f8e56] [cursor=pointer]:
+              - /url: category.html
+            - link "Describe what you're looking for →" [ref=f8e57] [cursor=pointer]:
+              - /url: discovery.html
+        - generic [ref=f8e58] [cursor=pointer]:
+          - generic [ref=f8e59]:
+            - generic [ref=f8e60]: AI MATCH
+            - img "Architectural Cashmere Sweater" [ref=f8e64]
+          - generic [ref=f8e65]:
+            - generic [ref=f8e66]: ARCHITECTURAL CASHMERE SWEATER
+            - generic [ref=f8e67]: BDT 18,400
+            - generic [ref=f8e68]: Warm enough after sunset without feeling heavy.
+      - generic [ref=f8e69]:
+        - button "View Lookbook Story 1" [ref=f8e70] [cursor=pointer]
+        - button "View Lookbook Story 2" [ref=f8e71] [cursor=pointer]
+        - button "View Lookbook Story 3" [ref=f8e72] [cursor=pointer]
+        - button "View Lookbook Story 4" [ref=f8e73] [cursor=pointer]
+    - generic [ref=f8e75]:
+      - generic [ref=f8e76]:
+        - generic [ref=f8e82]: INTENT-BASED DISCOVERY
+        - generic [ref=f8e83]: Find products naturally from the first search.
+      - generic [ref=f8e84]:
+        - generic [ref=f8e89]: AGENT-ASSISTED SHOPPING
+        - generic [ref=f8e90]: Understand why pieces fit your context and style.
+      - generic [ref=f8e91]:
+        - generic [ref=f8e98]: HYPERLOCAL DELIVERY
+        - generic [ref=f8e99]: Intelligent routing and clear options before you order.
+      - generic [ref=f8e100]:
+        - generic [ref=f8e105]: ENTERPRISE CHECKOUT
+        - generic [ref=f8e106]: Protected from bag to confirmation.
+    - generic [ref=f8e108]:
+      - generic [ref=f8e109]: A BETTER WAY TO SEARCH
+      - heading "Tell us what you need." [level=2] [ref=f8e110]
+      - paragraph [ref=f8e111]: Describe an occasion, destination, weather, style, or anything else that matters to you.
+      - generic [ref=f8e113]:
+        - textbox "Something for a winter evening in Dhaka" [ref=f8e118]
+        - button "Submit Search" [ref=f8e119] [cursor=pointer]: →
+      - generic [ref=f8e120]:
+        - generic [ref=f8e121]: "Try:"
+        - button "Something comfortable for a long flight" [ref=f8e122] [cursor=pointer]
+        - button "An outfit for a dinner in Dhaka" [ref=f8e123] [cursor=pointer]
+        - button "Minimal everyday sneakers" [ref=f8e124] [cursor=pointer]
+        - button "Something warm but not bulky" [ref=f8e125] [cursor=pointer]
+    - generic [ref=f8e127]:
+      - generic [ref=f8e128]:
+        - generic [ref=f8e129]:
+          - generic [ref=f8e130]: CURATED FOR YOU
+          - heading "Pieces worth discovering." [level=2] [ref=f8e131]
+        - link "View all →" [ref=f8e132] [cursor=pointer]:
+          - /url: category.html
+      - generic [ref=f8e133]:
+        - generic [ref=f8e134] [cursor=pointer]:
+          - generic [ref=f8e135]:
+            - generic [ref=f8e136]: AI MATCH
+            - button "Wishlist" [ref=f8e139]
+            - img "Architectural Cashmere Sweater" [ref=f8e142]
+          - generic [ref=f8e143]:
+            - generic [ref=f8e144]: APPAREL
+            - heading "Architectural Cashmere Sweater" [level=3] [ref=f8e145]
+            - generic [ref=f8e146]: BDT 18,400
+            - generic [ref=f8e147]:
+              - generic [ref=f8e148]: "Why it fits:"
+              - generic [ref=f8e149]: Warm enough after sunset without feeling heavy.
+            - button "ADD TO BAG" [ref=f8e150]
+        - generic [ref=f8e154] [cursor=pointer]:
+          - generic [ref=f8e155]:
+            - generic [ref=f8e156]: AI MATCH
+            - button "Wishlist" [ref=f8e159]
+            - img "Minimalist Leather Runner" [ref=f8e162]
+          - generic [ref=f8e163]:
+            - generic [ref=f8e164]: FOOTWEAR
+            - heading "Minimalist Leather Runner" [level=3] [ref=f8e165]
+            - generic [ref=f8e166]: BDT 19,800
+            - generic [ref=f8e167]:
+              - generic [ref=f8e168]: "Why it fits:"
+              - generic [ref=f8e169]: Cushioned Vibram sole for all-day urban walkability.
+            - button "ADD TO BAG" [ref=f8e170]
+        - generic [ref=f8e174] [cursor=pointer]:
+          - generic [ref=f8e175]:
+            - generic [ref=f8e176]: AI MATCH
+            - button "Wishlist" [ref=f8e179]
+            - img "Fine-Knit Cashmere Crew" [ref=f8e182]
+          - generic [ref=f8e183]:
+            - generic [ref=f8e184]: APPAREL
+            - heading "Fine-Knit Cashmere Crew" [level=3] [ref=f8e185]
+            - generic [ref=f8e186]: BDT 16,200
+            - generic [ref=f8e187]:
+              - generic [ref=f8e188]: "Why it fits:"
+              - generic [ref=f8e189]: Ultra-soft 2-ply cashmere for easy indoor/outdoor layering.
+            - button "ADD TO BAG" [ref=f8e190]
+        - generic [ref=f8e194] [cursor=pointer]:
+          - generic [ref=f8e195]:
+            - generic [ref=f8e196]: AI MATCH
+            - button "Wishlist" [ref=f8e199]
+            - img "Acoustics Headphone GT" [ref=f8e202]
+          - generic [ref=f8e203]:
+            - generic [ref=f8e204]: ACOUSTICS
+            - heading "Acoustics Headphone GT" [level=3] [ref=f8e205]
+            - generic [ref=f8e206]: BDT 32,000
+            - generic [ref=f8e207]:
+              - generic [ref=f8e208]: "Why it fits:"
+              - generic [ref=f8e209]: Active noise cancellation for focused working or travel.
+            - button "ADD TO BAG" [ref=f8e210]
+    - generic [ref=f8e215]:
+      - generic [ref=f8e217]:
+        - generic [ref=f8e218]: EXPLORE THE COLLECTION
+        - link "View all collections →" [ref=f8e220] [cursor=pointer]:
+          - /url: category.html?cat=all
+      - generic [ref=f8e221]:
+        - generic [ref=f8e222] [cursor=pointer]:
+          - img "Apparel Collection" [ref=f8e223]
+          - generic [ref=f8e225]:
+            - generic [ref=f8e226]: APPAREL
+            - generic [ref=f8e227]: You don't need piecesfor every moment.
+            - generic [ref=f8e228]: EXPLORE →
+        - generic [ref=f8e229] [cursor=pointer]:
+          - img "Accessories Collection" [ref=f8e230]
+          - generic [ref=f8e232]:
+            - generic [ref=f8e233]: ACCESSORIES
+            - generic [ref=f8e234]: Designed tocomplement you.
+            - generic [ref=f8e235]: EXPLORE →
+        - generic [ref=f8e236] [cursor=pointer]:
+          - img "Footwear Collection" [ref=f8e237]
+          - generic [ref=f8e239]:
+            - generic [ref=f8e240]: FOOTWEAR
+            - generic [ref=f8e241]: Comfort meetsmodern design.
+            - generic [ref=f8e242]: EXPLORE →
+        - generic [ref=f8e243] [cursor=pointer]:
+          - img "Acoustics Collection" [ref=f8e244]
+          - generic [ref=f8e246]:
+            - generic [ref=f8e247]: ACOUSTICS
+            - generic [ref=f8e248]: Sound thatmoves with you.
+            - generic [ref=f8e249]: EXPLORE →
+    - generic [ref=f8e251]:
+      - generic [ref=f8e252]:
+        - generic [ref=f8e253]: AGENTIC COMMERCE PLATFORM
+        - heading "Transforms every move into the next best action." [level=2] [ref=f8e254]: Transforms every moveinto the next best action.
+      - generic [ref=f8e255]:
+        - generic [ref=f8e256]:
+          - generic [ref=f8e260]: "01"
+          - heading "FROM FIRST SEARCH" [level=3] [ref=f8e261]
+          - paragraph [ref=f8e262]: Commerce understands your intent from the very first search without forcing manual filters.
+        - generic [ref=f8e263]:
+          - generic [ref=f8e268]: "02"
+          - heading "REAL-TIME CONTEXT" [level=3] [ref=f8e269]
+          - paragraph [ref=f8e270]: Occasion, weather, destination, and style preferences unified in real time.
+        - generic [ref=f8e271]:
+          - generic [ref=f8e275]: "03"
+          - heading "AGENT-ASSISTED CLARITY" [level=3] [ref=f8e276]
+          - paragraph [ref=f8e277]: The agent recommends and explains fit; you review, approve, and stay in complete control.
+    - generic [ref=f8e279]:
+      - generic [ref=f8e280]: NOT SURE WHERE TO START?
+      - heading "Tell us what you're looking for. We'll help you find it." [level=2] [ref=f8e281]: Tell us what you're looking for.We'll help you find it.
+      - generic [ref=f8e282]:
+        - button "DESCRIBE WHAT I NEED" [ref=f8e283] [cursor=pointer]
+        - link "BROWSE EVERYTHING →" [ref=f8e284] [cursor=pointer]:
+          - /url: category.html
+  - contentinfo [ref=f8e285]:
+    - generic [ref=f8e286]:
+      - generic [ref=f8e287]:
+        - link "nexCommerce Home" [ref=f8e288] [cursor=pointer]:
+          - /url: index.html
+          - img "nexCommerce — next generation e-commerce" [ref=f8e289]
+        - generic [ref=f8e290]: Commerce that understands what happens next.
+      - navigation [ref=f8e291]:
+        - link "Discover" [ref=f8e292] [cursor=pointer]:
+          - /url: discovery.html
+        - link "Cart" [ref=f8e293] [cursor=pointer]:
+          - /url: cart.html
+        - link "Tracking" [ref=f8e294] [cursor=pointer]:
+          - /url: tracking.html
+      - generic [ref=f8e295]: © 2026 nexCommerce. All rights reserved.
+  - dialog [ref=f8e296]:
+    - generic [ref=f8e297]:
+      - generic [ref=f8e298]: Shopping Bag
+      - button [ref=f8e299] [cursor=pointer]
+    - generic [ref=f8e304]:
+      - heading [level=3] [ref=f8e305]: Your bag is empty.
+      - paragraph [ref=f8e306]: Discover pieces selected around how you want to shop.
+      - link [ref=f8e307] [cursor=pointer]:
+        - /url: discovery.html
+        - text: EXPLORE DISCOVERY →
+  - region "Theme colour switcher" [ref=f8e308]:
+    - dialog "Theme colour options":
+      - generic:
+        - generic: Theme Colour
+        - button "Reset"
+      - generic:
+        - button "Cyan"
+        - button "Violet"
+        - button "Emerald"
+        - button "Amber"
+        - button "Rose"
+        - button "Coral"
+        - button "Indigo"
+        - button "Slate"
+      - generic: Custom Colour
+      - generic:
+        - generic "Click pick a colour":
+          - textbox: "#00c8ff"
+        - button "Apply Custom"
+      - generic: Persists across all pages via localStorage
+    - button "Open theme switcher" [ref=f8e309] [cursor=pointer]
+  - dialog [ref=f8e316]:
+    - generic [ref=f8e317]:
+      - generic [ref=f8e318]: Style Concierge
+      - button [ref=f8e321] [cursor=pointer]
+    - generic [ref=f8e328]:
+      - textbox [ref=f8e329]:
+        - /placeholder: Ask about a style, size, occasion, or delivery...
+      - button [ref=f8e330] [cursor=pointer]

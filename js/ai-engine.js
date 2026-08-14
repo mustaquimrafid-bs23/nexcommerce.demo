@@ -12,147 +12,99 @@
   const PRODUCT_EMBEDDINGS = {
     p1: {
       id: 'p1',
-      brand: 'Apex',
-      title: 'Carbon Pro Running Shoe',
-      price: '$165',
-      numericPrice: 165,
-      category: 'Footwear',
-      img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop',
-      desc: 'Engineered for lightweight distance running. Features an integrated carbon fiber propulsion plate encased in high-rebound cushioning.',
-      keywords: ['shoe', 'running', 'footwear', 'sneaker', 'carbon', 'marathon', 'sport', 'athletic', 'distance', 'black', 'red', 'performance', 'lightweight'],
-      vector: [0.1, 0.95, 0.0, 0.2, 0.6]
+      brand: 'Arc',
+      title: 'Architectural Cashmere Sweater',
+      price: 'BDT 18,400',
+      numericPrice: 18400,
+      category: 'Apparel',
+      img: 'hero_sweater.png',
+      desc: 'Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.',
+      keywords: ["cashmere","sweater","roll-neck","turtleneck","wool","warm","cream","knitwear","winter","cold","dhaka"],
+      vector: [0.9, 0.1, 0, 0.1, 0.95]
     },
     p2: {
       id: 'p2',
-      brand: 'Form',
-      title: 'Studio Acoustic Headphones',
-      price: '$285',
-      numericPrice: 285,
-      category: 'Acoustics',
-      img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop',
-      desc: 'Precision 40mm beryllium drivers delivering uncompromised acoustic clarity with adaptive active noise cancellation.',
-      keywords: ['headphones', 'audio', 'sound', 'music', 'acoustic', 'studio', 'beryllium', 'noise canceling', 'travel', 'wireless', 'over-ear', 'black'],
-      vector: [0.0, 0.0, 0.98, 0.3, 0.7]
+      brand: 'Arc',
+      title: 'Structured Wool Blazer',
+      price: 'BDT 24,500',
+      numericPrice: 24500,
+      category: 'Apparel',
+      img: 'plp_blazer.png',
+      desc: 'Unlined merino weave tailored for sharp evening silhouettes without thermal discomfort. Transitions effortlessly from meeting room to dinner.',
+      keywords: ["jacket","coat","wool","blazer","outerwear","winter","warm","minimalist","japanese","tailored","navy","black","apparel","clothing"],
+      vector: [0.96, 0.1, 0, 0.2, 0.9]
     },
     p3: {
       id: 'p3',
-      brand: 'Volta',
-      title: 'Titanium Pulse Watch',
-      price: '$420',
-      numericPrice: 420,
-      category: 'Timepieces',
-      img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop',
-      desc: 'Grade-5 titanium case housing an always-on sapphire glass AMOLED screen. Real-time biometrics and GPS telemetry.',
-      keywords: ['watch', 'titanium', 'timepiece', 'smartwatch', 'biometrics', 'pulse', 'gps', 'sapphire', 'luxurious', 'clock', 'wrist'],
-      vector: [0.1, 0.3, 0.2, 0.96, 0.8]
+      brand: 'Arc',
+      title: 'Fine-Knit Cashmere Crew',
+      price: 'BDT 16,200',
+      numericPrice: 16200,
+      category: 'Apparel',
+      img: 'plp_crewneck.png',
+      desc: 'Ultra-soft 2-ply cashmere with a classic crew neck designed for easy indoor/outdoor layering in any season.',
+      keywords: ["cashmere","crew","crewneck","sweater","wool","warm","minimalist","apparel","white"],
+      vector: [0.9, 0.1, 0, 0.1, 0.9]
     },
     p4: {
       id: 'p4',
-      brand: 'Arc',
-      title: 'Wool Minimalist Jacket',
-      price: '$310',
-      numericPrice: 310,
-      category: 'Outerwear',
-      img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop',
-      desc: 'Crafted from dense Japanese wool blend with concealed Horn button closures and a refined relaxed silhouette.',
-      keywords: ['jacket', 'coat', 'wool', 'outerwear', 'winter', 'warm', 'minimalist', 'japanese', 'tailored', 'black', 'apparel', 'clothing'],
-      vector: [0.96, 0.1, 0.0, 0.2, 0.9]
+      brand: 'Form',
+      title: 'Studio Acoustics Headphone GT',
+      price: 'BDT 32,000',
+      numericPrice: 32000,
+      category: 'Acoustics',
+      img: 'prod_headphones.png',
+      desc: 'Active noise cancellation calibrated for focused work or travel. Memory foam ear cushions wrapped in lambskin for extended comfort.',
+      keywords: ["headphones","audio","sound","music","acoustic","studio","beryllium","noise canceling","travel","wireless","over-ear","black"],
+      vector: [0, 0, 0.98, 0.3, 0.7]
     },
     p5: {
       id: 'p5',
-      brand: 'Apex',
-      title: 'Trail Mesh Runner',
-      price: '$185',
-      numericPrice: 185,
-      category: 'Footwear',
-      img: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop',
-      desc: 'All-terrain performance runner with Vibram Megagrip lug sole and breathable recycled ripstop mesh upper.',
-      keywords: ['trail', 'runner', 'shoe', 'footwear', 'mesh', 'vibram', 'outdoor', 'grey'],
-      vector: [0.2, 0.92, 0.0, 0.3, 0.5]
+      brand: 'Volta',
+      title: 'Chronograph Minimalist Watch',
+      price: 'BDT 28,500',
+      numericPrice: 28500,
+      category: 'Accessories',
+      img: 'search_watch.png',
+      desc: 'Brushed titanium casing with a scratch-resistant sapphire crystal. Swiss movement with interchangeable leather and mesh straps.',
+      keywords: ["watch","titanium","timepiece","smartwatch","biometrics","pulse","gps","sapphire","luxurious","clock","wrist"],
+      vector: [0.1, 0.3, 0.2, 0.96, 0.8]
     },
     p6: {
       id: 'p6',
-      brand: 'Arc',
-      title: 'Cashmere Roll-Neck Sweater',
-      price: '$240',
-      numericPrice: 240,
-      category: 'Outerwear',
-      img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop',
-      desc: 'Spun from 100% grade-A Mongolian cashmere with ribbed cuffs and a relaxed drop-shoulder cut.',
-      keywords: ['cashmere', 'sweater', 'roll-neck', 'turtleneck', 'wool', 'warm', 'cream', 'knitwear'],
-      vector: [0.90, 0.1, 0.0, 0.1, 0.95]
+      brand: 'Apex',
+      title: 'Minimalist Leather Runner',
+      price: 'BDT 19,800',
+      numericPrice: 19800,
+      category: 'Footwear',
+      img: 'prod_runner.png',
+      desc: 'Full-grain Italian leather upper with cushioned Vibram sole for all-day urban walkability without compromise.',
+      keywords: ["sneaker","shoe","leather","court","trainer","white","footwear","minimal"],
+      vector: [0.1, 0.94, 0, 0.2, 0.85]
     },
     p7: {
       id: 'p7',
       brand: 'Forma',
       title: 'Architectural Canvas Tote',
-      price: '$120',
-      numericPrice: 120,
-      category: 'Objects',
-      img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop',
+      price: 'BDT 12,500',
+      numericPrice: 12500,
+      category: 'Accessories',
+      img: 'prod_tote.png',
       desc: 'Heavyweight organic cotton canvas tote featuring veg-tan leather handles and internal laptop sleeve.',
-      keywords: ['bag', 'tote', 'canvas', 'carry', 'leather', 'accessories', 'cream', 'minimalist'],
+      keywords: ["bag","tote","canvas","carry","leather","accessories","cream","minimalist"],
       vector: [0.3, 0.2, 0.3, 0.2, 0.85]
     },
     p8: {
       id: 'p8',
-      brand: 'Volta',
-      title: 'Steel Field Chronograph',
-      price: '$320',
-      numericPrice: 320,
-      category: 'Timepieces',
-      img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop',
-      desc: '316L stainless steel case with matte black dial, Swiss quartz movement, and water resistance to 100m.',
-      keywords: ['watch', 'chronograph', 'steel', 'timepiece', 'field', 'swiss', 'black', 'wrist'],
-      vector: [0.1, 0.2, 0.1, 0.94, 0.75]
-    },
-    p9: {
-      id: 'p9',
-      brand: 'Lumen',
-      title: 'Brass Minimalist Desk Lamp',
-      price: '$210',
-      numericPrice: 210,
-      category: 'Objects',
-      img: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop',
-      desc: 'Solid spun brass desk lamp with touch-capacitive dimming and warm 2700K LED module.',
-      keywords: ['lamp', 'desk', 'light', 'brass', 'object', 'home', 'interior', 'lighting'],
-      vector: [0.1, 0.0, 0.4, 0.5, 0.9]
-    },
-    p10: {
-      id: 'p10',
-      brand: 'Arc',
-      title: 'Tailored Wool Trench Coat',
-      price: '$480',
-      numericPrice: 480,
-      category: 'Outerwear',
-      img: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=800&auto=format&fit=crop',
-      desc: 'Double-breasted long trench coat in water-repellent Melton wool with belt closure.',
-      keywords: ['coat', 'trench', 'wool', 'outerwear', 'double-breasted', 'black', 'long'],
-      vector: [0.98, 0.1, 0.0, 0.2, 0.98]
-    },
-    p11: {
-      id: 'p11',
-      brand: 'Apex',
-      title: 'Low Court Leather Trainer',
-      price: '$195',
-      numericPrice: 195,
-      category: 'Footwear',
-      img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=800&auto=format&fit=crop',
-      desc: 'Handcrafted Italian Nappa leather court sneaker with rubber cupsole and waxed cotton laces.',
-      keywords: ['sneaker', 'shoe', 'leather', 'court', 'trainer', 'white', 'footwear', 'minimal'],
-      vector: [0.1, 0.94, 0.0, 0.2, 0.85]
-    },
-    p12: {
-      id: 'p12',
       brand: 'Form',
-      title: 'Portable Acoustic Speaker',
-      price: '$165',
-      numericPrice: 165,
-      category: 'Objects',
-      img: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=800&auto=format&fit=crop',
-      desc: '360-degree room-filling acoustic speaker with anodized aluminum body and 20-hour battery life.',
-      keywords: ['speaker', 'audio', 'sound', 'portable', 'bluetooth', 'aluminum', 'object'],
-      vector: [0.0, 0.0, 0.96, 0.4, 0.8]
+      title: 'Noise Canceling Earbuds',
+      price: 'BDT 14,500',
+      numericPrice: 14500,
+      category: 'Acoustics',
+      img: 'search_earbuds.png',
+      desc: 'High-fidelity audio with adaptive noise cancellation. Sweat and water-resistant for active lifestyles.',
+      keywords: ["earbuds","audio","sound","portable","bluetooth","aluminum","object"],
+      vector: [0, 0, 0.96, 0.4, 0.8]
     }
   };
 
@@ -174,24 +126,24 @@
 
   // 3. QUERY EMBEDDER (Maps natural language search text to normalized vector space)
   function embedQuery(queryText) {
-    const q = queryText.toLowerCase();
+    const q = (queryText || '').toLowerCase();
     
     // Feature vector weights: [Outerwear, Footwear, Audio, Timepiece, EditorialLuxury]
     let vec = [0.1, 0.1, 0.1, 0.1, 0.5];
 
-    if (/coat|jacket|wool|warm|winter|outerwear|layer|apparel|tailored|clothing/.test(q)) {
+    if (/coat|jacket|blazer|wool|warm|winter|outerwear|layer|apparel|tailored|clothing|sweater|knit/.test(q)) {
       vec[0] += 0.85;
     }
-    if (/shoe|footwear|run|sneaker|sport|marathon|athletic|distance|walk/.test(q)) {
+    if (/shoe|footwear|run|sneaker|sport|marathon|athletic|distance|walk|runner/.test(q)) {
       vec[1] += 0.85;
     }
-    if (/headphone|audio|sound|music|listen|acoustic|noise|travel|wireless/.test(q)) {
+    if (/headphone|earbud|audio|sound|music|listen|acoustic|noise|travel|wireless/.test(q)) {
       vec[2] += 0.85;
     }
-    if (/watch|time|pulse|titanium|wrist|clock|gps|smartwatch|biometric/.test(q)) {
+    if (/watch|time|pulse|titanium|wrist|clock|gps|smartwatch|biometric|chronograph/.test(q)) {
       vec[3] += 0.85;
     }
-    if (/luxury|editorial|minimal|refined|architectural|black|modern/.test(q)) {
+    if (/luxury|editorial|minimal|refined|architectural|black|modern|tote|bag/.test(q)) {
       vec[4] += 0.4;
     }
 
@@ -208,10 +160,7 @@
     const terms = query.toLowerCase().split(/\s+/);
 
     const scored = Object.values(PRODUCT_EMBEDDINGS).map(product => {
-      // Base vector similarity score
       let vectorScore = cosineSimilarity(queryVec, product.vector);
-
-      // Keyword match bonus for direct term matches
       let keywordBonus = 0;
       terms.forEach(term => {
         if (term.length > 2 && product.keywords.some(k => k.includes(term))) {
@@ -227,7 +176,6 @@
       };
     });
 
-    // Sort descending by score
     scored.sort((a, b) => b.similarityScore - a.similarityScore);
     return scored.slice(0, limit);
   }
@@ -243,31 +191,41 @@
     const history = CONCIERGE_SESSIONS[sessionId];
     history.push({ role: 'user', content: userMessage });
 
-    // Perform vector retrieval based on user message
     const matchingProducts = semanticSearch(userMessage, 2);
-    const topProduct = matchingProducts[0];
+    const topProduct = matchingProducts[0] || PRODUCT_EMBEDDINGS.p1;
 
     let replyText = "";
     let recommendedProducts = [];
-
-    const msgLower = userMessage.toLowerCase();
+    const msgLower = (userMessage || '').toLowerCase();
 
     if (/hello|hi|hey|greetings/.test(msgLower)) {
-      replyText = "Good day. I am your nexCommerce Client Concierge. I can assist you with curated wardrobe pairings, acoustic objects, or technical specifications. What are you looking to discover today?";
-    } else if (/coat|jacket|outerwear|winter|layer|warm/.test(msgLower)) {
-      replyText = `For winter layering and refined structure, I recommend our **${topProduct.title}** ($310). It is tailored in Japan from a dense wool blend with concealed horn button closures.`;
-      recommendedProducts = [PRODUCT_EMBEDDINGS.p4];
+      replyText = "Good day. I am your nexCommerce Style Concierge. I can assist you with curated wardrobe pairings, acoustic objects, sizing advice, or delivery inquiries. What are you looking to discover today?";
+    } else if (/coat|jacket|blazer|outerwear|winter|layer|warm/.test(msgLower)) {
+      const blazer = PRODUCT_EMBEDDINGS.p2 || topProduct;
+      replyText = `For refined tailoring and versatile layering, I recommend our **${blazer.title}** (${blazer.price}). Tailored from unlined merino wool for sharp evening silhouettes.`;
+      recommendedProducts = [blazer];
+    } else if (/sweater|knitwear|crew|cashmere/.test(msgLower)) {
+      const sweater = PRODUCT_EMBEDDINGS.p1 || topProduct;
+      replyText = `For pure comfort and warmth, our **${sweater.title}** (${sweater.price}) is crafted with 2-ply structured cashmere with a soft roll neck.`;
+      recommendedProducts = [sweater];
     } else if (/shoe|run|footwear|sneaker|sport/.test(msgLower)) {
-      replyText = `For distance and endurance, the **${PRODUCT_EMBEDDINGS.p1.title}** ($165) features a full carbon-fiber propulsion plate encased in high-rebound cushioning.`;
-      recommendedProducts = [PRODUCT_EMBEDDINGS.p1];
-    } else if (/audio|headphone|music|sound|listen|quiet/.test(msgLower)) {
-      replyText = `For acoustic clarity, I suggest the **${PRODUCT_EMBEDDINGS.p2.title}** ($285). Beryllium drivers deliver studio sound with active noise cancellation.`;
-      recommendedProducts = [PRODUCT_EMBEDDINGS.p2];
-    } else if (/watch|time|pulse|titanium/.test(msgLower)) {
-      replyText = `Our **${PRODUCT_EMBEDDINGS.p3.title}** ($420) is crafted in Grade-5 titanium with an always-on sapphire glass display and real-time biometrics.`;
-      recommendedProducts = [PRODUCT_EMBEDDINGS.p3];
+      const shoe = PRODUCT_EMBEDDINGS.p6 || topProduct;
+      replyText = `For everyday movement, the **${shoe.title}** (${shoe.price}) features full-grain Italian leather with a cushioned Vibram sole.`;
+      recommendedProducts = [shoe];
+    } else if (/audio|headphone|music|sound|listen|quiet|earbuds/.test(msgLower)) {
+      const audio = PRODUCT_EMBEDDINGS.p4 || topProduct;
+      replyText = `For acoustic clarity, I suggest the **${audio.title}** (${audio.price}) featuring active noise cancellation and memory foam lambskin cushions.`;
+      recommendedProducts = [audio];
+    } else if (/watch|time|pulse|titanium|chronograph/.test(msgLower)) {
+      const watch = PRODUCT_EMBEDDINGS.p5 || topProduct;
+      replyText = `Our **${watch.title}** (${watch.price}) is crafted in brushed titanium with scratch-resistant sapphire crystal and interchangeable straps.`;
+      recommendedProducts = [watch];
+    } else if (/tote|bag|carry/.test(msgLower)) {
+      const tote = PRODUCT_EMBEDDINGS.p7 || topProduct;
+      replyText = `For daily carry, the **${tote.title}** (${tote.price}) is made with heavyweight organic cotton canvas and veg-tan leather handles.`;
+      recommendedProducts = [tote];
     } else {
-      replyText = `Based on your request, I've selected the **${topProduct.title}** (${topProduct.price}) from our modern collection. Every detail is considered for form and function.`;
+      replyText = `Based on your request, I've selected the **${topProduct.title}** (${topProduct.price}) from our collection. Every detail is crafted for effortless luxury.`;
       recommendedProducts = [topProduct];
     }
 
@@ -281,15 +239,15 @@
     };
   }
 
-  // 6. PUBLIC API: USER AFFINITY & PERSONALIZED RECOMMENDATIONS (STEP 4)
+  // 6. PUBLIC API: USER AFFINITY & PERSONALIZED RECOMMENDATIONS
   const USER_HISTORY_KEY = 'nex_user_affinity_history';
 
   function getUserHistory() {
     try {
       const data = localStorage.getItem(USER_HISTORY_KEY);
-      return data ? JSON.parse(data) : { views: ['p4', 'p2'], searches: ['wool coat'] };
+      return data ? JSON.parse(data) : { views: ['p1', 'p2'], searches: ['cashmere sweater'] };
     } catch (e) {
-      return { views: ['p4', 'p2'], searches: ['wool coat'] };
+      return { views: ['p1', 'p2'], searches: ['cashmere sweater'] };
     }
   }
 
@@ -338,7 +296,7 @@
     return scored.slice(0, limit);
   }
 
-  // 7. PUBLIC API: VISUAL VECTOR SEARCH / SHOP BY PHOTO (STEP 5)
+  // 7. PUBLIC API: VISUAL VECTOR SEARCH / SHOP BY PHOTO
   function visualSearch(presetKeyOrFileName, limit = 4) {
     const key = (presetKeyOrFileName || '').toLowerCase();
     
@@ -353,7 +311,6 @@
     } else if (/watch|titanium|timepiece|pulse/.test(key)) {
       targetVector = [0.1, 0.2, 0.1, 0.99, 0.8];
     } else {
-      // General visual feature extraction mock
       targetVector = [0.6, 0.3, 0.2, 0.2, 0.7];
     }
 
@@ -369,25 +326,27 @@
     return scored.slice(0, limit);
   }
 
-  // 8. PUBLIC API: SMART SIZE ADVISOR & BUNDLE SUGGESTIONS (STEP 6)
+  // 8. PUBLIC API: SMART SIZE ADVISOR & BUNDLE SUGGESTIONS
   const BRAND_SIZE_MAP = {
-    p1: { recommendedSize: 'UK 8', confidence: '88%', note: 'Runs true to size based on 124 member purchases' },
-    p2: { recommendedSize: 'One Size', confidence: '99%', note: 'Adaptive ergonomic headband' },
-    p3: { recommendedSize: '42mm Case', confidence: '95%', note: 'Includes dual Italian leather & titanium straps' },
-    p4: { recommendedSize: 'Medium (UK 38-40)', confidence: '87%', note: 'Slightly relaxed luxury tailoring offset' }
+    p1: { recommendedSize: 'Medium', confidence: '88%', note: 'Structured 2-ply cashmere. Fits true to size; order one size up for layering.' },
+    p2: { recommendedSize: 'UK 38 / Medium', confidence: '92%', note: 'Tailored shoulder with natural unlined drape.' },
+    p3: { recommendedSize: 'Medium', confidence: '90%', note: 'Ultra-soft cashmere crew. Regular fit.' },
+    p4: { recommendedSize: 'One Size', confidence: '99%', note: 'Memory foam with adjustable lambskin headband.' },
+    p5: { recommendedSize: '40mm Case', confidence: '95%', note: 'Includes interchangeable leather & titanium straps.' },
+    p6: { recommendedSize: 'EU 42 / UK 8', confidence: '87%', note: 'Italian calfskin with cushioned Vibram sole.' },
+    p7: { recommendedSize: 'One Size (18L)', confidence: '99%', note: 'Includes internal 15" laptop sleeve.' },
+    p8: { recommendedSize: 'One Size', confidence: '99%', note: 'Includes 3 sizes of silicone ear tips.' }
   };
 
   function getRecommendedSize(productId) {
-    return BRAND_SIZE_MAP[productId] || { recommendedSize: 'UK 8', confidence: '85%', note: 'Recommended based on your profile' };
+    return BRAND_SIZE_MAP[productId] || { recommendedSize: 'Medium / UK 38', confidence: '85%', note: 'Recommended based on your measurements' };
   }
 
   function getBundleSuggestions(productId, limit = 2) {
     const current = PRODUCT_EMBEDDINGS[productId];
     if (!current) return [];
 
-    // Filter out same category products to ensure diverse cross-sell outfit bundles
     const candidates = Object.values(PRODUCT_EMBEDDINGS).filter(p => p.id !== productId && p.category !== current.category);
-    
     return candidates.slice(0, limit);
   }
 
@@ -405,6 +364,3 @@
   };
 
 })(window);
-
-
-

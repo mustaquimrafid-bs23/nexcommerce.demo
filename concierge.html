@@ -7,7 +7,7 @@
   <meta name="description" content="Your personal AI Style Concierge. Expertly curating complete looks, finding perfect fits, and refining selections based on your unique style profile.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-system.css?v=4">
   <style>
     .concierge-hero {
@@ -126,10 +126,9 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
-        <a href="index.html" class="nav-logo">
-          <span>nexCommerce</span>
-          <span class="nav-logo-sub">Intelligent Commerce</span>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
@@ -165,10 +164,9 @@
   <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
     </div>
-    <a href="category.html" class="mobile-drawer-link">Shop</a>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="discovery.html" class="mobile-drawer-link">Discover</a>
@@ -211,13 +209,13 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   
   <script src="js/cart.js?v=2"></script>
-  <script src="js/ai-engine.js?v=2"></script>
+  <script src="js/ai-engine.js?v=3"></script>
   <script src="js/intent-parser.js?v=2"></script>
   <script src="js/catalog-engine.js?v=2"></script>
   <script src="js/style-profile.js?v=2"></script>
   <script src="js/context-retention.js?v=2"></script>
-  <script src="js/concierge-engine.js?v=2"></script>
-  <script src="js/concierge.js?v=2"></script>
+  <script src="js/concierge-engine.js?v=3"></script>
+  <script src="js/concierge.js?v=3"></script>
   
   <script>
     lucide.createIcons();

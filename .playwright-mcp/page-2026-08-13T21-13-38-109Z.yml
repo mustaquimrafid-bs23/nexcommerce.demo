@@ -1,0 +1,119 @@
+- generic [active] [ref=f5e1]:
+  - banner [ref=f5e2]:
+    - generic [ref=f5e3]:
+      - link "nexCommerce Home" [ref=f5e5] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce — next generation e-commerce" [ref=f5e6]
+      - navigation [ref=f5e7]:
+        - link "Categories" [ref=f5e8] [cursor=pointer]:
+          - /url: category.html?cat=all
+        - link "New In" [ref=f5e9] [cursor=pointer]:
+          - /url: category.html?cat=new
+        - link "Discover" [ref=f5e10] [cursor=pointer]:
+          - /url: discovery.html
+      - button "What are you looking for? Ctrl + K" [ref=f5e12] [cursor=pointer]:
+        - generic [ref=f5e17]: What are you looking for?
+        - generic [ref=f5e18]: Ctrl + K
+      - generic [ref=f5e19]:
+        - button "Open Style Concierge" [ref=f5e20] [cursor=pointer]:
+          - generic [ref=f5e23]: CONCIERGE
+        - link "AI Profile" [ref=f5e24] [cursor=pointer]:
+          - /url: profile.html
+        - link "Alex" [ref=f5e25] [cursor=pointer]:
+          - /url: account.html
+        - link "Bag" [ref=f5e26] [cursor=pointer]:
+          - /url: cart.html
+  - generic [ref=f5e28]:
+    - generic [ref=f5e29]:
+      - link "nexCommerce Home" [ref=f5e30] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce" [ref=f5e31]
+      - button "Close mobile menu" [ref=f5e32] [cursor=pointer]
+    - link "Categories" [ref=f5e36] [cursor=pointer]:
+      - /url: category.html?cat=all
+    - link "New In" [ref=f5e37] [cursor=pointer]:
+      - /url: category.html?cat=new
+    - link "Discover" [ref=f5e38] [cursor=pointer]:
+      - /url: discovery.html
+    - link "AI Profile" [ref=f5e39] [cursor=pointer]:
+      - /url: profile.html
+    - link "Alex" [ref=f5e40] [cursor=pointer]:
+      - /url: account.html
+    - link "Bag" [ref=f5e41] [cursor=pointer]:
+      - /url: cart.html
+  - generic [ref=f5e44]:
+    - generic [ref=f5e45]: Intelligent Discovery
+    - heading [level=1] [ref=f5e49]:
+      - text: Describe what
+      - emphasis [ref=f5e50]: you need.
+    - paragraph [ref=f5e51]: No keywords. No filters. Tell us the occasion, the place, the weather, or the feeling — and we will find what fits.
+    - generic [ref=f5e53]:
+      - textbox "Describe what you are looking for" [ref=f5e58]:
+        - /placeholder: e.g. Something warm for a Dhaka evening...
+      - button "DISCOVER" [ref=f5e60] [cursor=pointer]
+    - generic [ref=f5e61]:
+      - generic [ref=f5e62]: Try asking
+      - generic [ref=f5e63]:
+        - button "Cool evening in Dhaka" [ref=f5e64] [cursor=pointer]
+        - button "Long flight comfort" [ref=f5e65] [cursor=pointer]
+        - button "Minimal sneakers" [ref=f5e66] [cursor=pointer]
+        - button "Gift under BDT 15,000" [ref=f5e67] [cursor=pointer]
+  - generic [ref=f5e68]:
+    - generic [ref=f5e69]: Demo
+    - button "Simulate AI failure" [ref=f5e70] [cursor=pointer]
+  - contentinfo [ref=f5e71]:
+    - generic [ref=f5e72]:
+      - generic [ref=f5e73]: nexCommerce
+      - generic [ref=f5e74]:
+        - link "Home" [ref=f5e75] [cursor=pointer]:
+          - /url: index.html
+        - link "Alex" [ref=f5e76] [cursor=pointer]:
+          - /url: account.html
+        - link "Tracking" [ref=f5e77] [cursor=pointer]:
+          - /url: tracking.html
+      - generic [ref=f5e78]: © 2026 nexCommerce.
+  - dialog [ref=f5e79]:
+    - generic [ref=f5e80]:
+      - generic [ref=f5e81]: Shopping Bag
+      - button [ref=f5e82] [cursor=pointer]: ×
+    - generic [ref=f5e84]:
+      - heading [level=3] [ref=f5e85]: Your bag is empty.
+      - paragraph [ref=f5e86]: Discover pieces selected around how you want to shop.
+      - link [ref=f5e87] [cursor=pointer]:
+        - /url: discovery.html
+        - text: EXPLORE DISCOVERY →
+  - dialog "Notification Center" [ref=f5e88]:
+    - generic [ref=f5e89]:
+      - generic [ref=f5e90]: NOTIFICATIONS
+      - generic [ref=f5e91]:
+        - button "MARK ALL READ" [ref=f5e92] [cursor=pointer]
+        - button "×" [ref=f5e93] [cursor=pointer]
+  - region "Theme colour switcher" [ref=f5e95]:
+    - dialog "Theme colour options":
+      - generic:
+        - generic: Theme Colour
+        - button "Reset"
+      - generic:
+        - button "Cyan"
+        - button "Violet"
+        - button "Emerald"
+        - button "Amber"
+        - button "Rose"
+        - button "Coral"
+        - button "Indigo"
+        - button "Slate"
+      - generic: Custom Colour
+      - generic:
+        - generic "Click pick a colour":
+          - textbox: "#00c8ff"
+        - button "Apply Custom"
+      - generic: Persists across all pages via localStorage
+    - button "Open theme switcher" [ref=f5e96] [cursor=pointer]
+  - dialog [ref=f5e103]:
+    - generic [ref=f5e104]:
+      - generic [ref=f5e105]: Style Concierge
+      - button [ref=f5e108] [cursor=pointer]
+    - generic [ref=f5e115]:
+      - textbox [ref=f5e116]:
+        - /placeholder: Ask about a style, occasion, or budget...
+      - button [ref=f5e117] [cursor=pointer]

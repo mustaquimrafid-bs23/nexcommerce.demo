@@ -32,9 +32,12 @@ function initSmoothScroll() {
       smoothTouch: false, // touch devices usually handle this well natively
       touchMultiplier: 2,
       infinite: false,
-      // Prevent Lenis from hijacking scroll inside the mini cart drawer
+      // Prevent Lenis from hijacking scroll inside modals and drawers
       prevent: (node) => {
-        return node.closest('#nexMiniCartDrawer') !== null;
+        return node.closest('#nexMiniCartDrawer') !== null || 
+               node.closest('.search-panel') !== null ||
+               node.hasAttribute('data-lenis-prevent') ||
+               node.closest('[data-lenis-prevent]') !== null;
       },
     });
 
@@ -54,7 +57,7 @@ function initSmoothScroll() {
 function initHeroAnimations() {
   // Select all immediate children of hero-content to stagger them
   const heroContent = document.querySelector('.hero-content');
-  const heroVisual = document.querySelector('.hero-product-visual');
+  const heroVisual = document.querySelector('.hero-visual-frame, #heroVisualFrame, .hero-product-visual');
   const heroDots = document.querySelector('.hero-carousel-dots');
   const heroTitle = document.querySelector('.hero-title');
 
@@ -107,21 +110,19 @@ function initHeroAnimations() {
 
 // 2. Scroll Reveal Animations (Trust Strip, Category Grid, etc.)
 function initScrollReveals() {
-  console.log("initScrollReveals called!");
   // Target any section or wrapper with .reveal-on-scroll
   inView(".reveal-on-scroll", (info) => {
-    console.log("inView triggered for", info.target);
     // When the element comes into view, animate it
     animate(info.target, 
       { opacity: [0, 1], y: [20, 0] },
       { 
-        duration: 1.0,
+        duration: 0.8,
         easing: [0.22, 1, 0.36, 1]
       }
     );
     
     // Animate children elements inside if they are cards/grids
-    const childrenToStagger = info.target.querySelectorAll('.trust-item-card, .category-tile, .ai-explain-card, .product-card');
+    const childrenToStagger = info.target.querySelectorAll('.home-cat-pill, .deal-product-card, .curated-product-card, .trust-item-card, .category-tile, .ai-explain-card, .product-card');
     if (childrenToStagger.length > 0) {
       animate(childrenToStagger,
         { opacity: [0, 1], y: [15, 0] },
@@ -132,7 +133,7 @@ function initScrollReveals() {
         }
       );
     }
-  }, { margin: "-80px 0px" }); // Trigger slightly before it hits the bottom
+  }, { margin: "100px 0px" });
 }
 
 // 3. Premium Hover Micro-interactions (Motion-powered)
@@ -140,7 +141,7 @@ function initHoverEffects() {
   // For product cards and category tiles
   // Notice we delegate this so dynamically added products get the effect
   document.body.addEventListener('mouseenter', (e) => {
-    const card = e.target.closest('.category-tile, .product-card');
+    const card = e.target.closest('.home-cat-pill, .deal-product-card, .curated-product-card, .category-tile, .product-card');
     if (card) {
       animate(card, { y: -2 }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
     }

@@ -1,7 +1,7 @@
-/* ─── nexCommerce Theme Switcher ─────────────────────────────────────────
- * Self-contained floating palette widget. Drop the script  any page.
+/* ─── nexCommerce Theme Switcher (Footer Popup Widget) ─────────────────────
+ * Compact trigger in the footer that opens a sleek popup panel on click.
  * Overrides CSS custom properties on :root to switch theme colours.
- * Theme is persisted across pages via localStorage.
+ * Persists theme choice across pages via localStorage.
  * ──────────────────────────────────────────────────────────────────────── */
 
 (function () {
@@ -12,7 +12,8 @@
     {
       id: 'default',
       name: 'Cyber Cyan',
-      description: 'Default AI blue',
+      shortName: 'Cyan',
+      description: 'Default AI cyan',
       swatch: '#00C8FF',
       vars: {
         '--accent-cyan':      '#00C8FF',
@@ -28,6 +29,7 @@
     {
       id: 'violet',
       name: 'Deep Violet',
+      shortName: 'Violet',
       description: 'Rich purple luxury',
       swatch: '#8B5CF6',
       vars: {
@@ -44,6 +46,7 @@
     {
       id: 'emerald',
       name: 'Forest Emerald',
+      shortName: 'Emerald',
       description: 'Organic luxury green',
       swatch: '#10B981',
       vars: {
@@ -60,6 +63,7 @@
     {
       id: 'amber',
       name: 'Warm Amber',
+      shortName: 'Amber',
       description: 'Editorial gold',
       swatch: '#F59E0B',
       vars: {
@@ -76,6 +80,7 @@
     {
       id: 'rose',
       name: 'Editorial Rose',
+      shortName: 'Rose',
       description: 'Haute couture pink',
       swatch: '#F43F5E',
       vars: {
@@ -92,6 +97,7 @@
     {
       id: 'coral',
       name: 'Sunset Coral',
+      shortName: 'Coral',
       description: 'Warm coastal energy',
       swatch: '#FF6B6B',
       vars: {
@@ -108,6 +114,7 @@
     {
       id: 'indigo',
       name: 'Midnight Indigo',
+      shortName: 'Indigo',
       description: 'Deep ocean authority',
       swatch: '#4F46E5',
       vars: {
@@ -124,6 +131,7 @@
     {
       id: 'slate',
       name: 'Arctic Slate',
+      shortName: 'Slate',
       description: 'Minimal monochrome',
       swatch: '#94A3B8',
       vars: {
@@ -151,7 +159,8 @@
     const theme = THEMES.find(t => t.id === id);
     if (theme) {
       applyTheme(theme.vars);
-      localStorage.setItem(LS_KEY, JSON.stringify({ id, vars: theme.vars }));
+      localStorage.setItem(LS_KEY, JSON.stringify({ id, name: theme.name, swatch: theme.swatch, vars: theme.vars }));
+      updateTriggerState(theme.name, theme.swatch, id);
     }
   }
 
@@ -180,420 +189,429 @@
       '--bg-surface-hover': darken(hex, 0.20),
     };
     applyTheme(vars);
-    localStorage.setItem(LS_KEY, JSON.stringify({ id: 'custom', vars }));
+    localStorage.setItem(LS_KEY, JSON.stringify({ id: 'custom', name: 'Custom', swatch: hex, vars }));
+    updateTriggerState('Custom', hex, 'custom');
+  }
+
+  function updateTriggerState(name, swatchColor, id) {
+    const dot = document.getElementById('footerThemeTriggerDot');
+    const label = document.getElementById('footerThemeTriggerLabel');
+    if (dot) {
+      dot.style.background = swatchColor;
+      dot.style.boxShadow = `0 0 8px ${swatchColor}`;
+    }
+    if (label) {
+      label.textContent = `Theme: ${name}`;
+    }
+    const grid = document.getElementById('footerThemeGrid');
+    if (grid) {
+      grid.querySelectorAll('.footer-theme-swatch-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.themeId === id);
+      });
+    }
   }
 
   /* ── Restore Persisted Theme ──────────────────────────────────────────*/
   function restoreTheme() {
     try {
       const saved = JSON.parse(localStorage.getItem(LS_KEY));
-      if (saved && saved.vars) applyTheme(saved.vars);
+      if (saved && saved.vars) {
+        applyTheme(saved.vars);
+      }
     } catch (_) {}
   }
 
-  /* ── Inject Styles ───────────────────────────────────────────────────── */
-  function injectStyles() {
-    if (document.getElementById('nex-theme-switcher-styles')) return;
-    const style = document.createElement('style');
-    style.id = 'nex-theme-switcher-styles';
-    style.textContent = `
-      #nex-theme-fab {
-        position: fixed;
-        bottom: 32px;
-        right: 32px;
-        z-index: 99999;
-        font-family: 'Inter', system-ui, sans-serif;
-      }
+  /* ── Inject Footer Theme Changer Popup HTML & CSS ─────────────────────── */
+  function injectFooterThemePopup() {
+    if (document.getElementById('nex-footer-theme-changer-wrap')) return;
 
-      #nex-theme-toggle {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        background: #0B2147;
-        border: 1.5px solid rgba(255,255,255,0.15);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
-        color: var(--accent-cyan, #00C8FF);
-        position: relative;
-        z-index: 2;
-        outline: none;
-      }
-      #nex-theme-toggle:hover {
-        transform: scale(1.08);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-        border-color: var(--accent-cyan, #00C8FF);
-      }
-      #nex-theme-toggle.open {
-        border-color: var(--accent-cyan, #00C8FF);
-        box-shadow: 0 0 0 2px var(--accent-cyan, #00C8FF), 0 12px 40px rgba(0,0,0,0.4);
-        transform: rotate(30deg);
-      }
+    // Inject styles
+    if (!document.getElementById('nex-footer-theme-popup-styles')) {
+      const style = document.createElement('style');
+      style.id = 'nex-footer-theme-popup-styles';
+      style.textContent = `
+        .footer-theme-changer-wrap {
+          position: relative;
+          display: inline-block;
+          font-family: var(--font-body, system-ui, sans-serif);
+        }
+        .footer-theme-trigger-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 14px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 20px;
+          color: var(--text-secondary, #AAB6C8);
+          font-family: inherit;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 180ms ease;
+          outline: none;
+        }
+        .footer-theme-trigger-btn:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.25);
+          color: var(--text-primary, #FFFFFF);
+        }
+        .footer-theme-trigger-btn.open {
+          background: rgba(255, 255, 255, 0.10);
+          border-color: var(--accent-cyan, #00C8FF);
+          color: var(--text-primary, #FFFFFF);
+        }
+        .footer-theme-trigger-dot {
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #00C8FF;
+          box-shadow: 0 0 6px #00C8FF;
+          flex-shrink: 0;
+          transition: background 180ms ease, box-shadow 180ms ease;
+        }
+        .footer-theme-trigger-label {
+          letter-spacing: 0.02em;
+        }
+        .footer-theme-chevron {
+          transition: transform 200ms ease;
+          color: var(--text-muted, #7E8B9B);
+        }
+        .footer-theme-trigger-btn.open .footer-theme-chevron {
+          transform: rotate(180deg);
+          color: var(--text-primary, #FFFFFF);
+        }
 
-      #nex-theme-panel {
-        position: absolute;
-        bottom: 64px;
-        right: 0;
-        width: 296px;
-        background: rgba(11, 33, 71, 0.96);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) inset;
-        transform-origin: bottom right;
-        transform: scale(0.9) translateY(8px);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-      }
-      #nex-theme-panel.visible {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-        pointer-events: all;
-      }
+        /* Popover Popup */
+        .footer-theme-popover {
+          position: absolute;
+          bottom: calc(100% + 12px);
+          left: 50%;
+          transform: translateX(-50%) translateY(8px);
+          width: 284px;
+          background: rgba(9, 24, 51, 0.97);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 16px;
+          padding: 16px;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          opacity: 0;
+          pointer-events: none;
+          transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease;
+          z-index: 9999;
+        }
+        .footer-theme-popover.visible {
+          opacity: 1;
+          pointer-events: all;
+          transform: translateX(-50%) translateY(0);
+        }
+        .footer-theme-popover-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .footer-theme-popover-title {
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--text-muted, #AAB6C8);
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .footer-theme-reset-link {
+          background: none;
+          border: none;
+          font-size: 11px;
+          font-weight: 600;
+          color: var(--accent-cyan, #00C8FF);
+          cursor: pointer;
+          padding: 0;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          opacity: 0.75;
+          transition: opacity 150ms ease;
+          outline: none;
+        }
+        .footer-theme-reset-link:hover {
+          opacity: 1;
+        }
 
-      .nex-ts-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-      }
-      .nex-ts-title {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: #AAB6C8;
-      }
-      .nex-ts-reset {
-        font-size: 11px;
-        color: var(--accent-cyan, #00C8FF);
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        font-family: inherit;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        font-weight: 600;
-        opacity: 0.7;
-        transition: opacity 0.15s;
-        outline: none;
-      }
-      .nex-ts-reset:hover { opacity: 1; }
+        /* Swatches Grid */
+        .footer-theme-popover-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          margin-bottom: 12px;
+        }
+        .footer-theme-swatch-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          padding: 6px 2px;
+          border-radius: 8px;
+          border: 1px solid transparent;
+          background: transparent;
+          cursor: pointer;
+          transition: background 150ms ease, border-color 150ms ease;
+          outline: none;
+        }
+        .footer-theme-swatch-item:hover {
+          background: rgba(255, 255, 255, 0.06);
+        }
+        .footer-theme-swatch-item.active {
+          border-color: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.08);
+        }
+        .footer-theme-swatch-dot {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+          transition: transform 150ms ease, box-shadow 150ms ease;
+          flex-shrink: 0;
+        }
+        .footer-theme-swatch-item:hover .footer-theme-swatch-dot,
+        .footer-theme-swatch-item.active .footer-theme-swatch-dot {
+          transform: scale(1.15);
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+          border-color: #FFFFFF;
+        }
+        .footer-theme-swatch-name {
+          font-size: 9px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: var(--text-muted, #AAB6C8);
+          text-align: center;
+        }
 
-      .nex-ts-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        margin-bottom: 16px;
-      }
+        /* Custom section */
+        .footer-theme-popover-divider {
+          height: 1px;
+          background: rgba(255, 255, 255, 0.08);
+          margin: 10px 0;
+        }
+        .footer-theme-custom-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+        .footer-theme-custom-label {
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--text-muted, #AAB6C8);
+        }
+        .footer-theme-custom-picker-wrap {
+          position: relative;
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+        .footer-theme-custom-picker-wrap input[type="color"] {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+          border: none;
+        }
+        .footer-theme-custom-preview-dot {
+          display: block;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border: 1.5px dashed rgba(255, 255, 255, 0.4);
+          background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+          pointer-events: none;
+          transition: transform 150ms ease;
+        }
+        .footer-theme-custom-picker-wrap:hover .footer-theme-custom-preview-dot {
+          transform: scale(1.15);
+          border-style: solid;
+          border-color: #FFFFFF;
+        }
 
-      .nex-ts-swatch {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        padding: 8px 4px 10px;
-        border-radius: 10px;
-        border: 1px solid transparent;
-        background: none;
-        transition: background 0.15s, border-color 0.15s;
-        position: relative;
-        outline: none;
-      }
-      .nex-ts-swatch:hover {
-        background: rgba(255,255,255,0.05);
-      }
-      .nex-ts-swatch.active {
-        border-color: rgba(255,255,255,0.2);
-        background: rgba(255,255,255,0.06);
-      }
-      .nex-ts-swatch.active::after {
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--accent-cyan, #00C8FF);
-      }
+        @media (max-width: 767px) {
+          .footer-theme-popover {
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            width: 260px;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
 
-      .nex-ts-dot {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        transition: transform 0.15s, box-shadow 0.15s;
-        border: 2px solid rgba(255,255,255,0.18);
-        flex-shrink: 0;
-      }
-      .nex-ts-swatch:hover .nex-ts-dot,
-      .nex-ts-swatch.active .nex-ts-dot {
-        transform: scale(1.12);
-        box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-      }
-
-      .nex-ts-label {
-        font-size: 9px;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #AAB6C8;
-        text-align: center;
-        line-height: 1.2;
-      }
-
-      .nex-ts-divider {
-        height: 1px;
-        background: rgba(255,255,255,0.08);
-        margin: 14px 0;
-      }
-
-      .nex-ts-custom-label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #AAB6C8;
-        margin-bottom: 10px;
-      }
-
-      .nex-ts-custom-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .nex-ts-color-input-wrap {
-        position: relative;
-        width: 44px;
-        height: 44px;
-        flex-shrink: 0;
-        cursor: pointer;
-      }
-      .nex-ts-color-input-wrap input[type="color"] {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        cursor: pointer;
-        border-radius: 10px;
-        opacity: 0;
-        z-index: 2;
-      }
-      .nex-ts-color-preview {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        border: 2px solid rgba(255,255,255,0.15);
-        background: #00C8FF;
-        pointer-events: none;
-        transition: background 0.15s;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-      }
-
-      .nex-ts-apply-btn {
-        flex: 1;
-        height: 44px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 10px;
-        color: #F5F7FA;
-        font-family: inherit;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background 0.15s, border-color 0.15s, color 0.15s;
-        outline: none;
-      }
-      .nex-ts-apply-btn:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: var(--accent-cyan, #00C8FF);
-        color: var(--accent-cyan, #00C8FF);
-      }
-
-      .nex-ts-footer {
-        margin-top: 14px;
-        font-size: 10px;
-        color: rgba(170,182,200,0.35);
-        text-align: center;
-        letter-spacing: 0.05em;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  /* ── Build Panel HTML ────────────────────────────────────────────────── */
-  function buildPanel() {
     const saved = (() => { try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch(_){} return null; })();
     const activeId = saved ? saved.id : 'default';
+    const activeName = saved ? (saved.name || 'Cyber Cyan') : 'Cyber Cyan';
+    const activeSwatch = saved ? (saved.swatch || '#00C8FF') : '#00C8FF';
 
-    const swatchGrid = THEMES.map(t => `
-      <button class="nex-ts-swatch ${t.id === activeId ? 'active' : ''}"
+    const swatchesHtml = THEMES.map(t => `
+      <button type="button" class="footer-theme-swatch-item ${t.id === activeId ? 'active' : ''}"
               data-theme-id="${t.id}"
-              title="${t.name}: ${t.description}">
-        <span class="nex-ts-dot" style="background:${t.swatch};"></span>
-        <span class="nex-ts-label">${t.name.split(' ').slice(-1)[0]}</span>
+              title="${t.name} — ${t.description}"
+              aria-label="Set theme to ${t.name}">
+        <span class="footer-theme-swatch-dot" style="background:${t.swatch};"></span>
+        <span class="footer-theme-swatch-name">${t.shortName}</span>
       </button>
     `).join('');
 
-    return `
-      <div class="nex-ts-header">
-        <span class="nex-ts-title">Theme Colour</span>
-        <button class="nex-ts-reset" id="nexTsReset">Reset</button>
-      </div>
+    const themeChangerWrap = document.createElement('div');
+    themeChangerWrap.id = 'nex-footer-theme-changer-wrap';
+    themeChangerWrap.className = 'footer-theme-changer-wrap';
+    themeChangerWrap.setAttribute('role', 'region');
+    themeChangerWrap.setAttribute('aria-label', 'Theme Switcher');
+    themeChangerWrap.innerHTML = `
+      <!-- Trigger Button -->
+      <button type="button" class="footer-theme-trigger-btn" id="footerThemeTriggerBtn" aria-haspopup="dialog" aria-expanded="false" title="Click to customize theme accent">
+        <span class="footer-theme-trigger-dot" id="footerThemeTriggerDot" style="background: ${activeSwatch}; box-shadow: 0 0 6px ${activeSwatch};"></span>
+        <span class="footer-theme-trigger-label" id="footerThemeTriggerLabel">Theme: ${activeName}</span>
+        <svg class="footer-theme-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+      </button>
 
-      <div class="nex-ts-grid" id="nexTsSwatchGrid">
-        ${swatchGrid}
-      </div>
-
-      <div class="nex-ts-divider"></div>
-
-      <div class="nex-ts-custom-label">Custom Colour</div>
-      <div class="nex-ts-custom-row">
-        <div class="nex-ts-color-input-wrap" title="Click  pick a colour">
-          <input type="color" id="nexTsColorPicker" value="#00C8FF">
-          <div class="nex-ts-color-preview" id="nexTsColorPreview" style="background:#00C8FF;"></div>
+      <!-- Popover Menu -->
+      <div class="footer-theme-popover" id="footerThemePopover" role="dialog" aria-label="Theme Options">
+        <div class="footer-theme-popover-header">
+          <span class="footer-theme-popover-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+            Theme Accents
+          </span>
+          <button type="button" class="footer-theme-reset-link" id="footerThemeReset" title="Reset to default cyan">Reset</button>
         </div>
-        <button class="nex-ts-apply-btn" id="nexTsApplyCustom">Apply Custom</button>
+
+        <div class="footer-theme-popover-grid" id="footerThemeGrid">
+          ${swatchesHtml}
+        </div>
+
+        <div class="footer-theme-popover-divider"></div>
+
+        <div class="footer-theme-custom-row">
+          <span class="footer-theme-custom-label">Custom Palette</span>
+          <div class="footer-theme-custom-picker-wrap" title="Pick custom color">
+            <input type="color" id="footerThemeColorPicker" value="${activeSwatch}" aria-label="Pick custom color" />
+            <span class="footer-theme-custom-preview-dot" id="footerThemeColorPreview" style="background: ${activeSwatch};"></span>
+          </div>
+        </div>
       </div>
-
-      <div class="nex-ts-footer">Persists across all pages via localStorage</div>
-    `;
-  }
-
-  /* ── Create & Inject Widget ──────────────────────────────────────────── */
-  function createWidget() {
-    if (document.getElementById('nex-theme-fab')) return null;
-
-    const fab = document.createElement('div');
-    fab.id = 'nex-theme-fab';
-    fab.setAttribute('role', 'region');
-    fab.setAttribute('aria-label', 'Theme colour switcher');
-
-    const panel = document.createElement('div');
-    panel.id = 'nex-theme-panel';
-    panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'Theme colour options');
-    panel.innerHTML = buildPanel();
-
-    const toggle = document.createElement('button');
-    toggle.id = 'nex-theme-toggle';
-    toggle.setAttribute('aria-label', 'Open theme switcher');
-    toggle.setAttribute('title', 'Switch theme colour');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
-        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
-        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
-        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
-        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
-      </svg>
     `;
 
-    fab.appendChild(panel);
-    fab.appendChild(toggle);
-    document.body.appendChild(fab);
+    // Locate footer container safely
+    const footerCopy = document.querySelector('.footer-copy, footer .footer-copy, footer [class*="copy"]');
+    if (footerCopy && footerCopy.parentNode) {
+      footerCopy.parentNode.insertBefore(themeChangerWrap, footerCopy);
+    } else {
+      const footer = document.querySelector('.footer-inner, .site-footer .container, footer .container, footer');
+      if (footer) {
+        footer.appendChild(themeChangerWrap);
+      } else {
+        const minimalFooter = document.createElement('div');
+        minimalFooter.style.cssText = 'padding: 24px 0; text-align: center; display: flex; justify-content: center; background: transparent;';
+        minimalFooter.appendChild(themeChangerWrap);
+        document.body.appendChild(minimalFooter);
+      }
+    }
 
-    return { fab, panel, toggle };
+    wirePopupEvents(themeChangerWrap);
   }
 
-  /* ── Wire Events ──────────────────────────────────────────────────────*/
-  function wireEvents(panel, toggle) {
+  /* ── Wire Popup & Swatch Events ───────────────────────────────────────── */
+  function wirePopupEvents(wrap) {
+    const trigger = wrap.querySelector('#footerThemeTriggerBtn');
+    const popover = wrap.querySelector('#footerThemePopover');
+    const grid = wrap.querySelector('#footerThemeGrid');
+    const colorPicker = wrap.querySelector('#footerThemeColorPicker');
+    const colorPreview = wrap.querySelector('#footerThemeColorPreview');
+    const resetBtn = wrap.querySelector('#footerThemeReset');
+
     let isOpen = false;
 
-    function closePanel() {
-      isOpen = false;
-      panel.classList.remove('visible');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    }
-
-    function openPanel() {
+    function openPopover() {
       isOpen = true;
-      panel.classList.add('visible');
-      toggle.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
+      popover.classList.add('visible');
+      trigger.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
     }
 
-    // Toggle open/close
-    toggle.addEventListener('click', (e) => {
+    function closePopover() {
+      isOpen = false;
+      popover.classList.remove('visible');
+      trigger.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    // Toggle popover on button click
+    trigger.addEventListener('click', (e) => {
       e.stopPropagation();
-      isOpen ? closePanel() : openPanel();
+      isOpen ? closePopover() : openPopover();
     });
 
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (isOpen && !panel.contains(e.target) && e.target !== toggle) {
-        closePanel();
+      if (isOpen && !wrap.contains(e.target)) {
+        closePopover();
       }
     });
 
-    // Preset swatches
-    panel.querySelector('#nexTsSwatchGrid').addEventListener('click', (e) => {
-      const btn = e.target.closest('.nex-ts-swatch');
-      if (!btn) return;
-      const id = btn.dataset.themeId;
-      applyThemeById(id);
-      panel.querySelectorAll('.nex-ts-swatch').forEach(s => {
-        s.classList.toggle('active', s.dataset.themeId === id);
-      });
-    });
-
-    // Custom color picker - live preview
-    const picker = panel.querySelector('#nexTsColorPicker');
-    const preview = panel.querySelector('#nexTsColorPreview');
-    picker.addEventListener('input', () => {
-      preview.style.background = picker.value;
-    });
-
-    // Apply custom color
-    panel.querySelector('#nexTsApplyCustom').addEventListener('click', () => {
-      applyCustomColor(picker.value);
-      panel.querySelectorAll('.nex-ts-swatch').forEach(s => s.classList.remove('active'));
-    });
-
-    // Reset  default
-    panel.querySelector('#nexTsReset').addEventListener('click', () => {
-      localStorage.removeItem(LS_KEY);
-      applyThemeById('default');
-      panel.querySelectorAll('.nex-ts-swatch').forEach(s => {
-        s.classList.toggle('active', s.dataset.themeId === 'default');
-      });
-      picker.value = '#00C8FF';
-      preview.style.background = '#00C8FF';
-    });
-
-    // Keyboard: Escape  close
+    // Escape key closes popover
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) {
-        closePanel();
-        toggle.focus();
+        closePopover();
+        trigger.focus();
       }
     });
+
+    // Swatch selection
+    if (grid) {
+      grid.addEventListener('click', (e) => {
+        const item = e.target.closest('.footer-theme-swatch-item');
+        if (!item) return;
+        const id = item.dataset.themeId;
+        applyThemeById(id);
+        if (colorPreview) {
+          const t = THEMES.find(th => th.id === id);
+          if (t) colorPreview.style.background = t.swatch;
+        }
+      });
+    }
+
+    // Custom color picker
+    if (colorPicker) {
+      colorPicker.addEventListener('input', () => {
+        const hex = colorPicker.value;
+        if (colorPreview) colorPreview.style.background = hex;
+        applyCustomColor(hex);
+      });
+    }
+
+    // Reset button
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        localStorage.removeItem(LS_KEY);
+        applyThemeById('default');
+        if (colorPreview) colorPreview.style.background = '#00C8FF';
+        if (colorPicker) colorPicker.value = '#00C8FF';
+      });
+    }
   }
 
   /* ── Boot ────────────────────────────────────────────────────────────── */
   function init() {
-    restoreTheme();  // Apply immediately  avoid FOUC
-    injectStyles();
-    const result = createWidget();
-    if (result) wireEvents(result.panel, result.toggle);
+    restoreTheme(); // Apply immediately to avoid FOUC
+    injectFooterThemePopup();
   }
 
   if (document.readyState === 'loading') {

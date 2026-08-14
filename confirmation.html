@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Confirmed &mdash; nexCommerce</title>
   <meta name="description" content="Your order has been confirmed. Thank you for shopping at nexCommerce.">
+  <meta name="view-transition" content="same-origin" />
 
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=5">
 
   <style>
     body {
@@ -34,33 +36,24 @@
       top: 0;
       z-index: 100;
     }
-    .brand-logo {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      text-decoration: none;
-    }
 
-    /* Check mark animation */
-    .confirm-check {
-      width: 64px;
-      height: 64px;
+    /* Check mark animated ring */
+    .confirm-check-ring {
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
-      background: rgba(0, 230, 118, 0.1);
-      border: 1.5px solid rgba(0, 230, 118, 0.4);
+      background: rgba(0, 230, 118, 0.12);
+      border: 1.5px solid rgba(0, 230, 118, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
       margin: 0 auto 20px;
-      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      box-shadow: 0 0 30px rgba(0, 230, 118, 0.2);
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
     @keyframes popIn {
-      from { transform: scale(0.6); opacity: 0; }
-      to { transform: scale(1);   opacity: 1; }
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .confirm-card {
@@ -68,37 +61,94 @@
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
       padding: 28px;
+      transition: border-color 0.2s ease;
     }
 
     .section-label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .divider {
       border: none;
       border-top: 1px solid var(--border-subtle);
-      margin: 20px 0;
+      margin: 18px 0;
     }
 
-    /* Estimated delivery pill */
-    .delivery-pill {
+    /* Status badge */
+    .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      border: 1px solid rgba(0, 200, 255, 0.25);
+      padding: 4px 12px;
       border-radius: 20px;
-      font-size: 12px;
-      color: var(--accent-cyan, #00C8FF);
-      background: rgba(0, 200, 255, 0.06);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(0, 230, 118, 0.10);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: #00E676;
     }
 
-    /* " order found" fallback */
+    /* Estimated delivery pill */
+    .delivery-eta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-cyan);
+      background: rgba(0, 210, 255, 0.06);
+    }
+
+    /* Item row */
+    .order-item-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .order-item-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .order-item-img {
+      width: 60px;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #071A3A;
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Payment method chip */
+    .payment-method-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Fallback no-order state */
     #no-order-state {
       display: none;
       text-align: center;
@@ -107,10 +157,19 @@
       margin: 60px auto;
     }
 
+    @media print {
+      .site-header, .site-footer, .next-actions-box, .btn-print-receipt {
+        display: none !important;
+      }
+      body { background: #fff !important; color: #000 !important; }
+      .confirm-card { border: 1px solid #ddd !important; background: #fff !important; color: #000 !important; }
+      .confirm-grid { grid-template-columns: 1fr !important; }
+    }
+
     @media (max-width: 900px) {
       .site-header { padding: 0 20px; }
       .container   { padding: 0 20px; }
-      .confirm-grid { grid-template-columns: 1fr !important; }
+      .confirm-grid { grid-template-columns: 1fr !important; gap: 24px; }
     }
   </style>
 </head>
@@ -120,15 +179,14 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer;">â˜°</button>
-        <a href="index.html" class="nav-logo">
-          <span>nexCommerce</span>
-          <span class="nav-logo-sub">Intelligent Commerce</span>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
       <nav class="nav-left nav-menu-links desktop-only">
-<a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
         <a href="discovery.html" class="nav-item-link">Discover</a>
       </nav>
@@ -143,14 +201,14 @@
 
       <div class="nav-right" style="display: flex; align-items: center; gap: 24px;">
         <button id="conciergeNavTrigger" class="concierge-nav-btn" aria-label="Open Style Concierge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i>
           <span>CONCIERGE</span>
         </button>
         <a href="profile.html" class="nav-item-link desktop-only">AI Profile</a>
         <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
         <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
           <span>Bag</span>
-          <span class="bag-badge" id="headerCartCount">1</span>
+          <span class="bag-badge" id="headerCartCount">0</span>
         </a>
       </div>
     </div>
@@ -159,10 +217,9 @@
   <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span class="nav-logo" style="font-size: 20px;">nexCommerce</span>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer;">Ã&mdash;</button>
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
     </div>
-    <a href="category.html" class="mobile-drawer-link">Shop</a>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="discovery.html" class="mobile-drawer-link">Discover</a>
@@ -171,97 +228,158 @@
     <a href="cart.html" class="mobile-drawer-link">Bag</a>
   </div>
 
-
-  <!-- Fallback:  session order found (refresh guard) -->
+  <!-- Fallback: no session order found (refresh guard) -->
   <div id="no-order-state">
-    <div style="font-size:40px; margin-bottom:16px;">🛍️</div>
+    <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+      <i data-lucide="shopping-bag" style="width: 28px; height: 28px; color: var(--text-secondary);"></i>
+    </div>
     <h2 style="font-family:var(--font-serif); font-size:28px; margin-bottom:10px;">No active order found.</h2>
-    <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px;">This page is only available immediately after placing an order. Your bag and any placed orders remain intact.</p>
-    <a href="category.html" class="btn-primary-commerce">Continue Shopping</a>
+    <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px; line-height: 1.6;">This confirmation receipt is accessible immediately following checkout. If you've placed an order previously, view your order history or track your shipment.</p>
+    <div style="display:flex; gap:12px; justify-content:center;">
+      <a href="tracking.html" class="btn-secondary-action">Track an Order</a>
+      <a href="category.html" class="btn-primary-commerce">Continue Shopping</a>
+    </div>
   </div>
 
   <!-- Confirmation content (shown when sessionStorage has order) -->
-  <main id="confirmation-content" class="container" style="display:none; padding-top:40px; padding-bottom:80px; flex:1;">
+  <main id="confirmation-content" class="container" style="display:none; padding-top:48px; padding-bottom:80px; flex:1;">
 
-    <!-- Header row -->
-    <div style="text-align:center; margin-bottom:40px;">
-      <div class="confirm-check">&#10003;</div>
-      <h1 style="font-family:var(--font-serif); font-size:36px; margin-bottom:6px;">Order Confirmed</h1>
-      <p style="font-size:14px; color:var(--text-secondary); margin-bottom:12px;" id="conf-customer-line"></p>
-      <div style="display:inline-flex; align-items:center; gap:8px; padding:8px 20px; background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); border-radius:4px;">
-        <span style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.1em;">Order reference</span>
-        <span id="conf-ref" style="font-size:15px; font-weight:700; font-family:var(--font-serif);"></span>
+    <!-- Header receipt hero -->
+    <div style="text-align:center; margin-bottom:44px;">
+      <div class="confirm-check-ring">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;">
+        <span class="status-badge">
+          <span style="width:6px; height:6px; border-radius:50%; background:#00E676; display:inline-block;"></span>
+          Order Confirmed
+        </span>
+      </div>
+      <h1 style="font-family:var(--font-serif); font-size:38px; margin-bottom:8px; letter-spacing:-0.01em;">Thank you for your order</h1>
+      <p style="font-size:14px; color:var(--text-secondary); max-width:540px; margin:0 auto 18px; line-height:1.6;" id="conf-customer-line"></p>
+      
+      <div style="display:inline-flex; align-items:center; gap:12px; padding:10px 24px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:4px;">
+        <span style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.12em;">Order Reference</span>
+        <span id="conf-ref" style="font-size:16px; font-weight:700; font-family:var(--font-serif); letter-spacing:0.04em; color:var(--accent-cyan);"></span>
       </div>
     </div>
 
     <!-- Two-column layout -->
-    <div class="confirm-grid" style="display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:flex-start;">
+    <div class="confirm-grid" style="display:grid; grid-template-columns:1.35fr 1fr; gap:36px; align-items:flex-start;">
 
-      <!-- Left: items + delivery  -->
-      <div style="display:flex; flex-direction:column; gap:20px;">
+      <!-- Left: items + delivery destination -->
+      <div style="display:flex; flex-direction:column; gap:24px;">
 
-        <!-- Items summary -->
+        <!-- Items ordered -->
         <div class="confirm-card">
-          <div class="section-label">Items Ordered</div>
-          <div id="conf-items-list" style="display:flex; flex-direction:column; gap:14px;"></div>
+          <div class="section-label">
+            <i data-lucide="package" style="width:14px; height:14px;"></i>
+            <span>Items Ordered</span>
+          </div>
+          <div id="conf-items-list" style="display:flex; flex-direction:column;"></div>
         </div>
 
-        <!-- Delivery details -->
+        <!-- Delivery details & ETA -->
         <div class="confirm-card">
-          <div class="section-label">Delivery Details</div>
-          <div style="font-size:13px; line-height:1.7; color:var(--text-secondary);">
-            <div id="conf-address"></div>
+          <div class="section-label">
+            <i data-lucide="truck" style="width:14px; height:14px;"></i>
+            <span>Delivery &amp; Destination</span>
           </div>
-          <hr class="divider">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
             <div>
-              <div style="font-size:13px; font-weight:500;" id="conf-delivery-method"></div>
-              <div class="delivery-pill" id="conf-delivery-eta" style="margin-top:6px;"></div>
+              <div style="font-size:14px; font-weight:600; margin-bottom:6px;" id="conf-delivery-method"></div>
+              <div class="delivery-eta-pill" id="conf-delivery-eta"></div>
             </div>
             <div style="font-size:13px; font-weight:600;" id="conf-shipping-cost"></div>
+          </div>
+
+          <hr class="divider">
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:13px; color:var(--text-secondary); line-height:1.6;">
+            <div>
+              <span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-primary); display:block; margin-bottom:4px;">Delivery Address</span>
+              <div id="conf-address"></div>
+            </div>
+            <div>
+              <span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-primary); display:block; margin-bottom:4px;">Contact</span>
+              <div id="conf-recipient-name" style="color:var(--text-primary); font-weight:500;"></div>
+              <div id="conf-phone"></div>
+              <div id="conf-email" style="word-break:break-all;"></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Right: price breakdown + next actions -->
-      <div style="display:flex; flex-direction:column; gap:20px;">
+      <!-- Right: payment summary breakdown + next actions -->
+      <div style="display:flex; flex-direction:column; gap:24px;">
 
-        <!-- Price breakdown -->
+        <!-- Payment receipt summary -->
         <div class="confirm-card">
-          <div class="section-label">Payment Summary</div>
-          <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+          <div class="section-label">
+            <i data-lucide="receipt" style="width:14px; height:14px;"></i>
+            <span>Payment Summary</span>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:13px;">
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Subtotal</span>
-              <span id="conf-subtotal"></span>
+              <span id="conf-subtotal">BDT 0</span>
             </div>
+
+            <!-- Discount row (coupon applied) -->
+            <div id="conf-discount-row" style="display:none; justify-content:space-between; color:#00E676;">
+              <span id="conf-discount-label">Discount</span>
+              <span id="conf-discount-amount">−BDT 0</span>
+            </div>
+
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Shipping</span>
-              <span id="conf-shipping" style="font-weight:600;"></span>
+              <span id="conf-shipping" style="font-weight:600;">FREE</span>
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; color:var(--text-primary); padding-top:10px; border-top:1px solid var(--border-subtle); margin-top:4px;">
+
+            <div style="display:flex; justify-content:space-between; font-size:17px; font-weight:700; color:var(--text-primary); padding-top:12px; border-top:1px solid var(--border-subtle); margin-top:4px;">
               <span>Total Paid</span>
-              <span id="conf-total"></span>
+              <span id="conf-total" style="font-family:var(--font-serif); font-size:20px;">BDT 0</span>
             </div>
           </div>
+
           <hr class="divider">
-          <div style="font-size:11px; color:var(--text-secondary);">
-            Payment via <span id="conf-payment" style="font-weight:600; color:var(--text-primary);"></span>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-secondary);">
+            <span>Payment Method:</span>
+            <div class="payment-method-chip" id="conf-payment-chip">
+              <span id="conf-payment-label"></span>
+            </div>
           </div>
         </div>
 
-        <!-- Next actions &mdash; restrained,  upsell -->
-        <div class="confirm-card">
-          <div class="section-label">What's Next</div>
+        <!-- Next actions & assistance -->
+        <div class="confirm-card next-actions-box">
+          <div class="section-label">
+            <i data-lucide="compass" style="width:14px; height:14px;"></i>
+            <span>Next Steps</span>
+          </div>
+
           <div style="display:flex; flex-direction:column; gap:10px;">
-            <a href="tracking.html" id="conf-track-link" class="btn-secondary-action" style="display:block; text-align:center;">
-              Track your order &rarr;
+            <a href="tracking.html" id="conf-track-link" class="btn-primary-commerce" style="display:flex; align-items:center; justify-content:center; gap:8px; height:46px; text-decoration:none;">
+              <span>Track Your Order</span>
+              <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
             </a>
-            <a href="category.html" class="link-text-nav" style="display:block; text-align:center;">
+            
+            <button class="btn-secondary-action btn-print-receipt" onclick="window.print()" style="display:flex; align-items:center; justify-content:center; gap:8px; height:44px; width:100%; cursor:pointer;">
+              <i data-lucide="printer" style="width:14px; height:14px;"></i>
+              <span>Print Receipt</span>
+            </button>
+
+            <a href="category.html" class="link-text-nav" style="display:block; text-align:center; margin-top:6px; font-size:12px;">
               Continue shopping &rarr;
             </a>
           </div>
-          <div style="margin-top:14px; font-size:11px; color:var(--text-secondary); line-height:1.6;">
-            A confirmation has been sent to <span id="conf-email" style="color:var(--text-primary);"></span>
+
+          <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--border-subtle); font-size:11px; color:var(--text-secondary); line-height:1.6; display:flex; align-items:flex-start; gap:8px;">
+            <i data-lucide="shield-check" style="width:14px; height:14px; color:#00E676; flex-shrink:0; margin-top:2px;"></i>
+            <span>A full confirmation receipt and dispatch notifications will be sent to your registered email.</span>
           </div>
         </div>
 
@@ -269,6 +387,101 @@
     </div>
 
   </main>
+
+  <!-- ==========================================================================
+       LUXURY 5-COLUMN FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Newsletter -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="logo_light.png" alt="nexCommerce — next generation e-commerce" class="footer-logo-img" />
+          </a>
+          <p class="footer-mission-text">Commerce that understands what happens next. Natural intent discovery, agentic assistance, and effortless fulfillment.</p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">BE THE FIRST TO KNOW</span>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to nexCommerce private edits.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email" required />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Shop -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">SHOP</span>
+          <a href="category.html?cat=apparel" class="footer-link-item">Apparel</a>
+          <a href="category.html?cat=outerwear" class="footer-link-item">Outerwear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear</a>
+          <a href="category.html?cat=accessories" class="footer-link-item">Accessories</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">Acoustics</a>
+          <a href="category.html?cat=new" class="footer-link-item">New Arrivals</a>
+        </div>
+
+        <!-- Col 3: Discover -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">DISCOVER</span>
+          <a href="discovery.html" class="footer-link-item">Intent Search</a>
+          <a href="concierge.html" class="footer-link-item">AI Concierge</a>
+          <a href="lookbook.html" class="footer-link-item">Personalized Edits</a>
+          <a href="lookbook.html" class="footer-link-item">Lookbook</a>
+          <a href="product.html?id=p1" class="footer-link-item">Size Advisor</a>
+        </div>
+
+        <!-- Col 4: Customer Care -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CUSTOMER CARE</span>
+          <a href="tracking.html" class="footer-link-item">Track Your Order</a>
+          <a href="checkout.html" class="footer-link-item">Shipping & Delivery</a>
+          <a href="checkout.html" class="footer-link-item">Returns & Exchanges</a>
+          <a href="account.html" class="footer-link-item">Order History</a>
+          <a href="concierge.html" class="footer-link-item">Contact Concierge</a>
+        </div>
+
+        <!-- Col 5: Account & Legal -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">ACCOUNT & LEGAL</span>
+          <a href="account.html" class="footer-link-item">My Profile</a>
+          <a href="account.html" class="footer-link-item">Saved Wishlist</a>
+          <a href="foundation.html" class="footer-link-item">Privacy Policy</a>
+          <a href="foundation.html" class="footer-link-item">Terms of Service</a>
+          <a href="foundation.html" class="footer-link-item">Security Statement</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Bangladesh / English</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <!-- bKash Official Vector Logo -->
+          <div class="payment-logo-badge" title="bKash">
+            <img src="bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+
+          <!-- Nagad Official Vector Logo -->
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+
+          <!-- VISA Official Vector Logo -->
+          <div class="payment-logo-badge" title="Visa">
+            <img src="visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+
+          <!-- Mastercard Official Vector Logo -->
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
     (function () {
@@ -281,77 +494,135 @@
 
       if (!order || !order.ref) {
         document.getElementById('no-order-state').style.display = 'block';
+        if (window.lucide) window.lucide.createIcons();
         return;
       }
 
       document.getElementById('confirmation-content').style.display = 'block';
 
       // ─── Populate all fields from real order object ──────────────────────────
-      document.getElementById('conf-ref').textContent   = order.ref;
+      document.getElementById('conf-ref').textContent = order.ref;
+      const custName = order.customerName || 'Valued Client';
       document.getElementById('conf-customer-line').textContent =
-        `Thank you, ${order.customerName}. We're preparing your order now.`;
-      document.getElementById('conf-email').textContent = order.customerEmail;
+        `Thank you, ${custName}. We've received your order and our fulfillment team is preparing it now.`;
+      
+      const emailEl = document.getElementById('conf-email');
+      if (emailEl) emailEl.textContent = order.customerEmail || '—';
+      
+      const phoneEl = document.getElementById('conf-phone');
+      if (phoneEl) phoneEl.textContent = order.customerPhone || '—';
+      
+      const recipEl = document.getElementById('conf-recipient-name');
+      if (recipEl) recipEl.textContent = custName;
 
-      // Items list &mdash; derived from actual cart snapshot, not hardcoded
+      // Items list &mdash; derived from actual cart snapshot with defensive fallback
       const itemsList = document.getElementById('conf-items-list');
-      if (Array.isArray(order.items)) {
-        itemsList.innerHTML = order.items.map(i => `
-          <div style="display:grid; grid-template-columns:50px 1fr auto; gap:12px; align-items:center;">
-            <img src="${i.image}" alt="${i.name}"
-                 style="width:50px; height:62px; object-fit:cover; border-radius:2px; background:#071A3A;">
-            <div>
-              <div style="font-size:13px; font-weight:500;">${i.name}</div>
-              <div style="font-size:11px; color:var(--text-secondary);">${i.size} &middot; Qty ${i.qty}</div>
+      if (Array.isArray(order.items) && order.items.length > 0) {
+        itemsList.innerHTML = order.items.map(i => {
+          const qty = i.quantity || i.qty || 1;
+          const variant = i.variant || i.size || 'Standard';
+          const price = Number(i.price) || 0;
+          const image = i.image || 'p1.png';
+          const category = i.category ? `<span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); display:block; margin-bottom:2px;">${i.category}</span>` : '';
+          
+          return `
+            <div class="order-item-row">
+              <img src="${image}" alt="${i.name || 'Product'}" class="order-item-img" onerror="this.src='p1.png'">
+              <div>
+                ${category}
+                <div style="font-size:14px; font-weight:500; color:var(--text-primary);">${i.name || 'Item'}</div>
+                <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${variant} &middot; Qty ${qty}</div>
+              </div>
+              <div style="font-size:14px; font-weight:600; text-align:right;">
+                BDT ${(price * qty).toLocaleString()}
+              </div>
             </div>
-            <div style="font-size:13px; font-weight:600;">BDT ${(i.price * i.qty).toLocaleString()}</div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
+      } else {
+        itemsList.innerHTML = '<div style="font-size:13px; color:var(--text-secondary); padding:10px 0;">Order details recorded.</div>';
       }
 
       // Delivery address
-      document.getElementById('conf-address').innerHTML =
-        `${order.address}<br>${order.city}, ${order.postcode}`;
+      const addrLine = [order.address, order.city, order.postcode].filter(Boolean).join(', ') || 'Dhaka, Bangladesh';
+      document.getElementById('conf-address').textContent = addrLine;
 
       // Delivery method + ETA pill
-      document.getElementById('conf-delivery-method').textContent = order.deliveryMethod;
+      document.getElementById('conf-delivery-method').textContent = order.deliveryMethod || 'Standard Delivery';
       const etaMap = {
-        express:  '📦 Arriving by 8:00 PM tomorrow',
-        standard: '📦 Arriving in 3&ndash;5 business days',
-        economy:  '📦 Arriving in 7&ndash;10 business days'
+        express:  'Guaranteed arrival by 8:00 PM tomorrow',
+        standard: 'Estimated arrival in 3–5 business days',
+        economy:  'Estimated arrival in 7–10 business days'
       };
-      document.getElementById('conf-delivery-eta').textContent =
-        etaMap[order.deliveryKey] || 'Delivery confirmed';
+      const etaText = etaMap[order.deliveryKey] || 'Estimated delivery in 2–4 business days';
+      document.getElementById('conf-delivery-eta').innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="13" x="1" y="6" rx="2"/><polygon points="17 9 20 9 23 13 23 19 17 19 17 9"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>${etaText}</span>
+      `;
 
-      document.getElementById('conf-shipping-cost').textContent = order.shippingLabel;
-      if (order.shippingCost === 0) {
-        document.getElementById('conf-shipping-cost').style.color = '#00E676';
+      const shipCostEl = document.getElementById('conf-shipping-cost');
+      if (shipCostEl) {
+        shipCostEl.textContent = order.shippingLabel || 'FREE';
+        if (order.shippingCost === 0) shipCostEl.style.color = '#00E676';
       }
 
-      // Price breakdown &mdash; all from real order,  hardcoded values
-      document.getElementById('conf-subtotal').textContent = `BDT ${order.subtotal.toLocaleString()}`;
-      document.getElementById('conf-shipping').textContent = order.shippingLabel;
-      if (order.shippingCost === 0) {
-        document.getElementById('conf-shipping').style.color = '#00E676';
+      // Price breakdown
+      const subtotal = Number(order.subtotal) || 0;
+      const total = Number(order.total) || subtotal;
+      document.getElementById('conf-subtotal').textContent = `BDT ${subtotal.toLocaleString()}`;
+      
+      // Discount line
+      const discountAmt = Number(order.discountAmt) || 0;
+      const discRow = document.getElementById('conf-discount-row');
+      if (discRow) {
+        if (discountAmt > 0) {
+          discRow.style.display = 'flex';
+          const discLabel = document.getElementById('conf-discount-label');
+          if (discLabel) discLabel.textContent = order.discountCode ? `Discount (${order.discountCode})` : 'Discount';
+          const discVal = document.getElementById('conf-discount-amount');
+          if (discVal) discVal.textContent = `−BDT ${discountAmt.toLocaleString()}`;
+        } else {
+          discRow.style.display = 'none';
+        }
       }
-      document.getElementById('conf-total').textContent = `BDT ${order.total.toLocaleString()}`;
 
-      // Payment method label
-      const payLabels = { bkash: 'bKash', card: 'Card', cod: 'Cash on Delivery' };
-      document.getElementById('conf-payment').textContent =
-        payLabels[order.paymentMethod] || order.paymentMethod;
+      const shipSummary = document.getElementById('conf-shipping');
+      if (shipSummary) {
+        shipSummary.textContent = order.shippingLabel || 'FREE';
+        if (order.shippingCost === 0) shipSummary.style.color = '#00E676';
+      }
+      document.getElementById('conf-total').textContent = `BDT ${total.toLocaleString()}`;
 
-      // Track link &mdash; pass order ref  tracking page
-      document.getElementById('conf-track-link').href =
-        `tracking.html?ref=${encodeURIComponent(order.ref)}`;
+      // Payment method label + icon
+      const payMeta = {
+        bkash: { label: 'bKash Direct', icon: '<img src="bkash.svg" alt="bKash" style="height:16px; width:auto; vertical-align:middle;">' },
+        nagad: { label: 'Nagad Wallet', icon: '<img src="nagad.svg" alt="Nagad" style="height:16px; width:auto; vertical-align:middle;">' },
+        card:  { label: 'Credit / Debit Card', icon: '<img src="visa.svg" alt="Card" style="height:14px; width:auto; vertical-align:middle; margin-right:4px;"><img src="mastercard.svg" alt="Card" style="height:14px; width:auto; vertical-align:middle;">' },
+        cod:   { label: 'Cash on Delivery', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>' }
+      };
+
+      const currentPay = payMeta[order.paymentMethod] || { label: order.paymentMethod || 'Card', icon: '' };
+      const chip = document.getElementById('conf-payment-chip');
+      if (chip) {
+        chip.innerHTML = `${currentPay.icon} <span>${currentPay.label}</span>`;
+      }
+
+      // Track link &mdash; pass order ref to tracking page
+      const trackLink = document.getElementById('conf-track-link');
+      if (trackLink) {
+        trackLink.href = `tracking.html?ref=${encodeURIComponent(order.ref)}`;
+      }
+
+      if (window.lucide) window.lucide.createIcons();
     })();
   </script>
 
-  <script src="js/theme-switcher.js"></script>
   <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="js/animations.js?v=6"></script>
+  <script type="module" src="js/animations.js"></script>
+  <script src="js/theme-switcher.js"></script>
   <script src="js/ai-engine.js"></script>
   <script src="js/intent-parser.js"></script>
   <script src="js/catalog-engine.js"></script>
@@ -360,27 +631,9 @@
   <script src="js/concierge-engine.js"></script>
   <script src="js/concierge.js"></script>
   <script src="js/auth.js"></script>
-
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
 
 </body>
 </html>

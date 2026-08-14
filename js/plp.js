@@ -7,55 +7,56 @@
   const PLP_CATALOG = [
     {
       id: 'p1',
-      name: 'Architectural Cashmere Sweater',
+      name: 'Cashmere Turtleneck Sweater',
       category: 'apparel',
-      price: 18400,
-      formattedPrice: 'BDT 18,400',
-      image: 'hero_sweater.png',
+      price: 18500,
+      formattedPrice: 'BDT 18,500',
+      image: 'plp_turtleneck.png',
       isNew: true,
-      reasoning: 'Light enough for an 18°C evening, warm enough after sunset.',
-      whyExpanded: 'Crafted from 2-ply Mongolian cashmere with dropped shoulder seams for relaxed Dhaka evening layering.'
+      reasoning: 'Spun from 2-ply Mongolian cashmere with relaxed raglan shoulders for effortless evening drape.',
+      whyExpanded: 'Ultra-soft rib-knit collar and cuffs provide refined warmth without bulk.'
     },
     {
       id: 'p2',
       name: 'Structured Wool Blazer',
       category: 'apparel',
-      price: 24500,
-      formattedPrice: 'BDT 24,500',
+      price: 26400,
+      formattedPrice: 'BDT 26,400',
       image: 'plp_blazer.png',
-      reasoning: 'Unlined merino weave allows natural airflow for evening dinners.',
-      whyExpanded: 'Unlined tailored construction keeps a sharp silhouette without causing thermal discomfort indoors.'
+      reasoning: 'Tailored from Italian virgin wool with unlined interior and custom horn buttons.',
+      whyExpanded: 'Architectural shoulders and soft interior canvassing allow easy thermal regulation indoors.'
     },
     {
       id: 'p3',
-      name: 'Fine-Knit Cashmere Crew',
-      category: 'apparel',
-      price: 16200,
-      formattedPrice: 'BDT 16,200',
-      image: 'plp_crewneck.png',
-      reasoning: 'Ultra-soft 2-ply cashmere for easy indoor/outdoor layering.',
-      whyExpanded: 'Minimal crew neck design that layers effortlessly under overshirts or over light tees.'
+      name: 'Tailored Charcoal Overcoat',
+      category: 'outerwear',
+      price: 38000,
+      formattedPrice: 'BDT 38,000',
+      image: 'plp_overcoat.png',
+      isNew: true,
+      reasoning: 'Double-faced wool-cashmere blend with sharp notch lapels and structured drape.',
+      whyExpanded: 'Mid-calf silhouette engineered for cold morning commutes and formal evening layers.'
     },
     {
       id: 'p4',
-      name: ' Acoustics Headphone GT',
+      name: 'Sonic Aurora Headphones GT',
       category: 'acoustics',
       price: 32000,
       formattedPrice: 'BDT 32,000',
       image: 'prod_headphones.png',
       isNew: true,
-      reasoning: 'Active noise cancellation calibrated for focused work or travel.',
-      whyExpanded: 'Memory foam ear cushions wrapped in lambskin for extended listening comfort.'
+      reasoning: 'Precision 40mm titanium drivers with spatial tuning and active ambient isolation.',
+      whyExpanded: 'Memory foam ear cushions wrapped in full-grain lambskin leather for all-day listening.'
     },
     {
       id: 'p5',
-      name: 'Chronograph Minimalist Watch',
-      category: 'accessories',
-      price: 28500,
-      formattedPrice: 'BDT 28,500',
-      image: 'p3.png',
-      reasoning: 'Brushed titanium casing with a scratch-resistant sapphire crystal.',
-      whyExpanded: 'Water-resistant Swiss movement with interchangeable leather and mesh straps.'
+      name: 'Horizon Wireless Earbuds',
+      category: 'acoustics',
+      price: 16500,
+      formattedPrice: 'BDT 16,500',
+      image: 'search_earbuds.png',
+      reasoning: 'Custom balanced armature drivers with low-latency spatial audio and Qi charging.',
+      whyExpanded: 'Compact matte finish charging case with 32-hour battery reserve and IPX5 resistance.'
     },
     {
       id: 'p6',
@@ -64,8 +65,29 @@
       price: 19800,
       formattedPrice: 'BDT 19,800',
       image: 'prod_runner.png',
-      reasoning: 'Cushioned Vibram sole for all-day urban walkability.',
-      whyExpanded: 'Full-grain Italian leather upper with breathable calfskin lining.'
+      reasoning: 'Handcrafted from Italian calfskin leather with shock-absorbing rubber cupsole.',
+      whyExpanded: 'Ergonomic footbed with padded heel counter and gold-foil serial branding.'
+    },
+    {
+      id: 'p7',
+      name: 'Quilted Leather Structured Tote',
+      category: 'accessories',
+      price: 28500,
+      formattedPrice: 'BDT 28,500',
+      image: 'prod_tote.png',
+      reasoning: 'Chevron-quilted full-grain nappa leather with polished antique gold hardware.',
+      whyExpanded: 'Spacious dual-compartment interior lined with microsuede and reinforced shoulder strap.'
+    },
+    {
+      id: 'p8',
+      name: 'Chronograph Minimalist Timepiece',
+      category: 'accessories',
+      price: 34200,
+      formattedPrice: 'BDT 34,200',
+      image: 'search_watch.png',
+      isNew: true,
+      reasoning: 'Brushed matte titanium case housing a Swiss automatic movement with sapphire crystal.',
+      whyExpanded: '5 ATM water resistance with interchangeable Italian leather strap.'
     }
   ];
 
@@ -90,16 +112,34 @@
 
   function updateCategoryHeader(cat) {
     const titleEl = document.getElementById('plpMainTitle');
+    const subtitleEl = document.getElementById('plpMainSubtitle');
     const breadcrumbEl = document.getElementById('plpBreadcrumbCurrent');
     
-    let titleText = 'ALL PRODUCTS';
-    if (cat === 'apparel') titleText = 'APPAREL';
-    if (cat === 'acoustics') titleText = 'ACOUSTICS';
-    if (cat === 'accessories') titleText = 'ACCESSORIES';
-    if (cat === 'footwear') titleText = 'FOOTWEAR';
-    if (cat === 'new') titleText = 'NEW IN';
+    let titleText = 'All Products';
+    let subtitleText = 'Pieces designed around natural comfort, architectural tailoring, and enduring quality.';
+    
+    if (cat === 'apparel') {
+      titleText = 'Apparel & Knitwear';
+      subtitleText = 'Precision cashmere, structured merino wool, and relaxed silhouettes crafted for modern living.';
+    } else if (cat === 'outerwear') {
+      titleText = 'Outerwear & Tailoring';
+      subtitleText = 'Double-faced wool overcoats, tailored blazers, and architectural cold-weather layers.';
+    } else if (cat === 'acoustics') {
+      titleText = 'Acoustic Engineering';
+      subtitleText = 'Studio-grade spatial drivers and active acoustic isolation wrapped in lambskin and titanium.';
+    } else if (cat === 'accessories') {
+      titleText = 'Fine Accessories & Horology';
+      subtitleText = 'Minimalist chronographs, full-grain leather goods, and refined essentials.';
+    } else if (cat === 'footwear') {
+      titleText = 'Footwear & Runners';
+      subtitleText = 'Italian calfskin runners and architectural footwear built with ergonomic Vibram cushioning.';
+    } else if (cat === 'new') {
+      titleText = 'New Arrivals';
+      subtitleText = 'The latest seasonal drops, limited releases, and freshly curated luxury essentials.';
+    }
 
     if (titleEl) titleEl.textContent = titleText;
+    if (subtitleEl) subtitleEl.textContent = subtitleText;
     if (breadcrumbEl) breadcrumbEl.textContent = titleText;
   }
 
@@ -170,6 +210,7 @@
     let items = PLP_CATALOG.filter(item => {
       if (currentCategory === 'all') return true;
       if (currentCategory === 'new') return item.isNew === true;
+      if (currentCategory === 'outerwear') return item.category === 'outerwear' || item.id === 'p2';
       return item.category === currentCategory;
     });
 
@@ -196,37 +237,36 @@
     });
 
     grid.innerHTML = html;
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
   }
 
   function renderPLPCard(item) {
-    const reasoningBlock = isAiEnabled ? `
-      <div class="plp-card-reasoning">
-        <div class="plp-reasoning-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Why this fits</div>
-        <div class="plp-reasoning-body">${escapeHtml(item.reasoning)}</div>
-        <button class="link-text-nav plp-see-why-btn" data-id="${item.id}" style="font-size: 11px; margin-top: 4px; align-self: flex-start;">See why &rarr;</button>
-        <div class="plp-why-drawer" style="display: none; font-size: 11px; color: var(--text-secondary); padding-top: 6px; border-top: 1px solid var(--border-subtle); margin-top: 4px;">
-          ${escapeHtml(item.whyExpanded)}
-        </div>
-      </div>
-    ` : '';
-
     return `
-      <div class="plp-card" data-id="${item.id}">
-        <a href="product.html?id=${item.id}" class="plp-card-img-wrap">
-          ${item.isNew ? '<div class="plp-badge-new">NEW</div>' : ''}
-          <img src="${item.image}" alt="${escapeHtml(item.name)}">
-        </a>
-        <div style="display: flex; flex-direction: column; gap: 4px;">
-          <a href="product.html?id=${item.id}" class="plp-card-title">${escapeHtml(item.name)}</a>
-          <div class="plp-card-price">${item.formattedPrice}</div>
+      <div class="plp-card luxury-product-card" data-id="${item.id}">
+        <div class="plp-card-media">
+          ${item.isNew ? '<span class="plp-luxury-badge">NEW</span>' : ''}
+          <button class="plp-card-wishlist" aria-label="Save to wishlist" data-id="${item.id}" title="Save to Wishlist">
+            <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+          </button>
+          <a href="product.html?id=${item.id}" class="plp-card-img-anchor" tabindex="-1">
+            <img src="${item.image}" alt="${escapeHtml(item.name)}" class="plp-card-img" loading="lazy">
+          </a>
+          <button class="plp-quick-add-btn btn-plp-add-to-bag" data-id="${item.id}">
+            <i data-lucide="shopping-bag" style="width: 13px; height: 13px; margin-right: 6px;"></i>
+            <span>QUICK ADD</span>
+          </button>
         </div>
 
-        ${reasoningBlock}
-
-        <button class="add-to-bag-btn btn-plp-add-to-bag" style="width: 100%; height: 44px; margin-top: auto;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-          ADD TO BAG
-        </button>
+        <div class="plp-card-info">
+          <span class="plp-card-category-label">${item.category.toUpperCase()}</span>
+          <a href="product.html?id=${item.id}" class="plp-card-title-link">
+            <h3 class="plp-card-name">${escapeHtml(item.name)}</h3>
+          </a>
+          <p class="plp-card-description">${escapeHtml(item.reasoning)}</p>
+          <div class="plp-card-price-tag">${item.formattedPrice}</div>
+        </div>
       </div>
     `;
   }

@@ -1,6 +1,55 @@
 /* nexCommerce Shopping Bag & Cart State Manager */
 /* TODO: Wire to real Auth & Orders API */
 
+function escapeHtml(str) {
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ─── Cart-page Coupon Engine ────────────────────────────────────────────────
+// TODO: Wire to real promotions API
+const CART_PROMO_CODES = {
+  'NEX10':    { label: 'NEX10 — 10% off',         type: 'percent',  value: 10 },
+  'LUXURY20': { label: 'LUXURY20 — 20% off',       type: 'percent',  value: 20 },
+  'FREESHIP': { label: 'FREESHIP — Free Shipping',  type: 'shipping', value: 0  }
+};
+let cartActiveCoupon = null;
+
+function cartApplyCoupon() {
+  const input    = document.getElementById('cart-coupon-input');
+  const feedback = document.getElementById('cart-coupon-feedback');
+  if (!input) return;
+  const code = (input.value || '').trim().toUpperCase();
+  if (!code) return;
+  const promo = CART_PROMO_CODES[code];
+  if (!promo) {
+    if (feedback) { feedback.textContent = "This code isn't valid or has expired."; feedback.style.display = 'block'; feedback.style.color = '#FF5252'; }
+    input.style.borderColor = '#FF5252';
+    return;
+  }
+  cartActiveCoupon = { code, ...promo };
+  input.value = '';
+  input.style.borderColor = '';
+  if (feedback) feedback.style.display = 'none';
+  const inputRow  = document.getElementById('cart-coupon-input-row');
+  const pillWrap  = document.getElementById('cart-coupon-pill-wrap');
+  const pillLabel = document.getElementById('cart-coupon-pill-label');
+  if (inputRow)  inputRow.style.display  = 'none';
+  if (pillWrap)  pillWrap.style.display  = 'flex';
+  if (pillLabel) pillLabel.textContent   = promo.label;
+  nexCart.renderPage();
+}
+
+function cartRemoveCoupon() {
+  cartActiveCoupon = null;
+  const inputRow = document.getElementById('cart-coupon-input-row');
+  const pillWrap = document.getElementById('cart-coupon-pill-wrap');
+  const inp      = document.getElementById('cart-coupon-input');
+  if (inputRow) inputRow.style.display = 'flex';
+  if (pillWrap) pillWrap.style.display = 'none';
+  if (inp)      { inp.value = ''; inp.style.borderColor = ''; }
+  nexCart.renderPage();
+}
+
 const CartState = {
   items: [],
 
@@ -171,7 +220,7 @@ const CartState = {
     emptyArea.style.display = 'none';
 
     /* Left column: shipping bar + item rows */
-    var FREE_SHIPPING_THRESHOLD = 10000;
+    var FREE_SHIPPING_THRESHOLD = 20000;
     var total = this.getTotal();
     var diff  = FREE_SHIPPING_THRESHOLD - total;
 
@@ -181,14 +230,14 @@ const CartState = {
 
     var self = this;
     itemsList.innerHTML = shippingBar + this.items.map(function(item) {
-      return '<div class="cart-item-row" data-id="' + item.id + '" data-variant="' + encodeURIComponent(item.variant) + '">'
+      return '<div class="cart-item-row" data-id="' + item.id + '" data-variant="' + encodeURIComponent(item.variant || 'Standard') + '">'
         + '<div class="cart-item-img-wrap">'
-        + '<img src="' + item.image + '" alt="' + item.name + '" class="cart-item-img" style="view-transition-name: cart-item-' + item.id + ';">'
+        + '<img src="' + item.image + '" alt="' + escapeHtml(item.name) + '" class="cart-item-img" style="width:100%;height:100%;object-fit:cover;">'
         + '</div>'
         + '<div class="cart-item-info">'
-        + '<p class="cart-item-category">' + (item.category || 'PRODUCT') + '</p>'
-        + '<h3 class="cart-item-title">' + item.name + '</h3>'
-        + '<p class="cart-item-variant">' + item.variant + '</p>'
+        + '<p class="cart-item-category">' + escapeHtml(item.category || 'PRODUCT') + '</p>'
+        + '<h3 class="cart-item-title">' + escapeHtml(item.name) + '</h3>'
+        + '<p class="cart-item-variant">' + escapeHtml(item.variant || 'Standard') + '</p>'
         + '<div class="cart-stepper">'
         + '<button class="stepper-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button>'
         + '<span class="stepper-val">' + item.quantity + '</span>'
@@ -211,34 +260,67 @@ const CartState = {
       row.querySelector('[data-action="remove"]').addEventListener('click', function() { self.removeItem(id, variant); });
     });
 
-    /* Right column: order summary */
-    var deliveryCost = total >= FREE_SHIPPING_THRESHOLD ? 0 : 500;
-    var grandTotal   = total + deliveryCost;
+    /* Right column: order summary (coupon-aware) */
+    var discountAmt = 0;
+    if (cartActiveCoupon && cartActiveCoupon.type === 'percent') {
+      discountAmt = Math.round(total * cartActiveCoupon.value / 100);
+    }
+    var freeShipCoupon  = cartActiveCoupon && cartActiveCoupon.type === 'shipping';
+    var deliveryCost    = (total >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 0 : 150;
+    var discountedTotal = total - discountAmt;
+    var grandTotal      = discountedTotal + deliveryCost;
+
     var deliveryHtml = deliveryCost === 0
-      ? '<span class="cart-free-tag">Free</span>'
+      ? '<span class="cart-free-tag" style="color:#00E676;font-weight:600;">FREE</span>'
       : 'BDT ' + deliveryCost.toLocaleString();
+
+    // Coupon pill state (persist across re-renders)
+    var pillDisplay    = cartActiveCoupon ? 'flex'   : 'none';
+    var inputDisplay   = cartActiveCoupon ? 'none'   : 'flex';
+    var pillLabelText  = cartActiveCoupon ? cartActiveCoupon.label : '';
+    var discountRowHtml = discountAmt > 0
+      ? '<div class="cart-summary-row" style="color:#00E676;"><span>' + (cartActiveCoupon ? cartActiveCoupon.label : 'Discount') + '</span><span>\u2212BDT ' + discountAmt.toLocaleString() + '</span></div>'
+      : '';
 
     summaryArea.innerHTML = '<div class="cart-summary-card">'
       + '<h2 class="cart-summary-title">Order Summary</h2>'
+
+      // Coupon box
+      + '<div class="coupon-box" style="margin-bottom:14px;">'
+      + '<div id="cart-coupon-input-row" style="display:' + inputDisplay + '; gap:8px; align-items:stretch;">'
+      + '<input type="text" id="cart-coupon-input" class="coupon-input" placeholder="Promo or gift code" maxlength="20" autocomplete="off" onkeydown="if(event.key===\'Enter\') cartApplyCoupon()">'
+      + '<button class="coupon-apply-btn" onclick="cartApplyCoupon()">Apply</button>'
+      + '</div>'
+      + '<div id="cart-coupon-feedback" style="font-size:11px; margin-top:6px; display:none;"></div>'
+      + '<div id="cart-coupon-pill-wrap" style="display:' + pillDisplay + '; margin-top:8px; align-items:center; gap:8px;">'
+      + '<span class="coupon-pill" id="cart-coupon-pill-label">' + pillLabelText + '</span>'
+      + '<button class="coupon-remove-btn" onclick="cartRemoveCoupon()" aria-label="Remove promo code">&times;</button>'
+      + '</div>'
+      + '</div>'
+
+      // Totals
       + '<div class="cart-summary-row">'
       + '<span>Subtotal (' + count + ' ' + (count === 1 ? 'item' : 'items') + ')</span>'
       + '<span>BDT ' + total.toLocaleString() + '</span>'
       + '</div>'
+      + discountRowHtml
       + '<div class="cart-summary-row">'
-      + '<span>Delivery</span>'
+      + '<span>Estimated Shipping</span>'
       + '<span>' + deliveryHtml + '</span>'
       + '</div>'
       + '<div class="cart-summary-divider"></div>'
       + '<div class="cart-summary-row cart-summary-total">'
-      + '<span>Total</span>'
-      + '<span>BDT ' + grandTotal.toLocaleString() + '</span>'
+      + '<span>Total Due</span>'
+      + '<span style="font-weight:700;">BDT ' + grandTotal.toLocaleString() + '</span>'
       + '</div>'
-      + '<a href="checkout.html" class="btn-primary-commerce cart-checkout-btn">PROCEED TO CHECKOUT &rarr;</a>'
-      + '<div class="cart-summary-meta">'
-      + '<p>Free returns within 30 days.</p>'
-      + '<p>Secure payment &mdash; SSL encrypted.</p>'
+      + '<a href="checkout.html" class="btn-primary-commerce cart-checkout-btn" style="display:flex;align-items:center;justify-content:center;height:48px;margin-top:16px;text-decoration:none;">PROCEED TO CHECKOUT &rarr;</a>'
+      + '<div class="cart-summary-meta" style="margin-top:16px;font-size:12px;color:var(--text-secondary);display:flex;flex-direction:column;gap:6px;">'
+      + '<p>&#10003; 30-Day Complimentary Returns</p>'
+      + '<p>&#10003; Authentic Direct Sourced Luxury</p>'
       + '</div>'
       + '</div>';
+
+    if (window.lucide) window.lucide.createIcons();
   },
 
   /* ─── Mini Cart Renderer ─────────────────────────────────────────────────── */
