@@ -167,7 +167,8 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 ### Prototype Implementation Stack (The "Best-in-Class" Standard)
 - Even when building prototypes without heavy frameworks (like React/Next.js), **do not restrict the build to strict zero-dependency vanilla JS/CSS if it sacrifices quality.**
 - Proactively utilize high-end online libraries via CDN to achieve world-class polish.
-- **Animations:** Use libraries like **Motion (motion.dev)** or **GSAP** for fluid, performant scroll animations, layout transitions, and micro-interactions.
+- **Animations & Motion Engineering:** Use libraries like **Motion (motion.dev)**, **GSAP**, and the installed **Emil Kowalski Design Engineering Suite** (`animate`, `apple-design`, `emil-design-eng`, `review-animations`, `find-animation-opportunities`) for fluid physics, interruptible springs, momentum projection, and custom easing curves (`cubic-bezier(0.23, 1, 0.32, 1)`).
+- **GPU-Composited Progress Animations**: Never animate CPU layout properties (`width`, `height`) for continuous progress/story timers. Always use GPU `transform: scaleX(0) → scaleX(1)` with `transform-origin: left center`, `will-change: transform`, and parent `overflow: hidden` to guarantee 120fps subpixel smoothness and zero clipped visual artifacts.
 - **Iconography:** Use libraries like **Lucide Icons** via CDN for crisp, scalable vector graphics.
 - The goal is a premium, luxury feel—leverage the best available online tools to achieve this effortlessly in the prototype.
 
@@ -198,20 +199,6 @@ When building any screen or component for nexCommerce, reference these real-worl
 - Arbitrary spacing not aligned to an 8px grid
 - Placeholder-quality copy ("AI-powered", "next generation" repeated without specificity)
 - Animations that loop without serving a communication function
-- Overuse of purple/neon without restraint — accent means accent, not primary
-- Cards that are identical in size regardless of content priority
-
----
-
-## Execution Rule: Build Step-by-Step (Never All at Once)
-
-When executing any multi-step implementation plan (UI build, feature implementation, refactor):
-
-### Rules
-- **One step at a time**: Execute exactly one step from the plan, then STOP.
-- **Show the result**: After each step, present what was built — screenshot, code preview, or summary.
-- **Wait for approval**: Do NOT proceed to the next step until the user explicitly says "continue", "next", or approves.
-- **State progress clearly**: After each step, show: ✅ Step N complete → what was done → what is next.
 - **Never batch steps**: Even if steps are small, never combine them without asking first.
 
 ### Why
@@ -393,13 +380,21 @@ When responding to user queries about past activity, work summaries, or history 
 ### 4. CSS Duplication Defense & Image Layouts
 - **Beware of Duplicate Overrides**: When debugging layout gaps or broken styling, always check for duplicate CSS rules lower in the stylesheet overriding correct styles. This is a common side-effect of incremental coding.
 - **Fixed-Container Image Fill**: Whenever an image is placed inside a container with a fixed height or `aspect-ratio`, explicitly set the inner `img` to `height: 100%; width: 100%; object-fit: cover;` and rigorously ensure no generic `height: auto` rules override it later in the file.
-
 ### 5. Mockup Data Cohesion & Verification
 - **Content is as important as Layout**: When building or styling static pages and prototypes, never use arbitrary, mismatched placeholder data. If the product is a "Sweater", ensure the `src` tags point to sweater images, not headphones or shoes. 
 - **Verify Logical Consistency (Zero Assumptions)**: Before presenting a completed UI step, perform a final logical review of the data rendered on screen. Do the titles, prices, descriptions, and images align to tell a cohesive story? **Do not make assumptions about asset names (e.g., assuming `p2.png` is related to `p1.png`). You must comprehensively verify every element in a component.** If not, fix the data mismatch entirely before asking for user approval.
 - **No Asset Duplication**: Never duplicate the exact same image multiple times in a component (like a gallery or grid) just to fill space. If a UI component requires multiple distinct images (e.g., different product angles, unique user avatars) and they do not exist, proactively use the `generate_image` tool to create them. Ensure generated images are contextually appropriate.
 
+---
+
+## Execution Rule: Build Step-by-Step (Never All at Once)
+
 When executing any multi-step implementation plan (UI build, feature implementation, refactor):
+
+### Execution Engine: Subagent-Driven by Default
+- **Default Approach:** Always use **Subagent-Driven Development** (`superpowers:subagent-driven-development`) to implement plans.
+- **Workflow:** Dispatch a focused subagent per task, conduct visual/unit verification, present the review checkpoint, and proceed upon confirmation.
+- **Streamlined Handoff:** Proceed directly with subagent-driven execution without asking the user to manually pick between inline or subagent execution modes.
 
 ### Rules
 - **One step at a time**: Execute exactly one step from the plan, then STOP.
@@ -407,6 +402,14 @@ When executing any multi-step implementation plan (UI build, feature implementat
 - **Wait for approval**: Do NOT proceed to the next step until the user explicitly says "continue", "next", or approves.
 - **State progress clearly**: After each step, show: ✅ Step N complete → what was done → what is next.
 - **Never batch steps**: Even if steps are small, never combine them without asking first.
+
+### Anti-Patterns — Never Do These (They Make UI Look "AI-Built")
+- Generic gradient blobs with no compositional purpose
+- Glassmorphism applied to every element regardless of hierarchy
+- Weak typography: thin weights, no hierarchy, inconsistent scale
+- Arbitrary spacing not aligned to an 8px grid
+- Placeholder-quality copy ("AI-powered", "next generation" repeated without specificity)
+- Animations that loop without serving a communication function
 
 ### Why
 - Allows the user to course-correct early before large amounts of work are built on a wrong foundation.
@@ -418,6 +421,15 @@ When executing any multi-step implementation plan (UI build, feature implementat
 2. User: "Continue"
 3. Execute Step 2 only. Show result. Stop.
 4. Wait for next instruction.
+
+---
+
+## `task.md` Active Execution Protocol
+- Maintain `task.md` in workspace root as the single source of active task truth.
+- **On Task Start**: Add feature/bugfix objective, target files, acceptance criteria, and step-by-step checklist (`- [ ]`).
+- **During Execution**: Update progress live (`- [ ]` → `- [x]`) and record notes/blockers.
+- **Upon 100% Completion**: Verify all criteria with test evidence, archive completed tasks, and reset the active queue to keep `task.md` lean and ready for subsequent work.
+- **Partitioned Step-by-Step Execution**: For multi-part audits and large implementations, partition into sequential parts (e.g. Parts 1–7), test each part individually with visual evidence, and confirm with the user before progressing.
 
 ---
 
@@ -458,12 +470,14 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Max 5–6 nav items. NO color-coded sale links in the nav bar.
 - Logo is the visual anchor. Navigation is secondary.
 - Header: transparent or white — NOT frosted glass with purple/pink gradient borders.
+- **Icon-Only Utility Actions & Badge Contrast**: Wishlist, Account, and Bag in the header must strictly be icon-only circular targets (`.nav-icon-btn`) with floating notification badges. NEVER mix icon + text labels (e.g., "[♡] Saved", "[👤] Name", "[🛍️] Bag"), which clutters header horizontal rhythm. Floating notification badges MUST use high-chroma fills (`#E11D48` gradient) with pure `#FFFFFF` bold text (`font-weight: 800`, >7:1 contrast) and a 2px background cutout border (`#061226`) to ensure crisp visibility. Maintain full accessibility via `aria-label` and `title` tooltips.
 
 **6. HERO SECTION — Editorial Storytelling**
 - One full-screen image or video. Minimal text overlay.
 - Headline font must be large, confident, and have breathing room.
 - Maximum ONE CTA button in the hero — NOT two competing CTAs.
 - NEVER place floating product badges, loyalty chips, or AI labels in the hero.
+- **Carousel Pagination Purity (No Double-Encoding)**: Pick ONE single pagination style. NEVER stack progress pill dots and numerical counter text (e.g., dots + `01 / 04`) together. For hero showcases (3–5 items), use pure animated progress pill dots with no text numbers. For large editorial carousels (>6 items), use a single refined counter (`01 / 12`) without dots.
 
 **7. BADGES & LABELS — Use Sparingly**
 - Maximum ONE badge per product card — and only when critical (e.g., "Sold Out", "New").
@@ -491,6 +505,11 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Brand names should be simple and real-sounding: "Apex", "Form", "Volta", "Arc"
   NOT tech product codes like "SOUNDFORM ULTRA", "VITALEDGE GT", "BASSCORE 360"
 
+**10. CURATED GRID PHOTOGRAPHIC HARMONY INVARIANT**
+- All product cards appearing in the same curated or editorial showcase grid MUST share consistent studio lighting, background tone, and framing proportions.
+- In dark themes, all cards must share neutral dark studio tones (slate, charcoal, or dark stone). Never mix isolated bright saturated/yellow product backdrops into a dark editorial grid.
+- Use 3:4 portrait framing for apparel and hero accessories with subtle bottom vignette fades into the card body.
+
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Neon glow borders on product cards
 - 3+ badges on one product card
@@ -504,6 +523,7 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Section headers written as monospace uppercase chip labels
 - Product descriptions that read like tech spec sheets
 - Brand names that sound like invented tech product codes
+- Mixing bright saturated/yellow backgrounds with dark slate backgrounds in the same product grid
 
 ### 🔍 Self-Check Before Presenting UI
 Before presenting any lifestyle e-commerce UI, ask:
@@ -514,6 +534,7 @@ Before presenting any lifestyle e-commerce UI, ask:
 5. Would a luxury brand creative director approve this?
 6. Is there a real human being visible in the hero or editorial imagery?
 7. Does the copy sound like it was written by a brand copywriter, or a spec sheet?
+8. Are all product backdrops and lighting temperatures in the same grid visually harmonious?
 
 If the answer to any of these is NO — redesign before showing the user.
 
@@ -561,6 +582,13 @@ When building a static prototype or demo UI that simulates an AI feature:
 - Use placeholder language that does NOT claim to be real AI
 - Add a `<!-- TODO: Wire to real AI API -->` comment in HTML/JS near the simulated section
 - In any documentation, label it explicitly as "UI Prototype — AI backend not yet connected"
+
+### Rule 5: AI Recommendation UX Standard ("Quiet Luxury Affinity" Pattern)
+When designing or building customer-facing AI recommendation components:
+1. **Frosted Glass Match Chips**: Use an understated frosted glass chip with subtle backdrop blur and an ambient icon (`✨ 98% Match` / `✨ Style Affinity: High`) placed top-left on the card.
+2. **Transparent "Why It Matches" Rationale**: Every recommendation card must provide a short, human-centered explanation highlighting material craftsmanship, thermal comfort, or silhouette/occasion fit (e.g., *“Why it matches: Pure 2-ply Mongolian cashmere tailored for relaxed evening warmth.”*).
+3. **Active Profile Header Context**: Provide a subtle header eyebrow linking the recommendation to the shopper's active style profile (e.g., `✨ Curated for Your Style Profile: Minimalist & Evening`).
+4. **Zero Gimmick Guardrail**: Strictly avoid neon gradient tags, heavy tech glows, or repetitive "AI-powered" buzzwords. Show intelligence through context and reason.
 
 ---
 
@@ -810,6 +838,30 @@ When building Product Listing Pages (PLPs) or filtered views, the URL parameters
 5. **Live Auto-Advance Progress & Granular Hover Control**:
    - Provide a **Live Linear Progress Animation** (`.hero-dot-fill`) that visibly fills from 0% to 100% inside the active glowing pill dot over the slide duration (5000ms).
    - Constrain hover-pause strictly to interactive cards (`.hero-glass-overlay`) rather than pausing across the entire background.
+
+### 32. Mandatory Post-Implementation Full Functional & UI SQA Verification Gate
+
+**The Rule**: Never mark any feature, component redesign, refactoring, or bugfix as complete until an end-to-end **Automated and Interactive SQA Audit** is executed and verified in the live browser preview.
+
+#### 1. The 4-Pillar Verification Matrix (Must Execute for Every Task):
+1. **Functional & State Mutation Testing**:
+   - Execute real interactive click/input simulations via browser tools (`chrome-devtools-mcp` or `playwright`).
+   - Verify dynamic state changes (e.g. cart badge increment, price recalculation, live search results, modals, drawer toggles).
+   - Test tactile visual feedback (e.g. animated checkmarks, button scale pulses, toast notifications).
+2. **Multi-Viewport Visual Audit**:
+   - **Desktop (1920×1080)**: Full HD layout balance and grid spacing.
+   - **Laptop Standard (1280×585)**: Strictly verify the zero-vertical-cutoff invariant (all above-the-fold controls, CTAs, and pagination must be 100% visible simultaneously without scrolling).
+   - **Mobile (390×844)**: Verify stacking, touch target sizing (minimum 44×44px), text truncation prevention, and drawer/menu behavior.
+3. **Console & Network Health Audit**:
+   - Verify zero unhandled JavaScript runtime exceptions, syntax errors, or broken 404 image/asset URLs.
+4. **Accessibility (WCAG 2.1 AA)**:
+   - Ensure all interactive controls have descriptive `aria-label`, correct `role`, `aria-selected` (for tabs/dots), and keyboard focus/navigation support.
+
+#### 2. Documentation Invariant:
+- Produce an explicit **SQA Test Execution Matrix (with Test IDs, Scenarios, Expected/Actual Results, and PASS/FAIL status)** in `walkthrough.md`.
+- Include visual screenshot evidence for both desktop and mobile viewports.
+- If any bug is identified during testing, resolve it immediately and re-run the verification suite until all test cases achieve **100% PASS**.
+
 
 
 

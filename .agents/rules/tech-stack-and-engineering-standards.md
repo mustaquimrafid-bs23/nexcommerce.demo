@@ -71,6 +71,7 @@ I must understand and apply:
 - Core Web Vitals (LCP, INP, CLS targets must be met for e-commerce pages)
 - Authentication flows, secure token handling, XSS and CSRF prevention
 - Form architecture, error boundaries, accessibility (WCAG 2.1 AA minimum)
+- **CSS Maintenance & Deduplication Invariant**: When refactoring or adding styles in monolithic design system files (e.g. `design-system.css`), always perform a global grep search for all occurrences of the target component class names. Consolidate disparate/legacy rules into a single canonical definition block and delete dead code blocks to prevent specificity collisions and regression overrides.
 
 ### Database Engineering
 I must apply — not just know:

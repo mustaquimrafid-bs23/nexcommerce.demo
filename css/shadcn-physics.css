@@ -1,0 +1,295 @@
+/* ─── nexCommerce + shadcn/ui + Emil Kowalski Physics System ────────── */
+:root {
+  /* Emil Kowalski Canonical Easing Curves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+
+  /* Performance Durations (All strictly < 350ms) */
+  --duration-tactile: 120ms;
+  --duration-fast: 160ms;
+  --duration-normal: 220ms;
+  --duration-drawer: 320ms;
+
+  /* shadcn/ui Design Tokens */
+  --shadcn-bg: #0A2A54;
+  --shadcn-surface: #0E366B;
+  --shadcn-border: rgba(255, 255, 255, 0.12);
+  --shadcn-border-focus: #3DE0FF;
+  --shadcn-text: #F8FAFF;
+  --shadcn-text-muted: #8FA2BE;
+  --shadcn-radius: 8px;
+  --shadcn-radius-lg: 12px;
+}
+
+/* ─── 1. TACTILE BUTTONS & PRESS PHYSICS (:active scale(0.97)) ────────── */
+.btn-luxury,
+.shadcn-btn,
+button[data-tactile="true"],
+.product-card,
+.category-tile,
+.quick-view-btn,
+.nav-action-btn,
+.cart-action-btn {
+  transition: transform var(--duration-tactile) var(--ease-out), 
+              background-color var(--duration-fast) ease, 
+              border-color var(--duration-fast) ease,
+              box-shadow var(--duration-fast) ease;
+}
+
+.btn-luxury:active,
+.shadcn-btn:active,
+button[data-tactile="true"]:active,
+.quick-view-btn:active,
+.nav-action-btn:active {
+  transform: scale(0.97) !important;
+}
+
+/* ─── 2. SHADCN DIALOG / MODAL (Never from scale(0); uses scale(0.95)->1) ─ */
+.shadcn-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 12, 28, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.shadcn-dialog-overlay[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shadcn-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  background: var(--bg-surface, #0A2A54);
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.16));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.2);
+  border-radius: var(--shadcn-radius-lg, 12px);
+  max-width: 90vw;
+  width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10001;
+  transition: transform var(--duration-normal) var(--ease-out), 
+              opacity var(--duration-normal) var(--ease-out);
+}
+
+.shadcn-dialog-overlay[data-state="open"] .shadcn-dialog-content,
+.shadcn-dialog-content[data-state="open"] {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── 3. SHADCN SHEET / DRAWER (Emil Kowalski Drawer Curve) ────────── */
+.shadcn-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 12, 28, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.shadcn-sheet-overlay[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shadcn-sheet-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-deep, #001838);
+  border-left: 1px solid var(--border-glass, rgba(255, 255, 255, 0.14));
+  box-shadow: -12px 0 50px rgba(0, 0, 0, 0.5);
+  transform: translateX(100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-drawer) var(--ease-drawer);
+}
+
+.shadcn-sheet-content[data-state="open"] {
+  transform: translateX(0);
+}
+
+/* Bottom Sheet / Mobile Drawer Variant */
+.shadcn-drawer-content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  background: var(--bg-deep, #001838);
+  border-top: 1px solid var(--border-glass, rgba(255, 255, 255, 0.16));
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -12px 50px rgba(0, 0, 0, 0.5);
+  transform: translateY(100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-drawer) var(--ease-drawer);
+}
+
+.shadcn-drawer-content[data-state="open"] {
+  transform: translateY(0);
+}
+
+.shadcn-drawer-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  margin: 12px auto 8px auto;
+}
+
+/* ─── 4. SHADCN DROPDOWN MENU (Origin-Aware Popover < 160ms) ────────── */
+.shadcn-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.shadcn-dropdown-content {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background: var(--bg-surface, #0A2A54);
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.14));
+  border-radius: var(--shadcn-radius, 8px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+  z-index: 500;
+  transform-origin: top right;
+  transform: scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-fast) var(--ease-out), 
+              opacity var(--duration-fast) var(--ease-out);
+}
+
+.shadcn-dropdown-content[data-state="open"] {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shadcn-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-primary, #F8FAFF);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.shadcn-dropdown-item:hover,
+.shadcn-dropdown-item:focus-visible {
+  background: rgba(61, 224, 255, 0.12);
+  color: var(--accent-cyan, #3DE0FF);
+  outline: none;
+}
+
+/* ─── 5. SHADCN ACCESSIBLE DATA TABLE ────────────────────────────────── */
+.shadcn-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--shadcn-radius, 8px);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  background: var(--bg-surface, #0A2A54);
+}
+
+.shadcn-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.shadcn-table th {
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--text-muted, #8FA2BE);
+  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  background: rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.shadcn-table td {
+  padding: 14px 16px;
+  color: var(--text-secondary, #D8DEE9);
+  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+  transition: background-color var(--duration-fast) ease;
+}
+
+.shadcn-table tr:hover td {
+  background: rgba(61, 224, 255, 0.04);
+}
+
+/* ─── 6. SHADCN ACCESSIBLE FORM CONTROLS ────────────────────────────── */
+.shadcn-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.shadcn-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary, #F8FAFF);
+  letter-spacing: 0.02em;
+}
+
+.shadcn-input,
+.shadcn-select,
+.shadcn-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 16, 36, 0.5);
+  border: 1px solid var(--border-default, rgba(255, 255, 255, 0.14));
+  border-radius: var(--shadcn-radius, 8px);
+  color: var(--text-primary, #F8FAFF);
+  font-size: 14px;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+.shadcn-input:focus,
+.shadcn-select:focus,
+.shadcn-textarea:focus {
+  outline: none;
+  border-color: var(--accent-cyan, #3DE0FF);
+  box-shadow: 0 0 0 2px rgba(61, 224, 255, 0.25);
+}
+
+.shadcn-form-error {
+  font-size: 11px;
+  color: var(--color-error, #E60C45);
+  margin-top: 2px;
+}

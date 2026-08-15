@@ -166,6 +166,24 @@
   function renderProductPage(product) {
     document.title = product.name + ' — nexCommerce';
 
+    // Record in Recently Viewed
+    try {
+      const RECENTS_KEY = 'nex_recent_products';
+      let recents = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]');
+      if (!Array.isArray(recents)) recents = [];
+      recents = recents.filter(item => item.id !== product.id);
+      recents.unshift({
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        formattedPrice: product.formattedPrice || ('BDT ' + product.price.toLocaleString()),
+        image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : 'hero_sweater.png'
+      });
+      if (recents.length > 8) recents = recents.slice(0, 8);
+      localStorage.setItem(RECENTS_KEY, JSON.stringify(recents));
+    } catch (e) {}
+
     // Breadcrumb
     const breadcrumbEl = document.querySelector('.pdp-breadcrumb');
     if (breadcrumbEl) {

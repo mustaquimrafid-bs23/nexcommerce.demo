@@ -1,0 +1,682 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e3]:
+    - generic [ref=f3e4]: Complimentary express delivery over BDT 2,000
+    - generic [ref=f3e11]: 14-day effortless returns
+    - generic [ref=f3e16]: 100% verified authentic
+  - banner [ref=f3e20]:
+    - generic [ref=f3e21]:
+      - link "nexCommerce Home" [ref=f3e23] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce — next generation e-commerce" [ref=f3e24]
+      - navigation "Primary Navigation" [ref=f3e25]:
+        - link "Categories" [ref=f3e26] [cursor=pointer]:
+          - /url: category.html?cat=all
+        - link "New In" [ref=f3e27] [cursor=pointer]:
+          - /url: category.html?cat=new
+        - link "Discover NEW" [ref=f3e28] [cursor=pointer]:
+          - /url: discovery.html
+          - text: Discover
+          - generic [ref=f3e29]: NEW
+      - button "Search Catalog (Ctrl + K)" [ref=f3e31] [cursor=pointer]:
+        - generic [ref=f3e36]: What are you looking for?
+        - generic [ref=f3e37]: Ctrl + K
+      - generic [ref=f3e38]:
+        - button "Open Style Concierge" [ref=f3e39] [cursor=pointer]:
+          - generic [ref=f3e42]: Concierge
+        - link "Saved Wishlist" [ref=f3e43] [cursor=pointer]:
+          - /url: discovery.html
+          - generic: "1"
+        - link "My Account" [ref=f3e46] [cursor=pointer]:
+          - /url: account.html
+        - link "Shopping Bag" [ref=f3e50] [cursor=pointer]:
+          - /url: cart.html
+          - generic: "5"
+        - generic [ref=f3e54]:
+          - button "More options" [ref=f3e55] [cursor=pointer]
+          - menu:
+            - menuitem "Saved Wishlist"
+            - menuitem "Track Order"
+            - menuitem "AI Style Profile"
+            - menuitem "Order History"
+  - generic [ref=f3e60]:
+    - generic [ref=f3e61]:
+      - link "nexCommerce Home" [ref=f3e62] [cursor=pointer]:
+        - /url: index.html
+        - img "nexCommerce" [ref=f3e63]
+      - button "Close mobile menu" [ref=f3e64] [cursor=pointer]
+    - link "Categories" [ref=f3e68] [cursor=pointer]:
+      - /url: category.html?cat=all
+    - link "New In" [ref=f3e69] [cursor=pointer]:
+      - /url: category.html?cat=new
+    - link "Discover NEW" [ref=f3e70] [cursor=pointer]:
+      - /url: discovery.html
+    - link "Saved ( 1 )" [ref=f3e71] [cursor=pointer]:
+      - /url: discovery.html
+      - text: Saved (
+      - generic [ref=f3e72]: "1"
+      - text: )
+    - link "Track Order" [ref=f3e73] [cursor=pointer]:
+      - /url: tracking.html
+    - link "AI Profile" [ref=f3e74] [cursor=pointer]:
+      - /url: profile.html
+    - link "Demo" [ref=f3e75] [cursor=pointer]:
+      - /url: account.html
+    - link "Bag ( 5 )" [ref=f3e76] [cursor=pointer]:
+      - /url: cart.html
+      - text: Bag (
+      - generic [ref=f3e77]: "5"
+      - text: )
+  - main [ref=f3e78]:
+    - region "Featured Stories Carousel. Use left and right arrow keys to browse." [ref=f3e79]:
+      - generic [ref=f3e80]:
+        - generic [ref=f3e81]:
+          - generic [ref=f3e82]: DISCOVER DIFFERENTLY
+          - heading "Shopping that understands what you mean." [level=1] [ref=f3e87]:
+            - generic [ref=f3e88]: Shopping
+            - generic [ref=f3e89]: that
+            - generic [ref=f3e90]: understands
+            - generic [ref=f3e91]:
+              - generic [ref=f3e92]: what
+              - generic [ref=f3e93]: you
+              - generic [ref=f3e94]: mean.
+          - paragraph [ref=f3e95]: Find pieces based on what you're doing,where you're going, and how you want to feel.
+          - generic [ref=f3e96]:
+            - link "Explore Collections" [ref=f3e97] [cursor=pointer]:
+              - /url: category.html?cat=all
+            - link "Describe Your Style" [ref=f3e101] [cursor=pointer]:
+              - /url: discovery.html
+          - generic [ref=f3e106]:
+            - generic [ref=f3e112]:
+              - generic [ref=f3e113]: Intent Discovery
+              - generic [ref=f3e114]: Finds what you mean, not just what you type
+            - generic [ref=f3e121]:
+              - generic [ref=f3e122]: 4 Curated Ateliers
+              - generic [ref=f3e123]: Apparel, Footwear, Acoustics & Leather
+            - generic [ref=f3e130]:
+              - generic [ref=f3e131]: Style Profile
+              - generic [ref=f3e132]: Recommendations that learn your taste
+        - generic [ref=f3e134]:
+          - generic [ref=f3e135]: AI MATCH
+          - generic [ref=f3e140]:
+            - img "Acoustics Headphone GT on Model"
+            - img "Featured Story"
+          - generic [ref=f3e141] [cursor=pointer]:
+            - img "Product Thumbnail" [ref=f3e143]
+            - generic [ref=f3e144]:
+              - generic [ref=f3e145]:
+                - heading "ACOUSTICS HEADPHONE GT" [level=3] [ref=f3e146]
+                - generic [ref=f3e147]: BDT 32,000
+              - paragraph [ref=f3e148]: Active noise cancellation · Studio sound
+              - generic [ref=f3e149]:
+                - generic [ref=f3e150]: Deep Bass
+                - generic [ref=f3e154]: 40H Battery
+                - generic [ref=f3e160]: Premium Comfort
+            - button "Quick Add to Bag" [ref=f3e165]
+      - tablist "Slide Selector" [ref=f3e167]:
+        - button "View Story 1" [ref=f3e168] [cursor=pointer]
+        - button "View Story 2" [ref=f3e169] [cursor=pointer]
+        - button "View Story 3" [ref=f3e170] [cursor=pointer]
+        - button "View Story 4" [ref=f3e171] [cursor=pointer]
+    - region "Curated Departments" [ref=f3e172]:
+      - generic [ref=f3e173]:
+        - generic [ref=f3e174]:
+          - generic [ref=f3e175]:
+            - generic [ref=f3e176]: CURATED DEPARTMENTS
+            - heading "Shop by Department" [level=2] [ref=f3e177]
+            - paragraph [ref=f3e178]: Architectural silhouettes, studio acoustics, precision horology, and crafted leather goods.
+          - link "View all departments" [ref=f3e179] [cursor=pointer]:
+            - /url: category.html?cat=all
+            - generic [ref=f3e180]: Explore all
+        - generic [ref=f3e183]:
+          - link "Explore Ready-to-Wear and Apparel" [ref=f3e184] [cursor=pointer]:
+            - /url: category.html?cat=apparel
+            - img "Ready-to-Wear Apparel Department" [ref=f3e186]
+            - generic [ref=f3e187]:
+              - generic [ref=f3e188]:
+                - generic [ref=f3e189]: 01 / APPAREL
+                - generic [ref=f3e190]: 38 PIECES
+              - heading "Ready-to-Wear & Silhouettes" [level=3] [ref=f3e191]
+              - paragraph [ref=f3e192]: Architectural cuts, heavy double-knit wools, and tailored daily essentials.
+              - generic [ref=f3e193]:
+                - generic [ref=f3e194]: Cashmere
+                - generic [ref=f3e195]: Tailoring
+                - generic [ref=f3e196]: Outerwear
+              - generic [ref=f3e197]: Explore Collection
+          - generic [ref=f3e202]:
+            - link "Explore Footwear" [ref=f3e203] [cursor=pointer]:
+              - /url: category.html?cat=footwear
+              - img "Footwear and Technical Soles" [ref=f3e205]
+              - generic [ref=f3e206]:
+                - generic [ref=f3e207]:
+                  - generic [ref=f3e208]: 02 / FOOTWEAR
+                  - generic [ref=f3e209]: 19 PIECES
+                - heading "Technical & Tailored Soles" [level=3] [ref=f3e210]
+                - paragraph [ref=f3e211]: Minimal runners, technical soles, and hand-lasted leather.
+                - generic [ref=f3e212]: Explore
+            - link "Explore Acoustics" [ref=f3e216] [cursor=pointer]:
+              - /url: category.html?cat=acoustics
+              - img "Acoustic Studio Sound" [ref=f3e218]
+              - generic [ref=f3e219]:
+                - generic [ref=f3e220]:
+                  - generic [ref=f3e221]: 03 / ACOUSTICS
+                  - generic [ref=f3e222]: 14 PIECES
+                - heading "Studio Acoustics & Audio" [level=3] [ref=f3e223]
+                - paragraph [ref=f3e224]: Over-ear headphones, earbuds, and studio monitors.
+                - generic [ref=f3e225]: Explore
+            - link "Explore Timepieces" [ref=f3e229] [cursor=pointer]:
+              - /url: category.html?cat=accessories
+              - img "Precision Horology and Timepieces" [ref=f3e231]
+              - generic [ref=f3e232]:
+                - generic [ref=f3e233]:
+                  - generic [ref=f3e234]: 04 / TIMEPIECES
+                  - generic [ref=f3e235]: 12 PIECES
+                - heading "Precision Horology" [level=3] [ref=f3e236]
+                - paragraph [ref=f3e237]: Swiss-inspired dress and field watches for every occasion.
+                - generic [ref=f3e238]: Explore
+            - link "Explore Leather Goods" [ref=f3e242] [cursor=pointer]:
+              - /url: category.html?cat=accessories
+              - img "Handcrafted Leather Goods" [ref=f3e244]
+              - generic [ref=f3e245]:
+                - generic [ref=f3e246]:
+                  - generic [ref=f3e247]: 05 / LEATHER
+                  - generic [ref=f3e248]: 21 PIECES
+                - heading "Handcrafted Leather & Carry" [level=3] [ref=f3e249]
+                - paragraph [ref=f3e250]: Totes, wallets, and structured bags in full-grain calfskin.
+                - generic [ref=f3e251]: Explore
+    - generic [ref=f3e256]:
+      - generic [ref=f3e257]:
+        - generic [ref=f3e258]:
+          - generic [ref=f3e259]: LIMITED ALLOCATIONS
+          - heading "Today's Curated Offers" [level=2] [ref=f3e261]
+          - generic [ref=f3e262]: Rare price adjustments on foundational wardrobe and lifestyle pieces.
+        - generic [ref=f3e263]:
+          - link "See all deals →" [ref=f3e264] [cursor=pointer]:
+            - /url: category.html?sort=sale
+          - generic "Offer Countdown" [ref=f3e265]:
+            - generic [ref=f3e266]: CLOSES IN
+            - generic [ref=f3e267]:
+              - generic [ref=f3e268]: "04"
+              - generic [ref=f3e269]: h
+              - generic [ref=f3e270]: "32"
+              - generic [ref=f3e271]: m
+              - generic [ref=f3e272]: "15"
+              - generic [ref=f3e273]: s
+      - generic [ref=f3e274]:
+        - link "-20% Add Merino Knit Sweater to Wishlist Merino Knit Sweater QUICK ADD APPAREL Merino Knit Sweater BDT 1,990 BDT 2,490 4.6 (128)" [ref=f3e275] [cursor=pointer]:
+          - /url: product.html?id=p1
+          - generic [ref=f3e276]: "-20%"
+          - button "Add Merino Knit Sweater to Wishlist" [ref=f3e277]
+          - generic [ref=f3e280]:
+            - img "Merino Knit Sweater" [ref=f3e281]
+            - generic:
+              - button "QUICK ADD"
+          - generic [ref=f3e282]:
+            - generic [ref=f3e283]: APPAREL
+            - generic [ref=f3e284]: Merino Knit Sweater
+            - generic [ref=f3e285]:
+              - generic [ref=f3e286]: BDT 1,990
+              - generic [ref=f3e287]: BDT 2,490
+            - generic [ref=f3e288]:
+              - generic [ref=f3e291]: "4.6"
+              - generic [ref=f3e292]: (128)
+        - link "-25% Add Minimal Runner to Wishlist Minimal Runner QUICK ADD FOOTWEAR Minimal Runner BDT 5,990 BDT 7,990 4.7 (94)" [ref=f3e293] [cursor=pointer]:
+          - /url: product.html?id=p6
+          - generic [ref=f3e294]: "-25%"
+          - button "Add Minimal Runner to Wishlist" [ref=f3e295]
+          - generic [ref=f3e298]:
+            - img "Minimal Runner" [ref=f3e299]
+            - generic:
+              - button "QUICK ADD"
+          - generic [ref=f3e300]:
+            - generic [ref=f3e301]: FOOTWEAR
+            - generic [ref=f3e302]: Minimal Runner
+            - generic [ref=f3e303]:
+              - generic [ref=f3e304]: BDT 5,990
+              - generic [ref=f3e305]: BDT 7,990
+            - generic [ref=f3e306]:
+              - generic [ref=f3e309]: "4.7"
+              - generic [ref=f3e310]: (94)
+        - link "-15% Add Classic Leather Watch to Wishlist Classic Leather Watch QUICK ADD ACCESSORIES Classic Leather Watch BDT 3,380 BDT 3,980 4.5 (72)" [ref=f3e311] [cursor=pointer]:
+          - /url: product.html?id=p5
+          - generic [ref=f3e312]: "-15%"
+          - button "Add Classic Leather Watch to Wishlist" [ref=f3e313]
+          - generic [ref=f3e316]:
+            - img "Classic Leather Watch" [ref=f3e317]
+            - generic:
+              - button "QUICK ADD"
+          - generic [ref=f3e318]:
+            - generic [ref=f3e319]: ACCESSORIES
+            - generic [ref=f3e320]: Classic Leather Watch
+            - generic [ref=f3e321]:
+              - generic [ref=f3e322]: BDT 3,380
+              - generic [ref=f3e323]: BDT 3,980
+            - generic [ref=f3e324]:
+              - generic [ref=f3e327]: "4.5"
+              - generic [ref=f3e328]: (72)
+        - link "-30% Add Tailored Wool Blazer to Wishlist Tailored Wool Blazer QUICK ADD APPAREL Tailored Wool Blazer BDT 8,450 BDT 12,000 4.8 (64)" [ref=f3e329] [cursor=pointer]:
+          - /url: product.html?id=p2
+          - generic [ref=f3e330]: "-30%"
+          - button "Add Tailored Wool Blazer to Wishlist" [ref=f3e331]
+          - generic [ref=f3e334]:
+            - img "Tailored Wool Blazer" [ref=f3e335]
+            - generic:
+              - button "QUICK ADD"
+          - generic [ref=f3e336]:
+            - generic [ref=f3e337]: APPAREL
+            - generic [ref=f3e338]: Tailored Wool Blazer
+            - generic [ref=f3e339]:
+              - generic [ref=f3e340]: BDT 8,450
+              - generic [ref=f3e341]: BDT 12,000
+            - generic [ref=f3e342]:
+              - generic [ref=f3e345]: "4.8"
+              - generic [ref=f3e346]: (64)
+        - link "-30% Add Noise Canceling Earbuds to Wishlist Noise Canceling Earbuds QUICK ADD ELECTRONICS Noise Canceling Earbuds BDT 3,390 BDT 4,890 4.6 (45)" [ref=f3e347] [cursor=pointer]:
+          - /url: product.html?id=p8
+          - generic [ref=f3e348]: "-30%"
+          - button "Add Noise Canceling Earbuds to Wishlist" [ref=f3e349]
+          - generic [ref=f3e352]:
+            - img "Noise Canceling Earbuds" [ref=f3e353]
+            - generic:
+              - button "QUICK ADD"
+          - generic [ref=f3e354]:
+            - generic [ref=f3e355]: ELECTRONICS
+            - generic [ref=f3e356]: Noise Canceling Earbuds
+            - generic [ref=f3e357]:
+              - generic [ref=f3e358]: BDT 3,390
+              - generic [ref=f3e359]: BDT 4,890
+            - generic [ref=f3e360]:
+              - generic [ref=f3e363]: "4.6"
+              - generic [ref=f3e364]: (45)
+    - region "Intent-based Product Search" [ref=f3e365]:
+      - generic [ref=f3e366]:
+        - generic [ref=f3e367]: Discover Your Way
+        - generic [ref=f3e372]:
+          - generic [ref=f3e373]:
+            - generic [ref=f3e374]: Natural Language Discovery
+            - heading "Tell us what you're dressing for." [level=3] [ref=f3e379]
+            - paragraph [ref=f3e380]: Describe an occasion, destination, weather, style, or anything that matters to you.
+          - generic [ref=f3e381]:
+            - textbox "Describe what you are looking for" [ref=f3e386]:
+              - /placeholder: Something for a winter evening in Dhaka
+            - button "Search Catalog" [ref=f3e387] [cursor=pointer]
+          - generic [ref=f3e390]:
+            - generic [ref=f3e391]: Popular Prompts
+            - generic [ref=f3e392]:
+              - button "Dinner Outfit" [ref=f3e393] [cursor=pointer]
+              - button "Weekend Trip" [ref=f3e397] [cursor=pointer]
+              - button "Comfortable for Work" [ref=f3e402] [cursor=pointer]
+              - button "Gift for Him" [ref=f3e407] [cursor=pointer]
+              - button "Light for Summer" [ref=f3e413] [cursor=pointer]
+    - generic [ref=f3e422]:
+      - generic [ref=f3e423]:
+        - generic [ref=f3e424]:
+          - generic [ref=f3e425]: Curated for Your Style Profile
+          - heading "Pieces matched to your taste." [level=2] [ref=f3e430]
+          - generic [ref=f3e431]: Pieces selected for your evening, travel, and weekend moments — curated by our style team.
+        - link "View all →" [ref=f3e432] [cursor=pointer]:
+          - /url: category.html?cat=all
+      - generic [ref=f3e433]:
+        - generic [ref=f3e434] [cursor=pointer]:
+          - generic [ref=f3e435]: Top Pick
+          - button "Add to wishlist" [ref=f3e440]
+          - generic [ref=f3e443]:
+            - img "Architectural Cashmere Sweater" [ref=f3e444]
+            - button "Quick Add" [ref=f3e446]
+          - generic [ref=f3e451]:
+            - generic [ref=f3e452]:
+              - generic [ref=f3e453]: ARC · CASHMERE
+              - generic [ref=f3e454]: BDT 18,400
+            - heading "Architectural Cashmere Sweater" [level=3] [ref=f3e455]
+            - paragraph [ref=f3e456]: "Why it matches: Pure 2-ply Mongolian cashmere tailored for relaxed evening warmth."
+        - generic [ref=f3e457] [cursor=pointer]:
+          - generic [ref=f3e458]: Staff Favourite
+          - button "Add to wishlist" [ref=f3e463]
+          - generic [ref=f3e466]:
+            - img "Structured Wool Blazer" [ref=f3e467]
+            - button "Quick Add" [ref=f3e469]
+          - generic [ref=f3e474]:
+            - generic [ref=f3e475]:
+              - generic [ref=f3e476]: ARC · MERINO WOOL
+              - generic [ref=f3e477]: BDT 24,500
+            - heading "Structured Wool Blazer" [level=3] [ref=f3e478]
+            - paragraph [ref=f3e479]: "Why it matches: Unlined Italian merino weave for sharp indoor-outdoor layering."
+        - generic [ref=f3e480] [cursor=pointer]:
+          - generic [ref=f3e481]: Trending Now
+          - button "Add to wishlist" [ref=f3e486]
+          - generic [ref=f3e489]:
+            - img "Quilted Leather Structured Tote" [ref=f3e490]
+            - button "Quick Add" [ref=f3e492]
+          - generic [ref=f3e497]:
+            - generic [ref=f3e498]:
+              - generic [ref=f3e499]: FORMA · FULL-GRAIN CALF
+              - generic [ref=f3e500]: BDT 28,500
+            - heading "Quilted Leather Structured Tote" [level=3] [ref=f3e501]
+            - paragraph [ref=f3e502]: "Why it matches: Chevron-quilted calfskin with dedicated padded laptop compartment."
+        - generic [ref=f3e503] [cursor=pointer]:
+          - generic [ref=f3e504]: Most Loved
+          - button "Add to wishlist" [ref=f3e509]
+          - generic [ref=f3e512]:
+            - img "Studio Acoustics Headphone GT" [ref=f3e513]
+            - button "Quick Add" [ref=f3e515]
+          - generic [ref=f3e520]:
+            - generic [ref=f3e521]:
+              - generic [ref=f3e522]: FORM · TITANIUM AUDIO
+              - generic [ref=f3e523]: BDT 32,000
+            - heading "Studio Acoustics Headphone GT" [level=3] [ref=f3e524]
+            - paragraph [ref=f3e525]: "Why it matches: Precision active noise isolation wrapped in ultra-soft lambskin comfort."
+    - region "Curated Product Collections" [ref=f3e526]:
+      - generic [ref=f3e528]:
+        - generic [ref=f3e529]:
+          - generic [ref=f3e530]:
+            - generic [ref=f3e531]:
+              - generic [ref=f3e532]: New Arrivals
+              - generic [ref=f3e533]: Latest
+            - link "View all new arrivals" [ref=f3e534] [cursor=pointer]:
+              - /url: category.html?sort=newest
+              - generic [ref=f3e535]: See all
+          - list [ref=f3e538]:
+            - button "View Fine-Knit Merino Crew details" [ref=f3e539] [cursor=pointer]:
+              - img "Fine-Knit Merino Crew" [ref=f3e541]
+              - generic [ref=f3e542]:
+                - generic [ref=f3e543]: Apparel
+                - generic [ref=f3e544]: Fine-Knit Merino Crew
+                - generic [ref=f3e545]: BDT 2,490
+              - button "Add Fine-Knit Merino Crew to Bag" [ref=f3e546]
+            - button "View Structured Leather Tote details" [ref=f3e548] [cursor=pointer]:
+              - img "Structured Leather Tote" [ref=f3e550]
+              - generic [ref=f3e551]:
+                - generic [ref=f3e552]: Leather Goods
+                - generic [ref=f3e553]: Structured Leather Tote
+                - generic [ref=f3e554]: BDT 14,900
+              - button "Add Structured Leather Tote to Bag" [ref=f3e555]
+            - button "View Canvas Weekender Bag details" [ref=f3e557] [cursor=pointer]:
+              - img "Canvas Weekender Bag" [ref=f3e559]
+              - generic [ref=f3e560]:
+                - generic [ref=f3e561]: Accessories
+                - generic [ref=f3e562]: Canvas Weekender Bag
+                - generic [ref=f3e563]: BDT 4,990
+              - button "Add Canvas Weekender Bag to Bag" [ref=f3e564]
+            - button "View Tailored Chino Trousers details" [ref=f3e566] [cursor=pointer]:
+              - img "Tailored Chino Trousers" [ref=f3e568]
+              - generic [ref=f3e569]:
+                - generic [ref=f3e570]: Apparel
+                - generic [ref=f3e571]: Tailored Chino Trousers
+                - generic [ref=f3e572]: BDT 6,800
+              - button "Add Tailored Chino Trousers to Bag" [ref=f3e573]
+        - generic [ref=f3e575]:
+          - generic [ref=f3e576]:
+            - generic [ref=f3e577]:
+              - generic [ref=f3e578]: Best Sellers
+              - generic [ref=f3e579]: Trending
+            - link "View all best sellers" [ref=f3e580] [cursor=pointer]:
+              - /url: category.html?sort=popular
+              - generic [ref=f3e581]: See all
+          - list [ref=f3e584]:
+            - button "View Architectural Cashmere Sweater details" [ref=f3e585] [cursor=pointer]:
+              - img "Architectural Cashmere Sweater" [ref=f3e587]
+              - generic [ref=f3e588]:
+                - generic [ref=f3e589]: Apparel
+                - generic [ref=f3e590]: Architectural Cashmere Sweater
+                - generic [ref=f3e591]: BDT 18,400
+              - button "Add Architectural Cashmere Sweater to Bag" [ref=f3e592]
+            - button "View Minimalist Leather Runner details" [ref=f3e594] [cursor=pointer]:
+              - img "Minimalist Leather Runner" [ref=f3e596]
+              - generic [ref=f3e597]:
+                - generic [ref=f3e598]: Footwear
+                - generic [ref=f3e599]: Minimalist Leather Runner
+                - generic [ref=f3e600]: BDT 11,900
+              - button "Add Minimalist Leather Runner to Bag" [ref=f3e601]
+            - button "View Tailored Wool Blazer details" [ref=f3e603] [cursor=pointer]:
+              - img "Tailored Wool Blazer" [ref=f3e605]
+              - generic [ref=f3e606]:
+                - generic [ref=f3e607]: Apparel
+                - generic [ref=f3e608]: Tailored Wool Blazer
+                - generic [ref=f3e609]: BDT 8,450
+              - button "Add Tailored Wool Blazer to Bag" [ref=f3e610]
+            - button "View Classic Chronograph Watch details" [ref=f3e612] [cursor=pointer]:
+              - img "Classic Chronograph Watch" [ref=f3e614]
+              - generic [ref=f3e615]:
+                - generic [ref=f3e616]: Timepieces
+                - generic [ref=f3e617]: Classic Chronograph Watch
+                - generic [ref=f3e618]: BDT 3,380
+              - button "Add Classic Chronograph Watch to Bag" [ref=f3e619]
+        - generic [ref=f3e621]:
+          - generic [ref=f3e622]:
+            - generic [ref=f3e623]:
+              - generic [ref=f3e624]: Picked for You
+              - generic [ref=f3e625]: Curated
+            - link "Explore all curated picks" [ref=f3e626] [cursor=pointer]:
+              - /url: discovery.html
+              - generic [ref=f3e627]: See all
+          - list [ref=f3e630]:
+            - button "View Ribbed Cashmere Turtleneck details" [ref=f3e631] [cursor=pointer]:
+              - img "Ribbed Cashmere Turtleneck" [ref=f3e633]
+              - generic [ref=f3e634]:
+                - generic [ref=f3e635]: Apparel
+                - generic [ref=f3e636]: Ribbed Cashmere Turtleneck
+                - generic [ref=f3e637]: BDT 18,400
+              - button "Add Ribbed Cashmere Turtleneck to Bag" [ref=f3e638]
+            - button "View Sonic Aurora Headphones GT details" [ref=f3e640] [cursor=pointer]:
+              - img "Sonic Aurora Headphones GT" [ref=f3e642]
+              - generic [ref=f3e643]:
+                - generic [ref=f3e644]: Electronics
+                - generic [ref=f3e645]: Sonic Aurora Headphones GT
+                - generic [ref=f3e646]: BDT 27,300
+              - button "Add Sonic Aurora Headphones GT to Bag" [ref=f3e647]
+            - button "View Charcoal Wool Overcoat details" [ref=f3e649] [cursor=pointer]:
+              - img "Charcoal Wool Overcoat" [ref=f3e651]
+              - generic [ref=f3e652]:
+                - generic [ref=f3e653]: Outerwear
+                - generic [ref=f3e654]: Charcoal Wool Overcoat
+                - generic [ref=f3e655]: BDT 24,500
+              - button "Add Charcoal Wool Overcoat to Bag" [ref=f3e656]
+            - button "View Beige Suede Runner details" [ref=f3e658] [cursor=pointer]:
+              - img "Beige Suede Runner" [ref=f3e660]
+              - generic [ref=f3e661]:
+                - generic [ref=f3e662]: Footwear
+                - generic [ref=f3e663]: Beige Suede Runner
+                - generic [ref=f3e664]: BDT 12,500
+              - button "Add Beige Suede Runner to Bag" [ref=f3e665]
+    - region "Why Choose nexCommerce" [ref=f3e667]:
+      - generic [ref=f3e668]:
+        - generic [ref=f3e669]:
+          - generic [ref=f3e670]: "01"
+          - generic [ref=f3e676]: Curated Intent Discovery
+          - generic [ref=f3e677]: Find products naturally from your very first intent with semantic AI matching.
+          - generic [ref=f3e678]: AI Vector Match
+        - generic [ref=f3e681]:
+          - generic [ref=f3e682]: "02"
+          - generic [ref=f3e690]: Hyperlocal Express Courier
+          - generic [ref=f3e691]: Real-time route optimization directly to your door with live parcel milestones.
+          - generic [ref=f3e692]: Same-Day in Dhaka
+        - generic [ref=f3e695]:
+          - generic [ref=f3e696]: "03"
+          - generic [ref=f3e702]: Guaranteed Protection
+          - generic [ref=f3e703]: End-to-end encrypted checkout supporting bKash, Nagad, cards, and COD.
+          - generic [ref=f3e704]: 100% Secure & Authentic
+        - generic [ref=f3e708]:
+          - generic [ref=f3e709]: "04"
+          - generic [ref=f3e717]: Effortless Exchanges
+          - generic [ref=f3e718]: Hassle-free 14-day exchange and doorstep return pickup policy with zero questions.
+          - generic [ref=f3e719]: 14-Day Guarantee
+    - region "Recently Viewed" [ref=f3e723]:
+      - generic [ref=f3e724]:
+        - generic [ref=f3e725]:
+          - generic [ref=f3e726]:
+            - generic [ref=f3e727]: RESUME BROWSING
+            - heading "Recently Viewed" [level=2] [ref=f3e732]
+          - button "Clear recently viewed items" [ref=f3e733] [cursor=pointer]:
+            - generic [ref=f3e737]: Clear History
+        - generic [ref=f3e738]:
+          - link "Cashmere Turtleneck Sweater Apparel Cashmere Turtleneck Sweater BDT 18,500" [ref=f3e739] [cursor=pointer]:
+            - /url: product.html?id=p1
+            - img "Cashmere Turtleneck Sweater" [ref=f3e741]
+            - generic [ref=f3e742]:
+              - generic [ref=f3e743]: Apparel
+              - heading "Cashmere Turtleneck Sweater" [level=4] [ref=f3e744]
+              - generic [ref=f3e745]: BDT 18,500
+          - link "Minimalist Leather Runner Footwear Minimalist Leather Runner BDT 11,900" [ref=f3e746] [cursor=pointer]:
+            - /url: product.html?id=p6
+            - img "Minimalist Leather Runner" [ref=f3e748]
+            - generic [ref=f3e749]:
+              - generic [ref=f3e750]: Footwear
+              - heading "Minimalist Leather Runner" [level=4] [ref=f3e751]
+              - generic [ref=f3e752]: BDT 11,900
+          - link "Studio Acoustics Headphone GT Acoustics Studio Acoustics Headphone GT BDT 32,000" [ref=f3e753] [cursor=pointer]:
+            - /url: product.html?id=p4
+            - img "Studio Acoustics Headphone GT" [ref=f3e755]
+            - generic [ref=f3e756]:
+              - generic [ref=f3e757]: Acoustics
+              - heading "Studio Acoustics Headphone GT" [level=4] [ref=f3e758]
+              - generic [ref=f3e759]: BDT 32,000
+    - region "Personalized Intent Discovery" [ref=f3e760]:
+      - generic [ref=f3e763]:
+        - img "nexCommerce Personalized Lifestyle Atelier" [ref=f3e765]
+        - generic [ref=f3e766]:
+          - generic [ref=f3e767]: Atelier AI Discovery
+          - heading [level=2] [ref=f3e772]:
+            - text: Shopping shouldfeel
+            - emphasis [ref=f3e773]: personal
+            - text: .
+          - paragraph [ref=f3e774]: Tell us what you're looking for. Describe a mood, an occasion, or even how you want to feel — we'll find pieces you'll actually love.
+          - generic [ref=f3e775]:
+            - textbox "Describe what you are looking for" [ref=f3e780]:
+              - /placeholder: Describe what you need... e.g. 'Warm relaxed fit sweater for evening'
+            - button "CURATE CAPSULE" [ref=f3e781] [cursor=pointer]
+          - group "Suggested shopping intents" [ref=f3e785]:
+            - generic [ref=f3e786]: "Try:"
+            - button "Merino Wool Layering" [ref=f3e787] [cursor=pointer]
+            - button "Waterproof Commute" [ref=f3e789] [cursor=pointer]
+            - button "Minimalist Timepiece" [ref=f3e791] [cursor=pointer]
+          - generic [ref=f3e793]: Private & secure discovery sessions
+  - contentinfo [ref=f3e798]:
+    - generic [ref=f3e799]:
+      - generic [ref=f3e800]:
+        - generic [ref=f3e801]:
+          - link "nexCommerce Home" [ref=f3e802] [cursor=pointer]:
+            - /url: index.html
+            - img "nexCommerce Atelier" [ref=f3e803]
+          - paragraph [ref=f3e804]: A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
+          - generic [ref=f3e805]:
+            - link "nexCommerce on Instagram" [ref=f3e806] [cursor=pointer]:
+              - /url: "#"
+            - link "nexCommerce on TikTok" [ref=f3e810] [cursor=pointer]:
+              - /url: "#"
+            - link "nexCommerce on LinkedIn" [ref=f3e813] [cursor=pointer]:
+              - /url: "#"
+          - generic [ref=f3e818]:
+            - generic [ref=f3e819]: The Private Edit
+            - paragraph [ref=f3e820]: Receive private collection previews, seasonal capsule alerts, and atelier journals.
+            - generic [ref=f3e821]:
+              - textbox "Email address for newsletter" [ref=f3e822]:
+                - /placeholder: Enter your email address
+              - button "Subscribe" [ref=f3e823] [cursor=pointer]
+        - generic [ref=f3e824]:
+          - generic [ref=f3e825]: COLLECTIONS
+          - link "New Arrivals" [ref=f3e826] [cursor=pointer]:
+            - /url: category.html?sort=newest
+          - link "Ready-to-Wear" [ref=f3e827] [cursor=pointer]:
+            - /url: category.html?cat=apparel
+          - link "Footwear & Leather" [ref=f3e828] [cursor=pointer]:
+            - /url: category.html?cat=footwear
+          - link "High Acoustics" [ref=f3e829] [cursor=pointer]:
+            - /url: category.html?cat=acoustics
+          - link "The Lookbook" [ref=f3e830] [cursor=pointer]:
+            - /url: lookbook.html
+        - generic [ref=f3e831]:
+          - generic [ref=f3e832]: CLIENT SERVICES
+          - link "Order Concierge" [ref=f3e833] [cursor=pointer]:
+            - /url: tracking.html
+          - link "Complimentary Returns" [ref=f3e834] [cursor=pointer]:
+            - /url: foundation.html#returns
+          - link "Private Styling" [ref=f3e835] [cursor=pointer]:
+            - /url: concierge.html
+          - link "Size & Fit Guide" [ref=f3e836] [cursor=pointer]:
+            - /url: product.html?id=p1
+        - generic [ref=f3e837]:
+          - generic [ref=f3e838]: THE MAISON
+          - link "Atelier Foundation" [ref=f3e839] [cursor=pointer]:
+            - /url: foundation.html
+          - link "Client Account" [ref=f3e840] [cursor=pointer]:
+            - /url: account.html
+          - link "Privacy & Terms" [ref=f3e841] [cursor=pointer]:
+            - /url: foundation.html#privacy
+          - link "Authenticity & Trust" [ref=f3e842] [cursor=pointer]:
+            - /url: foundation.html#security
+      - generic [ref=f3e843]:
+        - region "Theme Switcher" [ref=f3e844]:
+          - 'button "Theme: Cyber Cyan" [ref=f3e845] [cursor=pointer]'
+          - dialog "Theme Options":
+            - generic:
+              - generic: Theme Accents
+              - button "Reset"
+            - generic:
+              - button "Set theme to Ocean Blue":
+                - generic: Ocean
+              - button "Set theme to Deep Violet":
+                - generic: Violet
+              - button "Set theme to Garden Emerald":
+                - generic: Emerald
+              - button "Set theme to Editorial Amber":
+                - generic: Amber
+              - button "Set theme to Couture Rose":
+                - generic: Rose
+              - button "Set theme to Riviera Coral":
+                - generic: Coral
+              - button "Set theme to Midnight Indigo":
+                - generic: Indigo
+              - button "Set theme to Monochrome":
+                - generic: Mono
+            - generic:
+              - generic: Custom Palette
+              - generic "Pick custom color":
+                - textbox "Pick custom color": "#00c8ff"
+        - generic [ref=f3e850]: © 2026 nexCommerce Atelier Inc. All rights reserved.
+        - generic [ref=f3e851] [cursor=pointer]: BDT · Dhaka (EN)
+        - generic "Accepted Payment Methods" [ref=f3e856]:
+          - generic "bKash" [ref=f3e857]:
+            - img "bKash" [ref=f3e858]
+          - generic "Nagad" [ref=f3e859]:
+            - img "Nagad" [ref=f3e860]
+          - generic "Visa" [ref=f3e861]:
+            - img "Visa" [ref=f3e862]
+          - generic "Mastercard" [ref=f3e863]:
+            - img "Mastercard" [ref=f3e864]
+  - dialog [ref=f3e865]:
+    - generic [ref=f3e866]:
+      - generic [ref=f3e867]: Shopping Bag
+      - button [ref=f3e868] [cursor=pointer]
+    - generic [ref=f3e872]:
+      - generic [ref=f3e875]:
+        - generic [ref=f3e876]: CHRONO AUTOMATIC TIMEPIECE
+        - generic [ref=f3e877]: "Default · Qty: 1"
+        - generic [ref=f3e878]:
+          - generic [ref=f3e879]: BDT 48,000
+          - button [ref=f3e880] [cursor=pointer]: Remove
+      - generic [ref=f3e883]:
+        - generic [ref=f3e884]: Merino Knit Sweater
+        - generic [ref=f3e885]: "Default · Qty: 3"
+        - generic [ref=f3e886]:
+          - generic [ref=f3e887]: BDT 5,970
+          - button [ref=f3e888] [cursor=pointer]: Remove
+      - generic [ref=f3e891]:
+        - generic [ref=f3e892]: Fine-Knit Merino Crew
+        - generic [ref=f3e893]: "Default · Qty: 1"
+        - generic [ref=f3e894]:
+          - generic [ref=f3e895]: BDT 2,490
+          - button [ref=f3e896] [cursor=pointer]: Remove
+    - generic [ref=f3e897]:
+      - generic [ref=f3e898]:
+        - generic [ref=f3e899]: Subtotal
+        - generic [ref=f3e900]: BDT 56,460
+      - link [ref=f3e901] [cursor=pointer]:
+        - /url: cart.html
+        - text: VIEW BAG & CHECKOUT
+  - dialog [ref=f3e902]:
+    - generic [ref=f3e903]:
+      - generic [ref=f3e904]: Style Concierge
+      - button [ref=f3e907] [cursor=pointer]
+    - generic [ref=f3e914]:
+      - textbox [ref=f3e915]:
+        - /placeholder: Ask about a style, size, occasion, or delivery...
+      - button [ref=f3e916] [cursor=pointer]

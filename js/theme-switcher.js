@@ -11,9 +11,9 @@
   const THEMES = [
     {
       id: 'default',
-      name: 'Cyber Cyan',
-      shortName: 'Cyan',
-      description: 'Default AI cyan',
+      name: 'Ocean Blue',
+      shortName: 'Ocean',
+      description: 'Default AI blue',
       swatch: '#00C8FF',
       vars: {
         '--accent-cyan':      '#00C8FF',
@@ -45,7 +45,7 @@
     },
     {
       id: 'emerald',
-      name: 'Forest Emerald',
+      name: 'Garden Emerald',
       shortName: 'Emerald',
       description: 'Organic luxury green',
       swatch: '#10B981',
@@ -62,7 +62,7 @@
     },
     {
       id: 'amber',
-      name: 'Warm Amber',
+      name: 'Editorial Amber',
       shortName: 'Amber',
       description: 'Editorial gold',
       swatch: '#F59E0B',
@@ -79,7 +79,7 @@
     },
     {
       id: 'rose',
-      name: 'Editorial Rose',
+      name: 'Couture Rose',
       shortName: 'Rose',
       description: 'Haute couture pink',
       swatch: '#F43F5E',
@@ -96,7 +96,7 @@
     },
     {
       id: 'coral',
-      name: 'Sunset Coral',
+      name: 'Riviera Coral',
       shortName: 'Coral',
       description: 'Warm coastal energy',
       swatch: '#FF6B6B',
@@ -130,8 +130,8 @@
     },
     {
       id: 'slate',
-      name: 'Arctic Slate',
-      shortName: 'Slate',
+      name: 'Monochrome',
+      shortName: 'Mono',
       description: 'Minimal monochrome',
       swatch: '#94A3B8',
       vars: {

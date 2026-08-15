@@ -56,6 +56,7 @@ const CartState = {
   init() {
     this.loadFromStorage();
     this.bindEvents();
+    this.updateBadge();
     this.renderPage();
     this.renderMiniCart();
   },
@@ -71,12 +72,21 @@ const CartState = {
     }
   },
 
+  updateBadge() {
+    const count = this.getTotalCount();
+    const badges = document.querySelectorAll('.bag-count-badge, #headerCartCount, #mobileCartCount, .nav-cart-badge, [data-cart-count]');
+    badges.forEach(b => {
+      b.textContent = count;
+    });
+  },
+
   save() {
     try {
       localStorage.setItem('nex_cart', JSON.stringify(this.items));
     } catch (e) {
       console.error('Failed to save cart to storage', e);
     }
+    this.updateBadge();
     this.renderPage();
     this.renderMiniCart();
   },
@@ -185,10 +195,10 @@ const CartState = {
 
   updateBadge() {
     const count = this.getTotalCount();
-    const badges = document.querySelectorAll('#header-bag-count, #bag-count, .bag-badge');
+    const badges = document.querySelectorAll('#headerCartCount, #mobileCartCount, .bag-count-badge, #header-bag-count, #bag-count, .bag-badge, .nav-cart-badge');
     badges.forEach(el => {
       el.textContent = count;
-      el.style.display = count > 0 ? '' : 'none';
+      el.style.display = count > 0 ? 'inline-flex' : 'none';
     });
   },
 

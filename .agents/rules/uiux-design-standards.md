@@ -118,6 +118,31 @@ E-commerce components: Product cards, product comparison, PDP gallery, cart draw
 - Reports and analytics
 - User roles and permissions
 
+### Trust & Value Proposition Pillars (Luxury Standard)
+When designing homepage value-proposition, trust strips, or service guarantee blocks:
+- **Never** use plain generic colored boxes with heavy neon borders or aggressive uppercase monospace labels.
+- **Always apply the Luxury Trust Module pattern:**
+  - **Surface:** Frosted glassmorphic card with `backdrop-filter: blur(16px)` and specular inner top highlight (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`).
+  - **Icon Housing:** Dedicated 44×44px frosted glass pedestal with feather-stroke Lucide vector icons.
+  - **Sequence Indicator:** Subtle muted numeric index (`01`–`04`) in mono.
+  - **Typography:** Display title in natural casing (`15px`, `font-weight: 600`) with generous letter spacing and calm, descriptive body copy.
+  - **Benefit Badges:** Bottom-aligned micro-pill badges (`11px`) reinforcing the value proposition (e.g. `✦ AI Vector Match`, `⚡ Same-Day Dispatch`, `🔒 100% Authentic`, `↺ 14-Day Guarantee`).
+  - **Responsive Behavior:** 4-col on desktop (1280px+), 2×2 grid on tablet (768px–1024px), single column or compact list on mobile (≤576px).
+
+### Conversational Intent & Editorial Banner Standards (Atelier UI)
+When designing conversational discovery banners, intent search capsules, or prompt-assisted inputs:
+1. **Visual Hierarchy & Input Placement**:
+   - The primary action (Search Input / Intent Capsule) must immediately follow the headline and description.
+   - Quick-prompt inspiration chips must ALWAYS sit **underneath** the search capsule as an under-input rail — NEVER placed above the input where they block the primary call-to-action.
+2. **Prompt Chip Typography & Layout**:
+   - Maintain a single-row horizontal layout aligned to the search capsule width.
+   - Use compact micro-tag sizing ($11\text{px}$ font, $4\text{px} \times 11\text{px}$ padding, subtle translucent background `rgba(255, 255, 255, 0.04)`).
+   - Avoid loud bullet characters (`✦`) and bold uppercase prefixes (`TRY:`). Use calm, muted labels (`Try:` or `Popular:`).
+   - On mobile viewports, allow smooth horizontal scroll or clean responsive wrap.
+3. **Cinematic Lifestyle Vignette Blending**:
+   - In editorial cards with lifestyle photography, do NOT use hard vertical dividing lines.
+   - Apply multi-stop alpha gradient masks (`linear-gradient(to right, transparent 55%, var(--bg-surface) 95%)`) to organically blend photography into the luxury frosted glass canvas.
+
 > **Key principle I must apply**: Customer UI optimizes for emotion, discovery, and conversion. Admin UI optimizes for speed, clarity, and bulk operations. These require fundamentally different UX strategies.
 
 ---

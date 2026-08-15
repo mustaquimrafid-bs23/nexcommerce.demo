@@ -178,7 +178,12 @@ const NexAuth = (() => {
     if (session) {
       accountLinks.forEach(el => {
         el.href = 'account.html';
-        el.textContent = session.firstName;
+        const nameSpan = el.querySelector('[data-auth-name]');
+        if (nameSpan) {
+          nameSpan.textContent = session.firstName;
+        } else if (!el.querySelector('i, svg')) {
+          el.textContent = session.firstName;
+        }
       });
       signInLinks.forEach(el => { el.style.display = 'none'; });
       signOutBtns.forEach(el => { el.style.display = ''; });
@@ -186,7 +191,12 @@ const NexAuth = (() => {
     } else {
       accountLinks.forEach(el => {
         el.href = 'signin.html';
-        el.textContent = 'Sign In';
+        const nameSpan = el.querySelector('[data-auth-name]');
+        if (nameSpan) {
+          nameSpan.textContent = 'Sign In';
+        } else if (!el.querySelector('i, svg')) {
+          el.textContent = 'Sign In';
+        }
       });
       signInLinks.forEach(el => { el.style.display = ''; });
       signOutBtns.forEach(el => { el.style.display = 'none'; });
