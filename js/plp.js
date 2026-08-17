@@ -11,7 +11,7 @@
       category: 'apparel',
       price: 18500,
       formattedPrice: 'BDT 18,500',
-      image: 'plp_turtleneck.png',
+      image: 'assets/images/products/plp_turtleneck.png',
       isNew: true,
       reasoning: 'Spun from 2-ply Mongolian cashmere with relaxed raglan shoulders for effortless evening drape.',
       whyExpanded: 'Ultra-soft rib-knit collar and cuffs provide refined warmth without bulk.'
@@ -22,7 +22,7 @@
       category: 'apparel',
       price: 26400,
       formattedPrice: 'BDT 26,400',
-      image: 'plp_blazer.png',
+      image: 'assets/images/products/plp_blazer.png',
       reasoning: 'Tailored from Italian virgin wool with unlined interior and custom horn buttons.',
       whyExpanded: 'Architectural shoulders and soft interior canvassing allow easy thermal regulation indoors.'
     },
@@ -32,7 +32,7 @@
       category: 'outerwear',
       price: 38000,
       formattedPrice: 'BDT 38,000',
-      image: 'plp_overcoat.png',
+      image: 'assets/images/products/plp_overcoat.png',
       isNew: true,
       reasoning: 'Double-faced wool-cashmere blend with sharp notch lapels and structured drape.',
       whyExpanded: 'Mid-calf silhouette engineered for cold morning commutes and formal evening layers.'
@@ -43,7 +43,7 @@
       category: 'acoustics',
       price: 32000,
       formattedPrice: 'BDT 32,000',
-      image: 'prod_headphones.png',
+      image: 'assets/images/products/prod_headphones.png',
       isNew: true,
       reasoning: 'Precision 40mm titanium drivers with spatial tuning and active ambient isolation.',
       whyExpanded: 'Memory foam ear cushions wrapped in full-grain lambskin leather for all-day listening.'
@@ -54,7 +54,7 @@
       category: 'acoustics',
       price: 16500,
       formattedPrice: 'BDT 16,500',
-      image: 'search_earbuds.png',
+      image: 'assets/images/products/search_earbuds.png',
       reasoning: 'Custom balanced armature drivers with low-latency spatial audio and Qi charging.',
       whyExpanded: 'Compact matte finish charging case with 32-hour battery reserve and IPX5 resistance.'
     },
@@ -64,7 +64,7 @@
       category: 'footwear',
       price: 19800,
       formattedPrice: 'BDT 19,800',
-      image: 'prod_runner.png',
+      image: 'assets/images/products/prod_runner.png',
       reasoning: 'Handcrafted from Italian calfskin leather with shock-absorbing rubber cupsole.',
       whyExpanded: 'Ergonomic footbed with padded heel counter and gold-foil serial branding.'
     },
@@ -74,7 +74,7 @@
       category: 'accessories',
       price: 28500,
       formattedPrice: 'BDT 28,500',
-      image: 'prod_tote.png',
+      image: 'assets/images/products/prod_tote.png',
       reasoning: 'Chevron-quilted full-grain nappa leather with polished antique gold hardware.',
       whyExpanded: 'Spacious dual-compartment interior lined with microsuede and reinforced shoulder strap.'
     },
@@ -84,7 +84,7 @@
       category: 'accessories',
       price: 34200,
       formattedPrice: 'BDT 34,200',
-      image: 'search_watch.png',
+      image: 'assets/images/products/search_watch.png',
       isNew: true,
       reasoning: 'Brushed matte titanium case housing a Swiss automatic movement with sapphire crystal.',
       whyExpanded: '5 ATM water resistance with interchangeable Italian leather strap.'

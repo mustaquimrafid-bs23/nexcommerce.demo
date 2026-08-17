@@ -1,0 +1,29 @@
+{
+  "name": "nexcomarch",
+  "version": "1.0.0",
+  "description": "[![Version](https://img.shields.io/badge/version-1.0.0--atelier-003371.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch) [![Status](https://img.shields.io/badge/status-22%20Pages%20Elevated%20%26%20SQA%20Verified-34D399.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/task.md) [![Design System](https://img.shields.io/badge/design%20system-Atelier%20Obsidian%20%26%20Warm%20Stone-0A2A54.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/css/design-system.css) [![Stack](https://img.shields.io/badge/architecture-Vanilla%20ES6%2B%20%7C%20CSS3%20Tokens%20%7C%20Semantic%20HTML5-F13365.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/js) [![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.1%20AA%20Compliant-3DE0FF.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/docs/brand/accessibility-guidelines.md) [![Performance](https://img.shields.io/badge/motion-120fps%20GPU--Composited-E60C45.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/css/shadcn-physics.css)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mustaquimrafid-bs23/nexcommerce.demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mustaquimrafid-bs23/nexcommerce.demo/issues"
+  },
+  "homepage": "https://github.com/mustaquimrafid-bs23/nexcommerce.demo#readme",
+  "dependencies": {
+    "@react-three/fiber": "^9.7.0",
+    "@types/three": "^0.185.4",
+    "three": "^0.185.1"
+  }
+}

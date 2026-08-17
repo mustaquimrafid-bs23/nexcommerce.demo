@@ -26,7 +26,7 @@
       category: 'Apparel',
       price: 18400,
       formattedPrice: 'BDT 18,400',
-      image: 'hero_sweater.png',
+      image: 'assets/images/products/hero_sweater.png',
       matchBadge: 'Best Match',
       reasoning: 'Warm enough after sunset without feeling heavy. Ideal for 18°C Dhaka evenings.',
       whyExpanded: [
@@ -43,7 +43,7 @@
       category: 'Footwear',
       price: 24500,
       formattedPrice: 'BDT 24,500',
-      image: 'prod_runner.png',
+      image: 'assets/images/products/prod_runner.png',
       matchBadge: 'Excellent Fit',
       reasoning: 'Cushioned carbon-sole build designed for extended city walking and travel comfort.',
       whyExpanded: [
@@ -59,7 +59,7 @@
       category: 'Acoustics',
       price: 14200,
       formattedPrice: 'BDT 14,200',
-      image: 'search_earbuds.png',
+      image: 'assets/images/products/search_earbuds.png',
       matchBadge: 'Good Match',
       reasoning: 'Ergonomic in-ear fit with high-fidelity sound and seamless device switching for travel.',
       whyExpanded: [
@@ -74,7 +74,7 @@
       category: 'Acoustics',
       price: 32000,
       formattedPrice: 'BDT 32,000',
-      image: 'prod_headphones.png',
+      image: 'assets/images/products/prod_headphones.png',
       matchBadge: 'Highly Rated',
       reasoning: 'Active noise cancellation with a 40-hour battery life &mdash; ideal for focused work or long journeys.',
       whyExpanded: [

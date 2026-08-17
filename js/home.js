@@ -61,96 +61,50 @@ function initHeroAnimations() {
 }
 
 /**
- * 1b. Interactive Hero Lifestyle Carousel & Hotspot Quick-Add
+ * 1b. Full-Bleed 3D Interactive Model Hero & Floating Shoppable Hotspot Tags
  */
 function initHeroCarousel() {
   const stories = [
     {
-      id: 'p4',
-      name: 'ACOUSTICS HEADPHONE GT',
-      price: 'BDT 32,000',
-      numericPrice: 32000,
-      context: 'Active noise cancellation · Studio sound',
-      image: 'hero_headphone_landscape.jpg',
-      thumb: 'thumb_headphones.jpg',
-      alt: 'Acoustics Headphone GT on Model',
-      chips: [
-        { icon: 'activity', text: 'Deep Bass' },
-        { icon: 'battery-charging', text: '40H Battery' },
-        { icon: 'sparkles', text: 'Premium Comfort' }
-      ]
-    },
-    {
-      id: 'p1',
-      name: 'ARCHITECTURAL CASHMERE SWEATER',
-      price: 'BDT 18,400',
-      numericPrice: 18400,
-      context: 'Minimal layering · Evening',
-      image: 'hero_sweater_landscape.jpg',
-      thumb: 'thumb_sweater.jpg',
-      alt: 'Architectural Cashmere Sweater on Model',
-      chips: [
-        { icon: 'feather', text: '100% Cashmere' },
-        { icon: 'shield-check', text: 'Thermal Lock' },
-        { icon: 'sparkles', text: 'Italian Yarn' }
-      ]
-    },
-    {
-      id: 'p7',
-      name: 'CHRONO AUTOMATIC TIMEPIECE',
-      price: 'BDT 48,000',
-      numericPrice: 48000,
-      context: 'Sapphire crystal · Swiss movement',
-      image: 'hero_watch_landscape.jpg',
-      thumb: 'thumb_watch.jpg',
-      alt: 'Chrono Automatic Timepiece on Model',
-      chips: [
-        { icon: 'shield', text: 'Sapphire Glass' },
-        { icon: 'clock', text: 'Swiss Calibre' },
-        { icon: 'sparkles', text: '42mm Case' }
-      ]
-    },
-    {
       id: 'p2',
       name: 'STRUCTURED LEATHER TOTE',
+      lookNum: 'FEATURED PIECE',
       price: 'BDT 24,500',
       numericPrice: 24500,
-      context: 'Italian calfskin · Laptop sleeve',
-      image: 'hero_tote_landscape.jpg',
-      thumb: 'thumb_tote.jpg',
-      alt: 'Structured Leather Tote on Model',
-      chips: [
-        { icon: 'briefcase', text: '15" Laptop' },
-        { icon: 'lock', text: 'Magnetic Clasp' },
-        { icon: 'sparkles', text: 'Handcrafted' }
-      ]
+      category: 'Leather Goods',
+      image: 'assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg',
+      thumb: 'assets/images/lifestyle/thumb_tote.jpg',
+      alt: 'Model in tailored suit with structured cognac leather bag in brutalist architecture',
+      hotspot: { top: '79%', left: '72%' }
     }
   ];
 
-  const dots = document.querySelectorAll('.hero-dot');
+  const heroSection = document.getElementById('heroFullbleedSection') || document.querySelector('.hero-fullbleed-section');
+  const bgCanvas = document.getElementById('heroImgStack');
   const layerA = document.getElementById('heroLayerA');
   const layerB = document.getElementById('heroLayerB');
+  const centeredContent = document.getElementById('heroCenteredContent');
+  const hotspotWrap = document.getElementById('heroHotspotWrap');
   const hotspotCard = document.getElementById('heroHotspotCard');
   const thumbImg = document.getElementById('heroDockThumbImg');
-  const chipsContainer = document.getElementById('heroFeatureChips');
   const titleEl = document.getElementById('heroHotspotTitle');
   const priceEl = document.getElementById('heroHotspotPrice');
-  const subEl = document.getElementById('heroHotspotSub');
   const addBtn = document.getElementById('heroHotspotAddBtn');
-  const visualFrame = document.getElementById('heroVisualFrame');
-  const modelBox = document.getElementById('heroModelBox');
-  const heroSection = document.querySelector('.hero-section');
+  const prevBtn = document.getElementById('heroPrevBtn');
+  const nextBtn = document.getElementById('heroNextBtn');
+  const progressFill = document.getElementById('heroProgressFill');
+  const dockPills = document.querySelectorAll('.hero-dock-pill');
 
-  if (!hotspotCard || !dots.length) return;
+  if (!heroSection || !hotspotCard) return;
 
   let currentIndex = 0;
   let timer = null;
   let isTransitioning = false;
-  let activeLayer = layerA || document.querySelector('.hero-layer-active');
-  let incomingLayer = layerB || document.querySelector('.hero-layer-incoming');
-  const slideDuration = 5000;
+  let activeLayer = layerA || document.querySelector('.hero-fullbleed-layer-active');
+  let incomingLayer = layerB || document.querySelector('.hero-fullbleed-layer-incoming');
+  const slideDuration = 5500;
 
-  // Preload all story images to guarantee 0-latency instant cross-fades
+  // Preload hero story image for instant zero-latency rendering
   stories.forEach(s => {
     const preload = new Image();
     preload.src = s.image;
@@ -161,37 +115,18 @@ function initHeroCarousel() {
   });
 
   function resetProgress() {
-    dots.forEach((dot) => {
-      const fill = dot.querySelector('.hero-dot-fill');
-      if (fill) {
-        fill.style.transition = 'none';
-        fill.style.transform = 'scaleX(0)';
-      }
-    });
+    if (progressFill) {
+      progressFill.style.transition = 'none';
+      progressFill.style.transform = 'scaleX(0)';
+    }
   }
 
   function startActiveProgress() {
     resetProgress();
-    const activeDot = dots[currentIndex];
-    if (!activeDot) return;
-    const fill = activeDot.querySelector('.hero-dot-fill');
-    if (fill) {
-      void fill.offsetWidth; // Force reflow
-      fill.style.transition = `transform ${slideDuration}ms linear`;
-      fill.style.transform = 'scaleX(1)';
-    }
-  }
-
-  function renderChips(chips) {
-    if (!chipsContainer || !chips) return;
-    chipsContainer.innerHTML = chips.map(c => `
-      <span class="hero-chip">
-        <i data-lucide="${c.icon}" style="width: 10px; height: 10px;"></i>
-        <span>${c.text}</span>
-      </span>
-    `).join('');
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+    if (progressFill && stories.length > 1) {
+      void progressFill.offsetWidth; // Force reflow
+      progressFill.style.transition = `transform ${slideDuration}ms linear`;
+      progressFill.style.transform = 'scaleX(1)';
     }
   }
 
@@ -199,32 +134,37 @@ function initHeroCarousel() {
     currentIndex = (index + stories.length) % stories.length;
     isTransitioning = false;
 
-    dots.forEach((d, i) => {
-      d.classList.toggle('active', i === currentIndex);
-      d.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
-    });
+    // Update Look Switcher Pills if present
+    if (dockPills && dockPills.length > 0) {
+      dockPills.forEach((pill, idx) => {
+        pill.classList.toggle('active', idx === currentIndex);
+      });
+    }
 
     startActiveProgress();
 
     const story = stories[currentIndex];
 
+    // Update Hotspot Coordinates
+    if (hotspotWrap && story.hotspot) {
+      hotspotWrap.style.top = story.hotspot.top;
+      hotspotWrap.style.left = story.hotspot.left;
+    }
+
     if (animate && activeLayer && incomingLayer) {
       isTransitioning = true;
 
-      // 1. Prepare incoming layer under the hood
+      // 1. Prepare incoming layer
       incomingLayer.src = story.image;
       incomingLayer.alt = story.alt;
-      incomingLayer.className = 'hero-layer-img hero-layer-incoming';
+      incomingLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-incoming';
 
-      // 2. Start staggered text transition
-      if (hotspotCard) hotspotCard.classList.add('hero-text-animating');
-
-      // 3. Double RAF for buttery GPU layer transition
+      // 2. Double RAF for GPU crossfade
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           if (incomingLayer && activeLayer) {
-            incomingLayer.className = 'hero-layer-img hero-layer-active';
-            activeLayer.className = 'hero-layer-img hero-layer-outgoing';
+            incomingLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-active';
+            activeLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-outgoing';
 
             // Swap layer references
             const temp = activeLayer;
@@ -234,18 +174,14 @@ function initHeroCarousel() {
         });
       });
 
-      // 4. Update text content mid-flight and reveal
+      // 3. Update floating hotspot info
       setTimeout(() => {
         if (thumbImg && story.thumb) thumbImg.src = story.thumb;
         if (titleEl) titleEl.textContent = story.name;
         if (priceEl) priceEl.textContent = story.price;
-        if (subEl) subEl.textContent = story.context;
-        renderChips(story.chips);
         hotspotCard.setAttribute('data-id', story.id);
-
-        if (hotspotCard) hotspotCard.classList.remove('hero-text-animating');
         setTimeout(() => { isTransitioning = false; }, 350);
-      }, 180);
+      }, 150);
 
     } else {
       if (activeLayer) {
@@ -255,14 +191,13 @@ function initHeroCarousel() {
       if (thumbImg && story.thumb) thumbImg.src = story.thumb;
       if (titleEl) titleEl.textContent = story.name;
       if (priceEl) priceEl.textContent = story.price;
-      if (subEl) subEl.textContent = story.context;
-      renderChips(story.chips);
       hotspotCard.setAttribute('data-id', story.id);
     }
   }
 
   function startTimer() {
     stopTimer();
+    if (stories.length <= 1) return;
     startActiveProgress();
     timer = setInterval(() => {
       setStory(currentIndex + 1, true);
@@ -273,148 +208,165 @@ function initHeroCarousel() {
     if (timer) clearInterval(timer);
   }
 
-  // Dots navigation
-  dots.forEach((dot, index) => {
-    dot.setAttribute('role', 'button');
-    dot.setAttribute('aria-label', `View Story ${index + 1}`);
-    dot.addEventListener('click', (e) => {
+  // Initial story setup
+  setStory(0, false);
+
+  // Look Switcher Pills Event Listeners (if present)
+  dockPills.forEach((pill) => {
+    pill.addEventListener('click', (e) => {
       e.stopPropagation();
-      setStory(index, true);
-      startTimer();
+      const targetIdx = parseInt(pill.getAttribute('data-index'), 10);
+      if (!isNaN(targetIdx) && targetIdx !== currentIndex) {
+        setStory(targetIdx, true);
+        startTimer();
+      }
     });
   });
 
-  // -------------------------------------------------------------
-  // Kinetic Touch Swipe & Mouse Drag Physics (Desktop + Mobile)
-  // -------------------------------------------------------------
-  let isPointerDown = false;
-  let startX = 0;
-  let startY = 0;
-  let currentDeltaX = 0;
-  let isHorizontalDrag = false;
-  let rafId = null;
-
-  if (heroSection) {
-    heroSection.querySelectorAll('img').forEach((im) => {
-      im.setAttribute('draggable', 'false');
-      im.ondragstart = (e) => e.preventDefault();
-    });
-
-    function onDragStart(clientX, clientY, target) {
-      if (target && (target.closest('#heroHotspotAddBtn') || target.closest('.btn-hero-primary') || target.closest('.btn-hero-secondary') || target.closest('.hero-dot'))) {
-        return;
-      }
-      isPointerDown = true;
-      startX = clientX;
-      startY = clientY;
-      currentDeltaX = 0;
-      isHorizontalDrag = false;
-      stopTimer();
-      heroSection.classList.add('is-dragging');
-    }
-
-    function onDragMove(clientX, clientY) {
-      if (!isPointerDown) return;
-      const dx = clientX - startX;
-      const dy = clientY - startY;
-
-      if (!isHorizontalDrag) {
-        if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
-          isHorizontalDrag = true;
-        }
-      }
-
-      if (isHorizontalDrag) {
-        currentDeltaX = dx;
-        if (modelBox) {
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(() => {
-            modelBox.style.transition = 'none';
-            modelBox.style.transform = `translateX(${dx * 0.28}px) rotateY(${dx * 0.025}deg) scale(0.99)`;
-          });
-        }
-      }
-    }
-
-    function onDragEnd() {
-      if (!isPointerDown) return;
-      isPointerDown = false;
-      heroSection.classList.remove('is-dragging');
-
-      if (modelBox) {
-        modelBox.style.transition = 'transform 450ms cubic-bezier(0.16, 1, 0.3, 1)';
-        modelBox.style.transform = '';
-      }
-
-      const threshold = 35;
-      if (isHorizontalDrag && Math.abs(currentDeltaX) > threshold) {
-        if (currentDeltaX < 0) {
-          setStory(currentIndex + 1, true);
-        } else {
-          setStory(currentIndex - 1, true);
-        }
-      }
-
-      currentDeltaX = 0;
-      isHorizontalDrag = false;
+  // Prev / Next Arrow Navigation (if present)
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setStory(currentIndex - 1, true);
       startTimer();
-    }
-
-    // Pointer Events
-    heroSection.addEventListener('pointerdown', (e) => {
-      onDragStart(e.clientX, e.clientY, e.target);
     });
-
-    window.addEventListener('pointermove', (e) => {
-      onDragMove(e.clientX, e.clientY);
-    });
-
-    window.addEventListener('pointerup', () => {
-      onDragEnd();
-    });
-
-    window.addEventListener('pointercancel', () => {
-      onDragEnd();
-    });
-
-    // Touch Support
-    heroSection.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        onDragStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
-      }
-    }, { passive: true });
-
-    heroSection.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 1) {
-        onDragMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    }, { passive: true });
-
-    heroSection.addEventListener('touchend', () => {
-      onDragEnd();
-    });
-
-    // Keyboard Arrow Navigation
-    heroSection.setAttribute('tabindex', '0');
-    heroSection.setAttribute('aria-label', 'Featured Stories Carousel. Use left and right arrow keys to browse.');
-    heroSection.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        setStory(currentIndex - 1, true);
-        startTimer();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        setStory(currentIndex + 1, true);
-        startTimer();
-      }
-    });
-
-    // Pause on hovering the interactive glass card specifically
-    if (hotspotCard) {
-      hotspotCard.addEventListener('mouseenter', () => stopTimer());
-      hotspotCard.addEventListener('mouseleave', () => startTimer());
-    }
   }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setStory(currentIndex + 1, true);
+      startTimer();
+    });
+  }
+
+  // Pause on hover
+  if (heroSection) {
+    heroSection.addEventListener('mouseenter', () => stopTimer());
+    heroSection.addEventListener('mouseleave', () => startTimer());
+  }
+
+  // -------------------------------------------------------------
+  // 🌟 Unified 120fps Differential Column & Layer Parallax Engine
+  // Combines smooth scroll parallax and 3D spatial mouse depth
+  // into a single zero-collision physics loop with smooth lerp
+  // -------------------------------------------------------------
+  let targetScrollY = window.scrollY || 0;
+  let currentScrollY = targetScrollY;
+  let targetRotX = 0;
+  let targetRotY = 0;
+  let curRotX = 0;
+  let curRotY = 0;
+  let isMouseInside = false;
+
+  const isDesktopPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Track window scroll with passive performance
+  window.addEventListener('scroll', () => {
+    targetScrollY = window.scrollY || 0;
+  }, { passive: true });
+
+  // Track 3D Spatial Mouse Interaction (Desktop Pointer only)
+  if (heroSection && isDesktopPointer && !isReducedMotion) {
+    heroSection.addEventListener('mousemove', (e) => {
+      isMouseInside = true;
+      const rect = heroSection.getBoundingClientRect();
+      if (rect.height <= 0 || rect.width <= 0) return;
+      const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      targetRotX = -y * 8; // Max pitch tilt
+      targetRotY = x * 10; // Max yaw tilt
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      isMouseInside = false;
+      targetRotX = 0;
+      targetRotY = 0;
+    });
+  }
+
+  function updateHeroParallax() {
+    if (isReducedMotion) {
+      if (centeredContent) {
+        centeredContent.style.opacity = Math.max(0, Math.min(1, 1 - targetScrollY / 420)).toFixed(3);
+      }
+      if (hotspotWrap) {
+        hotspotWrap.style.opacity = Math.max(0, Math.min(1, 1 - targetScrollY / 340)).toFixed(3);
+      }
+      requestAnimationFrame(updateHeroParallax);
+      return;
+    }
+
+    // Fluid Deceleration Lerp for Scroll (0.12 factor)
+    currentScrollY += (targetScrollY - currentScrollY) * 0.12;
+
+    // Fluid Spring Lerp for 3D Mouse Parallax (0.08 factor)
+    if (isDesktopPointer) {
+      curRotX += (targetRotX - curRotX) * 0.08;
+      curRotY += (targetRotY - curRotY) * 0.08;
+    }
+
+    const heroHeight = heroSection ? heroSection.offsetHeight : 600;
+
+    // Only compute transforms when the hero is in or near the active viewport
+    if (currentScrollY < heroHeight * 1.3) {
+      const scrollProgress = Math.max(0, currentScrollY);
+      const isMobile = window.innerWidth <= 768;
+      const xBase = isMobile ? '-50%' : '0px';
+
+      // 1. Full-Bleed Background Imagery Canvas (0.30x differential scroll + counter mouse tilt)
+      if (bgCanvas) {
+        const bgTranslateY = (scrollProgress * 0.30) - (curRotX * 1.5);
+        const bgTranslateX = -curRotY * 1.8;
+        bgCanvas.style.transform = `translate3d(${bgTranslateX.toFixed(2)}px, ${bgTranslateY.toFixed(2)}px, 0)`;
+      }
+
+      // 2. Editorial Typography Column (Preserves vertical centering + 0.12x differential lag + 3D depth)
+      if (centeredContent) {
+        const contentTranslateY = (scrollProgress * 0.12) + (curRotX * 1.2);
+        const contentTranslateX = (curRotY * 1.6);
+        const contentOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 420)));
+        const xVal = isMobile ? `calc(-50% + ${contentTranslateX.toFixed(2)}px)` : `${contentTranslateX.toFixed(2)}px`;
+        centeredContent.style.transform = `translate3d(${xVal}, calc(-50% + ${contentTranslateY.toFixed(2)}px), 35px)`;
+        centeredContent.style.opacity = contentOpacity.toFixed(3);
+      }
+
+      // 3. Floating 3D Shoppable Hotspot Tag (0.22x differential scroll + 3D perspective pop)
+      if (hotspotWrap) {
+        const hotspotTranslateY = (scrollProgress * 0.22) + (curRotX * 2.0);
+        const hotspotTranslateX = curRotY * 2.4;
+        const hotspotOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 340)));
+        hotspotWrap.style.transform = `translate3d(${hotspotTranslateX.toFixed(2)}px, ${hotspotTranslateY.toFixed(2)}px, 60px)`;
+        hotspotWrap.style.opacity = hotspotOpacity.toFixed(3);
+      }
+    }
+
+    requestAnimationFrame(updateHeroParallax);
+  }
+
+  requestAnimationFrame(updateHeroParallax);
+
+  // -------------------------------------------------------------
+  // 3️⃣ Seamless Page Transitions
+  // -------------------------------------------------------------
+  const transitionCurtain = document.getElementById('pageTransitionOverlay');
+  document.querySelectorAll('.page-nav-link, a[href^="pages/"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetHref = link.getAttribute('href');
+      if (!targetHref || targetHref.startsWith('#') || targetHref.startsWith('javascript:')) return;
+
+      e.preventDefault();
+      if (transitionCurtain) {
+        transitionCurtain.classList.add('is-active');
+        setTimeout(() => {
+          window.location.href = targetHref;
+        }, 220);
+      } else {
+        window.location.href = targetHref;
+      }
+    });
+  });
 
   // -------------------------------------------------------------
   // Quick-Add Action with Tactile SVG Checkmark Feedback
@@ -437,9 +389,8 @@ function initHeroCarousel() {
       }
 
       // Visual feedback with Lucide checkmark icon
-      addBtn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i>';
+      addBtn.innerHTML = '<i data-lucide="check" style="width: 13px; height: 13px;"></i>';
       addBtn.style.background = '#10B981';
-      addBtn.style.borderColor = '#10B981';
       addBtn.style.transform = 'scale(1.15)';
       if (window.lucide) window.lucide.createIcons();
 
@@ -455,20 +406,26 @@ function initHeroCarousel() {
       }
 
       setTimeout(() => {
-        addBtn.innerHTML = '<i data-lucide="plus" style="width: 14px; height: 14px;"></i>';
+        addBtn.innerHTML = '<i data-lucide="plus" style="width: 13px; height: 13px;"></i>';
         addBtn.style.background = '';
-        addBtn.style.borderColor = '';
         addBtn.style.transform = '';
         if (window.lucide) window.lucide.createIcons();
       }, 1400);
     });
 
-    // Clicking anywhere on the card navigates to product details
+    // Clicking on hotspot card navigates to product details
     hotspotCard.addEventListener('click', (e) => {
       if (e.target.closest('#heroHotspotAddBtn')) return;
       const currentStory = stories[currentIndex];
       if (currentStory) {
-        window.location.href = `product.html?id=${currentStory.id}`;
+        if (transitionCurtain) {
+          transitionCurtain.classList.add('is-active');
+          setTimeout(() => {
+            window.location.href = `pages/product.html?id=${currentStory.id}`;
+          }, 220);
+        } else {
+          window.location.href = `pages/product.html?id=${currentStory.id}`;
+        }
       }
     });
   }
@@ -554,7 +511,7 @@ function initDealsCards() {
         return;
       }
       const id = card.getAttribute('data-id') || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
     });
   });
 
@@ -615,7 +572,7 @@ function initIntentSuggestions() {
         input.value = text;
         input.focus();
       }
-      window.location.href = `discovery.html?q=${encodeURIComponent(text)}`;
+      window.location.href = `pages/discovery.html?q=${encodeURIComponent(text)}`;
     });
   });
 
@@ -626,7 +583,7 @@ function initIntentSuggestions() {
       const activeInput = form.querySelector('input');
       const val = activeInput ? activeInput.value.trim() : '';
       if (val) {
-        window.location.href = `discovery.html?q=${encodeURIComponent(val)}`;
+        window.location.href = `pages/discovery.html?q=${encodeURIComponent(val)}`;
       }
     });
   }
@@ -746,7 +703,7 @@ function renderFeaturedCollection() {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.curated-quick-add-btn') || e.target.closest('.curated-add-btn') || e.target.closest('.curated-img-action') || e.target.closest('.curated-wishlist-btn')) return;
       const targetId = id || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(targetId)}`;
+      window.location.href = `pages/product.html?id=${encodeURIComponent(targetId)}`;
     });
   });
 
@@ -801,7 +758,7 @@ function initMicroMerchandising() {
     row.addEventListener('click', (e) => {
       if (e.target.closest('.micro-item-add-btn')) return;
       const id = row.getAttribute('data-id') || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
     });
 
     row.addEventListener('keydown', (e) => {
@@ -809,7 +766,7 @@ function initMicroMerchandising() {
         if (e.target.closest('.micro-item-add-btn')) return;
         e.preventDefault();
         const id = row.getAttribute('data-id') || 'p1';
-        window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+        window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
       }
     });
   });
@@ -884,7 +841,7 @@ function initEditorialBanner() {
       window.openAiSearch();
     } else {
       const qParam = queryText ? `?q=${encodeURIComponent(queryText)}` : '';
-      window.location.href = `discovery.html${qParam}`;
+      window.location.href = `pages/discovery.html${qParam}`;
     }
   }
 
@@ -915,7 +872,7 @@ function initCategoryTiles() {
   tiles.forEach(tile => {
     tile.addEventListener('click', () => {
       const cat = tile.getAttribute('data-cat') || 'all';
-      window.location.href = `category.html?cat=${encodeURIComponent(cat)}`;
+      window.location.href = `pages/category.html?cat=${encodeURIComponent(cat)}`;
     });
   });
 }
@@ -930,7 +887,7 @@ function initFinalCTA() {
       if (window.openAiSearch) {
         window.openAiSearch();
       } else {
-        window.location.href = 'discovery.html';
+        window.location.href = 'pages/discovery.html';
       }
     });
   }
@@ -1016,16 +973,16 @@ function initRecentlyViewed() {
   // If no items in storage yet, seed with 3 high-affinity editorial pieces for immediate showcase
   if (!Array.isArray(recents) || recents.length === 0) {
     recents = [
-      { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', price: 18500, formattedPrice: 'BDT 18,500', image: 'hero_sweater.png' },
-      { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', price: 11900, formattedPrice: 'BDT 11,900', image: 'prod_runner.png' },
-      { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', price: 32000, formattedPrice: 'BDT 32,000', image: 'thumb_headphones.jpg' }
+      { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', price: 18500, formattedPrice: 'BDT 18,500', image: 'assets/images/products/hero_sweater.png' },
+      { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', price: 11900, formattedPrice: 'BDT 11,900', image: 'assets/images/products/prod_runner.png' },
+      { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', price: 32000, formattedPrice: 'BDT 32,000', image: 'assets/images/lifestyle/thumb_headphones.jpg' }
     ];
   }
 
   rail.innerHTML = recents.map(item => `
-    <a href="product.html?id=${encodeURIComponent(item.id)}" class="recent-card" data-id="${item.id}">
+    <a href="pages/product.html?id=${encodeURIComponent(item.id)}" class="recent-card" data-id="${item.id}">
       <div class="recent-card-thumb">
-        <img src="${item.image || 'hero_sweater.png'}" alt="${item.name}" loading="lazy" />
+        <img src="${item.image || 'assets/images/products/hero_sweater.png'}" alt="${item.name}" loading="lazy" />
       </div>
       <div class="recent-card-info">
         <span class="recent-card-cat">${item.category || 'Product'}</span>

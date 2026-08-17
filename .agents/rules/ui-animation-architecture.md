@@ -37,3 +37,25 @@ Introduce Motion only when interactions require coordinated state transitions, g
 - Constant, restless movement (e.g., floating particles, vibrating images).
 - Character-by-character text animation on hero headers.
 - Hiding critical information (price, discount, availability, Add to Bag) behind a long or complex animation.
+
+## 8. Luxury Micro-Interactions & Motion Engineering Standards
+
+### 8.1 Subtle Micro-Interactions
+- **Entrance & Fade-Ins:** Use gentle opacity and subtle translation (`translateY(4px to 8px)`) with custom luxury easing (`cubic-bezier(0.16, 1, 0.3, 1)` or `cubic-bezier(0.23, 1, 0.32, 1)`).
+- **Sequencing & Staggering:** Stagger multi-item reveals by 40–80ms to create natural rhythm without feeling sluggish. Total sequence duration should not exceed 600ms.
+
+### 8.2 Tactile Multi-Layer Hover Effects
+- **Realistic Depth:** Avoid single-layer flat shadows. Use multi-layered ambient + direct shadows (e.g., `box-shadow: 0 4px 12px rgba(0,0,0,0.12), 0 12px 28px rgba(0,0,0,0.24)`) with subtle highlight bevels (`inset 0 1px 0 rgba(255,255,255,0.15)`).
+- **Physical Lift:** Pair shadow expansion with micro-lift (`translateY(-2px to -4px)`) and slight spring recovery.
+
+### 8.3 Scroll Animations & Parallax Depth
+- **Depth Adjustment:** Modulate scroll velocity for background imagery or floating editorial elements (e.g., 0.85x or 1.15x scroll factor) to create physical depth.
+- **Restraint:** Parallax must be subtle and contextual — never applied globally to text or core transactional buttons.
+
+### 8.4 Seamless Page Transitions
+- Maintain visual continuity and persistent layout anchors during route changes.
+- Avoid abrupt white flashes or jarring layout jumps; use GPU-composited cross-fades or shared element morphing where justified.
+
+### 8.5 Pro-Tips: Consistency & Performance
+- **Cross-Breakpoint Validation:** Always verify motion across mobile (390px), laptop (1280px), and wide desktop (1440px+). Disable heavy parallax on mobile viewports to prevent scroll stutter.
+- **Visual Budget:** Combine effects selectively. A luxury aesthetic requires restraint: if a hero section has dynamic background crossfade, surrounding UI chrome must remain calm and grounded.

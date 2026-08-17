@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Tooling & Tests
+.playwright-mcp/
+.vscode/
+.idea/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Environment & logs
+*.log
+.env
+.env.local

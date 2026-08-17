@@ -174,10 +174,10 @@ function renderOrderSummary(order) {
     const qty = item.qty || item.quantity || 1;
     const variant = item.variant || item.size || 'Standard';
     const price = Number(item.price) || 0;
-    const image = item.image || 'p1.png';
+    const image = item.image || 'assets/images/products/p1.png';
     return `
       <div style="display: flex; gap: 14px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px;">
-        <img src="${image}" alt="${item.name}" onerror="this.src='p1.png'" style="width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-main); flex-shrink: 0;" />
+        <img src="${image}" alt="${item.name}" onerror="this.src='assets/images/products/p1.png'" style="width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-main); flex-shrink: 0;" />
         <div style="display: flex; flex-direction: column; gap: 4px;">
           <div style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary);">${item.category || 'APPAREL'}</div>
           <div style="font-family: var(--font-serif); font-size: 16px; color: var(--text-primary);">${item.name}</div>
@@ -361,7 +361,7 @@ function renderOrderSummary(order) {
 
     <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
       <button class="btn-primary-commerce" style="width: 100%; height: 52px;" onclick="window.print()">VIEW ORDER DETAILS</button>
-      <a href="index.html" style="display: block; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none;">CONTINUE SHOPPING &rarr;</a>
+      <a href="../index.html" style="display: block; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none;">CONTINUE SHOPPING &rarr;</a>
     </div>
   `;
 }
@@ -463,7 +463,7 @@ function renderNoOrderState() {
         <button type="submit" class="btn-primary-commerce" style="height: 52px;">VIEW ORDER</button>
       </form>
 
-      <a href="index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none; margin-top: 4px;">CONTINUE SHOPPING &rarr;</a>
+      <a href="../index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none; margin-top: 4px;">CONTINUE SHOPPING &rarr;</a>
     </div>
   `;
 }
@@ -489,7 +489,7 @@ function renderInvalidOrderState() {
       <h1 style="font-family: var(--font-serif); font-size: 40px; font-weight: 500; color: var(--text-primary);">ORDER NOT FOUND</h1>
       <p style="font-family: var(--font-body); font-size: 15px; color: var(--text-secondary); max-width: 440px; line-height: 1.6;">We couldn't find an order with that number. Check the order number and try again.</p>
       <button class="btn-primary-commerce" style="height: 52px; margin-top: 8px;" onclick="renderNoOrderState()">TRY AGAIN</button>
-      <a href="index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none;">CONTINUE SHOPPING &rarr;</a>
+      <a href="../index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none;">CONTINUE SHOPPING &rarr;</a>
     </div>
   `;
 }

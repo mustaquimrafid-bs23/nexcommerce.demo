@@ -78,7 +78,7 @@
 
       var cardsHtml = result.products.slice(0, 4).map(function(p) {
         return '<div class="ai-recommendation-card">'
-          + '<div class="ai-card-img-wrap"><img src="' + escHtml(p.img || p.image || '') + '" alt="' + escHtml(p.title || p.name || '') + '" /></div>'
+          + '<div class="ai-card-img-wrap"><img src="' + escHtml(_resolveAsset(p.img || p.image || '')) + '" alt="' + escHtml(p.title || p.name || '') + '" /></div>'
           + '<div class="ai-card-details">'
           + '<span class="match-indicator-badge">' + escHtml(p.matchBadge || 'Match') + '</span>'
           + '<h4 style="font-family:var(--font-serif);font-size:20px;font-weight:500;margin:4px 0;">' + escHtml(p.title || p.name || '') + '</h4>'
@@ -97,7 +97,7 @@
         btn.addEventListener('click', function() {
           var pid = btn.getAttribute('data-id');
           closeOverlay();
-          window.location.href = 'product.html?id=' + pid;
+          window.location.href = _resolvePage('product.html') + '?id=' + pid;
         });
       });
 

@@ -203,16 +203,17 @@ I design with conversion metrics in mind, not only aesthetics.
 I use animation to **communicate**, not to decorate.
 
 **I must specify and implement:**
-- Hover states (buttons, cards, links — subtle, fast, ≤200ms)
-- Loading states (skeleton screens preferred over spinners for content areas)
-- Page / route transitions (smooth, directional)
-- Modal / drawer open/close (ease-out open, ease-in close)
-- Cart add animation (product flies to cart icon, quantity updates)
-- Success / error feedback (color + icon + brief animation)
-- Scroll-triggered reveals (used sparingly, purposefully)
+- **Hover states**: buttons, cards, links — subtle, tactile 3D depth with multi-layered shadows and micro-lift (`translateY(-2px to -4px)`), fast (≤200ms)
+- **Loading states**: skeleton screens preferred over spinners for content areas
+- **Page / route transitions**: smooth, directional GPU-composited cross-fades maintaining persistent layout anchors
+- **Modal / drawer open/close**: ease-out open, ease-in close
+- **Cart add animation**: tactile checkmark feedback, cart count scale bump, product flies to bag
+- **Success / error feedback**: color + icon + brief spring animation
+- **Scroll-triggered reveals & parallax**: subtle velocity modulation (0.85x or 1.15x) for background imagery/editorial depth (never on critical text/CTAs)
+- **Cross-breakpoint testing**: verify all motion at 390px, 768px, 1280px, and 1440px+ without lag or scroll stutter
 
 **Anti-pattern I must avoid:**
-> Animations that loop without communicating anything. Every animation must serve a UX function.
+> Animations that loop without communicating anything. Every animation must serve a UX function. Avoid flat, harsh single shadows or chaotic visual overload.
 
 ---
 

@@ -19,7 +19,7 @@
       material: '100% Grade-A Cashmere. Dry clean or gentle hand wash cold with wool detergent. Store folded.',
       sizing: 'Relaxed architectural fit. True to size for effortless layering; choose one size down for a tailored silhouette.',
       shipping: 'Express Next Day delivery available across Dhaka. Free standard delivery on orders over BDT 20,000.',
-      images: ['plp_turtleneck.png', 'sweater_texture.png', 'sweater_lifestyle.png'],
+      images: ['assets/images/products/plp_turtleneck.png', 'assets/images/products/sweater_texture.png', 'assets/images/lifestyle/sweater_lifestyle.png'],
       colors: ['Midnight', 'Charcoal', 'Stone'],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       sizeChart: { XS: {min: 80, max: 87}, S: {min: 88, max: 94}, M: {min: 95, max: 101}, L: {min: 102, max: 108}, XL: {min: 109, max: 115} },
@@ -36,7 +36,7 @@
       material: '100% Pure Virgin Wool. Cupro sleeve lining. Dry clean only. Hang on wide cedar wooden hanger.',
       sizing: 'Modern European tailored cut. Fits true to size with slight room across the chest for light knitwear.',
       shipping: 'Express Next Day delivery available. Garment bag and protective cedar hanger included.',
-      images: ['plp_blazer.png', 'sweater_texture.png', 'plp_turtleneck.png'],
+      images: ['assets/images/products/plp_blazer.png', 'assets/images/products/sweater_texture.png', 'assets/images/products/plp_turtleneck.png'],
       colors: ['Navy', 'Charcoal', 'Black'],
       sizes: ['46', '48', '50', '52', '54'],
       sizeChart: { '46': {min: 88, max: 94}, '48': {min: 95, max: 101}, '50': {min: 102, max: 108}, '52': {min: 109, max: 115}, '54': {min: 116, max: 122} },
@@ -53,7 +53,7 @@
       material: 'Wool-Cashmere Blend. Dry clean only. Brush with soft bristle clothes brush after wear.',
       sizing: 'Structured tailored overcoat cut. Designed to layer comfortably over suit jackets and thick knitwear.',
       shipping: 'Complimentary white-glove express delivery and garment preservation bag included.',
-      images: ['plp_overcoat.png', 'sweater_texture.png', 'plp_blazer.png'],
+      images: ['assets/images/products/plp_overcoat.png', 'assets/images/products/sweater_texture.png', 'assets/images/products/plp_blazer.png'],
       colors: ['Charcoal', 'Camel', 'Midnight'],
       sizes: ['46', '48', '50', '52', '54'],
       sizeChart: { '46': {min: 88, max: 94}, '48': {min: 95, max: 101}, '50': {min: 102, max: 108}, '52': {min: 109, max: 115}, '54': {min: 116, max: 122} },
@@ -70,7 +70,7 @@
       material: 'Brushed anodized aluminum, stainless steel headband, memory foam with Ethiopian lambskin leather.',
       sizing: 'Universal ergonomic fit with 16-step detented extension headband and rotating earcups.',
       shipping: 'Express Next Day delivery available. Hard-shell magnetic travel case and braided 3.5mm cable included.',
-      images: ['prod_headphones.png', 'search_earbuds.png'],
+      images: ['assets/images/products/prod_headphones.png', 'assets/images/products/search_earbuds.png'],
       colors: ['Matte Black', 'Brushed Aluminum', 'Warm Amber'],
       sizes: ['Standard Edition'],
       breadcrumb: [{ label: 'Acoustics', href: 'category.html?cat=acoustics' }, { label: 'Headphones', href: 'category.html?cat=acoustics' }]
@@ -86,7 +86,7 @@
       material: 'Matte composite acoustic housing with precision aluminum touch surfaces.',
       sizing: 'Includes 4 medical-grade silicone ear tips (XS, S, M, L) and Comply isolation memory foam pairs.',
       shipping: 'Express Next Day delivery available. Free delivery on orders over BDT 20,000.',
-      images: ['search_earbuds.png', 'prod_headphones.png'],
+      images: ['assets/images/products/search_earbuds.png', 'assets/images/products/prod_headphones.png'],
       colors: ['Matte Black', 'Obsidian Slate'],
       sizes: ['Standard Fit'],
       breadcrumb: [{ label: 'Acoustics', href: 'category.html?cat=acoustics' }, { label: 'Earbuds', href: 'category.html?cat=acoustics' }]
@@ -102,7 +102,7 @@
       material: '100% Full-grain calfskin upper and lining. Natural rubber cupsole. Wipe with damp cloth.',
       sizing: 'European sizing. Fits true to size; if between sizes, choose the smaller size.',
       shipping: 'Express Next Day delivery available. Includes dual dust bags and spare waxed cotton laces.',
-      images: ['prod_runner.png', 'sweater_texture.png'],
+      images: ['assets/images/products/prod_runner.png', 'assets/images/products/sweater_texture.png'],
       colors: ['Pure White', 'Triple Black', 'Chalk / Gum'],
       sizes: ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
       breadcrumb: [{ label: 'Footwear', href: 'category.html?cat=footwear' }, { label: 'Sneakers', href: 'category.html?cat=footwear' }]
@@ -118,7 +118,7 @@
       material: '100% Full-grain nappa leather. Microsuede lining. Solid brass hardware with protective coating.',
       sizing: 'Accommodates up to a 14-inch laptop with dedicated tablet pocket and zipped central divider.',
       shipping: 'Express Next Day delivery available. Includes silk-blend dust bag and leather conditioner sample.',
-      images: ['prod_tote.png', 'search_watch.png'],
+      images: ['assets/images/products/prod_tote.png', 'assets/images/products/search_watch.png'],
       colors: ['Noir Black', 'Oxblood Burgundy', 'Caramel Tan'],
       sizes: ['Medium Tote'],
       breadcrumb: [{ label: 'Accessories', href: 'category.html?cat=accessories' }, { label: 'Bags & Totes', href: 'category.html?cat=accessories' }]
@@ -134,7 +134,7 @@
       material: 'Grade 5 Titanium, double-domed sapphire crystal with anti-reflective coating, Italian calfskin strap.',
       sizing: 'Universal 40mm case diameter with 20mm quick-release Italian leather strap.',
       shipping: 'Express Next Day insured delivery available. Solid walnut presentation box and 3-year warranty card included.',
-      images: ['search_watch.png', 'prod_tote.png'],
+      images: ['assets/images/products/search_watch.png', 'assets/images/products/prod_tote.png'],
       colors: ['Matte Titanium', 'Midnight DLC'],
       sizes: ['40mm Case'],
       breadcrumb: [{ label: 'Accessories', href: 'category.html?cat=accessories' }, { label: 'Timepieces', href: 'category.html?cat=accessories' }]
@@ -178,7 +178,7 @@
         category: product.category,
         price: product.price,
         formattedPrice: product.formattedPrice || ('BDT ' + product.price.toLocaleString()),
-        image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : 'hero_sweater.png'
+        image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : 'assets/images/products/hero_sweater.png'
       });
       if (recents.length > 8) recents = recents.slice(0, 8);
       localStorage.setItem(RECENTS_KEY, JSON.stringify(recents));
@@ -188,7 +188,7 @@
     const breadcrumbEl = document.querySelector('.pdp-breadcrumb');
     if (breadcrumbEl) {
       const crumbs = product.breadcrumb.map(c => '<a href="' + c.href + '">' + escapeHtml(c.label) + '</a>').join('<span>/</span>');
-      breadcrumbEl.innerHTML = '<a href="index.html">Home</a><span>/</span>' + crumbs + '<span>/</span><span class="pdp-breadcrumb-active">' + escapeHtml(product.name) + '</span>';
+      breadcrumbEl.innerHTML = '<a href="../index.html">Home</a><span>/</span>' + crumbs + '<span>/</span><span class="pdp-breadcrumb-active">' + escapeHtml(product.name) + '</span>';
     }
 
     // Gallery

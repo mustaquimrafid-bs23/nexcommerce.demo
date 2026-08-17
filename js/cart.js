@@ -5,6 +5,13 @@ function escapeHtml(str) {
   return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function _resolvePage(page) {
+  const isSubpage = window.location.pathname.includes('/pages/') || window.location.pathname.endsWith('/pages');
+  if (page === 'index.html') return isSubpage ? '../index.html' : 'index.html';
+  return isSubpage ? page : 'pages/' + page;
+}
+window._resolvePage = _resolvePage;
+
 // ─── Cart-page Coupon Engine ────────────────────────────────────────────────
 // TODO: Wire to real promotions API
 const CART_PROMO_CODES = {
@@ -125,11 +132,11 @@ const CartState = {
   },
 
   getTotal() {
-    return this.items.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+    return this.items.reduce((sum, i) => sum + (Number(i.price) || 0) * (parseInt(i.quantity || i.qty, 10) || 1), 0);
   },
 
   getTotalCount() {
-    return this.items.reduce((sum, i) => sum + i.quantity, 0);
+    return this.items.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty, 10) || 1), 0);
   },
 
   bindEvents() {
@@ -348,7 +355,7 @@ const CartState = {
       mcBody.innerHTML = '<div class="minicart-empty">'
         + '<h3>Your bag is empty.</h3>'
         + '<p>Discover pieces selected around how you want to shop.</p>'
-        + '<a href="discovery.html" class="btn-primary-commerce" onclick="nexCart.closeMiniCart()">EXPLORE DISCOVERY &rarr;</a>'
+        + '<a href="' + _resolvePage('discovery.html') + '" class="btn-primary-commerce" onclick="nexCart.closeMiniCart()">EXPLORE DISCOVERY &rarr;</a>'
         + '</div>';
       if (mcFooter) mcFooter.style.display = 'none';
       return;

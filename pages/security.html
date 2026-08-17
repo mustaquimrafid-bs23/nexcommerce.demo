@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authenticity, Trust &amp; Security Architecture — nexCommerce</title>
+  <meta name="description" content="Explore nexCommerce atelier cryptographic provenance, 256-bit settlement security, and zero-knowledge client privacy architecture.">
+  <meta name="view-transition" content="same-origin" />
+
+  <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=6">
+</head>
+<body class="tracking-page-bg">
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <span>Concierge</span>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        </a>
+
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="security.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="shield-check"></i>
+              <span>Security &amp; Trust</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="foundation.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="landmark"></i>
+              <span>Atelier Foundation</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    </div>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">0</span>)</a>
+    <a href="orders.html" class="mobile-drawer-link">Order Journey</a>
+    <a href="security.html" class="mobile-drawer-link">Security &amp; Trust</a>
+    <a href="foundation.html" class="mobile-drawer-link">The Maison</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+  </div>
+
+  <main>
+    <div class="security-page-wrap">
+
+      <!-- HERO / HEADER -->
+      <div class="security-header-wrap">
+        <span class="account-tier-badge" style="margin-bottom: 8px;">
+          <i data-lucide="shield-check" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
+          <span>ATELIER CRYPTOGRAPHIC TRUST &amp; PROVENANCE</span>
+        </span>
+        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Authenticity &amp; Security Architecture</h1>
+        <p class="profile-subhead" style="max-width: 720px;">
+          Every garment, acoustic instrument, and artisanal timepiece in our maison is anchored with immutable cryptographic provenance, zero-knowledge biometric protection, and bank-grade 256-bit financial settlement.
+        </p>
+      </div>
+
+      <!-- INTERACTIVE CERTIFICATE / SERIAL VERIFIER WIDGET -->
+      <div class="security-verifier-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 4px;">LIVE CERTIFICATE VERIFICATION</span>
+            <h2 style="font-family: var(--font-serif); font-size: 28px; color: #FFFFFF; font-weight: 400; margin: 0;">Inspect Physical Atelier Provenance</h2>
+          </div>
+          <button type="button" class="btn-secondary-action" style="height: 36px; font-size: 11px; padding: 0 14px;" onclick="fillSampleSerial()">
+            <span>FILL SAMPLE (NX-AUTH-9428)</span>
+          </button>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 12px 0 0; max-width: 680px;">
+          Enter the unique 10-character cryptographic serial code woven into your garment's physical label or tap your NFC-enabled device to verify origin, artisan signature, and finishing timestamps.
+        </p>
+
+        <form id="verifierForm" class="security-verifier-input-wrap" onsubmit="event.preventDefault(); verifySerial();">
+          <input type="text" id="serialInput" class="security-verifier-input" placeholder="e.g. NX-AUTH-9428" required aria-label="Cryptographic serial number" />
+          <button type="submit" class="btn-primary-commerce" style="height: 48px; padding: 0 28px; display: inline-flex; align-items: center; gap: 8px;">
+            <i data-lucide="fingerprint" style="width: 15px; height: 15px;"></i>
+            <span>VERIFY CERTIFICATE</span>
+          </button>
+        </form>
+
+        <!-- VERIFIED CERTIFICATE RESULT BOX -->
+        <div id="certificateResultBox" class="security-cert-box">
+          <div class="security-cert-seal">
+            <i data-lucide="check" style="width: 26px; height: 26px;"></i>
+          </div>
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #00E096; margin-bottom: 4px;">
+            ✦ CRYPTOGRAPHICALLY AUTHENTICATED
+          </div>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; margin: 0 0 14px; font-weight: 400;" id="certItemTitle">
+            Double-Breasted Wool Overcoat
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font-size: 12px; margin-bottom: 16px;">
+            <div>
+              <span style="color: var(--text-secondary); display: block;">Maison Atelier:</span>
+              <strong style="color: #FFFFFF;" id="certAtelier">Milan Tailoring Studio #4</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-secondary); display: block;">Master Artisan:</span>
+              <strong style="color: #FFFFFF;" id="certArtisan">G. Moretti (Chief Tailor)</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-secondary); display: block;">Finishing Timestamp:</span>
+              <strong style="color: #FFFFFF;" id="certTimestamp">August 12, 2026 · 16:42 CET</strong>
+            </div>
+          </div>
+          <div style="font-family: var(--font-mono, monospace); font-size: 11px; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 4px;">
+            Ledger Hash: <span style="color: var(--accent-cyan);" id="certHash">0x8f4c2e...b991 · Block #882,914</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUR PILLARS OF SOVEREIGNTY -->
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan);">THE FOUR PILLARS</span>
+        <h2 style="font-family: var(--font-serif); font-size: 36px; color: #FFFFFF; font-weight: 400; margin-top: 6px;">Atelier Sovereignty Architecture</h2>
+      </div>
+
+      <div class="security-pillars-grid">
+        <!-- Pillar 1 -->
+        <div class="security-pillar-card">
+          <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.25); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); margin-bottom: 20px;">
+            <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">Immutable Cryptographic Provenance</h3>
+          <p style="font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin: 0;">
+            Every piece is encoded with a tamper-proof NFC thread and paired with a decentralized ledger certificate, guaranteeing 100% authenticity, material lineage, and ethical workshop certification.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="security-pillar-card">
+          <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(0, 224, 150, 0.1); border: 1px solid rgba(0, 224, 150, 0.25); display: flex; align-items: center; justify-content: center; color: #00E096; margin-bottom: 20px;">
+            <i data-lucide="lock" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">256-Bit Financial Settlement</h3>
+          <p style="font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin: 0;">
+            All financial transactions are tokenized via PCI-DSS Tier 1 standards. Payment data is never retained in plain text across bKash, Nagad, Visa, or Mastercard private settlement gateways.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="security-pillar-card">
+          <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.25); display: flex; align-items: center; justify-content: center; color: #FFAA00; margin-bottom: 20px;">
+            <i data-lucide="eye-off" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">Zero-Knowledge Client Privacy</h3>
+          <p style="font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin: 0;">
+            Your anatomical sizing metrics, private wardrobe preferences, and residential delivery coordinates are secured with zero-knowledge encryption. We never broker or monetize client identity.
+          </p>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="security-pillar-card">
+          <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(255, 75, 75, 0.1); border: 1px solid rgba(255, 75, 75, 0.25); display: flex; align-items: center; justify-content: center; color: #FF4B4B; margin-bottom: 20px;">
+            <i data-lucide="package-check" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">White-Glove Chain of Custody</h3>
+          <p style="font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin: 0;">
+            From atelier packaging to your doorstep, parcels are sealed with physical tamper-evident security labels and handled exclusively by vetted maison courier specialists.
+          </p>
+        </div>
+      </div>
+
+      <!-- COMPLIANCE & AUDIT CREDENTIALS -->
+      <div class="security-audits-row">
+        <div class="security-audit-badge">
+          <div style="font-family: var(--font-mono, monospace); font-size: 13px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">ISO/IEC 27001</div>
+          <div style="font-size: 11px; color: var(--text-secondary);">Information Security Management</div>
+        </div>
+        <div class="security-audit-badge">
+          <div style="font-family: var(--font-mono, monospace); font-size: 13px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">SOC 2 TYPE II</div>
+          <div style="font-size: 11px; color: var(--text-secondary);">Security, Privacy &amp; Availability</div>
+        </div>
+        <div class="security-audit-badge">
+          <div style="font-family: var(--font-mono, monospace); font-size: 13px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">PCI-DSS TIER 1</div>
+          <div style="font-size: 11px; color: var(--text-secondary);">Encrypted Payment Infrastructure</div>
+        </div>
+        <div class="security-audit-badge">
+          <div style="font-family: var(--font-mono, monospace); font-size: 13px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">GDPR COMPLIANT</div>
+          <div style="font-size: 11px; color: var(--text-secondary);">Zero-Knowledge Data Sovereignty</div>
+        </div>
+      </div>
+
+      <!-- CONCIERGE INTEGRATION BRIDGE -->
+      <div class="profile-concierge-card">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">PRIVATE CLIENT TRUST OFFICER</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Inquiries Regarding Authentication or Data?</div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Contact our trust and cryptographic security desk for certificate validation, enterprise compliance reports, or private ledger audits.</p>
+        </div>
+        <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
+          <span>CONTACT TRUST DESK</span>
+          <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Private Edit -->
+        <div class="footer-brand-col">
+          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
+          </a>
+          <p class="footer-brand-desc">
+            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
+          </p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">The Private Edit</span>
+            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Collections -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">COLLECTIONS</span>
+          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
+          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
+          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
+        </div>
+
+        <!-- Col 3: Client Services -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CLIENT SERVICES</span>
+          <a href="orders.html" class="footer-link-item">Order Journey</a>
+          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
+          <a href="wishlist.html" class="footer-link-item">Saved Pieces</a>
+          <a href="size-guide.html" class="footer-link-item">Size &amp; Fit Guide</a>
+        </div>
+
+        <!-- Col 4: The Maison -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">THE MAISON</span>
+          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
+          <a href="security.html" class="footer-link-item">Authenticity &amp; Trust</a>
+          <a href="account.html" class="footer-link-item">Client Account</a>
+          <a href="foundation.html#privacy" class="footer-link-item">Privacy &amp; Terms</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Dhaka (EN)</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <div class="payment-logo-badge" title="bKash">
+            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Visa">
+            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer >
+
+  <!-- CDNs & Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/theme-switcher.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    var CERTIFICATES_DB = {
+      'NX-AUTH-9428': {
+        title: 'Double-Breasted Wool Overcoat',
+        atelier: 'Milan Tailoring Studio #4',
+        artisan: 'G. Moretti (Master Tailor)',
+        timestamp: 'August 12, 2026 · 16:42 CET',
+        hash: '0x8f4c2e99a12c44df · Block #882,914'
+      },
+      'NX-AUTH-8712': {
+        title: 'Planar Magnetic Studio Headphones',
+        atelier: 'Copenhagen Acoustic Lab #2',
+        artisan: 'H. Lindberg (Principal Acoustician)',
+        timestamp: 'July 24, 2026 · 11:15 CET',
+        hash: '0x3d7b99e155c829aa · Block #879,402'
+      },
+      'NX-AUTH-7601': {
+        title: 'Minimalist Leather Runner',
+        atelier: 'Civitanova Marche Leather Workshop',
+        artisan: 'R. Conti (Cordwainer)',
+        timestamp: 'June 10, 2026 · 14:08 CET',
+        hash: '0x99a1f22e77cc8190 · Block #864,115'
+      }
+    };
+
+    function fillSampleSerial() {
+      var input = document.getElementById('serialInput');
+      if (input) {
+        input.value = 'NX-AUTH-9428';
+        verifySerial();
+      }
+    }
+
+    function verifySerial() {
+      var input = document.getElementById('serialInput');
+      var resultBox = document.getElementById('certificateResultBox');
+      if (!input || !resultBox) return;
+
+      var serial = input.value.trim().toUpperCase();
+      var cert = CERTIFICATES_DB[serial];
+
+      if (!cert) {
+        // Dynamic fallback certificate calculation for any input
+        cert = {
+          title: 'Atelier Bespoke Commission',
+          atelier: 'Maison Finishing Studio #1',
+          artisan: 'Certified Master Artisan',
+          timestamp: 'Verified Live on ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+          hash: '0x' + Math.random().toString(16).substring(2, 18) + ' · Block #885,000+'
+        };
+      }
+
+      document.getElementById('certItemTitle').textContent = cert.title;
+      document.getElementById('certAtelier').textContent = cert.atelier;
+      document.getElementById('certArtisan').textContent = cert.artisan;
+      document.getElementById('certTimestamp').textContent = cert.timestamp;
+      document.getElementById('certHash').textContent = cert.hash;
+
+      resultBox.style.display = 'block';
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

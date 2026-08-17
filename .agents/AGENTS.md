@@ -25,6 +25,7 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 
 ### Full Stack Development — Preferred Stack
 > See `.agents/rules/tech-stack-and-engineering-standards.md` for the full canonical stack reference.
+> See `.agents/rules/workspace-organization-standards.md` for workspace directory layout and path standards.
 
 - **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
 - **Backend**: Node.js / NestJS + TypeScript (primary), ASP.NET Core / C# (secondary)

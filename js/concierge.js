@@ -303,7 +303,7 @@ function initConciergeLogic() {
         name: title || 'Curated Item',
         price: price || 18400,
         qty: 1,
-        image: img || 'hero_sweater.png'
+        image: img || 'assets/images/products/hero_sweater.png'
       });
     }
 

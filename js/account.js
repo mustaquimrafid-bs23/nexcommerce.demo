@@ -677,7 +677,7 @@ function renderSignedOutState(container) {
         <button type="submit" class="btn-primary-commerce" style="height: 52px; margin-top: 8px;">SIGN IN</button>
       </form>
 
-      <a href="index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none; margin-top: 24px;">CONTINUE AS GUEST &rarr;</a>
+      <a href="../index.html" style="font-family: var(--font-body); font-size: 13px; color: var(--accent-cyan); text-decoration: none; margin-top: 24px;">CONTINUE AS GUEST &rarr;</a>
     </div>
   `;
 }

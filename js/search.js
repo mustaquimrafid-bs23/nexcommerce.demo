@@ -3,12 +3,12 @@ import { renderProductCard } from './components.js';
 
 export const SmartSearch = {
   products: [
-    { id: 'p1', name: 'Acoustic Studio Headphones', price: 28500, category: 'acoustics', image: 'p1.png', tag: 'Core Collection' },
-    { id: 'p2', name: 'Architectural Cashmere Sweater', price: 18400, category: 'apparel', image: 'p2.png', tag: 'New Arrival' },
-    { id: 'p3', name: 'Minimalist Chronograph Timepiece', price: 42000, category: 'accessories', image: 'p3.png', tag: 'Limited Drop' },
-    { id: 'p4', name: 'Performance Knit Runner', price: 16500, category: 'footwear', image: 'p4.png', tag: 'Best Seller' },
-    { id: 'p5', name: 'Structured Wool Overcoat', price: 34000, category: 'apparel', image: 'p5.png' },
-    { id: 'p6', name: 'Wireless Precision Earbuds', price: 14500, category: 'acoustics', image: 'p6.png' }
+    { id: 'p1', name: 'Acoustic Studio Headphones', price: 28500, category: 'acoustics', image: 'assets/images/products/p1.png', tag: 'Core Collection' },
+    { id: 'p2', name: 'Architectural Cashmere Sweater', price: 18400, category: 'apparel', image: 'assets/images/products/p2.png', tag: 'New Arrival' },
+    { id: 'p3', name: 'Minimalist Chronograph Timepiece', price: 42000, category: 'accessories', image: 'assets/images/products/p3.png', tag: 'Limited Drop' },
+    { id: 'p4', name: 'Performance Knit Runner', price: 16500, category: 'footwear', image: 'assets/images/products/p4.png', tag: 'Best Seller' },
+    { id: 'p5', name: 'Structured Wool Overcoat', price: 34000, category: 'apparel', image: 'assets/images/products/p5.png' },
+    { id: 'p6', name: 'Wireless Precision Earbuds', price: 14500, category: 'acoustics', image: 'assets/images/products/p6.png' }
   ],
 
   init() {

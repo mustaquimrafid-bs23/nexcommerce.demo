@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private Concierge &amp; Client Services Desk — nexCommerce</title>
+  <meta name="description" content="Connect with nexCommerce bespoke styling advisors, white-glove logistics concierges, and master tailoring ateliers.">
+  <meta name="view-transition" content="same-origin" />
+
+  <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=6">
+</head>
+<body class="tracking-page-bg">
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <span>Concierge</span>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        </a>
+
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headset"></i>
+              <span>Client Services</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="foundation.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="landmark"></i>
+              <span>Atelier Foundation</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    </div>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">0</span>)</a>
+    <a href="orders.html" class="mobile-drawer-link">Order Journey</a>
+    <a href="contact.html" class="mobile-drawer-link">Client Services</a>
+    <a href="foundation.html" class="mobile-drawer-link">The Maison</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+  </div>
+
+  <main>
+    <div class="contact-page-wrap">
+
+      <!-- HERO / HEADER -->
+      <div class="contact-header-wrap">
+        <span class="account-tier-badge" style="margin-bottom: 8px;">
+          <i data-lucide="sparkles" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
+          <span>PRIVATE CLIENT SERVICES &amp; ATELIER CONCIERGE</span>
+        </span>
+        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Private Concierge &amp; Client Desk</h1>
+        <p class="profile-subhead" style="max-width: 720px;">
+          Direct access to our master tailors, white-glove logistics dispatchers, and digital style advisors. Available 24 hours a day for bespoke commissions, courier scheduling, and private consultations.
+        </p>
+      </div>
+
+      <!-- 3 DEDICATED SERVICE CHANNEL CARDS -->
+      <div class="contact-channels-grid">
+        <!-- Channel 1 -->
+        <div class="contact-channel-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div style="width: 44px; height: 44px; border-radius: 8px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.25); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan);">
+                <i data-lucide="sparkles" style="width: 22px; height: 22px;"></i>
+              </div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #00E096; background: rgba(0, 224, 150, 0.1); padding: 4px 8px; border-radius: 4px;">LIVE · 24/7</span>
+            </div>
+            <h3 style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; font-weight: 400; margin: 0 0 8px;">Bespoke Styling Concierge</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 20px;">
+              Virtual appointments, proportion analysis, silhouette pairing, and made-to-measure tailoring consultations.
+            </p>
+          </div>
+          <a href="concierge.html" class="btn-primary-commerce" style="height: 42px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>LAUNCH STYLING CHAT</span>
+            <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+          </a>
+        </div>
+
+        <!-- Channel 2 -->
+        <div class="contact-channel-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div style="width: 44px; height: 44px; border-radius: 8px; background: rgba(0, 224, 150, 0.1); border: 1px solid rgba(0, 224, 150, 0.25); display: flex; align-items: center; justify-content: center; color: #00E096;">
+                <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
+              </div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-cyan); background: rgba(0, 210, 255, 0.1); padding: 4px 8px; border-radius: 4px;">&lt; 15 MIN SLA</span>
+            </div>
+            <h3 style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; font-weight: 400; margin: 0 0 8px;">White-Glove Logistics Desk</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 20px;">
+              Delivery rescheduling, residential gate access coordination, and tamper-evident packaging inquiries.
+            </p>
+          </div>
+          <a href="tracking.html" class="btn-secondary-action" style="height: 42px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>TRACK COURIER LIVE</span>
+            <i data-lucide="navigation" style="width: 13px; height: 13px;"></i>
+          </a>
+        </div>
+
+        <!-- Channel 3 -->
+        <div class="contact-channel-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div style="width: 44px; height: 44px; border-radius: 8px; background: rgba(255, 170, 0, 0.1); border: 1px solid rgba(255, 170, 0, 0.25); display: flex; align-items: center; justify-content: center; color: #FFAA00;">
+                <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
+              </div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #FFAA00; background: rgba(255, 170, 0, 0.1); padding: 4px 8px; border-radius: 4px;">TRUST &amp; LEGAL</span>
+            </div>
+            <h3 style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; font-weight: 400; margin: 0 0 8px;">Private Client Trust &amp; Legal</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 20px;">
+              Cryptographic ledger verification, VAT refund statements, alteration covenants, and enterprise compliance.
+            </p>
+          </div>
+          <a href="security.html" class="btn-secondary-action" style="height: 42px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>INSPECT PROVENANCE</span>
+            <i data-lucide="fingerprint" style="width: 13px; height: 13px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE DISPATCH INQUIRY FORM -->
+      <div class="contact-form-card">
+        <div style="margin-bottom: 28px;">
+          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 4px;">DIRECT DISPATCH PORTAL</span>
+          <h2 style="font-family: var(--font-serif); font-size: 32px; color: #FFFFFF; font-weight: 400; margin: 0;">Submit a Private Atelier Inquiry</h2>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 8px 0 0;">Our private client liaisons will review your request and respond via secure message and WhatsApp.</p>
+        </div>
+
+        <form id="inquiryForm" onsubmit="event.preventDefault(); submitInquiry();">
+          <div class="contact-input-row">
+            <div>
+              <label style="display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">Full Client Name</label>
+              <input type="text" id="clientName" class="contact-input-field" placeholder="e.g. Eleanor Vance" required />
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">Client Email Address</label>
+              <input type="email" id="clientEmail" class="contact-input-field" placeholder="e.g. eleanor@vance-atelier.com" required />
+            </div>
+          </div>
+
+          <div class="contact-input-row">
+            <div>
+              <label style="display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">Inquiry Domain</label>
+              <select id="inquiryDomain" class="contact-input-field" style="background: rgba(4, 13, 29, 0.9); cursor: pointer;">
+                <option value="styling">Bespoke Commission &amp; Tailoring Consultation</option>
+                <option value="logistics">Order Logistics &amp; Courier Delivery Schedule</option>
+                <option value="alterations">Complimentary Alteration Request</option>
+                <option value="provenance">Cryptographic Provenance &amp; Certificate Audit</option>
+                <option value="private">Private Client Membership &amp; Access</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">Order Reference (Optional)</label>
+              <input type="text" id="orderRef" class="contact-input-field" placeholder="e.g. ORD-9428-NX" />
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px;">Inquiry Details &amp; Specifications</label>
+            <textarea id="inquiryMessage" class="contact-textarea-field" placeholder="Please outline your tailoring requirements, delivery scheduling preferences, or bespoke requests..." required></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="font-size: 12px; color: var(--text-secondary);">
+              <i data-lucide="lock" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px; color: var(--accent-cyan);"></i>
+              <span>Secured with end-to-end client encryption &middot; Zero data brokerage</span>
+            </div>
+            <button type="submit" class="btn-primary-commerce" style="height: 48px; padding: 0 32px; display: inline-flex; align-items: center; gap: 8px;">
+              <span>DISPATCH INQUIRY</span>
+              <i data-lucide="send" style="width: 14px; height: 14px;"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- TICKET CONFIRMATION BOX (HIDDEN BY DEFAULT) -->
+        <div id="ticketConfirmationBox" style="display: none; background: rgba(4, 13, 29, 0.7); border: 1px solid rgba(0, 224, 150, 0.3); border-radius: 8px; padding: 24px; margin-top: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 224, 150, 0.15); display: flex; align-items: center; justify-content: center; color: #00E096;">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            </div>
+            <div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #00E096;">INQUIRY DISPATCHED TO ATELIER</span>
+              <div style="font-family: var(--font-mono, monospace); font-size: 15px; font-weight: 700; color: #FFFFFF;" id="ticketRefDisplay">TKT-8842-NX</div>
+            </div>
+          </div>
+          <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0;">
+            Thank you, <strong style="color: #FFFFFF;" id="confirmedClientName">Client</strong>. Your inquiry has been routed to our dedicated atelier desk. A liaison has been assigned and will reply within 15 minutes.
+          </p>
+        </div>
+      </div>
+
+      <!-- PHYSICAL ATELIER DIRECTORY -->
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan);">PHYSICAL LOCATIONS</span>
+        <h2 style="font-family: var(--font-serif); font-size: 36px; color: #FFFFFF; font-weight: 400; margin-top: 6px;">Maison &amp; Finishing Studios</h2>
+      </div>
+
+      <div class="contact-ateliers-grid">
+        <!-- Dhaka Atelier -->
+        <div class="contact-atelier-card">
+          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">FLAGSHIP ATELIER &amp; DISPATCH</span>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">Dhaka Atelier &middot; Gulshan 2</h3>
+          <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 16px;">
+            Level 8, Concord Tower, Gulshan Avenue, Dhaka 1212, Bangladesh.<br />
+            Private tailoring appointments: Daily, 10:00 AM &ndash; 8:00 PM BST.
+          </p>
+          <div style="font-family: var(--font-mono, monospace); font-size: 12px; color: #FFFFFF;">
+            Direct Concierge: <span style="color: var(--accent-cyan);">+880 1700 889900</span>
+          </div>
+        </div>
+
+        <!-- Milan Studio -->
+        <div class="contact-atelier-card">
+          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">MASTER TAILORING STUDIO</span>
+          <h3 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin: 0 0 10px;">Milan Finishing Studio &middot; Quadrilatero</h3>
+          <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 16px;">
+            Via Montenapoleone 18, 20121 Milano, Italy.<br />
+            Artisanal commission cutting &amp; textile sourcing: Mon &ndash; Fri, 9:00 AM &ndash; 6:00 PM CET.
+          </p>
+          <div style="font-family: var(--font-mono, monospace); font-size: 12px; color: #FFFFFF;">
+            Studio Desk: <span style="color: var(--accent-cyan);">+39 02 8842 1190</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Private Edit -->
+        <div class="footer-brand-col">
+          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
+          </a>
+          <p class="footer-brand-desc">
+            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
+          </p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">The Private Edit</span>
+            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Collections -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">COLLECTIONS</span>
+          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
+          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
+          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
+        </div>
+
+        <!-- Col 3: Client Services -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CLIENT SERVICES</span>
+          <a href="contact.html" class="footer-link-item">Private Concierge</a>
+          <a href="orders.html" class="footer-link-item">Order Journey</a>
+          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
+          <a href="wishlist.html" class="footer-link-item">Saved Pieces</a>
+          <a href="size-guide.html" class="footer-link-item">Size &amp; Fit Guide</a>
+        </div>
+
+        <!-- Col 4: The Maison -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">THE MAISON</span>
+          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
+          <a href="contact.html" class="footer-link-item">Client Services</a>
+          <a href="terms.html" class="footer-link-item">Terms of Engagement</a>
+          <a href="security.html" class="footer-link-item">Authenticity &amp; Trust</a>
+          <a href="privacy.html" class="footer-link-item">Privacy &amp; Data</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Dhaka (EN)</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <div class="payment-logo-badge" title="bKash">
+            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Visa">
+            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs & Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/theme-switcher.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    function submitInquiry() {
+      var nameInput = document.getElementById('clientName');
+      var name = nameInput ? nameInput.value.trim() : 'Private Client';
+      var ticketBox = document.getElementById('ticketConfirmationBox');
+      var ticketRef = document.getElementById('ticketRefDisplay');
+      var nameDisplay = document.getElementById('confirmedClientName');
+
+      var randomId = 'TKT-' + Math.floor(1000 + Math.random() * 9000) + '-NX';
+
+      if (ticketRef) ticketRef.textContent = randomId;
+      if (nameDisplay) nameDisplay.textContent = name;
+      if (ticketBox) ticketBox.style.display = 'block';
+
+      if (window.lucide) window.lucide.createIcons();
+
+      var form = document.getElementById('inquiryForm');
+      if (form) form.reset();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

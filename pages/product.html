@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architectural Cashmere Sweater &mdash; nexCommerce</title>
+  <meta name="description" content="Precision-crafted luxury apparel, acoustics, and timepieces at nexCommerce.">
+
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=4">
+</head>
+<body>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>Concierge</span>
+        </button>
+
+        <a href="discovery.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="discovery.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="heart"></i>
+              <span>Saved Wishlist</span>
+            </a>
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    </div>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
+    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
+    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
+  </div>
+
+
+  <!-- PART 5 PDP MAIN SECTION -->
+  <main class="container pdp-section reveal-on-scroll">
+    <!-- Breadcrumb -->
+    <nav class="pdp-breadcrumb" aria-label="Breadcrumb navigation">
+      <a href="../index.html">Home</a>
+      <span>/</span>
+      <a href="../index.html">Apparel</a>
+      <span>/</span>
+      <a href="../index.html">Sweaters</a>
+      <span>/</span>
+      <span class="pdp-breadcrumb-active">Architectural Cashmere Sweater</span>
+    </nav>
+
+    <!-- AI Context Retention Bar (Populated by js/pdp.js) -->
+    <div id="pdpContextRetentionBar" class="pdp-retention-bar" style="display:none;" role="status">
+      <div class="pdp-retention-left">
+        <i data-lucide="sparkles" class="pdp-retention-icon" style="width: 14px; height: 14px;"></i>
+        <span class="pdp-retention-text" id="pdpRetentionText"></span>
+      </div>
+      <button class="pdp-retention-clear" id="pdpRetentionClearBtn" aria-label="Clear search context" style="display: inline-flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 14px; height: 14px;"></i></button>
+    </div>
+
+    <div class="pdp-grid">
+      <!-- Gallery Left -->
+      <div class="pdp-gallery-wrap">
+        <div class="pdp-thumb-strip">
+          <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater Angle 1" class="pdp-thumb-img active">
+          <img src="../assets/images/products/sweater_texture.png" alt="Architectural Cashmere Sweater Texture Detail" class="pdp-thumb-img">
+          <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Architectural Cashmere Sweater Lifestyle" class="pdp-thumb-img">
+        </div>
+        <div class="pdp-main-image-box">
+          <img id="pdpMainImg" src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater">
+        </div>
+      </div>
+
+      <!-- Buy Box Right -->
+      <div class="pdp-buy-box">
+        <div>
+          <span class="pdp-category-eyebrow">APPAREL</span>
+          <h1 class="pdp-product-title">Architectural Cashmere Sweater</h1>
+          <div class="pdp-price-tag" style="margin-top: 6px;">BDT 18,400</div>
+        </div>
+
+        <p class="pdp-short-desc">
+          Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.
+        </p>
+
+        <!-- Variant Swatch: Color -->
+        <div class="pdp-swatch-group">
+          <span class="pdp-label">Color: <strong style="color: var(--text-primary);">Midnight</strong></span>
+          <div class="pdp-swatches-row">
+            <button class="btn-secondary-action" style="border-color: var(--text-primary); font-weight: 600;">Midnight</button>
+            <button class="btn-secondary-action" style="opacity: 0.7;">Stone</button>
+            <button class="btn-secondary-action" style="opacity: 0.7;">Charcoal</button>
+          </div>
+        </div>
+
+        <!-- Size Selector & AI Fit Assistant -->
+        <div class="pdp-swatch-group">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span class="pdp-label">Size</span>
+            <!-- Level 2 Secondary Action: AI Fit Assistant Button -->
+            <button id="btnFitAssistant" class="btn-secondary-action" style="height: 36px; padding: 0 12px; font-size: 11px;">
+              <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>FIND MY SIZE
+            </button>
+          </div>
+
+          <div class="pdp-swatches-row pdp-sizes-row">
+            <button class="pdp-size-btn" data-size="S">S</button>
+            <button class="pdp-size-btn selected" data-size="M">M</button>
+            <button class="pdp-size-btn" data-size="L">L</button>
+            <button class="pdp-size-btn" data-size="XL">XL</button>
+          </div>
+        </div>
+
+        <div id="pdpContextMatchBox" style="display:none;"></div>
+
+        <!-- Primary Commerce CTA Button -->
+        <button id="btnMainPdpAdd" class="btn-primary-commerce btn-pdp-add-to-bag" style="width: 100%; height: 52px; margin-top: 8px;">
+          ADD TO BAG
+        </button>
+
+        <!-- Delivery & Terms -->
+        <div class="pdp-terms-row">
+          <div>&#10003; Express Next Day Delivery available (Free on orders over BDT 20,000)</div>
+          <div>&#10003; Easy 7-day returns included</div>
+        </div>
+
+        <div style="margin-top: 8px;">
+          <a href="../index.html" class="link-text-nav">See another option &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsible Product Details Accordion -->
+    <div class="pdp-accordion-group reveal-on-scroll">
+      <div class="pdp-accordion-item">
+        <button class="pdp-accordion-header">
+          <span>PRODUCT DETAILS</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="pdp-accordion-body" id="accordionDetailsBody">
+          Precision-knitted from 100% Mongolian cashmere featuring ribbed trims, drop shoulder seams, and breathable thermal regulation. Designed specifically for cool evening transitions.
+        </div>
+      </div>
+
+      <div class="pdp-accordion-item">
+        <button class="pdp-accordion-header">
+          <span>MATERIAL & CARE</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="pdp-accordion-body" id="accordionMaterialBody">
+          100% Grade-A 2-Ply Mongolian Cashmere. Dry clean only. Store folded in a cool, dry place.
+        </div>
+      </div>
+
+      <div class="pdp-accordion-item">
+        <button class="pdp-accordion-header">
+          <span>FIT & SILHOUETTE</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="pdp-accordion-body" id="accordionSizingBody">
+          Relaxed architectural fit. True to size for standard layering; choose one size smaller for a close-to-body silhouette.
+        </div>
+      </div>
+    </div>
+
+    <!-- EDITORIAL "COMPLETE THE LOOK" SECTION -->
+    <section id="pdpCompleteLookSection" class="pdp-complete-look-section reveal-on-scroll">
+      <div class="pdp-complete-look-header">
+        <div>
+          <span class="pdp-complete-look-eyebrow">
+            <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
+            CURATED STYLING &middot; COMPLETE THE LOOK
+          </span>
+          <h2 class="pdp-complete-look-title">Style With Enduring Essentials</h2>
+          <p class="pdp-complete-look-sub">Hand-selected pairings calibrated for seamless layering, proportion, and texture harmony.</p>
+        </div>
+
+        <div class="pdp-bundle-quick-checkout">
+          <div class="pdp-bundle-pricing">
+            <span class="pdp-bundle-original-price" id="pdpBundleOriginalPrice">BDT 0</span>
+            <span class="pdp-bundle-discount-badge">SAVE 10%</span>
+            <span class="pdp-bundle-final-price" id="pdpBundleFinalPrice">BDT 0</span>
+          </div>
+          <button id="btnAddCompleteLookBtn" class="btn-primary-commerce pdp-bundle-btn">
+            <i data-lucide="shopping-bag" style="width: 14px; height: 14px; margin-right: 8px;"></i>
+            <span id="pdpBundleBtnText">ADD ENTIRE LOOK (3 PIECES)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3-Piece Styled Grid -->
+      <div id="pdpCompleteLookGrid" class="pdp-complete-look-grid">
+        <!-- Populated dynamically by js/pdp.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- SMART SIZE & FIT ADVISOR MODAL -->
+  <div id="fitModal" class="fit-modal-container" role="dialog" aria-modal="true" aria-label="Smart Size &amp; Fit Advisor">
+    <div class="fit-modal-backdrop"></div>
+    <div class="fit-modal-panel">
+      <!-- Modal Header -->
+      <div class="fit-modal-header">
+        <div class="fit-modal-badge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
+          <span>SMART SIZE &amp; FIT ADVISOR</span>
+        </div>
+        <button class="fit-modal-close" aria-label="Close Size Advisor">&times;</button>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <div class="fit-modal-intro">
+        <h3 class="fit-modal-heading">Find Your Ideal Fit</h3>
+        <p class="fit-modal-sub">Input your measurements and silhouette preference for a tailored sizing recommendation.</p>
+      </div>
+
+      <!-- Measurements Section -->
+      <div class="fit-metrics-grid">
+        <div class="fit-input-group">
+          <label for="fitHeightInput" class="fit-input-label">Height</label>
+          <div class="fit-input-wrap">
+            <input type="number" id="fitHeightInput" class="fit-metric-input" value="178" min="140" max="215" />
+            <span class="fit-input-unit">cm</span>
+          </div>
+        </div>
+        <div class="fit-input-group">
+          <label for="fitWeightInput" class="fit-input-label">Weight</label>
+          <div class="fit-input-wrap">
+            <input type="number" id="fitWeightInput" class="fit-metric-input" value="74" min="40" max="150" />
+            <span class="fit-input-unit">kg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Silhouette Preference -->
+      <div class="fit-preference-section">
+        <label class="fit-input-label">Preferred Silhouette</label>
+        <div class="fit-options-grid">
+          <button class="fit-option-btn" data-fit="Slim">
+            <span class="fit-option-title">Slim</span>
+            <span class="fit-option-desc">Tailored</span>
+          </button>
+          <button class="fit-option-btn selected" data-fit="Regular">
+            <span class="fit-option-title">Regular</span>
+            <span class="fit-option-desc">Balanced</span>
+          </button>
+          <button class="fit-option-btn" data-fit="Relaxed">
+            <span class="fit-option-title">Relaxed</span>
+            <span class="fit-option-desc">Airy Drape</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recommendation Result Card -->
+      <div id="fitRecResult" class="fit-recommendation-card">
+        <div class="fit-rec-badge">RECOMMENDED FOR YOU</div>
+        <div class="fit-rec-size-display" id="fitRecSizeText">Size M</div>
+        <p class="fit-rec-reasoning" id="fitRecExplanation">
+          For 178cm / 74kg with a Regular silhouette, Size M gives you balanced room across the chest and ideal sleeve length.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="fit-modal-actions">
+        <button id="btnUseRecSize" class="btn-primary-commerce fit-modal-apply-btn" data-rec-size="M">
+          SELECT SIZE M &amp; APPLY
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE STICKY PURCHASE BAR (64px) -->
+  <div id="mobileStickyBar" class="mobile-sticky-bar">
+    <div class="mobile-sticky-bar-info">
+      <div id="stickyPriceLabel" class="mobile-sticky-bar-price">BDT 18,500</div>
+      <div id="stickySizeLabel" class="mobile-sticky-bar-meta">Size M &middot; Midnight</div>
+    </div>
+    <button class="btn-primary-commerce btn-pdp-add-to-bag mobile-sticky-bar-cta">ADD TO BAG</button>
+  </div>
+
+  <!-- AI SEARCH OVERLAY MODAL -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
+        </div>
+        <button class="search-close-btn" aria-label="Close Search Overlay (ESC)" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+      </div>
+
+      <div style="text-align: center; margin: 12px 0 8px;">
+        <h2 class="search-overlay-title" style="font-family: var(--font-serif); font-size: 48px; font-weight: 500; line-height: 1.05; color: var(--text-primary); margin-bottom: 8px;">What are you looking for?</h2>
+        <p class="type-body-sm" style="color: var(--text-secondary); font-size: 14px;">Tell us what you need in your own words.</p>
+      </div>
+
+      <div class="search-input-wrapper">
+        <span class="search-ai-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
+        <input type="text" class="search-ai-input" placeholder='Try "something comfortable for a rainy evening"' aria-label="Search for products or describe what you need" />
+        <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
+      </div>
+
+      <div id="aiSearchResults" class="search-results-body">
+        <div class="search-prompts-group">
+          <span class="search-prompt-label">START WITH A MOMENT</span>
+          <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Dhaka">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something for a winter evening in Dhaka
+          </button>
+          <button class="search-prompt-btn" data-prompt="A minimal outfit for work">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>For the office
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main-grid">
+        <!-- Col 1: Brand & Private Edit -->
+        <div class="footer-brand-col">
+          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
+          </a>
+          <p class="footer-brand-desc">
+            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
+          </p>
+          <div class="footer-newsletter-box">
+            <span class="footer-newsletter-label">The Private Edit</span>
+            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
+            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
+              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
+              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Col 2: Collections -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">COLLECTIONS</span>
+          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
+          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
+          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
+          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
+        </div>
+
+        <!-- Col 3: Client Services -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">CLIENT SERVICES</span>
+          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
+          <a href="checkout.html" class="footer-link-item">Complimentary Returns</a>
+          <a href="concierge.html" class="footer-link-item">Private Styling</a>
+          <a href="product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
+        </div>
+
+        <!-- Col 4: The Maison -->
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">THE MAISON</span>
+          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
+          <a href="account.html" class="footer-link-item">Client Account</a>
+          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
+          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Dhaka (EN)</span>
+        </div>
+        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
+          <div class="payment-logo-badge" title="bKash">
+            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Nagad">
+            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Visa">
+            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
+          </div>
+          <div class="payment-logo-badge" title="Mastercard">
+            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script src="../js/cart.js"></script>
+  <script src="../js/pdp.js"></script>
+  <script src="../js/ai-engine.js"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/style-profile.js"></script>
+  <script src="../js/context-retention.js"></script>
+  <script src="../js/search-overlay.js"></script>
+  <script src="../js/theme-switcher.js"></script>
+  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/concierge-engine.js"></script>
+  <script src="../js/concierge.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">BDT 0</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+</body>
+</html>
+
+
+
+
+
+
