@@ -316,4 +316,26 @@ I write microcopy as a brand copywriter, not a spec sheet author.
 
 ---
 
-*Last updated: 2026-08-14 | My role: Senior UI/UX Designer / Product Designer*
+## 11. Display Scaling & Viewport Height Resilience Standard
+
+Every screen and hero component must be designed and verified against high-DPI and scaled laptop displays (specifically 1080p @ 125%–150% scaling, rendering effective viewports of ~1010×643 to ~1280×720).
+
+### Mandatory Rules:
+1. **Dynamic Header Deduction**: Full-bleed hero sections must deduct accurate total navigation height (`calc(100vh - var(--nav-total-height, 82px))` or `calc(100dvh - var(--nav-total-height, 82px))`).
+2. **Compact Navigation Scaling**: On viewports with height ≤800px, scale header and announcement bar heights down (e.g., 26px topbar + 56px header = 82px total) to liberate vertical viewport space.
+3. **Hero Min-Height Limits**: Never set `min-height` higher than 420px on desktop or 360px on laptop screens. High min-heights guarantee vertical overflow on scaled laptop displays.
+4. **Zero-Scroll Guarantee for Above-the-Fold CTAs**: The hero headline, subtitle, primary CTA, and shoppable tags must be completely visible without requiring vertical scrolling at viewport heights as low as 550px.
+
+---
+
+## 12. 3D Spatial Hotspots & Pinned Tag Safety Standard
+
+When pinning interactive shoppable tags or floating cards inside 3D perspective scenes:
+1. **Z-Depth Limits Near Edges**: Keep `translateZ` ≤ 15px for corner-pinned or edge-anchored cards to avoid 3D perspective projection clipping.
+2. **Bottom/Right Anchor Invariants**: Use `bottom` and `right` clamp values (`bottom: clamp(20px, 3.5vh, 36px); right: clamp(24px, 4vw, 48px);`) rather than percentage `top` and `left` anchors to guarantee edge clearance across all window dimensions.
+3. **Clean Script Separation**: Never leave inline `style.top` or `style.left` coordinates active in JavaScript on laptop/tablet/mobile breakpoints. Always let CSS media queries control responsive boundaries.
+4. **Focal Framing across Viewports**: Always provide explicit breakpoint `object-position` rules for lifestyle imagery (e.g. `object-position: 74% center` for laptops, `68% 22%` for mobile portrait) so off-center human models remain framed.
+
+---
+
+*Last updated: 2026-08-18 | My role: Senior UI/UX Designer / Product Designer*

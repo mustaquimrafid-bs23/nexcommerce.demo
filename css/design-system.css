@@ -5980,7 +5980,31 @@ textarea.input-field {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  transition: background-color 200ms ease, box-shadow 200ms ease;
+  transition: background-color 200ms ease, box-shadow 200ms ease, height 200ms ease;
+}
+
+@media (max-height: 800px), (max-width: 1366px) {
+  .site-header,
+  .nav-inner {
+    height: 62px;
+  }
+  .site-logo-img {
+    height: 24px;
+  }
+}
+
+@media (max-height: 680px) {
+  .top-announcement-bar {
+    height: 26px;
+    font-size: 10px;
+  }
+  .site-header,
+  .nav-inner {
+    height: 56px;
+  }
+  .site-logo-img {
+    height: 22px;
+  }
 }
 
 .site-header.scrolled {
@@ -6324,9 +6348,10 @@ textarea.input-field {
 .hero-fullbleed-section {
   position: relative;
   width: 100%;
-  height: calc(100vh - 96px);
-  height: calc(100dvh - 96px);
-  min-height: 540px;
+  height: calc(100vh - 104px);
+  height: calc(100dvh - 104px);
+  min-height: 420px;
+  max-height: 920px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6344,17 +6369,18 @@ textarea.input-field {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(6, 8, 14, 0.62) 0%, rgba(6, 8, 14, 0.25) 44%, rgba(6, 8, 14, 0) 78%);
+  background: linear-gradient(90deg, rgba(3, 8, 20, 0.72) 0%, rgba(3, 8, 20, 0.42) 44%, rgba(3, 8, 20, 0.08) 75%, rgba(3, 8, 20, 0) 100%);
   z-index: 2;
+  transition: background 300ms ease;
 }
 
 /* 3D Parallax Full-Bleed Imagery Canvas with Overscan Bleed for Smooth Parallax */
 .hero-fullbleed-bg {
   position: absolute;
-  top: -12%;
+  top: -10%;
   left: -5%;
   width: 110%;
-  height: 124%;
+  height: 120%;
   z-index: 1;
   pointer-events: none;
   will-change: transform;
@@ -6366,7 +6392,7 @@ textarea.input-field {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: 70% center;
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
@@ -6399,14 +6425,17 @@ textarea.input-field {
 /* Floating 3D Shoppable Hotspot Tag (Pinned on Model in 3D Space) */
 .hero-3d-hotspot-wrap {
   position: absolute;
+  bottom: clamp(24px, 4vh, 40px);
+  right: clamp(28px, 4vw, 56px);
   z-index: 15;
   transform-style: preserve-3d;
-  transform: translateZ(60px);
-  will-change: transform, opacity, top, left;
-  transition: top 600ms cubic-bezier(0.16, 1, 0.3, 1), left 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(15px);
+  will-change: transform, opacity, bottom, right;
+  transition: bottom 400ms cubic-bezier(0.16, 1, 0.3, 1), right 400ms cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   gap: 10px;
+  max-width: calc(100vw - 32px);
 }
 
 .hero-hotspot-beacon {
@@ -6850,95 +6879,220 @@ textarea.input-field {
   pointer-events: all;
 }
 
-/* Compact Height Viewport (<660px) Scaling for Zero-Scroll Guarantee */
-@media (max-height: 660px) {
-  .hero-fullbleed-section {
-    height: calc(100vh - 96px);
-    height: calc(100dvh - 96px);
-    min-height: 380px;
+/* ==========================================================================
+   HERO SECTION RESPONSIVE SYSTEM (LUXURY EDITORIAL STANDARD)
+   ========================================================================== */
+
+/* 1. Large Tablet / Laptop Screen (1025px - 1440px) or Height (<= 800px) */
+@media (max-width: 1440px) and (min-width: 1025px), (max-height: 800px) and (min-width: 1025px) {
+  .hero-fullbleed-layer {
+    object-position: 74% center;
   }
-  .hero-fullbleed-title {
-    font-size: clamp(22px, 3.2vw, 36px);
-    margin-bottom: 6px;
+  .hero-centered-content.hero-daylight-editorial {
+    left: clamp(20px, 4.5vw, 64px);
+    max-width: 480px;
   }
-  .hero-fullbleed-subtitle {
-    font-size: 11.5px;
-    margin-bottom: 14px;
-    line-height: 1.35;
+  .hero-whisper-eyebrow {
+    margin-bottom: 12px;
   }
-  .hero-actions-row {
-    margin-bottom: 0;
-    gap: 8px;
+  .hero-serif-title {
+    font-size: clamp(30px, 3.8vw, 48px);
+    line-height: 1.06;
+    margin-bottom: 12px;
   }
-  .btn-hero-luxury-primary,
-  .btn-hero-luxury-link {
-    height: 32px;
-    padding: 0 16px;
-    font-size: 10px;
+  .hero-serif-subtitle {
+    font-size: clamp(12px, 1.05vw, 13.5px);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    max-width: 420px;
   }
-  .hero-dock-pill {
-    padding: 3px 8px;
-    font-size: 9px;
+  .btn-editorial-crimson {
+    height: 42px;
+    padding: 0 24px;
+    font-size: 10.5px;
   }
-  .hero-bottom-dock {
-    bottom: 12px;
+  .hero-3d-hotspot-wrap {
+    bottom: clamp(24px, 4vh, 36px) !important;
+    right: clamp(28px, 4vw, 56px) !important;
+    top: auto !important;
+    left: auto !important;
   }
   .hero-hotspot-card {
-    padding: 4px 6px;
+    max-width: 240px;
+    padding: 4px 8px 4px 4px;
+  }
+  .hero-hotspot-thumb {
+    width: 30px;
+    height: 30px;
+  }
+  .hero-hotspot-title {
+    max-width: 110px;
+    font-size: 9.5px;
+  }
+  .hero-hotspot-price {
+    font-size: 10px;
+  }
+}
+
+/* 2. Compact Laptop Viewports (Height <= 680px, e.g. 1080p @ 150% Scale, 1366x768) */
+@media (max-height: 680px) and (min-width: 769px) {
+  .hero-fullbleed-section {
+    height: calc(100vh - 82px);
+    height: calc(100dvh - 82px);
+    min-height: 360px;
+  }
+  .hero-whisper-eyebrow {
+    margin-bottom: 8px;
+  }
+  .hero-serif-title {
+    font-size: clamp(26px, 3.2vw, 38px);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .hero-serif-subtitle {
+    font-size: 11.5px;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    max-width: 380px;
+  }
+  .btn-editorial-crimson {
+    height: 38px;
+    padding: 0 20px;
+    font-size: 10px;
+  }
+  .hero-3d-hotspot-wrap {
+    bottom: 22px !important;
+    right: 28px !important;
+    top: auto !important;
+    left: auto !important;
+  }
+  .hero-hotspot-card {
+    max-width: 220px;
+    padding: 3px 6px 3px 3px;
   }
   .hero-hotspot-thumb {
     width: 28px;
     height: 28px;
   }
   .hero-hotspot-title {
+    max-width: 95px;
     font-size: 9px;
   }
 }
 
-/* Responsive Mobile Breakpoint */
-@media (max-width: 768px) {
+/* 3. Tablet Screen (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .hero-fullbleed-section {
-    height: calc(100vh - 84px);
+    height: calc(100vh - 90px);
+    height: calc(100dvh - 90px);
     min-height: 480px;
   }
   .hero-fullbleed-section::after {
-    background: linear-gradient(180deg, rgba(6, 8, 14, 0.3) 0%, rgba(6, 8, 14, 0.72) 100%);
+    background: linear-gradient(90deg, rgba(3, 8, 20, 0.84) 0%, rgba(3, 8, 20, 0.52) 48%, rgba(3, 8, 20, 0.12) 80%, rgba(3, 8, 20, 0) 100%);
+  }
+  .hero-fullbleed-layer {
+    object-position: 78% center;
   }
   .hero-centered-content.hero-daylight-editorial {
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) translateZ(35px) !important;
+    left: clamp(20px, 4vw, 40px);
+    max-width: 420px;
+  }
+  .hero-serif-title {
+    font-size: clamp(32px, 4vw, 44px);
+    margin-bottom: 12px;
+  }
+  .hero-serif-subtitle {
+    font-size: 12.5px;
+    max-width: 360px;
+    margin-bottom: 20px;
+  }
+  .hero-3d-hotspot-wrap {
+    bottom: 24px !important;
+    top: auto !important;
+    left: auto !important;
+    right: 32px !important;
+  }
+  .hero-hotspot-card {
+    max-width: 230px;
+    padding: 4px 8px 4px 4px;
+  }
+  .hero-hotspot-title {
+    max-width: 100px;
+    font-size: 9.5px;
+  }
+}
+
+/* 4. Mobile Devices (<= 768px) */
+@media (max-width: 768px) {
+  .hero-fullbleed-section {
+    height: calc(100vh - 68px);
+    height: calc(100dvh - 68px);
+    min-height: 480px;
+    max-height: none;
+    align-items: flex-end;
+  }
+  .hero-fullbleed-bg {
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 112%;
+  }
+  .hero-fullbleed-layer {
+    object-position: 68% 22%;
+  }
+  .hero-fullbleed-section::after {
+    background: linear-gradient(180deg, rgba(3, 8, 20, 0.18) 0%, rgba(3, 8, 20, 0.3) 38%, rgba(3, 8, 20, 0.76) 65%, rgba(3, 8, 20, 0.94) 86%, rgba(3, 8, 20, 0.98) 100%);
+  }
+  .hero-centered-content.hero-daylight-editorial {
+    position: absolute;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: clamp(20px, 4vh, 36px) !important;
+    top: auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+    transform: translateZ(35px) !important;
     text-align: center !important;
     align-items: center !important;
-    width: calc(100% - 32px) !important;
-    max-width: 380px !important;
+    margin: 0 auto;
+    padding: 0;
   }
   .hero-whisper-eyebrow {
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
+  }
+  .hero-eyebrow-accent-bar {
+    width: 16px;
+    height: 2px;
   }
   .hero-eyebrow-text {
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.3;
+    white-space: normal;
   }
   .hero-serif-title {
-    font-size: clamp(32px, 8vw, 44px);
+    font-size: clamp(28px, 7.2vw, 38px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
     text-align: center;
+    margin: 0 0 10px 0;
   }
   .hero-serif-subtitle {
-    font-size: 12.5px;
+    font-size: 12px;
+    line-height: 1.5;
     text-align: center;
-    max-width: 320px;
-    margin: 0 auto 20px auto;
+    max-width: 330px;
+    margin: 0 auto 18px auto;
+    color: rgba(248, 250, 255, 0.92);
   }
   .hero-actions-row {
-    flex-wrap: wrap;
+    width: 100%;
     justify-content: center;
     gap: 10px;
   }
@@ -6946,17 +7100,143 @@ textarea.input-field {
     height: 44px;
     padding: 0 24px;
     font-size: 10.5px;
+    letter-spacing: 0.12em;
+    max-width: 280px;
+    width: auto;
   }
-  .btn-editorial-link {
-    height: 44px;
-    padding: 0 18px;
-    font-size: 10.5px;
-  }
+  
+  /* Sleek floating shoppable glass card in top-right corner on mobile */
   .hero-3d-hotspot-wrap {
-    display: none;
+    top: 14px !important;
+    right: 14px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: translateZ(40px) !important;
+    gap: 6px;
+  }
+  .hero-hotspot-card {
+    padding: 3px 6px 3px 3px;
+    max-width: 200px;
+    background: rgba(6, 12, 26, 0.88);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .hero-hotspot-thumb {
+    width: 26px;
+    height: 26px;
+  }
+  .hero-hotspot-label {
+    font-size: 6.5px;
+    margin-bottom: 1px;
+  }
+  .hero-hotspot-title {
+    font-size: 8.5px;
+    max-width: 85px;
+    margin-bottom: 1px;
+  }
+  .hero-hotspot-price {
+    font-size: 9px;
+  }
+  .hero-hotspot-add-btn {
+    width: 22px;
+    height: 22px;
+  }
+  .hero-hotspot-add-btn svg,
+  .hero-hotspot-add-btn i {
+    width: 11px;
+    height: 11px;
   }
   .hero-dock-pills {
     display: none;
+  }
+}
+
+/* 5. Small Mobile Screen (<= 380px) */
+@media (max-width: 380px) {
+  .hero-fullbleed-section {
+    min-height: 440px;
+  }
+  .hero-fullbleed-layer {
+    object-position: 68% 18%;
+  }
+  .hero-whisper-eyebrow {
+    margin-bottom: 8px;
+  }
+  .hero-serif-title {
+    font-size: clamp(24px, 6.8vw, 30px);
+    margin-bottom: 8px;
+  }
+  .hero-serif-subtitle {
+    font-size: 11.5px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+    max-width: 270px;
+  }
+  .btn-editorial-crimson {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 10px;
+  }
+  .hero-3d-hotspot-wrap {
+    top: 10px !important;
+    right: 10px !important;
+  }
+  .hero-hotspot-card {
+    max-width: 180px;
+  }
+  .hero-hotspot-title {
+    max-width: 70px;
+  }
+}
+
+/* 6. Landscape Mode / Ultra-Short Viewports (< 540px Height) */
+@media (max-height: 540px) {
+  .hero-fullbleed-section {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 300px;
+    align-items: center;
+  }
+  .hero-centered-content.hero-daylight-editorial {
+    top: 50% !important;
+    bottom: auto !important;
+    left: clamp(16px, 4vw, 36px) !important;
+    right: auto !important;
+    transform: translateY(-50%) translateZ(35px) !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    max-width: 380px !important;
+  }
+  .hero-whisper-eyebrow {
+    margin-bottom: 6px;
+    justify-content: flex-start;
+  }
+  .hero-serif-title {
+    font-size: clamp(20px, 3.8vw, 28px);
+    line-height: 1.1;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+  .hero-serif-subtitle {
+    font-size: 11px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hero-actions-row {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .btn-editorial-crimson {
+    height: 34px;
+    padding: 0 16px;
+    font-size: 9.5px;
+  }
+  .hero-3d-hotspot-wrap {
+    display: none !important;
   }
 }
 

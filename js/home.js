@@ -145,10 +145,12 @@ function initHeroCarousel() {
 
     const story = stories[currentIndex];
 
-    // Update Hotspot Coordinates
-    if (hotspotWrap && story.hotspot) {
-      hotspotWrap.style.top = story.hotspot.top;
-      hotspotWrap.style.left = story.hotspot.left;
+    // Ensure CSS positioning rules govern coordinates across all viewports
+    if (hotspotWrap) {
+      hotspotWrap.style.top = '';
+      hotspotWrap.style.left = '';
+      hotspotWrap.style.bottom = '';
+      hotspotWrap.style.right = '';
     }
 
     if (animate && activeLayer && incomingLayer) {
@@ -313,7 +315,7 @@ function initHeroCarousel() {
     if (currentScrollY < heroHeight * 1.3) {
       const scrollProgress = Math.max(0, currentScrollY);
       const isMobile = window.innerWidth <= 768;
-      const xBase = isMobile ? '-50%' : '0px';
+      const isShortHeight = window.innerHeight <= 540;
 
       // 1. Full-Bleed Background Imagery Canvas (0.30x differential scroll + counter mouse tilt)
       if (bgCanvas) {
@@ -322,22 +324,25 @@ function initHeroCarousel() {
         bgCanvas.style.transform = `translate3d(${bgTranslateX.toFixed(2)}px, ${bgTranslateY.toFixed(2)}px, 0)`;
       }
 
-      // 2. Editorial Typography Column (Preserves vertical centering + 0.12x differential lag + 3D depth)
+      // 2. Editorial Typography Column (Preserves responsive anchoring + 0.12x differential lag + 3D depth)
       if (centeredContent) {
         const contentTranslateY = (scrollProgress * 0.12) + (curRotX * 1.2);
         const contentTranslateX = (curRotY * 1.6);
         const contentOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 420)));
-        const xVal = isMobile ? `calc(-50% + ${contentTranslateX.toFixed(2)}px)` : `${contentTranslateX.toFixed(2)}px`;
-        centeredContent.style.transform = `translate3d(${xVal}, calc(-50% + ${contentTranslateY.toFixed(2)}px), 35px)`;
+        if (isMobile && !isShortHeight) {
+          centeredContent.style.transform = `translate3d(0px, ${contentTranslateY.toFixed(2)}px, 15px)`;
+        } else {
+          centeredContent.style.transform = `translate3d(${contentTranslateX.toFixed(2)}px, calc(-50% + ${contentTranslateY.toFixed(2)}px), 15px)`;
+        }
         centeredContent.style.opacity = contentOpacity.toFixed(3);
       }
 
       // 3. Floating 3D Shoppable Hotspot Tag (0.22x differential scroll + 3D perspective pop)
       if (hotspotWrap) {
-        const hotspotTranslateY = (scrollProgress * 0.22) + (curRotX * 2.0);
-        const hotspotTranslateX = curRotY * 2.4;
+        const hotspotTranslateY = (scrollProgress * 0.22) + (curRotX * 1.5);
+        const hotspotTranslateX = curRotY * 1.6;
         const hotspotOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 340)));
-        hotspotWrap.style.transform = `translate3d(${hotspotTranslateX.toFixed(2)}px, ${hotspotTranslateY.toFixed(2)}px, 60px)`;
+        hotspotWrap.style.transform = `translate3d(${hotspotTranslateX.toFixed(2)}px, ${hotspotTranslateY.toFixed(2)}px, 15px)`;
         hotspotWrap.style.opacity = hotspotOpacity.toFixed(3);
       }
     }

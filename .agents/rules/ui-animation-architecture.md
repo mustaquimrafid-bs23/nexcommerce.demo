@@ -59,3 +59,8 @@ Introduce Motion only when interactions require coordinated state transitions, g
 ### 8.5 Pro-Tips: Consistency & Performance
 - **Cross-Breakpoint Validation:** Always verify motion across mobile (390px), laptop (1280px), and wide desktop (1440px+). Disable heavy parallax on mobile viewports to prevent scroll stutter.
 - **Visual Budget:** Combine effects selectively. A luxury aesthetic requires restraint: if a hero section has dynamic background crossfade, surrounding UI chrome must remain calm and grounded.
+
+### 8.6 3D Perspective Projection & Spatial Depth Constraints
+- **Perspective Projection Safety:** In containers with `perspective: 1000px–1200px`, positive `translateZ` moves elements closer to the camera, optically expanding them outwards toward viewport corners by ~5%–6%.
+- **Z-Axis Budget:** Cap corner-anchored elements (e.g. shoppable tags, badges) at `translateZ(10px–15px)`. Reserve `translateZ(30px–60px)` exclusively for centered focal elements.
+- **Scroll & Mouse Physics Synchronization:** Pair mouse parallax lerps with viewport-aware transform bounds so differential translation never pushes UI cards into scrollbars or clipped regions.

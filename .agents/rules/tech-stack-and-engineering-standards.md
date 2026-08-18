@@ -71,6 +71,8 @@ I must understand and apply:
 - Core Web Vitals (LCP, INP, CLS targets must be met for e-commerce pages)
 - Authentication flows, secure token handling, XSS and CSRF prevention
 - Form architecture, error boundaries, accessibility (WCAG 2.1 AA minimum)
+- **Centralized Event Delegation & No Inline Handlers**: Avoid inline JS handlers (`onclick`, `onchange`, etc.) on HTML elements. Delegate all event handling, keyboard interaction (`keydown` for Enter/Space), and child element exclusion (`closest()`) inside dedicated page/component scripts.
+- **HTML Attribute Quote & Syntax Hygiene**: Never nest unescaped quotes inside HTML attributes (e.g. `onclick="...href="..."..."`). Prefer semantic `<a>` tags with `href` or `data-*` attributes mapped to centralized event handlers.
 - **CSS Maintenance & Deduplication Invariant**: When refactoring or adding styles in monolithic design system files (e.g. `design-system.css`), always perform a global grep search for all occurrences of the target component class names. Consolidate disparate/legacy rules into a single canonical definition block and delete dead code blocks to prevent specificity collisions and regression overrides.
 
 ### Database Engineering
