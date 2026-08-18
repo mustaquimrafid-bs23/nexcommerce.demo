@@ -297,22 +297,24 @@
     </section>
 
     <!-- TODAY'S DEALS (FLASH SALE & COUNTDOWN) -->
-    <section class="home-deals-section reveal-on-scroll">
+    <section class="home-deals-section" id="dealsSectionRoot">
       <div class="container">
-        <div class="home-section-header-row home-deals-header-row">
-          <div>
-            <div class="deal-section-tag"><span class="deal-live-dot"></span>LIMITED ALLOCATIONS</div>
-            <h2 class="home-section-title">Today's Curated Offers</h2>
-            <div class="home-section-sub">Rare price adjustments on foundational wardrobe and lifestyle pieces.</div>
+        <!-- Compact Header Strip -->
+        <div class="deals-header-strip">
+          <div class="deals-header-left">
+            <div class="deal-section-tag"><span class="deal-live-dot"></span>Flash Sale</div>
+            <h2 class="deals-title">Today's Offers</h2>
           </div>
-          <div style="display: flex; align-items: center; gap: 20px;">
-            <a href="pages/category.html?sort=sale" class="home-section-link" style="font-size: 13px;">See all deals &rarr;</a>
-            <div class="deals-countdown-box" aria-label="Offer Countdown">
-              <span class="deal-timer-label">CLOSES IN</span>
-              <div class="deal-timer-digits">
-                <span class="deal-timer-unit" id="dealHours">04</span><span class="deal-timer-sep">h</span>
-                <span class="deal-timer-unit" id="dealMins">32</span><span class="deal-timer-sep">m</span>
-                <span class="deal-timer-unit" id="dealSecs">15</span><span class="deal-timer-sep">s</span>
+          <div class="deals-header-right">
+            <a href="pages/category.html?sort=sale" class="deals-see-all-link">All deals</a>
+            <!-- GPU scaleX progress timer -->
+            <div class="deals-countdown-pill" aria-label="Offer Countdown">
+              <div class="dcp-label">Closes in</div>
+              <div class="dcp-digits">
+                <span class="dcp-unit" id="dealHours">04</span><span class="dcp-sep">:</span><span class="dcp-unit" id="dealMins">32</span><span class="dcp-sep">:</span><span class="dcp-unit" id="dealSecs">15</span>
+              </div>
+              <div class="dcp-progress-track" aria-hidden="true">
+                <div class="dcp-progress-bar" id="dealProgressBar"></div>
               </div>
             </div>
           </div>
@@ -320,15 +322,17 @@
 
         <div class="deals-carousel-grid" id="dealsCarouselGrid">
           <!-- Deal 1 -->
-          <a href="pages/product.html?id=p1" class="deal-product-card" data-id="p1" style="text-decoration: none; display: block; color: inherit;">
+          <a href="pages/product.html?id=p1" class="deal-product-card" data-id="p1" data-parallax-depth="1" style="text-decoration: none; display: block; color: inherit;">
             <span class="deal-badge">-20%</span>
             <button class="deal-wishlist-btn" aria-label="Add Merino Knit Sweater to Wishlist">
               <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
             </button>
             <div class="deal-img-box">
               <img src="assets/images/products/hero_sweater.png" alt="Merino Knit Sweater" loading="lazy" />
+              <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
                 <button class="deal-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="1990" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
+                  <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
               </div>
@@ -349,15 +353,17 @@
           </a>
 
           <!-- Deal 2 -->
-          <a href="pages/product.html?id=p6" class="deal-product-card" data-id="p6" style="text-decoration: none; display: block; color: inherit;">
+          <a href="pages/product.html?id=p6" class="deal-product-card" data-id="p6" data-parallax-depth="2" style="text-decoration: none; display: block; color: inherit;">
             <span class="deal-badge">-25%</span>
             <button class="deal-wishlist-btn" aria-label="Add Minimal Runner to Wishlist">
               <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
             </button>
             <div class="deal-img-box">
               <img src="assets/images/products/prod_runner.png" alt="Minimal Runner" loading="lazy" />
+              <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
                 <button class="deal-add-btn" data-id="p6" data-name="Minimal Runner" data-price="5990" data-img="assets/images/products/prod_runner.png" data-cat="Footwear">
+                  <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
               </div>
@@ -378,15 +384,17 @@
           </a>
 
           <!-- Deal 3 -->
-          <a href="pages/product.html?id=p5" class="deal-product-card" data-id="p5" style="text-decoration: none; display: block; color: inherit;">
+          <a href="pages/product.html?id=p5" class="deal-product-card" data-id="p5" data-parallax-depth="3" style="text-decoration: none; display: block; color: inherit;">
             <span class="deal-badge">-15%</span>
             <button class="deal-wishlist-btn" aria-label="Add Classic Leather Watch to Wishlist">
               <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
             </button>
             <div class="deal-img-box">
               <img src="assets/images/products/search_watch.png" alt="Classic Leather Watch" loading="lazy" />
+              <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
                 <button class="deal-add-btn" data-id="p5" data-name="Classic Leather Watch" data-price="3380" data-img="assets/images/products/search_watch.png" data-cat="Accessories">
+                  <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
               </div>
@@ -407,15 +415,17 @@
           </a>
 
           <!-- Deal 4 -->
-          <a href="pages/product.html?id=p2" class="deal-product-card" data-id="p2" style="text-decoration: none; display: block; color: inherit;">
+          <a href="pages/product.html?id=p2" class="deal-product-card" data-id="p2" data-parallax-depth="2" style="text-decoration: none; display: block; color: inherit;">
             <span class="deal-badge">-30%</span>
             <button class="deal-wishlist-btn" aria-label="Add Tailored Wool Blazer to Wishlist">
               <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
             </button>
             <div class="deal-img-box">
               <img src="assets/images/products/plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
+              <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
                 <button class="deal-add-btn" data-id="p2" data-name="Tailored Wool Blazer" data-price="8450" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
+                  <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
               </div>
@@ -436,15 +446,17 @@
           </a>
 
           <!-- Deal 5 -->
-          <a href="pages/product.html?id=p8" class="deal-product-card" data-id="p8" style="text-decoration: none; display: block; color: inherit;">
+          <a href="pages/product.html?id=p8" class="deal-product-card" data-id="p8" data-parallax-depth="1" style="text-decoration: none; display: block; color: inherit;">
             <span class="deal-badge">-30%</span>
             <button class="deal-wishlist-btn" aria-label="Add Noise Canceling Earbuds to Wishlist">
               <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
             </button>
             <div class="deal-img-box">
               <img src="assets/images/products/search_earbuds.png" alt="Noise Canceling Earbuds" loading="lazy" />
+              <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
                 <button class="deal-add-btn" data-id="p8" data-name="Noise Canceling Earbuds" data-price="3390" data-img="assets/images/products/search_earbuds.png" data-cat="Electronics">
+                  <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
               </div>
