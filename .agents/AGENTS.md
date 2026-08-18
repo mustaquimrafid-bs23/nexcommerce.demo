@@ -249,8 +249,11 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 **4. PRODUCT CARDS — Let Product Breathe**
 - Product cards: white or neutral background. NO glowing neon borders.
 - NO stacking of 3+ badges on a single card.
-- Image-first layout: product image takes 70–80% of card height.
+- Image-first layout: product image takes 70–80% of card height (spacious aspect-ratio 1:1.1 to 1:1.15). NEVER shrink box height or compress aspect ratios to solve clutter.
+- **Zero Paragraph Clutter**: Product cards must NEVER contain multi-line description or match explanation paragraphs (e.g., "Why it matches: ...").
+- **Strict 3-Item Metadata**: Keep card footer clean with strictly Brand/House + Price + Title.
 - Hover: subtle elevation or a simple overlay with one CTA — not slide-up action bars.
+- **Integrated 4 Motion Standards**: Every card must feature 3D spring tilt (`±6.5°`), dynamic cursor-following specular glare tracking, tactile quick-add ripple, and GPU page transition curtain dissolve.
 
 **5. NAVIGATION — Minimal, Confident, Uncluttered**
 - Max 5–6 nav items. NO color-coded sale links in the nav bar.
