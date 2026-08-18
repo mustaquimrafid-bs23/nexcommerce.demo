@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initHeroAnimations();
   initHeroCarousel();
-  initDealsCountdown();
-  initDealsCards();
+  initDealsMasterEngine();
   initIntentSuggestions();
   renderFeaturedCollection();
   initMicroMerchandising();
@@ -73,6 +72,7 @@ function initHeroCarousel() {
       numericPrice: 24500,
       category: 'Leather Goods',
       image: 'assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg',
+      imageMobile: 'assets/images/lifestyle/Gemini_Generated_Image_tm4857tm4857tm48.jpg',
       thumb: 'assets/images/lifestyle/thumb_tote.jpg',
       alt: 'Model in tailored suit with structured cognac leather bag in brutalist architecture',
       hotspot: { top: '79%', left: '72%' }
@@ -104,10 +104,14 @@ function initHeroCarousel() {
   let incomingLayer = layerB || document.querySelector('.hero-fullbleed-layer-incoming');
   const slideDuration = 5500;
 
-  // Preload hero story image for instant zero-latency rendering
+  // Preload hero story images for instant zero-latency rendering
   stories.forEach(s => {
     const preload = new Image();
     preload.src = s.image;
+    if (s.imageMobile) {
+      const preloadMobile = new Image();
+      preloadMobile.src = s.imageMobile;
+    }
     if (s.thumb) {
       const preloadThumb = new Image();
       preloadThumb.src = s.thumb;
@@ -178,10 +182,14 @@ function initHeroCarousel() {
 
       // 3. Update floating hotspot info
       setTimeout(() => {
-        if (thumbImg && story.thumb) thumbImg.src = story.thumb;
+        if (thumbImg && story.thumb) {
+          thumbImg.src = story.thumb;
+          thumbImg.alt = story.name;
+        }
         if (titleEl) titleEl.textContent = story.name;
         if (priceEl) priceEl.textContent = story.price;
         hotspotCard.setAttribute('data-id', story.id);
+        hotspotCard.setAttribute('aria-label', `View Featured Piece: ${story.name}`);
         setTimeout(() => { isTransitioning = false; }, 350);
       }, 150);
 
@@ -190,10 +198,14 @@ function initHeroCarousel() {
         activeLayer.src = story.image;
         activeLayer.alt = story.alt;
       }
-      if (thumbImg && story.thumb) thumbImg.src = story.thumb;
+      if (thumbImg && story.thumb) {
+        thumbImg.src = story.thumb;
+        thumbImg.alt = story.name;
+      }
       if (titleEl) titleEl.textContent = story.name;
       if (priceEl) priceEl.textContent = story.price;
       hotspotCard.setAttribute('data-id', story.id);
+      hotspotCard.setAttribute('aria-label', `View Featured Piece: ${story.name}`);
     }
   }
 
@@ -418,9 +430,8 @@ function initHeroCarousel() {
       }, 1400);
     });
 
-    // Clicking on hotspot card navigates to product details
-    hotspotCard.addEventListener('click', (e) => {
-      if (e.target.closest('#heroHotspotAddBtn')) return;
+    // Navigate to product details
+    function navigateToProduct() {
       const currentStory = stories[currentIndex];
       if (currentStory) {
         if (transitionCurtain) {
@@ -432,6 +443,21 @@ function initHeroCarousel() {
           window.location.href = `pages/product.html?id=${currentStory.id}`;
         }
       }
+    }
+
+    // Clicking on hotspot card navigates to product details
+    hotspotCard.addEventListener('click', (e) => {
+      if (e.target.closest('#heroHotspotAddBtn')) return;
+      navigateToProduct();
+    });
+
+    // Keyboard support (Enter / Space) for accessible navigation
+    hotspotCard.addEventListener('keydown', (e) => {
+      if (e.target.closest('#heroHotspotAddBtn')) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navigateToProduct();
+      }
     });
   }
 
@@ -441,18 +467,32 @@ function initHeroCarousel() {
 }
 
 /**
- * 1c. Today's Deals Live Countdown Ticker
+ * 1c. Today's Deals Master Motion Engine (All 4 Motion Standards)
  */
-function initDealsCountdown() {
+function initDealsMasterEngine() {
+  const dealsSection = document.getElementById('todaysDealsSection');
+  if (!dealsSection) return;
+
+  const isDesktopPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // -----------------------------------------------------------------
+  // 1️⃣ Micro-interaction: 120fps SVG Circular Progress Ring & Tabular Countdown
+  // -----------------------------------------------------------------
+  const TOTAL_DEAL_SECONDS = 24 * 3600; // 24-hour cycle
   let secondsRemaining = (4 * 3600) + (32 * 60) + 15;
+  const CIRCUMFERENCE = 2 * Math.PI * 15.5; // ~97.389
+
+  const ringProgress = document.getElementById('dealsRingProgress');
   const hoursEl = document.getElementById('dealHours');
   const minsEl = document.getElementById('dealMins');
   const secsEl = document.getElementById('dealSecs');
 
-  function updateTimer() {
+  function updateDealsTimer() {
     if (secondsRemaining <= 0) {
-      secondsRemaining = 24 * 3600; // Reset for demonstration
+      secondsRemaining = TOTAL_DEAL_SECONDS;
     }
+
     const h = Math.floor(secondsRemaining / 3600);
     const m = Math.floor((secondsRemaining % 3600) / 60);
     const s = secondsRemaining % 60;
@@ -461,17 +501,271 @@ function initDealsCountdown() {
     if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
     if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
 
+    if (ringProgress) {
+      const fraction = secondsRemaining / TOTAL_DEAL_SECONDS;
+      const offset = CIRCUMFERENCE * (1 - fraction);
+      ringProgress.style.strokeDashoffset = offset.toFixed(2);
+    }
+
     secondsRemaining--;
   }
 
-  updateTimer();
-  setInterval(updateTimer, 1000);
-}
+  updateDealsTimer();
+  setInterval(updateDealsTimer, 1000);
 
-/**
- * 1d. Deals Cards Add-to-Bag & Wishlist Interactions
- */
-function initDealsCards() {
+  // -----------------------------------------------------------------
+  // 1️⃣ Micro-interaction: Category Look Switcher with Sliding GPU Pill
+  // -----------------------------------------------------------------
+  const categoryTabs = dealsSection.querySelectorAll('.deals-category-tab');
+  const sliderPill = document.getElementById('dealsNavSliderPill');
+  const railCards = dealsSection.querySelectorAll('.deal-rail-card');
+  const railCountEl = document.getElementById('railCount');
+
+  function updateSliderPill(activeTab) {
+    if (!sliderPill || !activeTab) return;
+    sliderPill.style.width = `${activeTab.offsetWidth}px`;
+    sliderPill.style.transform = `translate3d(${activeTab.offsetLeft}px, 0, 0)`;
+  }
+
+  const initialActiveTab = dealsSection.querySelector('.deals-category-tab.is-active');
+  if (initialActiveTab) {
+    setTimeout(() => updateSliderPill(initialActiveTab), 50);
+  }
+
+  categoryTabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      categoryTabs.forEach(t => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      updateSliderPill(tab);
+
+      const cat = tab.getAttribute('data-category');
+      let visibleCount = 0;
+
+      railCards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        if (cat === 'all' || cardCat === cat) {
+          card.classList.remove('is-hidden');
+          card.style.opacity = '1';
+          visibleCount++;
+        } else {
+          card.classList.add('is-hidden');
+          card.style.opacity = '0';
+        }
+      });
+
+      if (railCountEl) railCountEl.textContent = String(visibleCount);
+    });
+  });
+
+  // -----------------------------------------------------------------
+  // 1️⃣ Micro-interaction: Spotlight Colorway Swatches Live Cross-Fade
+  // -----------------------------------------------------------------
+  const swatchBtns = dealsSection.querySelectorAll('.deals-swatch-btn');
+  const spotlightImg = document.getElementById('spotlightMainImg');
+  const spotlightTitle = document.getElementById('spotlightTitle');
+
+  swatchBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      swatchBtns.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const newImg = btn.getAttribute('data-img');
+      const newName = btn.getAttribute('data-name');
+
+      if (spotlightImg && newImg) {
+        spotlightImg.style.opacity = '0.4';
+        setTimeout(() => {
+          spotlightImg.src = newImg;
+          spotlightImg.style.opacity = '1';
+        }, 120);
+      }
+      if (spotlightTitle && newName) {
+        spotlightTitle.textContent = newName;
+      }
+    });
+  });
+
+  // -----------------------------------------------------------------
+  // 1️⃣ Micro-interaction: Tactile Quick-Add Ripple & Header Cart Pulse
+  // -----------------------------------------------------------------
+  function triggerQuickAdd(btn, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Spawn localized ripple
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'deal-ripple-circle';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+
+    const id = btn.getAttribute('data-id');
+    const name = btn.getAttribute('data-name');
+    const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
+    const img = btn.getAttribute('data-img');
+    const cat = btn.getAttribute('data-cat') || 'Apparel';
+
+    if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+      window.nexCart.addItem({
+        id: id,
+        name: name,
+        size: 'M',
+        price: price,
+        qty: 1,
+        image: img,
+        category: cat
+      });
+    }
+
+    if (typeof window.showToast === 'function') {
+      window.showToast(`Added ${name} to your bag`);
+    }
+
+    // Button feedback state
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> <span>Added</span>';
+    btn.style.background = '#10B981';
+    btn.style.color = '#FFFFFF';
+    btn.style.transform = 'scale(1.05)';
+    if (window.lucide) window.lucide.createIcons();
+
+    // Pulse header bag badge
+    const bagBadge = document.getElementById('headerCartCount');
+    if (bagBadge) {
+      bagBadge.style.transform = 'scale(1.35)';
+      setTimeout(() => { bagBadge.style.transform = 'scale(1)'; }, 250);
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.transform = '';
+      if (window.lucide) window.lucide.createIcons();
+    }, 1400);
+  }
+
+  dealsSection.querySelectorAll('.deals-quick-add-btn, .deal-rail-quickadd').forEach(btn => {
+    btn.addEventListener('click', (e) => triggerQuickAdd(btn, e));
+  });
+
+  // -----------------------------------------------------------------
+  // 2️⃣ 3D Spatial Tilt Physics & Dynamic Specular Glare
+  // -----------------------------------------------------------------
+  const interactiveCards = dealsSection.querySelectorAll('.deals-spotlight-card, .deal-rail-card');
+
+  interactiveCards.forEach(card => {
+    if (!isDesktopPointer || isReducedMotion) return;
+
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let curRotX = 0;
+    let curRotY = 0;
+    let isHovered = false;
+    let rafId = null;
+
+    function renderTilt() {
+      curRotX += (targetRotX - curRotX) * 0.12;
+      curRotY += (targetRotY - curRotY) * 0.12;
+
+      card.style.transform = `perspective(1000px) rotateX(${curRotX.toFixed(2)}deg) rotateY(${curRotY.toFixed(2)}deg) translateZ(0)`;
+
+      if (isHovered || Math.abs(curRotX) > 0.05 || Math.abs(curRotY) > 0.05) {
+        rafId = requestAnimationFrame(renderTilt);
+      } else {
+        card.style.transform = '';
+      }
+    }
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+
+      const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      targetRotX = -y * 10; // Max 10 deg pitch
+      targetRotY = x * 12;  // Max 12 deg yaw
+
+      // Update specular glare coordinates
+      const glareX = ((e.clientX - rect.left) / rect.width) * 100;
+      const glareY = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--glare-x', `${glareX.toFixed(1)}%`);
+      card.style.setProperty('--glare-y', `${glareY.toFixed(1)}%`);
+      card.style.setProperty('--glare-opacity', '0.22');
+
+      if (!isHovered) {
+        isHovered = true;
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(renderTilt);
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      isHovered = false;
+      targetRotX = 0;
+      targetRotY = 0;
+      card.style.setProperty('--glare-opacity', '0');
+    });
+  });
+
+  // -----------------------------------------------------------------
+  // 3️⃣ Seamless GPU Cross-Dissolve Page Transitions
+  // -----------------------------------------------------------------
+  const transitionCurtain = document.getElementById('pageTransitionOverlay');
+
+  function navigateToPdp(id) {
+    const targetUrl = `pages/product.html?id=${encodeURIComponent(id || 'p1')}`;
+    if (transitionCurtain) {
+      transitionCurtain.classList.add('is-active');
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 220);
+    } else {
+      window.location.href = targetUrl;
+    }
+  }
+
+  interactiveCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.deals-quick-add-btn') || 
+          e.target.closest('.deal-rail-quickadd') || 
+          e.target.closest('.deal-wishlist-btn') || 
+          e.target.closest('.deals-swatch-btn')) {
+        return;
+      }
+      const id = card.getAttribute('data-id') || 'p1';
+      navigateToPdp(id);
+    });
+
+    // Keyboard support
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (e.target.closest('.deals-quick-add-btn') || 
+            e.target.closest('.deal-rail-quickadd') || 
+            e.target.closest('.deal-wishlist-btn') || 
+            e.target.closest('.deals-swatch-btn')) {
+          return;
+        }
+        e.preventDefault();
+        const id = card.getAttribute('data-id') || 'p1';
+        navigateToPdp(id);
+      }
+    });
+  });
+
+  // Wishlist clicks
   const WISHLIST_KEY = 'nex_curated_wishlist_ids';
   let savedWishlist = [];
   try {
@@ -480,9 +774,8 @@ function initDealsCards() {
     savedWishlist = [];
   }
 
-  // Wishlist clicks
-  document.querySelectorAll('.deal-wishlist-btn').forEach(btn => {
-    const card = btn.closest('.deal-product-card');
+  dealsSection.querySelectorAll('.deal-wishlist-btn').forEach(btn => {
+    const card = btn.closest('[data-id]');
     const id = card ? card.getAttribute('data-id') : null;
     if (id && savedWishlist.includes(id)) {
       btn.classList.add('active');
@@ -507,55 +800,76 @@ function initDealsCards() {
     });
   });
 
-  // Card click -> PDP
-  document.querySelectorAll('.deal-product-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.deal-add-btn') || e.target.closest('.deal-wishlist-btn') || e.target.closest('.deal-quick-add-overlay')) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      const id = card.getAttribute('data-id') || 'p1';
-      window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
-    });
-  });
+  // -----------------------------------------------------------------
+  // 4️⃣ Scroll Parallax with Differential Column Depth
+  // -----------------------------------------------------------------
+  const spotlightCol = dealsSection.querySelector('.deals-spotlight-col');
+  const ambientMesh = dealsSection.querySelector('.deals-ambient-mesh');
+  let targetScroll = window.scrollY || 0;
+  let currentScroll = targetScroll;
+  let isSectionInView = true;
 
-  // Add to Bag clicks
-  document.querySelectorAll('.deal-add-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isSectionInView = entry.isIntersecting;
+    });
+  }, { rootMargin: '150px 0px' });
+
+  sectionObserver.observe(dealsSection);
+
+  window.addEventListener('scroll', () => {
+    targetScroll = window.scrollY || 0;
+  }, { passive: true });
+
+  function updateDealsParallax() {
+    if (!isReducedMotion && isSectionInView && spotlightCol) {
+      currentScroll += (targetScroll - currentScroll) * 0.10;
+      const rect = dealsSection.getBoundingClientRect();
+      const relativeY = -rect.top;
+
+      // Spotlight Column differential 0.08x lag
+      const spotOffset = relativeY * 0.08;
+      spotlightCol.style.transform = `translate3d(0, ${spotOffset.toFixed(1)}px, 0)`;
+
+      // Rail Cards differential lag (staggered odd vs even)
+      railCards.forEach((rc, i) => {
+        const factor = (i % 2 === 0) ? 0.04 : 0.09;
+        const rcOffset = relativeY * factor;
+        rc.style.transform = `translate3d(0, ${rcOffset.toFixed(1)}px, 0)`;
+      });
+
+      // Ambient Mesh differential drift
+      if (ambientMesh) {
+        const meshOffset = relativeY * 0.18;
+        ambientMesh.style.transform = `translate3d(0, ${meshOffset.toFixed(1)}px, 0)`;
+      }
+    }
+    requestAnimationFrame(updateDealsParallax);
+  }
+
+  requestAnimationFrame(updateDealsParallax);
+
+  // -----------------------------------------------------------------
+  // Rail Carousel Navigation (Prev / Next Buttons & Drag)
+  // -----------------------------------------------------------------
+  const trackWrap = document.getElementById('dealsTrackWrap');
+  const prevBtn = document.getElementById('dealsPrevBtn');
+  const nextBtn = document.getElementById('dealsNextBtn');
+
+  if (trackWrap && prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const id = btn.getAttribute('data-id');
-      const name = btn.getAttribute('data-name');
-      const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
-      const img = btn.getAttribute('data-img');
-      const cat = btn.getAttribute('data-cat') || 'Apparel';
-
-      if (window.nexCart) {
-        window.nexCart.addItem({
-          id: id,
-          name: name,
-          size: 'M',
-          price: price,
-          qty: 1,
-          image: img,
-          category: cat
-        });
-
-        btn.innerHTML = '<i data-lucide="check" style="width: 13px; height: 13px;"></i> ADDED';
-        btn.style.background = '#34D399';
-        btn.style.color = '#001838';
-        if (window.lucide) window.lucide.createIcons();
-
-        setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD';
-          btn.style.background = '';
-          btn.style.color = '';
-          if (window.lucide) window.lucide.createIcons();
-        }, 1600);
-      }
+      trackWrap.scrollBy({ left: -280, behavior: 'smooth' });
     });
-  });
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      trackWrap.scrollBy({ left: 280, behavior: 'smooth' });
+    });
+  }
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
 }
 
 /**
@@ -902,10 +1216,6 @@ function initFinalCTA() {
  * 6. Scroll Reveal Observer (H13)
  */
 function initScrollReveal() {
-  document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-    el.classList.add('is-visible');
-  });
-
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -914,7 +1224,7 @@ function initScrollReveal() {
       }
     });
   }, {
-    rootMargin: '200px 0px',
+    rootMargin: '100px 0px',
     threshold: 0.05
   });
 
