@@ -1,19 +1,20 @@
-# Micro-Merchandising Editorial Cluster Motion Redesign Implementation Plan
+# Micro-Merchandising Editorial Cluster Motion Redesign Implementation Plan (Clean & Minimal)
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild `<!-- MICRO-MERCHANDISING EDITORIAL CLUSTER -->` into a modern, minimal luxury editorial showcase fully integrated with all 4 Motion Standards: micro-interactions (look switcher sync + 120fps progress timer + tactile quick-add ripple), 3D hover physics (mouse tilt + dynamic specular glare + multi-tier obsidian shadows), GPU page transitions, and differential column scroll parallax.
+**Goal:** Rebuild `<!-- MICRO-MERCHANDISING EDITORIAL CLUSTER -->` into a pure, clean, minimal luxury editorial 3-column showcase with zero extra top header clutter, fully integrated with all 4 Motion Standards: micro-interactions (tactile quick-add ripple + staggered entrance), 3D hover physics (mouse tilt + dynamic specular glare + multi-tier obsidian shadows), GPU page transitions, and differential column scroll parallax.
 
 **Architecture:** 
-1. `index.html`: Rebuild section DOM with master editorial header, look switcher pills with progress timers, 3 luxury obsidian column cards with specular glare layers, and compact product rows with tactile quick-add buttons.
-2. `css/design-system.css`: Implement soft-luxury obsidian glassmorphism, subtle non-bold borders (`rgba(255, 255, 255, 0.05)`), look switcher progress animations, 3D tilt shell, specular glare CSS variables, tactile ripple keyframes, and full responsive breakpoints.
+1. `index.html`: Clean 3-column grid structure with specular glare layers, calibrated `data-parallax-depth` attributes (`1`, `2`, `1.5`), and compact product rows with tactile quick-add buttons.
+2. `css/design-system.css`: Soft-luxury obsidian glassmorphism, subtle non-bold borders (`rgba(255, 255, 255, 0.05)`), 3D tilt shell, specular glare CSS variables, tactile ripple keyframes, and full responsive media queries.
 3. `js/animations.js`: Implement `initMicroMerchClusterMotion()` with Motion.dev staggered reveals, spring LERP mouse tilt physics, cursor specular tracking, differential scroll parallax (Lenis-linked), and GPU curtain page transitions.
-4. `js/home.js`: Update `initMicroMerchandising()` with look switcher auto-timer cycling, tactile quick-add ripple execution, and robust cart dispatch.
+4. `js/home.js`: Update `initMicroMerchandising()` with tactile quick-add ripple execution, checkmark morph, and robust cart dispatch.
 
 **Tech Stack:** HTML5, CSS3 Glassmorphism & GPU transforms, Motion.dev (`animate`, `inView`, `stagger`), Lenis Smooth Scroll, Lucide Icons, Playwright MCP for browser verification.
 
 ## Global Constraints
 - Minimal luxury aesthetic: Zero hard or bold borders. Deep obsidian cards (`rgba(11, 20, 36, 0.75)`).
+- Zero top header clutter or redundant buttons.
 - All 4 Motion Standards must be fully integrated.
 - Zero feature regressions: `window.nexCart.addItem(...)` and PDP navigation must function reliably.
 - Responsive across all viewports (Desktop `≥1024px`, Tablet `768px–1023px`, Mobile `≤767px`) with touch targets `≥44×44px`.
@@ -28,7 +29,7 @@
 
 **Interfaces:**
 - Consumes: Product image assets in `assets/images/products/`
-- Produces: `#homeMicroMerchSection`, `.micro-merch-grid-3col`, `.micro-merch-col[data-parallax-depth]`, `.micro-col-specular`, `.micro-look-btn`, `.micro-item-row`, `.micro-item-add-btn`
+- Produces: `#homeMicroMerchSection`, `.micro-merch-grid-3col`, `.micro-merch-col[data-parallax-depth]`, `.micro-col-specular`, `.micro-item-row`, `.micro-item-add-btn`
 
 - [ ] **Step 1: Replace Micro-Merchandising Cluster DOM in `index.html`**
 
@@ -36,36 +37,6 @@
     <!-- MICRO-MERCHANDISING EDITORIAL CLUSTER -->
     <section id="homeMicroMerchSection" class="home-micro-merch-section" aria-label="Curated Product Collections">
       <div class="container">
-        <!-- Editorial Section Header -->
-        <div class="micro-merch-header">
-          <div class="micro-merch-eyebrow">
-            <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
-            <span>Curated Discovery</span>
-          </div>
-          <h2 class="micro-merch-headline">The Considered Edit</h2>
-          <p class="micro-merch-subtitle">Refined micro-capsules selected for architectural silhouettes, tactile materials, and seasonal essentials.</p>
-
-          <!-- 1️⃣ Micro-interactions: Synced Look Switcher with 120fps GPU Progress Timer -->
-          <div class="micro-look-nav" role="tablist" aria-label="Collection Themes">
-            <button type="button" class="micro-look-btn active" role="tab" aria-selected="true" data-theme="all">
-              <span>All Curations</span>
-              <div class="micro-look-progress" aria-hidden="true"></div>
-            </button>
-            <button type="button" class="micro-look-btn" role="tab" aria-selected="false" data-theme="tailored">
-              <span>Tailored &amp; Outerwear</span>
-              <div class="micro-look-progress" aria-hidden="true"></div>
-            </button>
-            <button type="button" class="micro-look-btn" role="tab" aria-selected="false" data-theme="essentials">
-              <span>Minimalist Essentials</span>
-              <div class="micro-look-progress" aria-hidden="true"></div>
-            </button>
-            <button type="button" class="micro-look-btn" role="tab" aria-selected="false" data-theme="objects">
-              <span>Objects &amp; Timepieces</span>
-              <div class="micro-look-progress" aria-hidden="true"></div>
-            </button>
-          </div>
-        </div>
-
         <!-- 3-Column Luxury Cluster Grid -->
         <div class="micro-merch-grid-3col">
           <!-- Column 1: New Arrivals (Parallax Depth: 1) -->
@@ -290,14 +261,14 @@
 
 - [ ] **Step 2: Verify HTML structure**
 
-Run: `node -e "const fs = require('fs'); const html = fs.readFileSync('index.html', 'utf8'); console.log('Has Section:', html.includes('homeMicroMerchSection'), 'Has Look Nav:', html.includes('micro-look-nav'), 'Has Specular:', html.includes('micro-col-specular'));"`
-Expected: `Has Section: true Has Look Nav: true Has Specular: true`
+Run: `node -e "const fs = require('fs'); const html = fs.readFileSync('index.html', 'utf8'); console.log('Has Section:', html.includes('homeMicroMerchSection'), 'Has Specular:', html.includes('micro-col-specular'));"`
+Expected: `Has Section: true Has Specular: true`
 
 - [ ] **Step 3: Commit Task 1**
 
 ```bash
 git add index.html
-git commit -m "feat(micro-merch): rebuild editorial cluster DOM with look switcher, specular layers, and parallax attributes"
+git commit -m "feat(micro-merch): rebuild clean 3-column cluster DOM with specular layers and parallax depths"
 ```
 
 ---
@@ -307,10 +278,6 @@ git commit -m "feat(micro-merch): rebuild editorial cluster DOM with look switch
 **Files:**
 - Modify: `css/design-system.css:9240-9445`
 
-**Interfaces:**
-- Consumes: CSS variables `--bg-main`, `--font-serif`, `--font-body`, `--text-primary`
-- Produces: CSS rules for `.home-micro-merch-section`, `.micro-merch-header`, `.micro-look-btn`, `.micro-merch-col`, `.micro-col-specular`, `.micro-item-row`, `.micro-ripple`
-
 - [ ] **Step 1: Write modern soft-luxury CSS rules for Micro-Merchandising Cluster**
 
 Replace lines 9240–9445 in `css/design-system.css` with:
@@ -319,116 +286,9 @@ Replace lines 9240–9445 in `css/design-system.css` with:
    MICRO-MERCHANDISING EDITORIAL CLUSTER (LUXURY DISCOVERY)
    ========================================================================== */
 .home-micro-merch-section {
-  padding: clamp(48px, 6vw, 80px) 0;
+  padding: clamp(36px, 4.5vw, 56px) 0;
   position: relative;
   overflow: hidden;
-}
-
-/* Editorial Header */
-.micro-merch-header {
-  text-align: center;
-  margin-bottom: clamp(32px, 4vw, 48px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.micro-merch-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(251, 113, 133, 0.08);
-  border: 1px solid rgba(251, 113, 133, 0.18);
-  color: #FDA4AF;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.micro-merch-headline {
-  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: #FFFFFF;
-  line-height: 1.15;
-  margin-bottom: 10px;
-}
-
-.micro-merch-subtitle {
-  font-size: clamp(13px, 1.5vw, 14.5px);
-  color: var(--text-muted, #94A3B8);
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-/* 1️⃣ Look Switcher Tabs & 120fps GPU Progress Bar */
-.micro-look-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
-  flex-wrap: wrap;
-}
-
-.micro-look-btn {
-  position: relative;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-muted, #94A3B8);
-  padding: 8px 18px;
-  border-radius: 100px;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  overflow: hidden;
-  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.2s ease;
-}
-
-.micro-look-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-.micro-look-btn.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.22);
-}
-
-.micro-look-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 100%;
-  background: linear-gradient(90deg, #38BDF8, #818CF8, #FB7185);
-  transform-origin: left center;
-  transform: scaleX(0);
-  will-change: transform;
-}
-
-.micro-look-btn.active .micro-look-progress {
-  animation: microTabProgress 5s linear infinite;
-}
-
-.micro-look-nav:hover .micro-look-btn.active .micro-look-progress {
-  animation-play-state: paused;
-}
-
-@keyframes microTabProgress {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
 }
 
 /* 3-Column Luxury Cluster Grid */
@@ -698,14 +558,14 @@ Replace lines 9240–9445 in `css/design-system.css` with:
 
 - [ ] **Step 2: Verify CSS integrity**
 
-Run: `node -e "const fs = require('fs'); const css = fs.readFileSync('css/design-system.css', 'utf8'); console.log('Has Micro Nav:', css.includes('.micro-look-nav'), 'Has Progress:', css.includes('microTabProgress'), 'Has Specular:', css.includes('.micro-col-specular'));"`
-Expected: `Has Micro Nav: true Has Progress: true Has Specular: true`
+Run: `node -e "const fs = require('fs'); const css = fs.readFileSync('css/design-system.css', 'utf8'); console.log('Has Micro Specular:', css.includes('.micro-col-specular'), 'Has Ripple:', css.includes('microRippleWave'));"`
+Expected: `Has Micro Specular: true Has Ripple: true`
 
 - [ ] **Step 3: Commit Task 2**
 
 ```bash
 git add css/design-system.css
-git commit -m "feat(micro-merch): modern soft-luxury CSS redesign with obsidian glass, specular sheen, and ripple keyframes"
+git commit -m "feat(micro-merch): clean minimal CSS with obsidian cards, specular sheen, and ripple keyframes"
 ```
 
 ---
@@ -713,20 +573,16 @@ git commit -m "feat(micro-merch): modern soft-luxury CSS redesign with obsidian 
 ### Task 3: Motion Engine Orchestration in `js/animations.js`
 
 **Files:**
-- Modify: `js/animations.js:20-25`, `js/animations.js:920-940`
+- Modify: `js/animations.js`
 
-**Interfaces:**
-- Consumes: `#homeMicroMerchSection`, `.micro-merch-col`, `.micro-col-specular`, `window._nexLenis`
-- Produces: `initMicroMerchClusterMotion()`, 3D tilt transform (`--micro-card-y`), dynamic specular coordinates (`--micro-glare-x/y/opacity`), differential scroll parallax
+- [ ] **Step 1: Add `initMicroMerchClusterMotion` to `js/animations.js`**
 
-- [ ] **Step 1: Implement `initMicroMerchClusterMotion` in `js/animations.js`**
-
-Add `initMicroMerchClusterMotion()` to `js/animations.js` and register it in `DOMContentLoaded`:
+Implement `initMicroMerchClusterMotion()`:
 ```javascript
 /**
  * initMicroMerchClusterMotion
  * Implements all 4 Motion Standards for the Micro-Merchandising Editorial Cluster:
- * 1. Micro-interactions (scroll reveal stagger entrance + Look switcher sync)
+ * 1. Micro-interactions (scroll reveal stagger entrance)
  * 2. 3D Hover Physics (spring lerp mouse tilt + dynamic specular glare)
  * 3. GPU Page Transition (curtain cross-dissolve)
  * 4. Scroll Parallax (differential column depth)
@@ -746,17 +602,9 @@ function initMicroMerchClusterMotion() {
     if (revealed) return;
     revealed = true;
 
-    const header = section.querySelector('.micro-merch-header');
-    if (header) {
-      animate(header,
-        { opacity: [0, 1], y: [16, 0] },
-        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
-      );
-    }
-
     animate(cols,
       { opacity: [0, 1], y: [32, 0], scale: [0.96, 1] },
-      { delay: stagger(0.08, { startDelay: 0.12 }), duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      { delay: stagger(0.08, { startDelay: 0.1 }), duration: 0.75, easing: [0.16, 1, 0.3, 1] }
     );
   }, { margin: '0px 0px -8% 0px' });
 
@@ -783,7 +631,7 @@ function initMicroMerchClusterMotion() {
   if (prefersReduced) return;
 
   // ── 3. 3D HOVER PHYSICS: Mouse Tilt & Specular Tracking ────────────
-  const MAX_TILT = 5.5; // degrees (luxury, non-distorting)
+  const MAX_TILT = 5.5; // degrees
   cols.forEach(col => {
     let rafId = null;
     let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
@@ -894,89 +742,32 @@ function initMicroMerchClusterMotion() {
 }
 ```
 
-- [ ] **Step 2: Verify JS compilation and registration**
+- [ ] **Step 2: Verify registration in `js/animations.js`**
 
-Run: `node -e "const fs = require('fs'); const js = fs.readFileSync('js/animations.js', 'utf8'); console.log('Has init function:', js.includes('initMicroMerchClusterMotion'), 'Registered:', js.includes('initMicroMerchClusterMotion();'));"`
-Expected: `Has init function: true Registered: true`
+Run: `node -e "const fs = require('fs'); const js = fs.readFileSync('js/animations.js', 'utf8'); console.log('Has fn:', js.includes('initMicroMerchClusterMotion'));"`
+Expected: `Has fn: true`
 
 - [ ] **Step 3: Commit Task 3**
 
 ```bash
 git add js/animations.js
-git commit -m "feat(micro-merch): 3D mouse tilt physics, specular glare, differential scroll parallax, and page transitions"
+git commit -m "feat(micro-merch): 3D tilt, specular glare, differential parallax, and GPU page transitions"
 ```
 
 ---
 
-### Task 4: Interactive Logic & Look Switcher Sync in `js/home.js`
+### Task 4: Interactive Logic & Ripple in `js/home.js`
 
 **Files:**
 - Modify: `js/home.js:920-975`
 
-**Interfaces:**
-- Consumes: `.micro-look-btn`, `.micro-item-row`, `.micro-item-add-btn`, `window.nexCart`
-- Produces: Look switcher cycling timer, tactile quick-add ripple execution, optimistic bag counter sync
-
 - [ ] **Step 1: Update `initMicroMerchandising` in `js/home.js`**
 
-Update `initMicroMerchandising` in `js/home.js` to support Look Switcher cycling, tab switching, and tactile quick-add ripples:
 ```javascript
 /**
- * 4. Micro-Merchandising Interactions, Look Switcher & View History
+ * 4. Micro-Merchandising Interactions & View History
  */
 function initMicroMerchandising() {
-  // ── Look Switcher Tab Auto-Cycling & Interaction ─────────────────────
-  const lookBtns = Array.from(document.querySelectorAll('.micro-look-btn'));
-  let activeIndex = 0;
-  let lookTimer = null;
-  const INTERVAL_MS = 5000;
-
-  function switchTab(index) {
-    if (lookBtns.length === 0) return;
-    lookBtns.forEach((btn, i) => {
-      const isActive = i === index;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      const progress = btn.querySelector('.micro-look-progress');
-      if (progress) {
-        progress.style.animation = 'none';
-        progress.offsetHeight; // trigger reflow
-        if (isActive) progress.style.animation = 'microTabProgress 5s linear infinite';
-      }
-    });
-    activeIndex = index;
-  }
-
-  function startAutoCycle() {
-    stopAutoCycle();
-    lookTimer = setInterval(() => {
-      const nextIndex = (activeIndex + 1) % lookBtns.length;
-      switchTab(nextIndex);
-    }, INTERVAL_MS);
-  }
-
-  function stopAutoCycle() {
-    if (lookTimer) {
-      clearInterval(lookTimer);
-      lookTimer = null;
-    }
-  }
-
-  lookBtns.forEach((btn, idx) => {
-    btn.addEventListener('click', () => {
-      switchTab(idx);
-      startAutoCycle(); // reset cycle on user click
-    });
-    btn.addEventListener('mouseenter', stopAutoCycle);
-    btn.addEventListener('mouseleave', startAutoCycle);
-    btn.addEventListener('focus', stopAutoCycle);
-    btn.addEventListener('blur', startAutoCycle);
-  });
-
-  if (lookBtns.length > 0) {
-    startAutoCycle();
-  }
-
   // ── Row click & keyboard navigation -> PDP with GPU Transition ────────
   document.querySelectorAll('.micro-item-row').forEach(row => {
     function navigateToProduct() {
@@ -1073,25 +864,22 @@ function initMicroMerchandising() {
 
 - [ ] **Step 2: Verify `js/home.js` syntax**
 
-Run: `node -e "const fs = require('fs'); const js = fs.readFileSync('js/home.js', 'utf8'); console.log('Has switcher loop:', js.includes('microTabProgress'), 'Has ripple:', js.includes('micro-ripple'));"`
-Expected: `Has switcher loop: true Has ripple: true`
+Run: `node -e "const fs = require('fs'); const js = fs.readFileSync('js/home.js', 'utf8'); console.log('Has ripple logic:', js.includes('micro-ripple'));"`
+Expected: `Has ripple logic: true`
 
 - [ ] **Step 3: Commit Task 4**
 
 ```bash
 git add js/home.js
-git commit -m "feat(micro-merch): look switcher auto-cycling, tactile quick-add ripple, and GPU transitions in home.js"
+git commit -m "feat(micro-merch): tactile quick-add ripple and GPU page transitions in home.js"
 ```
 
 ---
 
 ### Task 5: End-to-End Verification via Playwright MCP
 
-**Files:**
-- Test against live site: `http://localhost:3000/index.html`
-
 - [ ] **Step 1: Navigate to `http://localhost:3000/index.html` via Playwright MCP**
-- [ ] **Step 2: Verify DOM elements and Look Switcher responsiveness**
-- [ ] **Step 3: Capture full-page & section verification screenshots**
-- [ ] **Step 4: Verify zero console errors and full feature integrity**
-- [ ] **Step 5: Clean up scratch/preview files and final git commit**
+- [ ] **Step 2: Verify 3D hover physics and quick-add ripples**
+- [ ] **Step 3: Capture full-page & section screenshots**
+- [ ] **Step 4: Verify zero console errors and clean up scratch files**
+- [ ] **Step 5: Final git commit & push**
