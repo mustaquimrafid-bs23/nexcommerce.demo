@@ -555,7 +555,7 @@
     </section>
 
     <!-- CURATED FOR YOUR STYLE (AI RECOMMENDATION & LIFESTYLE EDITORIAL GRID) -->
-    <section class="home-curated-section reveal-on-scroll" id="homeCuratedSection">
+    <section class="home-curated-section" id="homeCuratedSection" aria-label="Curated for Your Style Profile">
       <div class="container">
         <div class="home-section-header-row">
           <div>
@@ -566,23 +566,25 @@
             <h2 class="home-section-title">Pieces matched to your taste.</h2>
             <div class="home-section-sub">Pieces selected for your evening, travel, and weekend moments — curated by our style team.</div>
           </div>
-          <a href="pages/category.html?cat=all" class="home-section-link">View all &rarr;</a>
+          <a href="pages/category.html?cat=all" class="home-section-link curated-see-all-link">View all &rarr;</a>
         </div>
 
         <div class="curated-grid-4col" id="curatedGrid">
           <!-- Curated Item 1: Cashmere Sweater -->
-          <div class="curated-product-card" data-id="p1">
-              <div class="curated-match-badge">
+          <div class="curated-product-card" data-id="p1" data-parallax-depth="1" role="article">
+            <div class="curated-card-specular" aria-hidden="true"></div>
+            <div class="curated-match-badge">
               <i data-lucide="sparkles"></i>
               <span>Top Pick</span>
             </div>
-            <button class="curated-wishlist-btn" aria-label="Add to wishlist" title="Save to Wishlist">
+            <button class="curated-wishlist-btn" aria-label="Add Architectural Cashmere Sweater to wishlist" title="Save to Wishlist">
               <i data-lucide="heart"></i>
             </button>
             <div class="curated-img-box">
               <img src="assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p1" data-name="Architectural Cashmere Sweater" data-price="18400" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
+                <button class="curated-quick-add-btn" data-id="p1" data-name="Architectural Cashmere Sweater" data-price="18400" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel" aria-label="Quick Add Architectural Cashmere Sweater">
+                  <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
                 </button>
@@ -599,18 +601,20 @@
           </div>
 
           <!-- Curated Item 2: Structured Wool Blazer -->
-          <div class="curated-product-card" data-id="p2">
-              <div class="curated-match-badge">
+          <div class="curated-product-card" data-id="p2" data-parallax-depth="2" role="article">
+            <div class="curated-card-specular" aria-hidden="true"></div>
+            <div class="curated-match-badge">
               <i data-lucide="sparkles"></i>
               <span>Staff Favourite</span>
             </div>
-            <button class="curated-wishlist-btn" aria-label="Add to wishlist" title="Save to Wishlist">
+            <button class="curated-wishlist-btn" aria-label="Add Structured Wool Blazer to wishlist" title="Save to Wishlist">
               <i data-lucide="heart"></i>
             </button>
             <div class="curated-img-box">
               <img src="assets/images/products/plp_blazer.png" alt="Structured Wool Blazer" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p2" data-name="Structured Wool Blazer" data-price="24500" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
+                <button class="curated-quick-add-btn" data-id="p2" data-name="Structured Wool Blazer" data-price="24500" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel" aria-label="Quick Add Structured Wool Blazer">
+                  <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
                 </button>
@@ -627,18 +631,20 @@
           </div>
 
           <!-- Curated Item 3: Structured Quilted Tote -->
-          <div class="curated-product-card" data-id="p7">
-              <div class="curated-match-badge">
+          <div class="curated-product-card" data-id="p7" data-parallax-depth="3" role="article">
+            <div class="curated-card-specular" aria-hidden="true"></div>
+            <div class="curated-match-badge">
               <i data-lucide="sparkles"></i>
               <span>Trending Now</span>
             </div>
-            <button class="curated-wishlist-btn" aria-label="Add to wishlist" title="Save to Wishlist">
+            <button class="curated-wishlist-btn" aria-label="Add Quilted Leather Structured Tote to wishlist" title="Save to Wishlist">
               <i data-lucide="heart"></i>
             </button>
             <div class="curated-img-box">
               <img src="assets/images/products/prod_tote.png" alt="Quilted Leather Structured Tote" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p7" data-name="Quilted Leather Structured Tote" data-price="28500" data-img="assets/images/products/prod_tote.png" data-cat="Leather Goods">
+                <button class="curated-quick-add-btn" data-id="p7" data-name="Quilted Leather Structured Tote" data-price="28500" data-img="assets/images/products/prod_tote.png" data-cat="Leather Goods" aria-label="Quick Add Quilted Leather Structured Tote">
+                  <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
                 </button>
@@ -655,18 +661,20 @@
           </div>
 
           <!-- Curated Item 4: Studio Acoustics Headphone GT -->
-          <div class="curated-product-card" data-id="p4">
-              <div class="curated-match-badge">
+          <div class="curated-product-card" data-id="p4" data-parallax-depth="2" role="article">
+            <div class="curated-card-specular" aria-hidden="true"></div>
+            <div class="curated-match-badge">
               <i data-lucide="sparkles"></i>
               <span>Most Loved</span>
             </div>
-            <button class="curated-wishlist-btn" aria-label="Add to wishlist" title="Save to Wishlist">
+            <button class="curated-wishlist-btn" aria-label="Add Studio Acoustics Headphone GT to wishlist" title="Save to Wishlist">
               <i data-lucide="heart"></i>
             </button>
             <div class="curated-img-box">
               <img src="assets/images/lifestyle/thumb_headphones.jpg" alt="Studio Acoustics Headphone GT" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p4" data-name="Studio Acoustics Headphone GT" data-price="32000" data-img="assets/images/lifestyle/thumb_headphones.jpg" data-cat="Acoustics">
+                <button class="curated-quick-add-btn" data-id="p4" data-name="Studio Acoustics Headphone GT" data-price="32000" data-img="assets/images/lifestyle/thumb_headphones.jpg" data-cat="Acoustics" aria-label="Quick Add Studio Acoustics Headphone GT">
+                  <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
                 </button>
