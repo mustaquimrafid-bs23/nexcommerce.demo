@@ -37,7 +37,14 @@
 
     // 2. Magnetic Navigation Links & Glider Indicator
     const navMenu = document.getElementById('navMenuLinks') || header.querySelector('.nav-menu-links');
-    const glider = document.getElementById('navGliderPill') || header.querySelector('.nav-glider-pill');
+    let glider = document.getElementById('navGliderPill') || header.querySelector('.nav-glider-pill');
+    if (!glider && navMenu) {
+      glider = document.createElement('span');
+      glider.className = 'nav-glider-pill';
+      glider.id = 'navGliderPill';
+      glider.setAttribute('aria-hidden', 'true');
+      navMenu.prepend(glider);
+    }
     const navLinks = navMenu ? navMenu.querySelectorAll('.nav-item-link') : [];
 
     if (navMenu && glider && navLinks.length > 0 && !navMenu._gliderInit) {
