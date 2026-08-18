@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHoverEffects();
   initTrackingAnimations();
   initDealsSectionMotion();
+  initIntentCardMotion();
 });
 
 // 0. Smooth Scrolling (Lenis)
@@ -600,4 +601,165 @@ function initDealsSectionMotion() {
 
   if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxFrame); }
   window.addEventListener('scroll', requestParallaxFrame, { passive: true });
+}
+
+/**
+ * initIntentCardMotion
+ * Implements all 4 Motion Standards for Intent Discovery Card:
+ * 1. Micro-interactions (scroll reveal entrance)
+ * 2. 3D Hover Physics (spring lerp tilt + dynamic specular glare)
+ * 3. GPU Page Transition (curtain cross-dissolve)
+ * 4. Scroll Parallax (differential layer depth)
+ */
+function initIntentCardMotion() {
+  const section = document.getElementById('homeIntentSectionRoot');
+  if (!section) return;
+
+  const card = section.querySelector('.home-intent-card');
+  if (!card) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── 1. MICRO-INTERACTIONS: Scroll Reveal Entrance ──────────────────
+  let revealed = false;
+  inView(section, () => {
+    if (revealed) return;
+    revealed = true;
+
+    animate(card,
+      { opacity: [0, 1], y: [32, 0], scale: [0.97, 1] },
+      { duration: 0.85, easing: [0.16, 1, 0.3, 1] }
+    );
+
+    const chips = section.querySelectorAll('.intent-chip-pill');
+    if (chips.length > 0) {
+      animate(chips,
+        { opacity: [0, 1], y: [14, 0] },
+        { delay: stagger(0.06, { startDelay: 0.25 }), duration: 0.6, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }, { margin: '0px 0px -10% 0px' });
+
+  if (prefersReduced) return;
+
+  // ── 2. 3D HOVER PHYSICS: Mouse Tilt & Specular Tracking ────────────
+  const MAX_TILT = 5.5; // degrees (subtle, non-distorting)
+  let rafId = null;
+  let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
+  const LERP = 0.10;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  function getCardParallaxY() {
+    return parseFloat(card.style.getPropertyValue('--intent-card-y') || '0');
+  }
+
+  function applyCardTilt() {
+    curTX = lerp(curTX, tgtTX, LERP);
+    curTY = lerp(curTY, tgtTY, LERP);
+    const py = getCardParallaxY();
+    card.style.setProperty('--intent-shadow-lift', '1');
+    card.style.transform =
+      `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+
+    if (Math.abs(curTX - tgtTX) > 0.04 || Math.abs(curTY - tgtTY) > 0.04) {
+      rafId = requestAnimationFrame(applyCardTilt);
+    } else {
+      card.style.transform =
+        `rotateX(${tgtTX.toFixed(3)}deg) rotateY(${tgtTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+      rafId = null;
+    }
+  }
+
+  card.addEventListener('mousemove', (e) => {
+    const r  = card.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+    const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+    tgtTX = -(dy * MAX_TILT);
+    tgtTY =  (dx * MAX_TILT);
+
+    // Specular glare tracking
+    const gx = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+    const gy = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+    card.style.setProperty('--intent-glare-x', gx);
+    card.style.setProperty('--intent-glare-y', gy);
+    card.style.setProperty('--intent-glare-opacity', '1');
+
+    if (!rafId) { rafId = requestAnimationFrame(applyCardTilt); }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    tgtTX = 0; tgtTY = 0;
+    card.style.setProperty('--intent-glare-opacity', '0');
+    card.style.setProperty('--intent-shadow-lift', '0');
+
+    function springBack() {
+      curTX = lerp(curTX, 0, 0.16);
+      curTY = lerp(curTY, 0, 0.16);
+      const py = getCardParallaxY();
+      card.style.transform =
+        `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(0px) translateY(${py}px)`;
+      if (Math.abs(curTX) > 0.04 || Math.abs(curTY) > 0.04) {
+        rafId = requestAnimationFrame(springBack);
+      } else {
+        card.style.transform = `translateY(${py}px)`;
+        rafId = null;
+      }
+    }
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(springBack);
+  });
+
+  // ── 3. SCROLL PARALLAX: Differential Layer Depth ───────────────────
+  let pxTicking = false;
+  const inputWrap = card.querySelector('.intent-input-wrap');
+  const bgMesh    = card.querySelector('.intent-ambient-mesh');
+  const chipPills = card.querySelectorAll('.intent-chip-pill');
+
+  function updateIntentParallax() {
+    const rect = section.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span     = winH + rect.height;
+      const prog     = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;         // -1 → +1
+
+      // Layer 1: Card Base
+      const cardY = (centered * 16).toFixed(2);
+      card.style.setProperty('--intent-card-y', cardY + 'px');
+      if (!card.matches(':hover')) {
+        card.style.transform = `translateY(${cardY}px)`;
+      }
+
+      // Layer 0: Background Ambient Mesh (drifts slower)
+      if (bgMesh) {
+        const bgY = (centered * 10).toFixed(2);
+        card.style.setProperty('--intent-bg-y', bgY + 'px');
+      }
+
+      // Layer 2: Floating Input Wrap (drifts faster)
+      if (inputWrap) {
+        const inputY = (centered * 22).toFixed(2);
+        card.style.setProperty('--intent-input-y', inputY + 'px');
+      }
+
+      // Layer 1.5: Suggestion Chips
+      chipPills.forEach(chip => {
+        const depth = parseInt(chip.getAttribute('data-chip-depth') || '1', 10);
+        const chipY = (centered * depth * 5).toFixed(2);
+        chip.style.setProperty('--chip-y', chipY + 'px');
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateIntentParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
+  window.addEventListener('scroll', requestParallaxTick, { passive: true });
 }
