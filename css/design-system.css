@@ -9242,58 +9242,85 @@ textarea.input-field {
    MICRO-MERCHANDISING EDITORIAL CLUSTER (LUXURY DISCOVERY)
    ========================================================================== */
 .home-micro-merch-section {
-  padding: 40px 0 56px;
+  padding: clamp(36px, 4.5vw, 56px) 0;
   position: relative;
+  overflow: hidden;
 }
-.micro-merch-grid-3col,
-.micro-merch-grid-4col {
+
+/* 3-Column Luxury Cluster Grid */
+.micro-merch-grid-3col {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  perspective: 1200px;
 }
+
 @media (max-width: 1024px) {
-  .micro-merch-grid-3col,
-  .micro-merch-grid-4col {
+  .micro-merch-grid-3col {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
+
 @media (max-width: 640px) {
-  .micro-merch-grid-3col,
-  .micro-merch-grid-4col {
+  .micro-merch-grid-3col {
     grid-template-columns: 1fr;
     gap: 18px;
   }
 }
+
+/* Luxury Obsidian Column Card */
 .micro-merch-col {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(10, 16, 28, 0.85) 100%);
+  position: relative;
+  background: rgba(11, 20, 36, 0.72);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+  overflow: hidden;
 }
+
 .micro-merch-col:hover {
-  border-color: rgba(255, 255, 255, 0.13);
-  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
+
+/* Specular Glare Tracking Layer */
+.micro-col-specular {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle 260px at var(--micro-glare-x, 50%) var(--micro-glare-y, 50%), rgba(255, 255, 255, 0.06), transparent 70%);
+  opacity: var(--micro-glare-opacity, 0);
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Column Header */
 .micro-col-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 2;
 }
+
 .micro-col-head-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
+
 .micro-col-title {
   font-family: var(--font-body);
   font-size: 15px;
@@ -9301,17 +9328,19 @@ textarea.input-field {
   color: #FFFFFF;
   letter-spacing: -0.01em;
 }
+
 .micro-col-badge {
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted, #94A3B8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 .micro-col-link {
   font-size: 12px;
   font-weight: 500;
@@ -9320,70 +9349,78 @@ textarea.input-field {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: color 180ms ease, transform 180ms ease;
+  transition: color 0.2s ease, transform 0.2s ease;
   cursor: pointer;
   background: transparent;
   border: none;
   padding: 0;
 }
+
 .micro-col-link:hover {
   color: #FFFFFF;
   transform: translateX(2px);
 }
-.micro-col-link i {
-  transition: transform 180ms ease;
-}
-.micro-col-link:hover i {
-  transform: translateX(2px);
-}
 
+/* Product Item List */
 .micro-item-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex: 1;
+  position: relative;
+  z-index: 2;
 }
+
 .micro-item-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 10px 10px;
-  border-radius: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid rgba(255, 255, 255, 0.02);
-  transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+  transition: background-color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 }
+
 .micro-item-row:hover {
   background: rgba(255, 255, 255, 0.045);
   border-color: rgba(255, 255, 255, 0.07);
-  transform: translateX(2px);
+  transform: translateX(3px);
 }
+
 .micro-item-row:focus-visible {
   outline: 2px solid var(--accent, #00d2ff);
   outline-offset: 2px;
 }
+
 .micro-item-thumb {
-  width: 62px;
-  height: 62px;
+  width: 58px;
+  height: 58px;
   border-radius: 8px;
   overflow: hidden;
-  background: #0B111E;
+  background: #090F1C;
   border: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
   position: relative;
 }
+
 .micro-item-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  transform: translateY(var(--micro-img-y, 0px));
 }
+
 .micro-item-row:hover .micro-item-thumb img {
-  transform: scale(1.08);
+  transform: scale(1.08) translateY(var(--micro-img-y, 0px));
 }
+
 .micro-item-info {
   flex: 1;
   min-width: 0;
@@ -9391,26 +9428,30 @@ textarea.input-field {
   flex-direction: column;
   gap: 3px;
 }
+
 .micro-item-cat {
-  font-size: 10.5px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
   font-weight: 500;
-  color: var(--text-muted, #94A3B8);
+  color: var(--text-dim, #64748B);
 }
+
 .micro-item-title {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   color: #F1F5F9;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 180ms ease;
+  transition: color 0.2s ease;
 }
+
 .micro-item-row:hover .micro-item-title {
   color: #FFFFFF;
 }
+
 .micro-item-price {
   font-size: 12.5px;
   font-weight: 600;
@@ -9418,28 +9459,56 @@ textarea.input-field {
   font-variant-numeric: tabular-nums;
   margin-top: 1px;
 }
+
+/* Tactile Quick Add Button with Ripple */
 .micro-item-add-btn {
-  width: 30px;
-  height: 30px;
+  position: relative;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary, #E2E8F0);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted, #94A3B8);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 180ms ease;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .micro-item-row:hover .micro-item-add-btn {
   background: #FFFFFF;
-  color: #0A0F1D;
+  color: #070D18;
   border-color: #FFFFFF;
   transform: scale(1.06);
 }
+
 .micro-item-add-btn:active {
   transform: scale(0.92);
+}
+
+.micro-item-add-btn.added {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  border-color: #10B981 !important;
+}
+
+.micro-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: microRippleWave 0.5s linear;
+  pointer-events: none;
+}
+
+@keyframes microRippleWave {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 /* ==========================================================================
