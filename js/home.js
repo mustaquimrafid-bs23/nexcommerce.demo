@@ -919,28 +919,54 @@ function renderFeaturedCollection() {
  * 4. Micro-Merchandising Interactions & View History
  */
 function initMicroMerchandising() {
-  // Row click & keyboard navigation -> PDP
+  // ── Row click & keyboard navigation -> PDP with GPU Transition ────────
   document.querySelectorAll('.micro-item-row').forEach(row => {
+    function navigateToProduct() {
+      const id = row.getAttribute('data-id') || 'p1';
+      const targetUrl = `pages/product.html?id=${encodeURIComponent(id)}`;
+      const curtain = document.getElementById('pageTransitionOverlay');
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
+    }
+
     row.addEventListener('click', (e) => {
       if (e.target.closest('.micro-item-add-btn')) return;
-      const id = row.getAttribute('data-id') || 'p1';
-      window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
+      navigateToProduct();
     });
 
     row.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         if (e.target.closest('.micro-item-add-btn')) return;
         e.preventDefault();
-        const id = row.getAttribute('data-id') || 'p1';
-        window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
+        navigateToProduct();
       }
     });
   });
 
-  // Micro Add to Bag clicks
+  // ── Micro Add to Bag with Tactile Ripple & Checkmark Morph ──────────
   document.querySelectorAll('.micro-item-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // Ripple physics
+      const circle = document.createElement('span');
+      const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+      const radius = diameter / 2;
+      const rect = btn.getBoundingClientRect();
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${e.clientX - rect.left - radius}px`;
+      circle.style.top = `${e.clientY - rect.top - radius}px`;
+      circle.classList.add('micro-ripple');
+      const existingRipple = btn.querySelector('.micro-ripple');
+      if (existingRipple) existingRipple.remove();
+      btn.appendChild(circle);
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -958,15 +984,17 @@ function initMicroMerchandising() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #10B981;"></i>';
+        btn.classList.add('added');
+        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #FFFFFF;"></i>';
         btn.setAttribute('aria-label', `Added ${name} to Bag`);
         if (window.lucide) window.lucide.createIcons();
 
         setTimeout(() => {
+          btn.classList.remove('added');
           btn.innerHTML = '<i data-lucide="plus" style="width: 14px; height: 14px;"></i>';
           btn.setAttribute('aria-label', `Add ${name} to Bag`);
           if (window.lucide) window.lucide.createIcons();
-        }, 1500);
+        }, 1400);
       }
     });
   });
