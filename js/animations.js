@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTrackingAnimations();
   initDealsSectionMotion();
   initIntentCardMotion();
+  initCuratedGridMotion();
 });
 
 // 0. Smooth Scrolling (Lenis)
@@ -321,16 +322,16 @@ function initScrollReveals() {
 
 // 4. Premium Hover Micro-interactions (Motion-powered)
 function initHoverEffects() {
-  // For generic product cards and category tiles (excluding 3D-managed deal cards)
+  // For generic category tiles and standard cards (excluding 3D-managed cards)
   document.body.addEventListener('mouseenter', (e) => {
-    const card = e.target.closest('.home-cat-pill, .curated-product-card, .category-tile, .product-card:not(.deal-product-card)');
+    const card = e.target.closest('.home-cat-pill, .category-tile, .product-card:not(.deal-product-card):not(.curated-product-card)');
     if (card) {
       animate(card, { y: -2 }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
     }
   }, true);
 
   document.body.addEventListener('mouseleave', (e) => {
-    const card = e.target.closest('.home-cat-pill, .curated-product-card, .category-tile, .product-card:not(.deal-product-card)');
+    const card = e.target.closest('.home-cat-pill, .category-tile, .product-card:not(.deal-product-card):not(.curated-product-card)');
     if (card) {
       animate(card, { y: 0 }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
     }
@@ -756,6 +757,168 @@ function initIntentCardMotion() {
   function requestParallaxTick() {
     if (!pxTicking) {
       requestAnimationFrame(updateIntentParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
+  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+}
+
+/**
+ * initCuratedGridMotion
+ * Implements all 4 Motion Standards for Curated Style Grid:
+ * 1. Micro-interactions (scroll-reveal stagger)
+ * 2. 3D Hover Physics (spring lerp mouse tilt + dynamic specular glare)
+ * 3. GPU Page Transition (curtain cross-dissolve)
+ * 4. Scroll Parallax (differential column depth)
+ */
+function initCuratedGridMotion() {
+  const section = document.getElementById('homeCuratedSection');
+  if (!section) return;
+
+  const cards = Array.from(section.querySelectorAll('.curated-product-card'));
+  if (cards.length === 0) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── 1. MICRO-INTERACTIONS: Scroll Reveal Stagger ────────────────────
+  let revealed = false;
+  inView(section, () => {
+    if (revealed) return;
+    revealed = true;
+
+    animate(cards,
+      { opacity: [0, 1], y: [28, 0], scale: [0.96, 1] },
+      { delay: stagger(0.08, { startDelay: 0.1 }), duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+    );
+  }, { margin: '0px 0px -8% 0px' });
+
+  // ── 2. PAGE TRANSITION: "View all" Link Curtain Dissolve ───────────
+  const seeAllLink = section.querySelector('.curated-see-all-link');
+  if (seeAllLink) {
+    seeAllLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const curtain = document.getElementById('pageTransitionOverlay');
+      const targetUrl = seeAllLink.getAttribute('href');
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
+    });
+  }
+
+  if (prefersReduced) return;
+
+  // ── 3. 3D HOVER PHYSICS: Mouse Tilt & Specular Tracking ────────────
+  const MAX_TILT = 6.5; // degrees
+  cards.forEach(card => {
+    let rafId = null;
+    let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
+    const LERP = 0.12;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    function getCardParallaxY() {
+      return parseFloat(card.style.getPropertyValue('--curated-card-y') || '0');
+    }
+
+    function applyCardTilt() {
+      curTX = lerp(curTX, tgtTX, LERP);
+      curTY = lerp(curTY, tgtTY, LERP);
+      const py = getCardParallaxY();
+      card.style.setProperty('--curated-shadow-lift', '1');
+      card.style.transform =
+        `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+
+      if (Math.abs(curTX - tgtTX) > 0.05 || Math.abs(curTY - tgtTY) > 0.05) {
+        rafId = requestAnimationFrame(applyCardTilt);
+      } else {
+        card.style.transform =
+          `rotateX(${tgtTX.toFixed(3)}deg) rotateY(${tgtTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+        rafId = null;
+      }
+    }
+
+    card.addEventListener('mousemove', (e) => {
+      const r  = card.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+      const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY =  (dx * MAX_TILT);
+
+      // Specular glare tracking
+      const gx = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+      const gy = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+      card.style.setProperty('--curated-glare-x', gx);
+      card.style.setProperty('--curated-glare-y', gy);
+      card.style.setProperty('--curated-glare-opacity', '1');
+
+      if (!rafId) { rafId = requestAnimationFrame(applyCardTilt); }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      tgtTX = 0; tgtTY = 0;
+      card.style.setProperty('--curated-glare-opacity', '0');
+      card.style.setProperty('--curated-shadow-lift', '0');
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.18);
+        curTY = lerp(curTY, 0, 0.18);
+        const py = getCardParallaxY();
+        card.style.transform =
+          `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(0px) translateY(${py}px)`;
+        if (Math.abs(curTX) > 0.05 || Math.abs(curTY) > 0.05) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          card.style.transform = `translateY(${py}px)`;
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
+    });
+  });
+
+  // ── 4. SCROLL PARALLAX: Differential Column Depth ──────────────────
+  let pxTicking = false;
+
+  function updateCuratedParallax() {
+    const rect = section.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span     = winH + rect.height;
+      const prog     = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;         // -1 → +1
+
+      cards.forEach(card => {
+        const depth  = parseInt(card.getAttribute('data-parallax-depth') || '1', 10);
+        const travel = depth * 7; // px
+        const yCard  = (centered * travel).toFixed(2);
+        card.style.setProperty('--curated-card-y', yCard + 'px');
+
+        if (!card.matches(':hover')) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        // Image internal micro-parallax
+        const img = card.querySelector('.curated-img-box img');
+        if (img) {
+          const yImg = (centered * depth * 4.5).toFixed(2);
+          img.style.setProperty('--curated-img-y', yImg + 'px');
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateCuratedParallax);
       pxTicking = true;
     }
   }
