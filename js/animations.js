@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initDealsSectionMotion();
   initIntentCardMotion();
   initCuratedGridMotion();
+  initMicroMerchClusterMotion();
 });
 
 // 0. Smooth Scrolling (Lenis)
@@ -919,6 +920,168 @@ function initCuratedGridMotion() {
   function requestParallaxTick() {
     if (!pxTicking) {
       requestAnimationFrame(updateCuratedParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
+  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+}
+
+/**
+ * initMicroMerchClusterMotion
+ * Implements all 4 Motion Standards for the Micro-Merchandising Editorial Cluster:
+ * 1. Micro-interactions (scroll reveal stagger entrance)
+ * 2. 3D Hover Physics (spring lerp mouse tilt + dynamic specular glare)
+ * 3. GPU Page Transition (curtain cross-dissolve)
+ * 4. Scroll Parallax (differential column depth)
+ */
+function initMicroMerchClusterMotion() {
+  const section = document.getElementById('homeMicroMerchSection') || document.querySelector('.home-micro-merch-section');
+  if (!section) return;
+
+  const cols = Array.from(section.querySelectorAll('.micro-merch-col'));
+  if (cols.length === 0) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── 1. MICRO-INTERACTIONS: Scroll Reveal Stagger ────────────────────
+  let revealed = false;
+  inView(section, () => {
+    if (revealed) return;
+    revealed = true;
+
+    animate(cols,
+      { opacity: [0, 1], y: [32, 0], scale: [0.96, 1] },
+      { delay: stagger(0.08, { startDelay: 0.1 }), duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+    );
+  }, { margin: '0px 0px -8% 0px' });
+
+  // ── 2. PAGE TRANSITION: "See all" & Product Links Curtain Dissolve ──
+  const curtain = document.getElementById('pageTransitionOverlay');
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => { window.location.href = href; }, 210);
+  }
+
+  section.querySelectorAll('.micro-col-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      triggerPageTransition(link.getAttribute('href'));
+    });
+  });
+
+  if (prefersReduced) return;
+
+  // ── 3. 3D HOVER PHYSICS: Mouse Tilt & Specular Tracking ────────────
+  const MAX_TILT = 5.5; // degrees
+  cols.forEach(col => {
+    let rafId = null;
+    let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
+    const LERP = 0.12;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    function getColParallaxY() {
+      return parseFloat(col.style.getPropertyValue('--micro-card-y') || '0');
+    }
+
+    function applyColTilt() {
+      curTX = lerp(curTX, tgtTX, LERP);
+      curTY = lerp(curTY, tgtTY, LERP);
+      const py = getColParallaxY();
+      col.style.transform =
+        `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(10px) translateY(${py}px)`;
+
+      if (Math.abs(curTX - tgtTX) > 0.04 || Math.abs(curTY - tgtTY) > 0.04) {
+        rafId = requestAnimationFrame(applyColTilt);
+      } else {
+        col.style.transform =
+          `rotateX(${tgtTX.toFixed(3)}deg) rotateY(${tgtTY.toFixed(3)}deg) translateZ(10px) translateY(${py}px)`;
+        rafId = null;
+      }
+    }
+
+    col.addEventListener('mousemove', (e) => {
+      const r = col.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY = (dx * MAX_TILT);
+
+      // Specular glare tracking
+      const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+      const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+      col.style.setProperty('--micro-glare-x', gx);
+      col.style.setProperty('--micro-glare-y', gy);
+      col.style.setProperty('--micro-glare-opacity', '1');
+
+      if (!rafId) { rafId = requestAnimationFrame(applyColTilt); }
+    });
+
+    col.addEventListener('mouseleave', () => {
+      tgtTX = 0; tgtTY = 0;
+      col.style.setProperty('--micro-glare-opacity', '0');
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.18);
+        curTY = lerp(curTY, 0, 0.18);
+        const py = getColParallaxY();
+        col.style.transform =
+          `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(0px) translateY(${py}px)`;
+        if (Math.abs(curTX) > 0.04 || Math.abs(curTY) > 0.04) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          col.style.transform = `translateY(${py}px)`;
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
+    });
+  });
+
+  // ── 4. SCROLL PARALLAX: Differential Column Depth ──────────────────
+  let pxTicking = false;
+
+  function updateMicroParallax() {
+    const rect = section.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      cols.forEach(col => {
+        const depth = parseFloat(col.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 7.5; // px travel
+        const yCol = (centered * travel).toFixed(2);
+        col.style.setProperty('--micro-card-y', yCol + 'px');
+
+        if (!col.matches(':hover')) {
+          col.style.transform = `translateY(${yCol}px)`;
+        }
+
+        // Image internal micro-parallax
+        const thumbs = col.querySelectorAll('.micro-item-thumb img');
+        thumbs.forEach(img => {
+          const yImg = (centered * depth * 4).toFixed(2);
+          img.style.setProperty('--micro-img-y', yImg + 'px');
+        });
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateMicroParallax);
       pxTicking = true;
     }
   }
