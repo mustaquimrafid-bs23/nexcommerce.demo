@@ -9148,13 +9148,12 @@ textarea.input-field {
   to { transform: scale(4); opacity: 0; }
 }
 
-/* Card Body & Typography */
+/* Card Body & Typography — Clean Luxury Editorial */
 .curated-card-body {
-  padding: 16px 16px 18px;
+  padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 4px;
+  gap: 3px;
   position: relative;
   z-index: 2;
 }
@@ -9168,7 +9167,7 @@ textarea.input-field {
 
 .curated-card-cat {
   font-family: var(--font-body);
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -9184,7 +9183,7 @@ textarea.input-field {
 }
 
 .curated-card-title {
-  margin: 2px 0 0;
+  margin: 0;
   font-family: var(--font-body);
   font-size: 13.5px;
   font-weight: 600;
@@ -9193,19 +9192,6 @@ textarea.input-field {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.curated-card-reason {
-  margin: 4px 0 0;
-  font-size: 11.5px;
-  color: var(--text-muted);
-  line-height: 1.45;
-  flex: 1;
-}
-
-.curated-reason-tag {
-  color: var(--accent-cyan);
-  font-weight: 600;
 }
 
 /* Responsive Media Queries */
