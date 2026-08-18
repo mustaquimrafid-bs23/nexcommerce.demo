@@ -20,10 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initCategoryTiles();
   initFinalCTA();
   initScrollReveal();
+  initTrustStripInteractions();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
 });
+
 
 
 /**
@@ -1144,12 +1146,23 @@ window._nexNewsletterSubmit = function(form) {
 };
 
 /**
- * 8. Recently Viewed Products Tray
+ * 8. Recently Viewed Products Tray (Luxury Horizontal Glide Rail)
+ */
+/**
+ * 8. Recently Viewed Products Tray (Luxury Horizontal Glide Rail)
+ */
+/**
+ * 8. Recently Viewed Products Tray (Continuous Fluid Carousel)
  */
 function initRecentlyViewed() {
   const section = document.getElementById('homeRecentlyViewedSection');
   const rail = document.getElementById('recentProductsRail');
   const clearBtn = document.getElementById('recentClearBtn');
+  const prevBtn = document.getElementById('recentPrevBtn');
+  const nextBtn = document.getElementById('recentNextBtn');
+  const counterBadge = document.getElementById('recentCounterBadge');
+  const emptyState = document.getElementById('recentEmptyState');
+
   if (!section || !rail) return;
 
   const RECENTS_KEY = 'nex_recent_products';
@@ -1160,46 +1173,257 @@ function initRecentlyViewed() {
     recents = [];
   }
 
-  // If no items in storage yet, seed with 3 high-affinity editorial pieces for immediate showcase
+  // Editorial curated pieces across luxury categories
+  const SEED_PRODUCTS = [
+    { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', house: 'ATELIER NO. 01', price: 18500, formattedPrice: 'BDT 18,500', image: 'assets/images/products/hero_sweater.png' },
+    { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', house: 'STUDIO FOOTWEAR', price: 11900, formattedPrice: 'BDT 11,900', image: 'assets/images/products/prod_runner.png' },
+    { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', house: 'ACOUSTIC LAB', price: 32000, formattedPrice: 'BDT 32,000', image: 'assets/images/products/prod_headphones.png' },
+    { id: 'p2', name: 'Structured Leather Tote', category: 'Objects', house: 'ATELIER ACCENTS', price: 14900, formattedPrice: 'BDT 14,900', image: 'assets/images/products/prod_tote.png' },
+    { id: 'p3', name: 'Fine-Knit Merino Crew', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 2490, formattedPrice: 'BDT 2,490', image: 'assets/images/products/plp_crewneck.png' },
+    { id: 'p5', name: 'Classic Chronograph Watch', category: 'Objects', house: 'TIMEPIECE ATELIER', price: 3380, formattedPrice: 'BDT 3,380', image: 'assets/images/products/search_watch.png' },
+    { id: 'p7', name: 'Tailored Chino Trousers', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 6800, formattedPrice: 'BDT 6,800', image: 'assets/images/products/plp_trousers.png' }
+  ];
+
   if (!Array.isArray(recents) || recents.length === 0) {
-    recents = [
-      { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', price: 18500, formattedPrice: 'BDT 18,500', image: 'assets/images/products/hero_sweater.png' },
-      { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', price: 11900, formattedPrice: 'BDT 11,900', image: 'assets/images/products/prod_runner.png' },
-      { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', price: 32000, formattedPrice: 'BDT 32,000', image: 'assets/images/lifestyle/thumb_headphones.jpg' }
-    ];
+    recents = SEED_PRODUCTS;
+  } else if (recents.length < 4) {
+    const existingIds = new Set(recents.map(r => r.id));
+    SEED_PRODUCTS.forEach(seed => {
+      if (!existingIds.has(seed.id)) {
+        recents.push(seed);
+        existingIds.add(seed.id);
+      }
+    });
   }
 
-  rail.innerHTML = recents.map(item => `
-    <a href="pages/product.html?id=${encodeURIComponent(item.id)}" class="recent-card" data-id="${item.id}">
-      <div class="recent-card-thumb">
-        <img src="${item.image || 'assets/images/products/hero_sweater.png'}" alt="${item.name}" loading="lazy" />
-      </div>
-      <div class="recent-card-info">
-        <span class="recent-card-cat">${item.category || 'Product'}</span>
-        <h4 class="recent-card-title">${item.name}</h4>
-        <span class="recent-card-price">${item.formattedPrice || ('BDT ' + (item.price || 0).toLocaleString())}</span>
-      </div>
-    </a>
-  `).join('');
+  const PARALLAX_DEPTHS = [1, 1.4, 1.8, 1.2];
 
-  section.style.display = 'block';
+  // Render all cards into the continuous rail
+  rail.innerHTML = recents.map((item, index) => {
+    const depth = PARALLAX_DEPTHS[index % PARALLAX_DEPTHS.length];
+    const category = item.category || 'Product';
+    const house = item.house || (category.toUpperCase() + ' ATELIER');
+    const priceStr = item.formattedPrice || ('BDT ' + (item.price || 0).toLocaleString());
+    const imageSrc = item.image || 'assets/images/products/hero_sweater.png';
 
+    return `
+      <a href="pages/product.html?id=${encodeURIComponent(item.id)}" 
+         class="recent-glide-card" 
+         data-id="${item.id}" 
+         data-category="${category}" 
+         data-parallax-depth="${depth}"
+         aria-label="${item.name}, ${priceStr}">
+        <div class="recent-card-glare" aria-hidden="true"></div>
+        <div class="recent-card-media">
+          <img src="${imageSrc}" alt="${item.name}" loading="lazy" />
+          <span class="recent-card-tag">${category}</span>
+          <button type="button" class="recent-card-quick-add" data-id="${item.id}" aria-label="Quick add ${item.name} to shopping bag">
+            <i data-lucide="plus" style="width: 15px; height: 15px;"></i>
+          </button>
+        </div>
+        <div class="recent-card-meta">
+          <span class="recent-card-brand">${house}</span>
+          <h4 class="recent-card-title">${item.name}</h4>
+          <span class="recent-card-price">${priceStr}</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+
+  // Real-time counter and nav button updates
+  const cards = Array.from(rail.querySelectorAll('.recent-glide-card'));
+  const totalCount = cards.length;
+
+  function updateRailState() {
+    if (!rail) return;
+    const scrollLeft = rail.scrollLeft;
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+
+    if (prevBtn) prevBtn.disabled = scrollLeft <= 6;
+    if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 6;
+
+    // Calculate current item index in view
+    const cardWidth = cards[0] ? cards[0].offsetWidth + 18 : 288;
+    const currentIndex = Math.min(totalCount, Math.max(1, Math.round(scrollLeft / cardWidth) + 1));
+    const padIndex = String(currentIndex).padStart(2, '0');
+    const padTotal = String(totalCount).padStart(2, '0');
+
+    if (counterBadge) {
+      counterBadge.textContent = `${padIndex} / ${padTotal}`;
+    }
+  }
+
+  // Navigation button controls
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const scrollStep = (cards[0] ? cards[0].offsetWidth + 18 : 288) * 1.5;
+      rail.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const scrollStep = (cards[0] ? cards[0].offsetWidth + 18 : 288) * 1.5;
+      rail.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  rail.addEventListener('scroll', updateRailState, { passive: true });
+
+  // Mouse Drag-to-Scroll Momentum
+  let isDown = false;
+  let startX = 0;
+  let scrollStart = 0;
+  let hasDragged = false;
+
+  rail.addEventListener('mousedown', (e) => {
+    isDown = true;
+    hasDragged = false;
+    startX = e.pageX - rail.offsetLeft;
+    scrollStart = rail.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  rail.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - rail.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    if (Math.abs(walk) > 5) hasDragged = true;
+    rail.scrollLeft = scrollStart - walk;
+  });
+
+  // Wheel horizontal scroll support
+  rail.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      rail.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
+  // Quick Add Ripple and Action Handling
+  rail.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    const addBtn = e.target.closest('.recent-card-quick-add');
+    if (!addBtn) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+
+    const productId = addBtn.getAttribute('data-id');
+    const product = recents.find(p => String(p.id) === String(productId));
+
+    // Create tactile ripple
+    const rect = addBtn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'recent-ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    addBtn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    // Morph icon to checkmark
+    addBtn.classList.add('added');
+    addBtn.innerHTML = '<i data-lucide="check" style="width: 15px; height: 15px;"></i>';
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+
+    setTimeout(() => {
+      addBtn.classList.remove('added');
+      addBtn.innerHTML = '<i data-lucide="plus" style="width: 15px; height: 15px;"></i>';
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }, 1400);
+
+    if (window.nexCart && product) {
+      window.nexCart.addItem({
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: product.price || 0,
+        formattedPrice: product.formattedPrice,
+        image: product.image || 'assets/images/products/hero_sweater.png'
+      });
+    }
+  });
+
+  // Clear History Action
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       try {
         localStorage.removeItem(RECENTS_KEY);
       } catch (e) {}
-      section.style.opacity = '0';
-      section.style.transition = 'opacity 300ms ease';
+      
+      rail.style.opacity = '0';
+      rail.style.transition = 'opacity 300ms ease';
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (counterBadge) counterBadge.style.display = 'none';
+      clearBtn.style.display = 'none';
+
       setTimeout(() => {
-        section.style.display = 'none';
-        section.style.opacity = '1';
+        rail.style.display = 'none';
+        if (emptyState) {
+          emptyState.style.display = 'block';
+          emptyState.style.opacity = '0';
+          emptyState.style.transition = 'opacity 300ms ease';
+          requestAnimationFrame(() => { emptyState.style.opacity = '1'; });
+        }
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
       }, 300);
     });
   }
 
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
+  // Initial state setup
+  section.style.display = 'block';
+  updateRailState();
+
+  if (typeof window.initRecentlyViewedMotion === 'function') {
+    window.initRecentlyViewedMotion();
   }
 }
 
+
+/**
+ * initTrustStripInteractions
+ * Handles keyboard accessibility (Enter/Space) for trust cards,
+ * navigating to the trust-link href inside each card.
+ */
+function initTrustStripInteractions() {
+  const section = document.getElementById('trustStripSection');
+  if (!section) return;
+
+  const cards = section.querySelectorAll('.trust-item-card');
+  cards.forEach(function(card) {
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const link = card.querySelector('.trust-link');
+        if (link) link.click();
+      }
+    });
+  });
+
+  // Ensure Lucide icons are rendered inside the trust strip
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons({ context: section });
+  }
+}

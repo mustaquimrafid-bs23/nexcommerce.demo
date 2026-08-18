@@ -914,73 +914,136 @@
     </section>
 
     <!-- TRUST / VALUE PROPOSITION STRIP -->
-    <section class="trust-strip reveal-on-scroll" aria-label="Why Choose nexCommerce">
+    <section class="trust-strip" id="trustStripSection" aria-label="Why Choose nexCommerce">
+
+      <!-- 4-Column Trust Card Grid -->
       <div class="container trust-grid">
-        <div class="trust-item-card">
+
+
+        <!-- Card 1: Intent Discovery -->
+        <div class="trust-item-card" data-trust-index="0" data-parallax-depth="1.0" tabindex="0" role="article" aria-label="Curated Intent Discovery">
+          <div class="trust-card-specular" aria-hidden="true"></div>
+          <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
-            <div class="trust-item-icon">
+            <div class="trust-item-icon trust-icon-cyan">
               <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">01</span>
           </div>
           <div class="trust-item-title">Curated Intent Discovery</div>
-          <div class="trust-item-sub">Find products naturally from your very first intent with semantic AI matching.</div>
-          <div class="trust-item-tag"><i data-lucide="sparkle" style="width: 11px; height: 11px; color: var(--accent-cyan);"></i> AI Vector Match</div>
+          <div class="trust-item-sub">Find exactly what you need from a single natural-language prompt — no filters, no friction, just intent matched to product.</div>
+          <a href="pages/discovery.html" class="trust-item-tag trust-link" aria-label="Explore Intent Discovery">
+            <i data-lucide="sparkle" style="width: 11px; height: 11px;"></i>
+            <span>AI Vector Match</span>
+            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
+          </a>
         </div>
 
-        <div class="trust-item-card">
+        <!-- Card 2: Hyperlocal Courier -->
+        <div class="trust-item-card" data-trust-index="1" data-parallax-depth="1.8" tabindex="0" role="article" aria-label="Hyperlocal Express Courier">
+          <div class="trust-card-specular" aria-hidden="true"></div>
+          <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
-            <div class="trust-item-icon">
+            <div class="trust-item-icon trust-icon-amber">
               <i data-lucide="truck" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">02</span>
           </div>
           <div class="trust-item-title">Hyperlocal Express Courier</div>
-          <div class="trust-item-sub">Real-time route optimization directly to your door with live parcel milestones.</div>
-          <div class="trust-item-tag"><i data-lucide="zap" style="width: 11px; height: 11px; color: #F59E0B;"></i> Same-Day in Dhaka</div>
+          <div class="trust-item-sub">Real-time route optimization and live parcel milestones from dispatch to your door, same day within Dhaka.</div>
+          <a href="pages/tracking.html" class="trust-item-tag trust-link" aria-label="Track your order">
+            <i data-lucide="zap" style="width: 11px; height: 11px;"></i>
+            <span>Same-Day in Dhaka</span>
+            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
+          </a>
         </div>
 
-        <div class="trust-item-card">
+        <!-- Card 3: Guaranteed Security -->
+        <div class="trust-item-card" data-trust-index="2" data-parallax-depth="1.2" tabindex="0" role="article" aria-label="Guaranteed Security">
+          <div class="trust-card-specular" aria-hidden="true"></div>
+          <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
-            <div class="trust-item-icon">
+            <div class="trust-item-icon trust-icon-emerald">
               <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">03</span>
           </div>
           <div class="trust-item-title">Guaranteed Protection</div>
-          <div class="trust-item-sub">End-to-end encrypted checkout supporting bKash, Nagad, cards, and COD.</div>
-          <div class="trust-item-tag"><i data-lucide="lock" style="width: 11px; height: 11px; color: #10B981;"></i> 100% Secure & Authentic</div>
+          <div class="trust-item-sub">End-to-end encrypted checkout with full support for bKash, Nagad, credit cards, and cash on delivery.</div>
+          <a href="pages/category.html?cat=all" class="trust-item-tag trust-link" aria-label="Shop securely">
+            <i data-lucide="lock" style="width: 11px; height: 11px;"></i>
+            <span>100% Secure &amp; Authentic</span>
+            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
+          </a>
         </div>
 
-        <div class="trust-item-card">
+        <!-- Card 4: Effortless Returns -->
+        <div class="trust-item-card" data-trust-index="3" data-parallax-depth="2.0" tabindex="0" role="article" aria-label="Effortless Exchanges">
+          <div class="trust-card-specular" aria-hidden="true"></div>
+          <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
-            <div class="trust-item-icon">
+            <div class="trust-item-icon trust-icon-rose">
               <i data-lucide="refresh-cw" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">04</span>
           </div>
           <div class="trust-item-title">Effortless Exchanges</div>
-          <div class="trust-item-sub">Hassle-free 14-day exchange and doorstep return pickup policy with zero questions.</div>
-          <div class="trust-item-tag"><i data-lucide="rotate-ccw" style="width: 11px; height: 11px; color: var(--accent-pink);"></i> 14-Day Guarantee</div>
+          <div class="trust-item-sub">Hassle-free 14-day doorstep return pickup. No paperwork, no conditions, no questions asked — ever.</div>
+          <a href="pages/account.html#orders" class="trust-item-tag trust-link" aria-label="Learn about our returns policy">
+            <i data-lucide="rotate-ccw" style="width: 11px; height: 11px;"></i>
+            <span>14-Day Guarantee</span>
+            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
+          </a>
         </div>
+
       </div>
     </section>
 
-    <!-- RECENTLY VIEWED PRODUCTS TRAY -->
-    <section class="home-recently-viewed-section reveal-on-scroll" id="homeRecentlyViewedSection" style="display: none;" aria-label="Recently Viewed">
+    <!-- RECENTLY VIEWED PRODUCTS TRAY (CONTINUOUS FLUID CAROUSEL) -->
+    <section class="home-recently-viewed-section reveal-on-scroll" id="homeRecentlyViewedSection" aria-label="Recently Viewed Items">
       <div class="container">
-        <div class="home-section-header-row" style="margin-bottom: 18px;">
-          <div>
-            <div class="deal-section-tag" style="color: var(--text-muted);"><i data-lucide="history" style="width: 12px; height: 12px;"></i> RESUME BROWSING</div>
-            <h2 class="home-section-title" style="font-size: 22px;">Recently Viewed</h2>
+        <!-- Section Header Row -->
+        <div class="recent-header-row">
+          <div class="recent-header-text">
+            <div class="recent-eyebrow">
+              <i data-lucide="history" style="width: 12px; height: 12px;"></i>
+              <span>RESUME BROWSING</span>
+            </div>
+            <h2 class="recent-headline">Recently Visited Pieces</h2>
+            <p class="recent-subcaption">Curated history of garments, timepieces, and acoustics explored in your session.</p>
           </div>
-          <button type="button" class="recent-clear-btn" id="recentClearBtn" aria-label="Clear recently viewed items">
-            <i data-lucide="x" style="width: 12px; height: 12px;"></i>
-            <span>Clear History</span>
-          </button>
+
+          <!-- Header Right Actions: Counter, Clear & Fluid Rail Navigation -->
+          <div class="recent-header-actions">
+            <div class="recent-counter-badge" id="recentCounterBadge" aria-live="polite">01 / 07</div>
+            <button type="button" class="recent-clear-btn" id="recentClearBtn" aria-label="Clear recently viewed history">
+              <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i>
+              <span>Clear History</span>
+            </button>
+            <div class="recent-glide-nav-wrap" role="group" aria-label="Scroll rail navigation">
+              <button type="button" class="recent-glide-nav-btn" id="recentPrevBtn" aria-label="Previous pieces">
+                <i data-lucide="chevron-left" style="width: 15px; height: 15px;"></i>
+              </button>
+              <button type="button" class="recent-glide-nav-btn" id="recentNextBtn" aria-label="Next pieces">
+                <i data-lucide="chevron-right" style="width: 15px; height: 15px;"></i>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="recent-products-rail" id="recentProductsRail">
-          <!-- Populated dynamically via home.js -->
+
+        <!-- Continuous Horizontal Momentum Glide Rail -->
+        <div class="recent-glide-rail-wrap">
+          <div class="recent-glide-rail" id="recentProductsRail" role="region" aria-label="Recently viewed continuous gallery" tabindex="0">
+            <!-- Dynamically populated by js/home.js -->
+          </div>
+        </div>
+
+        <!-- Empty / Cleared Feedback State (Hidden by default) -->
+        <div class="recent-empty-state" id="recentEmptyState" style="display: none;">
+          <div class="recent-empty-icon"><i data-lucide="clock" style="width: 28px; height: 28px;"></i></div>
+          <h3 class="recent-empty-title">Your Browsing History is Clear</h3>
+          <p class="recent-empty-desc">Discover the season's latest luxury garments, minimalist footwear, and bespoke acoustics.</p>
+          <a href="pages/catalog.html" class="recent-empty-cta">Explore Catalog</a>
         </div>
       </div>
     </section>

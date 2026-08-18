@@ -338,4 +338,14 @@ When pinning interactive shoppable tags or floating cards inside 3D perspective 
 
 ---
 
+## 13. Minimal Discovery & Micro-Merchandising Cluster Standard
+
+When designing multi-column discovery sections (e.g., New Arrivals, Trending/Best Sellers, Curated Picks):
+1. **Zero Redundant Top Banners**: Never place an oversized section banner, subtitle, or secondary look-switcher dock above a multi-column cluster. The column headers themselves (`.micro-col-header`) are the visual anchor.
+2. **Direct Column Hierarchy**: Let each column speak for itself with a crisp title, subtle uppercase badge, and "See all →" link aligned horizontally.
+3. **No Heavy Borders**: Use soft obsidian cards (`rgba(11, 20, 36, 0.72)`) with subtle translucent hairlines (`rgba(255, 255, 255, 0.05)`) and diffuse shadows rather than solid bright borders.
+4. **All 4 Motion Standards Maintained**: Ensure in-view reveal stagger, spring LERP mouse tilt (`±5.5°`), dynamic cursor-following specular sheen (`.micro-col-specular`), GPU curtain transitions, and differential column parallax (`1x`, `2x`, `1.5x`) are integrated.
+
+---
+
 *Last updated: 2026-08-18 | My role: Senior UI/UX Designer / Product Designer*

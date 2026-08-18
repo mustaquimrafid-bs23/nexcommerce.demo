@@ -12,3 +12,11 @@ Always prioritize using **Playwright MCP** tools (`call_mcp_tool` with `ServerNa
 ### Operational Guardrails:
 - Serve preview files via the active local server (`http://localhost:3000/`) rather than `file:///` URLs when using browser automation tools.
 - Capture screenshots after critical UI and motion milestones to visually verify layouts and responsiveness.
+
+---
+
+## 4. Visual Preview & Standalone Mockup Background Fidelity
+When creating standalone visual preview files or mockups (`preview-*.html` or brainstorming artifacts):
+1. **Link Global Design System**: Always include `<link rel="stylesheet" href="css/design-system.css">` rather than defining ad-hoc inline design tokens or color variables.
+2. **Exact Background Foundation**: Always set `body { background: var(--bg-main, #012148); }` to match the storefront's exact page background and lighting. Never invent arbitrary background hex colors (e.g., `#070D18`).
+

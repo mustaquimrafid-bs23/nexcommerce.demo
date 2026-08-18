@@ -22,7 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initIntentCardMotion();
   initCuratedGridMotion();
   initMicroMerchClusterMotion();
+  initTrustStripMotion();
+  initRecentlyViewedMotion();
 });
+
 
 // 0. Smooth Scrolling (Lenis)
 function initSmoothScroll() {
@@ -1089,3 +1092,455 @@ function initMicroMerchClusterMotion() {
   if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
   window.addEventListener('scroll', requestParallaxTick, { passive: true });
 }
+
+/**
+ * initTrustStripMotion
+ * Full 4-Motion-Standard implementation for the Trust & Value Proposition Strip:
+ * 1. Micro-interactions  - 120fps GPU scaleX progress bar + tab switcher + tactile ripple
+ * 2. 3D Hover Physics    - Spring LERP mouse tilt + cursor-tracking specular glare
+ * 3. Page Transitions    - GPU cross-dissolve curtain on trust-link clicks
+ * 4. Scroll Parallax     - Differential card depth (Lenis + rAF)
+ */
+function initTrustStripMotion() {
+  const section = document.getElementById('trustStripSection');
+  if (!section) return;
+
+  const cards   = Array.from(section.querySelectorAll('.trust-item-card'));
+  const bar     = document.getElementById('trustProgressBar');
+  const tabs    = Array.from(section.querySelectorAll('.trust-prog-label'));
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1a. SCROLL REVEAL: Staggered Motion.dev entrance
+  if (!prefersReduced) {
+    let revealed = false;
+    inView(section, () => {
+      if (revealed) return;
+      revealed = true;
+
+      const header = section.querySelector('.trust-strip-header');
+      if (header) {
+        animate(header,
+          { opacity: [0, 1], y: [20, 0] },
+          { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+        );
+      }
+
+      const progressArea = section.querySelector('.trust-progress-container');
+      if (progressArea) {
+        animate(progressArea,
+          { opacity: [0, 1], y: [12, 0] },
+          { delay: 0.1, duration: 0.5, easing: [0.16, 1, 0.3, 1] }
+        );
+      }
+
+      animate(cards,
+        { opacity: [0, 1], y: [28, 0], scale: [0.97, 1] },
+        { delay: stagger(0.07, { startDelay: 0.15 }), duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { margin: '0px 0px -6% 0px' });
+  }
+
+  // 1b. 120fps GPU PROGRESS BAR + PILLAR TAB SWITCHER
+  const TOTAL_TABS = tabs.length || 4;
+  let activeTab  = 0;
+  let progRaf    = null;
+  let progStart  = null;
+  const DWELL_MS = 3200;
+
+  function setActiveTab(idx, withAnim) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    cards.forEach((c, i) => {
+      c.style.borderColor = (i === idx) ? 'rgba(255, 255, 255, 0.14)' : '';
+    });
+    const targetScale = (idx + 1) / TOTAL_TABS;
+    if (bar) {
+      bar.style.transition = 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)';
+      bar.style.transform  = 'scaleX(' + targetScale + ')';
+    }
+    activeTab = idx;
+    if (withAnim) startProgressDwell();
+  }
+
+  function startProgressDwell() {
+    if (prefersReduced) return;
+    if (progRaf) cancelAnimationFrame(progRaf);
+    if (bar) bar.style.transition = 'none';
+    progStart = null;
+
+    const fromScale = activeTab / TOTAL_TABS;
+    const toScale   = (activeTab + 1) / TOTAL_TABS;
+
+    function tick(ts) {
+      if (!progStart) progStart = ts;
+      const elapsed = ts - progStart;
+      const t       = Math.min(elapsed / DWELL_MS, 1);
+      const scale   = fromScale + (toScale - fromScale) * t;
+      if (bar) bar.style.transform = 'scaleX(' + scale + ')';
+
+      if (t < 1) {
+        progRaf = requestAnimationFrame(tick);
+      } else {
+        const next = (activeTab + 1) % TOTAL_TABS;
+        setActiveTab(next, true);
+      }
+    }
+    progRaf = requestAnimationFrame(tick);
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      if (progRaf) cancelAnimationFrame(progRaf);
+      setActiveTab(i, true);
+    });
+  });
+
+  section.addEventListener('mouseenter', () => {
+    if (progRaf) cancelAnimationFrame(progRaf);
+  });
+  section.addEventListener('mouseleave', () => {
+    if (!prefersReduced) startProgressDwell();
+  });
+
+  setActiveTab(0, !prefersReduced);
+
+  // 1c. TACTILE RIPPLE on card click / keyboard
+  function fireRipple(card, x, y) {
+    const ripple = card.querySelector('.trust-ripple');
+    if (!ripple) return;
+    ripple.classList.remove('trust-ripple-active');
+    void ripple.offsetWidth;
+    ripple.style.left = x + 'px';
+    ripple.style.top  = y + 'px';
+    ripple.classList.add('trust-ripple-active');
+    setTimeout(function() { ripple.classList.remove('trust-ripple-active'); }, 530);
+  }
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.trust-link')) return;
+      const r = card.getBoundingClientRect();
+      fireRipple(card, e.clientX - r.left, e.clientY - r.top);
+    });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const r = card.getBoundingClientRect();
+        fireRipple(card, r.width / 2, r.height / 2);
+      }
+    });
+  });
+
+  if (prefersReduced) return;
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt + Specular Glare
+  const MAX_TILT = 6.5;
+
+  cards.forEach(function(card) {
+    let rafId = null;
+    let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
+    const LERP = 0.11;
+    const lerp = function(a, b, t) { return a + (b - a) * t; };
+
+    function getCardY() {
+      return parseFloat(card.style.getPropertyValue('--trust-card-y') || '0');
+    }
+
+    function applyTilt() {
+      curTX = lerp(curTX, tgtTX, LERP);
+      curTY = lerp(curTY, tgtTY, LERP);
+      const py = getCardY();
+      card.style.transform =
+        'perspective(1000px) rotateX(' + curTX.toFixed(3) + 'deg) rotateY(' + curTY.toFixed(3) + 'deg) translateZ(10px) translateY(' + py + 'px)';
+
+      if (Math.abs(curTX - tgtTX) > 0.04 || Math.abs(curTY - tgtTY) > 0.04) {
+        rafId = requestAnimationFrame(applyTilt);
+      } else {
+        card.style.transform =
+          'perspective(1000px) rotateX(' + tgtTX.toFixed(3) + 'deg) rotateY(' + tgtTY.toFixed(3) + 'deg) translateZ(10px) translateY(' + py + 'px)';
+        rafId = null;
+      }
+    }
+
+    card.addEventListener('mousemove', function(e) {
+      const r  = card.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+      const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY =  (dx * MAX_TILT);
+
+      const gx = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+      const gy = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+      card.style.setProperty('--trust-glare-x', gx);
+      card.style.setProperty('--trust-glare-y', gy);
+      card.style.setProperty('--trust-glare-opacity', '1');
+
+      if (!rafId) rafId = requestAnimationFrame(applyTilt);
+    });
+
+    card.addEventListener('mouseleave', function() {
+      tgtTX = 0; tgtTY = 0;
+      card.style.setProperty('--trust-glare-opacity', '0');
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.16);
+        curTY = lerp(curTY, 0, 0.16);
+        const py = getCardY();
+        card.style.transform =
+          'perspective(1000px) rotateX(' + curTX.toFixed(3) + 'deg) rotateY(' + curTY.toFixed(3) + 'deg) translateZ(0px) translateY(' + py + 'px)';
+        if (Math.abs(curTX) > 0.04 || Math.abs(curTY) > 0.04) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          card.style.transform = 'translateY(' + py + 'px)';
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
+    });
+  });
+
+  // 3. GPU PAGE TRANSITIONS on trust explore links
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition    = 'opacity 200ms ease';
+    curtain.style.opacity       = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(function() { window.location.href = href; }, 210);
+  }
+
+  section.querySelectorAll('.trust-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const href = link.getAttribute('href');
+      if (href && !href.startsWith('#')) {
+        e.preventDefault();
+        triggerPageTransition(href);
+      }
+    });
+  });
+
+  // 4. SCROLL PARALLAX: Differential card depth
+  let pxTicking = false;
+
+  function updateTrustParallax() {
+    const rect    = section.getBoundingClientRect();
+    const winH    = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span     = winH + rect.height;
+      const prog     = (winH - rect.top) / span;
+      const centered = (prog - 0.5) * 2;
+
+      cards.forEach(function(card) {
+        const depth  = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 6;
+        const yCard  = (centered * travel).toFixed(2);
+        card.style.setProperty('--trust-card-y', yCard + 'px');
+
+        if (!card.matches(':hover')) {
+          card.style.transform = 'translateY(' + yCard + 'px)';
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestTrustParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateTrustParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestTrustParallaxTick); }
+  window.addEventListener('scroll', requestTrustParallaxTick, { passive: true });
+}
+
+/**
+ * 12. RECENTLY VIEWED PRODUCTS TRAY - 4 MOTION STANDARDS
+ * 1. Micro-interactions: 120fps progress timer & Motion.dev entrance cascade.
+ * 2. 3D Hover Effects: 3D spring tilt physics (±6.0°), specular glare tracking, multi-tier diffuse shadow.
+ * 3. Page Transitions: GPU cross-dissolve curtain (#pageTransitionOverlay) on card click.
+ * 4. Scroll Parallax: Differential card depth on scroll.
+ */
+function initRecentlyViewedMotion() {
+  const section = document.getElementById('homeRecentlyViewedSection');
+  if (!section) return;
+
+  const header = section.querySelector('.recent-header-row');
+  const tabs = section.querySelector('.recent-tabs-container');
+  const cards = section.querySelectorAll('.recent-glide-card');
+  const curtain = document.getElementById('pageTransitionOverlay');
+
+  // 1. MICRO-INTERACTIONS: Motion.dev Entrance Cascade (Run once)
+  if (!section._hasEntranceAnimated) {
+    section._hasEntranceAnimated = true;
+    try {
+      if (typeof inView !== 'undefined' && typeof animate !== 'undefined') {
+        inView(section, () => {
+          if (header) {
+            animate(header, { opacity: [0, 1], y: [16, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+          }
+          if (tabs) {
+            animate(tabs, { opacity: [0, 1], y: [16, 0] }, { duration: 0.6, delay: 0.08, easing: [0.22, 1, 0.36, 1] });
+          }
+          if (cards.length > 0) {
+            animate(cards, { opacity: [0, 1], y: [20, 0], scale: [0.97, 1] }, {
+              delay: stagger(0.05, { startDelay: 0.1 }),
+              duration: 0.65,
+              easing: [0.22, 1, 0.36, 1]
+            });
+          }
+        }, { amount: 0.1 });
+      }
+    } catch (e) {
+      console.warn('Recently viewed inView entrance fallback:', e);
+    }
+  }
+
+  // 2. 3D HOVER EFFECTS: Spring Lerp Tilt & Specular Sheen
+  const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  if (!isReduced && !isTouch) {
+    const MAX_TILT = 5.5;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionListeners) return;
+      card._hasMotionListeners = true;
+
+      let curTX = 0, curTY = 0;
+      let tgtTX = 0, tgtTY = 0;
+      let rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => {
+        card._isHovered = true;
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--recents-glare-x', gx);
+        card.style.setProperty('--recents-glare-y', gy);
+        card.style.setProperty('--recents-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--recents-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.15);
+          curTY = lerp(curTY, 0, 0.15);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS on recent card clicks
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => { window.location.href = href; }, 210);
+  }
+
+  cards.forEach(card => {
+    if (card._hasNavListener) return;
+    card._hasNavListener = true;
+
+    card.addEventListener('click', (e) => {
+      // Don't navigate if click was on the quick-add button or ripple
+      if (e.target.closest('.recent-card-quick-add') || e.target.closest('.recent-ripple')) {
+        return;
+      }
+      const href = card.getAttribute('href');
+      if (href && !href.startsWith('#')) {
+        e.preventDefault();
+        triggerPageTransition(href);
+      }
+    });
+  });
+
+  // 4. SCROLL PARALLAX: Differential card depth
+  let pxTicking = false;
+
+  function updateRecentsParallax() {
+    const rect = section.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span;
+      const centered = (prog - 0.5) * 2;
+
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 5;
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+        card.style.setProperty('--recent-card-y', `${yCard}px`);
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestRecentsParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateRecentsParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestRecentsParallaxTick);
+  }
+  window.addEventListener('scroll', requestRecentsParallaxTick, { passive: true });
+}
+
+window.initRecentlyViewedMotion = initRecentlyViewedMotion;
+
