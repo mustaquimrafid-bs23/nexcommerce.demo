@@ -838,18 +838,45 @@ function renderFeaturedCollection() {
       });
     }
 
-    // Card click -> PDP
+    // Card click -> PDP with GPU curtain transition
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.curated-quick-add-btn') || e.target.closest('.curated-add-btn') || e.target.closest('.curated-img-action') || e.target.closest('.curated-wishlist-btn')) return;
+      if (e.target.closest('.curated-quick-add-btn') || e.target.closest('.curated-wishlist-btn')) return;
       const targetId = id || 'p1';
-      window.location.href = `pages/product.html?id=${encodeURIComponent(targetId)}`;
+      const targetUrl = `pages/product.html?id=${encodeURIComponent(targetId)}`;
+      const curtain = document.getElementById('pageTransitionOverlay');
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
     });
   });
 
-  // Add to Bag clicks (Quick Add)
-  document.querySelectorAll('.curated-quick-add-btn, .curated-add-btn').forEach(btn => {
+  // Add to Bag clicks with tactile ripple
+  document.querySelectorAll('.curated-quick-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // Tactile ripple trigger
+      const rippleEl = btn.querySelector('.curated-ripple');
+      if (rippleEl) {
+        rippleEl.classList.remove('animating');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        rippleEl.style.width  = size + 'px';
+        rippleEl.style.height = size + 'px';
+        rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+        rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+        void rippleEl.offsetWidth;
+        rippleEl.classList.add('animating');
+        rippleEl.addEventListener('animationend', () => {
+          rippleEl.classList.remove('animating');
+        }, { once: true });
+      }
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -867,13 +894,13 @@ function renderFeaturedCollection() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> <span>Added</span>';
+        btn.innerHTML = '<span class="curated-ripple" aria-hidden="true"></span><i data-lucide="check" style="width: 14px; height: 14px;"></i> <span>Added</span>';
         btn.style.background = '#10B981';
         btn.style.color = '#FFFFFF';
         if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
 
         setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i> <span>Quick Add</span>';
+          btn.innerHTML = '<span class="curated-ripple" aria-hidden="true"></span><i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i> <span>Quick Add</span>';
           btn.style.background = '';
           btn.style.color = '';
           if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
