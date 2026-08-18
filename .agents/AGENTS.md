@@ -332,6 +332,8 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Stacking shoppable pills in the center of mobile viewports directly over human models or products
 - Blurry semi-transparent glassmorphism with low-contrast text on micro-interactive cards
 - Pulsing radar/beacon dots placed directly on human models
+- Auto-cycling category tabs or auto-filtering timers in product browsing trays / recently viewed feeds
+- CSS `transition: transform` applied during active `requestAnimationFrame` LERP mouse-tilt calculations
 
 ### 🔍 Self-Check Before Presenting UI
 Before presenting any lifestyle e-commerce UI, ask:

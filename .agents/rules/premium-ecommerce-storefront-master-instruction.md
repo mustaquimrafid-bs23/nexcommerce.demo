@@ -1484,3 +1484,13 @@ And finally:
 > **"I can complete my purchase without friction."**
 
 That is the standard the implementation should target.
+
+---
+
+# 49. Recently Viewed & Recommendation Trays (Continuous Fluid Standard)
+
+* **Continuous Fluid Architecture**: Follow the SSENSE / Apple continuous horizontal carousel architecture for all recently viewed and recommendation feeds.
+* **Predictable & User-Paced**: NEVER introduce auto-cycling category tabs or timers that filter or hide items automatically. Feeds must remain stable, calm, and predictable.
+* **Layout & Navigation**: Uninterrupted horizontal track with `scroll-snap-type: x mandatory`, minimal floating glass chevrons (`‹` and `›`), and real-time position badges (`01 / 07`).
+* **Micro-Interactions**: Native momentum drag-to-scroll, wheel horizontal glide, tactile quick-add ripple with checkmark morph, and 3D spring hover tilt (`±5.5°`).
+* **Zero DOM Thrashing**: Feed cards must be rendered once into the DOM rather than rebuilding `innerHTML` on interaction.

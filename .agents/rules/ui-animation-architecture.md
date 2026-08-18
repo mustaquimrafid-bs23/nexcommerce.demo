@@ -74,3 +74,10 @@ Introduce Motion only when interactions require coordinated state transitions, g
 - **Optical Image Settle:** Internal photography should ease from `scale(1.08) → 1.00` within overflow-hidden frames upon viewport entry.
 - **Bidirectional Scroll Parallax:** Connect section scroll progress to Lenis smooth scroll loop to apply continuous GPU-accelerated vertical drift (`translateY(±24px to ±28px)`) to background photography when scrolling both down and up.
 - **Dynamic Cursor Spotlight Sheen:** Use hardware-accelerated CSS custom variables (`--mouse-x`, `--mouse-y`, `--spotlight-opacity`) driven by card-level `mousemove` events to cast a radial spotlight sheen across dark obsidian surfaces and borders without causing layout reflows.
+
+### 8.9 Continuous Product Feeds & 120fps LERP Physics Guardrails
+- **Strict Prohibition on Auto-Filtering Intervals**: NEVER use automatic tab-switching intervals or auto-filtering timers in product trays, recently viewed feeds, or catalogue rows. Auto-switching hides items unexpectedly while users are inspecting them, causing severe cognitive friction and visual stutter. Feeds must be calm, predictable, and user-paced.
+- **Continuous Fluid Carousel Pattern**: Multi-item history and recommendation feeds must be built as an uninterrupted, single-track horizontal carousel with native momentum drag, wheel glide, step chevrons, and real-time position badges (`01 / 07`).
+- **Zero DOM Thrashing on Feeds**: Feed cards must be rendered once into the DOM. Never wipe `innerHTML` or recreate nodes during interaction or pagination.
+- **LERP vs. CSS Transition Conflict Prevention**: Elements actively manipulated by JavaScript `requestAnimationFrame` LERP loops (such as 3D mouse tilt) MUST NOT have CSS `transition: transform` enabled during hover, as the browser's CSS transition engine will fight continuous RAF updates, causing visual stuttering.
+- **GPU-Accelerated Progress Animation**: Progress and timer bars must use GPU `transform: scaleX(0) → scaleX(1)` with CSS keyframes and `animation-play-state: paused` on hover, rather than JavaScript DOM intervals.
