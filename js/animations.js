@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMicroMerchClusterMotion();
   initTrustStripMotion();
   initRecentlyViewedMotion();
+  initGlobalHeaderMotion();
 });
 
 
@@ -1543,4 +1544,168 @@ function initRecentlyViewedMotion() {
 }
 
 window.initRecentlyViewedMotion = initRecentlyViewedMotion;
+
+/**
+ * 13. GLOBAL HEADER - 4 MOTION STANDARDS
+ * 1. Micro-interactions: Tactile click ripples on action buttons & search pill, sparkles micro-rotation,
+ *    and elastic badge pops on live counter changes.
+ * 2. 3D Hover Effects: 3D spring tilt physics (±4.5°) with dynamic cursor-following specular glare
+ *    (--header-glare-x, --header-glare-y) across search pill, concierge button, and action icons.
+ * 3. Page Transitions: Hardware-accelerated GPU curtain cross-dissolve (#pageTransitionOverlay) on header nav links.
+ * 4. Scroll Parallax & Header Intelligence: Lenis-synced dynamic compaction (72px → 60px) and announcement bar collapse.
+ */
+function initGlobalHeaderMotion() {
+  const header = document.querySelector('.site-header') || document.getElementById('siteHeader');
+  if (!header) return;
+
+  const announcementBar = document.querySelector('.top-announcement-bar') || document.getElementById('topAnnouncementBar');
+  const interactivePills = header.querySelectorAll('.concierge-nav-btn, .nav-icon-btn, .nav-search-pill, .nav-more-trigger');
+  const curtain = document.getElementById('pageTransitionOverlay');
+
+  // 1. MICRO-INTERACTIONS: Tactile Ripple Wave Generator
+  interactivePills.forEach(pill => {
+    if (pill._hasHeaderRipple) return;
+    pill._hasHeaderRipple = true;
+
+    pill.addEventListener('pointerdown', (e) => {
+      const rect = pill.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'nav-ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = `${size}px`;
+      ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      pill.appendChild(ripple);
+
+      setTimeout(() => {
+        ripple.remove();
+      }, 450);
+    });
+  });
+
+  // 2. 3D HOVER EFFECTS: Spring Lerp Tilt Physics & Specular Glare Tracking
+  const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  if (!isReduced && !isTouch) {
+    const MAX_TILT = 4.5;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    interactivePills.forEach(pill => {
+      if (pill._hasHeaderMotion) return;
+      pill._hasHeaderMotion = true;
+
+      let curTX = 0, curTY = 0;
+      let tgtTX = 0, tgtTY = 0;
+      let rafId = null;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.15);
+        curTY = lerp(curTY, tgtTY, 0.15);
+        pill.style.transform = `perspective(800px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(6px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      pill.addEventListener('mouseenter', () => {
+        pill.style.setProperty('--header-glare-opacity', '1');
+      });
+
+      pill.addEventListener('mousemove', (e) => {
+        const r = pill.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        pill.style.setProperty('--header-glare-x', gx);
+        pill.style.setProperty('--header-glare-y', gy);
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      pill.addEventListener('mouseleave', () => {
+        tgtTX = 0; tgtTY = 0;
+        pill.style.setProperty('--header-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.18);
+          curTY = lerp(curTY, 0, 0.18);
+          pill.style.transform = `perspective(800px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px)`;
+          if (Math.abs(curTX) > 0.01 || Math.abs(curTY) > 0.01) {
+            requestAnimationFrame(springBack);
+          } else {
+            pill.style.transform = '';
+          }
+        }
+        springBack();
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Header Links
+  const headerLinks = document.querySelectorAll(
+    '.site-header .nav-item-link, .site-header .nav-logo, .nav-more-dropdown .nav-more-item, .mobile-nav-drawer .mobile-drawer-link'
+  );
+
+  headerLinks.forEach(link => {
+    if (link._hasTransitionBound) return;
+    link._hasTransitionBound = true;
+
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+
+      // Ensure target is internal and not opening modals
+      if (link.hasAttribute('target') && link.getAttribute('target') === '_blank') return;
+      if (link.closest('#headerMoreMenu') && link.classList.contains('nav-more-trigger')) return;
+
+      e.preventDefault();
+
+      if (curtain) {
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => {
+          window.location.href = href;
+        }, 190);
+      } else {
+        window.location.href = href;
+      }
+    });
+  });
+
+  // 4. SCROLL PARALLAX & INTELLIGENT HEADER COMPACTION
+  let pxTicking = false;
+  function updateHeaderParallax() {
+    const scrollY = window.scrollY;
+    if (scrollY > 20) {
+      header.classList.add('scrolled');
+      if (announcementBar) announcementBar.classList.add('collapsed');
+    } else {
+      header.classList.remove('scrolled');
+      if (announcementBar) announcementBar.classList.remove('collapsed');
+    }
+    pxTicking = false;
+  }
+
+  function requestHeaderTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateHeaderParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestHeaderTick);
+  }
+  window.addEventListener('scroll', requestHeaderTick, { passive: true });
+}
+
+window.initGlobalHeaderMotion = initGlobalHeaderMotion;
 
