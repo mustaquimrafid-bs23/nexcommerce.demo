@@ -1,15 +1,9 @@
-# nexCommerce Redesign Subagent Progress Ledger
+# SDD Progress Ledger: Micro-Merchandising Editorial Cluster
 
-Plan: `docs/superpowers/plans/2026-08-10-nexcommerce-redesign.md`
-Base commit: `21bf02cca7dc423bf587f6c67505cb6aba4bcbb4`
+- [x] Task 1: Rebuild DOM structure in `index.html` (commit `de8306c`)
+- [x] Task 2: Soft luxury CSS styling in `css/design-system.css` (commit `90cbc6a`)
+- [x] Task 3: Motion engine orchestration in `js/animations.js` (commit `c0a190a`)
+- [x] Task 4: Interactive ripple logic & cart routing in `js/home.js` (commit `28008e0`)
+- [x] Task 5: End-to-end verification across viewports via Playwright MCP (all tests passing)
 
-## Tasks Progress
-- [x] Task 1: CSS Foundation & Luxury Design System Tokens (complete: abde142)
-- [x] Task 2: Minimal Glass Header & Responsive Navigation (complete: 415399f)
-- [x] Task 3: Reusable Component System (`ProductCard` & `TrustSignal`) (complete: 4b3c2c3)
-- [x] Task 4: Homepage Redesign (Alternating Theme Rhythm) (complete: 987e9b4)
-- [x] Task 5: Interactive Shopping Bag Drawer (`SlideOverDrawer`) & Cart State (complete: 6052a50)
-- [x] Task 6: Natural Language Search Overlay (`SmartSearch` with Resilient Fallback) (complete: 834131e)
-- [x] Task 7: Product Listing Page (PLP) & Mobile Bottom-Sheet Filters (complete: a67c619)
-- [x] Task 8: Product Detail Page (PDP) & `FitAdvisor` Assistance (complete: 10f9356)
-- [x] Task 9: Verification, WCAG Contrast Audit & Cross-Page Testing (complete: b151ef8)
+Status: **ALL TASKS COMPLETE & VERIFIED**
