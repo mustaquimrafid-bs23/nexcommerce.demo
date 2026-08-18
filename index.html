@@ -690,11 +690,13 @@
     </section>
 
     <!-- MICRO-MERCHANDISING EDITORIAL CLUSTER -->
-    <section class="home-micro-merch-section reveal-on-scroll" aria-label="Curated Product Collections">
+    <section id="homeMicroMerchSection" class="home-micro-merch-section" aria-label="Curated Product Collections">
       <div class="container">
+        <!-- 3-Column Luxury Cluster Grid -->
         <div class="micro-merch-grid-3col">
-          <!-- Column 1: New Arrivals -->
-          <div class="micro-merch-col">
+          <!-- Column 1: New Arrivals (Parallax Depth: 1) -->
+          <div class="micro-merch-col" data-parallax-depth="1" data-col="arrivals">
+            <div class="micro-col-specular" aria-hidden="true"></div>
             <div class="micro-col-header">
               <div class="micro-col-head-left">
                 <span class="micro-col-title">New Arrivals</span>
@@ -764,8 +766,9 @@
             </div>
           </div>
 
-          <!-- Column 2: Best Sellers -->
-          <div class="micro-merch-col">
+          <!-- Column 2: Best Sellers (Parallax Depth: 2) -->
+          <div class="micro-merch-col" data-parallax-depth="2" data-col="trending">
+            <div class="micro-col-specular" aria-hidden="true"></div>
             <div class="micro-col-header">
               <div class="micro-col-head-left">
                 <span class="micro-col-title">Best Sellers</span>
@@ -835,8 +838,9 @@
             </div>
           </div>
 
-          <!-- Column 3: Picked for you -->
-          <div class="micro-merch-col">
+          <!-- Column 3: Picked for You (Parallax Depth: 1.5) -->
+          <div class="micro-merch-col" data-parallax-depth="1.5" data-col="curated">
+            <div class="micro-col-specular" aria-hidden="true"></div>
             <div class="micro-col-header">
               <div class="micro-col-head-left">
                 <span class="micro-col-title">Picked for You</span>
