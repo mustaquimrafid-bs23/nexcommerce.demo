@@ -123,18 +123,18 @@
     <section class="hero-fullbleed-section" id="heroFullbleedSection" aria-label="Featured Intent Collection">
       <!-- 3D Parallax Full-Bleed Imagery Canvas -->
       <div class="hero-fullbleed-bg" id="heroImgStack">
-        <img src="assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg" alt="Autumn / Winter 2026 Collection — Tailored Silhouette & Structured Leather Tote" class="hero-fullbleed-layer hero-fullbleed-layer-active" id="heroLayerA" draggable="false" />
+        <picture class="hero-fullbleed-picture">
+          <source media="(max-width: 768px)" srcset="assets/images/lifestyle/Gemini_Generated_Image_tm4857tm4857tm48.jpg" />
+          <source media="(min-width: 769px)" srcset="assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg" />
+          <img src="assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg" alt="Autumn / Winter 2026 Collection — Tailored Silhouette & Structured Leather Tote" class="hero-fullbleed-layer hero-fullbleed-layer-active" id="heroLayerA" draggable="false" />
+        </picture>
       </div>
 
-      <!-- Floating 3D Shoppable Hotspot Tag Pinned on the Model -->
-      <div class="hero-3d-hotspot-wrap" id="heroHotspotWrap">
-        <div class="hero-hotspot-beacon">
-          <span class="hotspot-pulse"></span>
-          <span class="hotspot-dot"></span>
-        </div>
-        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p2">
+      <!-- Floating 3D Shoppable Look Capsule (SSENSE / NET-A-PORTER Standard) -->
+      <div class="hero-3d-hotspot-wrap" id="heroHotspotWrap" role="region" aria-label="Featured Look Shoppable Piece">
+        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p2" role="button" tabindex="0" aria-label="View Featured Piece: Structured Leather Tote">
           <div class="hero-hotspot-thumb">
-            <img src="assets/images/lifestyle/thumb_tote.jpg" alt="Structured Leather Tote" id="heroDockThumbImg" />
+            <img src="assets/images/lifestyle/thumb_tote.jpg?v=3" alt="Structured Leather Tote" id="heroDockThumbImg" />
           </div>
           <div class="hero-hotspot-info">
             <span class="hero-hotspot-label" id="heroLookNum">FEATURED PIECE</span>
@@ -151,17 +151,13 @@
       <div class="hero-centered-content hero-daylight-editorial" id="heroCenteredContent">
         <div class="hero-whisper-eyebrow">
           <span class="hero-eyebrow-accent-bar"></span>
-          <span class="hero-eyebrow-text">AUTUMN / WINTER 2026 &nbsp;·&nbsp; THE INTENT COLLECTION</span>
+          <span class="hero-eyebrow-text">AUTUMN / WINTER 2026</span>
         </div>
 
         <h1 class="hero-serif-title">
           Form in Motion,<br>
           <span class="serif-italic">Designed for Living.</span>
         </h1>
-
-        <p class="hero-serif-subtitle">
-          Architectural tailoring and handcrafted leather goods, sculpted for effortless daily refinement.
-        </p>
 
         <!-- Single Confident Luxury Editorial Action -->
         <div class="hero-actions-row">
@@ -300,173 +296,241 @@
       </div>
     </section>
 
-    <!-- TODAY'S DEALS (FLASH SALE & COUNTDOWN) -->
-    <section class="home-deals-section reveal-on-scroll">
-      <div class="container">
-        <div class="home-section-header-row home-deals-header-row">
-          <div>
-            <div class="deal-section-tag"><span class="deal-live-dot"></span>LIMITED ALLOCATIONS</div>
-            <h2 class="home-section-title">Today's Curated Offers</h2>
-            <div class="home-section-sub">Rare price adjustments on foundational wardrobe and lifestyle pieces.</div>
+    <!-- TODAY'S DEALS (FLASH SALE & COUNTDOWN - ATELIER REDESIGN) -->
+    <section class="home-deals-section reveal-on-scroll" id="todaysDealsSection" aria-label="Today's Curated Offers">
+      <div class="deals-ambient-mesh" aria-hidden="true"></div>
+
+      <div class="container deals-container">
+        <!-- 1. Header & Scarcity Control Bar -->
+        <div class="deals-masthead-row">
+          <div class="deals-title-group">
+            <div class="deals-status-pill">
+              <span class="deals-pulse-beacon"></span>
+              <span class="deals-status-text">LIMITED ALLOCATIONS · TIER 1 ARCHIVE</span>
+            </div>
+            <h2 class="deals-headline">Today's Curated Offers</h2>
+            <p class="deals-subtitle">Rare price adjustments on foundational wardrobe and lifestyle pieces.</p>
           </div>
-          <div style="display: flex; align-items: center; gap: 20px;">
-            <a href="pages/category.html?sort=sale" class="home-section-link" style="font-size: 13px;">See all deals &rarr;</a>
-            <div class="deals-countdown-box" aria-label="Offer Countdown">
-              <span class="deal-timer-label">CLOSES IN</span>
-              <div class="deal-timer-digits">
-                <span class="deal-timer-unit" id="dealHours">04</span><span class="deal-timer-sep">h</span>
-                <span class="deal-timer-unit" id="dealMins">32</span><span class="deal-timer-sep">m</span>
-                <span class="deal-timer-unit" id="dealSecs">15</span><span class="deal-timer-sep">s</span>
+
+          <div class="deals-controls-dock">
+            <!-- Category Look Switcher Dock -->
+            <nav class="deals-category-nav" role="tablist" aria-label="Filter Deals by Category">
+              <div class="deals-nav-slider-pill" id="dealsNavSliderPill" aria-hidden="true"></div>
+              <button class="deals-category-tab is-active" data-category="all" role="tab" aria-selected="true">All Offers</button>
+              <button class="deals-category-tab" data-category="apparel" role="tab" aria-selected="false">Apparel</button>
+              <button class="deals-category-tab" data-category="footwear" role="tab" aria-selected="false">Footwear</button>
+              <button class="deals-category-tab" data-category="accessories" role="tab" aria-selected="false">Timepieces & Tech</button>
+            </nav>
+
+            <!-- Live Countdown Widget with SVG Circular Progress Ring -->
+            <div class="deals-countdown-badge" aria-label="Offer Closes In" role="timer" aria-live="polite">
+              <div class="deals-ring-wrap">
+                <svg class="deals-timer-svg" viewBox="0 0 36 36" aria-hidden="true">
+                  <circle class="deals-ring-track" cx="18" cy="18" r="15.5"></circle>
+                  <circle class="deals-ring-progress" id="dealsRingProgress" cx="18" cy="18" r="15.5"></circle>
+                </svg>
+                <i data-lucide="clock" class="deals-clock-icon"></i>
+              </div>
+              <div class="deals-timer-content">
+                <span class="deals-timer-label">CLOSES IN</span>
+                <div class="deals-timer-digits">
+                  <span class="deals-timer-digit" id="dealHours">04</span><span class="deals-timer-sep">h</span>
+                  <span class="deals-timer-digit" id="dealMins">32</span><span class="deals-timer-sep">m</span>
+                  <span class="deals-timer-digit" id="dealSecs">15</span><span class="deals-timer-sep">s</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="deals-carousel-grid" id="dealsCarouselGrid">
-          <!-- Deal 1 -->
-          <a href="pages/product.html?id=p1" class="deal-product-card" data-id="p1" style="text-decoration: none; display: block; color: inherit;">
-            <span class="deal-badge">-20%</span>
-            <button class="deal-wishlist-btn" aria-label="Add Merino Knit Sweater to Wishlist">
-              <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-            </button>
-            <div class="deal-img-box">
-              <img src="assets/images/products/hero_sweater.png" alt="Merino Knit Sweater" loading="lazy" />
-              <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="1990" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
-                  <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
-                </button>
-              </div>
-            </div>
-            <div class="deal-card-body">
-              <div class="deal-card-cat">APPAREL</div>
-              <div class="deal-card-title">Merino Knit Sweater</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 1,990</span>
-                <span class="deal-price-original">BDT 2,490</span>
-              </div>
-              <div class="deal-card-rating">
-                <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
-                <span>4.6</span>
-                <span class="deal-card-reviews">(128)</span>
-              </div>
-            </div>
-          </a>
+        <!-- 2. The Atelier Canvas (Spotlight + Motion Rail) -->
+        <div class="deals-canvas-layout">
+          <!-- Left Column: The Spotlight Atelier Card (42%) -->
+          <div class="deals-spotlight-col">
+            <div class="deals-spotlight-card" id="dealsSpotlightCard" data-id="p1" data-cat="apparel" tabindex="0" role="article" aria-label="Featured Deal: Merino Knit Sweater">
+              <div class="deal-card-glare" aria-hidden="true"></div>
+              <div class="deals-spotlight-ambient-glow" aria-hidden="true"></div>
 
-          <!-- Deal 2 -->
-          <a href="pages/product.html?id=p6" class="deal-product-card" data-id="p6" style="text-decoration: none; display: block; color: inherit;">
-            <span class="deal-badge">-25%</span>
-            <button class="deal-wishlist-btn" aria-label="Add Minimal Runner to Wishlist">
-              <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-            </button>
-            <div class="deal-img-box">
-              <img src="assets/images/products/prod_runner.png" alt="Minimal Runner" loading="lazy" />
-              <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p6" data-name="Minimal Runner" data-price="5990" data-img="assets/images/products/prod_runner.png" data-cat="Footwear">
-                  <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
+              <!-- Top Spatial Bar: Badge & Wishlist -->
+              <div class="deals-spotlight-topbar">
+                <span class="deals-allocation-tag">-20% ARCHIVE ALLOCATION</span>
+                <button class="deal-wishlist-btn" aria-label="Save Merino Knit Sweater to Wishlist">
+                  <i data-lucide="heart"></i>
                 </button>
               </div>
-            </div>
-            <div class="deal-card-body">
-              <div class="deal-card-cat">FOOTWEAR</div>
-              <div class="deal-card-title">Minimal Runner</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 5,990</span>
-                <span class="deal-price-original">BDT 7,990</span>
-              </div>
-              <div class="deal-card-rating">
-                <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
-                <span>4.7</span>
-                <span class="deal-card-reviews">(94)</span>
-              </div>
-            </div>
-          </a>
 
-          <!-- Deal 3 -->
-          <a href="pages/product.html?id=p5" class="deal-product-card" data-id="p5" style="text-decoration: none; display: block; color: inherit;">
-            <span class="deal-badge">-15%</span>
-            <button class="deal-wishlist-btn" aria-label="Add Classic Leather Watch to Wishlist">
-              <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-            </button>
-            <div class="deal-img-box">
-              <img src="assets/images/products/search_watch.png" alt="Classic Leather Watch" loading="lazy" />
-              <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p5" data-name="Classic Leather Watch" data-price="3380" data-img="assets/images/products/search_watch.png" data-cat="Accessories">
-                  <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
-                </button>
+              <!-- Hero Image Showcase with Colorway Swatches -->
+              <div class="deals-spotlight-visual">
+                <img src="assets/images/products/hero_sweater.png" alt="Merino Knit Sweater in Heather Charcoal" class="deals-spotlight-img" id="spotlightMainImg" loading="lazy" />
+                
+                <!-- Live Material / Colorway Swatches -->
+                <div class="deals-swatch-dock" aria-label="Select Colorway">
+                  <button class="deals-swatch-btn is-active" data-color="charcoal" data-img="assets/images/products/hero_sweater.png" data-name="Merino Knit Sweater · Charcoal" aria-label="Heather Charcoal" title="Heather Charcoal">
+                    <span class="deals-swatch-color" style="background: #374151;"></span>
+                  </button>
+                  <button class="deals-swatch-btn" data-color="onyx" data-img="assets/images/products/plp_blazer.png" data-name="Merino Knit Sweater · Onyx Black" aria-label="Onyx Black" title="Onyx Black">
+                    <span class="deals-swatch-color" style="background: #111827;"></span>
+                  </button>
+                  <button class="deals-swatch-btn" data-color="camel" data-img="assets/images/products/hero_sweater.png" data-name="Merino Knit Sweater · Camel" aria-label="Camel Cashmere" title="Camel Cashmere">
+                    <span class="deals-swatch-color" style="background: #B45309;"></span>
+                  </button>
+                </div>
               </div>
-            </div>
-            <div class="deal-card-body">
-              <div class="deal-card-cat">ACCESSORIES</div>
-              <div class="deal-card-title">Classic Leather Watch</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 3,380</span>
-                <span class="deal-price-original">BDT 3,980</span>
-              </div>
-              <div class="deal-card-rating">
-                <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
-                <span>4.5</span>
-                <span class="deal-card-reviews">(72)</span>
-              </div>
-            </div>
-          </a>
 
-          <!-- Deal 4 -->
-          <a href="pages/product.html?id=p2" class="deal-product-card" data-id="p2" style="text-decoration: none; display: block; color: inherit;">
-            <span class="deal-badge">-30%</span>
-            <button class="deal-wishlist-btn" aria-label="Add Tailored Wool Blazer to Wishlist">
-              <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-            </button>
-            <div class="deal-img-box">
-              <img src="assets/images/products/plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
-              <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p2" data-name="Tailored Wool Blazer" data-price="8450" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
-                  <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
-                </button>
-              </div>
-            </div>
-            <div class="deal-card-body">
-              <div class="deal-card-cat">APPAREL</div>
-              <div class="deal-card-title">Tailored Wool Blazer</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 8,450</span>
-                <span class="deal-price-original">BDT 12,000</span>
-              </div>
-              <div class="deal-card-rating">
-                <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
-                <span>4.8</span>
-                <span class="deal-card-reviews">(64)</span>
-              </div>
-            </div>
-          </a>
+              <!-- Bottom Editorial & Pricing Meta -->
+              <div class="deals-spotlight-info">
+                <div class="deals-meta-header">
+                  <span class="deals-category-tag">APPAREL · 100% EXTRAFINE MERINO</span>
+                  <div class="deals-rating-badge">
+                    <i data-lucide="star" class="deals-star-icon"></i>
+                    <span>4.9</span>
+                    <span class="deals-review-count">(128)</span>
+                  </div>
+                </div>
 
-          <!-- Deal 5 -->
-          <a href="pages/product.html?id=p8" class="deal-product-card" data-id="p8" style="text-decoration: none; display: block; color: inherit;">
-            <span class="deal-badge">-30%</span>
-            <button class="deal-wishlist-btn" aria-label="Add Noise Canceling Earbuds to Wishlist">
-              <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-            </button>
-            <div class="deal-img-box">
-              <img src="assets/images/products/search_earbuds.png" alt="Noise Canceling Earbuds" loading="lazy" />
-              <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p8" data-name="Noise Canceling Earbuds" data-price="3390" data-img="assets/images/products/search_earbuds.png" data-cat="Electronics">
-                  <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
+                <h3 class="deals-spotlight-title" id="spotlightTitle">Merino Knit Sweater</h3>
+                <p class="deals-spotlight-desc">Spun from ultra-fine Italian merino wool with a relaxed silhouette and refined ribbed trim.</p>
+
+                <!-- Allocation Scarcity Urgency Meter -->
+                <div class="deals-allocation-meter-wrap">
+                  <div class="deals-meter-header">
+                    <span class="deals-meter-label">Allocation Status</span>
+                    <span class="deals-meter-val">Only 3 pieces remaining</span>
+                  </div>
+                  <div class="deals-meter-track">
+                    <div class="deals-meter-fill" style="transform: scaleX(0.78);"></div>
+                  </div>
+                </div>
+
+                <!-- Price & Dual Conversion CTAs -->
+                <div class="deals-spotlight-actionbar">
+                  <div class="deals-price-stack">
+                    <span class="deals-price-current">BDT 1,990</span>
+                    <span class="deals-price-original">BDT 2,490</span>
+                    <span class="deals-savings-pill">Save BDT 500</span>
+                  </div>
+
+                  <div class="deals-cta-group">
+                    <button class="deals-quick-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="1990" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
+                      <i data-lucide="plus" class="deals-add-icon"></i>
+                      <span>Quick Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Curated Motion Rail (58%) -->
+          <div class="deals-rail-col">
+            <div class="deals-rail-header">
+              <span class="deals-rail-label">Curated Queue (<span id="railCount">4</span>)</span>
+              <div class="deals-nav-arrows">
+                <button class="deals-arrow-btn deals-arrow-prev" id="dealsPrevBtn" aria-label="Previous Deal">
+                  <i data-lucide="chevron-left"></i>
+                </button>
+                <button class="deals-arrow-btn deals-arrow-next" id="dealsNextBtn" aria-label="Next Deal">
+                  <i data-lucide="chevron-right"></i>
                 </button>
               </div>
             </div>
-            <div class="deal-card-body">
-              <div class="deal-card-cat">ELECTRONICS</div>
-              <div class="deal-card-title">Noise Canceling Earbuds</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 3,390</span>
-                <span class="deal-price-original">BDT 4,890</span>
-              </div>
-              <div class="deal-card-rating">
-                <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
-                <span>4.6</span>
-                <span class="deal-card-reviews">(45)</span>
+
+            <div class="deals-motion-track-wrap" id="dealsTrackWrap">
+              <div class="deals-motion-track" id="dealsMotionTrack">
+                <!-- Card 1: Minimal Runner -->
+                <div class="deal-rail-card" data-id="p6" data-cat="footwear" tabindex="0" role="article" aria-label="Deal: Minimal Runner">
+                  <div class="deal-card-glare" aria-hidden="true"></div>
+                  <span class="deal-badge">-25%</span>
+                  <button class="deal-wishlist-btn" aria-label="Save Minimal Runner to Wishlist">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <div class="deal-rail-imgbox">
+                    <img src="assets/images/products/prod_runner.png" alt="Minimal Runner" loading="lazy" />
+                    <button class="deal-rail-quickadd" data-id="p6" data-name="Minimal Runner" data-price="5990" data-img="assets/images/products/prod_runner.png" data-cat="Footwear">
+                      <i data-lucide="plus"></i> <span>Quick Add</span>
+                    </button>
+                  </div>
+                  <div class="deal-rail-body">
+                    <span class="deal-rail-cat">FOOTWEAR</span>
+                    <h4 class="deal-rail-title">Minimal Runner</h4>
+                    <div class="deal-rail-pricing">
+                      <span class="deal-rail-current">BDT 5,990</span>
+                      <span class="deal-rail-original">BDT 7,990</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Classic Leather Watch -->
+                <div class="deal-rail-card" data-id="p5" data-cat="accessories" tabindex="0" role="article" aria-label="Deal: Classic Leather Watch">
+                  <div class="deal-card-glare" aria-hidden="true"></div>
+                  <span class="deal-badge">-15%</span>
+                  <button class="deal-wishlist-btn" aria-label="Save Classic Leather Watch to Wishlist">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <div class="deal-rail-imgbox">
+                    <img src="assets/images/products/search_watch.png" alt="Classic Leather Watch" loading="lazy" />
+                    <button class="deal-rail-quickadd" data-id="p5" data-name="Classic Leather Watch" data-price="3380" data-img="assets/images/products/search_watch.png" data-cat="Accessories">
+                      <i data-lucide="plus"></i> <span>Quick Add</span>
+                    </button>
+                  </div>
+                  <div class="deal-rail-body">
+                    <span class="deal-rail-cat">ACCESSORIES</span>
+                    <h4 class="deal-rail-title">Classic Leather Watch</h4>
+                    <div class="deal-rail-pricing">
+                      <span class="deal-rail-current">BDT 3,380</span>
+                      <span class="deal-rail-original">BDT 3,980</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Tailored Wool Blazer -->
+                <div class="deal-rail-card" data-id="p2" data-cat="apparel" tabindex="0" role="article" aria-label="Deal: Tailored Wool Blazer">
+                  <div class="deal-card-glare" aria-hidden="true"></div>
+                  <span class="deal-badge">-30%</span>
+                  <button class="deal-wishlist-btn" aria-label="Save Tailored Wool Blazer to Wishlist">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <div class="deal-rail-imgbox">
+                    <img src="assets/images/products/plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
+                    <button class="deal-rail-quickadd" data-id="p2" data-name="Tailored Wool Blazer" data-price="8450" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
+                      <i data-lucide="plus"></i> <span>Quick Add</span>
+                    </button>
+                  </div>
+                  <div class="deal-rail-body">
+                    <span class="deal-rail-cat">APPAREL</span>
+                    <h4 class="deal-rail-title">Tailored Wool Blazer</h4>
+                    <div class="deal-rail-pricing">
+                      <span class="deal-rail-current">BDT 8,450</span>
+                      <span class="deal-rail-original">BDT 12,000</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: Noise Canceling Earbuds -->
+                <div class="deal-rail-card" data-id="p8" data-cat="accessories" tabindex="0" role="article" aria-label="Deal: Noise Canceling Earbuds">
+                  <div class="deal-card-glare" aria-hidden="true"></div>
+                  <span class="deal-badge">-30%</span>
+                  <button class="deal-wishlist-btn" aria-label="Save Noise Canceling Earbuds to Wishlist">
+                    <i data-lucide="heart"></i>
+                  </button>
+                  <div class="deal-rail-imgbox">
+                    <img src="assets/images/products/search_earbuds.png" alt="Noise Canceling Earbuds" loading="lazy" />
+                    <button class="deal-rail-quickadd" data-id="p8" data-name="Noise Canceling Earbuds" data-price="3390" data-img="assets/images/products/search_earbuds.png" data-cat="Electronics">
+                      <i data-lucide="plus"></i> <span>Quick Add</span>
+                    </button>
+                  </div>
+                  <div class="deal-rail-body">
+                    <span class="deal-rail-cat">ELECTRONICS</span>
+                    <h4 class="deal-rail-title">Noise Canceling Earbuds</h4>
+                    <div class="deal-rail-pricing">
+                      <span class="deal-rail-current">BDT 3,390</span>
+                      <span class="deal-rail-original">BDT 4,890</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1184,9 +1248,9 @@
   <script src="js/catalog-engine.js"></script>
   <script src="js/session-context.js"></script>
   <script src="js/search-overlay.js?v=2"></script>
-  <script src="js/home.js?v=21"></script>
+  <script src="js/home.js?v=22"></script>
   <script src="js/theme-switcher.js?v=3"></script>
-  <script type="module" src="js/animations.js?v=6"></script>
+  <script type="module" src="js/animations.js?v=7"></script>
   <script src="js/style-profile.js"></script>
   <script src="js/context-retention.js"></script>
   <script src="js/concierge-engine.js?v=3"></script>
