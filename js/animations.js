@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveals();
   initHoverEffects();
   initTrackingAnimations();
+  initDealsSectionMotion();
 });
 
 // 0. Smooth Scrolling (Lenis)
@@ -319,17 +320,16 @@ function initScrollReveals() {
 
 // 4. Premium Hover Micro-interactions (Motion-powered)
 function initHoverEffects() {
-  // For product cards and category tiles
-  // Notice we delegate this so dynamically added products get the effect
+  // For generic product cards and category tiles (excluding 3D-managed deal cards)
   document.body.addEventListener('mouseenter', (e) => {
-    const card = e.target.closest('.home-cat-pill, .deal-product-card, .curated-product-card, .category-tile, .product-card');
+    const card = e.target.closest('.home-cat-pill, .curated-product-card, .category-tile, .product-card:not(.deal-product-card)');
     if (card) {
       animate(card, { y: -2 }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
     }
   }, true);
 
   document.body.addEventListener('mouseleave', (e) => {
-    const card = e.target.closest('.category-tile, .product-card');
+    const card = e.target.closest('.home-cat-pill, .curated-product-card, .category-tile, .product-card:not(.deal-product-card)');
     if (card) {
       animate(card, { y: 0 }, { duration: 0.4, easing: [0.22, 1, 0.36, 1] });
     }
@@ -415,4 +415,189 @@ function initTrackingAnimations() {
   if (trackingMain) {
     observer.observe(trackingMain, { childList: true, subtree: true });
   }
+}
+
+/**
+ * initDealsSectionMotion
+ * Implements all 4 Motion Standards for the Today's Deals section:
+ * 1. Micro-interactions (scroll-reveal stagger)
+ * 2. 3D Hover Physics (mouse tilt + specular glare + multi-layer shadow)
+ * 3. GPU Page Transition (cross-dissolve curtain)
+ * 4. Scroll Parallax (differential column depth)
+ */
+function initDealsSectionMotion() {
+  const section = document.getElementById('dealsSectionRoot');
+  if (!section) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cards = Array.from(section.querySelectorAll('.deal-product-card'));
+
+  // ── 1. MICRO-INTERACTIONS: Staggered scroll-reveal entrance ──────────
+  let revealed = false;
+  inView(section, () => {
+    if (revealed) return;
+    revealed = true;
+
+    const headerLeft  = section.querySelector('.deals-header-left');
+    const headerRight = section.querySelector('.deals-header-right');
+    if (headerLeft) {
+      animate(headerLeft,  { opacity: [0, 1], y: [12, 0] },
+        { duration: 0.6, easing: [0.16, 1, 0.3, 1] });
+    }
+    if (headerRight) {
+      animate(headerRight, { opacity: [0, 1], y: [12, 0] },
+        { duration: 0.6, delay: 0.08, easing: [0.16, 1, 0.3, 1] });
+    }
+    if (cards.length > 0) {
+      animate(cards,
+        { opacity: [0, 1], y: [28, 0], scale: [0.96, 1] },
+        { delay: stagger(0.07, { startDelay: 0.12 }), duration: 0.7,
+          easing: [0.16, 1, 0.3, 1] });
+    }
+  }, { margin: '0px 0px -8% 0px' });
+
+  // Skip physics on reduced motion
+  if (prefersReduced) return;
+
+  // ── 2. 3D HOVER PHYSICS: Mouse tilt + specular glare ─────────────────
+  const MAX_TILT = 8; // degrees
+
+  cards.forEach(card => {
+    let rafId = null;
+    let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0;
+    const LERP = 0.12;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    function getParallaxY() {
+      return parseFloat(card.style.getPropertyValue('--deal-card-y') || '0');
+    }
+
+    function applyTilt() {
+      curTX = lerp(curTX, tgtTX, LERP);
+      curTY = lerp(curTY, tgtTY, LERP);
+      const py = getParallaxY();
+      card.style.setProperty('--deal-shadow-lift', '1');
+      card.style.transform =
+        `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+
+      if (Math.abs(curTX - tgtTX) > 0.05 || Math.abs(curTY - tgtTY) > 0.05) {
+        rafId = requestAnimationFrame(applyTilt);
+      } else {
+        card.style.transform =
+          `rotateX(${tgtTX.toFixed(3)}deg) rotateY(${tgtTY.toFixed(3)}deg) translateZ(12px) translateY(${py}px)`;
+        rafId = null;
+      }
+    }
+
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+      const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY =  (dx * MAX_TILT);
+
+      // Specular glare at cursor
+      const gx = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+      const gy = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+      card.style.setProperty('--deal-glare-x', gx);
+      card.style.setProperty('--deal-glare-y', gy);
+      card.style.setProperty('--deal-glare-opacity', '1');
+
+      if (!rafId) { rafId = requestAnimationFrame(applyTilt); }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      tgtTX = 0; tgtTY = 0;
+      card.style.setProperty('--deal-glare-opacity', '0');
+      card.style.setProperty('--deal-shadow-lift', '0');
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.18);
+        curTY = lerp(curTY, 0, 0.18);
+        const py = getParallaxY();
+        card.style.transform =
+          `rotateX(${curTX.toFixed(3)}deg) rotateY(${curTY.toFixed(3)}deg) translateZ(0px) translateY(${py}px)`;
+        if (Math.abs(curTX) > 0.05 || Math.abs(curTY) > 0.05) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          const pyFinal = getParallaxY();
+          card.style.transform = `translateY(${pyFinal}px)`;
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
+    });
+  });
+
+  // ── 3. PAGE TRANSITION: GPU cross-dissolve on card/link clicks ────────
+  const curtain = document.getElementById('pageTransitionOverlay');
+
+  function triggerPageTransition(href) {
+    if (!curtain || !href) return;
+    curtain.style.transition    = 'opacity 200ms ease';
+    curtain.style.opacity       = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => { window.location.href = href; }, 210);
+  }
+
+  // Cards are <a> tags — intercept click before native navigation
+  cards.forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('.deal-add-btn') || e.target.closest('.deal-wishlist-btn')) return;
+      e.preventDefault();
+      triggerPageTransition(card.getAttribute('href'));
+    });
+  });
+
+  const allDealsLink = section.querySelector('.deals-see-all-link');
+  if (allDealsLink) {
+    allDealsLink.addEventListener('click', e => {
+      e.preventDefault();
+      triggerPageTransition(allDealsLink.getAttribute('href'));
+    });
+  }
+
+  // ── 4. SCROLL PARALLAX: Differential column depth ────────────────────
+  let pxTicking = false;
+
+  function updateDealsParallax() {
+    const rect   = section.getBoundingClientRect();
+    const winH   = window.innerHeight;
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span     = winH + rect.height;
+      const prog     = (winH - rect.top) / span;   // 0 → 1
+      const centered = (prog - 0.5) * 2;           // -1 → +1
+
+      cards.forEach(card => {
+        const depth  = parseInt(card.getAttribute('data-parallax-depth') || '1', 10);
+        const travel = depth * 7; // px per depth unit
+        const yCard  = (centered * travel).toFixed(2);
+        card.style.setProperty('--deal-card-y', yCard + 'px');
+
+        // Only apply card-level parallax when NOT being hovered (JS tilt overrides)
+        if (!card.matches(':hover')) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        // Image micro-parallax
+        const img = card.querySelector('.deal-img-box img');
+        if (img) {
+          const yImg = (centered * depth * 5).toFixed(2);
+          img.style.setProperty('--deal-img-y', yImg + 'px');
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestParallaxFrame() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateDealsParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxFrame); }
+  window.addEventListener('scroll', requestParallaxFrame, { passive: true });
 }
