@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   initSmoothScroll();
   initHeroAnimations();
+  initCuratedDepartmentsMotion();
   // initTextSplits();
   initScrollReveals();
   initHoverEffects();
@@ -108,10 +109,190 @@ function initHeroAnimations() {
   }
 }
 
-// 2. Scroll Reveal Animations (Trust Strip, Category Grid, etc.)
+/**
+ * 2. Curated Departments Editorial Bento Master Motion
+ * - Kinetic Split Headline Entrance
+ * - 5-Card Staggered Bento Cascade with Settle Scale
+ * - Continuous Bidirectional Scroll Parallax (Lenis-linked differential depth)
+ * - Dynamic Cursor-Tracking Obsidian Spotlight Sheen
+ */
+function initCuratedDepartmentsMotion() {
+  const section = document.querySelector('.home-category-editorial-section');
+  if (!section) return;
+
+  const eyebrow = section.querySelector('.cat-editorial-eyebrow');
+  const heading = section.querySelector('.cat-editorial-heading');
+  const sub = section.querySelector('.cat-editorial-sub');
+  const allLink = section.querySelector('.cat-editorial-all-link');
+  const bentoLayout = section.querySelector('.cat-bento-layout');
+  const heroCard = section.querySelector('.cat-bento-hero');
+  const sideGrid = section.querySelector('.cat-bento-grid-side');
+  const sideCards = section.querySelectorAll('.cat-bento-grid-side .cat-bento-card');
+  const allCards = section.querySelectorAll('.cat-bento-card');
+
+  // Check reduced motion preference
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    section.style.opacity = '1';
+    return;
+  }
+
+  // 1. Kinetic Headline Splitting
+  let headingWords = [];
+  if (heading) {
+    if (typeof SplitType !== 'undefined') {
+      const split = new SplitType(heading, { types: 'words' });
+      heading.style.opacity = '1';
+      headingWords = split.words || [];
+    }
+  }
+
+  // Hide elements initially for buttery GPU entrance
+  const elementsToInitialHide = [eyebrow, sub, allLink, heroCard, ...sideCards].filter(Boolean);
+  elementsToInitialHide.forEach(el => {
+    el.style.opacity = '0';
+  });
+  if (headingWords.length > 0) {
+    headingWords.forEach(w => { w.style.opacity = '0'; });
+  } else if (heading) {
+    heading.style.opacity = '0';
+  }
+
+  // 2. Orchestrated Scroll-Down Entrance with inView
+  let isRevealed = false;
+  inView(section, () => {
+    if (isRevealed) return;
+    isRevealed = true;
+
+    // Header eyebrow
+    if (eyebrow) {
+      animate(eyebrow, { opacity: [0, 1], y: [16, 0] }, {
+        duration: 0.7,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+
+    // Heading words (Masked / Staggered slide)
+    if (headingWords.length > 0) {
+      animate(headingWords, { opacity: [0, 1], y: [24, 0] }, {
+        delay: stagger(0.065, { startDelay: 0.08 }),
+        duration: 0.85,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    } else if (heading) {
+      animate(heading, { opacity: [0, 1], y: [20, 0] }, {
+        delay: 0.08,
+        duration: 0.85,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+
+    // Subtitle & Explore Link
+    if (sub) {
+      animate(sub, { opacity: [0, 1], y: [16, 0] }, {
+        delay: 0.16,
+        duration: 0.8,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+    if (allLink) {
+      animate(allLink, { opacity: [0, 1], y: [12, 0], scale: [0.94, 1] }, {
+        delay: 0.22,
+        duration: 0.75,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+
+    // Lead Bento Hero Card (01 Apparel)
+    if (heroCard) {
+      animate(heroCard, { opacity: [0, 1], y: [36, 0], scale: [0.965, 1] }, {
+        delay: 0.12,
+        duration: 0.9,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+
+    // Staggered Secondary Cards Grid (02 Footwear, 03 Acoustics, 04 Timepieces, 05 Leather)
+    if (sideCards.length > 0) {
+      animate(sideCards, { opacity: [0, 1], y: [28, 0], scale: [0.97, 1] }, {
+        delay: stagger(0.085, { startDelay: 0.2 }),
+        duration: 0.85,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+
+    // Optical image settle inside all bento cards
+    const allImages = section.querySelectorAll('.cat-bento-img-wrap img');
+    if (allImages.length > 0) {
+      animate(allImages, { scale: [1.08, 1.0] }, {
+        delay: 0.15,
+        duration: 1.2,
+        easing: [0.16, 1, 0.3, 1]
+      });
+    }
+  }, { margin: "0px 0px -10% 0px" });
+
+  // 3. Continuous Bidirectional Scroll Parallax (Scroll-Down & Scroll-Up)
+  let ticking = false;
+  function updateBidirectionalParallax() {
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    // Check if section is active in viewport
+    if (rect.bottom > 0 && rect.top < windowHeight) {
+      const totalScrollSpan = windowHeight + rect.height;
+      const currentProgress = (windowHeight - rect.top) / totalScrollSpan;
+      const progressClamped = Math.max(0, Math.min(1, currentProgress));
+      const centered = progressClamped - 0.5; // -0.5 (top) to +0.5 (bottom)
+
+      // Internal image glide across cards (±24px)
+      const imgDrift = centered * 26;
+      allCards.forEach(card => {
+        const img = card.querySelector('.cat-bento-img-wrap img');
+        if (img) {
+          img.style.setProperty('--bento-img-y', `${imgDrift.toFixed(2)}px`);
+        }
+      });
+    }
+    ticking = false;
+  }
+
+  function requestParallaxTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateBidirectionalParallax);
+      ticking = true;
+    }
+  }
+
+  // Hook into Lenis or native scroll for buttery bidirectional updates
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestParallaxTick);
+  }
+  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+
+  // 4. Dynamic Cursor-Tracking Obsidian Spotlight Sheen
+  allCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      card.style.setProperty('--spotlight-opacity', '1');
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.setProperty('--spotlight-opacity', '0');
+    });
+  });
+}
+
+// 3. Scroll Reveal Animations (Trust Strip, Category Grid, etc.)
 function initScrollReveals() {
-  // Target any section or wrapper with .reveal-on-scroll
+  // Target any section or wrapper with .reveal-on-scroll, excluding curated departments
   inView(".reveal-on-scroll", (info) => {
+    if (info.target.classList.contains('home-category-editorial-section')) return;
+
     // When the element comes into view, animate it
     animate(info.target, 
       { opacity: [0, 1], y: [20, 0] },
@@ -136,7 +317,7 @@ function initScrollReveals() {
   }, { margin: "100px 0px" });
 }
 
-// 3. Premium Hover Micro-interactions (Motion-powered)
+// 4. Premium Hover Micro-interactions (Motion-powered)
 function initHoverEffects() {
   // For product cards and category tiles
   // Notice we delegate this so dynamically added products get the effect

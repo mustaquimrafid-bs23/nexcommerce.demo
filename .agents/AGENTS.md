@@ -270,6 +270,10 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 
 **8. PHOTOGRAPHY & IMAGERY — Human Lifestyle Standard**
 - MANDATORY: Hero sections and editorial banners MUST feature human models wearing or interacting with products in real lifestyle contexts (runner in motion, person relaxed in headphones, athlete stretching in yoga gear, person checking watch at dawn).
+- **MANDATORY DUAL-ASSET ART DIRECTION**: Never force a single 16:9 landscape image across all viewports.
+  - **Desktop (≥769px)**: Wide landscape (16:9) with model positioned on one side (e.g., right) to allow uncompromised editorial typography on the left.
+  - **Mobile (≤768px)**: Vertical portrait (9:16) with model centered horizontally, ~20% top headroom, and ~30% lower negative space for stacked copy over a gradient scrim.
+  - **Implementation**: Always wrap hero images in a `<picture>` element with responsive `<source media="...">` tags and pair with calibrated `object-position: center 30%`.
 - Product cards: use clean studio photography on white/neutral backgrounds with natural shadows — NOT floating AI renders on neon or dark backgrounds.
 - Every category must have at least one lifestyle photograph with a human subject.
 - Generate lifestyle imagery using the generate_image tool before building any section. Prompt formula: "[Activity/mood] lifestyle photograph, [product worn/used by] model, [setting: urban/studio/nature], natural light, editorial quality, [brand aesthetic]"
@@ -289,6 +293,25 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Brand names should be simple and real-sounding: "Apex", "Form", "Volta", "Arc"
   NOT tech product codes like "SOUNDFORM ULTRA", "VITALEDGE GT", "BASSCORE 360"
 
+**10. HERO SHOPPABLE LOOK CAPSULES & MICRO-UI STANDARD**
+- **The "After-Model" Rule on Mobile (`≤768px`)**:
+  - Never stack floating shoppable pills in the middle zone where the human model or physical product is held.
+  - Structure mobile as a **Split Editorial Canvas**:
+    1. **Top Masthead**: Eyebrow → Editorial Headline → Primary Action CTA.
+    2. **Center Visual**: 100% open, unobstructed model and product in natural daylight.
+    3. **Bottom Thumb Zone (After the Model)**: Floating shoppable look pill docked at `bottom: clamp(14px, 2.5vh, 24px)`.
+- **Zero Artificial Text Truncation (`...`)**:
+  - Never apply `text-overflow: ellipsis` to featured look titles or key product names on hero cards.
+  - Set `width: max-content; min-width: 260px–290px; max-width: none;` so product titles are 100% readable with generous padding.
+- **Crystal-Clear Obsidian Rendering (No Blurry Glass Artifacts)**:
+  - Avoid heavy GPU `backdrop-filter: blur()` on text-bearing floating cards, as it triggers subpixel anti-aliasing fuzziness in Chromium/WebKit.
+  - Use solid, ultra-deep obsidian canvases (`#080E1E` or `rgba(8, 14, 30, 0.98)`) paired with razor-sharp 1px high-contrast borders (`rgba(255, 255, 255, 0.32)`), pure `#FFFFFF` titles, `#FB7185` uppercase labels, and `#E2E8F0` prices.
+  - Pair with `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;`.
+- **High-Contrast Studio Product Avatars**:
+  - Product thumbnails inside floating pills MUST be shot on clean, bright, isolated studio backgrounds with a crisp white border ring (`border: 1.5px solid rgba(255, 255, 255, 0.6)`) to ensure instant visual recognition against dark cards.
+- **Zero Pulsing Radar/Beacon Dots on Editorial Photos**:
+  - Never place pulsing red/neon beacon dots over human models or lifestyle photography. Let high-fashion photography breathe without artificial UI clutter.
+
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Neon glow borders on product cards
 - 3+ badges on one product card
@@ -302,6 +325,10 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Section headers written as monospace uppercase chip labels
 - Product descriptions that read like tech spec sheets
 - Brand names that sound like invented tech product codes
+- Truncating product titles with `...` on hero look pills instead of sizing container to fit
+- Stacking shoppable pills in the center of mobile viewports directly over human models or products
+- Blurry semi-transparent glassmorphism with low-contrast text on micro-interactive cards
+- Pulsing radar/beacon dots placed directly on human models
 
 ### 🔍 Self-Check Before Presenting UI
 Before presenting any lifestyle e-commerce UI, ask:
@@ -312,6 +339,9 @@ Before presenting any lifestyle e-commerce UI, ask:
 5. Would a luxury brand creative director approve this?
 6. Is there a real human being visible in the hero or editorial imagery?
 7. Does the copy sound like it was written by a brand copywriter, or a spec sheet?
+8. On mobile, is the human model and physical product 100% visible and unmarred by floating overlays?
+9. Are all product titles on floating cards 100% complete with zero `...` ellipsis?
+10. Is the micro-UI razor-sharp and crystal-clear with zero GPU blur artifacts?
 
 If the answer to any of these is NO — redesign before showing the user.
 
@@ -491,6 +521,10 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 
 **8. PHOTOGRAPHY & IMAGERY — Human Lifestyle Standard**
 - MANDATORY: Hero sections and editorial banners MUST feature human models wearing or interacting with products in real lifestyle contexts (runner in motion, person relaxed in headphones, athlete stretching in yoga gear, person checking watch at dawn).
+- **MANDATORY DUAL-ASSET ART DIRECTION**: Never force a single 16:9 landscape image across all viewports.
+  - **Desktop (≥769px)**: Wide landscape (16:9) with model positioned on one side (e.g., right) to allow uncompromised editorial typography on the left.
+  - **Mobile (≤768px)**: Vertical portrait (9:16) with model centered horizontally, ~20% top headroom, and ~30% lower negative space for stacked copy over a gradient scrim.
+  - **Implementation**: Always wrap hero images in a `<picture>` element with responsive `<source media="...">` tags and pair with calibrated `object-position: center 30%`.
 - Product cards: use clean studio photography on white/neutral backgrounds with natural shadows — NOT floating AI renders on neon or dark backgrounds.
 - Every category must have at least one lifestyle photograph with a human subject.
 - Generate lifestyle imagery using the generate_image tool before building any section. Prompt formula: "[Activity/mood] lifestyle photograph, [product worn/used by] model, [setting: urban/studio/nature], natural light, editorial quality, [brand aesthetic]"

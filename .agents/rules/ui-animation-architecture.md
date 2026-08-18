@@ -64,3 +64,13 @@ Introduce Motion only when interactions require coordinated state transitions, g
 - **Perspective Projection Safety:** In containers with `perspective: 1000px–1200px`, positive `translateZ` moves elements closer to the camera, optically expanding them outwards toward viewport corners by ~5%–6%.
 - **Z-Axis Budget:** Cap corner-anchored elements (e.g. shoppable tags, badges) at `translateZ(10px–15px)`. Reserve `translateZ(30px–60px)` exclusively for centered focal elements.
 - **Scroll & Mouse Physics Synchronization:** Pair mouse parallax lerps with viewport-aware transform bounds so differential translation never pushes UI cards into scrollbars or clipped regions.
+
+### 8.7 Scroll Reveal Invariants & Dedicated Section Isolation
+- **No Blanket Visibility on Mount:** Never pre-apply `.is-visible` synchronously on DOM load across `.reveal-on-scroll` elements. Always allow `IntersectionObserver` or Motion.dev `inView` to trigger entrance timing naturally at viewport thresholds (e.g. `rootMargin: '100px 0px'`, `threshold: 0.05`).
+- **Dedicated Section Isolation:** Complex custom sections with bespoke motion orchestration (e.g., Curated Departments Bento Showcase) must be explicitly excluded from generic batch scroll loops (`if (info.target.classList.contains('custom-section')) return;`) to eliminate double-animations.
+
+### 8.8 Luxury Bento Showcase Motion Standard (SSENSE / Apple Benchmark)
+- **Lead-Anchor Staggered Entrance:** For multi-card bento layouts, the primary hero card must lead the entrance (`translateY(36px) → 0`, `scale(0.965 → 1.0)`, duration: 850–900ms), followed by secondary cards cascading in rhythmic 75–90ms intervals.
+- **Optical Image Settle:** Internal photography should ease from `scale(1.08) → 1.00` within overflow-hidden frames upon viewport entry.
+- **Bidirectional Scroll Parallax:** Connect section scroll progress to Lenis smooth scroll loop to apply continuous GPU-accelerated vertical drift (`translateY(±24px to ±28px)`) to background photography when scrolling both down and up.
+- **Dynamic Cursor Spotlight Sheen:** Use hardware-accelerated CSS custom variables (`--mouse-x`, `--mouse-y`, `--spotlight-opacity`) driven by card-level `mousemove` events to cast a radial spotlight sheen across dark obsidian surfaces and borders without causing layout reflows.
