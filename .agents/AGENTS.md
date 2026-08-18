@@ -312,13 +312,22 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
   - Pair with `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;`.
 - **High-Contrast Studio Product Avatars**:
   - Product thumbnails inside floating pills MUST be shot on clean, bright, isolated studio backgrounds with a crisp white border ring (`border: 1.5px solid rgba(255, 255, 255, 0.6)`) to ensure instant visual recognition against dark cards.
-- **Zero Pulsing Radar/Beacon Dots on Editorial Photos**:
-  - Never place pulsing red/neon beacon dots over human models or lifestyle photography. Let high-fashion photography breathe without artificial UI clutter.
+**11. NAVIGATION, ACTION BUTTONS & MICRO-UI STANDARDS**
+- **Zero Badge Clipping (`overflow: visible` Invariant)**:
+  - Button containers hosting corner-offset badges (e.g., `.nav-icon-btn`, cart triggers, wishlist triggers with badges anchored at `top: -4px; right: -4px`) MUST ALWAYS have `overflow: visible;`.
+  - Specular sheen, ripple, and glow pseudo-elements (`::before`, `::after`) must constrain themselves via explicit `border-radius: 50%` rather than clipping the parent container with `overflow: hidden`.
+- **Strict 3-Dot Overflow Deduplication (IA Standard)**:
+  - Never repeat a primary top-level icon button action (e.g. Wishlist, Account, Cart) inside the 3-Dot (`...`) overflow dropdown.
+  - Reserve the 3-Dot menu exclusively for secondary utilities: Track Order, AI Style Profile, Order History, and Client Services.
+- **Dynamic Script Auto-Injection Resilience**:
+  - Global navigation controllers must gracefully inject and prepend missing DOM tracking indicators (such as `.nav-glider-pill`) on legacy pages to guarantee zero console errors and 100% feature coverage across all 22 storefront pages.
 
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Neon glow borders on product cards
 - 3+ badges on one product card
 - Cyan + purple + pink simultaneously as UI structure colors
+- `overflow: hidden` on buttons with corner-anchored badges (causing truncated/sliced notification numbers)
+- Duplicating primary navbar icon actions (like Wishlist) inside the 3-dot overflow dropdown
 - "MADE FOR YOU", "SMART INTENT SEARCH" etc. written in ALL CAPS monospace chip labels across every section header — this screams SaaS, not lifestyle retail
 - Frosted glass nav bar with gradient borders
 - Hero sections with floating "FEATURED DROP · Product · $Price" badge overlays
