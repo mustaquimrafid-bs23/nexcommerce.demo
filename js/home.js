@@ -468,25 +468,49 @@ function initHeroCarousel() {
 }
 
 /**
- * 1c. Today's Deals Live Countdown Ticker
+ * 1c. Today's Deals Live Countdown Ticker & GPU scaleX Progress Bar
  */
 function initDealsCountdown() {
-  let secondsRemaining = (4 * 3600) + (32 * 60) + 15;
-  const hoursEl = document.getElementById('dealHours');
-  const minsEl = document.getElementById('dealMins');
-  const secsEl = document.getElementById('dealSecs');
+  const TOTAL_SECS = (4 * 3600) + (32 * 60) + 15;
+  let secondsRemaining = TOTAL_SECS;
+
+  const hoursEl    = document.getElementById('dealHours');
+  const minsEl     = document.getElementById('dealMins');
+  const secsEl     = document.getElementById('dealSecs');
+  const progressBar = document.getElementById('dealProgressBar');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  // Flip digit: slide up and out, replace content, slide in
+  function flipUnit(el, newVal) {
+    if (!el || el.textContent === newVal) return;
+    el.style.transition = 'transform 120ms ease-in, opacity 120ms ease-in';
+    el.style.transform  = 'translateY(-4px)';
+    el.style.opacity    = '0';
+    setTimeout(() => {
+      el.textContent = newVal;
+      el.style.transition = 'transform 160ms cubic-bezier(0.23,1,0.32,1), opacity 160ms ease-out';
+      el.style.transform  = 'translateY(0)';
+      el.style.opacity    = '1';
+    }, 130);
+  }
 
   function updateTimer() {
-    if (secondsRemaining <= 0) {
-      secondsRemaining = 24 * 3600; // Reset for demonstration
-    }
+    if (secondsRemaining <= 0) { secondsRemaining = TOTAL_SECS; }
+
     const h = Math.floor(secondsRemaining / 3600);
     const m = Math.floor((secondsRemaining % 3600) / 60);
     const s = secondsRemaining % 60;
 
-    if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
-    if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
-    if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+    flipUnit(hoursEl, pad(h));
+    flipUnit(minsEl,  pad(m));
+    flipUnit(secsEl,  pad(s));
+
+    // GPU scaleX — shrinks from 1 (full) to 0 (expired) over TOTAL_SECS
+    if (progressBar) {
+      const ratio = secondsRemaining / TOTAL_SECS;
+      progressBar.style.transform = `scaleX(${ratio.toFixed(4)})`;
+    }
 
     secondsRemaining--;
   }
@@ -534,7 +558,7 @@ function initDealsCards() {
     });
   });
 
-  // Card click -> PDP
+  // Card click -> PDP (non-button parts)
   document.querySelectorAll('.deal-product-card').forEach(card => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.deal-add-btn') || e.target.closest('.deal-wishlist-btn') || e.target.closest('.deal-quick-add-overlay')) {
@@ -547,11 +571,29 @@ function initDealsCards() {
     });
   });
 
-  // Add to Bag clicks
+  // Add to Bag clicks with tactile ripple
   document.querySelectorAll('.deal-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+
+      // Tactile ripple effect
+      const rippleEl = btn.querySelector('.deal-ripple');
+      if (rippleEl) {
+        rippleEl.classList.remove('animating');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        rippleEl.style.width  = size + 'px';
+        rippleEl.style.height = size + 'px';
+        rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+        rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+        void rippleEl.offsetWidth; // force reflow to restart animation
+        rippleEl.classList.add('animating');
+        rippleEl.addEventListener('animationend', () => {
+          rippleEl.classList.remove('animating');
+        }, { once: true });
+      }
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -569,13 +611,13 @@ function initDealsCards() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 13px; height: 13px;"></i> ADDED';
+        btn.innerHTML = '<span class="deal-ripple" aria-hidden="true"></span><i data-lucide="check" style="width: 13px; height: 13px;"></i> ADDED';
         btn.style.background = '#34D399';
         btn.style.color = '#001838';
         if (window.lucide) window.lucide.createIcons();
 
         setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD';
+          btn.innerHTML = '<span class="deal-ripple" aria-hidden="true"></span><i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD';
           btn.style.background = '';
           btn.style.color = '';
           if (window.lucide) window.lucide.createIcons();
