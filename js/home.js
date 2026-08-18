@@ -1,14 +1,14 @@
 /**
  * nexCommerce &mdash; Homepage Engine (js/home.js)
- * Manages  entrance animations, intent prompt suggestions, featured collection rendering,
- * category tile navigation, and add-to-bag integration.
+ * Manages luxury preloader dismissal, intent prompt suggestions, 
+ * featured collection rendering, category tile navigation, and add-to-bag integration.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPagePreloader();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
-  initHeroAnimations();
   initHeroCarousel();
   initDealsCountdown();
   initDealsCards();
@@ -26,40 +26,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-
-
 /**
- * 1.  Entrance Animations (500ms content / 700ms image)
+ * 0. Luxury Page Preloader & Zero-CLS Coordination (Visible 0% -> 100% Journey)
  */
-function initHeroAnimations() {
-  const content = document.querySelector('.hero-content');
-  const visual = document.querySelector('.hero-product-visual');
+function initPagePreloader() {
+  const preloader = document.getElementById('pagePreloader');
+  if (!preloader) return;
 
-  if (content) {
-    content.style.opacity = '0';
-    content.style.transform = 'translateY(16px)';
-    content.style.transition = 'opacity 500ms ease, transform 500ms ease';
+  const bar = document.getElementById('preloaderProgressBar') || preloader.querySelector('.preloader-progress-bar');
+  const percentEl = document.getElementById('preloaderPercent');
+
+  let currentPercent = 0;
+  const startTime = performance.now();
+  const DURATION = 680; // Smooth 680ms calibrated progression
+
+  let isDismissed = false;
+
+  function updateProgress(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / DURATION);
+
+    // Easing: start fast, glide smoothly through middle, crisp deceleration into 100%
+    const eased = 1 - Math.pow(1 - progress, 2.5);
+    currentPercent = Math.round(eased * 100);
+
+    if (bar) {
+      bar.style.transform = `scaleX(${eased.toFixed(4)})`;
+    }
+    if (percentEl) {
+      percentEl.textContent = `${currentPercent}%`;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      // Reached 100% smoothly
+      if (bar) {
+        bar.style.transform = 'scaleX(1)';
+        bar.style.boxShadow = '0 0 16px rgba(61, 224, 255, 0.9)';
+      }
+      if (percentEl) {
+        percentEl.textContent = '100%';
+        percentEl.style.color = '#34D399';
+      }
+
+      // Ensure Lucide icons are fully rendered before curtain lifts
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      // Pause 90ms on 100% completion for perceptual satisfaction, then dissolve
+      setTimeout(() => {
+        dismissPreloader();
+      }, 90);
+    }
+  }
+
+  function dismissPreloader() {
+    if (isDismissed) return;
+    isDismissed = true;
 
     requestAnimationFrame(() => {
+      preloader.classList.add('is-loaded');
       setTimeout(() => {
-        content.style.opacity = '1';
-        content.style.transform = 'translateY(0)';
-      }, 50);
+        preloader.style.display = 'none';
+      }, 380);
     });
   }
 
-  if (visual) {
-    visual.style.opacity = '0';
-    visual.style.transform = 'scale(0.97)';
-    visual.style.transition = 'opacity 700ms ease, transform 700ms ease';
+  // Start progress animation loop immediately
+  requestAnimationFrame(updateProgress);
 
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        visual.style.opacity = '1';
-        visual.style.transform = 'scale(1)';
-      }, 150);
-    });
-  }
+  // Failsafe timeout in case of unexpected event
+  setTimeout(() => {
+    dismissPreloader();
+  }, 1200);
 }
 
 /**
