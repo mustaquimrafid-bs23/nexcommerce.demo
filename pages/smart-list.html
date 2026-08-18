@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="view-transition" content="same-origin">
+  <title>Smart List — Curated Atelier Replenishments · nexCommerce</title>
+  <meta name="description" content="Your AI-recommended atelier shopping list. Reorder seasonal silhouettes, acoustic craft, and essentials in one unified action.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=6">
+
+  <style>
+    /* ─── View Transition ─────────────────────────────────────────────── */
+    @keyframes sl-vt-fade-in  { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: scale(1); } }
+    @keyframes sl-vt-fade-out { from { opacity: 1; transform: scale(1); }    to { opacity: 0; transform: scale(1.01); } }
+
+    ::view-transition-new(root)  { animation: sl-vt-fade-in  320ms cubic-bezier(0.16,1,0.3,1) both; }
+    ::view-transition-old(root)  { animation: sl-vt-fade-out 240ms ease both; }
+
+    /* ─── Page Base ───────────────────────────────────────────────────── */
+    body { background: var(--bg-main); color: var(--text-primary); font-family: var(--font-body); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ─── Hero Header ─────────────────────────────────────────────────── */
+    .sl-hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 40px 0;
+    }
+    .sl-ai-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.18);
+      border-radius: var(--radius-pill);
+      padding: 5px 12px;
+      margin-bottom: 20px;
+    }
+    .sl-hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 500;
+      line-height: 1.08;
+      color: var(--text-primary);
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+    }
+    .sl-hero-sub {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 580px;
+      margin: 0 0 24px;
+    }
+
+    /* ─── Intelligent Seasonal Context Banner ─────────────────────────── */
+    .sl-seasonal-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(61, 224, 255, 0.05);
+      border: 1px solid rgba(61, 224, 255, 0.14);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .sl-seasonal-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .sl-seasonal-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(61, 224, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+    .sl-seasonal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(61, 224, 255, 0.12);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      color: var(--accent-cyan);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+    .sl-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px var(--accent-cyan);
+      animation: sl-pulse 2s infinite;
+    }
+    @keyframes sl-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    /* ─── Toolbar (Valuation + Actions) ───────────────────────────────── */
+    .sl-toolbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .sl-stats-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .sl-stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 3px;
+    }
+    .sl-stat-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--text-primary);
+    }
+    .sl-divider-v {
+      width: 1px;
+      height: 30px;
+      background: var(--border-subtle);
+    }
+
+    /* Add All CTA */
+    .sl-add-all-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .sl-btn-add-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 24px;
+      background: var(--cta-primary);
+      color: var(--cta-primary-text);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: opacity 180ms ease, transform 180ms ease;
+      overflow: hidden;
+      position: relative;
+    }
+    .sl-btn-add-all:hover { opacity: 0.9; transform: translateY(-1px); }
+    .sl-btn-add-all:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Progress bar */
+    .sl-progress-wrap {
+      display: none;
+      width: 100%;
+      height: 2px;
+      background: rgba(61, 224, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      right: 0;
+    }
+    .sl-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-electric));
+      transform: scaleX(0);
+      transform-origin: left center;
+      will-change: transform;
+      border-radius: 2px;
+    }
+
+    /* ─── Category Filter Pills ───────────────────────────────────────── */
+    .sl-filter-bar {
+      max-width: 1200px;
+      margin: 0 auto 28px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .sl-filter-bar::-webkit-scrollbar { display: none; }
+    .sl-filter-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 180ms ease;
+    }
+    .sl-filter-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .sl-filter-pill.active {
+      background: rgba(61, 224, 255, 0.12);
+      border-color: rgba(61, 224, 255, 0.35);
+      color: var(--accent-cyan);
+    }
+
+    /* ─── Smart List Grid ─────────────────────────────────────────────── */
+    .sl-grid-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 60px;
+    }
+    #slGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ─── Card Base ───────────────────────────────────────────────────── */
+    .sl-card {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      overflow: visible;
+      cursor: default;
+      transform-style: preserve-3d;
+      transition: box-shadow 300ms cubic-bezier(0.23,1,0.32,1);
+      will-change: transform;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    }
+    .sl-card--oos { opacity: 0.72; }
+
+    /* Specular glare pseudo-layer */
+    .sl-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.07) 0%, transparent 62%);
+      opacity: 0;
+      transition: opacity 180ms ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Dismiss button */
+    .sl-dismiss-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(7, 26, 58, 0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 200ms ease, transform 200ms cubic-bezier(0.34,1.56,0.64,1), background 150ms ease, color 150ms ease;
+    }
+    .sl-card:hover .sl-dismiss-btn { opacity: 1; transform: scale(1); }
+    .sl-dismiss-btn:hover { background: rgba(241,51,101,0.2); color: var(--accent-pink); border-color: rgba(241,51,101,0.3); }
+    .sl-dismiss-btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; opacity: 1; transform: scale(1); }
+
+    /* Image wrap */
+    .sl-card-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1.1;
+      overflow: hidden;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      background: rgba(255,255,255,0.03);
+    }
+    .sl-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: translateZ(10px);
+      transition: transform 500ms cubic-bezier(0.23,1,0.32,1);
+      will-change: transform;
+    }
+    .sl-card:hover .sl-card-img { transform: translateZ(10px) scale(1.04); }
+
+    /* Badges */
+    .sl-oos-badge {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(7, 26, 58, 0.9);
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .sl-sale-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(241,51,101,0.15);
+      color: var(--accent-pink);
+      border: 1px solid rgba(241,51,101,0.25);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Card body */
+    .sl-card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* Interactive Reason / Cadence Chip */
+    .sl-reason-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--accent-cyan);
+      line-height: 1.2;
+      transform: translateZ(3px);
+      margin-bottom: 2px;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+    .sl-reason-chip--interactive {
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 3px 6px;
+      margin-left: -6px;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .sl-reason-chip--interactive:hover {
+      background: rgba(61, 224, 255, 0.1);
+      color: #FFFFFF;
+    }
+    .sl-reason-chip svg { flex-shrink: 0; opacity: 0.8; }
+
+    .sl-card-brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .sl-card-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.35;
+      transform: translateZ(6px);
+    }
+    .sl-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 14.5px;
+      font-weight: 700;
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      transform: translateZ(6px);
+      margin-bottom: 4px;
+    }
+    .sl-orig-price {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    /* Unified Horizontal Action Row */
+    .sl-action-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    /* Quantity stepper */
+    .sl-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm);
+      height: 38px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .sl-stepper-btn {
+      width: 28px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .sl-stepper-btn:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
+    .sl-stepper-val {
+      min-width: 24px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: inline-block;
+      transition: transform 90ms cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* Add to cart button */
+    .sl-btn-add {
+      position: relative;
+      overflow: hidden;
+      flex: 1;
+      height: 38px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 200ms ease, border-color 200ms ease;
+      white-space: nowrap;
+      padding: 0 10px;
+    }
+    .sl-btn-add:hover:not(:disabled) {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .sl-btn-add--disabled { opacity: 0.45; cursor: not-allowed; }
+    .sl-btn-add--done {
+      background: rgba(52, 211, 153, 0.12);
+      border-color: rgba(52, 211, 153, 0.25);
+      color: var(--color-success);
+    }
+    .sl-btn-add-inner { position: relative; z-index: 1; pointer-events: none; }
+
+    /* Ripple */
+    .sl-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transform: scale(0);
+      animation: sl-ripple-anim 420ms cubic-bezier(0.4,0,0.2,1) forwards;
+      pointer-events: none;
+      will-change: transform;
+    }
+    @keyframes sl-ripple-anim {
+      to { transform: scale(1); opacity: 0; }
+    }
+
+    /* ─── Repurchase Cadence Modal (10/10 Enhancement) ───────────────── */
+    .sl-cadence-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 16, 38, 0.78);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      padding: 20px;
+    }
+    .sl-cadence-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sl-cadence-dialog {
+      background: var(--bg-surface);
+      border: 1px solid rgba(61, 224, 255, 0.22);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      transform: scale(0.96) translateY(10px);
+      transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sl-cadence-overlay.active .sl-cadence-dialog {
+      transform: scale(1) translateY(0);
+    }
+    .sl-cadence-header {
+      padding: 24px 28px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .sl-cadence-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      transition: color 150ms ease;
+    }
+    .sl-cadence-close:hover { color: #FFFFFF; }
+    .sl-cadence-body {
+      padding: 20px 28px;
+    }
+    .sl-cadence-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sl-cadence-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .sl-cadence-option:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+    .sl-cadence-option.selected {
+      background: rgba(61, 224, 255, 0.09);
+      border-color: rgba(61, 224, 255, 0.4);
+    }
+    .sl-cadence-option input { display: none; }
+    .sl-cadence-opt-text strong {
+      display: block;
+      font-size: 13px;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+    .sl-cadence-opt-text span {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .sl-cadence-check {
+      width: 16px;
+      height: 16px;
+      color: var(--accent-cyan);
+      opacity: 0;
+      transition: opacity 160ms ease;
+    }
+    .sl-cadence-option.selected .sl-cadence-check {
+      opacity: 1;
+    }
+    .sl-cadence-footer {
+      padding: 16px 28px 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sl-btn-cadence-cancel {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      padding: 0 16px;
+      height: 38px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .sl-btn-cadence-cancel:hover { background: rgba(255, 255, 255, 0.06); color: #FFFFFF; }
+    .sl-btn-cadence-save {
+      background: var(--cta-primary);
+      border: none;
+      color: var(--cta-primary-text);
+      border-radius: var(--radius-sm);
+      padding: 0 20px;
+      height: 38px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 150ms ease;
+    }
+    .sl-btn-cadence-save:hover { opacity: 0.9; }
+
+    /* ─── Concierge Bridge Banner ─────────────────────────────────────── */
+    .sl-concierge-bridge {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 32px 40px;
+      background: rgba(10, 42, 84, 0.65);
+      border: 1px solid rgba(61, 224, 255, 0.16);
+      border-radius: var(--radius-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Empty State ─────────────────────────────────────────────────── */
+    #slEmptyState {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 80px 40px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .sl-empty-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(61, 224, 255, 0.07);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--accent-cyan);
+    }
+    .sl-empty-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .sl-empty-sub {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    /* ─── Toast with Undo ─────────────────────────────────────────────── */
+    .sl-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(10, 42, 84, 0.96);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--text-primary);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: opacity 280ms ease, transform 300ms cubic-bezier(0.16,1,0.3,1);
+      z-index: 9999;
+      backdrop-filter: blur(12px);
+      white-space: nowrap;
+      max-width: 90vw;
+    }
+    .sl-toast--visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .sl-toast--success .sl-toast-icon { color: var(--color-success); }
+    .sl-toast--warn    .sl-toast-icon { color: #FBC02D; }
+    .sl-toast--info    .sl-toast-icon { color: var(--accent-cyan); }
+    .sl-toast-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .sl-toast-undo-btn {
+      background: rgba(61, 224, 255, 0.12);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      color: var(--accent-cyan);
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .sl-toast-undo-btn:hover {
+      background: rgba(61, 224, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #slGrid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sl-hero { padding: 40px 20px 0; }
+      .sl-toolbar { padding: 0 20px 20px; }
+      .sl-filter-bar { padding: 0 20px 20px; }
+      .sl-grid-wrap { padding: 0 20px 60px; }
+      .sl-concierge-bridge { margin: 0 20px 60px; padding: 24px; }
+      #slGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      #slGrid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-sl-page="smart-list">
+
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="smart-list.html" class="nav-item-link active">Smart List <span class="nav-badge-pink">AI</span></a>
+      </nav>
+
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <span>Concierge</span>
+        </button>
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount">0</span>
+        </a>
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        </a>
+        <a href="cart.html" class="nav-icon-btn cart-trigger" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        </a>
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
+            <a href="profile.html" class="nav-more-item" role="menuitem"><i data-lucide="sparkles"></i><span>AI Style Profile</span></a>
+            <a href="smart-list.html" class="nav-more-item" role="menuitem" style="color: var(--accent-cyan);"><i data-lucide="list-restart"></i><span>Smart List</span></a>
+            <a href="account.html#orders" class="nav-more-item" role="menuitem"><i data-lucide="receipt"></i><span>Order History</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    </div>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="smart-list.html" class="mobile-drawer-link" style="color: var(--accent-cyan);">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
+    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="sl-hero" id="slHero">
+      <div class="sl-ai-chip">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        AI-06 · ATELIER SMART REORDER
+      </div>
+      <h1 class="sl-hero-headline">Your Curated Replenishments</h1>
+      <p class="sl-hero-sub">Intelligently recommended from your private atelier acquisition history. Seasonal wardrobe silhouettes, acoustic craft, and artisanal essentials ready for harmonic reorder.</p>
+
+      <!-- INTELLIGENT SEASONAL CONTEXT BANNER (10/10 Enhancement) -->
+      <div class="sl-seasonal-banner">
+        <div class="sl-seasonal-left">
+          <div class="sl-seasonal-icon-wrap">
+            <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+          </div>
+          <div>
+            <strong style="color: #FFFFFF; font-weight: 600;">Autumn / Winter 2026 Climate Signal Active:</strong>
+            <span> Evening temperatures in Dhaka reaching 18°C. Cashmere knitwear and outerwear layers prioritized in your reorder queue.</span>
+          </div>
+        </div>
+        <div class="sl-seasonal-badge">
+          <span class="sl-pulse-dot"></span>
+          <span>Winter Layering Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="sl-toolbar" id="slToolbar">
+      <div class="sl-stats-group">
+        <div>
+          <span class="sl-stat-label">Recommended Pieces</span>
+          <div class="sl-stat-val"><span id="slItemCount">12</span> Pieces</div>
+        </div>
+        <div class="sl-divider-v"></div>
+        <div>
+          <span class="sl-stat-label">Estimated Curation Value</span>
+          <div class="sl-stat-val" id="slValuationDisplay" style="font-family: var(--font-body); font-size: 18px; font-weight: 700;">BDT 214,800</div>
+        </div>
+      </div>
+
+      <div class="sl-add-all-wrap">
+        <button id="slAddAll" class="sl-btn-add-all">
+          <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
+          <span>Move All to Bag</span>
+        </button>
+        <div class="sl-progress-wrap" id="slProgressWrap">
+          <div class="sl-progress-bar" id="slProgressBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY FILTER PILLS -->
+    <div class="sl-filter-bar" id="slFilterBar" role="tablist" aria-label="Filter by category">
+      <button class="sl-filter-pill active" data-category="all" role="tab" aria-selected="true">All Pieces (12)</button>
+      <button class="sl-filter-pill" data-category="Apparel" data-label="Ready-to-Wear" role="tab" aria-selected="false">Ready-to-Wear (7)</button>
+      <button class="sl-filter-pill" data-category="Acoustics" data-label="High Acoustics" role="tab" aria-selected="false">High Acoustics (2)</button>
+      <button class="sl-filter-pill" data-category="Footwear" data-label="Artisanal Footwear" role="tab" aria-selected="false">Artisanal Footwear (1)</button>
+      <button class="sl-filter-pill" data-category="Timepieces" data-label="Timepieces" role="tab" aria-selected="false">Timepieces (1)</button>
+      <button class="sl-filter-pill" data-category="Accessories" data-label="Leather & Accessories" role="tab" aria-selected="false">Leather &amp; Accessories (1)</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="sl-grid-wrap">
+      <div id="slGrid" role="list" aria-label="Recommended shopping list items">
+        <!-- Populated by smart-reorder.js -->
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="slEmptyState" role="status" aria-live="polite">
+        <div class="sl-empty-icon">
+          <i data-lucide="list-restart" style="width: 30px; height: 30px;"></i>
+        </div>
+        <h2 class="sl-empty-headline">Your atelier curation is forming.</h2>
+        <p class="sl-empty-sub">Personalized reorder recommendations appear after your second delivered order. Explore our seasonal lookbook and collections to establish your private archive.</p>
+        <a href="category.html?cat=all" class="btn-primary-commerce" style="height: 46px; padding: 0 28px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+          <span>Explore Collections</span>
+          <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- CONCIERGE BRIDGE -->
+    <div class="sl-concierge-bridge" id="slConciergeBridge">
+      <div>
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 6px;">BESPOKE ATELIER PAIRING</div>
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #FFFFFF; margin-bottom: 6px;">Assemble Your Complete Ensemble</div>
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 540px; line-height: 1.5;">Consult our digital style concierge to harmonize your replenishment pieces into curated seasonal capsules and styling sets.</p>
+      </div>
+      <a href="concierge.html" class="btn-primary-commerce" style="height: 44px; padding: 0 24px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap;">
+        <span>Style My Replenishments</span>
+        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main-grid">
+        <div class="footer-brand-col">
+          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
+            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
+          </a>
+          <p class="footer-brand-desc">A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.</p>
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">Collections</span>
+          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
+          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
+          <a href="category.html?cat=footwear" class="footer-link-item">Footwear</a>
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">Client Services</span>
+          <a href="tracking.html" class="footer-link-item">Track Order</a>
+          <a href="cart.html" class="footer-link-item">Shopping Bag</a>
+          <a href="concierge.html" class="footer-link-item">Concierge</a>
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-col-heading">Account</span>
+          <a href="account.html" class="footer-link-item">My Account</a>
+          <a href="smart-list.html" class="footer-link-item" style="color: var(--accent-cyan);">Smart List</a>
+          <a href="wishlist.html" class="footer-link-item">Saved Pieces</a>
+          <a href="orders.html" class="footer-link-item">Order History</a>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">
+        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
+        <div class="footer-locale-selector">
+          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+          <span>BDT &middot; Dhaka (EN)</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MINI CART -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    </div>
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">BDT 0</span></div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/theme-switcher.js"></script>
+  <script src="../js/smart-reorder.js"></script>
+</body>
+</html>

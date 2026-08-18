@@ -191,7 +191,7 @@
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
@@ -258,7 +258,7 @@
     </div>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
+    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
@@ -422,6 +422,113 @@
 
       </div>
     </div>
+
+    <!-- ═══ SMART REORDER WIDGET (AI-06) ═══════════════════════════════ -->
+    <div id="slConfirmWidget" style="max-width: 1100px; margin: 48px auto 0; padding: 0 40px 0; box-sizing: border-box;">
+
+      <style>
+        /* Compact card for confirmation strip */
+        .sl-card--compact {
+          position: relative;
+          background: var(--bg-surface);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 12px;
+          overflow: visible;
+          cursor: default;
+          transform-style: preserve-3d;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.16);
+          will-change: transform;
+          flex-shrink: 0;
+          width: 176px;
+        }
+        .sl-card--compact .sl-glare {
+          position: absolute; inset: 0; border-radius: inherit;
+          background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.07) 0%, transparent 62%);
+          opacity: 0; transition: opacity 180ms ease; pointer-events: none; z-index: 2;
+        }
+        .sl-card--compact .sl-card-img-wrap {
+          width: 100%; aspect-ratio: 1/1; overflow: hidden;
+          border-radius: 11px 11px 0 0; background: rgba(255,255,255,0.03);
+          position: relative;
+        }
+        .sl-card--compact .sl-card-img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 400ms cubic-bezier(0.23,1,0.32,1);
+        }
+        .sl-card--compact:hover .sl-card-img { transform: scale(1.05); }
+        .sl-card--compact .sl-card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 5px; }
+        .sl-card--compact .sl-reason-chip {
+          font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
+          color: var(--accent-cyan); line-height: 1; display: block;
+        }
+        .sl-card--compact .sl-card-name { font-size: 12px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
+        .sl-card--compact .sl-card-price { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+        .sl-card--compact .sl-orig-price { font-size: 10px; color: var(--text-muted); text-decoration: line-through; margin-left: 5px; }
+        .sl-card--compact .sl-oos-badge {
+          position: absolute; bottom: 8px; left: 8px;
+          font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+          background: rgba(7,26,58,0.88); color: var(--text-muted);
+          padding: 3px 8px; border-radius: 9999px;
+        }
+        .sl-card--compact .sl-btn-add {
+          position: relative; overflow: hidden; width: 100%; height: 34px; margin-top: 6px;
+          background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 6px; color: var(--text-primary); font-size: 11px;
+          font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
+          transition: background 180ms ease;
+        }
+        .sl-card--compact .sl-btn-add:hover:not(:disabled) { background: rgba(255,255,255,0.11); }
+        .sl-card--compact .sl-btn-add--disabled { opacity: 0.4; cursor: not-allowed; }
+        .sl-card--compact .sl-btn-add--done { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); color: var(--color-success); }
+        .sl-ripple {
+          position: absolute; border-radius: 50%;
+          background: rgba(255,255,255,0.18);
+          transform: scale(0);
+          animation: sl-ripple-anim 420ms cubic-bezier(0.4,0,0.2,1) forwards;
+          pointer-events: none; will-change: transform;
+        }
+        @keyframes sl-ripple-anim { to { transform: scale(1); opacity: 0; } }
+        .sl-toast {
+          position: fixed; bottom: 32px; left: 50%;
+          transform: translateX(-50%) translateY(20px);
+          display: flex; align-items: center; gap: 10px;
+          background: rgba(10,42,84,0.96);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px; padding: 12px 20px;
+          font-size: 13px; color: var(--text-primary);
+          box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+          opacity: 0; transition: opacity 280ms ease, transform 300ms cubic-bezier(0.16,1,0.3,1);
+          z-index: 9999; backdrop-filter: blur(12px);
+          white-space: nowrap; max-width: 90vw;
+        }
+        .sl-toast--visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .sl-toast--success .sl-toast-icon { color: var(--color-success); }
+        .sl-toast--warn .sl-toast-icon { color: #FBC02D; }
+        .sl-toast-icon { width: 16px; height: 16px; flex-shrink: 0; }
+      </style>
+
+      <!-- Widget header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-cyan); background: rgba(61,224,255,0.08); border: 1px solid rgba(61,224,255,0.18); border-radius: 9999px; padding: 4px 12px; margin-bottom: 8px;">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg>
+            Atelier Reorder · AI-06
+          </span>
+          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--text-primary); margin: 0; line-height: 1.2;">Curated Pieces for Your Collection</h2>
+        </div>
+        <a id="slConfirmViewAll" href="smart-list.html" style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--accent-cyan); text-decoration: none; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+          View Full Archive
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Horizontal strip -->
+      <div id="slConfirmStrip" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;" aria-label="Recommended items to reorder" role="list">
+        <!-- Populated by smart-reorder.js -->
+      </div>
+
+    </div>
+    <!-- ═══ END SMART REORDER WIDGET ════════════════════════════════════ -->
 
   </main>
 
@@ -635,6 +742,7 @@
     })();
   </script>
 
+  <script src="../js/cart.js"></script>
   <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
@@ -650,8 +758,11 @@
   <script src="../js/concierge.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/smart-reorder.js"></script>
   <script>
     if (window.lucide) window.lucide.createIcons();
+    // Set page context for smart-reorder.js
+    document.body.dataset.slPage = 'confirmation';
   </script>
 
 </body>
