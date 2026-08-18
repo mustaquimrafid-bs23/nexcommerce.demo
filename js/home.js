@@ -628,25 +628,56 @@ function initDealsCards() {
 }
 
 /**
- * 2. Clickable Intent Suggestions, Form Search & Rotating Placeholder
+ * 2. Clickable Intent Suggestions, Form Search & 120fps Typewriter Loop
  */
 function initIntentSuggestions() {
   const chips = document.querySelectorAll('.intent-chip-pill, .intent-suggestion-chip');
   const input = document.getElementById('homeIntentInput') || document.getElementById('homeDiscoveryInput');
-  const form = document.getElementById('homeIntentForm') || document.getElementById('homeDiscoveryForm');
+  const form  = document.getElementById('homeIntentForm') || document.getElementById('homeDiscoveryForm');
+  const submitBtn = document.getElementById('homeIntentSubmitBtn');
+  const progressBar = document.getElementById('intentTypewriterBar');
 
-  // Clear any stale value from previous session
+  // Generic ripple trigger helper
+  function triggerRipple(btn, rippleSelector, e) {
+    const rippleEl = btn.querySelector(rippleSelector);
+    if (!rippleEl) return;
+    rippleEl.classList.remove('animating');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    rippleEl.style.width  = size + 'px';
+    rippleEl.style.height = size + 'px';
+    rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+    rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+    void rippleEl.offsetWidth;
+    rippleEl.classList.add('animating');
+    rippleEl.addEventListener('animationend', () => {
+      rippleEl.classList.remove('animating');
+    }, { once: true });
+  }
+
+  // Clear stale value
   if (input) input.value = '';
 
-  // Chip click handler
+  // Chip click handler with tactile ripple
   chips.forEach(chip => {
-    chip.addEventListener('click', () => {
+    chip.addEventListener('click', (e) => {
+      triggerRipple(chip, '.intent-chip-ripple', e);
       const text = chip.getAttribute('data-query') || chip.textContent.trim();
       if (input) {
         input.value = text;
         input.focus();
       }
-      window.location.href = `pages/discovery.html?q=${encodeURIComponent(text)}`;
+      // Delegate to page transition curtain if available
+      const curtain = document.getElementById('pageTransitionOverlay');
+      const targetUrl = `pages/discovery.html?q=${encodeURIComponent(text)}`;
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
     });
   });
 
@@ -654,60 +685,94 @@ function initIntentSuggestions() {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (submitBtn) triggerRipple(submitBtn, '.intent-btn-ripple', e);
       const activeInput = form.querySelector('input');
       const val = activeInput ? activeInput.value.trim() : '';
       if (val) {
-        window.location.href = `pages/discovery.html?q=${encodeURIComponent(val)}`;
+        const curtain = document.getElementById('pageTransitionOverlay');
+        const targetUrl = `pages/discovery.html?q=${encodeURIComponent(val)}`;
+        if (curtain) {
+          curtain.style.transition = 'opacity 200ms ease';
+          curtain.style.opacity = '1';
+          curtain.style.pointerEvents = 'all';
+          setTimeout(() => { window.location.href = targetUrl; }, 210);
+        } else {
+          window.location.href = targetUrl;
+        }
       }
     });
   }
 
-  // Animated Placeholder Rotation
+  // 120fps Typewriter Rotation with Progress Sync
   if (input) {
     const prompts = [
       "Something for a winter evening in Dhaka",
       "Minimalist linen outfit for a weekend in Sylhet",
       "Sharp monochrome look for an executive dinner",
-      "Breathable lightweight layers under BDT 15,000",
-      "Comfortable silk blend shirt for warm weather"
+      "Breathable performance wear for morning runs",
+      "Tailored outerwear for European autumn travel",
+      "Understated luxury accessories for gifting"
     ];
-    let promptIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let rotationTimeout = null;
 
-    function typeEffect() {
-      // Don't rotate if user has focused or typed something
-      if (document.activeElement === input || input.value.length > 0) {
-        rotationTimeout = setTimeout(typeEffect, 2000);
+    let promptIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    let isPaused = false;
+    let holdStartTime = 0;
+    const HOLD_DURATION = 3500; // ms to pause on full prompt
+
+    // Pause typewriter if user interacts with input
+    input.addEventListener('focus', () => { isPaused = true; });
+    input.addEventListener('blur',  () => {
+      if (!input.value.trim()) { isPaused = false; }
+    });
+    input.addEventListener('input', () => {
+      isPaused = !!input.value.trim();
+    });
+
+    function typeLoop(timestamp) {
+      if (isPaused) {
+        requestAnimationFrame(typeLoop);
         return;
       }
 
-      const currentPrompt = prompts[promptIndex];
-      if (isDeleting) {
-        input.setAttribute('placeholder', currentPrompt.substring(0, charIndex - 1));
-        charIndex--;
+      const currentFullText = prompts[promptIdx];
+
+      if (!isDeleting) {
+        // Typing forward
+        input.placeholder = currentFullText.substring(0, charIdx + 1);
+        charIdx++;
+
+        if (charIdx === currentFullText.length) {
+          isDeleting = true;
+          holdStartTime = performance.now();
+        }
+        setTimeout(() => requestAnimationFrame(typeLoop), 45);
       } else {
-        input.setAttribute('placeholder', currentPrompt.substring(0, charIndex + 1));
-        charIndex++;
+        // Holding full text with progress bar sync
+        const elapsed = performance.now() - holdStartTime;
+        if (elapsed < HOLD_DURATION) {
+          if (progressBar) {
+            const ratio = Math.min(1, elapsed / HOLD_DURATION);
+            progressBar.style.transform = `scaleX(${ratio.toFixed(3)})`;
+          }
+          requestAnimationFrame(typeLoop);
+        } else {
+          // Reset progress bar & delete text
+          if (progressBar) progressBar.style.transform = 'scaleX(0)';
+          input.placeholder = currentFullText.substring(0, charIdx - 1);
+          charIdx--;
+
+          if (charIdx === 0) {
+            isDeleting = false;
+            promptIdx = (promptIdx + 1) % prompts.length;
+          }
+          setTimeout(() => requestAnimationFrame(typeLoop), 25);
+        }
       }
-
-      let speed = isDeleting ? 30 : 60;
-
-      if (!isDeleting && charIndex === currentPrompt.length) {
-        speed = 3000; // Pause at end of phrase
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        promptIndex = (promptIndex + 1) % prompts.length;
-        speed = 600; // Pause before typing next
-      }
-
-      rotationTimeout = setTimeout(typeEffect, speed);
     }
 
-    // Start rotation
-    rotationTimeout = setTimeout(typeEffect, 1500);
+    requestAnimationFrame(typeLoop);
   }
 
   // Refresh Lucide icons for any dynamic icons
