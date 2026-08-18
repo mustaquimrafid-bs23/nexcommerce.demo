@@ -6246,7 +6246,7 @@ textarea.input-field {
   border: 1px solid rgba(255, 255, 255, 0.08);
   text-decoration: none;
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   transition: background 180ms ease,
               border-color 180ms ease,
               color 180ms ease,
@@ -6258,7 +6258,7 @@ textarea.input-field {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  border-radius: 50%;
   background: radial-gradient(circle 30px at var(--header-glare-x, 50%) var(--header-glare-y, 50%), rgba(255, 255, 255, 0.25) 0%, transparent 80%);
   opacity: var(--header-glare-opacity, 0);
   pointer-events: none;
@@ -6341,7 +6341,7 @@ textarea.input-field {
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-secondary);
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   transition: background 180ms ease,
               border-color 180ms ease,
               color 180ms ease,
