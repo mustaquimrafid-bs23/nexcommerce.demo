@@ -481,16 +481,15 @@
 
 
     <!-- CONVERSATIONAL INTENT DISCOVERY CARD ("TELL US WHAT YOU NEED") -->
-    <section class="home-intent-card-section reveal-on-scroll" aria-label="Intent-based Product Search">
+    <section class="home-intent-card-section" id="homeIntentSectionRoot" aria-label="Intent-based Product Search">
       <div class="container">
-        <div class="home-intent-section-header">
-          <span class="home-intent-eyebrow"><i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> Discover Your Way</span>
-        </div>
-        <div class="home-intent-card">
-          <div class="intent-card-ambient-glow" aria-hidden="true"></div>
+        <div class="home-intent-card" data-intent-card data-parallax-depth="2">
+          <!-- Multi-layer Specular & Ambient Sheen -->
+          <div class="intent-specular-glare" aria-hidden="true"></div>
+          <div class="intent-ambient-mesh" aria-hidden="true"></div>
           
           <div class="intent-card-header">
-            <div class="intent-badge">
+            <div class="intent-badge-glow">
               <i data-lucide="sparkles" class="intent-badge-icon"></i>
               <span>Natural Language Discovery</span>
             </div>
@@ -498,43 +497,54 @@
             <p class="intent-text-sub">Describe an occasion, destination, weather, style, or anything that matters to you.</p>
           </div>
 
-          <form id="homeIntentForm" class="intent-input-wrap">
+          <form id="homeIntentForm" class="intent-input-wrap" data-parallax-depth="3">
             <div class="intent-input-icon-prefix">
-              <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+              <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
             </div>
-            <input 
-              type="text" 
-              id="homeIntentInput" 
-              class="intent-input-field" 
-              placeholder="Something for a winter evening in Dhaka" 
-              autocomplete="off" 
-              aria-label="Describe what you are looking for"
-            />
-            <button type="submit" class="intent-submit-circle-btn" aria-label="Search Catalog">
+            <div class="intent-input-core">
+              <input 
+                type="text" 
+                id="homeIntentInput" 
+                class="intent-input-field" 
+                placeholder="Something for a winter evening in Dhaka" 
+                autocomplete="off" 
+                aria-label="Describe what you are looking for"
+              />
+              <div class="intent-typewriter-progress" aria-hidden="true">
+                <div class="intent-typewriter-bar" id="intentTypewriterBar"></div>
+              </div>
+            </div>
+            <button type="submit" class="intent-submit-circle-btn" id="homeIntentSubmitBtn" aria-label="Search Catalog">
+              <span class="intent-btn-ripple" aria-hidden="true"></span>
               <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
             </button>
           </form>
 
-          <div class="intent-card-bottom">
+          <div class="intent-card-bottom" data-parallax-depth="1">
             <span class="intent-try-label">Popular Prompts</span>
             <div class="intent-chips-grid">
-              <button type="button" class="intent-chip-pill" data-query="Dinner outfit for a cool evening in Dhaka">
+              <button type="button" class="intent-chip-pill" data-query="Dinner outfit for a cool evening in Dhaka" data-chip-depth="1">
+                <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="wine" class="intent-chip-icon"></i>
                 <span>Dinner Outfit</span>
               </button>
-              <button type="button" class="intent-chip-pill" data-query="Lightweight apparel for weekend trip">
+              <button type="button" class="intent-chip-pill" data-query="Lightweight apparel for weekend trip" data-chip-depth="2">
+                <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="compass" class="intent-chip-icon"></i>
                 <span>Weekend Trip</span>
               </button>
-              <button type="button" class="intent-chip-pill" data-query="Minimalist tailored workwear">
+              <button type="button" class="intent-chip-pill" data-query="Minimalist tailored workwear" data-chip-depth="3">
+                <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="briefcase" class="intent-chip-icon"></i>
                 <span>Comfortable for Work</span>
               </button>
-              <button type="button" class="intent-chip-pill" data-query="Luxury gifts for him">
+              <button type="button" class="intent-chip-pill" data-query="Luxury gifts for him" data-chip-depth="2">
+                <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="gift" class="intent-chip-icon"></i>
                 <span>Gift for Him</span>
               </button>
-              <button type="button" class="intent-chip-pill" data-query="Light breathable summer fabrics">
+              <button type="button" class="intent-chip-pill" data-query="Light breathable summer fabrics" data-chip-depth="1">
+                <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="sun" class="intent-chip-icon"></i>
                 <span>Light for Summer</span>
               </button>
