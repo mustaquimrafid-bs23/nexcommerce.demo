@@ -519,9 +519,16 @@
       <div class="typeahead-container">
         <div class="typeahead-hint-bar">
           <span>Press <strong>Enter</strong> to explore all matches for &ldquo;${escapeHtml(query)}&rdquo;</span>
+          <a href="${_resolvePage('discovery.html')}?q=${encodeURIComponent(query)}" class="typeahead-see-all-link">See all &rarr;</a>
         </div>
         ${catsHtml}
         ${prodsHtml}
+        <div class="typeahead-footer-action">
+          <a href="${_resolvePage('discovery.html')}?q=${encodeURIComponent(query)}" class="btn-typeahead-see-all">
+            <span>Explore all results for &ldquo;${escapeHtml(query)}&rdquo; in Discovery</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
       </div>
     `;
 
@@ -618,6 +625,14 @@
 
         <div class="search-results-grid">
           ${cardsHtml}
+        </div>
+
+        <!-- See All Results in Full Discovery / Catalog -->
+        <div class="search-see-all-container">
+          <a href="${_resolvePage('discovery.html')}?q=${encodeURIComponent(query)}" class="btn-see-all-catalog">
+            <span>SEE ALL RESULTS FOR &ldquo;${escapeHtml(query)}&rdquo; IN FULL CATALOG</span>
+            <span class="see-all-arrow">&rarr;</span>
+          </a>
         </div>
 
         <!-- Conversational Refinement Bar -->
