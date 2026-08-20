@@ -181,6 +181,22 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Iconography:** Use libraries like **Lucide Icons** via CDN for crisp, scalable vector graphics.
 - The goal is a premium, luxury feel—leverage the best available online tools to achieve this effortlessly in the prototype.
 
+### 🛡️ Critical Storefront Engineering & State Guardrails
+
+**1. Monolithic Stylesheet Syntax Verification**:
+- When modifying large stylesheets (`design-system.css`), always execute an automated syntax/brace validation script (`node -e "..."`) to confirm balanced AST structures before claiming completion or proceeding to browser verification. An unclosed brace silently disables all subsequent cascade rules.
+
+**2. Client Storage: Explicit Empty State vs. Fallback**:
+- When managing persistent user lists (Recent Searches, Wishlist, Smart List) that feature initial default items, always distinguish between first-time visitors (`stored === null`) and cleared states (`stored === '[]'`).
+- "Clear All" user actions must explicitly store `[]` (`localStorage.setItem(key, JSON.stringify([]))`), never just remove the key if a fallback repopulates when the key is null.
+
+**3. Visual-First Merchandising Standard**:
+- Overlays, search panels, and modals must lead with rich visual photography (visual category tiles, studio product cards with prices and 1-click Quick-Add). Product and merchandising imagery must occupy $\ge 70\%$ of visible overlay real estate.
+- Text and AI explanation chrome must remain strictly minimal: single-line badges only (`✨ 3 Recommended Pieces`), zero paragraph quote clutter.
+
+**4. Search Navigation & Popup Isolation**:
+- "See All Results" or full catalog links must cleanly navigate to target pages (`discovery.html?q=...`) pre-filling on-page search inputs without auto-reopening modal overlay popups on page load.
+
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
 When building any screen or component for nexCommerce, reference these real-world sites as design benchmarks:
