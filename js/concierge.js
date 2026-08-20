@@ -328,11 +328,11 @@
         <div class="bundle-items">${itemsHtml}</div>
         <div class="bundle-footer">
           <div class="bundle-total-row">
-            <span>Look Subtotal:</span>
+            <span>Outfit Subtotal:</span>
             <strong class="bundle-total-val tabular-nums">€ ${Number(total).toFixed(2)}</strong>
           </div>
           <button type="button" class="btn-primary-commerce bundle-add-btn" data-action="add-look-bundle">
-            ADD SELECTED TO BAG (${products.length} Items)
+            ADD SELECTED ITEMS TO BAG (${products.length} Items)
           </button>
         </div>
       </div>
@@ -355,15 +355,15 @@
     return `
       <div class="concierge-size-advisor" data-size-widget>
         <div class="size-advisor-section">
-          <div class="size-advisor-label">1. Garment Category</div>
+          <div class="size-advisor-label">1. Item Category</div>
           <div class="size-pills-row">${catPills}</div>
         </div>
         <div class="size-advisor-section">
-          <div class="size-advisor-label">2. Standard Measurement / Size</div>
+          <div class="size-advisor-label">2. Size / Chest Measurement</div>
           <div class="size-pills-row size-pills-measurements">${sizePills}</div>
         </div>
         <div class="size-advisor-section">
-          <div class="size-advisor-label">3. Desired Silhouette</div>
+          <div class="size-advisor-label">3. Desired Fit</div>
           <div class="size-pills-row">${fitPills}</div>
         </div>
         <div class="size-advisor-result">
@@ -371,7 +371,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #34D399;"><path d="M20 6 9 17l-5-5"/></svg>
             <span class="size-result-text"><strong>Recommended Size: EU 48 / Medium</strong> · 96% Match</span>
           </div>
-          <div class="size-result-note">Engineered for a clean structured drape. Fits true to standard European sizing.</div>
+          <div class="size-result-note">Fits true to standard European sizing with a clean, comfortable fit.</div>
         </div>
       </div>
     `;

@@ -1,8 +1,8 @@
 /**
  * nexCommerce AI &mdash; Elevated Concierge Engine (Feature 6)
  * Orchestrates Intent Parsing, Real-Time Page Context, Multi-Piece Look Building,
- * Interactive Sizing, Order Tracking, and Atelier Care.
- * Deterministic (Zero-Hallucination) shopping assistant logic.
+ * Interactive Sizing, Order Tracking, and Fabric Care.
+ * Deterministic (Zero-Hallucination) shopping assistant logic in clear, human language.
  */
 
 (function(window) {
@@ -24,12 +24,13 @@
         return window.NexAI.catalogArray;
       }
       return [
-        { id: 'NX-APP-001', title: 'Cashmere Minimalist Knit', category: 'Apparel', numericPrice: 280, price: '€ 280.00', img: 'assets/images/products/hero_sweater.png', desc: 'Crafted from ultra-soft 2-ply Mongolian cashmere with a relaxed, modern silhouette.' },
-        { id: 'NX-APP-002', title: 'Relaxed Tailored Trouser', category: 'Apparel', numericPrice: 240, price: '€ 240.00', img: 'assets/images/products/merino_wool_trousers.png', desc: '100% fine Italian merino wool with subtle pleats and an easy tailored drape.' },
-        { id: 'NX-FTW-001', title: 'Minimalist Leather Runner', category: 'Footwear', numericPrice: 320, price: '€ 320.00', img: 'assets/images/products/leather_sneaker.png', desc: 'Hand-burnished Italian calfskin with an ergonomic vulcanized sole.' },
-        { id: 'NX-APP-003', title: 'Double-Breasted Wool Overcoat', category: 'Apparel', numericPrice: 480, price: '€ 480.00', img: 'assets/images/products/minimalist_trench.png', desc: 'Structured heavyweight Melton wool with satin cupro lining and horn buttons.' },
-        { id: 'NX-ACC-001', title: 'Full-Grain Leather Everyday Tote', category: 'Accessories', numericPrice: 350, price: '€ 350.00', img: 'assets/images/products/leather_tote.png', desc: 'Full-grain Tuscan leather with raw unlined interior and magnetic closure.' },
-        { id: 'NX-ACC-002', title: 'Minimalist Titanium Chronometer', category: 'Accessories', numericPrice: 420, price: '€ 420.00', img: 'assets/images/products/titanium_watch.png', desc: 'Grade-5 aerospace titanium casing with Swiss automatic movement.' }
+        { id: 'p1', title: 'Architectural Cashmere Sweater', category: 'Apparel', numericPrice: 185, price: '€ 185.00', img: 'assets/images/products/hero_sweater.png', desc: 'Crafted from ultra-soft 2-ply Mongolian cashmere with a relaxed, modern silhouette.' },
+        { id: 'p2', title: 'Structured Wool Blazer', category: 'Apparel', numericPrice: 245, price: '€ 245.00', img: 'assets/images/products/plp_blazer.png', desc: '100% fine Italian merino wool tailored for comfortable day-to-evening wear.' },
+        { id: 'p3', title: 'Fine-Knit Cashmere Crew', category: 'Apparel', numericPrice: 160, price: '€ 160.00', img: 'assets/images/products/plp_crewneck.png', desc: 'Ultra-soft cashmere crewneck designed for easy layering across seasons.' },
+        { id: 'p6', title: 'Minimalist Leather Runner', category: 'Footwear', numericPrice: 198, price: '€ 198.00', img: 'assets/images/products/leather_sneaker.png', desc: 'Handcrafted Italian calfskin with an ergonomic cushioned sole.' },
+        { id: 'p7', title: 'Leather Weekender Tote', category: 'Accessories', numericPrice: 285, price: '€ 285.00', img: 'assets/images/products/leather_tote.png', desc: 'Full-grain Tuscan leather with roomy interior and secure magnetic closure.' },
+        { id: 'p4', title: 'Studio Spatial Headphones', category: 'Accessories', numericPrice: 320, price: '€ 320.00', img: 'assets/images/products/p4.png', desc: 'Precision acoustic engineering with ultra-soft memory foam ear cushions.' },
+        { id: 'p8', title: 'Chronograph Minimalist Watch', category: 'Accessories', numericPrice: 285, price: '€ 285.00', img: 'assets/images/products/titanium_watch.png', desc: 'Grade-5 aerospace titanium casing with Swiss automatic movement.' }
       ];
     }
 
@@ -77,12 +78,12 @@
         if (found) {
           return {
             type: 'pdp_context',
-            text: `Good evening. I see you are viewing the **${found.title}** (${found.price || ('€ ' + Number(found.numericPrice).toFixed(2))}). How can I assist you with this piece today?`,
+            text: `Good evening. I see you are viewing the **${found.title}** (${found.price || ('€ ' + Number(found.numericPrice).toFixed(2))}). Would you like help with sizing, outfit ideas, or delivery details?`,
             suggestedChips: [
-              `Check my size for this piece`,
-              `Complete the look with this`,
-              `Material craft & care`,
-              `Express delivery timelines`
+              `Find my size for this item`,
+              `Complete this outfit`,
+              `Fabric & care guide`,
+              `Delivery & shipping time`
             ],
             products: [found],
             contextProduct: found
@@ -94,12 +95,12 @@
       if (pathname.includes('cart.html') || (context && context.url && context.url.includes('cart.html'))) {
         return {
           type: 'cart_context',
-          text: `Good evening. I can assist you with your current bag selection, recommend matching wardrobe pieces, or verify delivery windows before checkout.`,
+          text: `Good evening. I can help you review your shopping bag, suggest matching pieces, or check delivery times before you checkout.`,
           suggestedChips: [
-            'Recommend matching accessories',
-            'Delivery timelines',
-            '14-Day EU return policy',
-            'Complete a look'
+            'Suggest matching accessories',
+            'Delivery & shipping times',
+            '14-Day return policy',
+            'Put together an outfit'
           ],
           products: []
         };
@@ -114,11 +115,11 @@
             const catName = intent.category.value.toLowerCase();
             return {
               type: 'text',
-              text: `I noticed you were exploring **${catName}** earlier. Would you like to continue refining that search, or are you looking for something fresh?`,
+              text: `I noticed you were looking at **${catName}** earlier. Would you like to keep browsing, or look for something else?`,
               suggestedChips: [
                 `Show all ${catName}`,
-                'Complete a look',
-                'Check sizing',
+                'Complete an outfit',
+                'Find my size',
                 'Under € 250'
               ],
               products: catalog.filter(p => (p.category || '').toLowerCase().includes(catName)).slice(0, 3)
@@ -130,12 +131,12 @@
       // 4. Default Luxury Welcome
       return {
         type: 'text',
-        text: `Good evening. I am your nexCommerce Personal Shopper. I can assist you with complete look recommendations, precise sizing guidance, atelier craftsmanship, or order delivery status. What are you looking to discover?`,
+        text: `Good evening. I am your nexCommerce Personal Shopper. I can help you put together complete outfits, find your exact size, or check your delivery status. What are you shopping for today?`,
         suggestedChips: [
-          'Complete a look for the office',
-          'Show me outerwear',
+          'Complete an office outfit',
+          'Show me jackets & coats',
           'Under € 300',
-          'Sizing & fit guide'
+          'Size & fit guide'
         ],
         products: []
       };
@@ -158,17 +159,17 @@
         this.lastQueryType = 'sizing';
         return {
           type: 'sizing_advisor',
-          text: `**Interactive Sizing & Fit Advisor**\n\n` +
-                `Our garments are engineered around European sartorial proportions. Select your parameters below for instant fit recommendations:`,
+          text: `**Interactive Size & Fit Guide**\n\n` +
+                `Our pieces follow standard European sizing. Select your details below to find your recommended size:`,
           widgetPayload: {
-            categories: ['Apparel (Knitwear & Tops)', 'Tailored Outerwear', 'Footwear'],
-            defaultCategory: 'Apparel (Knitwear & Tops)',
+            categories: ['Tops & Sweaters', 'Jackets & Coats', 'Shoes & Sneakers'],
+            defaultCategory: 'Tops & Sweaters',
             availableSizes: ['XS (36")', 'S (38")', 'M (40")', 'L (42")', 'XL (44")'],
             footwearSizes: ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
-            fits: ['Tailored (True to size)', 'Relaxed Layering (Size up)']
+            fits: ['True to size (Regular fit)', 'Size up (Relaxed fit for layering)']
           },
           products: catalog.filter(p => p.category === 'Apparel' || p.category === 'Footwear').slice(0, 2),
-          suggestedChips: ['Style with knitwear', 'Under € 300', 'Complete a look', 'Care guide']
+          suggestedChips: ['Show sweaters', 'Under € 300', 'Complete an outfit', 'Fabric care guide']
         };
       }
 
@@ -180,50 +181,50 @@
 
         return {
           type: 'order_tracking',
-          text: `**Live Order Verification & DHL Express Custody**\n\n` +
-                `Real-time tracking for order **\`${orderCode}\`**:`,
+          text: `**Live Order Tracking (DHL Express)**\n\n` +
+                `Real-time delivery status for order **\`${orderCode}\`**:`,
           orderCode: orderCode,
           widgetPayload: {
             orderCode: orderCode,
-            destination: 'Berlin / EU Dispatch Centre',
+            destination: 'Berlin, Germany',
             estimatedDelivery: 'Tomorrow, by 18:00 CET',
-            carrier: 'DHL Express Global',
+            carrier: 'DHL Express Priority',
             currentStep: 3, // 1: Order Confirmed, 2: Inspected, 3: In Transit, 4: Out for Delivery
             steps: [
               { label: 'Order Confirmed', date: 'Yesterday, 14:20' },
-              { label: 'Atelier Quality Inspected', date: 'Today, 08:30' },
-              { label: 'Dispatched via DHL Express', date: 'Today, 11:45 (In Transit)' },
+              { label: 'Quality Checked', date: 'Today, 08:30' },
+              { label: 'Dispatched with DHL Express', date: 'Today, 11:45 (In Transit)' },
               { label: 'Out for Delivery', date: 'Expected Tomorrow' }
             ]
           },
-          actionLink: { text: 'OPEN FULL TRACKING PORTAL →', url: 'tracking.html' },
+          actionLink: { text: 'OPEN FULL TRACKING PAGE →', url: 'tracking.html' },
           products: [],
-          suggestedChips: ['Delivery timelines', '14-Day return policy', 'Complete a look']
+          suggestedChips: ['Delivery & shipping times', '14-Day return policy', 'Put together an outfit']
         };
       }
 
       // ── 3. OCCASIONS & COMPLETE THE LOOK BUNDLE WIDGET ───────────────────
-      if (/outfit|look|pair|complete.*look|capsule|wedding|office|business|casual|dinner|gala|summer|weekend|evening/i.test(rawText)) {
+      if (/outfit|look|pair|complete.*look|complete.*outfit|capsule|wedding|office|business|casual|dinner|gala|summer|weekend|evening/i.test(rawText)) {
         this.lastQueryType = 'bundle';
         
         let bundleItems = [];
-        let occasionName = 'Modern Minimalist Capsule';
+        let occasionName = 'Modern Everyday Outfit';
 
         if (/office|business|work/i.test(rawText)) {
-          occasionName = 'Tailored Business Editorial';
+          occasionName = 'Office & Business Outfit';
           bundleItems = [
-            catalog.find(p => p.id === 'NX-APP-001') || catalog[0], // Cashmere Knit
-            catalog.find(p => p.id === 'NX-APP-002') || catalog[1], // Tailored Trouser
-            catalog.find(p => p.id === 'NX-FTW-001') || catalog[2], // Leather Runner
-            catalog.find(p => p.id === 'NX-APP-003') || catalog[3]  // Wool Overcoat
+            catalog.find(p => p.id === 'p1') || catalog[0], // Cashmere Knit
+            catalog.find(p => p.id === 'p2') || catalog[1], // Wool Blazer
+            catalog.find(p => p.id === 'p3') || catalog[2], // Cashmere Crew
+            catalog.find(p => p.id === 'p6') || catalog[3]  // Leather Runner
           ].filter(Boolean);
         } else if (/wedding|gala|formal|evening|dinner/i.test(rawText)) {
-          occasionName = 'Evening Reception & Formal Look';
+          occasionName = 'Evening & Formal Outfit';
           bundleItems = [
-            catalog.find(p => p.id === 'NX-APP-003') || catalog[3], // Wool Overcoat
-            catalog.find(p => p.id === 'NX-APP-002') || catalog[1], // Tailored Trouser
-            catalog.find(p => p.id === 'NX-ACC-002') || catalog[5], // Titanium Chrono
-            catalog.find(p => p.id === 'NX-FTW-001') || catalog[2]  // Leather Runner
+            catalog.find(p => p.id === 'p2') || catalog[1], // Wool Blazer
+            catalog.find(p => p.id === 'p1') || catalog[0], // Cashmere Knit
+            catalog.find(p => p.id === 'p8') || catalog[6], // Titanium Watch
+            catalog.find(p => p.id === 'p6') || catalog[3]  // Leather Runner
           ].filter(Boolean);
         } else {
           // Default versatile look
@@ -241,9 +242,9 @@
           type: 'bundle_look',
           isBundleLook: true,
           text: `**${occasionName}**\n\n` +
-                `Here is a complete look coordinated in tone, drape, and silhouette. You can customize individual pieces below:`,
+                `Here is a complete outfit put together for you. You can check or uncheck individual pieces below:`,
           products: bundleItems,
-          suggestedChips: ['Under € 500', 'Check sizing for this look', 'Show other coats', 'Delivery times']
+          suggestedChips: ['Under € 500', 'Find my size for this outfit', 'Show other jackets', 'Delivery times']
         };
       }
 
@@ -252,11 +253,11 @@
         this.lastQueryType = 'delivery';
         return {
           type: 'delivery',
-          text: `**Fulfillment & Express Delivery Timelines**\n\n` +
-                `• **DHL Express Delivery**: Within **24–48 hours** across all EU member states.\n` +
-                `• **Complimentary Shipping**: Included on all orders over **€ 150.00**.\n` +
-                `• **Standard Carbon-Neutral Freight**: 2–4 business days via DPD.\n` +
-                `• **GPS Tracking**: Real-time end-to-end milestone tracking included with every dispatch.`,
+          text: `**Delivery & Shipping Times**\n\n` +
+                `• **DHL Express Delivery**: 24–48 hours across all EU countries.\n` +
+                `• **Free Shipping**: Included on all orders over **€ 150.00**.\n` +
+                `• **Standard Delivery**: 2–4 business days via DPD.\n` +
+                `• **Live Tracking**: End-to-end GPS updates sent directly to your email.`,
           actionLink: { text: 'TRACK LIVE ORDER →', url: 'tracking.html' },
           products: [],
           suggestedChips: ['Track my order', '14-Day return policy', 'Show collection']
@@ -268,27 +269,27 @@
         this.lastQueryType = 'returns';
         return {
           type: 'returns',
-          text: `**14-Day Statutory Right of Withdrawal & Returns**\n\n` +
-                `• **14-Day EU Statutory Window**: Enjoy a full 14 days from receipt to return any piece in unworn condition.\n` +
-                `• **Prepaid Return Label**: Generate instant DHL prepaid return labels inside your account.\n` +
-                `• **Rapid Reimbursement**: Processed within 24 hours of inspection back to your original payment method.`,
+          text: `**14-Day Free Returns & Money-Back Policy**\n\n` +
+                `• **14-Day Return Window**: You can return any unworn item within 14 days of delivery.\n` +
+                `• **Prepaid Return Label**: Download a free DHL prepaid return label directly from your account.\n` +
+                `• **Fast Refund**: Your money is refunded within 24 hours after we inspect the return.`,
           products: [],
-          suggestedChips: ['Delivery details', 'Show new arrivals', 'Check sizing']
+          suggestedChips: ['Delivery details', 'Show new arrivals', 'Find my size']
         };
       }
 
-      // ── 6. MATERIALS, CRAFT & ATELIER CARE ────────────────────────────────
+      // ── 6. MATERIALS, CRAFT & FABRIC CARE ────────────────────────────────
       if (/cashmere|wool|merino|titanium|leather|canvas|fabric|material|how to wash|care|clean|dry clean/i.test(rawText)) {
         this.lastQueryType = 'materials';
         return {
           type: 'materials',
-          text: `**Material Craftsmanship & Atelier Care Standards**\n\n` +
-                `• **2-Ply Mongolian Cashmere**: Hand-wash cold with delicate wool cleanser or professional dry clean; lay flat on clean towel to dry.\n` +
-                `• **19.5µ Fine Merino Wool**: Breathable, naturally odor-resistant. Steam between wears; spot clean or dry clean.\n` +
-                `• **Full-Grain Tuscan Calfskin**: Wipe gently with a soft damp cloth and nourish with neutral leather balm seasonally.\n` +
-                `• **Grade-5 Titanium**: Scratch-resistant and hypoallergenic. Clean with mild soapy warm water.`,
+          text: `**Fabric & Care Instructions**\n\n` +
+                `• **100% Mongolian Cashmere**: Hand wash in cold water with wool soap, or dry clean. Lay flat on a clean towel to dry.\n` +
+                `• **Fine Merino Wool**: Naturally breathable and odor-resistant. Steam between wears or dry clean.\n` +
+                `• **Italian Leather**: Wipe gently with a soft damp cloth. Condition with neutral leather balm once a year.\n` +
+                `• **Titanium**: Scratch-resistant and waterproof. Rinse with mild soapy warm water.`,
           products: catalog.slice(0, 3),
-          suggestedChips: ['Show cashmere pieces', 'Show leather runner', 'Check sizing']
+          suggestedChips: ['Show cashmere sweaters', 'Show leather runner', 'Find my size']
         };
       }
 
@@ -296,16 +297,16 @@
       let filteredProducts = catalog;
 
       // Extract Category Intent
-      if (/jacket|coat|trench|outerwear/i.test(rawText)) {
-        filteredProducts = catalog.filter(p => /coat|jacket|trench/i.test(p.title) || p.category === 'Apparel');
+      if (/jacket|coat|trench|outerwear|blazer/i.test(rawText)) {
+        filteredProducts = catalog.filter(p => /coat|jacket|trench|blazer/i.test(p.title) || p.category === 'Apparel');
       } else if (/sweater|knit|cashmere|crew|pullover/i.test(rawText)) {
-        filteredProducts = catalog.filter(p => /knit|sweater|cashmere/i.test(p.title) || p.category === 'Apparel');
+        filteredProducts = catalog.filter(p => /knit|sweater|cashmere|crew/i.test(p.title) || p.category === 'Apparel');
       } else if (/trouser|pant|pants/i.test(rawText)) {
         filteredProducts = catalog.filter(p => /trouser|pant/i.test(p.title) || p.category === 'Apparel');
       } else if (/shoe|sneaker|runner|footwear|boots/i.test(rawText)) {
         filteredProducts = catalog.filter(p => p.category === 'Footwear' || /runner|sneaker|shoe/i.test(p.title));
-      } else if (/bag|tote|accessory|accessories|watch/i.test(rawText)) {
-        filteredProducts = catalog.filter(p => p.category === 'Accessories' || /tote|watch|bag/i.test(p.title));
+      } else if (/bag|tote|accessory|accessories|watch|headphone/i.test(rawText)) {
+        filteredProducts = catalog.filter(p => p.category === 'Accessories' || /tote|watch|bag|headphone/i.test(p.title));
       }
 
       // Extract Budget Constraint
@@ -321,18 +322,18 @@
       if (filteredProducts.length > 0) {
         return {
           type: 'product_grid',
-          text: `Here are the selected pieces matching your search:`,
+          text: `Here are the pieces matching your search:`,
           products: filteredProducts.slice(0, 4),
-          suggestedChips: ['Complete a look', 'Check sizing', 'Under € 250', 'Delivery timelines']
+          suggestedChips: ['Complete an outfit', 'Find my size', 'Under € 250', 'Delivery times']
         };
       }
 
       // ── 8. NO RESULTS FALLBACK ───────────────────────────────────────────
       return {
         type: 'product_grid',
-        text: `We specialize in curated minimalist apparel, footwear, and accessories. While I couldn't find an exact match for "${text}", here are our latest seasonal highlights:`,
+        text: `We couldn't find an exact match for "${text}", but here are our most popular pieces right now:`,
         products: catalog.slice(0, 3),
-        suggestedChips: ['Show all outerwear', 'Show knitwear', 'Check sizing', 'Under € 300']
+        suggestedChips: ['Show all jackets', 'Show sweaters', 'Find my size', 'Under € 300']
       };
     }
 
@@ -340,15 +341,15 @@
      * Sizing calculation helper.
      */
     calculateSize(category, sizeOrMeasurement, fitPref) {
-      if (category.includes('Footwear')) {
+      if (category.includes('Shoes') || category.includes('Footwear') || category.includes('Sneakers')) {
         return {
           recommendedSize: sizeOrMeasurement || 'EU 42',
           confidence: 96,
-          advice: 'Our Minimalist Leather Runner fits true to standard European sizing with an ergonomic cushioned insole.'
+          advice: 'Our Minimalist Leather Runner fits true to standard European shoe sizes with a comfortable cushioned insole.'
         };
       }
 
-      const isLayering = fitPref && fitPref.includes('Relaxed');
+      const isLayering = fitPref && fitPref.includes('Size up');
       let baseSize = 'EU 48 / Medium';
       if (sizeOrMeasurement.includes('XS') || sizeOrMeasurement.includes('36')) baseSize = 'EU 44 / XS';
       else if (sizeOrMeasurement.includes('S') || sizeOrMeasurement.includes('38')) baseSize = 'EU 46 / Small';
@@ -360,17 +361,17 @@
         recommendedSize: baseSize,
         confidence: 94,
         advice: isLayering 
-          ? 'Engineered with comfortable ease over collared shirts and mid-layers.'
-          : 'Tailored to provide a clean, modern structured silhouette.'
+          ? 'Size up if you plan to wear shirts or layers underneath.'
+          : 'Fits true to standard European size with a clean, comfortable fit.'
       };
     }
 
     _fallbackResponse() {
       return {
         type: 'text',
-        text: 'I can assist you with curated wardrobe recommendations, sizing advice, complete look pairings, or delivery information. What would you like to explore?',
+        text: 'I can help you browse our collection, find your size, put together an outfit, or check delivery details. What would you like to explore?',
         products: [],
-        suggestedChips: ['Complete a look for the office', 'Under € 300', 'Check sizing', 'Show outerwear']
+        suggestedChips: ['Complete an office outfit', 'Under € 300', 'Find my size', 'Show jackets & coats']
       };
     }
   }
