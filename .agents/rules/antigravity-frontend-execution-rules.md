@@ -39,10 +39,25 @@
     - **Hardware Route Transitions**: Seamless GPU curtain cross-dissolve (`#pageTransitionOverlay`) on submission and navigation.
 
 ## 6. Visual-First Layout Guardrails ("Show, Don't Tell")
-- **High Visual Ratio**: Prioritize high-resolution lifestyle/product photography, interactive 3D/hotspot layers, and graphic micro-UIs over text blocks (minimum 70% visual area).
-- **Microcopy Discipline**: Enforce strict copy limits (headlines ≤ 6 words, descriptions ≤ 2 sentences / 25 words).
-- **Diagrammatic & Iconographic Representation**: Convert features, specs, guarantees, and workflows into visual pills, icon pedestals, and progress diagrams.
+- **High Visual Ratio (70/30 Rule)**: Prioritize high-resolution lifestyle/product photography, interactive 3D/hotspot layers, animated SVG route canvases, and graphic micro-UIs over text blocks (minimum 70% visual area, ≤30% text).
+- **Microcopy Discipline**: Enforce strict copy limits (headlines ≤ 4–6 words, descriptions ≤ 1–2 short sentences / 25 words). Product cards strictly Brand + Title + Price.
+- **Diagrammatic & Iconographic Representation**: Convert features, specs, order tracking, guarantees, and workflows into visual pills, icon pedestals, animated SVG transit maps, and telemetry matrices.
+- **Ultra-Modern & Premium Luxury Visuals**: Obsidian canvas palette (`#031838` to `#000B1A`), frosted glassmorphic containers (`rgba(11, 20, 36, 0.72)`), 1px specular inner highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`), and Lucide stroke icons on dedicated 44×44px pedestals.
 - **Zero Text Walls**: Never render text blocks longer than 3 lines on customer storefront routes without visual anchoring.
 
+## 7. Mandatory Modernist Implementation Workflow (9 Steps)
+> Master Reference: `.agents/rules/modernist-design-system-standards.md` (§46)
+- **Step 1 — Understand**: Clarify functional requirements, existing brand constraints, and affected components.
+- **Step 2 — Inspect**: Check existing architecture, tokens, styles, and reusable components before writing code.
+- **Step 3 — Plan**: Determine 12-column grid, hierarchy, typography scale, spacing, imagery composition, and responsive behavior.
+- **Step 4 — Implement**: Code using existing architecture and reusable components without duplication.
+- **Step 5 — Browser Validation**: Launch or connect via Browser Subagent (`playwright` / `chrome-devtools`) to inspect real rendered output.
+- **Step 6 — Visual QA**: Audit layout alignment, typography scale/line-height, color restraint, button/border states, image framing/composition (no blind `object-fit: cover`), and mobile responsiveness.
+- **Step 7 — Refinement**: Fix visual issues based on actual browser feedback (never change CSS values blindly).
+- **Step 8 — Regression Check**: Confirm existing routes, APIs, cart, forms, and accessibility remain unbroken.
+- **Step 9 — Final Review**: Verify adherence to Modernist Swiss design standards before completing turn.
 
-
+## 8. Mandatory nexCommerce Brand Identity Continuity
+- **Always Uphold Brand Signature**: All pages (Home, Category, PDP, Cart, Tracking, Profile, Auth) must maintain continuous adherence to the nexCommerce brand guidelines.
+- **Signature Gradient Preservation**: Incorporate the signature Electric Cyan $\rightarrow$ Sky $\rightarrow$ Rose gradient (`linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%)`) on curated spotlight timers, hero micro-badges, and live telemetry tracks.
+- **Harmony of Modernism & Brand Soul**: Modernist design provides the structural cleanliness, typography restraint, and hairline precision; nexCommerce brand accents provide the vital, luminous identity. Never reduce UI to lifeless greyscale.

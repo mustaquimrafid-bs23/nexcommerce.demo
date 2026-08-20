@@ -97,29 +97,26 @@ NOT from unnecessary decoration.
 
 # 3. USE THE EXISTING BRAND GUIDELINES AS THE HIGHEST PRIORITY
 
-There may already be an established brand identity in this project.
+There is an established, iconic brand identity for **nexCommerce**. Modernist principles provide the **architectural structure, typography, and grid discipline**, but the **nexCommerce signature brand identity is the highest priority invariant**.
 
-DO NOT replace or contradict existing:
-
-* brand colors
-* logo
-* brand typography
-* product photography rules
-* brand voice
-* established visual identity
-* existing design tokens
-
-Modernist should become the **design language used to organize the brand**, not a reason to redesign the brand itself.
+### Canonical nexCommerce Brand Design Invariants:
+1. **The Signature AI Gradient**:
+   - `linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%)` with ambient specular glow `box-shadow: 0 0 12px rgba(61, 224, 255, 0.6)`.
+   - Used for continuous story timers, spotlight progress bars, and luminous signature accents.
+   - **Anti-Pattern**: NEVER strip the signature brand gradient into plain greyscale/monochrome black-and-white.
+2. **Obsidian Brand Canvas Palette**:
+   - Deep background: `#010C1E` / Surface card: `#080E1E` (or `rgba(8, 14, 30, 0.80)` with `backdrop-filter: blur(20px)`).
+3. **Core Accent Roles**:
+   - **Electric Cyan (`#3DE0FF`)**: Live status pulse dots, focus rings, interactive telemetry signals, and AI indicators.
+   - **Rose / Coral (`#FB7185`)**: Refined luxury wishlist active state, seasonal editorial badges, and highlight tags.
 
 Priority order:
+1. **Existing nexCommerce brand guidelines & signature accents**
+2. **Existing approved design system/tokens**
+3. **Modernist principles (grid, 8px scale, typographic hierarchy, 3:4 images, strict 3-item footers)**
+4. **Your own implementation judgment**
 
-1. Existing brand guidelines
-2. Existing approved design system/tokens
-3. Existing Figma/approved UI designs
-4. Modernist principles in this specification
-5. Your own implementation judgment
-
-If something conflicts, do not blindly change the existing brand.
+If something conflicts, do not blindly alter the existing brand.
 
 ---
 
