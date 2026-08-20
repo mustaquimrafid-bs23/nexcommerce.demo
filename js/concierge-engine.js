@@ -43,14 +43,37 @@
       const catalog = this._getCatalog();
 
       // 1. Detect Product Detail Page (PDP) Context
+      const pathname = (window.location && window.location.pathname) || '';
       let targetProductId = this.currentContext.productId;
       if (!targetProductId && window.location && window.location.search) {
         const match = window.location.search.match(/[?&]id=([^&#]+)/);
         if (match) targetProductId = decodeURIComponent(match[1]);
       }
 
-      if (targetProductId) {
-        const found = catalog.find(p => p.id === targetProductId || (p.title && p.title.toLowerCase() === targetProductId.toLowerCase()));
+      if (pathname.includes('product.html') || targetProductId) {
+        let found = null;
+        if (targetProductId) {
+          const idAliasMap = {
+            'nx-app-001': 'p1',
+            'nx-app-002': 'p2',
+            'nx-app-003': 'p3',
+            'nx-ftw-001': 'p6',
+            'nx-acc-001': 'p7',
+            'nx-acc-002': 'p8'
+          };
+          const normalizedId = (idAliasMap[targetProductId.toLowerCase()] || targetProductId).toLowerCase();
+          found = catalog.find(p => 
+            p.id.toLowerCase() === normalizedId || 
+            p.id.toLowerCase() === targetProductId.toLowerCase() ||
+            (p.title && p.title.toLowerCase().includes(targetProductId.toLowerCase()))
+          );
+        }
+        if (!found && typeof document !== 'undefined') {
+          const titleEl = document.querySelector('.pdp-product-title') || document.querySelector('h1');
+          const titleText = titleEl ? titleEl.innerText.trim().toLowerCase() : '';
+          found = catalog.find(p => titleText && p.title.toLowerCase().includes(titleText)) || catalog[0];
+        }
+
         if (found) {
           return {
             type: 'pdp_context',
@@ -68,7 +91,6 @@
       }
 
       // 2. Detect Cart Page Context
-      const pathname = (window.location && window.location.pathname) || '';
       if (pathname.includes('cart.html') || (context && context.url && context.url.includes('cart.html'))) {
         return {
           type: 'cart_context',
