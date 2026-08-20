@@ -1568,9 +1568,8 @@ Never inject theme switchers, debug badges, or tech widgets into the public cons
 ### B. Section 50 Curated Capsule Spotlight Banner
 1. **Container Framing**:
    - Must use Section 50 rounded glass framing (`border-radius: 20px` desktop / `16px` tablet / `14px` mobile, `background: rgba(8, 14, 30, 0.80); border: 1px solid rgba(255, 255, 255, 0.10); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10);`).
-2. **Monochrome Progress Bar**:
-   - Must use a clean, understated 2px white progress track (`height: 2px; background: rgba(255, 255, 255, 0.55);`).
-   - **Anti-Pattern**: Never use simultaneous neon cyan/pink/purple gradient animations.
+2. **Signature AI Gradient Progress Bar**:
+   - Must use the signature nexCommerce linear gradient (`background: linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%); box-shadow: 0 0 12px rgba(61, 224, 255, 0.6); height: 2px;`) to visually convey dynamic AI curation.
 3. **Architectural Tab Selectors**:
    - Switcher tabs must use `2px` border-radius rectangular geometry (`font-size: 10px; font-weight: 600; letter-spacing: 0.12em;`). Avoid large oval pill buttons.
 4. **Mobile Editorial Stacking (`≤600px`)**:

@@ -2656,8 +2656,8 @@ textarea.input-field {
 .spotlight-progress-bar {
   height: 100%;
   width: 100%;
-  background: var(--accent-cyan, #3DE0FF);
-  box-shadow: 0 0 10px rgba(61, 224, 255, 0.55);
+  background: linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%);
+  box-shadow: 0 0 12px rgba(61, 224, 255, 0.6);
   transform-origin: left center;
   transform: scaleX(0);
   will-change: transform;
