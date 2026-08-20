@@ -1637,6 +1637,9 @@ mark.search-hl {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: #B0C4DE;
+}
+
 .search-results-top-bar {
   display: flex;
   align-items: center;
