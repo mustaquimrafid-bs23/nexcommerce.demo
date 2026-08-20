@@ -1324,11 +1324,11 @@ function buildCardHTML(product, index = 0, isCompact = false) {
       </button>`
     : '';
 
-  // Finish Swatches HTML
+  // Swatches (clean color choice dots)
   const finishes = product.variants?.finishes || [];
   const selectedFinish = product.selectedFinish || (finishes[0]?.id);
   const swatchesHTML = finishes.length > 1
-    ? `<div class="sl-swatches-strip" role="radiogroup" aria-label="Finish choices for ${product.name}">
+    ? `<div class="sl-swatches-strip" role="radiogroup" aria-label="Color choices for ${product.name}">
         ${finishes.map(f => `
           <button type="button" class="sl-swatch-dot${f.id === selectedFinish ? ' active' : ''}" 
                   data-action="select-finish" data-product-id="${product.id}" data-finish-id="${f.id}" 
@@ -1339,27 +1339,7 @@ function buildCardHTML(product, index = 0, isCompact = false) {
       </div>`
     : '';
 
-  // Size Micro-Pills HTML
-  const sizes = product.variants?.sizes || [];
-  const selectedSize = product.selectedSize || (sizes[0]?.id);
-  const sizesHTML = sizes.length > 1
-    ? `<div class="sl-sizes-strip" role="radiogroup" aria-label="Size options for ${product.name}">
-        ${sizes.map(s => `
-          <button type="button" class="sl-size-btn${s.id === selectedSize ? ' active' : ''}" 
-                  data-action="select-size" data-product-id="${product.id}" data-size-id="${s.id}"
-                  ${s.inStock === false ? 'disabled' : ''} 
-                  aria-label="Size ${s.name}${s.inStock === false ? ' (Out of stock)' : ''}" role="radio" aria-checked="${s.id === selectedSize}">
-            ${s.name}
-          </button>
-        `).join('')}
-      </div>`
-    : '';
-
-  const isSizeOOS = window.smartListStore && !window.smartListStore.isSizeInStock(product.id, selectedSize);
-  const effectiveOOS = oos || isSizeOOS;
-  const stockBeaconHTML = effectiveOOS
-    ? `<span class="sl-stock-beacon"><span class="sl-stock-dot sold-out"></span>Sold Out</span>`
-    : `<span class="sl-stock-beacon"><span class="sl-stock-dot"></span>In Stock</span>`;
+  const effectiveOOS = !product.inStock;
 
   return `
     <article class="sl-card${effectiveOOS ? ' sl-card--oos' : ''}${isSelected ? ' is-selected' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
@@ -1376,14 +1356,6 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         ${hasSale ? '<div class="sl-sale-badge">Special Offer</div>' : ''}
       </div>
       <div class="sl-card-body">
-        
-        <!-- Interactive Reorder Frequency / Reason Pill -->
-        <button class="sl-reason-chip sl-reason-chip--interactive" data-cadence-trigger="${product.id}" title="Click to adjust reorder schedule">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 200px;">${product.reason}</span>
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 2px; opacity: 0.6;"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-
         <div class="sl-card-brand">${product.brand} &middot; ${product.categoryLabel || product.category}</div>
         <a href="product.html?id=${product.id}" class="sl-card-title-link" style="text-decoration: none; color: inherit;">
           <div class="sl-card-name">${product.name}</div>
@@ -1392,25 +1364,13 @@ function buildCardHTML(product, index = 0, isCompact = false) {
           ${priceStr}
           ${hasSale ? `<span class="sl-orig-price">${origStr}</span>` : ''}
         </div>
-        ${hasSale ? `<div class="sl-omnibus-prior-price" style="font-size: 9.5px; color: var(--text-secondary); margin-top: 1px; letter-spacing: 0.02em;">Lowest price in last 30 days: ${origStr}</div>` : ''}
 
-        <!-- Tactile Variants Row -->
-        <div class="sl-card-variants-row">
-          ${swatchesHTML}
-          ${sizesHTML || stockBeaconHTML}
-        </div>
+        ${swatchesHTML ? `<div class="sl-card-variants-row" style="margin-top: 4px;">${swatchesHTML}</div>` : ''}
 
-        <!-- Unified Horizontal Action Row -->
-        <div class="sl-action-row">
-          <div class="sl-stepper" role="group" aria-label="Quantity for ${product.name}">
-            <button class="sl-stepper-btn sl-stepper-dec" data-id="${product.id}" aria-label="Decrease quantity">−</button>
-            <span class="sl-stepper-val" data-qty="${product.id}" aria-live="polite">${getQty(product.id)}</span>
-            <button class="sl-stepper-btn sl-stepper-inc" data-id="${product.id}" aria-label="Increase quantity">+</button>
-          </div>
-          <button class="sl-btn-add${effectiveOOS ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${effectiveOOS ? 'disabled aria-disabled="true"' : ''}>
-            <span class="sl-btn-add-inner">${effectiveOOS ? 'Out of Stock' : 'Add to Bag'}</span>
-          </button>
-        </div>
+        <!-- Single Clean Full-Width Add to Bag CTA -->
+        <button class="sl-btn-add${effectiveOOS ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${effectiveOOS ? 'disabled aria-disabled="true"' : ''} style="margin-top: 8px; width: 100%;">
+          <span class="sl-btn-add-inner">${effectiveOOS ? 'Out of Stock' : 'Add to Bag'}</span>
+        </button>
       </div>
     </article>
   `;
@@ -1531,7 +1491,7 @@ function bindCardEvents(container) {
         addBtn.classList.add('sl-btn-add--done');
         setTimeout(() => {
           if (addBtn.isConnected) {
-            addBtn.querySelector('.sl-btn-add-inner').textContent = 'Move to Bag';
+            addBtn.querySelector('.sl-btn-add-inner').textContent = 'Add to Bag';
             addBtn.classList.remove('sl-btn-add--done');
           }
         }, 2200);
