@@ -205,40 +205,52 @@
     .card-top-actions {
       position: absolute;
       top: 12px; right: 12px;
-      display: flex; align-items: center; gap: 6px;
-      z-index: 4;
+      display: flex; align-items: center; gap: 8px;
+      z-index: 10;
     }
-    .card-quicklook-btn,
-    .wishlist-remove-btn {
-      width: 30px; height: 30px;
+    .card-top-actions .card-quicklook-btn,
+    .card-top-actions .wishlist-remove-btn {
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      left: auto !important;
+      bottom: auto !important;
+      width: 32px; height: 32px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.85);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       opacity: 0;
       transform: scale(0.85);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      margin: 0;
+      flex-shrink: 0;
     }
-    .wishlist-card:hover .card-quicklook-btn,
-    .wishlist-card:hover .wishlist-remove-btn {
+    .wishlist-card:hover .card-top-actions .card-quicklook-btn,
+    .wishlist-card:hover .card-top-actions .wishlist-remove-btn {
       opacity: 1; transform: scale(1);
     }
-    .card-quicklook-btn:hover {
+    .card-top-actions .card-quicklook-btn:hover {
       background: rgba(61, 224, 255, 0.25);
       border-color: #3DE0FF;
       color: #3DE0FF;
+      transform: scale(1.08);
     }
-    .wishlist-remove-btn:hover {
+    .card-top-actions .wishlist-remove-btn:hover {
       background: rgba(251, 113, 133, 0.25);
       border-color: #FB7185;
       color: #FB7185;
+      transform: scale(1.08);
     }
     @media (max-width: 768px) {
-      .card-quicklook-btn, .wishlist-remove-btn { opacity: 1; transform: scale(1); }
+      .card-top-actions .card-quicklook-btn,
+      .card-top-actions .wishlist-remove-btn {
+        opacity: 1; transform: scale(1);
+      }
     }
 
     /* Media Bottom Bar: Tactile Selectors */
