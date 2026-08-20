@@ -79,19 +79,19 @@
       width: 100%;
     }
     .sl-curation-spotlight {
-      background: linear-gradient(135deg, rgba(8, 14, 30, 0.94) 0%, rgba(5, 10, 22, 0.98) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg, 16px);
+      background: rgba(8, 14, 30, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
       padding: 24px 28px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.10);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       transition: border-color 220ms ease, box-shadow 220ms ease;
     }
     .sl-curation-spotlight:hover {
-      border-color: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.16);
       box-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.18);
     }
 
@@ -176,24 +176,24 @@
       flex-wrap: wrap;
     }
     .spotlight-tab-btn {
-      min-height: 38px;
+      min-height: 36px;
       display: inline-flex;
       align-items: center;
-      padding: 6px 14px;
+      padding: 5px 13px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-pill, 9999px);
+      border-radius: 2px;
       font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: var(--text-secondary, #94A3B8);
+      color: rgba(255, 255, 255, 0.55);
       cursor: pointer;
       transition: all 180ms cubic-bezier(0.23, 1, 0.32, 1);
     }
     .spotlight-tab-btn:hover {
-      color: var(--text-primary, #FFFFFF);
-      border-color: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.20);
       background: rgba(255, 255, 255, 0.06);
     }
     .spotlight-tab-btn.active {
@@ -207,8 +207,8 @@
     .spotlight-body-layout {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
-      gap: 32px;
-      align-items: center;
+      gap: 28px;
+      align-items: start;
     }
     .spotlight-story-pane {
       display: flex;
@@ -223,9 +223,9 @@
       color: rgba(251, 113, 133, 0.9);
     }
     .spotlight-capsule-title {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(24px, 2.5vw, 34px);
-      font-weight: 400;
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(20px, 2vw, 28px);
+      font-weight: 600;
       line-height: 1.15;
       color: var(--text-primary, #FFFFFF);
       margin: 0;
@@ -285,8 +285,9 @@
     .spotlight-img-frame {
       position: relative;
       width: 100%;
-      height: 220px;
-      border-radius: var(--radius-md, 10px);
+      aspect-ratio: 16 / 9;
+      height: auto;
+      border-radius: 10px;
       overflow: hidden;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
@@ -1049,19 +1050,22 @@
     @media (max-width: 1024px) {
       #slGrid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
       .spotlight-body-layout { grid-template-columns: 1fr; gap: 20px; }
-      .spotlight-img-frame { height: 200px; }
     }
     @media (max-width: 768px) {
       .sl-hero { padding: 36px 20px 16px; }
       .sl-spotlight-wrap { padding: 0 20px 24px; }
-      .sl-curation-spotlight { padding: 18px 20px; }
+      .sl-curation-spotlight { border-radius: 16px; padding: 18px 20px; }
       .sl-toolbar { padding: 0 20px 16px; }
       .sl-filter-bar { padding: 0 20px 16px; }
       .sl-grid-wrap { padding: 0 20px 48px; }
       .sl-concierge-bridge { margin: 0 20px 48px; padding: 22px; }
       #slGrid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     }
+    @media (max-width: 600px) {
+      .spotlight-body-layout { display: flex; flex-direction: column-reverse; gap: 16px; }
+    }
     @media (max-width: 480px) {
+      .sl-curation-spotlight { border-radius: 14px; }
       #slGrid { grid-template-columns: 1fr; }
       .spotlight-actions-group { flex-direction: column; align-items: flex-start; }
       .sl-stats-group { gap: 14px; }
