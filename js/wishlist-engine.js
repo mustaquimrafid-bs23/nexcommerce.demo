@@ -17,8 +17,8 @@
       image: 'assets/images/products/plp_overcoat.png',
       gallery: [
         'assets/images/products/plp_overcoat.png',
-        'assets/images/products/plp_blazer.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/products/p1.png',
+        'assets/images/products/plp_blazer.png'
       ],
       stock: 'Available in Atelier',
       stockStatus: 'in-stock',
@@ -50,7 +50,8 @@
       gallery: [
         'assets/images/lifestyle/sweater_lifestyle.png',
         'assets/images/products/plp_crewneck.png',
-        'assets/images/products/hero_sweater.png'
+        'assets/images/products/p2.png',
+        'assets/images/products/sweater_texture.png'
       ],
       stock: 'Low Stock · 2 Left',
       stockStatus: 'low-stock',
@@ -81,8 +82,7 @@
       image: 'assets/images/products/plp_trousers.png',
       gallery: [
         'assets/images/products/plp_trousers.png',
-        'assets/images/products/plp_overcoat.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/products/p3.png'
       ],
       stock: 'Available in Atelier',
       stockStatus: 'in-stock',
@@ -111,8 +111,9 @@
       image: 'assets/images/products/prod_headphones.png',
       gallery: [
         'assets/images/products/prod_headphones.png',
-        'assets/images/products/hero_sweater.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/lifestyle/headphone_lifestyle.png',
+        'assets/images/products/p4.png',
+        'assets/images/lifestyle/hero_headphone_hd.jpg'
       ],
       stock: 'Limited Atelier Edition',
       stockStatus: 'in-stock',
@@ -139,8 +140,9 @@
       image: 'assets/images/products/prod_tote.png',
       gallery: [
         'assets/images/products/prod_tote.png',
-        'assets/images/products/plp_overcoat.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/lifestyle/tote_lifestyle.png',
+        'assets/images/products/p5.png',
+        'assets/images/lifestyle/hero_tote_hd.jpg'
       ],
       stock: 'Available in Atelier',
       stockStatus: 'in-stock',
@@ -167,8 +169,9 @@
       image: 'assets/images/products/prod_runner.png',
       gallery: [
         'assets/images/products/prod_runner.png',
-        'assets/images/products/prod_headphones.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/lifestyle/runner_lifestyle.png',
+        'assets/images/products/p6.png',
+        'assets/images/lifestyle/hero_runner_landscape.jpg'
       ],
       stock: 'Available in Atelier',
       stockStatus: 'in-stock',
@@ -198,8 +201,9 @@
       image: 'assets/images/products/search_watch.png',
       gallery: [
         'assets/images/products/search_watch.png',
-        'assets/images/products/prod_headphones.png',
-        'assets/images/lifestyle/hero_sweater_landscape.jpg'
+        'assets/images/lifestyle/hero_watch_hd.jpg',
+        'assets/images/products/p7.png',
+        'assets/images/lifestyle/hero_watch_bright_hd.jpg'
       ],
       stock: 'Limited Atelier Edition',
       stockStatus: 'in-stock',

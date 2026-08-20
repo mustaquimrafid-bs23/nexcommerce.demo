@@ -86,7 +86,7 @@
           <i data-lucide="check" style="width: 13px; height: 13px; stroke-width: 3;"></i>
         </button>
 
-        <!-- Top-Right Actions -->
+        <!-- Top-Right Actions Cluster (Isolated side-by-side flex layout) -->
         <div class="card-top-actions">
           <button type="button" class="card-quicklook-btn" data-action="open-quicklook" data-id="${item.id}" aria-label="Quick look for ${escapeStr(item.title)}" title="Quick Look">
             <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
@@ -347,7 +347,7 @@
       setTimeout(function() {
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = originalHtml || '<i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i><span>MOVE SELECTED TO BAG</span>';
+          btn.innerHTML = originalHtml || '<i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i><span>MOVE TO BAG</span>';
           btn.style.background = '';
           btn.style.color = '';
           if (window.lucide) window.lucide.createIcons({ nodes: [btn] });
@@ -506,15 +506,50 @@
     if (!drawer || !overlay || !body) return;
 
     var gallery = item.gallery && item.gallery.length > 0 ? item.gallery : [item.image];
-    var activeState = cardStateMap[id] || { finish: null, size: null };
+    var activeState = cardStateMap[id] || {
+      finish: item.variants && item.variants.finishes ? item.variants.finishes[0].id : null,
+      size: item.variants && item.variants.sizes ? (item.variants.sizes.find(function(s){return s.default;}) || item.variants.sizes[0]).id : null
+    };
+    cardStateMap[id] = activeState;
 
     var thumbsHtml = gallery.map(function(g, idx) {
-      return '<button type="button" class="quicklook-thumb' + (idx === 0 ? ' active' : '') + '" data-img-idx="' + idx + '"><img src="' + resolveImg(g) + '" alt="' + escapeStr(item.title) + '" /></button>';
+      return '<button type="button" class="quicklook-thumb' + (idx === 0 ? ' active' : '') + '" data-img-idx="' + idx + '" title="View angle ' + (idx + 1) + '" aria-label="View photo ' + (idx + 1) + '"><img src="' + resolveImg(g) + '" alt="' + escapeStr(item.title) + '" /></button>';
     }).join('');
+
+    // Finish Variants
+    var finishesHtml = '';
+    if (item.variants && item.variants.finishes && item.variants.finishes.length > 0) {
+      finishesHtml = '<div style="margin-top: 14px;">' +
+        '<div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px;">Selected Finish</div>' +
+        '<div style="display: flex; gap: 8px; flex-wrap: wrap;">' +
+        item.variants.finishes.map(function(f) {
+          var active = f.id === activeState.finish;
+          return '<button type="button" class="ql-variant-finish-btn' + (active ? ' active' : '') + '" data-ql-finish="' + f.id + '" style="height: 32px; padding: 0 12px; border-radius: 9999px; background: ' + (active ? 'rgba(61,224,255,0.15)' : 'rgba(255,255,255,0.06)') + '; border: 1px solid ' + (active ? '#3DE0FF' : 'rgba(255,255,255,0.15)') + '; color: #FFFFFF; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">' +
+            '<span style="width: 10px; height: 10px; border-radius: 50%; background: ' + f.color + '; display: inline-block;"></span>' +
+            '<span>' + escapeStr(f.name) + '</span>' +
+          '</button>';
+        }).join('') +
+        '</div></div>';
+    }
+
+    // Size Variants
+    var sizesHtml = '';
+    if (item.variants && item.variants.sizes && item.variants.sizes.length > 0) {
+      sizesHtml = '<div style="margin-top: 14px;">' +
+        '<div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px;">Select Size</div>' +
+        '<div style="display: flex; gap: 8px; flex-wrap: wrap;">' +
+        item.variants.sizes.map(function(s) {
+          var active = s.id === activeState.size;
+          return '<button type="button" class="ql-variant-size-btn' + (active ? ' active' : '') + '" data-ql-size="' + s.id + '" ' + (s.inStock ? '' : 'disabled ') + 'style="height: 34px; min-width: 44px; padding: 0 12px; border-radius: 6px; background: ' + (active ? '#3DE0FF' : (s.inStock ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)')) + '; border: 1px solid ' + (active ? '#3DE0FF' : 'rgba(255,255,255,0.15)') + '; color: ' + (active ? '#000B1A' : (s.inStock ? '#FFFFFF' : 'rgba(255,255,255,0.3)')) + '; font-size: 11px; font-weight: 700; cursor: ' + (s.inStock ? 'pointer' : 'not-allowed') + '; display: inline-flex; align-items: center; justify-content: center;">' +
+            escapeStr(s.name) +
+          '</button>';
+        }).join('') +
+        '</div></div>';
+    }
 
     var provenanceHtml = '';
     if (item.provenance) {
-      provenanceHtml = '<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">' +
+      provenanceHtml = '<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">' +
         item.provenance.map(function(p) {
           return '<span style="font-size: 11px; padding: 4px 10px; border-radius: 9999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);"><strong style="color: #3DE0FF;">' + escapeStr(p.label) + ':</strong> ' + escapeStr(p.value) + '</span>';
         }).join('') + '</div>';
@@ -529,19 +564,21 @@
       </div>
       <div>
         <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #3DE0FF; display: block; margin-bottom: 4px;">${escapeStr(item.brand || 'ATELIER')}</span>
-        <h2 style="font-family: 'Manrope', sans-serif; font-size: 22px; font-weight: 700; color: #FFFFFF; margin: 0 0 8px;">${escapeStr(item.title)}</h2>
+        <h2 style="font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 700; color: #FFFFFF; margin: 0 0 6px;">${escapeStr(item.title)}</h2>
         <div style="font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 600; color: #FFFFFF; font-variant-numeric: tabular-nums;">€ ${Number(item.price).toFixed(2)}</div>
       </div>
+      ${finishesHtml}
+      ${sizesHtml}
       ${provenanceHtml}
     `;
 
     if (footer) {
       footer.innerHTML = `
-        <button type="button" class="btn-primary-commerce" id="quicklookAddBtn" style="flex: 1; height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+        <button type="button" class="btn-primary-commerce" id="quicklookAddBtn" style="flex: 1; height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
           <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
-          <span>ADD TO BAG · € ${Number(item.price).toFixed(2)}</span>
+          <span id="quicklookAddBtnText">ADD TO BAG · € ${Number(item.price).toFixed(2)}</span>
         </button>
-        <a href="product.html?id=${item.id}" class="btn-secondary-action" style="height: 44px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center;" title="View Full Page">
+        <a href="product.html?id=${item.id}" class="btn-secondary-action" style="height: 46px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center;" title="View Full Page">
           <i data-lucide="arrow-up-right" style="width: 16px; height: 16px;"></i>
         </a>
       `;
@@ -654,6 +691,7 @@
       return;
     }
 
+    // Quick Look Thumb Switcher
     var qlThumb = e.target.closest('.quicklook-thumb');
     if (qlThumb && activeQuickLookId) {
       var idx = parseInt(qlThumb.getAttribute('data-img-idx'), 10);
@@ -667,6 +705,37 @@
       return;
     }
 
+    // Quick Look Finish Switcher
+    var qlFinishBtn = e.target.closest('[data-ql-finish]');
+    if (qlFinishBtn && activeQuickLookId) {
+      var finId = qlFinishBtn.getAttribute('data-ql-finish');
+      if (!cardStateMap[activeQuickLookId]) cardStateMap[activeQuickLookId] = {};
+      cardStateMap[activeQuickLookId].finish = finId;
+      document.querySelectorAll('[data-ql-finish]').forEach(function(btn) {
+        var active = btn.getAttribute('data-ql-finish') === finId;
+        btn.classList.toggle('active', active);
+        btn.style.borderColor = active ? '#3DE0FF' : 'rgba(255,255,255,0.15)';
+        btn.style.background = active ? 'rgba(61,224,255,0.15)' : 'rgba(255,255,255,0.06)';
+      });
+      return;
+    }
+
+    // Quick Look Size Switcher
+    var qlSizeBtn = e.target.closest('[data-ql-size]');
+    if (qlSizeBtn && activeQuickLookId && !qlSizeBtn.disabled) {
+      var szId = qlSizeBtn.getAttribute('data-ql-size');
+      if (!cardStateMap[activeQuickLookId]) cardStateMap[activeQuickLookId] = {};
+      cardStateMap[activeQuickLookId].size = szId;
+      document.querySelectorAll('[data-ql-size]').forEach(function(btn) {
+        var active = btn.getAttribute('data-ql-size') === szId;
+        btn.classList.toggle('active', active);
+        btn.style.borderColor = active ? '#3DE0FF' : 'rgba(255,255,255,0.15)';
+        btn.style.background = active ? '#3DE0FF' : 'rgba(255,255,255,0.06)';
+        btn.style.color = active ? '#000B1A' : '#FFFFFF';
+      });
+      return;
+    }
+
     var qlAddBtn = e.target.closest('#quicklookAddBtn');
     if (qlAddBtn && activeQuickLookId) {
       var prod = window.NexWishlistEngine.getProduct(activeQuickLookId);
@@ -674,7 +743,8 @@
         var st = cardStateMap[activeQuickLookId] || {};
         var pl = window.NexWishlistEngine.createCartPayload(activeQuickLookId, st.size, st.finish);
         if (pl) window.nexCart.addItem(pl);
-        qlAddBtn.innerHTML = '<span>&#10003; ADDED TO BAG</span>';
+        var txt = document.getElementById('quicklookAddBtnText');
+        if (txt) txt.textContent = '✓ ADDED TO BAG';
         qlAddBtn.style.background = '#34D399';
         qlAddBtn.style.color = '#000000';
         setTimeout(function() {
