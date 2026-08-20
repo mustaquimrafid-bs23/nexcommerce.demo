@@ -1636,6 +1636,7 @@ if (window.smartListStore) {
         });
       }
       updateSelectAllBtn();
+      updateBatchDock();
     }
 
     if (event.type === 'VARIANT_CHANGE') {
@@ -1674,8 +1675,82 @@ if (window.smartListStore) {
         }
       }
       updateListStats();
+      updateBatchDock();
     }
   });
+}
+
+/* ─── Floating Batch Dock Controller (Obsidian Island) ───────────────────── */
+function updateBatchDock() {
+  const dock = document.getElementById('slBatchDock');
+  if (!dock || !window.smartListStore) return;
+
+  const metrics = window.smartListStore.getAggregateMetrics();
+  const countEl = document.getElementById('slBatchCount');
+  const subtotalEl = document.getElementById('slBatchSubtotal');
+  const avatarsEl = document.getElementById('slBatchAvatars');
+
+  if (metrics.count > 0) {
+    if (countEl) countEl.textContent = metrics.count;
+    if (subtotalEl) subtotalEl.textContent = `€ ${Number(metrics.subtotal).toFixed(2)}`;
+
+    if (avatarsEl) {
+      const items = metrics.items.slice(0, 4);
+      const overflow = metrics.count - items.length;
+      let html = items.map(it => `<img src="${resolveImgPath(it.image)}" alt="${it.name}" class="sl-batch-avatar-img" />`).join('');
+      if (overflow > 0) {
+        html += `<div class="sl-batch-avatar-overflow">+${overflow}</div>`;
+      }
+      avatarsEl.innerHTML = html;
+    }
+
+    dock.classList.add('is-visible');
+    if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [dock] });
+  } else {
+    dock.classList.remove('is-visible');
+  }
+}
+
+function initBatchDock() {
+  const dock = document.getElementById('slBatchDock');
+  if (!dock || dock._hasBatchBound) return;
+  dock._hasBatchBound = true;
+
+  const clearBtn = document.getElementById('slBatchClearBtn');
+  const addBtn = document.getElementById('slBatchAddBtn');
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (window.smartListStore) {
+        window.smartListStore.deselectAll();
+      }
+    });
+  }
+
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      if (!window.smartListStore) return;
+      const metrics = window.smartListStore.getAggregateMetrics();
+      const inStockItems = metrics.items.filter(p => {
+        const sizeInStock = window.smartListStore.isSizeInStock(p.id, p.selectedSize);
+        return p.inStock && sizeInStock;
+      });
+
+      if (!inStockItems.length) {
+        showToast('Selected items are currently out of stock', 'warn');
+        return;
+      }
+
+      attachRipple(addBtn);
+      inStockItems.forEach(product => {
+        const qty = getQty(product.id);
+        addToCart(product, qty);
+      });
+
+      showToast(`${inStockItems.length} selected ${inStockItems.length === 1 ? 'item' : 'items'} added to your bag`, 'success');
+      window.smartListStore.deselectAll();
+    });
+  }
 }
 
 /* ─── Apply Category Filter (Direct & Synchronized) ───────────────────────── */
@@ -1771,6 +1846,10 @@ function renderSmartListPage() {
 
   // Initialize Select All toolbar toggle
   initSelectAllBtn();
+
+  // Initialize Floating Batch Actions Dock
+  initBatchDock();
+  updateBatchDock();
 
   // Update live statistics and valuation
   updateListStats();
