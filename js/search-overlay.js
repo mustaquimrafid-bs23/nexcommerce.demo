@@ -12,13 +12,9 @@
   }
 
   function _resolvePage(page) {
-    if (window._resolvePage && typeof window._resolvePage === 'function') {
-      return window._resolvePage(page);
-    }
-    const clean = page.replace(/^pages\//, '').replace(/^\.\.\//, '');
+    const clean = String(page || '').replace(/^pages\//, '').replace(/^\.\.\//, '');
     return _isPagesDir() ? clean : `pages/${clean}`;
   }
-  window._resolvePage = _resolvePage;
 
   function _resolveAsset(path) {
     if (!path) return '';
