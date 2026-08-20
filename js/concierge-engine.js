@@ -155,54 +155,7 @@
       const rawText = text.toLowerCase().trim();
       const catalog = this._getCatalog();
 
-      // ── 1. SIZING & FIT ADVISOR WIDGET ───────────────────────────────────
-      if (/size|sizing|fit|fits|measure|measurements|chest|waist|true to size|what size|how does it fit|size guide|shoe size/i.test(rawText)) {
-        this.lastQueryType = 'sizing';
-        return {
-          type: 'sizing_advisor',
-          text: `**Interactive Size & Fit Guide**`,
-          widgetPayload: {
-            categories: ['Tops & Sweaters', 'Jackets & Coats', 'Shoes & Sneakers'],
-            defaultCategory: 'Tops & Sweaters',
-            availableSizes: ['XS (36")', 'S (38")', 'M (40")', 'L (42")', 'XL (44")'],
-            footwearSizes: ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
-            fits: ['True to size (Regular fit)', 'Size up (Relaxed fit for layering)']
-          },
-          products: catalog.filter(p => p.category === 'Apparel' || p.category === 'Footwear').slice(0, 2),
-          suggestedChips: ['Show sweaters', 'Under € 300', 'Complete an outfit', 'Fabric care guide']
-        };
-      }
-
-      // ── 2. ORDER TRACKING & LIVE COURIER STATUS WIDGET ───────────────────
-      if (/track|where is my order|order status|find my order|nx-\d+|shipment status|courier status/i.test(rawText)) {
-        this.lastQueryType = 'tracking';
-        const codeMatch = text.match(/NX-\d{4}-[A-Z0-9]+/i);
-        const orderCode = codeMatch ? codeMatch[0].toUpperCase() : 'NX-8921-X';
-
-        return {
-          type: 'order_tracking',
-          text: `**Live Order Tracking** · Order **\`${orderCode}\`**`,
-          orderCode: orderCode,
-          widgetPayload: {
-            orderCode: orderCode,
-            destination: 'Berlin, Germany',
-            estimatedDelivery: 'Tomorrow, by 18:00 CET',
-            carrier: 'DHL Express Priority',
-            currentStep: 3, // 1: Order Confirmed, 2: Inspected, 3: In Transit, 4: Out for Delivery
-            steps: [
-              { label: 'Order Placed', date: 'Yesterday, 14:20' },
-              { label: 'Quality Checked', date: 'Today, 08:30' },
-              { label: 'Dispatched with DHL Express', date: 'Today, 11:45 (In Transit)' },
-              { label: 'Out for Delivery', date: 'Expected Tomorrow' }
-            ]
-          },
-          actionLink: { text: 'OPEN FULL TRACKING PAGE →', url: 'tracking.html' },
-          products: [],
-          suggestedChips: ['Delivery times', '14-Day return policy', 'Put together an outfit']
-        };
-      }
-
-      // ── 3. OCCASIONS & COMPLETE THE LOOK BUNDLE WIDGET ───────────────────
+      // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
       if (/outfit|look|pair|complete.*look|complete.*outfit|capsule|wedding|office|business|casual|dinner|gala|summer|weekend|evening/i.test(rawText)) {
         this.lastQueryType = 'bundle';
         
@@ -243,6 +196,53 @@
           text: `**${occasionName}** · Complete Outfit`,
           products: bundleItems,
           suggestedChips: ['Under € 500', 'Find my size', 'Show other jackets', 'Delivery times']
+        };
+      }
+
+      // ── 2. SIZING & FIT ADVISOR WIDGET ───────────────────────────────────
+      if (/\b(size|sizing|fits?|measure|measurements?|chest|waist|true to size|what size|how does it fit|size guide|fit guide|shoe size)\b/i.test(rawText)) {
+        this.lastQueryType = 'sizing';
+        return {
+          type: 'sizing_advisor',
+          text: `**Interactive Size & Fit Guide**`,
+          widgetPayload: {
+            categories: ['Tops & Sweaters', 'Jackets & Coats', 'Shoes & Sneakers'],
+            defaultCategory: 'Tops & Sweaters',
+            availableSizes: ['XS (36")', 'S (38")', 'M (40")', 'L (42")', 'XL (44")'],
+            footwearSizes: ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
+            fits: ['True to size (Regular fit)', 'Size up (Relaxed fit for layering)']
+          },
+          products: catalog.filter(p => p.category === 'Apparel' || p.category === 'Footwear').slice(0, 2),
+          suggestedChips: ['Show sweaters', 'Under € 300', 'Complete an outfit', 'Fabric care guide']
+        };
+      }
+
+      // ── 3. ORDER TRACKING & LIVE COURIER STATUS WIDGET ───────────────────
+      if (/track|where is my order|order status|find my order|nx-\d+|shipment status|courier status/i.test(rawText)) {
+        this.lastQueryType = 'tracking';
+        const codeMatch = text.match(/NX-\d{4}-[A-Z0-9]+/i);
+        const orderCode = codeMatch ? codeMatch[0].toUpperCase() : 'NX-8921-X';
+
+        return {
+          type: 'order_tracking',
+          text: `**Live Order Tracking** · Order **\`${orderCode}\`**`,
+          orderCode: orderCode,
+          widgetPayload: {
+            orderCode: orderCode,
+            destination: 'Berlin, Germany',
+            estimatedDelivery: 'Tomorrow, by 18:00 CET',
+            carrier: 'DHL Express Priority',
+            currentStep: 3, // 1: Order Confirmed, 2: Inspected, 3: In Transit, 4: Out for Delivery
+            steps: [
+              { label: 'Order Placed', date: 'Yesterday, 14:20' },
+              { label: 'Quality Checked', date: 'Today, 08:30' },
+              { label: 'Dispatched with DHL Express', date: 'Today, 11:45 (In Transit)' },
+              { label: 'Out for Delivery', date: 'Expected Tomorrow' }
+            ]
+          },
+          actionLink: { text: 'OPEN FULL TRACKING PAGE →', url: 'tracking.html' },
+          products: [],
+          suggestedChips: ['Delivery times', '14-Day return policy', 'Put together an outfit']
         };
       }
 
