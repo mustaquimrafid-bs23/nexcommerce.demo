@@ -292,7 +292,14 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 
 **9. COPY & TEXT CONTENT — Editorial Voice & Human-First Standard**
 - ALL product names, descriptions, section headers, badges, modals, tooltips, and empty states must sound like they were written by a top luxury brand copywriter for real human shoppers — NOT generated from an AI prompt engine or ML spec sheet.
-- **Strict Prohibition on AI Jargon**: Never use terms like *synthesize*, *cadence*, *replenishment cycle*, *tonal DNA*, *curation valuation*, *archive acquisition*, *atelier reserved*, or *silhouette constraints*.
+- **Strict Prohibition on AI & Pretentious Jargon**:
+  - NEVER use ambiguous or pretentious terms like: *Curated*, *Curate*, *Curated For You*, *Curation Valuation*, *Capsule Synthesis*, *Atelier Replenishments*, *synthesize*, *cadence*, *replenishment cycle*, *tonal DNA*, *archive acquisition*, *atelier reserved*, or *silhouette constraints*.
+  - ALWAYS use clear, accessible, customer-first retail language:
+    - Good: **"Recommended For You"** (instead of "Curated For You")
+    - Good: **"Smart List"** / **"Shopping List"** (instead of "Atelier Replenishments")
+    - Good: **"Find Recommendations"** / **"Explore"** (instead of "Curate" / "Synthesize")
+    - Good: **"Recommended Match"** / **"Style Match"** (instead of "Curated Match")
+    - Good: **"Featured Look"** / **"Recommended Look"** (instead of "Curated Look")
 - **Standard Luxury Categories**: Use standard customer-friendly naming (`Clothing`, `Audio`, `Footwear`, `Watches`, `Bags & Accessories`) instead of pretentious synonyms (`Ready-to-Wear`, `High Acoustics`, `Artisanal Footwear`, `Horology`, `Leather & Accessories`).
 - **Clear Action CTAs**: Use definitive retail verbs (`Add All to Bag`, `Explore Collection`, `Chat with Stylist`, `Save Schedule`).
 - Hero headline: aspirational, short, emotionally resonant. Max 6 words per line.
@@ -382,6 +389,20 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - **European Luxury Hero Headline & CTA**:
   - Confident single-line or naturally balanced 2-line headline in `Neue Haas Grotesk`/`Manrope` (`-0.025em` tracking). No clashing italic serif stacks.
   - Solid pure white `#FFFFFF` editorial CTA button with deep obsidian `#060E1A` typography and `2px` architectural border-radius (zero neon glowing pills).
+
+**16. REACTIVE STATE STORE & MICRO-UI CONTRACT INVARIANT**
+- **Complete Object Retention in Aggregations**:
+  - Methods that return collections of selected/filtered items (e.g., `getAggregateMetrics()`) MUST retain complete product models (`{ ...item, price }`) rather than partial field subsets, ensuring downstream components (cart controllers, batch docks, drawers) can access `inStock`, `selectedSize`, `selectedFinish`, and `gallery` without undefined property failures.
+- **Normalized Return Schema**:
+  - Always expose standard properties (`count`, `subtotal`, `items`) alongside specialized fields to prevent schema mismatch across UI subscribers.
+- **Lifecycle-Safe Subscription**:
+  - Store listeners must be registered inside initialization routines or post-DOM-ready handlers to guarantee the global store instance exists before subscription execution.
+
+**17. RESPONSIVE TABLET & MID-RANGE BREAKPOINT STANDARD (860px)**
+- **Accounting for Scrollbar Width**:
+  - On standard 768px tablet displays, active browser scrollbars reduce effective client width to ~761px. Multi-column grids (3–4 columns) overflow if media queries only target `max-width: 768px`.
+- **Mandatory 860px Intermediate Breakpoint**:
+  - Always implement `@media (max-width: 860px)` to transition 3-column product grids down to 2 columns and reduce container horizontal padding (e.g., from `40px` down to `16px–20px`), guaranteeing zero horizontal overflow across iPad, tablet, and portrait touch viewports.
 
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Pretentious jargon in navigation or footer (`THE MAISON`, `THE ATELIER STORY`, `THE PRIVATE EDIT`) instead of clear human terms (`ABOUT`, `NEWSLETTER`, `About Us`)
