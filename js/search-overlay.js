@@ -1,93 +1,794 @@
-(function(window) {
+/* ─── nexCommerce: Comprehensive Luxury Search Suite Engine ────────────────────────
+ * Master Search Overlay, Instant Typeahead, Fuzzy Matching, Human-First Intent Parsing,
+ * 3D Motion Cards, Direct Cart Quick-Add & Keyboard Navigation.
+ * ────────────────────────────────────────────────────────────────────────────────── */
+
+(function (window, document) {
   'use strict';
 
-  var overlay = null;
-  var input = null;
-  var resultsContainer = null;
-  var thinkingTrack = null;
-  var thinkingBar = null;
-  var isOpen = false;
+  /* ─── Universal Path & Asset Resolvers ───────────────────────────────────────── */
+  function _isPagesDir() {
+    return window.location.pathname.includes('/pages/');
+  }
 
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+  function _resolvePage(page) {
+    if (window._resolvePage && typeof window._resolvePage === 'function') {
+      return window._resolvePage(page);
+    }
+    const clean = page.replace(/^pages\//, '').replace(/^\.\.\//, '');
+    return _isPagesDir() ? clean : `pages/${clean}`;
+  }
+  window._resolvePage = _resolvePage;
 
-  var IDLE_PROMPTS = [
-    'Something comfortable for a long flight',
-    'An outfit for a dinner in Milan',
-    'Something warm but not bulky',
-    'Minimal everyday sneakers'
+  function _resolveAsset(path) {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    const clean = path.replace(/^(\.\.\/)+/, '').replace(/^\//, '');
+    return _isPagesDir() ? `../${clean}` : clean;
+  }
+
+  /* ─── Unified Multi-Department Storefront Catalog ────────────────────────────── */
+  const CATALOG_DB = [
+    {
+      id: 'p1',
+      name: 'Cashmere Turtleneck Sweater',
+      brand: 'Arc',
+      category: 'Apparel',
+      subCategory: 'Knitwear',
+      price: 185,
+      formattedPrice: '€ 185.00',
+      image: 'assets/images/products/hero_sweater.png',
+      matchBadge: 'BEST MATCH',
+      reasoning: 'Spun from 2-ply Grade-A Mongolian cashmere. Warm enough after sunset without feeling heavy—ideal for 15°C–20°C evenings.',
+      whyExpanded: [
+        { label: 'Evening Temperature', desc: 'Engineered for cool evenings (15°C–20°C) with natural thermoregulation.' },
+        { label: 'Minimal Silhouette', desc: 'Clean raglan shoulder construction with subtle ribbed trims.' },
+        { label: 'Comfort First', desc: 'Featherweight 420 GSM 2-ply cashmere avoids excessive bulk.' },
+        { label: 'Craft & Origin', desc: 'Hand-finished in Biella, Italy with Mongolian sourced yarn.' }
+      ],
+      tags: ['evening', 'cool weather', 'milan', 'lightweight', 'minimal', 'apparel', 'sweater', 'cashmere', 'knitwear', 'warm'],
+      inStock: true
+    },
+    {
+      id: 'p2',
+      name: 'Structured Wool Blazer',
+      brand: 'Arc',
+      category: 'Apparel',
+      subCategory: 'Tailoring',
+      price: 264,
+      formattedPrice: '€ 264.00',
+      image: 'assets/images/products/plp_blazer.png',
+      matchBadge: 'STYLE MATCH',
+      reasoning: 'Tailored from Italian virgin wool with unlined soft canvassing for effortless evening dinners and travel.',
+      whyExpanded: [
+        { label: 'Soft Canvassing', desc: 'Unlined construction moves naturally without stiffness.' },
+        { label: 'Premium Virgin Wool', desc: '100% Italian virgin wool weave with subtle natural sheen.' },
+        { label: 'Occasion Ready', desc: 'Versatile silhouette dressed up for dinner or styled down with denim.' }
+      ],
+      tags: ['blazer', 'wool', 'tailored', 'jacket', 'dinner', 'evening', 'formal', 'apparel', 'outerwear'],
+      inStock: true
+    },
+    {
+      id: 'p3',
+      name: 'Tailored Charcoal Overcoat',
+      brand: 'Arc',
+      category: 'Outerwear',
+      subCategory: 'Coats',
+      price: 380,
+      formattedPrice: '€ 380.00',
+      image: 'assets/images/products/plp_overcoat.png',
+      matchBadge: 'CLIMATE FIT',
+      reasoning: 'Double-faced wool-cashmere overcoat featuring sharp notch lapels and a relaxed mid-calf drop for winter layers.',
+      whyExpanded: [
+        { label: 'Winter Warmth', desc: '90% virgin wool and 10% cashmere blend provides substantial thermal protection.' },
+        { label: 'Clean Lines', desc: 'Hand-stitched lapels and deep interior welt pockets.' },
+        { label: 'Layering Room', desc: 'Cut with adequate shoulder room over suits and heavy knitwear.' }
+      ],
+      tags: ['overcoat', 'coat', 'winter', 'outerwear', 'charcoal', 'warm', 'wool', 'cashmere'],
+      inStock: true
+    },
+    {
+      id: 'p4',
+      name: 'Studio Acoustics Headphone GT',
+      brand: 'Form',
+      category: 'Audio',
+      subCategory: 'Headphones',
+      price: 320,
+      formattedPrice: '€ 320.00',
+      image: 'assets/images/products/prod_headphones.png',
+      matchBadge: 'HIGH FIDELITY',
+      reasoning: 'Active noise cancellation with 40-hour battery life and Italian lambskin memory-foam ear cushions.',
+      whyExpanded: [
+        { label: 'Active Isolation', desc: 'Blocks environmental city noise for focused listening.' },
+        { label: 'Titanium Drivers', desc: 'Precision 40mm custom titanium drivers delivering balanced acoustic staging.' },
+        { label: 'Travel Endurance', desc: '40-hour playback with fast USB-C charge (15 mins = 4 hours).' }
+      ],
+      tags: ['headphones', 'audio', 'acoustics', 'travel', 'flight', 'noise cancellation', 'music', 'work', 'focus'],
+      inStock: true
+    },
+    {
+      id: 'p5',
+      name: 'Horizon Wireless Earbuds',
+      brand: 'Form',
+      category: 'Audio',
+      subCategory: 'Earbuds',
+      price: 165,
+      formattedPrice: '€ 165.00',
+      image: 'assets/images/products/search_earbuds.png',
+      matchBadge: 'POPULAR CHOICE',
+      reasoning: 'Compact acoustic earbuds with ergonomic comfort tips, environmental transparency, and wireless charging case.',
+      whyExpanded: [
+        { label: 'Everyday Carry', desc: 'Slim pocket-sized matte charging case with magnetic snap.' },
+        { label: 'Crystal Audio', desc: 'Dual beamforming microphones for clear call clarity on the go.' },
+        { label: 'Water Resistant', desc: 'IPX5 splash resistance for workouts and light rain.' }
+      ],
+      tags: ['earbuds', 'wireless', 'audio', 'acoustics', 'compact', 'travel', 'commute', 'bluetooth'],
+      inStock: true
+    },
+    {
+      id: 'p6',
+      name: 'Minimalist Leather Runner',
+      brand: 'Apex',
+      category: 'Footwear',
+      subCategory: 'Sneakers',
+      price: 198,
+      formattedPrice: '€ 198.00',
+      image: 'assets/images/products/prod_runner.png',
+      matchBadge: 'COMFORT PICK',
+      reasoning: 'Hand-lasted Italian calfskin runner with cushioned Vibram ergonomic outsoles built for extended city walking.',
+      whyExpanded: [
+        { label: 'Travel Comfort', desc: 'Shock-absorbing EVA midsole cushion designed for 15,000+ daily steps.' },
+        { label: 'Supple Calfskin', desc: 'Buttery Italian nappa leather lining that molds to your foot over time.' },
+        { label: 'Minimalist Profile', desc: 'Zero external branding with tonal cotton waxed laces.' }
+      ],
+      tags: ['runner', 'sneakers', 'shoes', 'footwear', 'leather', 'walking', 'travel', 'flight', 'comfort', 'minimal'],
+      inStock: true
+    },
+    {
+      id: 'p7',
+      name: 'Architectural Canvas Tote',
+      brand: 'Forma',
+      category: 'Accessories',
+      subCategory: 'Bags',
+      price: 285,
+      formattedPrice: '€ 285.00',
+      image: 'assets/images/products/prod_tote.png',
+      matchBadge: 'VERSATILE ESSENTIAL',
+      reasoning: 'Heavyweight waxed organic cotton canvas with vegetable-tanned Tuscan bridle leather handles and a padded 16” laptop compartment.',
+      whyExpanded: [
+        { label: 'Weather Resistant', desc: 'Heavyweight 18oz water-repellent paraffin waxed canvas.' },
+        { label: 'Dedicated Tech Sleeve', desc: 'Padded microfiber sleeve securely fits up to 16" laptops.' },
+        { label: 'Bridle Leather', desc: 'Solid brass hardware with hand-riveted full-grain leather straps.' }
+      ],
+      tags: ['tote', 'bag', 'canvas', 'leather', 'accessories', 'laptop', 'travel', 'work', 'commute'],
+      inStock: true
+    },
+    {
+      id: 'p8',
+      name: 'Chronograph Minimalist Watch',
+      brand: 'Volta',
+      category: 'Accessories',
+      subCategory: 'Watches',
+      price: 342,
+      formattedPrice: '€ 342.00',
+      image: 'assets/images/products/search_watch.png',
+      matchBadge: 'TIMELESS PIECE',
+      reasoning: 'Swiss quartz movement encased in 316L brushed surgical stainless steel with a sapphire crystal lens and Horween leather strap.',
+      whyExpanded: [
+        { label: 'Swiss Movement', desc: 'Precision quartz movement with sub-second chronograph dials.' },
+        { label: 'Scratch-Proof', desc: 'Anti-reflective sapphire crystal glass rated 9 on the Mohs hardness scale.' },
+        { label: 'Horween Leather', desc: 'Hand-stitched genuine American Horween leather strap.' }
+      ],
+      tags: ['watch', 'chronograph', 'accessories', 'timepiece', 'steel', 'leather', 'gift', 'luxury'],
+      inStock: true
+    }
   ];
 
+  /* ─── Suggestion Prompts & Popular Categories ────────────────────────────────── */
+  const IDLE_PROMPTS = [
+    { text: 'Something for a winter evening in Milan', icon: 'sparkles' },
+    { text: 'Something comfortable for a long flight', icon: 'plane' },
+    { text: 'A luxury gift under €200', icon: 'gift' },
+    { text: 'Minimal everyday sneakers', icon: 'footprints' }
+  ];
+
+  const POPULAR_DEPARTMENTS = [
+    { label: 'Clothing', query: 'apparel' },
+    { label: 'Footwear', query: 'footwear' },
+    { label: 'Audio', query: 'audio' },
+    { label: 'Accessories', query: 'accessories' }
+  ];
+
+  /* ─── State & Storage Management ────────────────────────────────────────────── */
+  let overlay, backdrop, panel, input, closeBtn, resultsContainer, thinkingTrack, thinkingBar, clearInputBtn;
+  let isOpen = false;
+  let activeFocusIndex = -1;
+  let typeaheadDebounceTimer = null;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function getRecentSearches() {
+    try {
+      const stored = localStorage.getItem('nex_recent_searches');
+      return stored ? JSON.parse(stored) : ['Winter evening in Milan', 'Leather runner sneakers', 'Studio headphones'];
+    } catch (_) {
+      return ['Winter evening in Milan', 'Leather runner sneakers', 'Studio headphones'];
+    }
+  }
+
+  function saveRecentSearch(query) {
+    if (!query || query.trim().length < 2) return;
+    const clean = query.trim();
+    try {
+      let list = getRecentSearches().filter(q => q.toLowerCase() !== clean.toLowerCase());
+      list.unshift(clean);
+      if (list.length > 5) list = list.slice(0, 5);
+      localStorage.setItem('nex_recent_searches', JSON.stringify(list));
+    } catch (_) {}
+  }
+
+  function deleteRecentSearch(query) {
+    try {
+      let list = getRecentSearches().filter(q => q.toLowerCase() !== query.toLowerCase());
+      localStorage.setItem('nex_recent_searches', JSON.stringify(list));
+    } catch (_) {}
+    renderIdleState();
+  }
+
+  function clearAllRecentSearches() {
+    try {
+      localStorage.removeItem('nex_recent_searches');
+    } catch (_) {}
+    renderIdleState();
+  }
+
+  /* ─── Natural Language Intent & Typo Engine ─────────────────────────────────── */
+  function levenshteinDistance(s1, s2) {
+    const m = s1.length, n = s2.length;
+    const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 0; i <= m; i++) dp[i][0] = i;
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+      }
+    }
+    return dp[m][n];
+  }
+
+  function extractIntent(query) {
+    const q = (query || '').toLowerCase().trim();
+
+    let occasion = null;
+    if (/dinner|evening out|date|restaurant|night out/.test(q)) occasion = 'Dinner / Evening';
+    else if (/flight|travel|plane|vacation|trip|airport/.test(q)) occasion = 'Travel / Flight';
+    else if (/work|office|meeting|desk|business/.test(q)) occasion = 'Work / Office';
+    else if (/casual|weekend|everyday|daily|relax/.test(q)) occasion = 'Everyday / Casual';
+    else if (/gift|present|birthday|brother|sister|friend/.test(q)) occasion = 'Gift';
+    else if (/evening|night|sunset/.test(q)) occasion = 'Evening';
+
+    let climate = null;
+    if (/winter|cold|cool|15.?c|18.?c|20.?c|chilly|autumn|fall/.test(q)) climate = 'Cool Weather (15°C–20°C)';
+    else if (/summer|warm|hot|sunny|heat/.test(q)) climate = 'Warm Climate';
+    else if (/rain|waterproof|wet/.test(q)) climate = 'Rain & Weather';
+
+    let location = null;
+    if (/milan|milano/.test(q)) location = 'Milan';
+    else if (/paris/.test(q)) location = 'Paris';
+    else if (/london/.test(q)) location = 'London';
+    else if (/tokyo/.test(q)) location = 'Tokyo';
+    else if (/munich|münchen/.test(q)) location = 'Munich';
+    else if (/new york|nyc/.test(q)) location = 'New York';
+
+    let budgetMax = null;
+    const matchUnder = q.match(/under\s*(?:€|eur)?\s*([\d,]+k?)/i) || q.match(/less\s*than\s*(?:€|eur)?\s*([\d,]+k?)/i);
+    const matchAround = q.match(/around\s*(?:€|eur)?\s*([\d,]+k?)/i);
+    if (matchUnder) budgetMax = parsePriceValue(matchUnder[1]);
+    else if (matchAround) budgetMax = parsePriceValue(matchAround[1]) * 1.15;
+
+    let targetCategory = null;
+    if (/sweater|turtleneck|knit|crew|blazer|clothing|apparel|shirt|trousers|jacket|coat|overcoat/.test(q)) targetCategory = 'Apparel';
+    else if (/headphone|earbud|audio|acoustics|music|sound|earphones/.test(q)) targetCategory = 'Audio';
+    else if (/shoe|shoes|sneaker|sneakers|runner|runners|footwear|boots/.test(q)) targetCategory = 'Footwear';
+    else if (/tote|bag|watch|chronograph|accessories|belt|wallet/.test(q)) targetCategory = 'Accessories';
+
+    return { raw: query, occasion, climate, location, budgetMax, targetCategory };
+  }
+
+  function parsePriceValue(val) {
+    let str = val.toLowerCase().replace(/€|eur|euros?|bdt/gi, '').replace(',', '').trim();
+    if (str.endsWith('k')) return parseFloat(str.replace('k', '')) * 1000;
+    return parseFloat(str) || null;
+  }
+
+  function checkTypoCorrection(rawQuery) {
+    const q = rawQuery.toLowerCase().trim();
+    const commonVocabulary = ['sweater', 'cashmere', 'blazer', 'overcoat', 'headphones', 'earbuds', 'runner', 'sneakers', 'tote', 'watch', 'jacket', 'shoes', 'audio'];
+    const words = q.split(/\s+/);
+    let corrected = null;
+
+    for (let word of words) {
+      if (word.length >= 4) {
+        for (let target of commonVocabulary) {
+          if (word !== target && levenshteinDistance(word, target) <= 2) {
+            corrected = q.replace(word, target);
+            break;
+          }
+        }
+      }
+      if (corrected) break;
+    }
+    return corrected;
+  }
+
+  /* ─── Search Execution & Filtering ─────────────────────────────────────────── */
+  function queryCatalog(query, intent) {
+    const qLower = query.toLowerCase().trim();
+    let matches = [...CATALOG_DB];
+
+    if (intent.budgetMax) {
+      matches = matches.filter(p => p.price <= intent.budgetMax);
+    }
+
+    if (intent.targetCategory) {
+      matches = matches.filter(p => p.category.toLowerCase() === intent.targetCategory.toLowerCase() || p.tags.includes(intent.targetCategory.toLowerCase()));
+    }
+
+    // Direct token search if not deeply parameterized
+    if (!intent.occasion && !intent.climate && !intent.budgetMax && !intent.targetCategory) {
+      matches = matches.filter(p => {
+        const inName = p.name.toLowerCase().includes(qLower);
+        const inBrand = p.brand.toLowerCase().includes(qLower);
+        const inCat = p.category.toLowerCase().includes(qLower) || p.subCategory.toLowerCase().includes(qLower);
+        const inTags = p.tags.some(t => t.toLowerCase().includes(qLower) || qLower.includes(t.toLowerCase()));
+        return inName || inBrand || inCat || inTags;
+      });
+    }
+
+    // If zero results but specific keywords match partially, loosen filter
+    if (matches.length === 0) {
+      const words = qLower.split(/\s+/).filter(w => w.length > 2);
+      matches = CATALOG_DB.filter(p => {
+        return words.some(w => p.tags.includes(w) || p.name.toLowerCase().includes(w) || p.category.toLowerCase().includes(w));
+      });
+    }
+
+    return matches;
+  }
+
+  /* ─── 120fps GPU Progress Line ──────────────────────────────────────────────── */
+  function runThinkingBar(durationMs, onDone) {
+    if (thinkingTrack && thinkingBar) {
+      thinkingTrack.classList.add('active');
+      thinkingBar.style.transform = 'scaleX(0)';
+      let start = null;
+      let isDone = false;
+
+      function step(ts) {
+        if (isDone) return;
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / durationMs, 1);
+        thinkingBar.style.transform = `scaleX(${progress.toFixed(3)})`;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+
+      setTimeout(() => {
+        isDone = true;
+        thinkingTrack.classList.remove('active');
+        if (onDone) onDone();
+      }, durationMs);
+    } else {
+      setTimeout(onDone, durationMs);
+    }
+  }
+
+  /* ─── UI State Renderers ─────────────────────────────────────────────────────── */
   function renderIdleState() {
     if (!resultsContainer) return;
-    resultsContainer.innerHTML = '<div class="discovery-example-prompts" style="justify-content:center;">'
-      + '<span class="discovery-prompts-label">Try asking</span>'
-      + '<div class="discovery-prompts-list">'
-      + IDLE_PROMPTS.map(function(p) { return '<button class="discovery-prompt-chip" data-prompt="' + escHtml(p) + '">' + escHtml(p) + '</button>'; }).join('')
-      + '</div></div>';
+    const recents = getRecentSearches();
+
+    const recentsHtml = recents.length > 0 ? `
+      <div class="search-section-block">
+        <div class="search-section-header">
+          <span class="search-section-label">RECENT SEARCHES</span>
+          <button type="button" class="btn-clear-history" id="btnClearSearchHistory">CLEAR ALL</button>
+        </div>
+        <div class="search-recent-rail">
+          ${recents.map(r => `
+            <div class="recent-search-pill" data-query="${escapeHtml(r)}">
+              <span class="recent-pill-icon"><i data-lucide="clock" style="width:13px;height:13px;"></i></span>
+              <span class="recent-pill-text">${escapeHtml(r)}</span>
+              <button type="button" class="btn-delete-recent" data-del="${escapeHtml(r)}" aria-label="Remove search ${escapeHtml(r)}">&times;</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const promptsHtml = `
+      <div class="search-section-block">
+        <div class="search-section-header">
+          <span class="search-section-label">TRY ASKING</span>
+        </div>
+        <div class="search-prompts-grid">
+          ${IDLE_PROMPTS.map(p => `
+            <button type="button" class="search-prompt-card" data-prompt="${escapeHtml(p.text)}">
+              <span class="search-prompt-sparkle"><i data-lucide="sparkles" style="width:14px;height:14px;"></i></span>
+              <span class="search-prompt-title">${escapeHtml(p.text)}</span>
+              <span class="search-prompt-arrow">&rarr;</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    const departmentsHtml = `
+      <div class="search-section-block" style="margin-top: 8px;">
+        <div class="search-section-header">
+          <span class="search-section-label">EXPLORE DEPARTMENTS</span>
+        </div>
+        <div class="search-dept-rail">
+          ${POPULAR_DEPARTMENTS.map(d => `
+            <button type="button" class="search-dept-pill" data-dept="${escapeHtml(d.query)}">
+              ${escapeHtml(d.label)}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    resultsContainer.innerHTML = `
+      <div class="search-idle-wrapper">
+        ${recentsHtml}
+        ${promptsHtml}
+        ${departmentsHtml}
+      </div>
+    `;
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ root: resultsContainer });
+    }
+    bindIdleEvents();
   }
 
-  function escHtml(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function buildChipList(intent) {
-    var chips = [];
-    if (!intent) return chips;
-    if (intent.occasion) chips.push({ key: 'occasion', label: intent.occasion.value });
-    if (intent.climate)  chips.push({ key: 'climate',  label: intent.climate.value  });
-    if (intent.location) chips.push({ key: 'location', label: intent.location.value });
-    if (intent.budget)   chips.push({ key: 'budget',   label: 'Under € ' + intent.budget.max.toLocaleString() });
-    return chips;
-  }
-
-  // ── Motion Standard 1: tactile ripple (shared pointerdown pattern) ─────────
-  function attachRipple(btn, e) {
-    if (!btn) return;
-    var rect = btn.getBoundingClientRect();
-    var ripple = document.createElement('span');
-    ripple.className = 'card-ripple';
-    var size = Math.max(rect.width, rect.height);
-    ripple.style.width = size + 'px';
-    ripple.style.height = size + 'px';
-    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-    btn.appendChild(ripple);
-    setTimeout(function() { ripple.remove(); }, 450);
-  }
-
-  document.addEventListener('pointerdown', function(e) {
-    if (!overlay || !overlay.classList.contains('active')) return;
-    var target = e.target.closest('.btn-view-product, .discovery-prompt-chip, [data-prompt].search-prompt-btn');
-    if (target) attachRipple(target, e);
-  });
-
-  // ── Motion Standard 3: GPU curtain cross-dissolve page transition ──────────
-  function triggerPageTransition(href) {
-    var curtain = document.getElementById('pageTransitionOverlay');
-    if (!curtain || !href) {
-      if (href) window.location.href = href;
+  function renderTypeaheadState(query) {
+    if (!resultsContainer) return;
+    const qLower = query.toLowerCase().trim();
+    if (qLower.length < 2) {
+      renderIdleState();
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
-    curtain.style.opacity = '1';
-    curtain.style.pointerEvents = 'all';
-    setTimeout(function() { window.location.href = href; }, 210);
+
+    const matchedCats = POPULAR_DEPARTMENTS.filter(d => d.label.toLowerCase().includes(qLower) || d.query.includes(qLower));
+    const matchedProducts = CATALOG_DB.filter(p => 
+      p.name.toLowerCase().includes(qLower) || 
+      p.brand.toLowerCase().includes(qLower) || 
+      p.tags.some(t => t.includes(qLower))
+    ).slice(0, 4);
+
+    if (matchedProducts.length === 0 && matchedCats.length === 0) {
+      const typo = checkTypoCorrection(query);
+      if (typo) {
+        renderTypoPrompt(query, typo);
+      } else {
+        renderNoResultsState(query);
+      }
+      return;
+    }
+
+    let catsHtml = '';
+    if (matchedCats.length > 0) {
+      catsHtml = `
+        <div class="typeahead-group">
+          <div class="typeahead-group-title">DEPARTMENTS</div>
+          <div class="typeahead-cats-list">
+            ${matchedCats.map(c => `
+              <a href="${_resolvePage('category.html')}?cat=${c.query}" class="typeahead-cat-item">
+                <span>${highlightMatch(c.label, qLower)}</span>
+                <span class="typeahead-item-arrow">&rarr;</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    const prodsHtml = matchedProducts.length > 0 ? `
+      <div class="typeahead-group">
+        <div class="typeahead-group-title">PRODUCTS</div>
+        <div class="typeahead-prods-grid">
+          ${matchedProducts.map(p => `
+            <div class="typeahead-prod-card" data-id="${p.id}">
+              <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" class="typeahead-prod-thumb" />
+              <div class="typeahead-prod-info">
+                <span class="typeahead-prod-brand">${escapeHtml(p.brand)}</span>
+                <h4 class="typeahead-prod-title">${highlightMatch(p.name, qLower)}</h4>
+                <span class="typeahead-prod-price tabular-nums">${p.formattedPrice}</span>
+              </div>
+              <button type="button" class="btn-typeahead-view btn-view-product" data-id="${p.id}" aria-label="View ${escapeHtml(p.name)}">
+                View &rarr;
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    resultsContainer.innerHTML = `
+      <div class="typeahead-container">
+        <div class="typeahead-hint-bar">
+          <span>Press <strong>Enter</strong> to explore all matches for &ldquo;${escapeHtml(query)}&rdquo;</span>
+        </div>
+        ${catsHtml}
+        ${prodsHtml}
+      </div>
+    `;
+
+    bindResultActions();
   }
 
-  // ── Motion Standard 2: 3D spring tilt + dynamic specular glare ─────────────
-  function bindResultCardMotion(cards) {
-    if (prefersReduced || isTouch) return;
-    var MAX_TILT = 5;
-    var lerp = function(a, b, t) { return a + (b - a) * t; };
+  function renderProcessingState(intent) {
+    if (!resultsContainer) return;
+    const chips = buildIntentBadges(intent);
 
-    cards.forEach(function(card) {
-      var curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
+    resultsContainer.innerHTML = `
+      <div class="search-processing-state">
+        <div class="search-processing-icon">
+          <i data-lucide="sparkles" style="width:24px;height:24px;animation:spinPulse 2s infinite linear;"></i>
+        </div>
+        <h3 class="search-processing-title">SEARCHING FOR YOU...</h3>
+        <p class="search-processing-sub">Looking across our complete collection for the best recommendations</p>
+        ${chips.length > 0 ? `
+          <div class="search-intent-pills-row">
+            ${chips.map(c => `<span class="intent-pill-preview">${c}</span>`).join('')}
+          </div>
+        ` : ''}
+      </div>
+      <style>
+        @keyframes spinPulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
+      </style>
+    `;
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ root: resultsContainer });
+    }
+  }
+
+  function renderResultsState(query, intent, matchedProducts) {
+    if (!resultsContainer) return;
+
+    if (matchedProducts.length === 0) {
+      renderNoResultsState(query);
+      return;
+    }
+
+    const intentBadges = buildIntentBadges(intent);
+    const badgesHtml = intentBadges.length > 0 ? `
+      <div class="search-preferences-block">
+        <span class="search-preferences-label">MATCHING PREFERENCES</span>
+        <div class="search-preferences-pills">
+          ${intentBadges.map(b => `<span class="intent-badge-pill">${b}</span>`).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const firstProduct = matchedProducts[0];
+    const reasoningSnippet = firstProduct.reasoning || 'Tailored selection curated for your requested style and occasion.';
+
+    const cardsHtml = matchedProducts.map(p => `
+      <div class="search-product-card" data-id="${p.id}">
+        <div class="search-card-specular" aria-hidden="true"></div>
+        <div class="search-card-img-wrap">
+          <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
+          <span class="search-card-badge">${escapeHtml(p.matchBadge || 'RECOMMENDED')}</span>
+        </div>
+        <div class="search-card-content">
+          <div class="search-card-header">
+            <span class="search-card-brand">${escapeHtml(p.brand)}</span>
+            <h4 class="search-card-title">${escapeHtml(p.name)}</h4>
+            <div class="search-card-price tabular-nums">${p.formattedPrice}</div>
+          </div>
+          <div class="search-card-actions">
+            <button type="button" class="btn-search-quick-add" data-id="${p.id}">
+              <i data-lucide="shopping-bag" style="width:14px;height:14px;margin-right:6px;"></i> QUICK ADD
+            </button>
+            <button type="button" class="btn-search-view btn-view-product" data-id="${p.id}">
+              VIEW
+            </button>
+          </div>
+          <button type="button" class="link-see-why" data-id="${p.id}">
+            See details &amp; specs &rarr;
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    resultsContainer.innerHTML = `
+      <div class="search-results-wrapper">
+        ${badgesHtml}
+        
+        <div class="search-reasoning-card">
+          <div class="reasoning-header">
+            <i data-lucide="sparkles" style="width:14px;height:14px;color:var(--accent-cyan);"></i>
+            <span>RECOMMENDATION NOTES</span>
+          </div>
+          <p class="reasoning-text">&ldquo;${escapeHtml(reasoningSnippet)}&rdquo;</p>
+        </div>
+
+        <div class="search-results-grid">
+          ${cardsHtml}
+        </div>
+
+        <!-- Conversational Refinement Bar -->
+        <div class="search-refinements-section">
+          <span class="refinements-label">REFINE SEARCH</span>
+          <div class="refinements-pills-rail">
+            <button type="button" class="refinement-pill" data-refine="under 200">Under € 200</button>
+            <button type="button" class="refinement-pill" data-refine="winter warm">Warmer</button>
+            <button type="button" class="refinement-pill" data-refine="minimal clean">More Minimal</button>
+            <button type="button" class="refinement-pill" data-refine="travel flight">Travel Ready</button>
+            <button type="button" class="refinement-pill" data-refine="apparel">Clothing Only</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ root: resultsContainer });
+    }
+
+    bindResultActions();
+    bind3DCardMotion();
+  }
+
+  function renderNoResultsState(query) {
+    if (!resultsContainer) return;
+    const typo = checkTypoCorrection(query);
+
+    resultsContainer.innerHTML = `
+      <div class="search-empty-state">
+        <div class="search-empty-icon"><i data-lucide="search-x" style="width:32px;height:32px;"></i></div>
+        <h3 class="search-empty-title">No exact matches found</h3>
+        <p class="search-empty-desc">We couldn't find items matching &ldquo;${escapeHtml(query)}&rdquo;.</p>
+        ${typo ? `
+          <div class="search-typo-box">
+            <span>Did you mean:</span>
+            <button type="button" class="btn-typo-suggest" data-query="${escapeHtml(typo)}">
+              &ldquo;${escapeHtml(typo)}&rdquo; &rarr;
+            </button>
+          </div>
+        ` : ''}
+        <div class="search-empty-suggestions">
+          <span class="empty-sugg-label">TRY EXPLORING:</span>
+          <div class="search-dept-rail" style="justify-content:center;">
+            ${POPULAR_DEPARTMENTS.map(d => `
+              <button type="button" class="search-dept-pill" data-dept="${escapeHtml(d.query)}">
+                ${escapeHtml(d.label)}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons({ root: resultsContainer });
+    }
+    bindIdleEvents();
+  }
+
+  function renderTypoPrompt(original, corrected) {
+    if (!resultsContainer) return;
+    resultsContainer.innerHTML = `
+      <div class="search-typo-container">
+        <div class="search-typo-box">
+          <span>Showing results for &ldquo;${escapeHtml(corrected)}&rdquo; instead of &ldquo;${escapeHtml(original)}&rdquo;:</span>
+          <button type="button" class="btn-typo-suggest" data-query="${escapeHtml(original)}">Search strictly for &ldquo;${escapeHtml(original)}&rdquo;</button>
+        </div>
+      </div>
+    `;
+    const intent = extractIntent(corrected);
+    const matches = queryCatalog(corrected, intent);
+    const subContainer = document.createElement('div');
+    resultsContainer.appendChild(subContainer);
+    renderResultsState(corrected, intent, matches);
+  }
+
+  function openWhyMatchesModal(productId) {
+    const item = CATALOG_DB.find(p => p.id === productId) || CATALOG_DB[0];
+    const existing = document.getElementById('searchWhyModal');
+    if (existing) existing.remove();
+
+    const whyHtml = item.whyExpanded.map(w => `
+      <div class="evidence-row">
+        <span class="evidence-bullet">&#10003;</span>
+        <div class="evidence-text">
+          <strong class="evidence-title">${escapeHtml(w.label)}</strong>
+          <p class="evidence-desc">${escapeHtml(w.desc)}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const modal = document.createElement('div');
+    modal.className = 'search-why-overlay';
+    modal.id = 'searchWhyModal';
+    modal.innerHTML = `
+      <div class="search-why-dialog">
+        <div class="search-why-header">
+          <span class="search-why-eyebrow">DESIGN &amp; FIT EVIDENCE</span>
+          <button type="button" class="search-why-close" id="btnSearchWhyClose">&times;</button>
+        </div>
+        <h3 class="search-why-product-name">${escapeHtml(item.name)}</h3>
+        <p class="search-why-reasoning">&ldquo;${escapeHtml(item.reasoning)}&rdquo;</p>
+        <div class="search-why-evidence-list">
+          ${whyHtml}
+        </div>
+        <div class="search-why-footer">
+          <button type="button" class="btn-primary-commerce" id="btnWhyDone" style="height:44px;">GOT IT</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    setTimeout(() => modal.classList.add('active'), 10);
+
+    const closeWhy = () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 200);
+    };
+
+    modal.querySelector('#btnSearchWhyClose').addEventListener('click', closeWhy);
+    modal.querySelector('#btnWhyDone').addEventListener('click', closeWhy);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeWhy();
+    });
+  }
+
+  /* ─── Helpers & Match Highlighting ───────────────────────────────────────────── */
+  function buildIntentBadges(intent) {
+    const badges = [];
+    if (!intent) return badges;
+    if (intent.occasion) badges.push(`Occasion: ${intent.occasion}`);
+    if (intent.climate) badges.push(`Climate: ${intent.climate}`);
+    if (intent.location) badges.push(`Location: ${intent.location}`);
+    if (intent.budgetMax) badges.push(`Max: € ${intent.budgetMax.toLocaleString()}`);
+    if (intent.targetCategory) badges.push(`Department: ${intent.targetCategory}`);
+    return badges;
+  }
+
+  function highlightMatch(text, query) {
+    if (!query) return escapeHtml(text);
+    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    return escapeHtml(text).replace(regex, '<mark class="search-hl">$1</mark>');
+  }
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ─── 3D Motion Standard: Tilt & Specular Glare ──────────────────────────────── */
+  function bind3DCardMotion() {
+    if (prefersReduced || !resultsContainer) return;
+    const cards = resultsContainer.querySelectorAll('.search-product-card');
+    const MAX_TILT = 4.5;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
 
       function applyTilt() {
-        curTX = lerp(curTX, tgtTX, 0.14);
-        curTY = lerp(curTY, tgtTY, 0.14);
-        card.style.transform = 'perspective(900px) rotateX(' + curTX.toFixed(2) + 'deg) rotateY(' + curTY.toFixed(2) + 'deg) translateZ(6px)';
+        curTX = lerp(curTX, tgtTX, 0.16);
+        curTY = lerp(curTY, tgtTY, 0.16);
+        card.style.transform = `perspective(900px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(4px)`;
         if (Math.abs(curTX - tgtTX) > 0.02 || Math.abs(curTY - tgtTY) > 0.02) {
           rafId = requestAnimationFrame(applyTilt);
         } else {
@@ -95,15 +796,15 @@
         }
       }
 
-      card.addEventListener('mousemove', function(e) {
-        var r = card.getBoundingClientRect();
-        var dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
-        var dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
         tgtTX = -(dy * MAX_TILT);
         tgtTY = (dx * MAX_TILT);
 
-        var gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
-        var gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
         card.style.setProperty('--search-glare-x', gx);
         card.style.setProperty('--search-glare-y', gy);
         card.style.setProperty('--search-glare-opacity', '1');
@@ -111,14 +812,15 @@
         if (!rafId) rafId = requestAnimationFrame(applyTilt);
       });
 
-      card.addEventListener('mouseleave', function() {
-        tgtTX = 0; tgtTY = 0;
+      card.addEventListener('mouseleave', () => {
+        tgtTX = 0;
+        tgtTY = 0;
         card.style.setProperty('--search-glare-opacity', '0');
 
         function springBack() {
-          curTX = lerp(curTX, 0, 0.18);
-          curTY = lerp(curTY, 0, 0.18);
-          card.style.transform = 'perspective(900px) rotateX(' + curTX.toFixed(2) + 'deg) rotateY(' + curTY.toFixed(2) + 'deg) translateZ(0px)';
+          curTX = lerp(curTX, 0, 0.2);
+          curTY = lerp(curTY, 0, 0.2);
+          card.style.transform = `perspective(900px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px)`;
           if (Math.abs(curTX) > 0.03 || Math.abs(curTY) > 0.03) {
             rafId = requestAnimationFrame(springBack);
           } else {
@@ -132,147 +834,276 @@
     });
   }
 
-  function bindResultNavigation(root) {
-    root.querySelectorAll('.btn-view-product').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var pid = btn.getAttribute('data-id');
-        closeOverlay();
-        triggerPageTransition(_resolvePage('product.html') + '?id=' + pid);
+  /* ─── Cart Quick-Add & Navigation Synchronization ────────────────────────────── */
+  function handleQuickAdd(productId, btnElement) {
+    const item = CATALOG_DB.find(p => p.id === productId);
+    if (!item) return;
+
+    if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+      window.nexCart.addItem({
+        id: item.id,
+        name: item.name,
+        brand: item.brand,
+        price: item.price,
+        image: item.image,
+        qty: 1,
+        color: 'Default',
+        size: 'M'
       });
-    });
-    root.querySelectorAll('.see-all-results-link').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        closeOverlay();
-        triggerPageTransition(link.getAttribute('href'));
-      });
-    });
-  }
-
-  // ── Motion Standard 1: 120fps GPU "thinking" progress line ─────────────────
-  // The rAF loop only drives the cosmetic bar fill — completion is a plain
-  // setTimeout so results still render on schedule even if the tab is
-  // backgrounded and rAF gets throttled/paused.
-  function runThinkingBar(durationMs, onDone) {
-    if (thinkingTrack && thinkingBar) {
-      thinkingTrack.classList.add('active');
-      thinkingBar.style.transition = 'none';
-      thinkingBar.style.transform = 'scaleX(0)';
-      var start = null;
-      var done = false;
-
-      function step(ts) {
-        if (done) return;
-        if (!start) start = ts;
-        var progress = Math.min((ts - start) / durationMs, 1);
-        thinkingBar.style.transform = 'scaleX(' + progress.toFixed(3) + ')';
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-
-      setTimeout(function() {
-        done = true;
-        thinkingTrack.classList.remove('active');
-      }, durationMs);
     }
-    setTimeout(onDone, durationMs);
+
+    // Visual button ripple feedback
+    if (btnElement) {
+      const originalHtml = btnElement.innerHTML;
+      btnElement.innerHTML = `&#10003; ADDED TO BAG`;
+      btnElement.style.background = 'var(--accent-cyan, #3DE0FF)';
+      btnElement.style.color = '#020B18';
+      setTimeout(() => {
+        btnElement.innerHTML = originalHtml;
+        btnElement.style.background = '';
+        btnElement.style.color = '';
+      }, 1400);
+    }
+
+    // Reveal mini-cart drawer
+    if (window.nexCart && typeof window.nexCart.openMiniCart === 'function') {
+      setTimeout(() => {
+        closeSearchOverlay();
+        window.nexCart.openMiniCart();
+      }, 350);
+    }
   }
 
-  function openOverlay() {
+  function handleViewProduct(productId) {
+    saveSearchContext(productId);
+    closeSearchOverlay();
+    const targetUrl = `${_resolvePage('product.html')}?id=${productId}`;
+    triggerPageTransition(targetUrl);
+  }
+
+  function triggerPageTransition(url) {
+    const curtain = document.getElementById('pageTransitionOverlay');
+    if (!curtain) {
+      window.location.href = url;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => { window.location.href = url; }, 210);
+  }
+
+  function saveSearchContext(productId) {
+    try {
+      const data = {
+        productId: productId,
+        query: input ? input.value : '',
+        timestamp: new Date().toISOString()
+      };
+      sessionStorage.setItem('nexcommerce_search_context', JSON.stringify(data));
+    } catch (_) {}
+  }
+
+  /* ─── Search Execution Pipeline ─────────────────────────────────────────────── */
+  function executeSearch(rawQuery) {
+    const query = (rawQuery || '').trim();
+    if (!query) {
+      renderIdleState();
+      return;
+    }
+
+    if (input && input.value !== query) {
+      input.value = query;
+    }
+    toggleClearButton();
+    saveRecentSearch(query);
+
+    const intent = extractIntent(query);
+    renderProcessingState(intent);
+
+    runThinkingBar(500, () => {
+      const matches = queryCatalog(query, intent);
+      renderResultsState(query, intent, matches);
+    });
+  }
+
+  /* ─── Event Bindings ─────────────────────────────────────────────────────────── */
+  function bindIdleEvents() {
+    if (!resultsContainer) return;
+
+    // Prompt pills
+    resultsContainer.querySelectorAll('.search-prompt-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = btn.getAttribute('data-prompt');
+        executeSearch(p);
+      });
+    });
+
+    // Recent search pills
+    resultsContainer.querySelectorAll('.recent-search-pill').forEach(pill => {
+      pill.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-delete-recent')) return;
+        const q = pill.getAttribute('data-query');
+        executeSearch(q);
+      });
+    });
+
+    // Delete single recent item
+    resultsContainer.querySelectorAll('.btn-delete-recent').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const delQ = btn.getAttribute('data-del');
+        deleteRecentSearch(delQ);
+      });
+    });
+
+    // Clear All button
+    const clearAllBtn = resultsContainer.querySelector('#btnClearSearchHistory');
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', clearAllRecentSearches);
+    }
+
+    // Department pills
+    resultsContainer.querySelectorAll('.search-dept-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const cat = pill.getAttribute('data-dept');
+        executeSearch(cat);
+      });
+    });
+
+    // Typo suggest
+    const typoBtn = resultsContainer.querySelector('.btn-typo-suggest');
+    if (typoBtn) {
+      typoBtn.addEventListener('click', () => {
+        executeSearch(typoBtn.getAttribute('data-query'));
+      });
+    }
+  }
+
+  function bindResultActions() {
+    if (!resultsContainer) return;
+
+    // Quick Add
+    resultsContainer.querySelectorAll('.btn-search-quick-add').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const pid = btn.getAttribute('data-id');
+        handleQuickAdd(pid, btn);
+      });
+    });
+
+    // View Product
+    resultsContainer.querySelectorAll('.btn-view-product').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const pid = btn.getAttribute('data-id');
+        handleViewProduct(pid);
+      });
+    });
+
+    // See why modal
+    resultsContainer.querySelectorAll('.link-see-why').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const pid = link.getAttribute('data-id');
+        openWhyMatchesModal(pid);
+      });
+    });
+
+    // Refinement pills
+    resultsContainer.querySelectorAll('.refinement-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const refine = pill.getAttribute('data-refine');
+        pill.classList.add('active');
+        executeSearch(refine);
+      });
+    });
+  }
+
+  function toggleClearButton() {
+    if (!clearInputBtn || !input) return;
+    if (input.value.trim().length > 0) {
+      clearInputBtn.style.display = 'flex';
+    } else {
+      clearInputBtn.style.display = 'none';
+    }
+  }
+
+  /* ─── Keyboard Traversal & Global Listeners ──────────────────────────────────── */
+  function handleKeyDown(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (isOpen) closeSearchOverlay();
+      else openSearchOverlay();
+      return;
+    }
+
+    if (!isOpen) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeSearchOverlay();
+      return;
+    }
+
+    // Keyboard navigation through suggestions
+    const interactiveItems = resultsContainer ? Array.from(resultsContainer.querySelectorAll('button, a, .recent-search-pill, .typeahead-prod-card')) : [];
+    if (interactiveItems.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeFocusIndex = (activeFocusIndex + 1) % interactiveItems.length;
+      interactiveItems[activeFocusIndex].focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeFocusIndex = (activeFocusIndex - 1 + interactiveItems.length) % interactiveItems.length;
+      if (activeFocusIndex < 0) {
+        if (input) input.focus();
+        activeFocusIndex = -1;
+      } else {
+        interactiveItems[activeFocusIndex].focus();
+      }
+    }
+  }
+
+  /* ─── Modal Open & Close ─────────────────────────────────────────────────────── */
+  function openSearchOverlay() {
     if (!overlay) return;
-    if (!input || !input.value.trim()) renderIdleState();
     overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     isOpen = true;
-    setTimeout(function() { if (input) input.focus(); }, 150);
+    activeFocusIndex = -1;
+
+    if (input) {
+      if (!input.value.trim()) renderIdleState();
+      toggleClearButton();
+      setTimeout(() => input.focus(), 120);
+    }
   }
 
-  function closeOverlay() {
+  function closeSearchOverlay() {
     if (!overlay) return;
     overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     isOpen = false;
   }
 
-  function execute(rawQuery) {
-    var query = (rawQuery || '').trim();
-    if (!query || !resultsContainer) return;
+  /* ─── Initialization ─────────────────────────────────────────────────────────── */
+  function initSearchOverlay() {
+    overlay = document.getElementById('aiSearchModal');
+    if (!overlay) return;
 
-    var intent = window.NexIntentParser ? NexIntentParser.parse(query) : { raw: query };
-    var chips = buildChipList(intent);
+    backdrop = overlay.querySelector('.search-backdrop');
+    panel = overlay.querySelector('.search-panel');
+    input = overlay.querySelector('.search-ai-input');
+    closeBtn = overlay.querySelector('.search-close-btn');
+    resultsContainer = document.getElementById('aiSearchResultsModal') || document.getElementById('aiSearchResults');
 
-    var chipHtml = chips.length > 0
-      ? '<div style="margin-top:20px;text-align:center;">'
-        + '<div style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:10px;">PARSING INTENT&hellip;</div>'
-        + '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">'
-        + chips.map(function(c) { return '<span class="intent-chip discovery-parsing-chip">' + escHtml(c.label) + '</span>'; }).join('')
-        + '</div></div>'
-      : '';
-
-    resultsContainer.innerHTML = '<div style="padding:28px 0 8px;text-align:center;">'
-      + '<span style="font-family:var(--font-body);font-size:13px;color:var(--text-secondary);">Understanding your request&hellip;</span>'
-      + chipHtml + '</div>';
-
-    runThinkingBar(800, function() {
-      if (window.NexSessionContext) NexSessionContext.save(intent);
-
-      var result = window.NexCatalogEngine
-        ? NexCatalogEngine.query(intent)
-        : { products: [], appliedFilters: [], relaxedFilters: [] };
-
-      if (result.products.length === 0) {
-        resultsContainer.innerHTML = '<div style="padding:24px 0;text-align:center;font-family:var(--font-body);font-size:13px;color:var(--text-secondary);">'
-          + 'No products found. <a href="' + _resolvePage('discovery.html') + '?q=' + encodeURIComponent(query) + '" class="see-all-results-link" style="color:var(--accent-cyan);">Search on discovery page &rarr;</a></div>';
-        bindResultNavigation(resultsContainer);
-        return;
-      }
-
-      var chipsHtml = chips.length > 0
-        ? '<div style="margin-bottom:16px;">'
-          + '<div style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">UNDERSTOOD AS</div>'
-          + '<div style="display:flex;flex-wrap:wrap;gap:6px;">'
-          + chips.map(function(c) { return '<span class="intent-chip">' + escHtml(c.label) + '</span>'; }).join('')
-          + '</div></div>'
-        : '';
-
-      var cardsHtml = result.products.slice(0, 4).map(function(p) {
-        return '<div class="ai-recommendation-card">'
-          + '<div class="search-card-specular" aria-hidden="true"></div>'
-          + '<div class="ai-card-img-wrap"><img src="' + escHtml(p.img || p.image || '') + '" alt="' + escHtml(p.title || p.name || '') + '" loading="lazy" /></div>'
-          + '<div class="ai-card-details">'
-          + '<span class="match-indicator-badge">' + escHtml(p.matchBadge || 'Match') + '</span>'
-          + '<h4 class="ai-card-title">' + escHtml(p.title || p.name || '') + '</h4>'
-          + '<div class="ai-card-price tabular-nums">' + escHtml(p.formattedPrice || ('€ ' + Number(p.numericPrice || 0).toFixed(2))) + '</div>'
-          + '</div>'
-          + '<div class="ai-card-actions">'
-          + '<button class="btn-primary-commerce btn-view-product" data-id="' + escHtml(p.id) + '" style="width:100%;height:40px;">VIEW PRODUCT</button>'
-          + '</div></div>';
-      }).join('');
-
-      resultsContainer.innerHTML = chipsHtml
-        + '<div class="search-results-grid">' + cardsHtml + '</div>'
-        + '<div style="text-align:center;margin-top:16px;"><a href="' + _resolvePage('discovery.html') + '?q=' + encodeURIComponent(query) + '" class="see-all-results-link" style="font-family:var(--font-body);font-size:12px;color:var(--accent-cyan);">See all results &rarr;</a></div>';
-
-      var cardEls = Array.from(resultsContainer.querySelectorAll('.ai-recommendation-card'));
-      if (!prefersReduced && window.animate && window.stagger) {
-        window.animate(cardEls,
-          { opacity: [0, 1], y: [16, 0], scale: [0.97, 1] },
-          { delay: window.stagger(0.06), duration: 0.5, easing: [0.16, 1, 0.3, 1] }
-        );
-      }
-      bindResultCardMotion(cardEls);
-      bindResultNavigation(resultsContainer);
-    });
-  }
-
-  function init() {
-    overlay          = document.getElementById('aiSearchModal');
-    input            = document.querySelector('.search-ai-input');
-    resultsContainer = document.getElementById('aiSearchResults') || document.getElementById('aiSearchResultsModal');
-    if (!overlay || !input) return;
-
-    // Inject a 120fps GPU "thinking" progress line beneath the search input
-    var headerBar = overlay.querySelector('.search-header-bar');
+    // Create GPU Thinking Track if missing
+    const headerBar = overlay.querySelector('.search-header-bar');
     if (headerBar && !overlay.querySelector('.nex-thinking-track')) {
       thinkingTrack = document.createElement('div');
       thinkingTrack.className = 'nex-thinking-track';
@@ -281,38 +1112,92 @@
       thinkingBar.className = 'nex-thinking-bar';
       thinkingTrack.appendChild(thinkingBar);
       headerBar.insertAdjacentElement('afterend', thinkingTrack);
+    } else {
+      thinkingTrack = overlay.querySelector('.nex-thinking-track');
+      thinkingBar = overlay.querySelector('.nex-thinking-bar');
     }
 
-    // Open via nav search
-    document.querySelectorAll('[data-open-search], #navSearchBtn, #searchTriggerBtn, .search-trigger').forEach(function(btn) {
-      btn.addEventListener('click', openOverlay);
+    // Create Clear Input Button if missing
+    const inputWrapper = overlay.querySelector('.search-input-wrapper');
+    if (inputWrapper && !inputWrapper.querySelector('.btn-search-clear-input')) {
+      clearInputBtn = document.createElement('button');
+      clearInputBtn.type = 'button';
+      clearInputBtn.className = 'btn-search-clear-input';
+      clearInputBtn.setAttribute('aria-label', 'Clear search text');
+      clearInputBtn.innerHTML = '&times;';
+      clearInputBtn.style.display = 'none';
+      inputWrapper.appendChild(clearInputBtn);
+
+      clearInputBtn.addEventListener('click', () => {
+        if (input) {
+          input.value = '';
+          input.focus();
+          toggleClearButton();
+          renderIdleState();
+        }
+      });
+    }
+
+    // Listeners
+    if (closeBtn) closeBtn.addEventListener('click', closeSearchOverlay);
+    if (backdrop) backdrop.addEventListener('click', closeSearchOverlay);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Global trigger buttons
+    document.querySelectorAll('[data-open-search], #navSearchBtn, #searchTriggerBtn, .nav-search-trigger, .nav-search-trigger-mobile').forEach(trig => {
+      trig.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSearchOverlay();
+      });
     });
 
-    var closeBtn = overlay.querySelector('.search-close-btn');
-    var backdrop = overlay.querySelector('.search-backdrop');
-    if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
-    if (backdrop) backdrop.addEventListener('click', closeOverlay);
+    if (input) {
+      input.addEventListener('input', () => {
+        toggleClearButton();
+        const val = input.value.trim();
+        clearTimeout(typeaheadDebounceTimer);
+        if (!val) {
+          renderIdleState();
+          return;
+        }
+        typeaheadDebounceTimer = setTimeout(() => {
+          renderTypeaheadState(val);
+        }, 150);
+      });
 
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); execute(input.value); }
-    });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          executeSearch(input.value);
+        }
+      });
+    }
 
-    var submitBtn = overlay.querySelector('.btn-search-submit');
-    if (submitBtn) submitBtn.addEventListener('click', function() { execute(input.value); });
-
-    // Prompt chips inside overlay
-    overlay.addEventListener('click', function(e) {
-      var promptBtn = e.target.closest('[data-prompt]');
-      if (promptBtn) { input.value = promptBtn.getAttribute('data-prompt'); execute(input.value); }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openOverlay(); }
-      if (e.key === 'Escape' && isOpen) closeOverlay();
-    });
+    // Auto-search query param if on discovery.html
+    const params = new URLSearchParams(window.location.search);
+    const qParam = params.get('q');
+    if (qParam && window.location.pathname.includes('discovery.html')) {
+      setTimeout(() => {
+        if (input) input.value = qParam;
+        openSearchOverlay();
+        executeSearch(qParam);
+      }, 250);
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', init);
-  window.NexSearchOverlay = { open: openOverlay, close: closeOverlay };
+  // DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearchOverlay);
+  } else {
+    initSearchOverlay();
+  }
 
-})(window);
+  // Public API
+  window.NexSearchOverlay = {
+    open: openSearchOverlay,
+    close: closeSearchOverlay,
+    search: executeSearch,
+    catalog: CATALOG_DB
+  };
+
+})(window, document);

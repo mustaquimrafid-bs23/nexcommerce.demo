@@ -293,13 +293,15 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 **9. COPY & TEXT CONTENT — Editorial Voice & Human-First Standard**
 - ALL product names, descriptions, section headers, badges, modals, tooltips, and empty states must sound like they were written by a top luxury brand copywriter for real human shoppers — NOT generated from an AI prompt engine or ML spec sheet.
 - **Strict Prohibition on AI & Pretentious Jargon**:
-  - NEVER use ambiguous or pretentious terms like: *Curated*, *Curate*, *Curated For You*, *Curation Valuation*, *Capsule Synthesis*, *Atelier Replenishments*, *synthesize*, *cadence*, *replenishment cycle*, *tonal DNA*, *archive acquisition*, *atelier reserved*, or *silhouette constraints*.
+  - NEVER use ambiguous or pretentious terms like: *Curated*, *Curate*, *Curated For You*, *Curation Valuation*, *Capsule Synthesis*, *Atelier Replenishments*, *synthesize*, *cadence*, *replenishment cycle*, *tonal DNA*, *archive acquisition*, *atelier reserved*, *silhouette constraints*, *Parsing Intent*, *Synthesizing Catalog Intent*, *Vector Match*, or *Zero Vector Tolerance*.
   - ALWAYS use clear, accessible, customer-first retail language:
     - Good: **"Recommended For You"** (instead of "Curated For You")
     - Good: **"Smart List"** / **"Shopping List"** (instead of "Atelier Replenishments")
     - Good: **"Find Recommendations"** / **"Explore"** (instead of "Curate" / "Synthesize")
     - Good: **"Recommended Match"** / **"Style Match"** (instead of "Curated Match")
     - Good: **"Featured Look"** / **"Recommended Look"** (instead of "Curated Look")
+    - Good: **"Searching for you..."** / **"Looking across our collection..."** (instead of "Parsing Intent" / "Synthesizing Catalog Intent")
+    - Good: **"Matching Preferences"** / **"Your Filters"** (instead of "Understood As" / "Detected Vectors")
 - **Standard Luxury Categories**: Use standard customer-friendly naming (`Clothing`, `Audio`, `Footwear`, `Watches`, `Bags & Accessories`) instead of pretentious synonyms (`Ready-to-Wear`, `High Acoustics`, `Artisanal Footwear`, `Horology`, `Leather & Accessories`).
 - **Clear Action CTAs**: Use definitive retail verbs (`Add All to Bag`, `Explore Collection`, `Chat with Stylist`, `Save Schedule`).
 - Hero headline: aspirational, short, emotionally resonant. Max 6 words per line.
