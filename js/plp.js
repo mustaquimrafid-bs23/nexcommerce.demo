@@ -407,30 +407,39 @@
     const titleEl = document.getElementById('plpMainTitle');
     const subtitleEl = document.getElementById('plpMainSubtitle');
     const breadcrumbEl = document.getElementById('plpBreadcrumbCurrent');
+    const eyebrowEl = document.getElementById('plpHeroEyebrow');
     
     let titleText = 'All Products';
     let subtitleText = 'Pieces designed around natural comfort, architectural tailoring, and enduring quality.';
+    let eyebrowText = 'COLLECTIONS · AW26';
     
     if (cat === 'apparel') {
       titleText = 'Apparel & Knitwear';
       subtitleText = 'Precision cashmere, structured merino wool, and relaxed silhouettes crafted for modern living.';
+      eyebrowText = 'APPAREL · AW26';
     } else if (cat === 'outerwear') {
       titleText = 'Outerwear & Tailoring';
       subtitleText = 'Double-faced wool overcoats, tailored blazers, and architectural cold-weather layers.';
+      eyebrowText = 'OUTERWEAR · AW26';
     } else if (cat === 'acoustics') {
       titleText = 'Acoustic Engineering';
       subtitleText = 'Studio-grade spatial drivers and active acoustic isolation wrapped in lambskin and titanium.';
+      eyebrowText = 'ACOUSTIC ENGINEERING';
     } else if (cat === 'accessories') {
       titleText = 'Fine Accessories & Horology';
       subtitleText = 'Minimalist chronographs, full-grain leather goods, and refined essentials.';
+      eyebrowText = 'FINE ACCESSORIES';
     } else if (cat === 'footwear') {
       titleText = 'Footwear & Runners';
       subtitleText = 'Italian calfskin runners and architectural footwear built with ergonomic Vibram cushioning.';
+      eyebrowText = 'FOOTWEAR · ARTISANAL';
     } else if (cat === 'new') {
       titleText = 'New Arrivals';
       subtitleText = 'The latest seasonal drops, limited releases, and freshly curated luxury essentials.';
+      eyebrowText = 'NEW ARRIVALS · AW26';
     }
 
+    if (eyebrowEl) eyebrowEl.textContent = eyebrowText;
     if (titleEl) titleEl.textContent = titleText;
     if (subtitleEl) subtitleEl.textContent = subtitleText;
     if (breadcrumbEl) breadcrumbEl.textContent = titleText;
