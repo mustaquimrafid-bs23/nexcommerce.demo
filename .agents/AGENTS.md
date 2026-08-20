@@ -224,6 +224,19 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 **8. Card Action Clusters & Legacy Position Isolation**:
 - When grouping interactive action buttons inside card flex overlays (`.card-top-actions`), always explicitly enforce `position: relative !important; top: auto !important; right: auto !important; margin: 0;` on all child buttons to prevent legacy monolithic stylesheet rules (e.g., `.wishlist-remove-btn { position: absolute; }`) from breaking out of flex containers and superimposing onto adjacent icons.
 
+**9. Studio Product Silhouette Containment & Anti-Cropping Invariant**:
+- Isolated studio product photography (footwear, timepieces, headphones, leather bags, structured outerwear) must strictly use `object-fit: contain !important;` inside a dedicated radial studio container (`background: radial-gradient(...)`) with drop-shadows.
+- `object-fit: cover` is STRICTLY FORBIDDEN for studio product pieces where it clips critical silhouette geometry (soles, dials, cuffs, laces). It may only be used for full-bleed human model lifestyle/editorial photography.
+- Product cards and quick-look drawers must guarantee 100% full-silhouette visibility from edge to edge with generous breathing room.
+
+**10. Quick Look "Mini-PDP" Standard & Semantic Asset Integrity**:
+- **Full Mini-PDP Capability**: Quick Look modals and slide-overs must never be shallow read-only previews. They must provide a fully interactive experience including:
+  1. 100% uncropped multi-angle gallery filmstrip with active thumbnail switching.
+  2. In-drawer interactive **Finish Swatches** and **Size Selectors** with stock status.
+  3. Dynamic real-time price recalculation based on selected variant deltas.
+  4. Direct 1-click **Add to Bag** carrying the exact configured variant payload.
+- **Semantic Asset Integrity**: Catalog databases and test harnesses must enforce strict semantic alignment between image paths and the product's actual category and ID prefix. Unit tests must validate semantic asset relevance, not just superficial array lengths.
+
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
 When building any screen or component for nexCommerce, reference these real-world sites as design benchmarks:
