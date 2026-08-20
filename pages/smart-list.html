@@ -850,6 +850,118 @@
       text-decoration: line-through;
     }
 
+    /* ─── Tactile Variant Selectors (Finishes & Sizes) ───────────────── */
+    .sl-card-variants-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 4px 0 6px;
+      min-height: 26px;
+      flex-wrap: wrap;
+    }
+
+    /* Finish swatches */
+    .sl-swatches-strip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sl-swatch-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      position: relative;
+      background: transparent;
+      padding: 0;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .sl-swatch-dot:hover {
+      transform: scale(1.18);
+    }
+    .sl-swatch-dot.active {
+      box-shadow: 0 0 0 2px #080E1E, 0 0 0 3.5px var(--accent-cyan, #3DE0FF);
+      transform: scale(1.1);
+    }
+    .sl-swatch-dot:focus-visible {
+      outline: 2px solid var(--focus-ring, #3DE0FF);
+      outline-offset: 2px;
+    }
+
+    /* Size micro-pills */
+    .sl-sizes-strip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sl-size-btn {
+      min-width: 24px;
+      height: 22px;
+      padding: 0 5px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      color: rgba(255, 255, 255, 0.65);
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 9.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 140ms ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sl-size-btn:hover:not(:disabled) {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .sl-size-btn.active {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      color: #030814;
+      font-weight: 700;
+    }
+    .sl-size-btn:disabled {
+      opacity: 0.28;
+      text-decoration: line-through;
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+    .sl-size-btn:focus-visible {
+      outline: 2px solid var(--focus-ring, #3DE0FF);
+      outline-offset: 1px;
+    }
+
+    /* Stock Beacon */
+    .sl-stock-beacon {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-secondary, #94A3B8);
+      letter-spacing: 0.02em;
+    }
+    .sl-stock-dot {
+      width: 5.5px;
+      height: 5.5px;
+      border-radius: 50%;
+      background: #34D399;
+      box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+      flex-shrink: 0;
+    }
+    .sl-stock-dot.low {
+      background: #FBBF24;
+      box-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+    }
+    .sl-stock-dot.sold-out {
+      background: #64748B;
+      box-shadow: none;
+    }
+
     /* Unified Horizontal Action Row */
     .sl-action-row {
       display: flex;

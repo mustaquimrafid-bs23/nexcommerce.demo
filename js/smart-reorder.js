@@ -1326,8 +1326,45 @@ function buildCardHTML(product, index = 0, isCompact = false) {
       </div>`
     : '';
 
+  // Finish Swatches HTML
+  const finishes = product.variants?.finishes || [];
+  const selectedFinish = product.selectedFinish || (finishes[0]?.id);
+  const swatchesHTML = finishes.length > 1
+    ? `<div class="sl-swatches-strip" role="radiogroup" aria-label="Finish choices for ${product.name}">
+        ${finishes.map(f => `
+          <button type="button" class="sl-swatch-dot${f.id === selectedFinish ? ' active' : ''}" 
+                  data-action="select-finish" data-product-id="${product.id}" data-finish-id="${f.id}" 
+                  style="background: ${f.color};" title="${f.name}${f.priceDelta ? ' (+€' + f.priceDelta + ')' : ''}" 
+                  aria-label="${f.name}" role="radio" aria-checked="${f.id === selectedFinish}">
+          </button>
+        `).join('')}
+      </div>`
+    : '';
+
+  // Size Micro-Pills HTML
+  const sizes = product.variants?.sizes || [];
+  const selectedSize = product.selectedSize || (sizes[0]?.id);
+  const sizesHTML = sizes.length > 1
+    ? `<div class="sl-sizes-strip" role="radiogroup" aria-label="Size options for ${product.name}">
+        ${sizes.map(s => `
+          <button type="button" class="sl-size-btn${s.id === selectedSize ? ' active' : ''}" 
+                  data-action="select-size" data-product-id="${product.id}" data-size-id="${s.id}"
+                  ${s.inStock === false ? 'disabled' : ''} 
+                  aria-label="Size ${s.name}${s.inStock === false ? ' (Out of stock)' : ''}" role="radio" aria-checked="${s.id === selectedSize}">
+            ${s.name}
+          </button>
+        `).join('')}
+      </div>`
+    : '';
+
+  const isSizeOOS = window.smartListStore && !window.smartListStore.isSizeInStock(product.id, selectedSize);
+  const effectiveOOS = oos || isSizeOOS;
+  const stockBeaconHTML = effectiveOOS
+    ? `<span class="sl-stock-beacon"><span class="sl-stock-dot sold-out"></span>Sold Out</span>`
+    : `<span class="sl-stock-beacon"><span class="sl-stock-dot"></span>In Stock</span>`;
+
   return `
-    <article class="sl-card${oos ? ' sl-card--oos' : ''}${isSelected ? ' is-selected' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
+    <article class="sl-card${effectiveOOS ? ' sl-card--oos' : ''}${isSelected ? ' is-selected' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
       <div class="sl-glare" aria-hidden="true"></div>
       ${selectRingHTML}
       <button class="sl-dismiss-btn" data-dismiss="${product.id}" aria-label="Remove ${product.name} from list" title="Remove from list">
@@ -1337,7 +1374,7 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         <a href="product.html?id=${product.id}" class="sl-card-img-link" aria-label="View ${product.name}">
           <img src="${resolvedImg}" alt="${product.name}" class="sl-card-img" loading="lazy" />
         </a>
-        ${oos ? '<div class="sl-oos-badge">Out of Stock</div>' : ''}
+        ${effectiveOOS ? '<div class="sl-oos-badge">Out of Stock</div>' : ''}
         ${hasSale ? '<div class="sl-sale-badge">Special Offer</div>' : ''}
         ${quickAddOverlayHTML}
       </div>
@@ -1360,6 +1397,12 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         </div>
         ${hasSale ? `<div class="sl-omnibus-prior-price" style="font-size: 9.5px; color: var(--text-secondary); margin-top: 1px; letter-spacing: 0.02em;">Lowest price in last 30 days: ${origStr}</div>` : ''}
 
+        <!-- Tactile Variants Row -->
+        <div class="sl-card-variants-row">
+          ${swatchesHTML}
+          ${sizesHTML || stockBeaconHTML}
+        </div>
+
         <!-- Unified Horizontal Action Row -->
         <div class="sl-action-row">
           <div class="sl-stepper" role="group" aria-label="Quantity for ${product.name}">
@@ -1367,8 +1410,8 @@ function buildCardHTML(product, index = 0, isCompact = false) {
             <span class="sl-stepper-val" data-qty="${product.id}" aria-live="polite">${getQty(product.id)}</span>
             <button class="sl-stepper-btn sl-stepper-inc" data-id="${product.id}" aria-label="Increase quantity">+</button>
           </div>
-          <button class="sl-btn-add${oos ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${oos ? 'disabled aria-disabled="true"' : ''}>
-            <span class="sl-btn-add-inner">${oos ? 'Out of Stock' : 'Add to Bag'}</span>
+          <button class="sl-btn-add${effectiveOOS ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${effectiveOOS ? 'disabled aria-disabled="true"' : ''}>
+            <span class="sl-btn-add-inner">${effectiveOOS ? 'Out of Stock' : 'Add to Bag'}</span>
           </button>
         </div>
       </div>
@@ -1396,6 +1439,8 @@ function bindCardEvents(container) {
 
   container.addEventListener('click', e => {
     const selectBtn   = e.target.closest('[data-action="toggle-select"]');
+    const finishBtn   = e.target.closest('[data-action="select-finish"]');
+    const sizeBtn     = e.target.closest('[data-action="select-size"]');
     const quickAddBtn = e.target.closest('[data-action="quick-add"]');
     const cadenceBtn  = e.target.closest('[data-cadence-trigger]');
     const dismissBtn  = e.target.closest('[data-dismiss]');
@@ -1407,6 +1452,24 @@ function bindCardEvents(container) {
       const id = selectBtn.dataset.id;
       if (window.smartListStore) {
         window.smartListStore.toggleSelect(id);
+      }
+      return;
+    }
+
+    if (finishBtn) {
+      const pid = finishBtn.dataset.productId;
+      const fid = finishBtn.dataset.finishId;
+      if (window.smartListStore) {
+        window.smartListStore.setVariant(pid, { finishId: fid });
+      }
+      return;
+    }
+
+    if (sizeBtn) {
+      const pid = sizeBtn.dataset.productId;
+      const sid = sizeBtn.dataset.sizeId;
+      if (window.smartListStore) {
+        window.smartListStore.setVariant(pid, { sizeId: sid });
       }
       return;
     }
@@ -1555,7 +1618,7 @@ function initSelectAllBtn() {
   });
 }
 
-// Subscribe to store selection events to update card selection states without rebuilding DOM
+// Subscribe to store selection & variant events to update card states without rebuilding DOM
 if (window.smartListStore) {
   window.smartListStore.subscribe((event) => {
     if (event.type === 'SELECTION_CHANGE') {
@@ -1573,6 +1636,44 @@ if (window.smartListStore) {
         });
       }
       updateSelectAllBtn();
+    }
+
+    if (event.type === 'VARIANT_CHANGE') {
+      const pid = event.id;
+      const card = document.querySelector(`.sl-card[data-id="${pid}"]`);
+      if (card && window.smartListStore) {
+        const item = window.smartListStore.getItem(pid);
+        if (item) {
+          const price = window.smartListStore.getItemPrice(pid);
+          const priceEl = card.querySelector('.sl-card-price');
+          if (priceEl) {
+            priceEl.innerHTML = `€ ${Number(price).toFixed(2)}${item.originalPrice ? `<span class="sl-orig-price">€ ${Number(item.originalPrice).toFixed(2)}</span>` : ''}`;
+          }
+          // Update finish swatches active state
+          card.querySelectorAll('.sl-swatch-dot').forEach(s => {
+            const isActive = s.dataset.finishId === item.selectedFinish;
+            s.classList.toggle('active', isActive);
+            s.setAttribute('aria-checked', isActive ? 'true' : 'false');
+          });
+          // Update size buttons active state
+          card.querySelectorAll('.sl-size-btn').forEach(s => {
+            const isActive = s.dataset.sizeId === item.selectedSize;
+            s.classList.toggle('active', isActive);
+            s.setAttribute('aria-checked', isActive ? 'true' : 'false');
+          });
+          // Update stock status & Add button
+          const isSizeOOS = !window.smartListStore.isSizeInStock(pid, item.selectedSize);
+          const effectiveOOS = !item.inStock || isSizeOOS;
+          card.classList.toggle('sl-card--oos', effectiveOOS);
+          const addBtn = card.querySelector('.sl-btn-add');
+          if (addBtn) {
+            addBtn.disabled = effectiveOOS;
+            addBtn.classList.toggle('sl-btn-add--disabled', effectiveOOS);
+            addBtn.querySelector('.sl-btn-add-inner').textContent = effectiveOOS ? 'Out of Stock' : 'Add to Bag';
+          }
+        }
+      }
+      updateListStats();
     }
   });
 }
