@@ -1324,15 +1324,6 @@ function buildCardHTML(product, index = 0, isCompact = false) {
       </button>`
     : '';
 
-  const quickAddOverlayHTML = !oos
-    ? `<div class="sl-quick-add-overlay">
-        <button class="sl-btn-quick-add-slide" data-action="quick-add" data-id="${product.id}" aria-label="Add ${product.name} to bag">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          ADD TO BAG
-        </button>
-      </div>`
-    : '';
-
   // Finish Swatches HTML
   const finishes = product.variants?.finishes || [];
   const selectedFinish = product.selectedFinish || (finishes[0]?.id);
@@ -1374,9 +1365,6 @@ function buildCardHTML(product, index = 0, isCompact = false) {
     <article class="sl-card${effectiveOOS ? ' sl-card--oos' : ''}${isSelected ? ' is-selected' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
       <div class="sl-glare" aria-hidden="true"></div>
       ${selectRingHTML}
-      <button class="sl-dismiss-btn" data-dismiss="${product.id}" aria-label="Remove ${product.name} from list" title="Remove from list">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
       <div class="sl-card-img-wrap">
         <a href="product.html?id=${product.id}" class="sl-card-img-link" aria-label="View ${product.name}">
           <img src="${resolvedImg}" alt="${product.name}" class="sl-card-img" loading="lazy" />
@@ -1386,7 +1374,6 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         </button>
         ${effectiveOOS ? '<div class="sl-oos-badge">Out of Stock</div>' : ''}
         ${hasSale ? '<div class="sl-sale-badge">Special Offer</div>' : ''}
-        ${quickAddOverlayHTML}
       </div>
       <div class="sl-card-body">
         
