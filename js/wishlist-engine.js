@@ -281,6 +281,11 @@
     return ids;
   }
 
+  function clearWishlist(storage) {
+    saveWishlist([], storage);
+    return [];
+  }
+
   function categoryKeyForTag(tag) {
     if (!tag) return 'apparel';
     var upper = tag.toUpperCase();
@@ -353,6 +358,7 @@
     saveWishlist: saveWishlist,
     addToWishlist: addToWishlist,
     removeFromWishlist: removeFromWishlist,
+    clearWishlist: clearWishlist,
     categoryKeyForTag: categoryKeyForTag,
     computeCapsuleStats: computeCapsuleStats,
     createCartPayload: createCartPayload

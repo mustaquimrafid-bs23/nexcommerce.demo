@@ -132,22 +132,32 @@
     var grid = document.getElementById('wishlistGrid');
     var emptyState = document.getElementById('wishlistEmptyState');
     var statsBar = document.getElementById('wishlistStatsBar');
+    var spotlightBar = document.getElementById('wishlistSpotlightBar');
     var countDisplay = document.getElementById('wishlistCountDisplay');
     var valDisplay = document.getElementById('wishlistValuationDisplay');
     var heroCount = document.getElementById('vaultPieceCount');
     var heroVal = document.getElementById('vaultTotalValue');
 
     if (!ids || ids.length === 0) {
-      if (grid) grid.style.display = 'none';
+      if (grid) { grid.style.display = 'none'; grid.innerHTML = ''; }
       if (statsBar) statsBar.style.display = 'none';
+      if (spotlightBar) spotlightBar.style.display = 'none';
       if (emptyState) emptyState.style.display = 'block';
+      if (heroCount) heroCount.textContent = '0';
+      if (heroVal) heroVal.textContent = '€ 0';
+      if (countDisplay) countDisplay.textContent = '0 Pieces Reserved';
+      if (valDisplay) valDisplay.textContent = '€ 0.00';
+
+      selectedIds.clear();
       updateBatchDock();
       updateBadgeCounts(0);
+      updateTabCountBadges();
       return;
     }
 
     if (grid) grid.style.display = 'grid';
     if (statsBar) statsBar.style.display = 'flex';
+    if (spotlightBar) spotlightBar.style.display = 'block';
     if (emptyState) emptyState.style.display = 'none';
 
     var totalValuation = 0;
@@ -357,7 +367,6 @@
     var ids = Engine.getSavedWishlist();
     if (!ids || ids.length === 0) return;
 
-    // Filter according to active category if not all
     var targetIds = ids.filter(function(id) {
       if (activeCategoryFilter === 'all') return true;
       var item = Engine.getProduct(id);
@@ -425,6 +434,21 @@
       Engine.removeFromWishlist(id);
     });
     selectedIds.clear();
+    renderGrid();
+  }
+
+  function clearAllWishlist() {
+    var Engine = window.NexWishlistEngine;
+    if (!Engine) return;
+    Engine.clearWishlist();
+    selectedIds.clear();
+    renderGrid();
+  }
+
+  function resetDefaultSeed() {
+    var Engine = window.NexWishlistEngine;
+    if (!Engine) return;
+    Engine.saveWishlist(Engine.DEFAULT_SEED.slice());
     renderGrid();
   }
 
@@ -571,6 +595,7 @@
       var id = removeBtn.getAttribute('data-id');
       if (window.NexWishlistEngine) {
         window.NexWishlistEngine.removeFromWishlist(id);
+        selectedIds.delete(id);
         renderGrid();
       }
       return;
@@ -673,6 +698,20 @@
       return;
     }
 
+    var clearAllBtn = e.target.closest('[data-action="clear-all"]');
+    if (clearAllBtn) {
+      e.preventDefault();
+      clearAllWishlist();
+      return;
+    }
+
+    var resetBtn = e.target.closest('[data-action="reset-defaults"]');
+    if (resetBtn) {
+      e.preventDefault();
+      resetDefaultSeed();
+      return;
+    }
+
     var moveAllBtn = e.target.closest('[data-action="move-all"]');
     if (moveAllBtn) {
       e.preventDefault();
@@ -731,6 +770,7 @@
     renderGrid: renderGrid,
     toggleItemSelection: toggleItemSelection,
     selectAll: selectAll,
+    clearAllWishlist: clearAllWishlist,
     openQuickLook: openQuickLook,
     closeQuickLook: closeQuickLook,
     moveSelectedToBag: moveSelectedToBag

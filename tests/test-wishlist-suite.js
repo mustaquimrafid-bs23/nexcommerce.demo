@@ -66,4 +66,12 @@ Engine.removeFromWishlist('p2', storage2);
 current = Engine.getSavedWishlist(storage2);
 assert.ok(!current.includes('p2'), 'Removing p2 should remove it from saved list');
 
+console.log('6. Testing Clear Wishlist (Remove All Items)...');
+const storage3 = new MockLocalStorage();
+assert.strictEqual(Engine.getSavedWishlist(storage3).length, 3, 'Initial seed should have 3 items');
+Engine.clearWishlist(storage3);
+const cleared = Engine.getSavedWishlist(storage3);
+assert.deepStrictEqual(cleared, [], 'clearWishlist must empty the list and return []');
+assert.strictEqual(storage3.getItem('nex_curated_wishlist_ids'), '[]', 'Storage must explicitly store []');
+
 console.log('✨ All Vault Engine unit tests passed with 100% precision!');

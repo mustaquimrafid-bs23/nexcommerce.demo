@@ -402,6 +402,24 @@
       background: #3DE0FF;
       transform: scale(1.02);
     }
+    .batch-dock-btn-remove {
+      height: 38px; padding: 0 14px;
+      border-radius: 9999px;
+      background: rgba(251, 113, 133, 0.12);
+      border: 1px solid rgba(251, 113, 133, 0.35);
+      color: #FB7185;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .batch-dock-btn-remove:hover {
+      background: #FB7185;
+      color: #000000;
+    }
     .batch-dock-icon-btn {
       width: 36px; height: 36px;
       border-radius: 50%;
@@ -682,16 +700,20 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="select-all">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="select-all" title="Select / Deselect All">
             <i data-lucide="check-square" style="width: 13px; height: 13px;"></i>
             <span>SELECT ALL</span>
           </button>
-          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="share">
+          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="share" title="Share Private Edit">
             <i data-lucide="share-2" style="width: 13px; height: 13px;"></i>
-            <span>SHARE PRIVATE EDIT</span>
+            <span>SHARE EDIT</span>
           </button>
-          <button type="button" class="btn-primary-commerce wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 20px; display: inline-flex; align-items: center; gap: 6px;" data-action="move-all">
+          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; color: #FB7185; border-color: rgba(251, 113, 133, 0.35);" data-action="clear-all" title="Remove All Items From Wishlist">
+            <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+            <span>CLEAR ALL</span>
+          </button>
+          <button type="button" class="btn-primary-commerce wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 20px; display: inline-flex; align-items: center; gap: 6px;" data-action="move-all" title="Move All Pieces To Shopping Bag">
             <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
             <span>MOVE ALL TO BAG</span>
           </button>
@@ -716,13 +738,17 @@
         </div>
         <h2 style="font-family: var(--font-serif); font-size: 32px; color: #FFFFFF; font-weight: 400; margin-bottom: 8px;">Your curation awaits its first piece.</h2>
         <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 480px; margin: 0 auto 32px;">
-          Explore the lookbook and collections to begin your private archive.
+          Explore the lookbook and collections to begin your private archive, or restore the default atelier curation.
         </p>
         <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
           <a href="lookbook.html" class="btn-primary-commerce" style="height: 46px; padding: 0 28px; display: inline-flex; align-items: center; gap: 6px;">
             <span>VIEW LOOKBOOK 2026</span>
             <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
           </a>
+          <button type="button" class="btn-secondary-action" data-action="reset-defaults" style="height: 46px; padding: 0 24px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+            <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+            <span>RESTORE CURATION</span>
+          </button>
           <a href="category.html?cat=all" class="btn-secondary-action" style="height: 46px; padding: 0 24px;">
             <span>EXPLORE COLLECTIONS</span>
           </a>
@@ -753,12 +779,13 @@
     <div class="batch-dock-actions">
       <button type="button" id="batchMoveToBagBtn" class="batch-dock-btn-primary" aria-label="Move selected items to bag">
         <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
-        <span>MOVE SELECTED TO BAG</span>
+        <span>MOVE TO BAG</span>
       </button>
-      <button type="button" id="batchRemoveBtn" class="batch-dock-icon-btn" aria-label="Remove selected items" title="Remove Selected">
-        <i data-lucide="trash-2" style="width: 14px; height: 14px; color: #FB7185;"></i>
+      <button type="button" id="batchRemoveBtn" class="batch-dock-btn-remove" aria-label="Remove selected items from curation" title="Remove Selected Pieces">
+        <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+        <span>REMOVE</span>
       </button>
-      <button type="button" id="batchClearBtn" class="batch-dock-icon-btn" aria-label="Clear selection" title="Clear Selection">
+      <button type="button" id="batchClearBtn" class="batch-dock-icon-btn" aria-label="Deselect all" title="Deselect All">
         <i data-lucide="x" style="width: 14px; height: 14px;"></i>
       </button>
     </div>
