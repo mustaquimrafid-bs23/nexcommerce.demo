@@ -494,19 +494,21 @@
       <div class="typeahead-group">
         <div class="typeahead-group-title">PRODUCTS</div>
         <div class="typeahead-prods-grid">
-          ${matchedProducts.map(p => `
-            <div class="typeahead-prod-card" data-id="${p.id}">
+          ${matchedProducts.map(p => {
+            const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
+            return `
+            <a href="${productHref}" class="typeahead-prod-card" data-id="${p.id}">
               <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" class="typeahead-prod-thumb" />
               <div class="typeahead-prod-info">
                 <span class="typeahead-prod-brand">${escapeHtml(p.brand)}</span>
                 <h4 class="typeahead-prod-title">${highlightMatch(p.name, qLower)}</h4>
                 <span class="typeahead-prod-price tabular-nums">${p.formattedPrice}</span>
               </div>
-              <button type="button" class="btn-typeahead-view btn-view-product" data-id="${p.id}" aria-label="View ${escapeHtml(p.name)}">
+              <span class="btn-typeahead-view" data-id="${p.id}" aria-label="View ${escapeHtml(p.name)}">
                 View &rarr;
-              </button>
-            </div>
-          `).join('')}
+              </span>
+            </a>
+          `;}).join('')}
         </div>
       </div>
     ` : '';
@@ -579,33 +581,37 @@
     const firstProduct = matchedProducts[0];
     const reasoningSnippet = firstProduct.reasoning || 'Tailored selection curated for your requested style and occasion.';
 
-    const cardsHtml = matchedProducts.map(p => `
+    const cardsHtml = matchedProducts.map(p => {
+      const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
+      return `
       <div class="search-product-card" data-id="${p.id}">
         <div class="search-card-specular" aria-hidden="true"></div>
-        <div class="search-card-img-wrap">
+        <a href="${productHref}" class="search-card-img-wrap" style="display:block; text-decoration:none;">
           <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
           <span class="search-card-badge">${escapeHtml(p.matchBadge || 'RECOMMENDED')}</span>
-        </div>
+        </a>
         <div class="search-card-content">
           <div class="search-card-header">
             <span class="search-card-brand">${escapeHtml(p.brand)}</span>
-            <h4 class="search-card-title">${escapeHtml(p.name)}</h4>
+            <h4 class="search-card-title">
+              <a href="${productHref}" style="color:inherit; text-decoration:none;">${escapeHtml(p.name)}</a>
+            </h4>
             <div class="search-card-price tabular-nums">${p.formattedPrice}</div>
           </div>
           <div class="search-card-actions">
             <button type="button" class="btn-search-quick-add" data-id="${p.id}">
               <i data-lucide="shopping-bag" style="width:14px;height:14px;margin-right:6px;"></i> QUICK ADD
             </button>
-            <button type="button" class="btn-search-view btn-view-product" data-id="${p.id}">
+            <a href="${productHref}" class="btn-search-view btn-view-product" data-id="${p.id}">
               VIEW
-            </button>
+            </a>
           </div>
           <button type="button" class="link-see-why" data-id="${p.id}">
             See details &amp; specs &rarr;
           </button>
         </div>
       </div>
-    `).join('');
+    `;}).join('');
 
     resultsContainer.innerHTML = `
       <div class="search-results-wrapper">
@@ -889,19 +895,11 @@
     saveSearchContext(productId);
     closeSearchOverlay();
     const targetUrl = `${_resolvePage('product.html')}?id=${productId}`;
-    triggerPageTransition(targetUrl);
+    window.location.href = targetUrl;
   }
 
   function triggerPageTransition(url) {
-    const curtain = document.getElementById('pageTransitionOverlay');
-    if (!curtain) {
-      window.location.href = url;
-      return;
-    }
-    curtain.style.transition = 'opacity 200ms ease';
-    curtain.style.opacity = '1';
-    curtain.style.pointerEvents = 'all';
-    setTimeout(() => { window.location.href = url; }, 210);
+    window.location.href = url;
   }
 
   function saveSearchContext(productId) {
@@ -1003,12 +1001,19 @@
       });
     });
 
+    // Typeahead product card links
+    resultsContainer.querySelectorAll('.typeahead-prod-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const pid = card.getAttribute('data-id');
+        saveSearchContext(pid);
+      });
+    });
+
     // View Product
     resultsContainer.querySelectorAll('.btn-view-product').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
+      btn.addEventListener('click', () => {
         const pid = btn.getAttribute('data-id');
-        handleViewProduct(pid);
+        saveSearchContext(pid);
       });
     });
 
