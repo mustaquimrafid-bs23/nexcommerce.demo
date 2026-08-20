@@ -12,12 +12,12 @@
       category: 'apparel',
       price: 185,
       formattedPrice: '€ 185.00',
-      image: '../assets/images/products/p1.png',
+      image: '../assets/images/products/plp_turtleneck.png',
       isNew: true,
       colors: [
-        { name: 'Obsidian', hex: '#0D131F', img: '../assets/images/products/p1.png' },
         { name: 'Charcoal', hex: '#374151', img: '../assets/images/products/plp_turtleneck.png' },
-        { name: 'Oatmeal', hex: '#D6C7B2', img: '../assets/images/products/plp_crewneck.png' }
+        { name: 'Oatmeal', hex: '#D6C7B2', img: '../assets/images/products/plp_crewneck.png' },
+        { name: 'Obsidian', hex: '#0D131F', img: '../assets/images/products/plp_trousers.png' }
       ]
     },
     {
@@ -27,11 +27,11 @@
       category: 'apparel',
       price: 264,
       formattedPrice: '€ 264.00',
-      image: '../assets/images/products/p2.png',
+      image: '../assets/images/products/plp_blazer.png',
       isNew: false,
       colors: [
-        { name: 'Midnight', hex: '#0A0F1D', img: '../assets/images/products/p2.png' },
-        { name: 'Navy', hex: '#1E293B', img: '../assets/images/products/plp_blazer.png' }
+        { name: 'Midnight', hex: '#0A0F1D', img: '../assets/images/products/plp_blazer.png' },
+        { name: 'Charcoal', hex: '#262A30', img: '../assets/images/products/plp_overcoat.png' }
       ]
     },
     {
@@ -41,11 +41,11 @@
       category: 'outerwear',
       price: 380,
       formattedPrice: '€ 380.00',
-      image: '../assets/images/products/p3.png',
+      image: '../assets/images/products/plp_overcoat.png',
       isNew: true,
       colors: [
-        { name: 'Charcoal', hex: '#262A30', img: '../assets/images/products/p3.png' },
-        { name: 'Black', hex: '#0F1115', img: '../assets/images/products/plp_overcoat.png' }
+        { name: 'Charcoal', hex: '#262A30', img: '../assets/images/products/plp_overcoat.png' },
+        { name: 'Noir Black', hex: '#0F1115', img: '../assets/images/products/plp_blazer.png' }
       ]
     },
     {
@@ -55,11 +55,11 @@
       category: 'acoustics',
       price: 320,
       formattedPrice: '€ 320.00',
-      image: '../assets/images/products/p4.png',
+      image: '../assets/images/products/prod_headphones.png',
       isNew: true,
       colors: [
-        { name: 'Titanium Silver', hex: '#CBD5E1', img: '../assets/images/products/p4.png' },
-        { name: 'Space Black', hex: '#0F172A', img: '../assets/images/products/prod_headphones.png' }
+        { name: 'Space Black', hex: '#0F172A', img: '../assets/images/products/prod_headphones.png' },
+        { name: 'Titanium Silver', hex: '#CBD5E1', img: '../assets/images/products/p4.png' }
       ]
     },
     {
@@ -69,11 +69,11 @@
       category: 'acoustics',
       price: 165,
       formattedPrice: '€ 165.00',
-      image: '../assets/images/products/p5.png',
+      image: '../assets/images/products/search_earbuds.png',
       isNew: false,
       colors: [
-        { name: 'Alabaster', hex: '#F8FAFC', img: '../assets/images/products/p5.png' },
-        { name: 'Matte Black', hex: '#18181B', img: '../assets/images/products/search_earbuds.png' }
+        { name: 'Matte Black', hex: '#18181B', img: '../assets/images/products/search_earbuds.png' },
+        { name: 'Alabaster', hex: '#F8FAFC', img: '../assets/images/products/p5.png' }
       ]
     },
     {
@@ -83,11 +83,11 @@
       category: 'footwear',
       price: 198,
       formattedPrice: '€ 198.00',
-      image: '../assets/images/products/p6.png',
+      image: '../assets/images/products/prod_runner.png',
       isNew: false,
       colors: [
-        { name: 'Pure White', hex: '#FFFFFF', img: '../assets/images/products/p6.png' },
-        { name: 'Monochrome Black', hex: '#111827', img: '../assets/images/products/prod_runner.png' }
+        { name: 'Monochrome Black', hex: '#111827', img: '../assets/images/products/prod_runner.png' },
+        { name: 'Pure White', hex: '#FFFFFF', img: '../assets/images/products/p6.png' }
       ]
     },
     {
@@ -97,11 +97,11 @@
       category: 'accessories',
       price: 285,
       formattedPrice: '€ 285.00',
-      image: '../assets/images/products/p7.png',
+      image: '../assets/images/products/prod_tote.png',
       isNew: false,
       colors: [
-        { name: 'Tuscan Leather', hex: '#78350F', img: '../assets/images/products/p7.png' },
-        { name: 'Noir Black', hex: '#09090B', img: '../assets/images/products/prod_tote.png' }
+        { name: 'Noir Black', hex: '#09090B', img: '../assets/images/products/prod_tote.png' },
+        { name: 'Tuscan Leather', hex: '#78350F', img: '../assets/images/products/p7.png' }
       ]
     },
     {
@@ -114,8 +114,8 @@
       image: '../assets/images/products/search_watch.png',
       isNew: true,
       colors: [
-        { name: 'Sunburst Silver', hex: '#E2E8F0', img: '../assets/images/products/search_watch.png' },
-        { name: 'Obsidian DLC', hex: '#0B0F19', img: '../assets/images/products/search_watch.png' }
+        { name: 'Obsidian DLC', hex: '#0B0F19', img: '../assets/images/products/search_watch.png' },
+        { name: 'Sunburst Silver', hex: '#E2E8F0', img: '../assets/images/products/search_watch.png' }
       ]
     }
   ];

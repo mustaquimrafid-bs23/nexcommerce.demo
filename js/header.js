@@ -50,12 +50,23 @@
     if (navMenu && glider && navLinks.length > 0 && !navMenu._gliderInit) {
       navMenu._gliderInit = true;
 
-      // Identify active link based on current page URL
+      // Identify active link based on current page URL & search params
       const currentPath = window.location.pathname.toLowerCase();
+      const currentSearch = window.location.search.toLowerCase();
       let activeLink = null;
       navLinks.forEach(link => {
-        const href = (link.getAttribute('href') || '').toLowerCase();
-        if (href && (currentPath.endsWith(href) || (href !== 'index.html' && currentPath.includes(href.replace('.html', ''))))) {
+        const rawHref = (link.getAttribute('href') || '').toLowerCase();
+        const hrefPath = rawHref.split('?')[0].split('#')[0];
+        const hrefQuery = rawHref.includes('?') ? rawHref.split('?')[1] : '';
+
+        let isMatch = false;
+        if (hrefQuery && currentSearch.includes(hrefQuery)) {
+          isMatch = true;
+        } else if (!hrefQuery && hrefPath && (currentPath.endsWith(hrefPath) || (hrefPath !== 'index.html' && currentPath.includes(hrefPath.replace('.html', ''))))) {
+          isMatch = true;
+        }
+
+        if (isMatch && !activeLink) {
           link.classList.add('active');
           activeLink = link;
         }
