@@ -160,6 +160,15 @@ When designing conversational discovery banners, intent search capsules, or prom
    - In editorial cards with lifestyle photography, do NOT use hard vertical dividing lines.
    - Apply multi-stop alpha gradient masks (`linear-gradient(to right, transparent 55%, var(--bg-surface) 95%)`) to organically blend photography into the luxury frosted glass canvas.
 
+### Plain-English Cognitive Fluency & Action-Oriented Microcopy
+- **1-Second Skim Test**: Any primary action button, navigation trigger, or header must be understandable within 1 second by everyday shoppers and non-native English speakers.
+- **Prohibition on Abstract Hospitality Jargon**: Never use abstract loanwords or formal hospitality terms (e.g. *Concierge*, *Style Concierge*, *Sartorial*, *Custody*, *Atelier Replenishment*).
+- **Direct Action Retail Verbs**: Always use active, unambiguous phrasing:
+  - Use **"Ask Stylist"** or **"Personal Shopper"** (never "Concierge").
+  - Use **"Delivery & Shipping Times"** (never "Fulfillment & Dispatch Logistics").
+  - Use **"Size & Fit Guide"** (never "Sartorial Proportion Advisor").
+  - Use **"Live Order Tracking"** (never "Courier Custody Verification").
+
 > **Key principle I must apply**: Customer UI optimizes for emotion, discovery, and conversion. Admin UI optimizes for speed, clarity, and bulk operations. These require fundamentally different UX strategies.
 
 ---
