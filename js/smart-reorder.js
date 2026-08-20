@@ -42,7 +42,7 @@ function resolveImgPath(imgPath) {
 const SL_PRODUCTS = [
   {
     id: 'p1',
-    name: 'Architectural Cashmere Sweater',
+    name: 'Pure Cashmere Sweater',
     brand: 'Arc',
     price: 185,
     originalPrice: null,
@@ -65,7 +65,7 @@ const SL_PRODUCTS = [
     care: 'Hand wash cold with wool wash or dry clean',
     variants: {
       finishes: [
-        { id: 'charcoal', name: 'Charcoal Melange', color: '#2B323F', priceDelta: 0 },
+        { id: 'charcoal', name: 'Charcoal Grey', color: '#2B323F', priceDelta: 0 },
         { id: 'obsidian', name: 'Deep Obsidian', color: '#0F172A', priceDelta: 0 },
         { id: 'ivory', name: 'Raw Ivory', color: '#F8F6F0', priceDelta: 10 }
       ],
@@ -143,8 +143,8 @@ const SL_PRODUCTS = [
     care: 'Specialist dry clean only',
     variants: {
       finishes: [
-        { id: 'nero', name: 'Nero Black', color: '#111827', priceDelta: 0 },
-        { id: 'navy', name: 'Atelier Navy', color: '#1E293B', priceDelta: 0 }
+        { id: 'nero', name: 'Classic Black', color: '#111827', priceDelta: 0 },
+        { id: 'navy', name: 'Midnight Navy', color: '#1E293B', priceDelta: 0 }
       ],
       sizes: [
         { id: '46', name: '46', inStock: true },
@@ -217,7 +217,7 @@ const SL_PRODUCTS = [
     variants: {
       finishes: [
         { id: 'white', name: 'Optic White', color: '#F9FAFB', priceDelta: 0 },
-        { id: 'black', name: 'Nero Black', color: '#09090B', priceDelta: 0 }
+        { id: 'black', name: 'Classic Black', color: '#09090B', priceDelta: 0 }
       ],
       sizes: [
         { id: '40', name: '40', inStock: true },
@@ -232,7 +232,7 @@ const SL_PRODUCTS = [
   },
   {
     id: 'p6',
-    name: 'Architectural Canvas Tote',
+    name: 'Structured Canvas Tote',
     brand: 'Forma',
     price: 125,
     originalPrice: null,
@@ -255,8 +255,8 @@ const SL_PRODUCTS = [
     care: 'Spot clean with neutral soap',
     variants: {
       finishes: [
-        { id: 'natural', name: 'Raw Natural', color: '#EFEFEA', priceDelta: 0 },
-        { id: 'noir', name: 'Noir Canvas', color: '#18181B', priceDelta: 0 }
+        { id: 'natural', name: 'Raw Canvas', color: '#EFEFEA', priceDelta: 0 },
+        { id: 'noir', name: 'Black Canvas', color: '#18181B', priceDelta: 0 }
       ],
       sizes: [
         { id: 'one_size', name: 'Standard 22L', inStock: false, default: true }
@@ -363,7 +363,7 @@ const SL_PRODUCTS = [
     care: 'Water resistant to 10 ATM / 100m',
     variants: {
       finishes: [
-        { id: 'dlc_black', name: 'DLC Obsidian', color: '#0A0A0A', priceDelta: 0 },
+        { id: 'dlc_black', name: 'Obsidian Black', color: '#0A0A0A', priceDelta: 0 },
         { id: 'brushed_steel', name: 'Brushed Steel', color: '#E5E7EB', priceDelta: 20 },
         { id: 'rose_gold', name: 'Rose Titanium', color: '#B76E79', priceDelta: 45 }
       ],
@@ -377,7 +377,7 @@ const SL_PRODUCTS = [
   },
   {
     id: 'p10',
-    name: 'Architectural Wool Trousers',
+    name: 'Tailored Wool Trousers',
     brand: 'Arc',
     price: 170,
     originalPrice: null,
@@ -452,7 +452,7 @@ const SL_PRODUCTS = [
   },
   {
     id: 'p12',
-    name: 'Japanese Selvedge Denim Archive',
+    name: 'Japanese Selvedge Denim Jeans',
     brand: 'Arc',
     price: 190,
     originalPrice: 215,
@@ -633,7 +633,7 @@ const CURATED_REPLENISHMENT_LOOKS = [
     featuredProductId: 'p1',
     featuredProductThumb: 'assets/images/products/hero_sweater.png',
     featuredProductTag: 'FEATURED ITEM',
-    featuredProductTitle: 'Architectural Cashmere Sweater',
+    featuredProductTitle: 'Pure Cashmere Sweater',
     featuredProductPrice: '€ 185.00'
   },
   {
@@ -1309,7 +1309,7 @@ function buildCardHTML(product, index = 0, isCompact = false) {
           </div>
           ${hasSale ? `<div class="sl-omnibus-prior-price" style="font-size: 9.5px; color: var(--text-secondary); margin-top: 1px;">Lowest in 30d: ${origStr}</div>` : ''}
           <button class="sl-btn-add${oos ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${oos ? 'disabled aria-disabled="true"' : ''}>
-            <span class="sl-btn-add-inner">${oos ? 'Atelier Reserved' : 'Add to Bag'}</span>
+            <span class="sl-btn-add-inner">${oos ? 'Out of Stock' : 'Add to Bag'}</span>
           </button>
         </div>
       </article>
@@ -1933,13 +1933,13 @@ function updateQuickLookDrawer(productId) {
     });
   }
 
-  // Architectural Spec Matrix
+  // Product Details & Specifications
   if (specsEl) {
     const specs = [
       { label: 'Origin', val: product.origin || 'European Union' },
-      { label: 'Composition', val: product.material || 'Premium Sustainable Composition' },
+      { label: 'Materials', val: product.materials || product.material || 'Premium Natural Fibers' },
       { label: 'Care', val: product.care || 'Specialist Care Recommended' },
-      { label: 'Fit & Silhouette', val: product.fit || 'Tailored European Fit' }
+      { label: 'Fit', val: product.fit || 'Tailored Regular Fit' }
     ];
     specsEl.innerHTML = specs.map(sp => `
       <div class="sl-spec-item">

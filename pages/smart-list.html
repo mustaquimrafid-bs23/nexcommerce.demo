@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="view-transition" content="same-origin">
   <title>Smart List — Recommended For You · nexCommerce</title>
-  <meta name="description" content="Your AI-recommended atelier shopping list. Reorder seasonal silhouettes, acoustic craft, and essentials in one unified action.">
+  <meta name="description" content="Your personalized shopping list. Reorder your seasonal wardrobe essentials, audio gear, and staples in one click.">
 
   <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2026,7 +2026,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">AI-Assisted Wardrobe Synthesis &amp; Intent Matching</span>
+        <span id="preloaderStatusText">Loading Your Personalized Recommendations...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -2145,11 +2145,11 @@
         <div class="sl-presets-strip" id="capsulePresetsGrid" role="group" aria-label="Style Presets">
           <button type="button" class="preset-pill-btn active" data-preset="alpine">
             <span class="preset-icon">❄️</span>
-            <span>Winter Alpine Warmth</span>
+            <span>Winter Essentials</span>
           </button>
           <button type="button" class="preset-pill-btn" data-preset="monochrome">
             <span class="preset-icon">🏛️</span>
-            <span>Monochrome Essentials</span>
+            <span>Neutral Minimal</span>
           </button>
           <button type="button" class="preset-pill-btn" data-preset="transit">
             <span class="preset-icon">✈️</span>
@@ -2174,7 +2174,7 @@
           </div>
         </div>
         <div class="harmony-score-group">
-          <span class="harmony-archetype-tag" id="harmonyArchetypeTag">WINTER ALPINE</span>
+          <span class="harmony-archetype-tag" id="harmonyArchetypeTag">WINTER WARMTH</span>
           <span class="harmony-score-val" id="harmonyScoreVal">RECOMMENDED MATCH</span>
         </div>
       </div>
@@ -2407,10 +2407,10 @@
         <div class="sl-sizes-strip" id="slDrawerSizes"></div>
       </div>
 
-      <!-- Architectural Spec Matrix -->
+      <!-- Product Details & Specifications -->
       <div>
         <div class="sl-drawer-section-title">
-          <span>Architectural Specifications</span>
+          <span>Product Details &amp; Specifications</span>
         </div>
         <div class="sl-drawer-specs-grid" id="slDrawerSpecsGrid"></div>
       </div>
@@ -2500,17 +2500,17 @@
     /* ── Capsule Profile Definitions ─────────────────────────── */
     var CAPSULE_PROFILES = {
       alpine: {
-        title:     'Winter Alpine Warmth',
+        title:     'Winter Essentials',
         prompt:    'Warm winter layers with cashmere sweaters, structured overcoat, and studio headphones',
-        archetype: 'WINTER ALPINE',
+        archetype: 'WINTER WARMTH',
         harmony:   'RECOMMENDED MATCH',
         swatches:  ['#0D131F', '#374151', '#FFFBEB', '#92400E'],
         filterFn:  function(p) { return ['p1','p2','p3','p4','p6'].indexOf(p.id) !== -1; }
       },
       monochrome: {
-        title:     'Monochrome Essentials',
+        title:     'Neutral Minimal',
         prompt:    'Classic charcoal and black tailored layers with minimalist leather sneakers',
-        archetype: 'NORDIC MINIMAL',
+        archetype: 'NEUTRAL MINIMAL',
         harmony:   'RECOMMENDED MATCH',
         swatches:  ['#0A0A0A', '#1E293B', '#64748B', '#F1F5F9'],
         filterFn:  function(p) { return ['p1','p3','p6','p8'].indexOf(p.id) !== -1; }
