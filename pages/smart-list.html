@@ -1104,10 +1104,10 @@
     }
     .sl-headline {
       font-family: 'Manrope', sans-serif;
-      font-size: clamp(38px, 5vw, 62px);
+      font-size: clamp(38px, 5vw, 64px);
       font-weight: 700;
       color: #FFFFFF;
-      line-height: 1.05;
+      line-height: 1.04;
       letter-spacing: -0.02em;
       margin: 0 0 12px;
     }
@@ -1119,11 +1119,12 @@
     }
     .sl-subhead {
       font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      color: rgba(255, 255, 255, 0.6);
-      max-width: 580px;
-      margin: 0 0 32px;
-      line-height: 1.6;
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 520px;
+      margin: 0 0 28px;
+      line-height: 1.65;
+      font-weight: 400;
     }
 
     /* ── Prompt Omnibar ──────────────────────────── */
@@ -1205,13 +1206,15 @@
     .preset-pill-btn {
       height: 36px;
       padding: 0 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      color: rgba(255,255,255,0.7);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      color: rgba(255, 255, 255, 0.65);
       font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -1220,28 +1223,28 @@
       min-height: 44px;
     }
     .preset-pill-btn:hover {
-      border-color: rgba(61,224,255,0.3);
+      border-color: rgba(61, 224, 255, 0.3);
       color: #FFFFFF;
-      background: rgba(61,224,255,0.05);
+      background: rgba(61, 224, 255, 0.05);
     }
     .preset-pill-btn.active {
-      background: rgba(61,224,255,0.12);
-      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.10);
+      border-color: rgba(61, 224, 255, 0.40);
       color: #3DE0FF;
-      box-shadow: 0 0 12px rgba(61,224,255,0.15);
     }
 
     /* ── Tonal Harmony Canvas ────────────────────── */
     .sl-harmony-canvas {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 16px 24px;
+      background: rgba(8, 14, 30, 0.60);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 4px;
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
+      margin-top: 4px;
     }
     .harmony-meta-group { display: flex; align-items: center; gap: 16px; }
     .harmony-label {
