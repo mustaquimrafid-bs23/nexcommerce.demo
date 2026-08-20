@@ -564,6 +564,7 @@ class SmartListStore {
     let totalValue = 0;
     let selectedCount = 0;
     let selectedValue = 0;
+    const selectedItems = [];
 
     const visibleItems = this.getVisibleItems();
     visibleItems.forEach(item => {
@@ -576,10 +577,16 @@ class SmartListStore {
       if (this.selectedIds.has(item.id)) {
         selectedCount++;
         selectedValue += price * qty;
+        selectedItems.push({ ...item, price });
       }
     });
 
     return {
+      // Normalized shape for updateBatchDock
+      count: selectedCount,
+      subtotal: selectedValue,
+      items: selectedItems,
+      // Full metrics
       totalCount,
       totalValue,
       selectedCount,
