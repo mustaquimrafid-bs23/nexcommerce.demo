@@ -1066,6 +1066,230 @@
       .spotlight-actions-group { flex-direction: column; align-items: flex-start; }
       .sl-stats-group { gap: 14px; }
     }
+
+    /* ── Hero Cinema ─────────────────────────────── */
+    .sl-hero-cinema {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 48px 40px 32px;
+      width: 100%;
+    }
+    @keyframes live-pulse {
+      0%, 100% { opacity: 0.5; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    .sl-ai-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+    }
+    .neural-spark-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #3DE0FF;
+      box-shadow: 0 0 8px #3DE0FF;
+      animation: live-pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .sl-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+    .sl-headline em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: #FB7185;
+      font-weight: 400;
+    }
+    .sl-subhead {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 580px;
+      margin: 0 0 32px;
+      line-height: 1.6;
+    }
+
+    /* ── Prompt Omnibar ──────────────────────────── */
+    .sl-prompt-omnibar-wrap { margin-bottom: 28px; }
+    .sl-prompt-omnibar {
+      display: flex;
+      align-items: center;
+      background: rgba(8, 14, 30, 0.95);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 12px;
+      padding: 8px 10px 8px 18px;
+      gap: 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(61,224,255,0.08);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sl-prompt-omnibar:focus-within {
+      border-color: #3DE0FF;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.6), 0 0 30px rgba(61,224,255,0.18);
+    }
+    .sl-prompt-ai-icon { flex-shrink: 0; display: flex; align-items: center; }
+    .sl-prompt-input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      font-weight: 400;
+      min-width: 0;
+    }
+    .sl-prompt-input::placeholder { color: rgba(255,255,255,0.35); }
+    .btn-synthesize-action {
+      height: 42px;
+      padding: 0 22px;
+      background: #3DE0FF;
+      border: none;
+      border-radius: 8px;
+      color: #000B1A;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.18s;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .btn-synthesize-action:hover { background: #5CE6FF; transform: translateY(-1px); }
+
+    /* Neural status whisper */
+    .sl-neural-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #3DE0FF;
+      margin-top: 10px;
+      padding-left: 6px;
+    }
+    .neural-pulse-beacon {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #3DE0FF;
+      animation: live-pulse 1.2s infinite;
+      flex-shrink: 0;
+    }
+
+    /* Presets Strip */
+    .sl-presets-strip {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .preset-pill-btn {
+      height: 36px;
+      padding: 0 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.7);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      min-height: 44px;
+    }
+    .preset-pill-btn:hover {
+      border-color: rgba(61,224,255,0.3);
+      color: #FFFFFF;
+      background: rgba(61,224,255,0.05);
+    }
+    .preset-pill-btn.active {
+      background: rgba(61,224,255,0.12);
+      border-color: #3DE0FF;
+      color: #3DE0FF;
+      box-shadow: 0 0 12px rgba(61,224,255,0.15);
+    }
+
+    /* ── Tonal Harmony Canvas ────────────────────── */
+    .sl-harmony-canvas {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .harmony-meta-group { display: flex; align-items: center; gap: 16px; }
+    .harmony-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .harmony-swatches-row { display: flex; gap: 8px; }
+    .swatch-bubble {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .harmony-score-group { display: flex; align-items: center; gap: 12px; }
+    .harmony-archetype-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #FB7185;
+      background: rgba(251,113,133,0.1);
+      border: 1px solid rgba(251,113,133,0.25);
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .harmony-score-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #34D399;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* ── Hero Cinema responsive ──────────────────── */
+    @media (max-width: 768px) {
+      .sl-hero-cinema { padding: 36px 20px 24px; }
+      .sl-prompt-input { font-size: 13px; }
+      .btn-synthesize-action { padding: 0 14px; font-size: 10px; }
+    }
+    @media (max-width: 480px) {
+      .harmony-meta-group { flex-wrap: wrap; }
+    }
   </style>
 </head>
 <body data-sl-page="smart-list">
@@ -1161,15 +1385,76 @@
 
   <main>
 
-    <!-- HERO -->
-    <div class="sl-hero" id="slHero">
-      <div class="sl-ai-chip">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        AI REPLENISHMENT &middot; ATELIER CURATION
+    <!-- HERO: Visual Natural Language Wardrobe Architect -->
+    <section class="sl-hero-cinema" id="slHero">
+      <div class="sl-hero-masthead">
+        <span class="sl-ai-live-tag">
+          <span class="neural-spark-dot"></span>
+          AGENTIC COMMERCE &middot; NATURAL LANGUAGE ARCHITECT
+        </span>
+        <h1 class="sl-headline">Smart List<br><em>Architect</em></h1>
+        <p class="sl-subhead">Synthesize complete seasonal capsules or replenish tailored essentials via conversational AI intent.</p>
       </div>
-      <h1 class="sl-hero-headline">Your Curated Replenishments</h1>
-      <p class="sl-hero-sub">Intelligently recommended from your private atelier acquisition history and seasonal cycles.</p>
-    </div>
+
+      <!-- NATURAL LANGUAGE PROMPT OMNIBAR -->
+      <div class="sl-prompt-omnibar-wrap">
+        <div class="sl-prompt-omnibar">
+          <div class="sl-prompt-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px; color: #3DE0FF;"></i>
+          </div>
+          <input type="text" id="capsulePromptInput" class="sl-prompt-input"
+                 placeholder="Describe your capsule (e.g., 'Winter alpine layering in obsidian and slate with acoustics')..."
+                 autocomplete="off" spellcheck="false" aria-label="Natural Language Wardrobe Prompt" />
+          <button type="button" id="btnSynthesizeCapsule" class="btn-synthesize-action" aria-label="Synthesize Capsule">
+            <span>SYNTHESIZE</span>
+            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+          </button>
+        </div>
+
+        <!-- AI NEURAL STATUS WHISPER -->
+        <div class="sl-neural-status" id="capsuleNeuralStatus" style="display: none;">
+          <span class="neural-pulse-beacon"></span>
+          <span id="neuralStatusText">Analyzing silhouette constraints &amp; extracting tonal harmony...</span>
+        </div>
+
+        <!-- 4 LUXURY LIFESTYLE PRESETS -->
+        <div class="sl-presets-strip" id="capsulePresetsGrid" role="group" aria-label="Curated Capsule Presets">
+          <button type="button" class="preset-pill-btn active" data-preset="alpine">
+            <span class="preset-icon">❄️</span>
+            <span>Winter Alpine in St. Moritz</span>
+          </button>
+          <button type="button" class="preset-pill-btn" data-preset="monochrome">
+            <span class="preset-icon">🏛️</span>
+            <span>Monochrome Studio Architecture</span>
+          </button>
+          <button type="button" class="preset-pill-btn" data-preset="transit">
+            <span class="preset-icon">✈️</span>
+            <span>Minimalist Transit Uniform</span>
+          </button>
+          <button type="button" class="preset-pill-btn" data-preset="gala">
+            <span class="preset-icon">🍸</span>
+            <span>Milano Evening Gallery Opening</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TONAL HARMONY PALETTE & AESTHETIC DNA BAR -->
+      <div class="sl-harmony-canvas" id="capsulePaletteBar">
+        <div class="harmony-meta-group">
+          <span class="harmony-label">EXTRACTED TONAL DNA</span>
+          <div class="harmony-swatches-row" id="harmonySwatchesRow">
+            <span class="swatch-bubble" style="background:#0D131F;" title="Obsidian"></span>
+            <span class="swatch-bubble" style="background:#374151;" title="Charcoal"></span>
+            <span class="swatch-bubble" style="background:#FFFBEB;" title="Ivory"></span>
+            <span class="swatch-bubble" style="background:#92400E;" title="Amber"></span>
+          </div>
+        </div>
+        <div class="harmony-score-group">
+          <span class="harmony-archetype-tag" id="harmonyArchetypeTag">ALPINE THERMAL</span>
+          <span class="harmony-score-val" id="harmonyScoreVal">97% HARMONY</span>
+        </div>
+      </div>
+    </section>
 
     <!-- CURATED LOOK SWITCHER & 120FPS ANIMATION TRACK -->
     <div class="sl-spotlight-wrap" id="slSpotlightWrap">
@@ -1373,6 +1658,221 @@
   <script src="../js/session-context.js"></script>
   <script src="../js/search-overlay.js?v=1"></script>
   <script src="../js/cookie-consent.js"></script>
+
+  <!-- ── Visual Natural Language Wardrobe Architect — Page Engine ── -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Capsule Profile Definitions ─────────────────────────── */
+    var CAPSULE_PROFILES = {
+      alpine: {
+        title:     'Winter Alpine in St. Moritz',
+        prompt:    'Winter alpine layering with 2-ply Mongolian cashmere, structured outerwear, and acoustics',
+        archetype: 'ALPINE THERMAL',
+        harmony:   '97% HARMONY',
+        swatches:  ['#0D131F', '#374151', '#FFFBEB', '#92400E'],
+        filterFn:  function(p) { return ['p1','p2','p3','p4','p6'].indexOf(p.id) !== -1; }
+      },
+      monochrome: {
+        title:     'Monochrome Studio Architecture',
+        prompt:    'Architectural charcoal and obsidian tailored layers with minimalist leather runner',
+        archetype: 'NORDIC MINIMAL',
+        harmony:   '99% HARMONY',
+        swatches:  ['#0A0A0A', '#1E293B', '#64748B', '#F1F5F9'],
+        filterFn:  function(p) { return ['p1','p3','p6','p8'].indexOf(p.id) !== -1; }
+      },
+      transit: {
+        title:     'Minimalist Transit Uniform',
+        prompt:    'Effortless lightweight travel pieces with high acoustics isolation and structured tote',
+        archetype: 'TRANSIT EASE',
+        harmony:   '94% HARMONY',
+        swatches:  ['#172554', '#334155', '#3DE0FF', '#E2E8F0'],
+        filterFn:  function(p) { return ['p2','p4','p5','p6'].indexOf(p.id) !== -1; }
+      },
+      gala: {
+        title:     'Milano Evening Gallery Opening',
+        prompt:    'Sophisticated dark tailoring with gold horology and Tuscan calfskin accents',
+        archetype: 'QUIET LUXURY',
+        harmony:   '98% HARMONY',
+        swatches:  ['#020617', '#451A03', '#FB7185', '#D6C7B2'],
+        filterFn:  function(p) { return ['p1','p3','p5','p7'].indexOf(p.id) !== -1; }
+      }
+    };
+
+    /* ── Grid Filter Renderer (exposed to applyCapsuleProfile) ── */
+    window.renderSmartListGrid = function (filterFn) {
+      var grid = document.getElementById('slGrid');
+      if (!grid) return;
+
+      var allList = (typeof getSmartList === 'function')
+        ? (getSmartList({ max: 20, category: 'all' }) || [])
+        : [];
+
+      var filtered = filterFn ? allList.filter(filterFn) : allList;
+
+      grid.style.transition = 'opacity 180ms ease, transform 180ms ease';
+      grid.style.opacity    = '0';
+      grid.style.transform  = 'translateY(6px)';
+
+      setTimeout(function () {
+        if (typeof buildCardHTML === 'function') {
+          grid.innerHTML = filtered.map(function (p, idx) { return buildCardHTML(p, idx, false); }).join('');
+        }
+        grid.style.opacity   = '1';
+        grid.style.transform = 'translateY(0)';
+
+        if (window.initSmartListCardsMotion) window.initSmartListCardsMotion();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        initTilt();
+      }, 190);
+    };
+
+    /* ── Apply Capsule Profile ──────────────────── */
+    function applyCapsuleProfile(profileKey) {
+      var profile = CAPSULE_PROFILES[profileKey];
+      if (!profile) return;
+
+      /* Update prompt text */
+      var input = document.getElementById('capsulePromptInput');
+      if (input) input.value = profile.prompt;
+
+      /* Update pill active states */
+      document.querySelectorAll('.preset-pill-btn').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-preset') === profileKey);
+      });
+
+      /* Neural status flash */
+      var statusEl  = document.getElementById('capsuleNeuralStatus');
+      var statusTxt = document.getElementById('neuralStatusText');
+      if (statusEl && statusTxt) {
+        statusTxt.textContent  = 'Extracting silhouette constraints for ' + profile.title + '...';
+        statusEl.style.display = 'flex';
+        setTimeout(function () { statusEl.style.display = 'none'; }, 900);
+      }
+
+      /* Update Tonal Harmony swatches */
+      var swatchRow = document.getElementById('harmonySwatchesRow');
+      if (swatchRow) {
+        swatchRow.innerHTML = profile.swatches.map(function (hex) {
+          return '<span class="swatch-bubble" style="background:' + hex + ';"></span>';
+        }).join('');
+      }
+      var archTag  = document.getElementById('harmonyArchetypeTag');
+      var harmVal  = document.getElementById('harmonyScoreVal');
+      if (archTag) archTag.textContent = profile.archetype;
+      if (harmVal) harmVal.textContent = profile.harmony;
+
+      /* Filter the product grid */
+      window.renderSmartListGrid(profile.filterFn);
+    }
+
+    /* ── Synthesize button heuristic ────────────── */
+    function handleSynthesize() {
+      var query = (document.getElementById('capsulePromptInput') || {}).value || '';
+      query = query.toLowerCase();
+      if (query.indexOf('alpine') !== -1 || query.indexOf('winter') !== -1 || query.indexOf('cashmere') !== -1) {
+        applyCapsuleProfile('alpine');
+      } else if (query.indexOf('mono') !== -1 || query.indexOf('studio') !== -1 || query.indexOf('black') !== -1 || query.indexOf('obsidian') !== -1) {
+        applyCapsuleProfile('monochrome');
+      } else if (query.indexOf('transit') !== -1 || query.indexOf('travel') !== -1 || query.indexOf('light') !== -1) {
+        applyCapsuleProfile('transit');
+      } else if (query.indexOf('gala') !== -1 || query.indexOf('evening') !== -1 || query.indexOf('milano') !== -1) {
+        applyCapsuleProfile('gala');
+      } else if (query.trim()) {
+        /* Free-text: show all, highlight closest */
+        window.renderSmartListGrid(null);
+      } else {
+        applyCapsuleProfile('alpine');
+      }
+    }
+
+    /* ── 3D Spring Tilt Physics ─────────────────── */
+    function initTilt() {
+      var grid = document.getElementById('slGrid');
+      if (!grid || grid._slTiltBound) return;
+      grid._slTiltBound = true;
+
+      grid.addEventListener('mousemove', function (e) {
+        var card = e.target.closest('.sl-card');
+        if (!card) return;
+        var rect = card.getBoundingClientRect();
+        var x    = e.clientX - rect.left;
+        var y    = e.clientY - rect.top;
+        var rotX = ((y - rect.height / 2) / (rect.height / 2)) * -5;
+        var rotY = ((x - rect.width  / 2) / (rect.width  / 2)) *  5;
+
+        /* Specular glare */
+        var glare = card.querySelector('.sl-glare');
+        if (glare) {
+          glare.style.setProperty('--gx', ((x / rect.width)  * 100).toFixed(1) + '%');
+          glare.style.setProperty('--gy', ((y / rect.height) * 100).toFixed(1) + '%');
+          glare.style.opacity = '1';
+        }
+
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg)';
+      }, { passive: true });
+
+      grid.addEventListener('mouseleave', function (e) {
+        var card = e.target.closest ? e.target.closest('.sl-card') : null;
+        /* When pointer leaves the grid itself, reset all cards */
+        if (!card) {
+          grid.querySelectorAll('.sl-card').forEach(function (c) {
+            c.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            var glare = c.querySelector('.sl-glare');
+            if (glare) glare.style.opacity = '0';
+          });
+        }
+      }, true);
+    }
+
+    /* ── Wire DOM events after page scripts load ── */
+    function init() {
+      /* Preset pill clicks */
+      var presetsGrid = document.getElementById('capsulePresetsGrid');
+      if (presetsGrid) {
+        presetsGrid.addEventListener('click', function (e) {
+          var btn = e.target.closest('.preset-pill-btn');
+          if (!btn) return;
+          applyCapsuleProfile(btn.getAttribute('data-preset'));
+        });
+      }
+
+      /* Synthesize button */
+      var synthBtn = document.getElementById('btnSynthesizeCapsule');
+      if (synthBtn) {
+        synthBtn.addEventListener('click', handleSynthesize);
+      }
+
+      /* Enter key in prompt */
+      var promptInput = document.getElementById('capsulePromptInput');
+      if (promptInput) {
+        promptInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') handleSynthesize();
+        });
+      }
+
+      /* Boot tilt on the initial grid render */
+      initTilt();
+
+      /* Patch initSmartListCardsMotion to also re-init tilt on re-renders */
+      var _origMotion = window.initSmartListCardsMotion;
+      window.initSmartListCardsMotion = function () {
+        if (_origMotion) _origMotion();
+        /* Reset tiltBound flag so new card set gets fresh handler */
+        var grid = document.getElementById('slGrid');
+        if (grid) grid._slTiltBound = false;
+        initTilt();
+      };
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
 
 </body>
 </html>
