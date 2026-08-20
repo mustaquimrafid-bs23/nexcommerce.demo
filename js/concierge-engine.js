@@ -1,8 +1,8 @@
 /**
- * nexCommerce AI &mdash; Elevated Concierge Engine (Feature 6)
+ * nexCommerce AI &mdash; Elevated Stylist Engine (Feature 6)
  * Orchestrates Intent Parsing, Real-Time Page Context, Multi-Piece Look Building,
  * Interactive Sizing, Order Tracking, and Fabric Care.
- * Deterministic (Zero-Hallucination) shopping assistant logic in clear, human language.
+ * Visual-First, Zero-Hallucination shopping assistant with minimal text and rich studio photography.
  */
 
 (function(window) {
@@ -36,8 +36,9 @@
 
     /**
      * Initializes the conversation state, checking for page & session context.
+     * Visual-first: Returns rich product cards on launch with minimal 1-line prompt.
      * @param {Object} [context] Optional explicit context (e.g. { url, productId })
-     * @returns {Object} Initial greeting response payload
+     * @returns {Object} Initial visual response payload
      */
     initialize(context) {
       this.currentContext = context || {};
@@ -78,12 +79,12 @@
         if (found) {
           return {
             type: 'pdp_context',
-            text: `Good evening. I see you are viewing the **${found.title}** (${found.price || ('€ ' + Number(found.numericPrice).toFixed(2))}). Would you like help with sizing, outfit ideas, or delivery details?`,
+            text: `Currently viewing: **${found.title}**`,
             suggestedChips: [
-              `Find my size for this item`,
-              `Complete this outfit`,
-              `Fabric & care guide`,
-              `Delivery & shipping time`
+              `Find my size`,
+              `Complete the outfit`,
+              `Fabric & care`,
+              `Shipping times`
             ],
             products: [found],
             contextProduct: found
@@ -94,15 +95,15 @@
       // 2. Detect Cart Page Context
       if (pathname.includes('cart.html') || (context && context.url && context.url.includes('cart.html'))) {
         return {
-          type: 'cart_context',
-          text: `Good evening. I can help you review your shopping bag, suggest matching pieces, or check delivery times before you checkout.`,
+          type: 'product_grid',
+          text: `Selected accessories to pair with your bag:`,
           suggestedChips: [
-            'Suggest matching accessories',
-            'Delivery & shipping times',
-            '14-Day return policy',
-            'Put together an outfit'
+            'Matching accessories',
+            'Shipping times',
+            '14-Day returns',
+            'Complete an outfit'
           ],
-          products: []
+          products: catalog.slice(0, 3)
         };
       }
 
@@ -114,8 +115,8 @@
           if (intent.category && intent.category.value) {
             const catName = intent.category.value.toLowerCase();
             return {
-              type: 'text',
-              text: `I noticed you were looking at **${catName}** earlier. Would you like to keep browsing, or look for something else?`,
+              type: 'product_grid',
+              text: `Recommended in **${catName}**:`,
               suggestedChips: [
                 `Show all ${catName}`,
                 'Complete an outfit',
@@ -128,17 +129,17 @@
         }
       } catch (e) {}
 
-      // 4. Default Luxury Welcome
+      // 4. Default Visual-First Welcome (Photo cards lead, 1-line text)
       return {
-        type: 'text',
-        text: `Good evening. I am your Personal Stylist. I can help you put together complete outfits, find your exact size, or check your delivery status. What are you shopping for today?`,
+        type: 'product_grid',
+        text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
           'Complete an office outfit',
-          'Show me jackets & coats',
-          'Under € 300',
-          'Size & fit guide'
+          'Show jackets & coats',
+          'Size & fit guide',
+          'Track order'
         ],
-        products: []
+        products: catalog.slice(0, 3)
       };
     }
 
@@ -159,8 +160,7 @@
         this.lastQueryType = 'sizing';
         return {
           type: 'sizing_advisor',
-          text: `**Interactive Size & Fit Guide**\n\n` +
-                `Our pieces follow standard European sizing. Select your details below to find your recommended size:`,
+          text: `**Interactive Size & Fit Guide**`,
           widgetPayload: {
             categories: ['Tops & Sweaters', 'Jackets & Coats', 'Shoes & Sneakers'],
             defaultCategory: 'Tops & Sweaters',
@@ -181,8 +181,7 @@
 
         return {
           type: 'order_tracking',
-          text: `**Live Order Tracking (DHL Express)**\n\n` +
-                `Real-time delivery status for order **\`${orderCode}\`**:`,
+          text: `**Live Order Tracking** · Order **\`${orderCode}\`**`,
           orderCode: orderCode,
           widgetPayload: {
             orderCode: orderCode,
@@ -191,7 +190,7 @@
             carrier: 'DHL Express Priority',
             currentStep: 3, // 1: Order Confirmed, 2: Inspected, 3: In Transit, 4: Out for Delivery
             steps: [
-              { label: 'Order Confirmed', date: 'Yesterday, 14:20' },
+              { label: 'Order Placed', date: 'Yesterday, 14:20' },
               { label: 'Quality Checked', date: 'Today, 08:30' },
               { label: 'Dispatched with DHL Express', date: 'Today, 11:45 (In Transit)' },
               { label: 'Out for Delivery', date: 'Expected Tomorrow' }
@@ -199,7 +198,7 @@
           },
           actionLink: { text: 'OPEN FULL TRACKING PAGE →', url: 'tracking.html' },
           products: [],
-          suggestedChips: ['Delivery & shipping times', '14-Day return policy', 'Put together an outfit']
+          suggestedChips: ['Delivery times', '14-Day return policy', 'Put together an outfit']
         };
       }
 
@@ -241,10 +240,9 @@
         return {
           type: 'bundle_look',
           isBundleLook: true,
-          text: `**${occasionName}**\n\n` +
-                `Here is a complete outfit put together for you. You can check or uncheck individual pieces below:`,
+          text: `**${occasionName}** · Complete Outfit`,
           products: bundleItems,
-          suggestedChips: ['Under € 500', 'Find my size for this outfit', 'Show other jackets', 'Delivery times']
+          suggestedChips: ['Under € 500', 'Find my size', 'Show other jackets', 'Delivery times']
         };
       }
 
@@ -254,10 +252,10 @@
         return {
           type: 'delivery',
           text: `**Delivery & Shipping Times**\n\n` +
-                `• **DHL Express Delivery**: 24–48 hours across all EU countries.\n` +
-                `• **Free Shipping**: Included on all orders over **€ 150.00**.\n` +
-                `• **Standard Delivery**: 2–4 business days via DPD.\n` +
-                `• **Live Tracking**: End-to-end GPS updates sent directly to your email.`,
+                `• **DHL Express**: 24–48 hours across EU.\n` +
+                `• **Free Shipping**: Orders over **€ 150.00**.\n` +
+                `• **Standard Delivery**: 2–4 business days.\n` +
+                `• **Live GPS Tracking**: Direct to your email.`,
           actionLink: { text: 'TRACK LIVE ORDER →', url: 'tracking.html' },
           products: [],
           suggestedChips: ['Track my order', '14-Day return policy', 'Show collection']
@@ -269,10 +267,10 @@
         this.lastQueryType = 'returns';
         return {
           type: 'returns',
-          text: `**14-Day Free Returns & Money-Back Policy**\n\n` +
-                `• **14-Day Return Window**: You can return any unworn item within 14 days of delivery.\n` +
-                `• **Prepaid Return Label**: Download a free DHL prepaid return label directly from your account.\n` +
-                `• **Fast Refund**: Your money is refunded within 24 hours after we inspect the return.`,
+          text: `**14-Day Free Returns & Refunds**\n\n` +
+                `• **14-Day Window**: Return any unworn item.\n` +
+                `• **Free Return Label**: Included via DHL.\n` +
+                `• **Fast Refund**: Within 24 hours of inspection.`,
           products: [],
           suggestedChips: ['Delivery details', 'Show new arrivals', 'Find my size']
         };
@@ -284,10 +282,10 @@
         return {
           type: 'materials',
           text: `**Fabric & Care Instructions**\n\n` +
-                `• **100% Mongolian Cashmere**: Hand wash in cold water with wool soap, or dry clean. Lay flat on a clean towel to dry.\n` +
-                `• **Fine Merino Wool**: Naturally breathable and odor-resistant. Steam between wears or dry clean.\n` +
-                `• **Italian Leather**: Wipe gently with a soft damp cloth. Condition with neutral leather balm once a year.\n` +
-                `• **Titanium**: Scratch-resistant and waterproof. Rinse with mild soapy warm water.`,
+                `• **Cashmere**: Cold hand-wash or dry clean.\n` +
+                `• **Merino Wool**: Breathable; steam or dry clean.\n` +
+                `• **Italian Leather**: Soft damp cloth & leather balm.\n` +
+                `• **Titanium**: Water & scratch-resistant.`,
           products: catalog.slice(0, 3),
           suggestedChips: ['Show cashmere sweaters', 'Show leather runner', 'Find my size']
         };
@@ -322,7 +320,7 @@
       if (filteredProducts.length > 0) {
         return {
           type: 'product_grid',
-          text: `Here are the pieces matching your search:`,
+          text: `Matching pieces:`,
           products: filteredProducts.slice(0, 4),
           suggestedChips: ['Complete an outfit', 'Find my size', 'Under € 250', 'Delivery times']
         };
@@ -331,7 +329,7 @@
       // ── 8. NO RESULTS FALLBACK ───────────────────────────────────────────
       return {
         type: 'product_grid',
-        text: `We couldn't find an exact match for "${text}", but here are our most popular pieces right now:`,
+        text: `Popular seasonal highlights:`,
         products: catalog.slice(0, 3),
         suggestedChips: ['Show all jackets', 'Show sweaters', 'Find my size', 'Under € 300']
       };
@@ -368,9 +366,9 @@
 
     _fallbackResponse() {
       return {
-        type: 'text',
-        text: 'I can help you browse our collection, find your size, put together an outfit, or check delivery details. What would you like to explore?',
-        products: [],
+        type: 'product_grid',
+        text: 'Featured pieces:',
+        products: this._getCatalog().slice(0, 3),
         suggestedChips: ['Complete an office outfit', 'Under € 300', 'Find my size', 'Show jackets & coats']
       };
     }
