@@ -2103,6 +2103,9 @@ function renderSmartListPage() {
     window.initSmartListPageMotion();
   }
 
+  // Initialize Scroll Motion Suite (Progress, Header Hide/Reveal, Parallax, Scroll-to-Top)
+  initScrollSuite();
+
   // "Move all to bag" button
   const addAllBtn = document.getElementById('slAddAll');
   const progressWrap = document.getElementById('slProgressWrap');
@@ -2154,6 +2157,116 @@ function renderSmartListPage() {
   }
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+/* ─── Luxury Scroll Animation Suite ────────────────────────────────────────── */
+let _scrollSuiteInitialized = false;
+
+function initScrollSuite() {
+  const progressBar = document.getElementById('slScrollProgress');
+  const scrollTopBtn = document.getElementById('slScrollTopBtn');
+  const header = document.querySelector('.site-header') || document.getElementById('siteHeader');
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    // 1. Top progress bar GPU scaleX
+    if (progressBar && docHeight > 0) {
+      const progress = Math.min(1, Math.max(0, scrollY / docHeight));
+      progressBar.style.transform = `scaleX(${progress.toFixed(4)})`;
+    }
+
+    // 2. Scroll-to-top button visibility (appear when scrolled past 320px)
+    if (scrollTopBtn) {
+      scrollTopBtn.classList.toggle('is-visible', scrollY > 320);
+    }
+
+    // 3. Smart Header Direction dynamics
+    if (header) {
+      if (scrollY > 120 && scrollY > lastScrollY && !header.classList.contains('is-hidden-on-scroll')) {
+        header.classList.add('is-hidden-on-scroll');
+      } else if (scrollY < lastScrollY && header.classList.contains('is-hidden-on-scroll')) {
+        header.classList.remove('is-hidden-on-scroll');
+      }
+    }
+
+    // 4. Subtle Differential Parallax on Product Cards
+    const cards = document.querySelectorAll('.sl-card');
+    cards.forEach(card => {
+      const depth = parseFloat(card.dataset.parallaxDepth || '0.04');
+      const rect = card.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const offset = (rect.top - window.innerHeight / 2) * depth;
+        card._parallaxY = offset;
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${offset.toFixed(1)}px)`;
+        }
+      }
+    });
+
+    lastScrollY = Math.max(0, scrollY);
+    ticking = false;
+  }
+
+  if (!_scrollSuiteInitialized) {
+    _scrollSuiteInitialized = true;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    if (window._nexLenis) {
+      window._nexLenis.on('scroll', onScroll);
+    }
+
+    if (scrollTopBtn) {
+      scrollTopBtn.addEventListener('click', () => {
+        if (window._nexLenis) {
+          window._nexLenis.scrollTo(0, { duration: 1.0 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
+  // Initial calculation
+  onScroll();
+
+  // 5. Staggered Scroll Entrance Observer
+  initScrollReveals();
+}
+
+function initScrollReveals() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.sl-scroll-reveal').forEach(el => el.classList.add('is-in-view'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -30px 0px',
+    threshold: 0.05
+  });
+
+  const targets = document.querySelectorAll('#slSpotlightWrap, #slToolbar, #slCategoryBar, .sl-card, .sl-concierge-bridge');
+  targets.forEach(t => {
+    t.classList.add('sl-scroll-reveal');
+    observer.observe(t);
+  });
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
