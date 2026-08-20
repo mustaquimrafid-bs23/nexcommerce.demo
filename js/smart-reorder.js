@@ -47,6 +47,11 @@ const SL_PRODUCTS = [
     price: 185,
     originalPrice: null,
     image: 'assets/images/products/hero_sweater.png',
+    gallery: [
+      'assets/images/products/hero_sweater.png',
+      'assets/images/products/plp_crewneck.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 4,
@@ -54,7 +59,25 @@ const SL_PRODUCTS = [
     daysSinceLast: 58,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 4× · Recommended for winter'
+    reason: 'Purchased 4× · Recommended for winter',
+    materials: '100% Grade-A Mongolian Cashmere (2-ply yarn)',
+    origin: 'Hand-finished in Biella, Italy',
+    care: 'Hand wash cold with wool wash or dry clean',
+    variants: {
+      finishes: [
+        { id: 'charcoal', name: 'Charcoal Melange', color: '#2B323F', priceDelta: 0 },
+        { id: 'obsidian', name: 'Deep Obsidian', color: '#0F172A', priceDelta: 0 },
+        { id: 'ivory', name: 'Raw Ivory', color: '#F8F6F0', priceDelta: 10 }
+      ],
+      sizes: [
+        { id: 'S', name: 'S', inStock: true },
+        { id: 'M', name: 'M', inStock: true, default: true },
+        { id: 'L', name: 'L', inStock: true },
+        { id: 'XL', name: 'XL', inStock: false }
+      ]
+    },
+    selectedFinish: 'charcoal',
+    selectedSize: 'M'
   },
   {
     id: 'p2',
@@ -63,6 +86,11 @@ const SL_PRODUCTS = [
     price: 160,
     originalPrice: null,
     image: 'assets/images/products/plp_crewneck.png',
+    gallery: [
+      'assets/images/products/plp_crewneck.png',
+      'assets/images/products/hero_sweater.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 5,
@@ -70,7 +98,25 @@ const SL_PRODUCTS = [
     daysSinceLast: 42,
     suggestedQty: 2,
     inStock: true,
-    reason: 'Purchased 5× · Everyday essential'
+    reason: 'Purchased 5× · Everyday essential',
+    materials: '100% Fine Gauge Cashmere (70g/m²)',
+    origin: 'Crafted in Florence, Italy',
+    care: 'Dry clean or gentle cold wash',
+    variants: {
+      finishes: [
+        { id: 'midnight', name: 'Midnight Navy', color: '#0B192C', priceDelta: 0 },
+        { id: 'slate', name: 'Slate Grey', color: '#475569', priceDelta: 0 },
+        { id: 'sand', name: 'Warm Sand', color: '#D5C4A1', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: 'S', name: 'S', inStock: true },
+        { id: 'M', name: 'M', inStock: true, default: true },
+        { id: 'L', name: 'L', inStock: true },
+        { id: 'XL', name: 'XL', inStock: true }
+      ]
+    },
+    selectedFinish: 'midnight',
+    selectedSize: 'M'
   },
   {
     id: 'p3',
@@ -79,6 +125,11 @@ const SL_PRODUCTS = [
     price: 245,
     originalPrice: 270,
     image: 'assets/images/products/plp_blazer.png',
+    gallery: [
+      'assets/images/products/plp_blazer.png',
+      'assets/images/products/plp_overcoat.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 3,
@@ -86,7 +137,24 @@ const SL_PRODUCTS = [
     daysSinceLast: 86,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 3× · Classic tailoring'
+    reason: 'Purchased 3× · Classic tailoring',
+    materials: '100% Virgin Wool, Horn Buttons, Cupro Lining',
+    origin: 'Tailored in Milan, Italy',
+    care: 'Specialist dry clean only',
+    variants: {
+      finishes: [
+        { id: 'nero', name: 'Nero Black', color: '#111827', priceDelta: 0 },
+        { id: 'navy', name: 'Atelier Navy', color: '#1E293B', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: '46', name: '46', inStock: true },
+        { id: '48', name: '48', inStock: true, default: true },
+        { id: '50', name: '50', inStock: true },
+        { id: '52', name: '52', inStock: false }
+      ]
+    },
+    selectedFinish: 'nero',
+    selectedSize: '48'
   },
   {
     id: 'p4',
@@ -95,6 +163,11 @@ const SL_PRODUCTS = [
     price: 220,
     originalPrice: null,
     image: 'assets/images/products/prod_headphones.png',
+    gallery: [
+      'assets/images/products/prod_headphones.png',
+      'assets/images/products/search_earbuds.png',
+      'assets/images/lifestyle/hero_headphone_landscape.jpg'
+    ],
     category: 'Acoustics',
     categoryLabel: 'Audio',
     boughtCount: 3,
@@ -102,7 +175,21 @@ const SL_PRODUCTS = [
     daysSinceLast: 115,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 3× · Studio audio favorite'
+    reason: 'Purchased 3× · Studio audio favorite',
+    materials: 'Anodized Aluminum, Lambskin Memory Foam Cushions',
+    origin: 'Engineered in Munich, Germany',
+    care: 'Wipe with dry microfiber cloth',
+    variants: {
+      finishes: [
+        { id: 'matte_black', name: 'Matte Obsidian', color: '#171717', priceDelta: 0 },
+        { id: 'silver', name: 'Anodized Silver', color: '#E2E8F0', priceDelta: 15 }
+      ],
+      sizes: [
+        { id: 'standard', name: 'Over-Ear', inStock: true, default: true }
+      ]
+    },
+    selectedFinish: 'matte_black',
+    selectedSize: 'standard'
   },
   {
     id: 'p5',
@@ -111,6 +198,11 @@ const SL_PRODUCTS = [
     price: 185,
     originalPrice: null,
     image: 'assets/images/products/prod_runner.png',
+    gallery: [
+      'assets/images/products/prod_runner.png',
+      'assets/images/lifestyle/hero_runner_landscape.jpg',
+      'assets/images/products/prod_tote.png'
+    ],
     category: 'Footwear',
     categoryLabel: 'Footwear',
     boughtCount: 4,
@@ -118,7 +210,25 @@ const SL_PRODUCTS = [
     daysSinceLast: 88,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 4× · Daily footwear essential'
+    reason: 'Purchased 4× · Daily footwear essential',
+    materials: 'Full-Grain Italian Calfskin, Margom Rubber Outsole',
+    origin: 'Handmade in Civitanova Marche, Italy',
+    care: 'Condition regularly with neutral leather balm',
+    variants: {
+      finishes: [
+        { id: 'white', name: 'Optic White', color: '#F9FAFB', priceDelta: 0 },
+        { id: 'black', name: 'Nero Black', color: '#09090B', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: '40', name: '40', inStock: true },
+        { id: '41', name: '41', inStock: true },
+        { id: '42', name: '42', inStock: true, default: true },
+        { id: '43', name: '43', inStock: true },
+        { id: '44', name: '44', inStock: false }
+      ]
+    },
+    selectedFinish: 'white',
+    selectedSize: '42'
   },
   {
     id: 'p6',
@@ -127,6 +237,11 @@ const SL_PRODUCTS = [
     price: 125,
     originalPrice: null,
     image: 'assets/images/products/prod_tote.png',
+    gallery: [
+      'assets/images/products/prod_tote.png',
+      'assets/images/products/prod_runner.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Accessories',
     categoryLabel: 'Bags & Accessories',
     boughtCount: 3,
@@ -134,7 +249,21 @@ const SL_PRODUCTS = [
     daysSinceLast: 70,
     suggestedQty: 1,
     inStock: false,
-    reason: 'Purchased 3× · Everyday tote bag'
+    reason: 'Purchased 3× · Everyday tote bag',
+    materials: '24oz Heavyweight Organic Cotton Duck, Saddle Leather Trim',
+    origin: 'Crafted in Porto, Portugal',
+    care: 'Spot clean with neutral soap',
+    variants: {
+      finishes: [
+        { id: 'natural', name: 'Raw Natural', color: '#EFEFEA', priceDelta: 0 },
+        { id: 'noir', name: 'Noir Canvas', color: '#18181B', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: 'one_size', name: 'Standard 22L', inStock: false, default: true }
+      ]
+    },
+    selectedFinish: 'natural',
+    selectedSize: 'one_size'
   },
   {
     id: 'p7',
@@ -143,6 +272,11 @@ const SL_PRODUCTS = [
     price: 145,
     originalPrice: null,
     image: 'assets/images/products/search_earbuds.png',
+    gallery: [
+      'assets/images/products/search_earbuds.png',
+      'assets/images/products/prod_headphones.png',
+      'assets/images/lifestyle/hero_headphone_landscape.jpg'
+    ],
     category: 'Acoustics',
     categoryLabel: 'Audio',
     boughtCount: 4,
@@ -150,7 +284,21 @@ const SL_PRODUCTS = [
     daysSinceLast: 56,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 4× · Travel & commute favorite'
+    reason: 'Purchased 4× · Travel & commute favorite',
+    materials: 'Ceramic Sound Chamber, Wireless Qi Charging Case',
+    origin: 'Precision Crafted in Munich, Germany',
+    care: 'Clean silicone tips in warm water',
+    variants: {
+      finishes: [
+        { id: 'graphite', name: 'Graphite Black', color: '#1F2937', priceDelta: 0 },
+        { id: 'sand_stone', name: 'Sandstone Grey', color: '#CBD5E1', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: 'universal', name: 'Universal Fit', inStock: true, default: true }
+      ]
+    },
+    selectedFinish: 'graphite',
+    selectedSize: 'universal'
   },
   {
     id: 'p8',
@@ -159,6 +307,11 @@ const SL_PRODUCTS = [
     price: 285,
     originalPrice: 320,
     image: 'assets/images/products/plp_overcoat.png',
+    gallery: [
+      'assets/images/products/plp_overcoat.png',
+      'assets/images/products/plp_blazer.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 2,
@@ -166,7 +319,24 @@ const SL_PRODUCTS = [
     daysSinceLast: 175,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 2× · Winter coat staple'
+    reason: 'Purchased 2× · Winter coat staple',
+    materials: 'Double-Faced Melton Wool (580g/m²)',
+    origin: 'Handcrafted in Milan, Italy',
+    care: 'Dry clean only with steam finish',
+    variants: {
+      finishes: [
+        { id: 'camel', name: 'Warm Camel', color: '#9A7B56', priceDelta: 0 },
+        { id: 'dark_navy', name: 'Dark Navy', color: '#030712', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: '46', name: '46', inStock: true },
+        { id: '48', name: '48', inStock: true, default: true },
+        { id: '50', name: '50', inStock: true },
+        { id: '52', name: '52', inStock: true }
+      ]
+    },
+    selectedFinish: 'camel',
+    selectedSize: '48'
   },
   {
     id: 'p9',
@@ -175,6 +345,11 @@ const SL_PRODUCTS = [
     price: 340,
     originalPrice: null,
     image: 'assets/images/products/search_watch.png',
+    gallery: [
+      'assets/images/products/search_watch.png',
+      'assets/images/lifestyle/hero_watch_landscape.jpg',
+      'assets/images/products/plp_blazer.png'
+    ],
     category: 'Timepieces',
     categoryLabel: 'Watches',
     boughtCount: 2,
@@ -182,7 +357,23 @@ const SL_PRODUCTS = [
     daysSinceLast: 170,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 2× · Automatic timepiece'
+    reason: 'Purchased 2× · Automatic timepiece',
+    materials: '316L Diamond-Like-Carbon Steel, Sapphire Crystal, Automatic Caliber',
+    origin: 'Manufactured in Geneva, Switzerland',
+    care: 'Water resistant to 10 ATM / 100m',
+    variants: {
+      finishes: [
+        { id: 'dlc_black', name: 'DLC Obsidian', color: '#0A0A0A', priceDelta: 0 },
+        { id: 'brushed_steel', name: 'Brushed Steel', color: '#E5E7EB', priceDelta: 20 },
+        { id: 'rose_gold', name: 'Rose Titanium', color: '#B76E79', priceDelta: 45 }
+      ],
+      sizes: [
+        { id: '39mm', name: '39mm', inStock: true },
+        { id: '41mm', name: '41mm', inStock: true, default: true }
+      ]
+    },
+    selectedFinish: 'dlc_black',
+    selectedSize: '41mm'
   },
   {
     id: 'p10',
@@ -191,6 +382,11 @@ const SL_PRODUCTS = [
     price: 170,
     originalPrice: null,
     image: 'assets/images/products/plp_trousers.png',
+    gallery: [
+      'assets/images/products/plp_trousers.png',
+      'assets/images/products/plp_blazer.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 4,
@@ -198,7 +394,24 @@ const SL_PRODUCTS = [
     daysSinceLast: 72,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 4× · Wardrobe staple trousers'
+    reason: 'Purchased 4× · Wardrobe staple trousers',
+    materials: 'High-Twist Tropical Wool with Natural Stretch',
+    origin: 'Tailored in Naples, Italy',
+    care: 'Dry clean or steam press',
+    variants: {
+      finishes: [
+        { id: 'anthracite', name: 'Anthracite Grey', color: '#334155', priceDelta: 0 },
+        { id: 'black', name: 'Pure Black', color: '#0F172A', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: '46', name: '46', inStock: true },
+        { id: '48', name: '48', inStock: true, default: true },
+        { id: '50', name: '50', inStock: true },
+        { id: '52', name: '52', inStock: false }
+      ]
+    },
+    selectedFinish: 'anthracite',
+    selectedSize: '48'
   },
   {
     id: 'p11',
@@ -207,6 +420,11 @@ const SL_PRODUCTS = [
     price: 160,
     originalPrice: null,
     image: 'assets/images/products/plp_turtleneck.png',
+    gallery: [
+      'assets/images/products/plp_turtleneck.png',
+      'assets/images/products/hero_sweater.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 3,
@@ -214,7 +432,23 @@ const SL_PRODUCTS = [
     daysSinceLast: 57,
     suggestedQty: 1,
     inStock: false,
-    reason: 'Purchased 3× · Silk-cashmere knit'
+    reason: 'Purchased 3× · Silk-cashmere knit',
+    materials: '70% Mongolian Cashmere, 30% Mulberry Silk',
+    origin: 'Knit in Umbria, Italy',
+    care: 'Hand wash cold or gentle dry clean',
+    variants: {
+      finishes: [
+        { id: 'cream', name: 'Silk Cream', color: '#FEF9C3', priceDelta: 0 },
+        { id: 'espresso', name: 'Dark Espresso', color: '#3B1E08', priceDelta: 0 }
+      ],
+      sizes: [
+        { id: 'S', name: 'S', inStock: false },
+        { id: 'M', name: 'M', inStock: false, default: true },
+        { id: 'L', name: 'L', inStock: false }
+      ]
+    },
+    selectedFinish: 'cream',
+    selectedSize: 'M'
   },
   {
     id: 'p12',
@@ -223,6 +457,11 @@ const SL_PRODUCTS = [
     price: 190,
     originalPrice: 215,
     image: 'assets/images/products/hero_jeans_rack.png',
+    gallery: [
+      'assets/images/products/hero_jeans_rack.png',
+      'assets/images/products/prod_runner.png',
+      'assets/images/lifestyle/hero_sweater_landscape.jpg'
+    ],
     category: 'Apparel',
     categoryLabel: 'Clothing',
     boughtCount: 3,
@@ -230,9 +469,147 @@ const SL_PRODUCTS = [
     daysSinceLast: 84,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Purchased 3× · Raw denim essential'
+    reason: 'Purchased 3× · Raw denim essential',
+    materials: '13.5oz Kuroki Mills Raw Indigo Selvedge Denim',
+    origin: 'Woven & sewn in Okayama, Japan',
+    care: 'Soak inside out in cold water, hang dry',
+    variants: {
+      finishes: [
+        { id: 'raw_indigo', name: 'Raw Indigo', color: '#172554', priceDelta: 0 },
+        { id: 'washed_black', name: 'Faded Black', color: '#27272A', priceDelta: 10 }
+      ],
+      sizes: [
+        { id: '30', name: '30', inStock: true },
+        { id: '31', name: '31', inStock: true },
+        { id: '32', name: '32', inStock: true, default: true },
+        { id: '33', name: '33', inStock: true },
+        { id: '34', name: '34', inStock: false }
+      ]
+    },
+    selectedFinish: 'raw_indigo',
+    selectedSize: '32'
   }
 ];
+
+/* ─── Centralized SmartListStore State Controller ────────────────────────── */
+class SmartListStore {
+  constructor(initialItems) {
+    this.items = new Map(initialItems.map(item => [item.id, { ...item }]));
+    this.selectedIds = new Set();
+    this.activeFilter = 'all';
+    this.quickLookId = null;
+    this.listeners = new Set();
+  }
+
+  subscribe(listener) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  notify(event) {
+    this.listeners.forEach(fn => fn(event, this));
+  }
+
+  getItem(id) {
+    return this.items.get(id) || null;
+  }
+
+  toggleSelect(id) {
+    if (this.selectedIds.has(id)) {
+      this.selectedIds.delete(id);
+    } else {
+      this.selectedIds.add(id);
+    }
+    this.notify({ type: 'SELECTION_CHANGE', id, selected: this.selectedIds.has(id) });
+  }
+
+  selectAll() {
+    const visible = this.getVisibleItems();
+    visible.forEach(item => {
+      if (item.inStock) this.selectedIds.add(item.id);
+    });
+    this.notify({ type: 'SELECTION_CHANGE' });
+  }
+
+  deselectAll() {
+    this.selectedIds.clear();
+    this.notify({ type: 'SELECTION_CHANGE' });
+  }
+
+  setVariant(id, { finishId, sizeId }) {
+    const item = this.items.get(id);
+    if (!item) return;
+    if (finishId) item.selectedFinish = finishId;
+    if (sizeId) item.selectedSize = sizeId;
+    this.notify({ type: 'VARIANT_CHANGE', id, item });
+  }
+
+  getItemPrice(id) {
+    const item = this.items.get(id);
+    if (!item) return 0;
+    const finish = item.variants?.finishes?.find(f => f.id === item.selectedFinish);
+    const delta = finish ? (finish.priceDelta || 0) : 0;
+    return item.price + delta;
+  }
+
+  isSizeInStock(id, sizeId) {
+    const item = this.items.get(id);
+    if (!item || !item.inStock) return false;
+    const size = item.variants?.sizes?.find(s => s.id === sizeId);
+    return size ? size.inStock !== false : true;
+  }
+
+  getAggregateMetrics() {
+    let totalCount = 0;
+    let totalValue = 0;
+    let selectedCount = 0;
+    let selectedValue = 0;
+
+    const visibleItems = this.getVisibleItems();
+    visibleItems.forEach(item => {
+      const price = this.getItemPrice(item.id);
+      const qty = (typeof getQty === 'function' ? getQty(item.id) : item.suggestedQty) || 1;
+      if (item.inStock) {
+        totalCount++;
+        totalValue += price * qty;
+      }
+      if (this.selectedIds.has(item.id)) {
+        selectedCount++;
+        selectedValue += price * qty;
+      }
+    });
+
+    return {
+      totalCount,
+      totalValue,
+      selectedCount,
+      selectedValue
+    };
+  }
+
+  getVisibleItems() {
+    return Array.from(this.items.values()).filter(item => {
+      if (isDismissed(item.id)) return false;
+      if (this.activeFilter === 'all') return true;
+      return item.category.toLowerCase() === this.activeFilter.toLowerCase();
+    });
+  }
+
+  openQuickLook(id) {
+    this.quickLookId = id;
+    this.notify({ type: 'QUICK_LOOK_OPEN', id });
+  }
+
+  closeQuickLook() {
+    const prevId = this.quickLookId;
+    this.quickLookId = null;
+    this.notify({ type: 'QUICK_LOOK_CLOSE', prevId });
+  }
+}
+
+// Global store instance attached to window
+window.smartListStore = new SmartListStore(SL_PRODUCTS);
+
 
 /* ─── Curated Look Switcher Data & State ───────────────────────────────────── */
 const CURATED_REPLENISHMENT_LOOKS = [
