@@ -61,3 +61,8 @@
 - **Always Uphold Brand Signature**: All pages (Home, Category, PDP, Cart, Tracking, Profile, Auth) must maintain continuous adherence to the nexCommerce brand guidelines.
 - **Signature Gradient Preservation**: Incorporate the signature Electric Cyan $\rightarrow$ Sky $\rightarrow$ Rose gradient (`linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%)`) on curated spotlight timers, hero micro-badges, and live telemetry tracks.
 - **Harmony of Modernism & Brand Soul**: Modernist design provides the structural cleanliness, typography restraint, and hairline precision; nexCommerce brand accents provide the vital, luminous identity. Never reduce UI to lifeless greyscale.
+
+## 9. Plain Human Language & Anti-Jargon Guardrails
+- **Zero Pseudo-Technical Pretension**: Never introduce confusing AI jargon (*"synthesize"*, *"cadence"*, *"replenishment"*, *"tonal DNA"*, *"telemetry"*, *"omnibar"*, *"silhouette constraints"*) into customer-facing UI.
+- **Natural Luxury Standard**: Use clear, conversational retail terms (*"Curate"*, *"Reorder Schedule"*, *"Color Palette"*, *"Add All to Bag"*, *"Clothing"*, *"Audio"*, *"Watches"*, *"Out of Stock"*, *"Chat with Stylist"*).
+- **Usability First**: If a term requires explanation or slows customer comprehension, replace it immediately with plain, clear English.

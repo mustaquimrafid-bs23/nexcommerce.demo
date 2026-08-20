@@ -88,6 +88,9 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 > **CANONICAL STOREFRONT SPECIFICATION:**
 > All storefront design, development, component architecture, state management, responsive behavior, accessibility (WCAG 2.1 AA), and QA MUST unconditionally follow the 48-section master blueprint in:
 > `.agents/rules/premium-ecommerce-storefront-master-instruction.md`
+> and the 47-section Modernist / Swiss-inspired editorial design system specification in:
+> `.agents/rules/modernist-design-system-standards.md`
+
 
 ### UX Mindset & Human-Centered Design
 - **Start with the user, their goals, and the problem, not the screen**: UI is the visible surface; UX is the entire system of understanding the user and helping them accomplish their goal effortlessly.
@@ -287,8 +290,11 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Generate lifestyle imagery using the generate_image tool before building any section. Prompt formula: "[Activity/mood] lifestyle photograph, [product worn/used by] model, [setting: urban/studio/nature], natural light, editorial quality, [brand aesthetic]"
 - NEVER use glowing product renders, neon-lit isolated objects, or floating items as the primary visual language of a lifestyle brand.
 
-**9. COPY & TEXT CONTENT — Editorial Voice Standard**
-- ALL product names, descriptions, and section headers must sound like they were written by a luxury brand copywriter — NOT generated from a spec sheet.
+**9. COPY & TEXT CONTENT — Editorial Voice & Human-First Standard**
+- ALL product names, descriptions, section headers, badges, modals, tooltips, and empty states must sound like they were written by a top luxury brand copywriter for real human shoppers — NOT generated from an AI prompt engine or ML spec sheet.
+- **Strict Prohibition on AI Jargon**: Never use terms like *synthesize*, *cadence*, *replenishment cycle*, *tonal DNA*, *curation valuation*, *archive acquisition*, *atelier reserved*, or *silhouette constraints*.
+- **Standard Luxury Categories**: Use standard customer-friendly naming (`Clothing`, `Audio`, `Footwear`, `Watches`, `Bags & Accessories`) instead of pretentious synonyms (`Ready-to-Wear`, `High Acoustics`, `Artisanal Footwear`, `Horology`, `Leather & Accessories`).
+- **Clear Action CTAs**: Use definitive retail verbs (`Add All to Bag`, `Explore Collection`, `Chat with Stylist`, `Save Schedule`).
 - Hero headline: aspirational, short, emotionally resonant. Max 6 words per line.
   - Good: "Move Without Limits." / "Dressed for Now." / "Every Detail, Considered."
   - Bad: "RUN FAST. LOOK SHARP. LIVE WELL." (too punchy/aggressive, not luxury editorial)
@@ -340,16 +346,54 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - **No Full-Width Dark Bands on Component Cards**: Spotlight cards, curated look showcases, and editorial bento cards must ALWAYS reside inside `.container`. Never apply card-level dark background gradients (`background: rgba(...)` or solid fills) to full-bleed `<section>` wrappers, as this creates jarring full-width black bands across wide screens.
 - **Full-Vertical Visual Audit Before Completion**: Verification must include full-page top-to-bottom inspection (hero, spotlight, product grid, AND subordinate refinement consoles / pagination) across desktop and mobile viewports.
 
-**14. VISUAL-FIRST & LOW-TEXT DENSITY STANDARD ("SHOW, DON'T TELL")**
-- **70/30 Visual-to-Text Ratio**: Dedicate ≥70% of viewport area to imagery, interactive canvas elements, and visual micro-UIs. UI copy must be minimal and impactful.
-- **Strict Copy Restraint**: Headlines max 4–6 words. Body descriptions max 1–2 sentences (≤25 words). Product cards strictly Brand + Title + Price.
-- **Visual Over Verbal**: Replace text paragraphs with visual swatches, interactive hotspot pins, icon pedestals, diagrammatic step counters, and visual fit/spec meters.
-- **No Text Walls**: Any prose block >3 lines without imagery or visual structure is strictly prohibited.
+**14. VISUAL-FIRST & RADICAL TEXT ECONOMY STANDARD ("SHOW, DON'T TELL")**
+- **70/30 Visual-to-Text Ratio**: At least 70% of visible layout area across all storefront viewports must be dedicated to high-fidelity lifestyle photography, interactive 3D/hotspot layers, SVG telemetry maps, diagrammatic flows, and visual micro-UIs. Text elements must occupy ≤30% of visible area.
+- **Radical Text Economy & Copy Budgets**:
+  - **Headlines**: Maximum 4–6 words. Punchy, declarative, emotionally resonant.
+  - **Descriptions & Microcopy**: Maximum 1–2 short sentences (≤25 words total). Never write multi-paragraph explanatory blocks.
+  - **Section Headers**: 2–4 words (e.g., "The Run Edit", "Craft & Form", "Transit Telemetry").
+  - **Product Cards**: Strictly 3-item metadata (Brand + Title + Price). Zero descriptive paragraphs or match explanations.
+- **Concrete Visual Replacement Patterns**:
+  - Replace text bullet lists with visual feature badges and icon-anchored micro-cards.
+  - Replace narrative tracking logs and status tables with interactive SVG transit route maps, glowing waypoint beacons, and 4-badge parcel spec matrices.
+  - Replace narrative material specs with interactive texture swatches, silhouette overlays, and dynamic lighting previews.
+  - Replace guarantee and policy paragraphs with icon-backed frosted micro-pills (e.g., `⚡ Same-Day Dispatch`, `↺ 14-Day Guarantee`, `🔒 Authenticity Assured`).
+  - Replace text sizing charts with visual fit meters, silhouette overlays, and interactive dimension diagrams.
+- **Ultra-Modern & Premium Luxury Visual Language**:
+  - Deep obsidian frosted canvases (`#031838` to `#000B1A`) with translucent glassmorphic cards (`rgba(11, 20, 36, 0.72)`).
+  - Specular inner top highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`), feather-stroke Lucide vector icons on dedicated 44×44px frosted pedestals, and smooth GPU spring animations.
+  - High-contrast typography hierarchy (`Instrument Serif` for editorial accents, `Neue Haas Grotesk`/`Manrope` for headlines and telemetry numbers, `Inter` for clean UI labels).
+
+**15. MODERNIST LUXURY FOOTER & HERO INVARIANTS**
+- **Human-Understandable Footer Copy & Anti-Jargon Rule**:
+  - Strictly prohibit pretentious jargon (`THE MAISON`, `THE ATELIER STORY`, `DATA PRIVACY (GDPR)`, `THE PRIVATE EDIT`).
+  - Use clean, universally understood headings: **`ABOUT`** and **`NEWSLETTER`**.
+  - Strictly limit company links to **2 to 3 essential items**: `About Us`, `Privacy Policy`, `Terms of Service`.
+- **Architectural 3-Column Main Grid**:
+  - **Column 1**: Brand Manifesto & Social Channels (Instagram, TikTok, LinkedIn).
+  - **Column 2**: `ABOUT` (3 simple links).
+  - **Column 3**: `NEWSLETTER` (1-line copy + modern rectangular input + solid white `SUBSCRIBE` CTA).
+- **3-Zone Architectural Footer Bottom Bar**:
+  - **Left Zone (1/3)**: Copyright statement, statutory VAT notice (`All prices incl. statutory VAT`), and discreet legal text links (`Impressum`, `Privacy`, `Cookie Settings`).
+  - **Center Zone (1/3)**: Centered payment trust marks.
+  - **Right Zone (1/3)**: Right-aligned market & currency selector (`[🌐 Europe · EUR (€)]`).
+- **Strictly Top 3–4 Monochrome Payment Marks**: Only display `Apple Pay`, `Visa`, `Mastercard`, and `Klarna`. Never 6+ badges. Strictly monochrome frosted glass (`rgba(255, 255, 255, 0.04)` with `1px solid rgba(255, 255, 255, 0.1)`). Never saturated rainbow blocks.
+- **Zero Developer Widgets**: Never inject theme switchers, debug badges, or tech widgets into public consumer footers.
+- **European Luxury Hero Headline & CTA**:
+  - Confident single-line or naturally balanced 2-line headline in `Neue Haas Grotesk`/`Manrope` (`-0.025em` tracking). No clashing italic serif stacks.
+  - Solid pure white `#FFFFFF` editorial CTA button with deep obsidian `#060E1A` typography and `2px` architectural border-radius (zero neon glowing pills).
 
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
+- Pretentious jargon in navigation or footer (`THE MAISON`, `THE ATELIER STORY`, `THE PRIVATE EDIT`) instead of clear human terms (`ABOUT`, `NEWSLETTER`, `About Us`)
+- Stacking >3 links under footer navigation columns
+- Re-introducing redundant `CLIENT SERVICES` columns
 - Neon glow borders on product cards
 - 3+ badges on one product card
 - Cyan + purple + pink simultaneously as UI structure colors
+- Saturated rainbow payment badges (hot pink Klarna, magenta iDEAL, blue PayPal) or >4 payment badges in the footer
+- Clustered or 1-sided footer bottom bars instead of 3-zone balanced distribution
+- Developer widgets (theme pickers, debug pills) injected into public consumer storefront footers
+- Hero headlines with clashing serif/sans stacks or neon glowing CTA pills
 - `overflow: hidden` on buttons with corner-anchored badges (causing truncated/sliced notification numbers)
 - Duplicating primary navbar icon actions (like Wishlist) inside the 3-dot overflow dropdown
 - "MADE FOR YOU", "SMART INTENT SEARCH" etc. written in ALL CAPS monospace chip labels across every section header — this screams SaaS, not lifestyle retail
@@ -368,6 +412,7 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Auto-cycling category tabs or auto-filtering timers in product browsing trays / recently viewed feeds
 - CSS `transition: transform` applied during active `requestAnimationFrame` LERP mouse-tilt calculations
 - Continuous blocks of text (>3 lines) or walls of explanatory prose on storefront pages
+- Non-visual data tables or multi-sentence paragraphs on product cards / tracking pages where visual telemetry or icon cards should be used
 
 ### 🔍 Self-Check Before Presenting UI
 Before presenting any lifestyle e-commerce UI, ask:

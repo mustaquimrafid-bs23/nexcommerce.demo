@@ -1594,4 +1594,34 @@ Never inject theme switchers, debug badges, or tech widgets into the public cons
 2. **Sort Dropdown**: Custom-styled `<select>` with 2px radius and subtle hairline division line.
 3. **Header Nav Glider Synchronization**: Navigation glider in `header.js` must parse query strings (`?cat=...`) so active category filters are accurately highlighted in top navigation.
 
+---
+
+# 52. MANDATORY HUMAN-FRIENDLY LUXURY COPYWRITING & ANTI-JARGON STANDARD
+
+All copy across every screen, component, badge, modal, tooltip, empty state, and action button MUST use natural, empathetic, and instantly understandable human language. The UI must sound like a prestigious European luxury retail concierge — NEVER an internal machine learning specification or backend engineering console.
+
+### 1. Blacklisted Jargon & Mandatory Replacements
+
+| Blacklisted Jargon / Robotic Phrasing | Mandatory Human-Friendly Replacement |
+| :--- | :--- |
+| ❌ `Synthesize` / `Synthesize Capsule` | ✅ `Curate` / `Search` / `Explore` / `Build Look` |
+| ❌ `Cadence Configuration` / `Replenishment Cycle` | ✅ `Reorder Schedule` / `Adjust Reorder Frequency` |
+| ❌ `Replenishment Pieces` / `Replenishments` | ✅ `Recommended Items` / `Wardrobe Essentials` / `Products` |
+| ❌ `Extracted Tonal DNA` / `Aesthetic DNA` | ✅ `Color Palette` / `Palette` |
+| ❌ `Curation Valuation` / `Telemetry Valuation` | ✅ `Estimated Total` / `Total Value` |
+| ❌ `Move All to Bag` | ✅ `Add All to Bag` |
+| ❌ `Archive Acquisitions` / `Private Archive` | ✅ `Previous Orders` / `Special Offer` / `Sale` |
+| ❌ `Atelier Reserved` | ✅ `Out of Stock` / `Reserved` |
+| ❌ `Horology` / `Caliber Series` | ✅ `Watches` / `Automatic Series` |
+| ❌ `High Acoustics` | ✅ `Audio` / `Headphones & Speakers` |
+| ❌ `Artisanal Footwear` | ✅ `Footwear` / `Shoes` |
+| ❌ `Analyzing silhouette constraints...` | ✅ `Finding matching items for your style...` |
+| ❌ `Your atelier curation is forming...` | ✅ `Your shopping list is empty.` |
+| ❌ `Bespoke Atelier Pairing` / `Assemble Your Complete Ensemble` | ✅ `Personal Styling` / `Complete Your Look` |
+| ❌ `Style My Replenishments` | ✅ `Chat with Stylist` / `Get Style Advice` |
+
+### 2. Customer Benefit over Algorithmic Logic
+- Product recommendation reasons must highlight tangible customer value and seasonal context (e.g. *"Purchased 4× · Recommended for winter"*, *"Everyday essential"*), never raw algorithm math (*"Interval 60 days delta 2"*).
+- Omnibus prior price disclosures must be conversational and compliant (e.g. *"Lowest price in last 30 days: € 215.00"*).
+
 
