@@ -180,7 +180,7 @@
     }
   ];
 
-  /* ─── Suggestion Prompts & Popular Categories ────────────────────────────────── */
+  /* ─── Suggestion Prompts & Visual Departments ────────────────────────────────── */
   const IDLE_PROMPTS = [
     { text: 'Something for a winter evening in Milan', icon: 'sparkles' },
     { text: 'Something comfortable for a long flight', icon: 'plane' },
@@ -193,6 +193,13 @@
     { label: 'Footwear', query: 'footwear' },
     { label: 'Audio', query: 'audio' },
     { label: 'Accessories', query: 'accessories' }
+  ];
+
+  const VISUAL_DEPARTMENTS = [
+    { label: 'Clothing & Knitwear', query: 'apparel', subtitle: 'Cashmere & Tailoring', count: '12 Pieces', image: 'assets/images/lifestyle/thumb_sweater.jpg' },
+    { label: 'Footwear & Runners', query: 'footwear', subtitle: 'Italian Calfskin & Vibram', count: '8 Styles', image: 'assets/images/lifestyle/thumb_runner.jpg' },
+    { label: 'Audio & Acoustics', query: 'audio', subtitle: 'Studio & Active Isolation', count: '6 Models', image: 'assets/images/lifestyle/thumb_headphones.jpg' },
+    { label: 'Horology & Leather', query: 'accessories', subtitle: 'Automatic & Waxed Canvas', count: '10 Items', image: 'assets/images/lifestyle/thumb_watch.jpg' }
   ];
 
   /* ─── State & Storage Management ────────────────────────────────────────────── */
@@ -407,32 +414,75 @@
       </div>
     ` : '';
 
-    const promptsHtml = `
+    const visualDeptHtml = `
       <div class="search-section-block">
         <div class="search-section-header">
-          <span class="search-section-label">TRY ASKING</span>
+          <span class="search-section-label">EXPLORE BY DEPARTMENT</span>
         </div>
-        <div class="search-prompts-grid">
-          ${IDLE_PROMPTS.map(p => `
-            <button type="button" class="search-prompt-card" data-prompt="${escapeHtml(p.text)}">
-              <span class="search-prompt-sparkle"><i data-lucide="sparkles" style="width:14px;height:14px;"></i></span>
-              <span class="search-prompt-title">${escapeHtml(p.text)}</span>
-              <span class="search-prompt-arrow">&rarr;</span>
+        <div class="search-visual-dept-grid">
+          ${VISUAL_DEPARTMENTS.map(d => `
+            <button type="button" class="search-visual-dept-card" data-dept="${escapeHtml(d.query)}">
+              <img src="${_resolveAsset(d.image)}" alt="${escapeHtml(d.label)}" class="visual-dept-bg" loading="lazy" />
+              <div class="visual-dept-scrim"></div>
+              <div class="visual-dept-content">
+                <span class="visual-dept-title">${escapeHtml(d.label)}</span>
+                <span class="visual-dept-sub">${escapeHtml(d.subtitle)}</span>
+                <span class="visual-dept-count">${escapeHtml(d.count)} &rarr;</span>
+              </div>
             </button>
           `).join('')}
         </div>
       </div>
     `;
 
-    const departmentsHtml = `
-      <div class="search-section-block" style="margin-top: 8px;">
+    const trendingPieces = [
+      CATALOG_DB[0], // p1 Cashmere Turtleneck
+      CATALOG_DB[5], // p3 Minimalist Leather Runner
+      CATALOG_DB[4], // p6 Horizon Earbuds
+      CATALOG_DB[7]  // p8 Chronograph Watch
+    ];
+
+    const trendingHtml = `
+      <div class="search-section-block">
         <div class="search-section-header">
-          <span class="search-section-label">EXPLORE DEPARTMENTS</span>
+          <span class="search-section-label">TRENDING THIS SEASON</span>
         </div>
-        <div class="search-dept-rail">
-          ${POPULAR_DEPARTMENTS.map(d => `
-            <button type="button" class="search-dept-pill" data-dept="${escapeHtml(d.query)}">
-              ${escapeHtml(d.label)}
+        <div class="search-trending-grid">
+          ${trendingPieces.map(p => {
+            const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
+            return `
+            <div class="search-mini-prod-card" data-id="${p.id}">
+              <a href="${productHref}" class="search-mini-img-wrap" style="display:block; text-decoration:none;">
+                <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
+                <span class="search-mini-badge">${escapeHtml(p.matchBadge || 'TRENDING')}</span>
+              </a>
+              <div class="search-mini-meta">
+                <span class="search-mini-brand">${escapeHtml(p.brand)}</span>
+                <a href="${productHref}" class="search-mini-title">${escapeHtml(p.name)}</a>
+                <div class="search-mini-footer">
+                  <span class="search-mini-price tabular-nums">${p.formattedPrice}</span>
+                  <button type="button" class="btn-mini-quick-add" data-id="${p.id}" aria-label="Quick add ${escapeHtml(p.name)}">
+                    <i data-lucide="shopping-bag" style="width:11px;height:11px;margin-right:3px;"></i> ADD
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;}).join('')}
+        </div>
+      </div>
+    `;
+
+    const promptsHtml = `
+      <div class="search-section-block">
+        <div class="search-section-header">
+          <span class="search-section-label">POPULAR INTENT SEARCHES</span>
+        </div>
+        <div class="search-prompt-pills-rail">
+          ${IDLE_PROMPTS.map(p => `
+            <button type="button" class="search-prompt-pill" data-prompt="${escapeHtml(p.text)}">
+              <i data-lucide="${p.icon}" style="width:13px;height:13px;color:var(--accent-cyan,#3DE0FF);"></i>
+              <span>${escapeHtml(p.text)}</span>
+              <span class="prompt-pill-arrow">&rarr;</span>
             </button>
           `).join('')}
         </div>
@@ -442,8 +492,9 @@
     resultsContainer.innerHTML = `
       <div class="search-idle-wrapper">
         ${recentsHtml}
+        ${visualDeptHtml}
+        ${trendingHtml}
         ${promptsHtml}
-        ${departmentsHtml}
       </div>
     `;
 
@@ -574,17 +625,6 @@
     }
 
     const intentBadges = buildIntentBadges(intent);
-    const badgesHtml = intentBadges.length > 0 ? `
-      <div class="search-preferences-block">
-        <span class="search-preferences-label">MATCHING PREFERENCES</span>
-        <div class="search-preferences-pills">
-          ${intentBadges.map(b => `<span class="intent-badge-pill">${b}</span>`).join('')}
-        </div>
-      </div>
-    ` : '';
-
-    const firstProduct = matchedProducts[0];
-    const reasoningSnippet = firstProduct.reasoning || 'Tailored selection curated for your requested style and occasion.';
 
     const cardsHtml = matchedProducts.map(p => {
       const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
@@ -620,14 +660,16 @@
 
     resultsContainer.innerHTML = `
       <div class="search-results-wrapper">
-        ${badgesHtml}
-        
-        <div class="search-reasoning-card">
-          <div class="reasoning-header">
-            <i data-lucide="sparkles" style="width:14px;height:14px;color:var(--accent-cyan);"></i>
-            <span>RECOMMENDATION NOTES</span>
+        <div class="search-results-top-bar">
+          <div class="search-results-count-badge">
+            <i data-lucide="sparkles" style="width:13px;height:13px;color:var(--accent-cyan,#3DE0FF);"></i>
+            <span>${matchedProducts.length} Recommended Pieces for &ldquo;${escapeHtml(query)}&rdquo;</span>
           </div>
-          <p class="reasoning-text">&ldquo;${escapeHtml(reasoningSnippet)}&rdquo;</p>
+          ${intentBadges.length > 0 ? `
+            <div class="search-preferences-pills">
+              ${intentBadges.map(b => `<span class="intent-badge-pill">${b}</span>`).join('')}
+            </div>
+          ` : ''}
         </div>
 
         <div class="search-results-grid">
@@ -945,8 +987,26 @@
   function bindIdleEvents() {
     if (!resultsContainer) return;
 
+    // Visual Department Cards
+    resultsContainer.querySelectorAll('.search-visual-dept-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-dept');
+        executeSearch(cat);
+      });
+    });
+
+    // Trending Mini Products Quick-Add
+    resultsContainer.querySelectorAll('.btn-mini-quick-add').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const pid = btn.getAttribute('data-id');
+        handleQuickAdd(pid, btn);
+      });
+    });
+
     // Prompt pills
-    resultsContainer.querySelectorAll('.search-prompt-card').forEach(btn => {
+    resultsContainer.querySelectorAll('.search-prompt-pill').forEach(btn => {
       btn.addEventListener('click', () => {
         const p = btn.getAttribute('data-prompt');
         executeSearch(p);
@@ -976,14 +1036,6 @@
     if (clearAllBtn) {
       clearAllBtn.addEventListener('click', clearAllRecentSearches);
     }
-
-    // Department pills
-    resultsContainer.querySelectorAll('.search-dept-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        const cat = pill.getAttribute('data-dept');
-        executeSearch(cat);
-      });
-    });
 
     // Typo suggest
     const typoBtn = resultsContainer.querySelector('.btn-typo-suggest');
