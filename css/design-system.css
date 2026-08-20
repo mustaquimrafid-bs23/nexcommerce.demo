@@ -3071,27 +3071,27 @@ textarea.input-field {
   }
 }
 
-/* ─── Luxury Product Card Architecture (Standard 2: 3D Hover & Glare) ─────── */
+/* ─── Luxury Product Card Architecture (Modernist 3D Hover & Hairline Borders) ─── */
 .plp-card.luxury-product-card {
-  background: var(--bg-surface, #091222);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: var(--radius-md, 10px);
-  padding: 12px;
+  background: rgba(8, 14, 30, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 6px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   position: relative;
   transform-style: preserve-3d;
   will-change: transform, box-shadow;
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35);
-  transition: border-color 220ms ease, background-color 220ms ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  transition: border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
   overflow: hidden;
 }
 
 .plp-card.luxury-product-card:hover {
-  background: var(--bg-surface-hover, #0e1a30);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6),
-              0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: rgba(12, 20, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65),
+              0 0 0 1px rgba(255, 255, 255, 0.10);
 }
 
 /* Dynamic Specular Glare Tracking Layer */
@@ -3111,14 +3111,14 @@ textarea.input-field {
   z-index: 5;
 }
 
-/* Card Media Container */
+/* Card Media Container (3:4 Luxury Aspect Ratio) */
 .plp-card-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.1;
-  border-radius: 8px;
+  aspect-ratio: 3 / 4;
+  border-radius: 4px;
   overflow: hidden;
-  background: #060e1e;
+  background: #040914;
   transform: translateZ(8px);
 }
 
@@ -3135,6 +3135,7 @@ textarea.input-field {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 25%;
   display: block;
   transform: translateY(var(--plp-img-y, 0px)) scale(1);
   transition: transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -3148,18 +3149,18 @@ textarea.input-field {
 /* Luxury Card Badge */
 .plp-luxury-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: #ffffff;
-  color: #050b16;
-  font-family: var(--font-body);
+  top: 8px;
+  left: 8px;
+  background: #FFFFFF;
+  color: #010C1E;
+  font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  padding: 3px 7px;
-  border-radius: 3px;
+  padding: 3px 6px;
+  border-radius: 2px;
   z-index: 3;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   transform: translateZ(12px);
 }
 
@@ -3168,14 +3169,14 @@ textarea.input-field {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(6, 14, 28, 0.7);
+  background: rgba(6, 14, 28, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3188,48 +3189,49 @@ textarea.input-field {
 .plp-card-wishlist:hover {
   background: rgba(226, 18, 110, 0.95);
   border-color: #E2126E;
-  color: #ffffff;
-  transform: translateZ(12px) scale(1.1);
+  color: #FFFFFF;
+  transform: translateZ(12px) scale(1.08);
 }
 
 .plp-card-wishlist.active {
   background: #E2126E;
   border-color: #E2126E;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .plp-card-wishlist:active {
   transform: translateZ(12px) scale(0.92);
 }
 
-/* Tactile Quick Add Button (Standard 1) */
+/* Slide-Up Tactile Quick Add Button */
 .plp-quick-add-btn {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.96);
-  color: #050b16;
-  border: none;
-  border-radius: 6px;
-  font-family: var(--font-body);
-  font-size: 11px;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  height: 36px;
+  background: rgba(8, 14, 30, 0.95);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(8px) translateZ(14px);
+  transform: translateY(12px) translateZ(14px);
   transition: opacity 220ms cubic-bezier(0.23, 1, 0.32, 1),
               transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
               background 180ms ease,
-              color 180ms ease;
+              color 180ms ease,
+              border-color 180ms ease;
   z-index: 4;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
   overflow: hidden;
 }
 
@@ -3239,9 +3241,10 @@ textarea.input-field {
 }
 
 .plp-quick-add-btn:hover {
-  background: #ffffff;
-  color: #000000;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  background: #FFFFFF;
+  color: #010C1E;
+  border-color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
 }
 
 .plp-quick-add-btn:active {
@@ -3252,14 +3255,14 @@ textarea.input-field {
   opacity: 1;
   transform: translateY(0) translateZ(14px);
   background: #0f1c34;
-  color: #ffffff;
+  color: #FFFFFF;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .card-ripple {
   position: absolute;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.2);
   transform: scale(0);
   pointer-events: none;
   animation: cardRippleAnim 450ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
@@ -3274,7 +3277,7 @@ textarea.input-field {
 
 /* 3-Item Clean Metadata Footer */
 .plp-card-info {
-  padding: 12px 2px 2px;
+  padding: 10px 2px 2px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -3282,11 +3285,12 @@ textarea.input-field {
 }
 
 .plp-card-category-label {
-  font-size: 10px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-tertiary, #64748B);
+  color: rgba(255, 255, 255, 0.38);
   margin-bottom: 2px;
 }
 
@@ -3296,41 +3300,73 @@ textarea.input-field {
 }
 
 .plp-card-name {
-  font-family: var(--font-body);
-  font-size: 14px;
+  font-family: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
   line-height: 1.35;
   margin: 2px 0 6px;
   transition: color 180ms ease;
 }
 
 .plp-card-title-link:hover .plp-card-name {
-  color: var(--accent-cyan, #06B6D4);
+  color: var(--accent-cyan, #3DE0FF);
 }
 
 .plp-card-price-tag {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  font-variant-numeric: tabular-nums;
   margin-top: auto;
+}
+
+/* Modernist Empty State */
+.plp-empty-state {
+  grid-column: 1 / -1;
+  padding: 64px 20px;
+  text-align: center;
+  background: rgba(8, 14, 30, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.plp-empty-title {
+  font-family: 'Manrope', 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin: 0 0 8px;
+}
+
+.plp-empty-desc {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.48);
+  margin: 0 0 20px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Mobile Compact Tuning */
 @media (max-width: 540px) {
   .plp-card.luxury-product-card {
     padding: 8px;
+    border-radius: 4px;
   }
   .plp-card-media {
-    aspect-ratio: 1 / 1.08;
+    aspect-ratio: 3 / 4;
   }
   .plp-card-name {
     font-size: 12px;
     margin: 2px 0 4px;
   }
   .plp-card-price-tag {
-    font-size: 13px;
+    font-size: 12px;
   }
   .plp-quick-add-btn {
     opacity: 1;

@@ -702,10 +702,10 @@
 
   function renderEmptyState(container) {
     container.innerHTML = `
-      <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px;">
-        <h3 style="font-family: 'Manrope', sans-serif; font-size: 24px; color: #FFFFFF; margin-bottom: 8px;">NO PIECES FOUND</h3>
-        <p style="font-size: 14px; color: #94A3B8; margin-bottom: 20px;">We couldn't find pieces matching this filter. Explore our full catalog.</p>
-        <button class="btn-primary-commerce" id="btnResetFilters" style="min-width: 200px; margin: 0 auto; height: 44px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em;">VIEW ALL PIECES</button>
+      <div class="plp-empty-state">
+        <h3 class="plp-empty-title">No Pieces Found</h3>
+        <p class="plp-empty-desc">We couldn't find pieces matching this filter. Explore our full catalog.</p>
+        <button class="btn-primary-commerce" id="btnResetFilters" style="min-width: 200px; margin: 0 auto; height: 40px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; border-radius: 2px;">VIEW ALL PIECES</button>
       </div>
     `;
 
