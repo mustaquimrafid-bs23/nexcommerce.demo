@@ -933,6 +933,15 @@ function buildCardHTML(product, index = 0, isCompact = false) {
   }
 
   // Full luxury atelier card with interactive cadence trigger & zero paragraph clutter
+  const quickAddOverlayHTML = !oos
+    ? `<div class="sl-quick-add-overlay">
+        <button class="sl-btn-quick-add-slide" data-action="quick-add" data-id="${product.id}" aria-label="Add ${product.name} to bag">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          ADD TO BAG
+        </button>
+      </div>`
+    : '';
+
   return `
     <article class="sl-card${oos ? ' sl-card--oos' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
       <div class="sl-glare" aria-hidden="true"></div>
@@ -945,13 +954,14 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         </a>
         ${oos ? '<div class="sl-oos-badge">Atelier Reserved</div>' : ''}
         ${hasSale ? '<div class="sl-sale-badge">Private Archive</div>' : ''}
+        ${quickAddOverlayHTML}
       </div>
       <div class="sl-card-body">
         
         <!-- Interactive Cadence / Reason Pill -->
         <button class="sl-reason-chip sl-reason-chip--interactive" data-cadence-trigger="${product.id}" title="Click to adjust replenishment cycle">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          <span>${product.reason}</span>
+          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 200px;">${product.reason}</span>
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 2px; opacity: 0.6;"><path d="m6 9 6 6 6-6"/></svg>
         </button>
 
@@ -1000,11 +1010,23 @@ function bindCardEvents(container) {
   container._slEventsBound = true;
 
   container.addEventListener('click', e => {
-    const cadenceBtn = e.target.closest('[data-cadence-trigger]');
-    const dismissBtn = e.target.closest('[data-dismiss]');
-    const addBtn     = e.target.closest('.sl-btn-add:not(.sl-btn-add--disabled)');
-    const decBtn     = e.target.closest('.sl-stepper-dec');
-    const incBtn     = e.target.closest('.sl-stepper-inc');
+    const quickAddBtn = e.target.closest('[data-action="quick-add"]');
+    const cadenceBtn  = e.target.closest('[data-cadence-trigger]');
+    const dismissBtn  = e.target.closest('[data-dismiss]');
+    const addBtn      = e.target.closest('.sl-btn-add:not(.sl-btn-add--disabled)');
+    const decBtn      = e.target.closest('.sl-stepper-dec');
+    const incBtn      = e.target.closest('.sl-stepper-inc');
+
+    if (quickAddBtn) {
+      attachRipple(quickAddBtn);
+      const id = quickAddBtn.dataset.id;
+      const product = SL_PRODUCTS.find(p => p.id === id);
+      if (product && product.inStock) {
+        addToCart(product, getQty(id));
+        showToast(`${product.name} added to bag`, 'success');
+      }
+      return;
+    }
 
     if (cadenceBtn) {
       const id = cadenceBtn.dataset.cadenceTrigger;

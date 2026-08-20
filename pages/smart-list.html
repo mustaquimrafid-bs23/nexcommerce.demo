@@ -541,21 +541,22 @@
       align-items: start;
     }
 
-    /* ─── Product Card (Obsidian Luxury Depth) ─────────────────────────── */
+    /* ─── Product Card (Modernist 3:4 Luxury) ────────────────────────── */
     .sl-card {
       position: relative;
-      background: rgba(8, 14, 30, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: var(--radius-lg, 12px);
+      background: rgba(8, 14, 30, 0.70);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 6px;
       overflow: visible;
       cursor: default;
       transform-style: preserve-3d;
-      transition: box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1), border-color 200ms ease;
+      transition: border-color 220ms ease, box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1);
       will-change: transform;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
     .sl-card:hover {
-      border-color: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65);
     }
     .sl-card--oos { opacity: 0.72; }
 
@@ -577,8 +578,8 @@
       top: 6px;
       right: 6px;
       z-index: 10;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(5, 12, 26, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -598,31 +599,76 @@
       border-color: rgba(241, 51, 101, 0.35);
     }
     .sl-dismiss-btn:focus-visible { outline: 2px solid var(--focus-ring, #3DE0FF); outline-offset: 2px; opacity: 1; transform: scale(1); }
-    /* Touch/no-hover devices never trigger :hover, so the dismiss action
-       would otherwise be invisible (present but undiscoverable) — show it. */
     @media (hover: none) {
       .sl-dismiss-btn { opacity: 1; transform: scale(1); }
     }
 
-    /* Image wrap */
+    /* 3:4 Luxury Image wrap */
     .sl-card-img-wrap {
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1.1;
+      aspect-ratio: 3 / 4;
       overflow: hidden;
-      border-radius: var(--radius-lg, 12px) var(--radius-lg, 12px) 0 0;
+      border-radius: 6px 6px 0 0;
       background: rgba(255, 255, 255, 0.02);
     }
     .sl-card-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 25%;
       display: block;
       transform: translateZ(10px);
       transition: transform 500ms cubic-bezier(0.23, 1, 0.32, 1);
       will-change: transform;
     }
     .sl-card:hover .sl-card-img { transform: translateZ(10px) scale(1.04); }
+
+    /* Slide-up Quick Add overlay */
+    .sl-quick-add-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 10px 10px;
+      transform: translateY(12px) translateZ(14px);
+      opacity: 0;
+      transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), opacity 180ms ease;
+      z-index: 5;
+    }
+    .sl-card:hover .sl-quick-add-overlay {
+      transform: translateY(0) translateZ(14px);
+      opacity: 1;
+    }
+    @media (hover: none) {
+      .sl-quick-add-overlay { transform: translateY(0) translateZ(14px); opacity: 1; }
+    }
+    .sl-btn-quick-add-slide {
+      width: 100%;
+      height: 36px;
+      background: rgba(8, 14, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 2px;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sl-btn-quick-add-slide:hover {
+      background: rgba(61, 224, 255, 0.12);
+      border-color: rgba(61, 224, 255, 0.35);
+      color: #3DE0FF;
+    }
 
     /* Badges */
     .sl-oos-badge {
