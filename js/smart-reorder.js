@@ -624,7 +624,7 @@ const CURATED_REPLENISHMENT_LOOKS = [
     index: 0,
     key: 'apparel',
     tabLabel: '01 KNITWEAR',
-    eyebrow: 'CURATED LOOK · 01 OF 04',
+    eyebrow: 'RECOMMENDED LOOK · 01 OF 04',
     seasonBadge: 'WINTER COLLECTION · AW26',
     title: 'The Winter Tailoring Collection',
     desc: 'Double-faced wool overcoats and structured cashmere layers designed for the colder months.',
