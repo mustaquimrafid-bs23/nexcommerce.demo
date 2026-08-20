@@ -1310,6 +1310,13 @@ function buildCardHTML(product, index = 0, isCompact = false) {
   }
 
   // Full luxury atelier card with interactive cadence trigger & zero paragraph clutter
+  const isSelected = window.smartListStore?.selectedIds?.has(product.id) || false;
+  const selectRingHTML = !oos
+    ? `<button type="button" class="sl-card-select-btn${isSelected ? ' selected' : ''}" data-action="toggle-select" data-id="${product.id}" role="checkbox" aria-checked="${isSelected}" aria-label="Select ${product.name} for batch actions">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>`
+    : '';
+
   const quickAddOverlayHTML = !oos
     ? `<div class="sl-quick-add-overlay">
         <button class="sl-btn-quick-add-slide" data-action="quick-add" data-id="${product.id}" aria-label="Add ${product.name} to bag">
@@ -1320,8 +1327,9 @@ function buildCardHTML(product, index = 0, isCompact = false) {
     : '';
 
   return `
-    <article class="sl-card${oos ? ' sl-card--oos' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
+    <article class="sl-card${oos ? ' sl-card--oos' : ''}${isSelected ? ' is-selected' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
       <div class="sl-glare" aria-hidden="true"></div>
+      ${selectRingHTML}
       <button class="sl-dismiss-btn" data-dismiss="${product.id}" aria-label="Remove ${product.name} from list" title="Remove from list">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -1387,12 +1395,21 @@ function bindCardEvents(container) {
   container._slEventsBound = true;
 
   container.addEventListener('click', e => {
+    const selectBtn   = e.target.closest('[data-action="toggle-select"]');
     const quickAddBtn = e.target.closest('[data-action="quick-add"]');
     const cadenceBtn  = e.target.closest('[data-cadence-trigger]');
     const dismissBtn  = e.target.closest('[data-dismiss]');
     const addBtn      = e.target.closest('.sl-btn-add:not(.sl-btn-add--disabled)');
     const decBtn      = e.target.closest('.sl-stepper-dec');
     const incBtn      = e.target.closest('.sl-stepper-inc');
+
+    if (selectBtn) {
+      const id = selectBtn.dataset.id;
+      if (window.smartListStore) {
+        window.smartListStore.toggleSelect(id);
+      }
+      return;
+    }
 
     if (quickAddBtn) {
       attachRipple(quickAddBtn);
@@ -1498,19 +1515,64 @@ function updateListStats() {
     if (span) span.textContent = activeCategoryFilter === 'all' ? 'Add All to Bag' : 'Add Filtered to Bag';
   }
 
-  // Update category pill counts (always reflect full totals per category,
-  // independent of the active filter — these are the filter's own labels).
-  const allAvailable = getSmartList({ max: 20, category: 'all' }) || [];
-  document.querySelectorAll('.sl-filter-pill').forEach(pill => {
-    const cat = pill.dataset.category;
-    let count = 0;
-    if (cat === 'all') {
-      count = allAvailable.length;
-      pill.textContent = `All Items (${count})`;
+  // Update Select All Toggle button in toolbar
+  updateSelectAllBtn();
+}
+
+/* ─── Select All Button Controller ────────────────────────────────────────── */
+function updateSelectAllBtn() {
+  const btn = document.getElementById('btnSelectAllToggle');
+  const label = document.getElementById('selectAllToggleLabel');
+  const icon = btn?.querySelector('.sl-select-toggle-icon');
+  if (!btn || !window.smartListStore) return;
+
+  const visible = window.smartListStore.getVisibleItems().filter(p => p.inStock);
+  const selectedVisible = visible.filter(p => window.smartListStore.selectedIds.has(p.id));
+  const isAllSelected = visible.length > 0 && selectedVisible.length === visible.length;
+
+  btn.classList.toggle('active', isAllSelected);
+  btn.setAttribute('aria-pressed', isAllSelected ? 'true' : 'false');
+  if (label) label.textContent = isAllSelected ? 'Deselect All' : `Select All (${visible.length})`;
+  if (icon) icon.textContent = isAllSelected ? '✕' : '◯';
+}
+
+function initSelectAllBtn() {
+  const btn = document.getElementById('btnSelectAllToggle');
+  if (!btn || btn._hasSelectBound) return;
+  btn._hasSelectBound = true;
+
+  btn.addEventListener('click', () => {
+    if (!window.smartListStore) return;
+    const visible = window.smartListStore.getVisibleItems().filter(p => p.inStock);
+    const selectedVisible = visible.filter(p => window.smartListStore.selectedIds.has(p.id));
+    const isAllSelected = visible.length > 0 && selectedVisible.length === visible.length;
+
+    if (isAllSelected) {
+      window.smartListStore.deselectAll();
     } else {
-      count = allAvailable.filter(p => p.category.toLowerCase() === cat.toLowerCase()).length;
-      const baseLabel = pill.dataset.label || cat;
-      pill.textContent = `${baseLabel} (${count})`;
+      window.smartListStore.selectAll();
+    }
+  });
+}
+
+// Subscribe to store selection events to update card selection states without rebuilding DOM
+if (window.smartListStore) {
+  window.smartListStore.subscribe((event) => {
+    if (event.type === 'SELECTION_CHANGE') {
+      const grid = document.getElementById('slGrid');
+      if (grid) {
+        grid.querySelectorAll('.sl-card').forEach(card => {
+          const id = card.dataset.id;
+          const isSel = window.smartListStore.selectedIds.has(id);
+          card.classList.toggle('is-selected', isSel);
+          const selBtn = card.querySelector('.sl-card-select-btn');
+          if (selBtn) {
+            selBtn.classList.toggle('selected', isSel);
+            selBtn.setAttribute('aria-checked', isSel ? 'true' : 'false');
+          }
+        });
+      }
+      updateSelectAllBtn();
     }
   });
 }
@@ -1605,6 +1667,9 @@ function renderSmartListPage() {
 
   // Initialize filter bar
   initFilterBar();
+
+  // Initialize Select All toolbar toggle
+  initSelectAllBtn();
 
   // Update live statistics and valuation
   updateListStats();
