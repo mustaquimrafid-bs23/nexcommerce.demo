@@ -97,24 +97,24 @@ function getMockOrder(ref, status, reason, scenario, isPartial) {
     scenario: scenario,
     isPartial: isPartial,
     placedDate: 'August 11, 2026',
-    paymentMethod: 'bKash',
+    paymentMethod: 'Klarna Pay in 30 Days',
     expectedDate: 'Wednesday, 19 August',
     expectedRange: 'August 19, 2026',
-    customer: { name: 'Shazzad', address: 'Dhaka, Bangladesh' },
-    deliveryMethod: 'Express Next Day',
+    customer: { name: 'Julian Mercer', address: 'Kaufingerstraße 24, 80331 Munich, Germany' },
+    deliveryMethod: 'DHL Express On-Demand',
     items: [
       {
         name: 'Architectural Cashmere Sweater',
         category: 'APPAREL',
         variant: 'Midnight / M',
         qty: 1,
-        price: 18400,
-        image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=200&q=80'
+        price: 185,
+        image: '../assets/images/products/hero_sweater.png'
       }
     ],
-    subtotal: 18400,
+    subtotal: 185,
     deliveryCost: 0,
-    total: 18400
+    total: 185
   };
 }
 
@@ -158,8 +158,8 @@ function updateMeta(order) {
   const eyebrow = document.getElementById('trackingEyebrow');
   const title   = document.getElementById('trackingTitle');
   const meta    = document.getElementById('trackingMeta');
-  const payMap  = { bkash: 'bKash Direct', nagad: 'Nagad Wallet', card: 'Credit / Debit Card', cod: 'Cash on Delivery' };
-  const payLabel = payMap[order.paymentMethod] || order.paymentMethod || 'bKash';
+  const payMap  = { klarna: 'Klarna Pay in 30 Days', ideal: 'iDEAL Online Banking', bancontact: 'Bancontact Pay', applepay: 'Apple Pay', paypal: 'PayPal Express', card: 'Credit / Debit Card (3DS2)', sepa: 'SEPA Direct Debit' };
+  const payLabel = payMap[order.paymentMethod] || order.paymentMethod || 'Klarna';
   if (eyebrow) eyebrow.textContent = 'YOUR ORDER';
   if (title)   title.textContent   = `Order #${order.ref}`;
   if (meta)    meta.textContent    = `Placed ${order.placedDate} · ${payLabel}`;
@@ -177,12 +177,12 @@ function renderOrderSummary(order) {
     const image = item.image || 'assets/images/products/p1.png';
     return `
       <div style="display: flex; gap: 14px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px;">
-        <img src="${image}" alt="${item.name}" onerror="this.src='assets/images/products/p1.png'" style="width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-main); flex-shrink: 0;" />
+        <img src="${image}" alt="${item.name}" onerror="this.src='../assets/images/products/hero_sweater.png'" style="width: 64px; height: 80px; object-fit: cover; border-radius: var(--radius-sm); background: var(--bg-main); flex-shrink: 0;" />
         <div style="display: flex; flex-direction: column; gap: 4px;">
           <div style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary);">${item.category || 'APPAREL'}</div>
           <div style="font-family: var(--font-serif); font-size: 16px; color: var(--text-primary);">${item.name}</div>
           <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">${variant} &middot; Qty ${qty}</div>
-          <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary);">BDT ${(price * qty).toLocaleString()}</div>
+          <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary);" class="tabular-nums">€ ${(price * qty).toFixed(2)}</div>
         </div>
       </div>
     `;
@@ -192,12 +192,12 @@ function renderOrderSummary(order) {
   const discountAmt = Number(order.discountAmt) || 0;
   const shippingCost = Number(order.deliveryCost ?? order.shippingCost ?? 0);
   const total = Number(order.total) || (subtotal - discountAmt + shippingCost);
-  const deliveryLabel = shippingCost === 0 ? 'FREE' : `BDT ${shippingCost.toLocaleString()}`;
+  const deliveryLabel = shippingCost === 0 ? 'FREE' : `€ ${shippingCost.toFixed(2)}`;
 
   const discountRowHtml = discountAmt > 0 ? `
     <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: #00E676;">
       <span>Discount ${order.discountCode ? `(${order.discountCode})` : ''}</span>
-      <span>−BDT ${discountAmt.toLocaleString()}</span>
+      <span class="tabular-nums">−€ ${discountAmt.toFixed(2)}</span>
     </div>
   ` : '';
 
@@ -209,22 +209,22 @@ function renderOrderSummary(order) {
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
         <span>Subtotal</span>
-        <span>BDT ${subtotal.toLocaleString()}</span>
+        <span class="tabular-nums">€ ${subtotal.toFixed(2)}</span>
       </div>
       ${discountRowHtml}
       <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
         <span>Delivery</span>
-        <span style="${shippingCost === 0 ? 'color:#00E676; font-weight:600;' : ''}">${deliveryLabel}</span>
+        <span class="tabular-nums" style="${shippingCost === 0 ? 'color:#00E676; font-weight:600;' : ''}">${deliveryLabel}</span>
       </div>
       <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary);">TOTAL</span>
-        <span style="font-family: var(--font-serif); font-size: 24px; color: var(--text-primary);">BDT ${total.toLocaleString()}</span>
+        <span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary);">TOTAL (INCL. 19% VAT)</span>
+        <span style="font-family: var(--font-serif); font-size: 24px; color: var(--text-primary);" class="tabular-nums">€ ${total.toFixed(2)}</span>
       </div>
     </div>
 
     <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
       <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 10px;">DELIVERING TO</div>
-      <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary); line-height: 1.6;">${order.customer?.name || order.customerName || 'Client'}<br>${order.customer?.address || order.address || 'Dhaka, Bangladesh'}</div>
+      <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary); line-height: 1.6;">${order.customer?.name || order.customerName || 'Julian Mercer'}<br>${order.customer?.address || order.address || 'Kaufingerstraße 24, 80331 Munich, Germany'}</div>
     </div>
 
     <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
@@ -327,12 +327,12 @@ function renderOrderSummary(order) {
         <div style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary);">${item.category}</div>
         <div style="font-family: var(--font-serif); font-size: 16px; color: var(--text-primary);">${item.name}</div>
         <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">${item.variant} &middot; Qty ${item.qty}</div>
-        <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary);">BDT ${item.price.toLocaleString()}</div>
+        <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary);" class="tabular-nums">€ ${Number(item.price).toFixed(2)}</div>
       </div>
     </div>
   `).join('');
 
-  const deliveryLabel = order.deliveryCost === 0 ? 'FREE' : `BDT ${order.deliveryCost.toLocaleString()}`;
+  const deliveryLabel = order.deliveryCost === 0 ? 'FREE' : `€ ${Number(order.deliveryCost).toFixed(2)}`;
 
   el.innerHTML = `
     <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 20px;">ORDER SUMMARY</div>
@@ -342,15 +342,15 @@ function renderOrderSummary(order) {
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
         <span>Subtotal</span>
-        <span>BDT ${order.subtotal.toLocaleString()}</span>
+        <span class="tabular-nums">€ ${Number(order.subtotal).toFixed(2)}</span>
       </div>
       <div style="display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);">
         <span>Express Delivery</span>
-        <span>${deliveryLabel}</span>
+        <span class="tabular-nums">${deliveryLabel}</span>
       </div>
       <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary);">TOTAL</span>
-        <span style="font-family: var(--font-serif); font-size: 24px; color: var(--text-primary);">BDT ${order.total.toLocaleString()}</span>
+        <span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-primary);">TOTAL (INCL. 19% VAT)</span>
+        <span style="font-family: var(--font-serif); font-size: 24px; color: var(--text-primary);" class="tabular-nums">€ ${Number(order.total).toFixed(2)}</span>
       </div>
     </div>
 

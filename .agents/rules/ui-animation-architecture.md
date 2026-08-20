@@ -81,3 +81,12 @@ Introduce Motion only when interactions require coordinated state transitions, g
 - **Zero DOM Thrashing on Feeds**: Feed cards must be rendered once into the DOM. Never wipe `innerHTML` or recreate nodes during interaction or pagination.
 - **LERP vs. CSS Transition Conflict Prevention**: Elements actively manipulated by JavaScript `requestAnimationFrame` LERP loops (such as 3D mouse tilt) MUST NOT have CSS `transition: transform` enabled during hover, as the browser's CSS transition engine will fight continuous RAF updates, causing visual stuttering.
 - **GPU-Accelerated Progress Animation**: Progress and timer bars must use GPU `transform: scaleX(0) → scaleX(1)` with CSS keyframes and `animation-play-state: paused` on hover, rather than JavaScript DOM intervals.
+
+### 8.10 Category Look Switcher & 120fps Animation Track Master Standard
+- **120fps Hardware-Accelerated Progress Track**: Progress bars on look switchers, story capsules, and editorial showcases MUST use GPU `transform: scaleX(progress)` with `transform-origin: left center` and `will-change: transform`, driven by `requestAnimationFrame` + `performance.now()` with calibrated cycling (e.g. 6.0s).
+- **User-Control Pause/Resume**: Automatically pause the timer on `mouseenter` and `touchstart`; smoothly resume from the current elapsed timestamp on `mouseleave` and `touchend` without resetting progress.
+- **Dual Shoppable & Filter Sync**: Every look showcase must support both direct quick-addition of the featured item (tactile ripple + cart state machine) and catalog category filter synchronization (`applyCategoryFilter()` + `history.replaceState()` + smooth scroll).
+- **In-Place Media Transitions**: Transition imagery using subtle opacity/scale eases (`scale(1.04 → 1.0)`, `opacity: 0.4 → 1.0` over 120–300ms) while keeping DOM node references persistent (zero DOM thrashing).
+- **Horizontal Filter Pill Invariant**: All horizontal scrolling pill filters (`.plp-filter-bar`, tab strips) MUST have `flex-shrink: 0; white-space: nowrap;` to guarantee 100% text legibility across all mobile viewports (320px–480px).
+- **Hairline Luxury Border Invariant**: All dark luxury cards and capsules must strictly use translucent hairline borders (`1px solid rgba(255, 255, 255, 0.08)`) with multi-layer diffuse ambient shadows, strictly avoiding hard or thick solid outlines.
+

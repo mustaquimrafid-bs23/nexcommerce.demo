@@ -6,7 +6,7 @@
   <title>nexCommerce &mdash; Step 8C Mobile Checkout Summary</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
 
   <style>
     /* ─── STEP 8C DESIGN SYSTEM & MOBILE SUMMARY ─────────────────────── */
@@ -255,6 +255,23 @@
 </head>
 <body>
 
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Interactive Component Playground</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
   <!-- Ambient Atmosphere -->
   <div class="hero-ambient-glow"></div>
 
@@ -335,7 +352,7 @@
           <div class="mobile-summary-bar">
             <div class="mobile-summary-header">
               <div>
-                <div class="mobile-summary-title">Order summary &middot; BDT 18,400</div>
+                <div class="mobile-summary-title">Order summary &middot; € 184.00</div>
                 <div class="mobile-summary-sub">Architectural Cashmere Sweater &middot; M &middot; Qty 1</div>
               </div>
               
@@ -349,7 +366,7 @@
             <div id="mobile-summary-details" class="mobile-summary-details">
               <div class="mobile-detail-row">
                 <span>Architectural Cashmere Sweater (Midnight &middot; M)</span>
-                <span>BDT 18,400</span>
+                <span>€ 184.00</span>
               </div>
               <div class="mobile-detail-row">
                 <span>Express Delivery</span>
@@ -357,7 +374,7 @@
               </div>
               <div class="mobile-detail-row total">
                 <span>Total Due</span>
-                <span>BDT 18,400</span>
+                <span>€ 184.00</span>
               </div>
             </div>
           </div>
@@ -375,10 +392,10 @@
           <div class="form-group-card">
             <h2 class="group-title">Delivery Address</h2>
             <div style="display:flex; flex-direction:column; gap:12px;">
-              <input type="text" class="input-box" value="House 42, Road 11, Banani">
+              <input type="text" class="input-box" value="Maximilianstraße 35">
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                <input type="text" class="input-box" value="Dhaka">
-                <input type="text" class="input-box" value="1213">
+                <input type="text" class="input-box" value="Munich">
+                <input type="text" class="input-box" value="80539">
               </div>
             </div>
           </div>
@@ -399,15 +416,15 @@
           <div class="form-group-card">
             <h2 class="group-title">Payment Method</h2>
             <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
-              <button style="padding:12px; background:rgba(255,255,255,0.04); border:1px solid var(--text-primary); border-radius:4px; color:var(--text-primary); font-size:12px;">bKash</button>
-              <button style="padding:12px; background:transparent; border:1px solid var(--border-subtle); border-radius:4px; color:var(--text-secondary); font-size:12px;">Card</button>
-              <button style="padding:12px; background:transparent; border:1px solid var(--border-subtle); border-radius:4px; color:var(--text-secondary); font-size:12px;">COD</button>
+              <button style="padding:12px; background:rgba(255,255,255,0.04); border:1px solid var(--text-primary); border-radius:4px; color:var(--text-primary); font-size:12px;">Klarna</button>
+              <button style="padding:12px; background:transparent; border:1px solid var(--border-subtle); border-radius:4px; color:var(--text-secondary); font-size:12px;">iDEAL / Card</button>
+              <button style="padding:12px; background:transparent; border:1px solid var(--border-subtle); border-radius:4px; color:var(--text-secondary); font-size:12px;">Apple Pay</button>
             </div>
           </div>
 
           <!-- Primary Level 1 Commerce CTA -->
           <button class="btn-primary-commerce" style="width:100%; min-height:56px;" onclick="alert('Order Placed Successfully!')">
-            PLACE ORDER &middot; BDT 18,400
+            PLACE ORDER &middot; € 184.00
           </button>
 
         </div>
@@ -422,13 +439,13 @@
               <div style="font-size:14px; font-weight:500;">Architectural Cashmere</div>
               <div style="font-size:11px; color:var(--text-secondary);">Midnight &middot; M &middot; Qty 1</div>
             </div>
-            <div style="font-size:14px; font-weight:600;">BDT 18,400</div>
+            <div style="font-size:14px; font-weight:600;">€ 184.00</div>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; margin-bottom:16px;">
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Subtotal</span>
-              <span>BDT 18,400</span>
+              <span>€ 184.00</span>
             </div>
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Shipping</span>
@@ -436,7 +453,7 @@
             </div>
             <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; color:var(--text-primary); padding-top:10px; border-top:1px solid var(--border-subtle);">
               <span>Total Due</span>
-              <span>BDT 18,400</span>
+              <span>€ 184.00</span>
             </div>
           </div>
 
@@ -469,7 +486,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js?v=6"></script>
+  <script src="../js/animations.js?v=6"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
@@ -494,11 +511,33 @@
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
     <div class="minicart-subtotal">
       <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
     </div>
     <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
   </div>
 </aside>
+
+<!-- SEARCH OVERLAY (global CMD+K) -->
+<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+  <div class="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-header-bar">
+      <div class="search-input-wrapper">
+        <div class="search-ai-icon">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+        </div>
+        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+      </div>
+      <button class="search-close-btn" aria-label="Close search">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+    <div id="aiSearchResultsModal" class="search-body"></div>
+  </div>
+</div>
+<script src="../js/session-context.js"></script>
+<script src="../js/search-overlay.js?v=1"></script>
+<script src="../js/cookie-consent.js"></script>
 
 </body>
 </html>

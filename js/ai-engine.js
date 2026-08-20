@@ -7,6 +7,14 @@
 (function(window) {
   'use strict';
 
+  // Resolve asset base path: detects if running from /pages/ subfolder or root
+  const _ASSET_BASE = (function () {
+    const path = window.location.pathname;
+    return path.includes('/pages/') ? '../' : '';
+  })();
+
+  function _img(file) { return _ASSET_BASE + 'assets/images/products/' + file; }
+
   // 1. PRODUCT CATALOG WITH EMBEDDING WEIGHT VECTORS
   // Feature vector categories: [Outerwear/Warmth, Footwear/Performance, Acoustics/Audio, Timepiece/Tech, Luxury/Editorial]
   const PRODUCT_EMBEDDINGS = {
@@ -14,34 +22,34 @@
       id: 'p1',
       brand: 'Arc',
       title: 'Architectural Cashmere Sweater',
-      price: 'BDT 18,400',
-      numericPrice: 18400,
+      price: '€ 185.00',
+      numericPrice: 185,
       category: 'Apparel',
-      img: 'assets/images/products/hero_sweater.png',
+      img: _img('hero_sweater.png'),
       desc: 'Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.',
-      keywords: ["cashmere","sweater","roll-neck","turtleneck","wool","warm","cream","knitwear","winter","cold","dhaka"],
+      keywords: ["cashmere","sweater","roll-neck","turtleneck","wool","warm","cream","knitwear","winter","cold","europe","paris","milan"],
       vector: [0.9, 0.1, 0, 0.1, 0.95]
     },
     p2: {
       id: 'p2',
       brand: 'Arc',
       title: 'Structured Wool Blazer',
-      price: 'BDT 24,500',
-      numericPrice: 24500,
+      price: '€ 245.00',
+      numericPrice: 245,
       category: 'Apparel',
-      img: 'assets/images/products/plp_blazer.png',
+      img: _img('plp_blazer.png'),
       desc: 'Unlined merino weave tailored for sharp evening silhouettes without thermal discomfort. Transitions effortlessly from meeting room to dinner.',
-      keywords: ["jacket","coat","wool","blazer","outerwear","winter","warm","minimalist","japanese","tailored","navy","black","apparel","clothing"],
+      keywords: ["jacket","coat","wool","blazer","outerwear","winter","warm","minimalist","tailored","navy","black","apparel","clothing"],
       vector: [0.96, 0.1, 0, 0.2, 0.9]
     },
     p3: {
       id: 'p3',
       brand: 'Arc',
       title: 'Fine-Knit Cashmere Crew',
-      price: 'BDT 16,200',
-      numericPrice: 16200,
+      price: '€ 160.00',
+      numericPrice: 160,
       category: 'Apparel',
-      img: 'assets/images/products/plp_crewneck.png',
+      img: _img('plp_crewneck.png'),
       desc: 'Ultra-soft 2-ply cashmere with a classic crew neck designed for easy indoor/outdoor layering in any season.',
       keywords: ["cashmere","crew","crewneck","sweater","wool","warm","minimalist","apparel","white"],
       vector: [0.9, 0.1, 0, 0.1, 0.9]
@@ -50,10 +58,10 @@
       id: 'p4',
       brand: 'Form',
       title: 'Studio Acoustics Headphone GT',
-      price: 'BDT 32,000',
-      numericPrice: 32000,
+      price: '€ 320.00',
+      numericPrice: 320,
       category: 'Acoustics',
-      img: 'assets/images/products/prod_headphones.png',
+      img: _img('prod_headphones.png'),
       desc: 'Active noise cancellation calibrated for focused work or travel. Memory foam ear cushions wrapped in lambskin for extended comfort.',
       keywords: ["headphones","audio","sound","music","acoustic","studio","beryllium","noise canceling","travel","wireless","over-ear","black"],
       vector: [0, 0, 0.98, 0.3, 0.7]
@@ -62,10 +70,10 @@
       id: 'p5',
       brand: 'Volta',
       title: 'Chronograph Minimalist Watch',
-      price: 'BDT 28,500',
-      numericPrice: 28500,
+      price: '€ 285.00',
+      numericPrice: 285,
       category: 'Accessories',
-      img: 'assets/images/products/search_watch.png',
+      img: _img('search_watch.png'),
       desc: 'Brushed titanium casing with a scratch-resistant sapphire crystal. Swiss movement with interchangeable leather and mesh straps.',
       keywords: ["watch","titanium","timepiece","smartwatch","biometrics","pulse","gps","sapphire","luxurious","clock","wrist"],
       vector: [0.1, 0.3, 0.2, 0.96, 0.8]
@@ -74,10 +82,10 @@
       id: 'p6',
       brand: 'Apex',
       title: 'Minimalist Leather Runner',
-      price: 'BDT 19,800',
-      numericPrice: 19800,
+      price: '€ 195.00',
+      numericPrice: 195,
       category: 'Footwear',
-      img: 'assets/images/products/prod_runner.png',
+      img: _img('prod_runner.png'),
       desc: 'Full-grain Italian leather upper with cushioned Vibram sole for all-day urban walkability without compromise.',
       keywords: ["sneaker","shoe","leather","court","trainer","white","footwear","minimal"],
       vector: [0.1, 0.94, 0, 0.2, 0.85]
@@ -86,10 +94,10 @@
       id: 'p7',
       brand: 'Forma',
       title: 'Architectural Canvas Tote',
-      price: 'BDT 12,500',
-      numericPrice: 12500,
+      price: '€ 125.00',
+      numericPrice: 125,
       category: 'Accessories',
-      img: 'assets/images/products/prod_tote.png',
+      img: _img('prod_tote.png'),
       desc: 'Heavyweight organic cotton canvas tote featuring veg-tan leather handles and internal laptop sleeve.',
       keywords: ["bag","tote","canvas","carry","leather","accessories","cream","minimalist"],
       vector: [0.3, 0.2, 0.3, 0.2, 0.85]
@@ -98,10 +106,10 @@
       id: 'p8',
       brand: 'Form',
       title: 'Noise Canceling Earbuds',
-      price: 'BDT 14,500',
-      numericPrice: 14500,
+      price: '€ 145.00',
+      numericPrice: 145,
       category: 'Acoustics',
-      img: 'assets/images/products/search_earbuds.png',
+      img: _img('search_earbuds.png'),
       desc: 'High-fidelity audio with adaptive noise cancellation. Sweat and water-resistant for active lifestyles.',
       keywords: ["earbuds","audio","sound","portable","bluetooth","aluminum","object"],
       vector: [0, 0, 0.96, 0.4, 0.8]

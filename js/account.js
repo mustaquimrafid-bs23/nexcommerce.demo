@@ -23,9 +23,9 @@ function initHeaderScroll() {
 /* ─── State Store ────────────────────────────────────────────── */
 const ACCOUNT_DATA = {
   user: {
-    name: 'Shazzad',
-    email: 'shazzad@example.com',
-    phone: '+880 1711 000000'
+    name: 'Julian Voss',
+    email: 'julian.voss@atelier-client.de',
+    phone: '+49 89 1234 5678'
   },
   orders: [
     {
@@ -39,17 +39,17 @@ const ACCOUNT_DATA = {
           category: 'APPAREL',
           variant: 'Midnight / M',
           qty: 1,
-          price: 18400,
+          price: 184.00,
           image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=200&q=80'
         }
       ],
-      deliveryMethod: 'Express Next Day',
+      deliveryMethod: 'DHL Express European Custody',
       expectedDate: '19 August 2026',
-      paymentMethod: 'bKash',
-      address: 'House 12, Road 5, Dhanmondi, Dhaka',
-      subtotal: 18400,
+      paymentMethod: 'Klarna Pay in 30 Days',
+      address: 'Maximilianstraße 35, 80539 Munich, Germany',
+      subtotal: 184.00,
       deliveryCost: 0,
-      total: 18400
+      total: 184.00
     },
     {
       ref: 'NX-K82P1',
@@ -62,17 +62,17 @@ const ACCOUNT_DATA = {
           category: 'APPAREL',
           variant: 'Charcoal / L',
           qty: 1,
-          price: 8900,
+          price: 89.00,
           image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=200&q=80'
         }
       ],
-      deliveryMethod: 'Standard Delivery',
+      deliveryMethod: 'Standard DPD Delivery',
       expectedDate: '04 August 2026',
-      paymentMethod: 'Card',
-      address: 'House 12, Road 5, Dhanmondi, Dhaka',
-      subtotal: 8900,
+      paymentMethod: 'Apple Pay',
+      address: 'Maximilianstraße 35, 80539 Munich, Germany',
+      subtotal: 89.00,
       deliveryCost: 0,
-      total: 8900
+      total: 89.00
     },
     {
       ref: 'NX-J71Q4',
@@ -85,17 +85,17 @@ const ACCOUNT_DATA = {
           category: 'ACCESSORIES',
           variant: 'Black / One Size',
           qty: 1,
-          price: 14200,
+          price: 142.00,
           image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=200&q=80'
         }
       ],
-      deliveryMethod: 'Express Delivery',
+      deliveryMethod: 'DHL Express European Custody',
       expectedDate: '29 July 2026',
-      paymentMethod: 'bKash',
-      address: 'House 12, Road 5, Dhanmondi, Dhaka',
-      subtotal: 14200,
+      paymentMethod: 'iDEAL',
+      address: 'Maximilianstraße 35, 80539 Munich, Germany',
+      subtotal: 142.00,
       deliveryCost: 0,
-      total: 14200
+      total: 142.00
     }
   ],
   addresses: [
@@ -103,21 +103,21 @@ const ACCOUNT_DATA = {
       id: 'addr-1',
       tag: 'HOME',
       isDefault: true,
-      name: 'Shazzad',
-      address: 'House 12, Road 5, Dhanmondi',
-      city: 'Dhaka',
-      postcode: '1205',
-      phone: '+880 1711 000000'
+      name: 'Julian Voss',
+      address: 'Maximilianstraße 35',
+      city: 'Munich',
+      postcode: '80539',
+      phone: '+49 89 1234 5678'
     },
     {
       id: 'addr-2',
-      tag: 'WORK',
+      tag: 'STUDIO',
       isDefault: false,
-      name: 'Shazzad',
-      address: 'Level 8, Brain Station Tower, Gulshan 2',
-      city: 'Dhaka',
-      postcode: '1212',
-      phone: '+880 1711 000000'
+      name: 'Julian Voss',
+      address: 'Boulevard Saint-Germain 120',
+      city: 'Paris',
+      postcode: '75006',
+      phone: '+33 1 42 68 55 00'
     }
   ],
   preferences: {
@@ -135,21 +135,21 @@ const ACCOUNT_DATA = {
     {
       id: 'rec-1',
       title: 'Architectural Overshirt',
-      price: 12800,
+      price: 128.00,
       image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80',
       reason: 'Works with the relaxed silhouettes you\'ve chosen recently.'
     },
     {
       id: 'rec-2',
       title: 'Merino Layer',
-      price: 9600,
+      price: 96.00,
       image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80',
       reason: 'A lighter option for the evening temperatures you usually shop for.'
     },
     {
       id: 'rec-3',
       title: 'Structured Leather Tote',
-      price: 14200,
+      price: 142.00,
       image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=400&q=80',
       reason: 'Complements your minimal aesthetic preferences.'
     }
@@ -176,13 +176,13 @@ function initAccount() {
           status: 'preparing',
           statusLabel: 'Preparing',
           items: parsed.items || ACCOUNT_DATA.orders[0].items,
-          deliveryMethod: parsed.deliveryMethod || 'Express Next Day',
+          deliveryMethod: parsed.deliveryMethod || 'DHL Express European Custody',
           expectedDate: parsed.expectedDate || '19 August 2026',
-          paymentMethod: parsed.paymentMethod || 'bKash',
-          address: parsed.customer?.address || 'Dhaka, Bangladesh',
-          subtotal: parsed.subtotal || 18400,
+          paymentMethod: parsed.paymentMethod || 'Klarna Pay in 30 Days',
+          address: parsed.customer?.address || 'Maximilianstraße 35, 80539 Munich, Germany',
+          subtotal: parsed.subtotal || 184.00,
           deliveryCost: parsed.deliveryCost || 0,
-          total: parsed.total || 18400
+          total: parsed.total || 184.00
         };
         if (idx >= 0) ACCOUNT_DATA.orders[idx] = orderObj;
         else ACCOUNT_DATA.orders.unshift(orderObj);
@@ -302,7 +302,7 @@ function renderOverviewPanel() {
       <td>
         <span class="status-pill ${order.status}">${order.statusLabel}</span>
       </td>
-      <td style="font-family: var(--font-serif); font-size: 16px;">BDT ${order.total.toLocaleString()}</td>
+      <td class="tabular-nums" style="font-family: var(--font-serif); font-size: 16px;">€ ${Number(order.total).toFixed(2)}</td>
       <td style="text-align: right;">
         <a href="tracking.html?ref=${order.ref}" style="color: var(--accent-cyan); text-decoration: none; font-size: 12px; font-weight: 500;">VIEW ORDER &rarr;</a>
       </td>
@@ -327,7 +327,7 @@ function renderOverviewPanel() {
         <div>
           <div style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary);">${currentOrder.items[0].name}</div>
           <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-secondary); margin-top: 4px;">${currentOrder.items[0].variant} &middot; Qty ${currentOrder.items[0].qty}</div>
-          <div style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary); margin-top: 4px;">BDT ${currentOrder.items[0].price.toLocaleString()}</div>
+          <div class="tabular-nums" style="font-family: var(--font-body); font-size: 14px; color: var(--text-primary); margin-top: 4px;">€ ${Number(currentOrder.items[0].price).toFixed(2)}</div>
         </div>
       </div>
 
@@ -380,7 +380,7 @@ function renderOrdersPanel() {
       <td>
         <span class="status-pill ${order.status}">${order.statusLabel}</span>
       </td>
-      <td style="font-family: var(--font-serif); font-size: 16px;">BDT ${order.total.toLocaleString()}</td>
+      <td class="tabular-nums" style="font-family: var(--font-serif); font-size: 16px;">€ ${Number(order.total).toFixed(2)}</td>
       <td style="text-align: right;">
         <a href="tracking.html?ref=${order.ref}" style="color: var(--accent-cyan); text-decoration: none; font-size: 12px; font-weight: 500;">TRACK &rarr;</a>
       </td>
@@ -502,11 +502,11 @@ window.openAddAddressModal = function() {
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <div>
             <label style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; margin-bottom: 4px;">CITY</label>
-            <input type="text" id="newAddrCity" class="checkout-input" value="Dhaka" required style="width: 100%;" />
+            <input type="text" id="newAddrCity" class="checkout-input" value="Munich" required style="width: 100%;" />
           </div>
           <div>
             <label style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; margin-bottom: 4px;">POSTCODE</label>
-            <input type="text" id="newAddrPostcode" class="checkout-input" placeholder="1212" required style="width: 100%;" />
+            <input type="text" id="newAddrPostcode" class="checkout-input" placeholder="80539" required style="width: 100%;" />
           </div>
         </div>
 
@@ -525,8 +525,8 @@ window.submitNewAddress = function(e) {
   const tag = document.getElementById('newAddrTag')?.value || 'HOME';
   const name = document.getElementById('newAddrName')?.value || ACCOUNT_DATA.user.name;
   const street = document.getElementById('newAddrStreet')?.value;
-  const city = document.getElementById('newAddrCity')?.value || 'Dhaka';
-  const postcode = document.getElementById('newAddrPostcode')?.value || '1205';
+  const city = document.getElementById('newAddrCity')?.value || 'Munich';
+  const postcode = document.getElementById('newAddrPostcode')?.value || '80539';
 
   ACCOUNT_DATA.addresses.push({
     id: `addr-${Date.now()}`,
@@ -608,7 +608,7 @@ function renderPreferencesPanel() {
       </div>
 
       <p style="font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px;">
-        Based on your previous browsing and search queries (e.g., "warm for a cool evening in Dhaka"), we've learned that you often prefer minimal silhouettes and relaxed fits for city evening wear.
+        Based on your previous browsing and search queries (e.g., "warm for a cool evening in Milan"), we've learned that you often prefer minimal silhouettes and relaxed fits for city evening wear.
       </p>
 
       <div class="style-signal-list">

@@ -75,7 +75,15 @@ I never design a page directly without ensuring it is built from documented comp
 
 ### Foundations I Must Define Before Designing Screens
 - **Color tokens**: primary, secondary, semantic (success, warning, error, muted), surface, background
-- **Typography scale**: display, heading, subheading, body, caption, label — with size, weight, line-height, letter-spacing
+- **Typography system (European Luxury Standard)**:
+  - **Display / Headings**: `Neue Haas Grotesk` (fallbacks: `Helvetica Now`, `Manrope`, `Plus Jakarta Sans`)
+  - **UI / Body**: `Inter` (Navigation, buttons, product info, prices, filters, forms, checkout, account)
+  - **Editorial Accent**: `Instrument Serif` (strictly limited to hero accent words and curated editorial campaigns)
+  - **Anti-AI Font Rule**: Strictly no `Orbitron`, `Audiowide`, `Exo 2`, `Rajdhani`, gaming fonts, or excessive monospace
+  - **Weight Discipline**: 400 (Regular body), 500 (Medium UI), 600 (Semibold headers/CTAs), 700 (Bold sparingly for price emphasis)
+  - **Tracking Metrics**: Headings (`-0.02em` to `-0.01em`), uppercase labels (`+0.04em` to `+0.08em`), body (`0` to `+0.01em`)
+  - **European Language Support**: Mandatory Latin Extended character coverage (`É`, `È`, `Ê`, `Ç`, `Ñ`, `Ö`, `Ü`, `Å`, `Ø`, `Æ`, `ß`, `Š`, `Ž`, `Ł`, `Č`)
+  - **Token Scale**: Display (`64–88px`), H1 (`48–64px`), H2 (`36–48px`), H3 (`26–32px`), Body Large (`18–20px`), Body (`16–18px`), Small (`13–15px`), Micro (`11–13px`)
 - **Spacing scale**: 4px/8px base grid — all spacing must be a multiple of 4px
 - **Grid system**: columns, gutters, margins at all breakpoints (320px, 375px, 768px, 1280px, 1440px, 1920px)
 - **Border radius tokens**: consistent across all components
@@ -348,4 +356,31 @@ When designing multi-column discovery sections (e.g., New Arrivals, Trending/Bes
 
 ---
 
-*Last updated: 2026-08-18 | My role: Senior UI/UX Designer / Product Designer*
+## 14. Visual-First & Low-Text Density Standard ("Show, Don't Tell")
+
+All storefront interfaces must prioritize visual communication over prose:
+
+1. **Visual Dominance (70/30 Rule)**:
+   - At least 70% of viewport area in hero sections, category showcases, lookbooks, and feature modules must be dedicated to high-fidelity lifestyle photography, product renders, diagrams, or interactive media.
+   - Text elements must occupy ≤30% of visible layout area.
+
+2. **Strict Text Budget & Conciseness**:
+   - **Headlines**: Maximum 4–6 words. Punchy, declarative, emotionally resonant.
+   - **Subtitles & Descriptions**: Maximum 1–2 short sentences (≤25 words total). NEVER write multi-paragraph explanatory blocks.
+   - **Section Headers**: 2–4 words (e.g., "The Run Edit", "Craft & Form", "New Season").
+   - **Product Cards**: Strictly 3-item metadata (Brand + Title + Price). Zero descriptive paragraphs or match explanations.
+
+3. **Visual Replacement Patterns (Replace Text with UI Visuals)**:
+   - **Features & Benefits**: Replace bullet lists of text with visual feature badges, icon-anchored micro-cards, or diagrammatic callouts.
+   - **Materials & Colorways**: Use interactive visual swatches, texture previews, and live image switches instead of text descriptions.
+   - **Step-by-Step / How-it-Works**: Use visual timeline steps, iconography, and diagrammatic flows rather than narrative copy.
+   - **Trust & Guarantees**: Use icon-backed frosted micro-pills with 2–3 word labels (e.g., `⚡ Same-Day Dispatch`, `↺ 14-Day Free Returns`) instead of full guarantee paragraphs.
+   - **Size & Fit**: Provide visual fit meters, silhouette overlays, and visual measurement diagrams over text tables.
+
+4. **Zero Walls of Text**:
+   - Any continuous block of text exceeding 3 lines without an accompanying visual, diagram, or interactive anchor is strictly forbidden on customer-facing pages.
+
+---
+
+*Last updated: 2026-08-19 | My role: Senior UI/UX Designer / Product Designer*
+

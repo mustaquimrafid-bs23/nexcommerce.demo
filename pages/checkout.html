@@ -10,7 +10,7 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=4">
 
   <style>
@@ -229,6 +229,34 @@
 </head>
 <body>
 
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Secure Private Client Checkout &amp; Logistics</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over €150</span>
+    </div>
+  </div>
+
   <!-- Site Header -->
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
@@ -265,14 +293,18 @@
           <span>CONCIERGE</span>
         </button>
 
-        <a data-auth-account href="account.html" class="nav-item-link desktop-only" aria-label="My Account">
-          <i data-lucide="user" style="width: 15px; height: 15px;"></i>
-          <span data-auth-name>Tanvir</span>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" aria-label="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 15px; height: 15px;"></i>
-          <span>Bag</span>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
           <span class="bag-count-badge" id="headerCartCount">1</span>
         </a>
 
@@ -314,6 +346,7 @@
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
@@ -344,11 +377,12 @@
         <div class="checkout-form-col">
           
           <!-- Mobile Expandable Order Summary Bar (<= 900px) -->
+          <!-- Mobile Expandable Order Summary Bar (<= 900px) -->
           <div class="mobile-summary-bar">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div style="font-size:14px; font-weight:600;" id="mobile-summary-title">Order summary &middot; BDT 0</div>
-                <div style="font-size:11px; color:var(--text-secondary);" id="mobile-summary-sub">0 Items</div>
+                <div style="font-size:14px; font-weight:600;" id="mobile-summary-title">Order summary &middot; € 0.00</div>
+                <div style="font-size:11px; color:var(--text-secondary);" id="mobile-summary-sub">0 Items &middot; Incl. VAT</div>
               </div>
               <button id="mobile-summary-toggle" class="btn-secondary-action" onclick="toggleMobileSummary()">
                 View order details ↓
@@ -364,17 +398,36 @@
             <h2 class="group-title">Customer Information</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
               <div>
-                <input type="text" id="cust-name" class="input-box" value="Tanvir Hossain" placeholder="Full Name">
+                <input type="text" id="cust-name" class="input-box" value="Alexander Wright" placeholder="Full Name">
                 <div class="field-error-msg" id="err-cust-name">Please enter your full name.</div>
               </div>
               <div>
-                <input type="email" id="cust-email" class="input-box" value="tanvir@example.com" placeholder="Email Address">
+                <input type="email" id="cust-email" class="input-box" value="alexander@maison.eu" placeholder="Email Address">
                 <div class="field-error-msg" id="err-cust-email">Please enter a valid email address.</div>
               </div>
             </div>
-            <div>
-              <input type="tel" id="cust-phone" class="input-box" value="01711000000" placeholder="Phone Number (01XXXXXXXXX)">
-              <div class="field-error-msg" id="err-cust-phone">Please enter a valid Bangladeshi mobile number (01XXXXXXXXX).</div>
+            <div style="display:grid; grid-template-columns:140px 1fr; gap:12px;">
+              <select id="cust-phone-country" class="input-box" aria-label="Country Code">
+                <option value="+49" selected>🇩🇪 +49 (DE)</option>
+                <option value="+33">🇫🇷 +33 (FR)</option>
+                <option value="+31">🇳🇱 +31 (NL)</option>
+                <option value="+39">🇮🇹 +39 (IT)</option>
+                <option value="+34">🇪🇸 +34 (ES)</option>
+                <option value="+32">🇧🇪 +32 (BE)</option>
+                <option value="+43">🇦🇹 +43 (AT)</option>
+                <option value="+46">🇸🇪 +46 (SE)</option>
+                <option value="+44">🇬🇧 +44 (UK)</option>
+                <option value="+41">🇨🇭 +41 (CH)</option>
+                <option value="+48">🇵🇱 +48 (PL)</option>
+                <option value="+351">🇵🇹 +351 (PT)</option>
+                <option value="+353">🇮🇪 +353 (IE)</option>
+                <option value="+45">🇩🇰 +45 (DK)</option>
+                <option value="+358">🇫🇮 +358 (FI)</option>
+              </select>
+              <div>
+                <input type="tel" id="cust-phone" class="input-box" value="15123456789" placeholder="Mobile Number">
+                <div class="field-error-msg" id="err-cust-phone">Please enter a valid phone number.</div>
+              </div>
             </div>
           </div>
 
@@ -383,72 +436,79 @@
             <h2 class="group-title">Delivery Address</h2>
             <div style="display:flex; flex-direction:column; gap:12px;">
               <div>
-                <input type="text" id="ship-address" class="input-box" value="House 42, Road 11, Banani" placeholder="Street Address">
-                <div class="field-error-msg" id="err-ship-address">Please enter your street address.</div>
+                <select id="ship-country" class="input-box" aria-label="Destination Country" onchange="buildDeliveryGuidance(); updateSummaryTotals();">
+                  <option value="DE" selected>Germany (Deutschland)</option>
+                  <option value="FR">France</option>
+                  <option value="NL">Netherlands (Nederland)</option>
+                  <option value="IT">Italy (Italia)</option>
+                  <option value="ES">Spain (España)</option>
+                  <option value="BE">Belgium (Belgique / België)</option>
+                  <option value="AT">Austria (Österreich)</option>
+                  <option value="SE">Sweden (Sverige)</option>
+                  <option value="PL">Poland (Polska)</option>
+                  <option value="DK">Denmark (Danmark)</option>
+                  <option value="IE">Ireland</option>
+                  <option value="PT">Portugal</option>
+                  <option value="FI">Finland (Suomi)</option>
+                  <option value="CH">Switzerland (Schweiz)</option>
+                  <option value="GB">United Kingdom</option>
+                </select>
+              </div>
+              <div>
+                <input type="text" id="ship-address" class="input-box" value="Friedrichstraße 43" placeholder="Street Address &amp; House Number">
+                <div class="field-error-msg" id="err-ship-address">Please enter your street address and house number.</div>
               </div>
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
                 <div>
-                  <input type="text" id="ship-city" class="input-box" value="Dhaka" placeholder="City">
+                  <input type="text" id="ship-city" class="input-box" value="Berlin" placeholder="City">
                   <div class="field-error-msg" id="err-ship-city">Please enter your city.</div>
                 </div>
                 <div>
-                  <input type="text" id="ship-postcode" class="input-box" value="1213" placeholder="Postal Code">
-                  <div class="field-error-msg" id="err-ship-postcode">Please enter a valid 4-digit postal code.</div>
+                  <input type="text" id="ship-postcode" class="input-box" value="10117" placeholder="Postal Code (e.g. 10117 / SW1A 1AA)">
+                  <div class="field-error-msg" id="err-ship-postcode">Please enter a valid postal code.</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Delivery Method (9.8C Interactive Selection) -->
+          <!-- Delivery Method (European Standards) -->
           <div class="form-group-card">
             <h2 class="group-title">Delivery Method</h2>
 
             <!-- Contextual recommendation banner -->
             <div id="delivery-guidance" class="delivery-guidance" style="margin-bottom:14px;">
-              <!-- Rendered by buildDeliveryGuidance() from real cart + city state -->
+              <!-- Rendered by buildDeliveryGuidance() from real cart + destination state -->
             </div>
 
-            <!-- Option: Express Next Day -->
-            <label class="delivery-option selected" id="opt-express" onclick="selectDelivery('express')" style="margin-bottom:8px; gap:12px;">
+            <!-- Option: Standard EU Tracked -->
+            <label class="delivery-option selected" id="opt-standard" onclick="selectDelivery('standard')" style="margin-bottom:8px; gap:12px;">
               <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
                 <div class="delivery-option-check"></div>
                 <div>
-                  <div style="font-size:13px; font-weight:600;">Express Next Day</div>
-                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Guaranteed delivery by 8:00 PM tomorrow</div>
+                  <div style="font-size:13px; font-weight:600;">Standard EU Tracked (DHL / DPD)</div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">2&ndash;4 business days with carbon-neutral transport</div>
                 </div>
               </div>
-              <div id="cost-express" style="font-size:13px; font-weight:600; white-space:nowrap; color:#00E676;">FREE</div>
+              <div id="cost-standard" style="font-size:13px; font-weight:600; white-space:nowrap; color:#00E676;">FREE</div>
             </label>
 
-            <!-- Option: Standard 3&ndash;5 Days -->
-            <label class="delivery-option" id="opt-standard" onclick="selectDelivery('standard')" style="margin-bottom:8px; gap:12px;">
+            <!-- Option: Express DHL Next Day -->
+            <label class="delivery-option" id="opt-express" onclick="selectDelivery('express')" style="gap:12px;">
               <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
                 <div class="delivery-option-check"></div>
                 <div>
-                  <div style="font-size:13px; font-weight:600;">Standard Delivery</div>
-                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">3&ndash;5 business days</div>
+                  <div style="font-size:13px; font-weight:600;">DHL Express Air (Next-Day)</div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Guaranteed delivery by 12:00 PM tomorrow</div>
                 </div>
               </div>
-              <div id="cost-standard" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">BDT 100</div>
-            </label>
-
-            <!-- Option: Economy 7&ndash;10 Days -->
-            <label class="delivery-option" id="opt-economy" onclick="selectDelivery('economy')" style="gap:12px;">
-              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
-                <div class="delivery-option-check"></div>
-                <div>
-                  <div style="font-size:13px; font-weight:600;">Economy</div>
-                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">7&ndash;10 business days</div>
-                </div>
-              </div>
-              <div id="cost-economy" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">BDT 60</div>
+              <div id="cost-express" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">€ 24.00</div>
             </label>
           </div>
 
           <!-- Payment Failure Recovery Banner -->
           <div id="banner-payment-fail" class="recovery-banner payment-fail">
-            <strong>Payment could not be processed.</strong><br>
-            Your order has not been placed and your bag is intact. Please try a different payment method or retry.
+            <strong>Payment authorization could not be completed.</strong><br>
+            Your order has not been placed and your bag is safely preserved. Please choose another European payment method or retry.
             <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
               <button class="btn-secondary-action" onclick="retryPayment()">Try again</button>
               <button class="btn-secondary-action" onclick="changePaymentMethod()">Choose another method</button>
@@ -458,91 +518,119 @@
           <!-- Cart Availability Warning Banner -->
           <div id="banner-cart-warn" class="recovery-banner cart-warn">
             <strong>Some items in your bag are no longer available.</strong><br>
-            Please return  your bag  review and update before placing your order.
+            Please review your shopping bag before proceeding.
             <div style="margin-top:10px;">
               <button class="btn-secondary-action" onclick="window.nexCart && window.nexCart.openDrawer()">Review bag</button>
             </div>
           </div>
 
-          <!-- Payment Method (Express Branded Grid) -->
+          <!-- Payment Method (Pan-European Gateways) -->
           <div class="form-group-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
               <h2 class="group-title" style="margin:0;">Payment Method</h2>
               <span style="font-size:11px; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
                 <i data-lucide="shield-check" style="width:14px; height:14px; color:#00E676;"></i>
-                256-Bit Encrypted
+                PSD2 / 3DS 2.2 Compliant
               </span>
             </div>
 
-            <div class="payment-methods-grid" id="payment-method-group">
-              <!-- bKash Option -->
-              <div class="luxury-payment-card selected" id="pay-bkash" onclick="selectPayment('bkash')">
+            <div class="payment-methods-grid" id="payment-method-group" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              
+              <!-- Klarna Option (DACH, Nordics, UK) -->
+              <div class="luxury-payment-card selected" id="pay-klarna" onclick="selectPayment('klarna')">
                 <div class="payment-card-header">
-                  <div class="payment-brand-badge bkash-badge">
-                    <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-badge-img" />
-                  </div>
+                  <div class="payment-brand-badge klarna-badge">Klarna.</div>
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
-                  <span class="payment-card-title">bKash Direct</span>
-                  <span class="payment-card-desc">Instant mobile checkout &middot; 0% fee</span>
+                  <span class="payment-card-title">Klarna Pay Later</span>
+                  <span class="payment-card-desc">Pay in 30 days &middot; 0% interest</span>
                 </div>
               </div>
 
-              <!-- Nagad Option -->
-              <div class="luxury-payment-card" id="pay-nagad" onclick="selectPayment('nagad')">
-                <div class="payment-card-header">
-                  <div class="payment-brand-badge nagad-badge">
-                    <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-badge-img" />
-                  </div>
-                  <div class="payment-radio-indicator"></div>
-                </div>
-                <div class="payment-card-info">
-                  <span class="payment-card-title">Nagad Wallet</span>
-                  <span class="payment-card-desc">Fast payment with Nagad account</span>
-                </div>
-              </div>
-
-              <!-- Credit/Debit Card Option -->
+              <!-- Credit/Debit Card (Visa, Mastercard, Cartes Bancaires, Amex) -->
               <div class="luxury-payment-card" id="pay-card" onclick="selectPayment('card')">
                 <div class="payment-card-header">
-                  <div style="display:flex; align-items:center; gap:6px;">
-                    <div class="payment-brand-badge visa-badge">
-                      <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-badge-img" />
-                    </div>
-                    <div class="payment-brand-badge mastercard-badge">
-                      <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-badge-img" />
-                    </div>
+                  <div style="display:flex; align-items:center; gap:4px;">
+                    <div class="payment-brand-badge" style="background:#0F2042; color:#fff; font-size:10px; padding:2px 6px;">VISA</div>
+                    <div class="payment-brand-badge" style="background:#EA001B; color:#fff; font-size:10px; padding:2px 6px;">MC</div>
                   </div>
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
                   <span class="payment-card-title">Credit / Debit Card</span>
-                  <span class="payment-card-desc">Visa, Mastercard &middot; SSL Encrypted</span>
+                  <span class="payment-card-desc">Visa, Mastercard, CB &middot; 3DS2</span>
                 </div>
               </div>
 
-              <!-- Cash on Delivery Option -->
-              <div class="luxury-payment-card" id="pay-cod" onclick="selectPayment('cod')">
+              <!-- iDEAL Option (Netherlands) -->
+              <div class="luxury-payment-card" id="pay-ideal" onclick="selectPayment('ideal')">
                 <div class="payment-card-header">
-                  <div class="payment-brand-badge cod-badge">
-                    <i data-lucide="banknote" style="width: 18px; height: 18px; color: var(--accent-cyan);"></i>
-                  </div>
+                  <div class="payment-brand-badge ideal-badge">iDEAL</div>
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
-                  <span class="payment-card-title">Cash on Delivery</span>
-                  <span class="payment-card-desc">Pay upon physical delivery in Dhaka</span>
+                  <span class="payment-card-title">iDEAL Direct</span>
+                  <span class="payment-card-desc">Netherlands direct bank checkout</span>
                 </div>
               </div>
+
+              <!-- Apple Pay & Google Pay -->
+              <div class="luxury-payment-card" id="pay-applepay" onclick="selectPayment('applepay')">
+                <div class="payment-card-header">
+                  <div class="payment-brand-badge applepay-badge"> Pay</div>
+                  <div class="payment-radio-indicator"></div>
+                </div>
+                <div class="payment-card-info">
+                  <span class="payment-card-title">Apple / Google Pay</span>
+                  <span class="payment-card-desc">Instant 1-touch biometric auth</span>
+                </div>
+              </div>
+
+              <!-- PayPal Option -->
+              <div class="luxury-payment-card" id="pay-paypal" onclick="selectPayment('paypal')">
+                <div class="payment-card-header">
+                  <div class="payment-brand-badge paypal-badge">PayPal</div>
+                  <div class="payment-radio-indicator"></div>
+                </div>
+                <div class="payment-card-info">
+                  <span class="payment-card-title">PayPal / Pay in 4</span>
+                  <span class="payment-card-desc">Buyer protection &middot; 0% fee</span>
+                </div>
+              </div>
+
+              <!-- Bancontact Option (Belgium) -->
+              <div class="luxury-payment-card" id="pay-bancontact" onclick="selectPayment('bancontact')">
+                <div class="payment-card-header">
+                  <div class="payment-brand-badge bancontact-badge">Bancontact</div>
+                  <div class="payment-radio-indicator"></div>
+                </div>
+                <div class="payment-card-info">
+                  <span class="payment-card-title">Bancontact</span>
+                  <span class="payment-card-desc">Belgium instant QR &amp; debit</span>
+                </div>
+              </div>
+
+              <!-- SEPA Direct Debit -->
+              <div class="luxury-payment-card" id="pay-sepa" onclick="selectPayment('sepa')" style="grid-column: span 2;">
+                <div class="payment-card-header">
+                  <div class="payment-brand-badge sepa-badge">SEPA Direct Debit</div>
+                  <div class="payment-radio-indicator"></div>
+                </div>
+                <div class="payment-card-info">
+                  <span class="payment-card-title">SEPA Bank Transfer</span>
+                  <span class="payment-card-desc">Direct debit from any EU bank account (IBAN)</span>
+                </div>
+              </div>
+
             </div>
 
-            <!-- Card Details Panel (shown only when Card is selected) -->
+            <!-- Card Details Sub-panel (Shown when Card is selected) -->
             <div id="card-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <div>
                   <div style="position:relative;">
-                    <input type="text" id="card-number" class="input-box" placeholder="Card Number" maxlength="19"
+                    <input type="text" id="card-number" class="input-box" placeholder="Card Number (16 digits)" maxlength="19"
                            oninput="formatCardNumber(this)" style="padding-right:52px; letter-spacing:0.08em;">
                     <span id="card-brand-icon" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--text-secondary); pointer-events:none;"></span>
                   </div>
@@ -555,22 +643,68 @@
                     <div class="field-error-msg" id="err-card-expiry">Please enter a valid expiry date.</div>
                   </div>
                   <div>
-                    <input type="text" id="card-cvv" class="input-box" placeholder="CVV" maxlength="4"
+                    <input type="text" id="card-cvv" class="input-box" placeholder="CVV (3 or 4 digits)" maxlength="4"
                            oninput="this.value=this.value.replace(/\D/g,'')">
                     <div class="field-error-msg" id="err-card-cvv">Please enter a valid CVV.</div>
                   </div>
                 </div>
                 <div>
-                  <input type="text" id="card-name" class="input-box" placeholder="Name on Card">
-                  <div class="field-error-msg" id="err-card-name">Please enter the name as it appears on your card.</div>
+                  <input type="text" id="card-name" class="input-box" placeholder="Cardholder Name as on Card">
+                  <div class="field-error-msg" id="err-card-name">Please enter the cardholder name.</div>
                 </div>
               </div>
             </div>
+
+            <!-- iDEAL Sub-panel (Shown when iDEAL is selected) -->
+            <div id="ideal-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
+              <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">Select Your Dutch Bank:</label>
+              <select id="ideal-bank-select" class="input-box">
+                <option value="ing">ING Bank</option>
+                <option value="rabobank">Rabobank</option>
+                <option value="abnamro">ABN AMRO</option>
+                <option value="bunq">bunq</option>
+                <option value="sns">SNS Bank</option>
+                <option value="asn">ASN Bank</option>
+                <option value="regio">RegioBank</option>
+                <option value="triodos">Triodos Bank</option>
+                <option value="knab">Knab</option>
+              </select>
+            </div>
+
+            <!-- SEPA Sub-panel (Shown when SEPA is selected) -->
+            <div id="sepa-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <div>
+                  <input type="text" id="sepa-iban" class="input-box" placeholder="IBAN (e.g. DE89 3704 0044 0532 0130 00)" maxlength="34" style="text-transform:uppercase; letter-spacing:0.06em;">
+                  <div class="field-error-msg" id="err-sepa-iban">Please enter a valid European IBAN.</div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                  <div>
+                    <input type="text" id="sepa-bic" class="input-box" placeholder="BIC / SWIFT Code" maxlength="11" style="text-transform:uppercase;">
+                    <div class="field-error-msg" id="err-sepa-bic">Please enter a valid BIC code.</div>
+                  </div>
+                  <div>
+                    <input type="text" id="sepa-holder" class="input-box" placeholder="Account Holder Name">
+                    <div class="field-error-msg" id="err-sepa-holder">Please enter the account holder name.</div>
+                  </div>
+                </div>
+                <div style="font-size:11px; color:var(--text-secondary); line-height:1.4; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:4px; border:1px solid var(--border-subtle);">
+                  By confirming, you authorize nexCommerce to instruct your bank to debit your account in accordance with the SEPA direct debit mandate rules.
+                </div>
+              </div>
+            </div>
+
+            <!-- Klarna Sub-panel info -->
+            <div id="klarna-details-panel" style="display:block; margin-top:16px; padding:12px 14px; background:rgba(255, 179, 199, 0.08); border:1px solid rgba(255, 179, 199, 0.3); border-radius:6px; font-size:12px; line-height:1.5; color:#FFE4EC;">
+              <strong>Klarna Smooth Payment:</strong> Receive your atelier pieces first, inspect at home, and pay within 30 days. No upfront payment required.
+            </div>
+
           </div>
 
-          <!-- Primary Level 1 Commerce CTA -->
-          <button id="btn-place-order" class="btn-primary-commerce" style="width:100%; min-height:56px;" onclick="handlePlaceOrder()">
-            PLACE ORDER &middot; BDT 0
+          <!-- Primary EU Compliant "Button Solution" CTA -->
+          <button id="btn-place-order" class="btn-primary-commerce" style="width:100%; min-height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;" onclick="handlePlaceOrder()">
+            <span id="btn-order-primary-text" style="font-weight:700; font-size:14px; letter-spacing:0.08em;">PAY &middot; € 0.00</span>
+            <span style="font-size:10px; font-weight:500; opacity:0.75; letter-spacing:0.06em; text-transform:uppercase;">Order with obligation to pay &middot; 14-day statutory return</span>
           </button>
 
         </div>
@@ -601,29 +735,40 @@
           <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; margin-bottom:16px;">
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Subtotal</span>
-              <span id="summary-subtotal">BDT 0</span>
+              <span id="summary-subtotal" class="tabular-nums">€ 0.00</span>
             </div>
             <!-- Discount row — hidden until coupon applied -->
             <div id="summary-discount-row" style="display:none; justify-content:space-between; color:#00E676;">
               <span id="summary-discount-label">Discount</span>
-              <span id="summary-discount-amount">−BDT 0</span>
+              <span id="summary-discount-amount" class="tabular-nums">−€ 0.00</span>
             </div>
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
-              <span>Shipping</span>
+              <span>Standard EU Tracked Shipping</span>
               <span style="color:#00E676; font-weight:600;" id="summary-shipping">FREE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.5);">
+              <span>Included 19% Statutory VAT</span>
+              <span id="summary-vat" class="tabular-nums">€ 0.00</span>
             </div>
             <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; color:var(--text-primary); padding-top:10px; border-top:1px solid var(--border-subtle);">
               <span>Total Due</span>
-              <span id="summary-total">BDT 0</span>
+              <span id="summary-total" class="tabular-nums">€ 0.00</span>
             </div>
           </div>
 
-          <div style="font-size:11px; color:var(--text-secondary); display:flex; flex-direction:column; gap:4px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+          <div style="font-size:11px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px; border-top:1px solid var(--border-subtle); padding-top:12px;">
             <div>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.1em; margin-right:4px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              256-Bit Encrypted Payment
+              <i data-lucide="shield-check" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em; color:#00E676;"></i>
+              PSD2 3D Secure 2.2 Protected
             </div>
-            <div>&#10003; 30-Day Complimentary Returns</div>
+            <div>
+              <i data-lucide="rotate-ccw" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em;"></i>
+              14-Day Statutory Right of Withdrawal
+            </div>
+            <div>
+              <i data-lucide="check-circle" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em;"></i>
+              All prices inclusive of European statutory VAT
+            </div>
           </div>
         </aside>
 
@@ -633,24 +778,22 @@
 
   <script src="../js/cart.js"></script>
   <script>
-    // ─── Delivery method state ───────────────────────────────────────────────
+    // ─── European Delivery Method State ───────────────────────────────────────
     const DELIVERY_OPTIONS = {
-      express:  { label: 'Express Next Day',  cost: 0,   costLabel: 'FREE' },
-      standard: { label: 'Standard Delivery', cost: 100, costLabel: 'BDT 100' },
-      economy:  { label: 'Economy',           cost: 60,  costLabel: 'BDT 60'  }
+      standard: { label: 'Standard EU Tracked (DHL / DPD)', cost: 12, costLabel: '€ 12.00' },
+      express:  { label: 'DHL Express Air (Next-Day)',     cost: 24, costLabel: '€ 24.00' }
     };
-    let activeDelivery = 'express';   // Default selection
-    let cartSubtotal   = 0;           // Set by loadCheckoutState()
-    const FREE_SHIPPING_THRESHOLD = 20000;
+    let activeDelivery = 'standard';
+    let cartSubtotal   = 0;
+    const FREE_SHIPPING_THRESHOLD = 150;
 
     // ─── Promo Code Engine ───────────────────────────────────────────────────
-    // TODO: Wire to real promotions API
     const PROMO_CODES = {
-      'NEX10':    { label: 'NEX10 — 10% off',    type: 'percent', value: 10  },
-      'LUXURY20': { label: 'LUXURY20 — 20% off', type: 'percent', value: 20  },
-      'FREESHIP': { label: 'FREESHIP — Free Shipping', type: 'shipping', value: 0 }
+      'NEX10':    { label: 'NEX10 — 10% off',         type: 'percent',  value: 10 },
+      'LUXURY20': { label: 'LUXURY20 — 20% off',       type: 'percent',  value: 20 },
+      'FREESHIP': { label: 'FREESHIP — Free Delivery', type: 'shipping', value: 0  }
     };
-    let activeCoupon = null; // { code, label, type, value }
+    let activeCoupon = null;
 
     function applyCoupon() {
       const input    = document.getElementById('coupon-input');
@@ -661,27 +804,22 @@
       if (!code) return;
 
       const promo = PROMO_CODES[code];
-
       if (!promo) {
-        // Invalid code — show error state
-        showCouponFeedback('This code isn\'t valid or has expired.', 'error');
+        showCouponFeedback("This code isn't valid or has expired.", 'error');
         input.classList.add('coupon-input-error');
         return;
       }
 
-      // Valid code
       activeCoupon = { code, ...promo };
       input.value = '';
       input.classList.remove('coupon-input-error');
       hideCouponFeedback();
 
-      // Show pill
       const pillWrap  = document.getElementById('coupon-pill-wrap');
       const pillLabel = document.getElementById('coupon-pill-label');
-      if (pillWrap)  pillWrap.style.display  = 'flex';
-      if (pillLabel) pillLabel.textContent   = promo.label;
+      if (pillWrap)  pillWrap.style.display = 'flex';
+      if (pillLabel) pillLabel.textContent  = promo.label;
 
-      // Hide input row while coupon is applied
       const inputRow = document.getElementById('coupon-input-row');
       if (inputRow) inputRow.style.display = 'none';
 
@@ -690,8 +828,6 @@
 
     function removeCoupon() {
       activeCoupon = null;
-
-      // Reset input row
       const inputRow  = document.getElementById('coupon-input-row');
       const pillWrap  = document.getElementById('coupon-pill-wrap');
       const discRow   = document.getElementById('summary-discount-row');
@@ -701,16 +837,15 @@
       if (discRow)  discRow.style.display  = 'none';
       if (inp)      { inp.value = ''; inp.classList.remove('coupon-input-error'); }
       hideCouponFeedback();
-
       updateSummaryTotals();
     }
 
     function showCouponFeedback(msg, type) {
       const el = document.getElementById('coupon-feedback');
       if (!el) return;
-      el.textContent   = msg;
+      el.textContent = msg;
       el.style.display = 'block';
-      el.style.color   = type === 'error' ? '#FF5252' : '#00E676';
+      el.style.color = type === 'error' ? '#FB7185' : '#34D399';
     }
 
     function hideCouponFeedback() {
@@ -723,112 +858,99 @@
       if (activeCoupon.type === 'percent') {
         return Math.round(subtotal * activeCoupon.value / 100);
       }
-      return 0; // shipping discount handled separately
+      return 0;
     }
 
-    // ─── Select delivery method ──────────────────────────────────────────────
     function selectDelivery(method) {
       if (!DELIVERY_OPTIONS[method]) return;
       activeDelivery = method;
-
-      // Update visual selection state
-      ['express', 'standard', 'economy'].forEach(key => {
+      ['standard', 'express'].forEach(key => {
         const el = document.getElementById('opt-' + key);
         if (el) el.classList.toggle('selected', key === method);
       });
-
-      // Recalculate totals with new shipping cost
       updateSummaryTotals();
     }
 
-    // ─── Update order summary totals (shipping + coupon aware) ───────────────
     function updateSummaryTotals() {
-      const deliveryMethod = DELIVERY_OPTIONS[activeDelivery];
-
-      // ── 1. Coupon discount ──────────────────────────────────────────────────
+      const deliveryMethod = DELIVERY_OPTIONS[activeDelivery] || DELIVERY_OPTIONS.standard;
       const discountAmt = computeDiscount(cartSubtotal);
-      const discountedSubtotal = cartSubtotal - discountAmt;
+      const discountedSubtotal = Math.max(0, cartSubtotal - discountAmt);
 
-      // Show/hide discount row
       const discRow    = document.getElementById('summary-discount-row');
       const discLabel  = document.getElementById('summary-discount-label');
       const discAmount = document.getElementById('summary-discount-amount');
       if (discRow) {
         if (activeCoupon && discountAmt > 0) {
-          discRow.style.display  = 'flex';
-          if (discLabel)  discLabel.textContent  = activeCoupon.label;
-          if (discAmount) discAmount.textContent = `−BDT ${discountAmt.toLocaleString()}`;
+          discRow.style.display = 'flex';
+          if (discLabel)  discLabel.textContent = activeCoupon.label;
+          if (discAmount) discAmount.textContent = `−€ ${discountAmt.toFixed(2)}`;
         } else {
           discRow.style.display = 'none';
         }
       }
 
-      // ── 2. Shipping cost ────────────────────────────────────────────────────
-      // FREESHIP coupon overrides shipping to zero
       const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
       let shippingCost;
       let shippingLabel;
-      if (activeDelivery === 'express') {
+
+      if (activeDelivery === 'standard') {
         if (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) {
-          shippingCost  = 0;
+          shippingCost = 0;
           shippingLabel = 'FREE';
         } else {
-          shippingCost  = 150;
-          shippingLabel = 'BDT 150';
-        }
-        const costEl = document.getElementById('cost-express');
-        if (costEl) {
-          costEl.textContent = shippingLabel;
-          costEl.style.color = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
+          shippingCost = deliveryMethod.cost;
+          shippingLabel = `€ ${shippingCost.toFixed(2)}`;
         }
       } else {
-        shippingCost  = freeShipCoupon ? 0 : deliveryMethod.cost;
-        shippingLabel = freeShipCoupon ? 'FREE' : deliveryMethod.costLabel;
+        shippingCost = deliveryMethod.cost;
+        shippingLabel = `€ ${shippingCost.toFixed(2)}`;
       }
 
-      // ── 3. Grand total ──────────────────────────────────────────────────────
-      const grandTotal = discountedSubtotal + shippingCost;
+      const standardCostEl = document.getElementById('cost-standard');
+      if (standardCostEl) {
+        standardCostEl.textContent = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 'FREE' : '€ 12.00';
+        standardCostEl.style.color = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? '#00E676' : 'var(--text-primary)';
+      }
 
-      // Desktop sidebar
+      const grandTotal = discountedSubtotal + shippingCost;
+      const estimatedVat = (grandTotal * 0.19 / 1.19);
+
       const shippingEl = document.getElementById('summary-shipping');
       if (shippingEl) {
-        shippingEl.textContent  = shippingLabel;
-        shippingEl.style.color  = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
-        shippingEl.style.fontWeight = '600';
+        shippingEl.textContent = shippingLabel;
+        shippingEl.style.color = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
       }
-      const totalEl = document.getElementById('summary-total');
-      if (totalEl) totalEl.textContent = `BDT ${grandTotal.toLocaleString()}`;
 
-      // Place Order CTA
-      const cta = document.getElementById('btn-place-order');
-      if (cta && !cta.disabled) cta.textContent = `PLACE ORDER · BDT ${grandTotal.toLocaleString()}`;
+      const vatEl = document.getElementById('summary-vat');
+      if (vatEl) vatEl.textContent = `€ ${estimatedVat.toFixed(2)}`;
+
+      const subtotalEl = document.getElementById('summary-subtotal');
+      if (subtotalEl) subtotalEl.textContent = `€ ${cartSubtotal.toFixed(2)}`;
+
+      const totalEl = document.getElementById('summary-total');
+      if (totalEl) totalEl.textContent = `€ ${grandTotal.toFixed(2)}`;
+
+      const primaryCtaText = document.getElementById('btn-order-primary-text');
+      if (primaryCtaText) primaryCtaText.textContent = `PAY · € ${grandTotal.toFixed(2)}`;
+
+      const mobileTitle = document.getElementById('mobile-summary-title');
+      if (mobileTitle) mobileTitle.textContent = `Order summary · € ${grandTotal.toFixed(2)}`;
     }
 
-    // ─── Contextual delivery guidance (reads real cart + city) ───────────────
     function buildDeliveryGuidance() {
-      const city    = (document.getElementById('ship-city')?.value || 'Dhaka').trim();
-      const subtotal = cartSubtotal;
-      const panel   = document.getElementById('delivery-guidance');
+      const countrySelect = document.getElementById('ship-country');
+      const countryName = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Europe';
+      const panel = document.getElementById('delivery-guidance');
       if (!panel) return;
 
-      let message;
-      if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-        // Free express already unlocked &mdash; gentle confirm
-        message = `<strong>A quick recommendation &mdash;</strong> Your order qualifies for <strong>free Express Next Day delivery</strong>. Your items will arrive by 8:00 PM tomorrow.`;
+      if (cartSubtotal >= FREE_SHIPPING_THRESHOLD) {
+        panel.innerHTML = `<strong>Complimentary Tracked Delivery Unlocked —</strong> Your order to ${countryName} qualifies for <strong>Free Standard EU Tracked Delivery</strong> (2–4 business days, carbon neutral).`;
       } else {
-        const diff = (FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString();
-        const isDhaka = city.toLowerCase().includes('dhaka');
-        if (isDhaka) {
-          message = `<strong>Delivering to ${city}.</strong> Add BDT ${diff} more to unlock free Express Next Day delivery &mdash; or choose Standard for BDT 100 delivered in 3&ndash;5 days.`;
-        } else {
-          message = `<strong>Delivering to ${city}.</strong> Express Next Day covers most areas outside Dhaka for BDT 150. Standard delivery (3&ndash;5 days) is available for BDT 100.`;
-        }
+        const diff = (FREE_SHIPPING_THRESHOLD - cartSubtotal).toFixed(2);
+        panel.innerHTML = `<strong>Shipping to ${countryName}.</strong> Add <strong>€ ${diff}</strong> more to unlock Free Standard EU Tracked Delivery — or choose DHL Express Air for guaranteed next-day arrival.`;
       }
-
-      panel.innerHTML = message;
     }
 
-    // ─── Main checkout loader ────────────────────────────────────────────────
     function loadCheckoutState() {
       let cart = [];
       try {
@@ -850,11 +972,9 @@
       emptyState.style.display = 'none';
       mainGrid.style.display   = 'grid';
 
-      // Derived from real cart &mdash; defensive property resolution
-      cartSubtotal           = cart.reduce((sum, i) => sum + (i.price * (i.quantity || i.qty || 1)), 0);
-      const totalCount       = cart.reduce((sum, i) => sum + (i.quantity || i.qty || 1), 0);
+      cartSubtotal     = cart.reduce((sum, i) => sum + (Number(i.price) * (parseInt(i.quantity || i.qty, 10) || 1)), 0);
+      const totalCount = cart.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty, 10) || 1), 0);
 
-      // Render Desktop Order Summary List
       const desktopList = document.getElementById('desktop-items-list');
       if (desktopList) {
         desktopList.innerHTML = cart.map(i => {
@@ -862,26 +982,19 @@
           const itemVariant = i.variant || i.size || 'Standard';
           return `
           <div style="display:grid; grid-template-columns:50px 1fr auto; gap:12px; align-items:center;">
-            <img src="${i.image}" style="width:50px; height:62px; object-fit:cover; border-radius:2px; background:var(--bg-main); view-transition-name: cart-item-${i.id};">
+            <img src="${i.image}" alt="${i.name}" style="width:50px; height:62px; object-fit:cover; border-radius:2px; background:var(--bg-main);">
             <div>
               <div style="font-size:13px; font-weight:500;">${i.name}</div>
               <div style="font-size:11px; color:var(--text-secondary);">${itemVariant} &middot; Qty ${itemQty}</div>
             </div>
-            <div style="font-size:13px; font-weight:600;">BDT ${(i.price * itemQty).toLocaleString()}</div>
+            <div style="font-size:13px; font-weight:600;" class="tabular-nums">€ ${(Number(i.price) * itemQty).toFixed(2)}</div>
           </div>
         `;}).join('');
       }
 
-      // Desktop subtotal row (shipping + total filled by updateSummaryTotals)
-      const subtotalEl = document.getElementById('summary-subtotal');
-      if (subtotalEl) subtotalEl.textContent = `BDT ${cartSubtotal.toLocaleString()}`;
-
-      // Mobile summary bar
-      const mobileTitle   = document.getElementById('mobile-summary-title');
-      const mobileSub     = document.getElementById('mobile-summary-sub');
+      const mobileSub = document.getElementById('mobile-summary-sub');
       const mobileDetails = document.getElementById('mobile-summary-details');
-      if (mobileTitle)   mobileTitle.textContent = `Order summary &middot; BDT ${cartSubtotal.toLocaleString()}`;
-      if (mobileSub)     mobileSub.textContent   = `${totalCount} Item${totalCount > 1 ? 's' : ''}`;
+      if (mobileSub) mobileSub.textContent = `${totalCount} Piece${totalCount > 1 ? 's' : ''} · Incl. 19% VAT`;
       if (mobileDetails) {
         mobileDetails.innerHTML = cart.map(i => {
           const itemQty = i.quantity || i.qty || 1;
@@ -889,21 +1002,19 @@
           return `
           <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
             <span>${i.name} (${itemVariant}) &times;${itemQty}</span>
-            <span>BDT ${(i.price * itemQty).toLocaleString()}</span>
+            <span class="tabular-nums">€ ${(Number(i.price) * itemQty).toFixed(2)}</span>
           </div>
         `;}).join('') + `
           <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:600; padding-top:8px; border-top:1px solid var(--border-subtle); margin-top:8px;">
-            <span>Subtotal</span><span>BDT ${cartSubtotal.toLocaleString()}</span>
+            <span>Subtotal</span><span class="tabular-nums">€ ${cartSubtotal.toFixed(2)}</span>
           </div>
         `;
       }
 
-      // Initial totals + guidance
       updateSummaryTotals();
       buildDeliveryGuidance();
     }
 
-    // Rebuild guidance live when city field changes
     document.addEventListener('DOMContentLoaded', () => {
       loadCheckoutState();
       const cityInput = document.getElementById('ship-city');
@@ -916,36 +1027,35 @@
       if (!details) return;
       const open = details.style.display === 'block';
       details.style.display = open ? 'none' : 'block';
-      btn.textContent       = open ? 'View order details ↓' : 'Hide order details ↑';
+      btn.textContent = open ? 'View order details ↓' : 'Hide order details ↑';
     }
 
-    // ─── Payment method selection ────────────────────────────────────────────
-    let activePayment = 'bkash';
+    // ─── Payment Method Selection (Pan-European) ─────────────────────────────
+    let activePayment = 'klarna';
     function selectPayment(method) {
       activePayment = method;
-      ['bkash', 'nagad', 'card', 'cod'].forEach(m => {
+      ['klarna', 'card', 'ideal', 'applepay', 'paypal', 'bancontact', 'sepa'].forEach(m => {
         const btn = document.getElementById('pay-' + m);
         if (btn) btn.classList.toggle('selected', m === method);
       });
-      // Toggle card details panel
-      const panel = document.getElementById('card-details-panel');
-      if (panel) panel.style.display = method === 'card' ? 'block' : 'none';
-      // Clear card errors when switching away
-      if (method !== 'card') {
-        ['card-number','card-expiry','card-cvv','card-name'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.classList.remove('input-error');
-        });
-      }
-      // If user changes payment after a failure, hide the failure banner
+
+      // Toggle relevant sub-panels
+      const cardPanel   = document.getElementById('card-details-panel');
+      const idealPanel  = document.getElementById('ideal-details-panel');
+      const sepaPanel   = document.getElementById('sepa-details-panel');
+      const klarnaPanel = document.getElementById('klarna-details-panel');
+
+      if (cardPanel)   cardPanel.style.display   = (method === 'card')   ? 'block' : 'none';
+      if (idealPanel)  idealPanel.style.display  = (method === 'ideal')  ? 'block' : 'none';
+      if (sepaPanel)   sepaPanel.style.display   = (method === 'sepa')   ? 'block' : 'none';
+      if (klarnaPanel) klarnaPanel.style.display = (method === 'klarna') ? 'block' : 'none';
+
       hideBanner('banner-payment-fail');
     }
 
-    // ─── Card input formatters ────────────────────────────────────────────────
     function formatCardNumber(input) {
       let v = input.value.replace(/\D/g, '').slice(0, 16);
       input.value = v.replace(/(.{4})/g, '$1 ').trim();
-      // Live brand detection
       const icon = document.getElementById('card-brand-icon');
       if (icon) {
         if (/^4/.test(v))            icon.textContent = 'VISA';
@@ -982,7 +1092,6 @@
       if (el) el.classList.add('visible');
     }
 
-    // ─── Real-time field error clearing ──────────────────────────────────────
     document.addEventListener('focusin', (e) => {
       if (e.target.classList.contains('input-box')) {
         e.target.classList.remove('input-error');
@@ -994,7 +1103,6 @@
       }
     });
 
-    // ─── Field validation helpers ────────────────────────────────────────────
     function markField(inputId, errId, isValid) {
       const input = document.getElementById(inputId);
       const err   = document.getElementById(errId);
@@ -1006,7 +1114,6 @@
 
     function validateFields() {
       let valid = true;
-
       const name     = document.getElementById('cust-name')?.value.trim()  || '';
       const email    = document.getElementById('cust-email')?.value.trim() || '';
       const phone    = document.getElementById('cust-phone')?.value.trim() || '';
@@ -1015,21 +1122,13 @@
       const postcode = document.getElementById('ship-postcode')?.value.trim() || '';
 
       if (!markField('cust-name', 'err-cust-name', name.length >= 2 && name.length <= 120)) valid = false;
-
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       if (!markField('cust-email', 'err-cust-email', emailOk)) valid = false;
+      if (!markField('cust-phone', 'err-cust-phone', phone.length >= 6)) valid = false;
+      if (!markField('ship-address', 'err-ship-address', address.length >= 5)) valid = false;
+      if (!markField('ship-city', 'err-ship-city', city.length >= 2)) valid = false;
+      if (!markField('ship-postcode', 'err-ship-postcode', postcode.length >= 3)) valid = false;
 
-      // Bangladeshi mobile: 01[3-9]XXXXXXXX — 11 digits
-      const phoneOk = /^01[3-9]\d{8}$/.test(phone);
-      if (!markField('cust-phone', 'err-cust-phone', phoneOk)) valid = false;
-
-      if (!markField('ship-address', 'err-ship-address', address.length >= 5 && address.length <= 200)) valid = false;
-      if (!markField('ship-city',    'err-ship-city',    city.length >= 2))   valid = false;
-
-      const postOk = /^\d{4}$/.test(postcode);
-      if (!markField('ship-postcode', 'err-ship-postcode', postOk)) valid = false;
-
-      // Card fields — only validate if card method selected
       if (activePayment === 'card') {
         const cardNum  = (document.getElementById('card-number')?.value || '').replace(/\s/g,'');
         const expiry   = (document.getElementById('card-expiry')?.value  || '').replace(/\s/g,'');
@@ -1041,38 +1140,40 @@
         if (!markField('card-name',   'err-card-name',   cardName.length >= 2))           valid = false;
       }
 
+      if (activePayment === 'sepa') {
+        const iban = (document.getElementById('sepa-iban')?.value || '').replace(/\s/g,'');
+        const bic  = (document.getElementById('sepa-bic')?.value || '').trim();
+        const holder = (document.getElementById('sepa-holder')?.value || '').trim();
+        if (!markField('sepa-iban', 'err-sepa-iban', /^[A-Z]{2}[0-9A-Z]{13,32}$/i.test(iban))) valid = false;
+        if (!markField('sepa-bic', 'err-sepa-bic', bic.length >= 8)) valid = false;
+        if (!markField('sepa-holder', 'err-sepa-holder', holder.length >= 2)) valid = false;
+      }
+
       return valid;
     }
 
-    // ─── CTA processing-state guard ──────────────────────────────────────────
     let orderSubmitting = false;
 
     function setOrderCTAProcessing() {
       const cta = document.getElementById('btn-place-order');
       if (!cta) return;
       cta.disabled = true;
-      cta.textContent = 'Processing…';
       cta.style.opacity = '0.7';
       cta.style.cursor  = 'not-allowed';
+      const txt = document.getElementById('btn-order-primary-text');
+      if (txt) txt.textContent = 'AUTHENTICATING PAYMENT…';
     }
 
     function resetOrderCTA() {
       orderSubmitting = false;
       const cta = document.getElementById('btn-place-order');
       if (!cta) return;
-      const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      const shippingCost = activeDelivery === 'express'
-        ? (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon ? 0 : 150)
-        : (freeShipCoupon ? 0 : DELIVERY_OPTIONS[activeDelivery].cost);
-      const discountAmt = computeDiscount(cartSubtotal);
-      const total = (cartSubtotal - discountAmt) + shippingCost;
-      cta.disabled    = false;
-      cta.textContent = `PLACE ORDER · BDT ${total.toLocaleString()}`;
+      cta.disabled = false;
       cta.style.opacity = '';
       cta.style.cursor  = '';
+      updateSummaryTotals();
     }
 
-    // ─── Cart integrity check ─────────────────────────────────────────────────
     function cartIntegrityOk() {
       try {
         const raw  = localStorage.getItem('nex_cart');
@@ -1083,116 +1184,100 @@
       }
     }
 
-    // ─── Payment Modal Engine ─────────────────────────────────────────────────
+    // ─── European PSD2 & Payment Verification Modal ────────────────────────────
     function openPaymentModal() {
       const overlay = document.getElementById('payment-modal-overlay');
       if (!overlay) return;
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
-      // Compute display amount
-      const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      const shippingCost = activeDelivery === 'express'
-        ? (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon ? 0 : 150)
-        : (freeShipCoupon ? 0 : DELIVERY_OPTIONS[activeDelivery].cost);
       const discountAmt = computeDiscount(cartSubtotal);
+      const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
+      const shippingCost = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
       const displayTotal = (cartSubtotal - discountAmt) + shippingCost;
 
-      if (activePayment === 'bkash' || activePayment === 'nagad') {
-        // Phase 1: PIN Sheet
-        const sheet    = document.getElementById('payment-pin-sheet');
-        const logo     = document.getElementById('pin-brand-logo');
-        const name     = document.getElementById('pin-brand-name');
-        const amount   = document.getElementById('pin-amount-value');
-        const phone    = document.getElementById('pin-phone-display');
-        const pinInput = document.getElementById('wallet-pin-input');
-        const errPin   = document.getElementById('err-pin');
+      const authCard = document.getElementById('eu-payment-auth-card');
+      const authTitle = document.getElementById('eu-auth-title');
+      const authDesc = document.getElementById('eu-auth-desc');
+      const authAmount = document.getElementById('eu-auth-amount');
+      const authBadge = document.getElementById('eu-auth-badge');
 
-        if (activePayment === 'bkash') {
-          logo.innerHTML = `<img src="../assets/images/brand/bkash.svg" alt="bKash" style="width:36px; height:36px; object-fit:contain;">`;
-          name.textContent = 'bKash Direct';
-          name.style.color = '#E2136E';
-        } else {
-          logo.innerHTML = `<img src="../assets/images/brand/nagad.svg" alt="Nagad" style="width:36px; height:36px; object-fit:contain;">`;
-          name.textContent = 'Nagad Wallet';
-          name.style.color = '#F05A28';
-        }
-        if (amount)   amount.textContent  = `BDT ${displayTotal.toLocaleString()}`;
-        if (phone)    phone.value          = document.getElementById('cust-phone')?.value || '';
-        if (pinInput) { pinInput.value = ''; pinInput.style.borderColor = ''; }
-        if (errPin)   { errPin.textContent = ''; errPin.classList.remove('visible'); }
+      if (authAmount) authAmount.textContent = `€ ${displayTotal.toFixed(2)}`;
 
-        sheet.style.display = 'block';
-        // Animate slide-up
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => { sheet.style.transform = 'translateY(0)'; });
-        });
-
+      if (activePayment === 'card') {
+        authTitle.textContent = '3D Secure 2.2 Bank Challenge';
+        authDesc.textContent = 'Please confirm this purchase in your bank mobile app (Verified by Visa / Mastercard Identity Check).';
+        authBadge.innerHTML = '<span style="background:#0F2042;color:#fff;font-size:11px;padding:3px 8px;border-radius:3px;font-weight:700;">PSD2 3DS2</span>';
+      } else if (activePayment === 'ideal') {
+        const bankName = document.getElementById('ideal-bank-select')?.options[document.getElementById('ideal-bank-select')?.selectedIndex]?.text || 'iDEAL Bank';
+        authTitle.textContent = `Redirecting to ${bankName}`;
+        authDesc.textContent = 'Authenticating your direct bank transfer in encrypted token session.';
+        authBadge.innerHTML = '<span class="payment-brand-badge ideal-badge">iDEAL</span>';
+      } else if (activePayment === 'klarna') {
+        authTitle.textContent = 'Klarna Smooth Checkout';
+        authDesc.textContent = 'Verifying your 30-day payment authorization with Klarna Bank AB.';
+        authBadge.innerHTML = '<span class="payment-brand-badge klarna-badge">Klarna.</span>';
+      } else if (activePayment === 'applepay') {
+        authTitle.textContent = 'Apple Pay Authorization';
+        authDesc.textContent = 'Double-click side button or confirm with Face ID to pay.';
+        authBadge.innerHTML = '<span class="payment-brand-badge applepay-badge"> Pay</span>';
+      } else if (activePayment === 'paypal') {
+        authTitle.textContent = 'PayPal Secure Portal';
+        authDesc.textContent = 'Authenticating one-touch express token session with PayPal.';
+        authBadge.innerHTML = '<span class="payment-brand-badge paypal-badge">PayPal</span>';
+      } else if (activePayment === 'bancontact') {
+        authTitle.textContent = 'Bancontact Belgium';
+        authDesc.textContent = 'Connecting with Payconiq / Bancontact secure gateway.';
+        authBadge.innerHTML = '<span class="payment-brand-badge bancontact-badge">Bancontact</span>';
       } else {
-        // Card or COD → skip to processing directly
-        showProcessingPhase(
-          activePayment === 'cod'
-            ? 'Confirming your order…'
-            : 'Verifying card details…'
-        );
-        setTimeout(() => completeOrderFlow(), activePayment === 'cod' ? 1200 : 2200);
-      }
-    }
-
-    function submitWalletPIN() {
-      const pinInput = document.getElementById('wallet-pin-input');
-      const errPin   = document.getElementById('err-pin');
-      const pin      = (pinInput?.value || '').trim();
-
-      if (pin.length < 4) {
-        if (errPin) { errPin.textContent = 'Please enter a valid PIN (minimum 4 digits).'; errPin.classList.add('visible'); }
-        pinInput?.focus();
-        return;
+        authTitle.textContent = 'SEPA Direct Debit Mandate';
+        authDesc.textContent = 'Registering electronic SEPA creditor identifier with European banking network.';
+        authBadge.innerHTML = '<span class="payment-brand-badge sepa-badge">SEPA CORE</span>';
       }
 
-      // Slide sheet down, show spinner
-      const sheet = document.getElementById('payment-pin-sheet');
-      if (sheet) sheet.style.transform = 'translateY(100%)';
+      if (authCard) {
+        authCard.style.display = 'block';
+        requestAnimationFrame(() => {
+          authCard.style.transform = 'translateY(0)';
+          authCard.style.opacity = '1';
+        });
+      }
+
+      // Auto-progress through simulated banking verification
       setTimeout(() => {
-        if (sheet) sheet.style.display = 'none';
-        showProcessingPhase(activePayment === 'bkash' ? 'Confirming with bKash…' : 'Confirming with Nagad…');
-        setTimeout(() => completeOrderFlow(), 2000);
-      }, 350);
-    }
-
-    function showProcessingPhase(label) {
-      const panel = document.getElementById('payment-processing-panel');
-      const lbl   = document.getElementById('processing-label');
-      if (panel) panel.style.display = 'block';
-      if (lbl)   lbl.textContent     = label.toUpperCase();
+        completeOrderFlow();
+      }, 2200);
     }
 
     function completeOrderFlow() {
-      // Show success flash
-      const processingPanel = document.getElementById('payment-processing-panel');
-      const successPanel    = document.getElementById('payment-success-panel');
-      if (processingPanel) processingPanel.style.display = 'none';
-      if (successPanel)    successPanel.style.display    = 'block';
+      const authCard = document.getElementById('eu-payment-auth-card');
+      const successPanel = document.getElementById('payment-success-panel');
+      if (authCard) authCard.style.display = 'none';
+      if (successPanel) successPanel.style.display = 'block';
 
-      // Build and persist order payload
       const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      const shippingCost = activeDelivery === 'express'
-        ? (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon ? 0 : 150)
-        : (freeShipCoupon ? 0 : DELIVERY_OPTIONS[activeDelivery].cost);
-      const discountAmt   = computeDiscount(cartSubtotal);
-      const shippingLabel = shippingCost === 0 ? 'FREE' : `BDT ${shippingCost.toLocaleString()}`;
-      const grandTotal    = (cartSubtotal - discountAmt) + shippingCost;
-      const orderRef      = 'NX-' + Date.now().toString(36).toUpperCase().slice(-5);
+      const shippingCost = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
+      const discountAmt = computeDiscount(cartSubtotal);
+      const grandTotal  = (cartSubtotal - discountAmt) + shippingCost;
+      const orderRef    = 'NX-EU-' + Date.now().toString(36).toUpperCase().slice(-5);
 
       let cartItems = [];
       try { cartItems = JSON.parse(localStorage.getItem('nex_cart') || '[]'); } catch(e) {}
 
+      const countrySelect = document.getElementById('ship-country');
+      const countryCode = countrySelect ? countrySelect.value : 'DE';
+      const countryName = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Germany';
+
       const confirmedOrder = {
         ref:            orderRef,
+        currency:       'EUR',
+        currencySymbol: '€',
         placedAt:       new Date().toISOString(),
-        customerName:   document.getElementById('cust-name')?.value.trim()     || '',
-        customerEmail:  document.getElementById('cust-email')?.value.trim()    || '',
-        customerPhone:  document.getElementById('cust-phone')?.value.trim()    || '',
+        customerName:   document.getElementById('cust-name')?.value.trim()     || 'Alexander Wright',
+        customerEmail:  document.getElementById('cust-email')?.value.trim()    || 'alexander@maison.eu',
+        customerPhone:  (document.getElementById('cust-phone-country')?.value || '+49') + ' ' + (document.getElementById('cust-phone')?.value.trim() || ''),
+        country:        countryName,
+        countryCode:    countryCode,
         address:        document.getElementById('ship-address')?.value.trim()  || '',
         city:           document.getElementById('ship-city')?.value.trim()     || '',
         postcode:       document.getElementById('ship-postcode')?.value.trim() || '',
@@ -1200,20 +1285,20 @@
         deliveryKey:    activeDelivery,
         paymentMethod:  activePayment,
         shippingCost,
-        shippingLabel,
+        shippingLabel:  shippingCost === 0 ? 'FREE' : `€ ${shippingCost.toFixed(2)}`,
         subtotal:       cartSubtotal,
         discountAmt,
         discountCode:   activeCoupon ? activeCoupon.code : null,
+        vatRate:        '19%',
+        vatAmount:      (grandTotal * 0.19 / 1.19).toFixed(2),
         total:          grandTotal,
         items:          cartItems
       };
 
-      // TODO: Wire to real backend API — replace with fetch('/api/orders', { method:'POST', body: JSON.stringify(confirmedOrder) })
       sessionStorage.setItem('nex_confirmed_order', JSON.stringify(confirmedOrder));
       localStorage.removeItem('nex_cart');
       window.dispatchEvent(new Event('cart-updated'));
 
-      // Redirect after brief success flash
       setTimeout(() => {
         orderSubmitting = false;
         window.location.href = 'confirmation.html';
@@ -1222,23 +1307,16 @@
 
     function closePaymentModal() {
       const overlay = document.getElementById('payment-modal-overlay');
-      const sheet   = document.getElementById('payment-pin-sheet');
-      if (sheet)   sheet.style.transform = 'translateY(100%)';
-      setTimeout(() => {
-        if (overlay) overlay.style.display = 'none';
-        if (sheet)   sheet.style.display   = 'none';
-        document.body.style.overflow = '';
-        orderSubmitting = false;
-        resetOrderCTA();
-      }, 320);
+      if (overlay) overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      orderSubmitting = false;
+      resetOrderCTA();
     }
 
     function handleModalBackdropClick(e) {
-      // Only close if clicking the backdrop itself (not a child panel)
       if (e.target.id === 'payment-modal-overlay') closePaymentModal();
     }
 
-    // ─── Place Order handler ─────────────────────────────────────────────────
     function handlePlaceOrder() {
       if (orderSubmitting) return;
       hideBanner('banner-payment-fail');
@@ -1261,152 +1339,57 @@
     }
   </script>
 
-  <!-- ==========================================================================
-       LUXURY 5-COLUMN FOOTER
-       ========================================================================== -->
   <!-- =========================================================================
-       PAYMENT PROCESSING MODAL
-       Phase 1: PIN Sheet  (bKash / Nagad)
-       Phase 2: Processing Spinner
-       Phase 3: Success Flash → redirect
+       EUROPEAN PAYMENT AUTHENTICATION MODAL (PSD2 / 3DS2 / iDEAL / Klarna)
        ========================================================================= -->
-  <div id="payment-modal-overlay" style="display:none; position:fixed; inset:0; z-index:9000; background:rgba(5,14,36,0.88); backdrop-filter:blur(8px); align-items:flex-end; justify-content:center;" onclick="handleModalBackdropClick(event)">
+  <div id="payment-modal-overlay" style="display:none; position:fixed; inset:0; z-index:9000; background:rgba(5,14,36,0.88); backdrop-filter:blur(8px); align-items:center; justify-content:center;" onclick="handleModalBackdropClick(event)">
 
-    <!-- PIN Sheet (bKash / Nagad) -->
-    <div id="payment-pin-sheet" style="display:none; width:100%; max-width:480px; margin:0 auto; background:var(--bg-surface); border-radius:16px 16px 0 0; padding:32px 28px 40px; border:1px solid var(--border-subtle); border-bottom:none; transform:translateY(100%); transition:transform 320ms cubic-bezier(0.32,0.72,0,1);">
-      <!-- Drag handle -->
-      <div style="width:40px; height:4px; background:var(--border-medium); border-radius:2px; margin:0 auto 24px;"></div>
-      <!-- Brand header -->
-      <div id="pin-sheet-brand" style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
-        <div id="pin-brand-logo" style="width:48px; height:48px; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0;"></div>
-        <div>
-          <div id="pin-brand-name" style="font-size:16px; font-weight:600;"></div>
-          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Enter your mobile wallet PIN to complete payment</div>
-        </div>
+    <!-- Auth Card Panel -->
+    <div id="eu-payment-auth-card" style="display:none; width:100%; max-width:440px; margin:0 20px; background:var(--bg-surface); border-radius:12px; padding:32px 28px; border:1px solid var(--border-default); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align:center;">
+      <div id="eu-auth-badge" style="margin-bottom:16px; display:inline-flex; align-items:center; justify-content:center;"></div>
+      <h3 id="eu-auth-title" style="font-family:var(--font-serif); font-size:22px; color:#fff; margin-bottom:8px;">Authenticating Transaction</h3>
+      <p id="eu-auth-desc" style="font-size:13px; color:var(--text-secondary); line-height:1.5; margin-bottom:20px;"></p>
+      
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:8px; padding:14px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.06em;">Amount to Authorize</span>
+        <span id="eu-auth-amount" style="font-size:20px; font-weight:700; font-family:var(--font-serif); color:#fff;" class="tabular-nums">€ 0.00</span>
       </div>
-      <!-- Amount display -->
-      <div id="pin-amount-display" style="background:rgba(255,255,255,0.04); border:1px solid var(--border-subtle); border-radius:8px; padding:14px 16px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.08em;">Amount Due</span>
-        <span id="pin-amount-value" style="font-size:20px; font-weight:700; font-family:var(--font-serif);"></span>
-      </div>
-      <!-- Phone pre-fill -->
-      <div style="margin-bottom:14px;">
-        <label style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">Mobile Number</label>
-        <input type="tel" id="pin-phone-display" class="input-box" readonly style="background:rgba(255,255,255,0.03); color:var(--text-secondary);">
-      </div>
-      <!-- PIN entry -->
-      <div style="margin-bottom:24px;">
-        <label style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">Wallet PIN</label>
-        <input type="password" id="wallet-pin-input" class="input-box" placeholder="••••••" maxlength="6"
-               style="letter-spacing:0.3em; font-size:20px; text-align:center;"
-               oninput="this.value=this.value.replace(/\D/g,''); if(this.value.length===6) document.getElementById('wallet-pin-input').style.borderColor='var(--accent-cyan)';"
-               onkeydown="if(event.key==='Enter') submitWalletPIN()">
-        <div class="field-error-msg" id="err-pin" style="text-align:center;"></div>
-      </div>
-      <button class="btn-primary-commerce" id="btn-pin-submit" style="width:100%; min-height:52px;" onclick="submitWalletPIN()">
-        CONFIRM PAYMENT
-      </button>
-      <button onclick="closePaymentModal()" style="display:block; width:100%; background:none; border:none; color:var(--text-secondary); font-size:12px; margin-top:16px; cursor:pointer; text-align:center; letter-spacing:0.06em;">Cancel</button>
-    </div>
 
-    <!-- Processing Spinner -->
-    <div id="payment-processing-panel" style="display:none; text-align:center; padding:60px 40px; color:var(--text-primary);">
-      <div class="payment-spinner" id="payment-spinner"></div>
-      <div id="processing-label" style="font-size:14px; color:var(--text-secondary); margin-top:24px; letter-spacing:0.06em;"></div>
+      <!-- Animated Progress Line -->
+      <div style="height:3px; width:100%; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-bottom:20px;">
+        <div style="height:100%; width:50%; background:var(--accent-cyan); animation: euAuthSlide 1.5s infinite ease-in-out;"></div>
+      </div>
+      <div style="font-size:11px; color:var(--text-secondary); letter-spacing:0.04em;">SECURE ENCRYPTED 256-BIT SESSION &middot; PSD2 VERIFIED</div>
     </div>
 
     <!-- Success Flash -->
-    <div id="payment-success-panel" style="display:none; text-align:center; padding:60px 40px; color:var(--text-primary);">
-      <div style="width:64px; height:64px; border-radius:50%; background:rgba(0,230,118,0.15); border:2px solid #00E676; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <div id="payment-success-panel" style="display:none; text-align:center; padding:50px 30px; background:var(--bg-surface); border-radius:12px; border:1px solid var(--border-default); max-width:400px; width:100%; margin:0 20px;">
+      <div style="width:64px; height:64px; border-radius:50%; background:rgba(0,230,118,0.15); border:2px solid #00E676; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+        <i data-lucide="check" style="width:32px; height:32px; color:#00E676;"></i>
       </div>
-      <div style="font-family:var(--font-serif); font-size:26px; margin-bottom:8px;">Payment Confirmed</div>
-      <div style="font-size:13px; color:var(--text-secondary);">Redirecting to your order receipt…</div>
+      <div style="font-family:var(--font-serif); font-size:26px; color:#fff; margin-bottom:8px;">Order Confirmed</div>
+      <div style="font-size:13px; color:var(--text-secondary);">Redirecting to your official invoice &amp; atelier receipt…</div>
     </div>
 
   </div>
 
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
+  <style>
+    @keyframes euAuthSlide {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(200%); }
+    }
+  </style>
 
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="checkout.html" class="footer-link-item">Complimentary Returns</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER (EUROPEAN STANDARD) -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
   
   <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/ai-engine.js"></script>
   <script src="../js/intent-parser.js"></script>
@@ -1420,5 +1403,65 @@
   <script>
     if (window.lucide) window.lucide.createIcons();
   </script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+  <script src="../js/theme-switcher.js"></script>
+  <script src="../js/ai-engine.js"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/style-profile.js"></script>
+  <script src="../js/context-retention.js"></script>
+  <script src="../js/concierge-engine.js"></script>
+  <script src="../js/concierge.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+<!-- SEARCH OVERLAY (global CMD+K) -->
+<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+  <div class="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-header-bar">
+      <div class="search-input-wrapper">
+        <div class="search-ai-icon">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+        </div>
+        <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots, or acoustics..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+      </div>
+      <button class="search-close-btn" aria-label="Close search">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+    <div id="aiSearchResultsModal" class="search-body"></div>
+  </div>
+</div>
+<script src="../js/session-context.js"></script>
+<script src="../js/search-overlay.js?v=1"></script>
+<script src="../js/cookie-consent.js"></script>
+
 </body>
 </html>

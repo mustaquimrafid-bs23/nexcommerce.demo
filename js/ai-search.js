@@ -9,17 +9,17 @@
       id: 'p1',
       name: 'Architectural Cashmere Sweater',
       category: 'APPAREL',
-      price: 18400,
-      formattedPrice: 'BDT 18,400',
+      price: 184.00,
+      formattedPrice: '€ 184.00',
       image: 'assets/images/products/hero_sweater.png',
       matchBadge: 'BEST MATCH',
       matchLabel: 'Best match for your request',
-      reasoning: 'Warm enough after sunset without feeling heavy. Ideal for 18°C Dhaka evenings.',
+      reasoning: 'Warm enough after sunset without feeling heavy. Ideal for 18°C Milan evenings.',
       whyExpanded: [
         { label: '&#10003; Evening temperature', desc: 'Designed for cooler evening conditions (15°C&ndash;20°C).' },
         { label: '&#10003; Your style', desc: 'Minimal silhouette with a clean structure.' },
         { label: '&#10003; Comfort', desc: 'Lightweight construction avoids excessive warmth.' },
-        { label: '&#10003; Location', desc: "Suitable for Dhaka's mild winter evenings." }
+        { label: '&#10003; Location', desc: "Suitable for European mild winter evenings." }
       ],
       comparison: {
         warmth: 'Ideal for 18°C',
@@ -28,14 +28,14 @@
         material: ' Wool Blend',
         versatility: 'High'
       },
-      tags: ['evening', 'cool weather', 'dhaka', 'lightweight', 'minimal', 'apparel', 'sweater', 'cashmere']
+      tags: ['evening', 'cool weather', 'milan', 'lightweight', 'minimal', 'apparel', 'sweater', 'cashmere']
     },
     {
       id: 'p2',
       name: 'Monolith Runner GT',
       category: 'FOOTWEAR',
-      price: 24500,
-      formattedPrice: 'BDT 24,500',
+      price: 245.00,
+      formattedPrice: '€ 245.00',
       image: 'assets/images/products/prod_runner.png',
       matchBadge: 'EXCELLENT FIT',
       matchLabel: 'High comfort footwear',
@@ -58,8 +58,8 @@
       id: 'p3',
       name: 'Wireless Precision Earbuds',
       category: 'ACOUSTICS',
-      price: 14200,
-      formattedPrice: 'BDT 14,200',
+      price: 142.00,
+      formattedPrice: '€ 142.00',
       image: 'assets/images/products/search_earbuds.png',
       matchBadge: 'GOOD MATCH',
       matchLabel: 'Minimalist Acoustic',
@@ -81,8 +81,8 @@
       id: 'p4',
       name: 'Acoustic Over-Ear Headphones',
       category: 'ACOUSTICS',
-      price: 32000,
-      formattedPrice: 'BDT 32,000',
+      price: 320.00,
+      formattedPrice: '€ 320.00',
       image: 'assets/images/products/prod_headphones.png',
       matchBadge: 'HIGH RATING',
       matchLabel: 'Focused listening',
@@ -253,7 +253,11 @@
     else if (/summer|warm|hot|humid/.test(q)) climate = 'Warm climate';
 
     let location = null;
-    if (/dhaka/.test(q)) location = 'Dhaka';
+    if (/milan|milano/.test(q)) location = 'Milan';
+    else if (/munich|münchen/.test(q)) location = 'Munich';
+    else if (/paris/.test(q)) location = 'Paris';
+    else if (/berlin/.test(q)) location = 'Berlin';
+    else if (/dhaka/.test(q)) location = 'Dhaka';
 
     let style = null;
     if (/minimal|minimal|clean|simple|understated/.test(q)) style = 'Minimal';
@@ -275,7 +279,7 @@
   }
 
   function parseAmount(val) {
-    let str = val.toLowerCase().replace('BDT', '').replace(',', '').trim();
+    let str = val.toLowerCase().replace(/€|eur|euros?|bdt/gi, '').replace(',', '').trim();
     if (str.endsWith('k')) {
       return parseFloat(str.replace('k', '')) * 1000;
     }
@@ -344,14 +348,14 @@
 
       <div class="search-prompts-group">
         <span class="search-prompt-label">TRY ASKING FOR INTENT</span>
-        <button class="search-prompt-btn" data-prompt="Something for a winter evening in Dhaka">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Something for a winter evening in Dhaka
+        <button class="search-prompt-btn" data-prompt="Something for a winter evening in Milan">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Something for a winter evening in Milan
         </button>
         <button class="search-prompt-btn" data-prompt="I need something comfortable for a long flight">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Comfortable for a long flight
         </button>
-        <button class="search-prompt-btn" data-prompt="A birthday gift for my brother under 8000">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Birthday gift for my brother under BDT8,000
+        <button class="search-prompt-btn" data-prompt="A luxury gift for my brother under 200">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Luxury gift for my brother under € 200
         </button>
         <button class="search-prompt-btn" data-prompt="Minimal everyday sneakers">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Minimal everyday sneakers
@@ -371,7 +375,7 @@
       if (intent.climate)  intentChips.push(intent.climate);
       if (intent.location) intentChips.push(intent.location);
       if (intent.recipient) intentChips.push('Recipient: ' + intent.recipient);
-      if (intent.budgetMax) intentChips.push('Under BDT ' + intent.budgetMax.toLocaleString());
+      if (intent.budgetMax) intentChips.push('Under € ' + intent.budgetMax.toLocaleString());
       
       if (intentChips.length > 0) {
         parsedChipsHtml = `
@@ -425,7 +429,7 @@
     if (intent.climate)  intentChips.push(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>${intent.climate}`);
     if (intent.location) intentChips.push(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>${intent.location}`);
     if (intent.recipient) intentChips.push(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Recipient: ${intent.recipient}`);
-    if (intent.budgetMax) intentChips.push(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Under BDT ${intent.budgetMax.toLocaleString()}`);
+    if (intent.budgetMax) intentChips.push(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em; margin-right:4px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>Under € ${intent.budgetMax.toLocaleString()}`);
 
     const chipsHtml = intentChips.length > 0 ? `
       <div class="intent-extraction-box">
@@ -445,7 +449,7 @@
         <div class="ai-card-details">
           <span class="match-indicator-badge">${escapeHtml(p.matchBadge)}</span>
           <h4 class="type-her&#10003; style="font-size: 22px; line-height: 1.1; font-weight: 500; margin: 4px 0;">${escapeHtml(p.name)}</h4>
-          <div class="ai-card-price">${p.formattedPrice}</div>
+          <div class="ai-card-price tabular-nums">${p.formattedPrice}</div>
         </div>
 
         <div class="ai-reasoning-box" style="margin-top: 8px; padding: 12px; background: rgba(0,200,255,0.03); border: 1px solid rgba(0,200,255,0.12); border-radius: 8px;">
@@ -492,9 +496,9 @@
     btn.classList.add('active');
 
     if (chipText.includes('Less expensive')) {
-      executeSearch('under 15000');
+      executeSearch('under 150');
     } else if (chipText.includes('Warmer')) {
-      executeSearch('winter outerwear for Dhaka');
+      executeSearch('winter outerwear for Milan');
     } else if (chipText.includes('casual')) {
       executeSearch('casual relaxed fit');
     } else {

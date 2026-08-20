@@ -5,7 +5,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPagePreloader();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
@@ -27,83 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 0. Luxury Page Preloader & Zero-CLS Coordination (Visible 0% -> 100% Journey)
- */
-function initPagePreloader() {
-  const preloader = document.getElementById('pagePreloader');
-  if (!preloader) return;
-
-  const bar = document.getElementById('preloaderProgressBar') || preloader.querySelector('.preloader-progress-bar');
-  const percentEl = document.getElementById('preloaderPercent');
-
-  let currentPercent = 0;
-  const startTime = performance.now();
-  const DURATION = 680; // Smooth 680ms calibrated progression
-
-  let isDismissed = false;
-
-  function updateProgress(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(1, elapsed / DURATION);
-
-    // Easing: start fast, glide smoothly through middle, crisp deceleration into 100%
-    const eased = 1 - Math.pow(1 - progress, 2.5);
-    currentPercent = Math.round(eased * 100);
-
-    if (bar) {
-      bar.style.transform = `scaleX(${eased.toFixed(4)})`;
-    }
-    if (percentEl) {
-      percentEl.textContent = `${currentPercent}%`;
-    }
-
-    if (progress < 1) {
-      requestAnimationFrame(updateProgress);
-    } else {
-      // Reached 100% smoothly
-      if (bar) {
-        bar.style.transform = 'scaleX(1)';
-        bar.style.boxShadow = '0 0 16px rgba(61, 224, 255, 0.9)';
-      }
-      if (percentEl) {
-        percentEl.textContent = '100%';
-        percentEl.style.color = '#34D399';
-      }
-
-      // Ensure Lucide icons are fully rendered before curtain lifts
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-      }
-
-      // Pause 90ms on 100% completion for perceptual satisfaction, then dissolve
-      setTimeout(() => {
-        dismissPreloader();
-      }, 90);
-    }
-  }
-
-  function dismissPreloader() {
-    if (isDismissed) return;
-    isDismissed = true;
-
-    requestAnimationFrame(() => {
-      preloader.classList.add('is-loaded');
-      setTimeout(() => {
-        preloader.style.display = 'none';
-      }, 380);
-    });
-  }
-
-  // Start progress animation loop immediately
-  requestAnimationFrame(updateProgress);
-
-  // Failsafe timeout in case of unexpected event
-  setTimeout(() => {
-    dismissPreloader();
-  }, 1200);
-}
-
-/**
  * 1b. Full-Bleed 3D Interactive Model Hero & Floating Shoppable Hotspot Tags
  */
 function initHeroCarousel() {
@@ -112,8 +34,8 @@ function initHeroCarousel() {
       id: 'p2',
       name: 'STRUCTURED LEATHER TOTE',
       lookNum: 'FEATURED PIECE',
-      price: 'BDT 24,500',
-      numericPrice: 24500,
+      price: '€ 245.00',
+      numericPrice: 245,
       category: 'Leather Goods',
       image: 'assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg',
       imageMobile: 'assets/images/lifestyle/Gemini_Generated_Image_tm4857tm4857tm48.jpg',
@@ -413,6 +335,11 @@ function initHeroCarousel() {
   // -------------------------------------------------------------
   const transitionCurtain = document.getElementById('pageTransitionOverlay');
   document.querySelectorAll('.page-nav-link, a[href^="pages/"]').forEach(link => {
+    // Header links (cart, wishlist, account, etc.) have their own dedicated
+    // click behavior (e.g. the mini-cart drawer) and must not be hijacked
+    // by this homepage-only curtain transition.
+    if (link.closest('#siteHeader')) return;
+
     link.addEventListener('click', (e) => {
       const targetHref = link.getAttribute('href');
       if (!targetHref || targetHref.startsWith('#') || targetHref.startsWith('javascript:')) return;
@@ -749,10 +676,10 @@ function initIntentSuggestions() {
   // 120fps Typewriter Rotation with Progress Sync
   if (input) {
     const prompts = [
-      "Something for a winter evening in Dhaka",
-      "Minimalist linen outfit for a weekend in Sylhet",
-      "Sharp monochrome look for an executive dinner",
-      "Breathable performance wear for morning runs",
+      "Something for a winter evening in Milan",
+      "Minimalist linen look for a weekend in Amalfi",
+      "Sharp monochrome look for an executive dinner in Zurich",
+      "Breathable performance wear for morning runs in Tiergarten",
       "Tailored outerwear for European autumn travel",
       "Understated luxury accessories for gifting"
     ];
@@ -1216,13 +1143,13 @@ function initRecentlyViewed() {
 
   // Editorial curated pieces across luxury categories
   const SEED_PRODUCTS = [
-    { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', house: 'ATELIER NO. 01', price: 18500, formattedPrice: 'BDT 18,500', image: 'assets/images/products/hero_sweater.png' },
-    { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', house: 'STUDIO FOOTWEAR', price: 11900, formattedPrice: 'BDT 11,900', image: 'assets/images/products/prod_runner.png' },
-    { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', house: 'ACOUSTIC LAB', price: 32000, formattedPrice: 'BDT 32,000', image: 'assets/images/products/prod_headphones.png' },
-    { id: 'p2', name: 'Structured Leather Tote', category: 'Objects', house: 'ATELIER ACCENTS', price: 14900, formattedPrice: 'BDT 14,900', image: 'assets/images/products/prod_tote.png' },
-    { id: 'p3', name: 'Fine-Knit Merino Crew', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 2490, formattedPrice: 'BDT 2,490', image: 'assets/images/products/plp_crewneck.png' },
-    { id: 'p5', name: 'Classic Chronograph Watch', category: 'Objects', house: 'TIMEPIECE ATELIER', price: 3380, formattedPrice: 'BDT 3,380', image: 'assets/images/products/search_watch.png' },
-    { id: 'p7', name: 'Tailored Chino Trousers', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 6800, formattedPrice: 'BDT 6,800', image: 'assets/images/products/plp_trousers.png' }
+    { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', house: 'ATELIER NO. 01', price: 185, formattedPrice: '€ 185.00', image: 'assets/images/products/hero_sweater.png' },
+    { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', house: 'STUDIO FOOTWEAR', price: 185, formattedPrice: '€ 185.00', image: 'assets/images/products/prod_runner.png' },
+    { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', house: 'ACOUSTIC LAB', price: 320, formattedPrice: '€ 320.00', image: 'assets/images/products/prod_headphones.png' },
+    { id: 'p2', name: 'Structured Leather Tote', category: 'Objects', house: 'ATELIER ACCENTS', price: 245, formattedPrice: '€ 245.00', image: 'assets/images/products/prod_tote.png' },
+    { id: 'p3', name: 'Fine-Knit Merino Crew', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 160, formattedPrice: '€ 160.00', image: 'assets/images/products/plp_crewneck.png' },
+    { id: 'p5', name: 'Classic Chronograph Watch', category: 'Objects', house: 'TIMEPIECE ATELIER', price: 340, formattedPrice: '€ 340.00', image: 'assets/images/products/search_watch.png' },
+    { id: 'p7', name: 'Tailored Chino Trousers', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 170, formattedPrice: '€ 170.00', image: 'assets/images/products/plp_trousers.png' }
   ];
 
   if (!Array.isArray(recents) || recents.length === 0) {
@@ -1244,7 +1171,7 @@ function initRecentlyViewed() {
     const depth = PARALLAX_DEPTHS[index % PARALLAX_DEPTHS.length];
     const category = item.category || 'Product';
     const house = item.house || (category.toUpperCase() + ' ATELIER');
-    const priceStr = item.formattedPrice || ('BDT ' + (item.price || 0).toLocaleString());
+    const priceStr = item.formattedPrice || ('€ ' + Number(item.price || 0).toFixed(2));
     const imageSrc = item.image || 'assets/images/products/hero_sweater.png';
 
     return `

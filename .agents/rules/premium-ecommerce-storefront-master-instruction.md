@@ -55,6 +55,12 @@ The interface should feel:
 
 > **Simple at first glance, sophisticated when interacted with.**
 
+### Visual-First & Low-Text Density ("Show, Don't Tell")
+* **70/30 Visual Dominance**: Devote at least 70% of visible layout area to high-fidelity photography, interactive media, and visual micro-UIs. Keep text concise (≤30% area).
+* **Strict Copy Restraint**: Headlines max 4–6 words. Body copy max 1–2 sentences (≤25 words).
+* **Visual Information Replacement**: Replace text narratives with interactive swatches, hotspot pins, icon pedestals, and progress diagrams.
+* **No Walls of Text**: Never render text blocks longer than 3 lines on customer storefront routes without visual anchoring.
+
 ---
 
 # 3. Human-Centered UX
@@ -273,36 +279,43 @@ Every color should come from the design system.
 
 ---
 
-# 8. Typography System
+# 8. Typography System (European Luxury E-Commerce Standard)
 
-Create a consistent typography hierarchy.
+Create a consistent, editorial typography hierarchy aligned with European luxury e-commerce:
 
-Define:
+### Font Family Roles
+* **Primary Display & Headings**: `Neue Haas Grotesk` (fallbacks: `Helvetica Now`, `Manrope`, `Plus Jakarta Sans`) — used for hero headlines, section titles, product/category headings.
+* **Primary UI & Body**: `Inter` — used for navigation, buttons, product info, prices, filters, forms, checkout, account pages, and tables.
+* **Editorial Accent**: `Instrument Serif` (fallbacks: `Playfair Display`, `Cormorant Garamond`) — strictly limited to hero accent words and selected luxury editorial campaigns.
+* **Anti-AI Font Guardrail**: Strictly NO `Orbitron`, `Audiowide`, `Exo 2`, `Rajdhani`, gaming fonts, or excessive monospace.
 
-* Display
-* H1
-* H2
-* H3
-* H4
-* Body large
-* Body
-* Body small
-* Caption
-* Label
-* Button text
-* Price
-* Discount price
-* Product title
+### Weight System Restraint
+* `400` Regular: Body copy, product descriptions, policies.
+* `500` Medium: UI labels, table cells, form fields, secondary headers.
+* `600` Semibold: Primary CTAs, active tab headers, product titles, section headers.
+* `700` Bold: Used sparingly for major price emphasis.
 
-Typography must have:
+### Tracking & Uppercase Rules
+* Display headings: `-0.02em` to `-0.01em` (tight, refined).
+* Uppercase labels: `+0.04em` to `+0.08em` (navigation items, small category chips, metadata tags only).
+* Body text: `0` to `+0.01em` (natural font metrics; NO wide tracking).
+* Never use uppercase for paragraphs, long descriptions, or checkout instructions.
 
-* consistent font family
-* consistent weights
-* consistent line heights
-* consistent letter spacing
-* responsive sizing where appropriate
+### European Latin Extended Glyph Coverage
+Mandatory verification of Latin Extended character support: `É`, `È`, `Ê`, `Ë`, `À`, `Â`, `Ç`, `Ñ`, `Ö`, `Ü`, `Å`, `Ø`, `Æ`, `ß`, `Š`, `Ž`, `Ł`, `Č`, etc.
 
-Do not use arbitrary font sizes throughout the application.
+### Typography Scale Tokens
+* **Display / Hero**: `64px–88px` (desktop), `42px–56px` (tablet), `34px–44px` (mobile); line-height `1.05–1.15`
+* **H1**: `48px–64px` (desktop), `32px–40px` (mobile); line-height `1.15–1.2`
+* **H2**: `36px–48px` (desktop), `26px–32px` (mobile); line-height `1.2–1.25`
+* **H3**: `24px–32px` (desktop), `20px–24px` (mobile); line-height `1.25–1.3`
+* **H4**: `18px–22px`; line-height `1.35–1.4`
+* **Body Large**: `18px–20px`; line-height `1.5–1.6`
+* **Body Standard**: `16px–18px`; line-height `1.5–1.65`
+* **Small / UI Text**: `13px–15px`; line-height `1.4–1.5`
+* **Micro / Metadata**: `11px–13px`; line-height `1.3–1.4`
+
+Do not use arbitrary font sizes or ad-hoc weights throughout the application. Every font size, weight, and line-height must derive from design system tokens.
 
 ---
 

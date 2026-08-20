@@ -6,21 +6,40 @@
 (function () {
   'use strict';
 
-  /* ─── Product Catalog ────────────────────────────────────────────────── */
+  /* ─── Product Catalog with Visual Specs & Perspectives ────────────────── */
   const PRODUCT_CATALOG = {
     p1: {
       id: 'p1',
       name: 'Cashmere Turtleneck Sweater',
       category: 'APPAREL',
-      price: 18500,
-      formattedPrice: 'BDT 18,500',
+      price: 185,
+      formattedPrice: '€ 185.00',
       description: 'Spun from 2-ply Mongolian cashmere with relaxed raglan shoulders and ribbed trims for effortless evening drape.',
       details: '100% Mongolian 2-ply cashmere · 12-gauge knit · Hand-finished ribbed collar, cuffs & hem · Crafted in Ulaanbaatar, Mongolia',
       material: '100% Grade-A Cashmere. Dry clean or gentle hand wash cold with wool detergent. Store folded.',
       sizing: 'Relaxed architectural fit. True to size for effortless layering; choose one size down for a tailored silhouette.',
-      shipping: 'Express Next Day delivery available across Dhaka. Free standard delivery on orders over BDT 20,000.',
-      images: ['assets/images/products/plp_turtleneck.png', 'assets/images/products/sweater_texture.png', 'assets/images/lifestyle/sweater_lifestyle.png'],
-      colors: ['Midnight', 'Charcoal', 'Stone'],
+      shipping: 'Express DHL / DPD Tracked delivery available across Europe. Free delivery on orders over € 150.00.',
+      images: [
+        '../assets/images/products/hero_sweater.png',
+        '../assets/images/lifestyle/sweater_lifestyle.png',
+        '../assets/images/products/sweater_texture.png'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/hero_sweater.png',
+        model: '../assets/images/lifestyle/sweater_lifestyle.png',
+        macro: '../assets/images/products/sweater_texture.png'
+      },
+      specBadges: [
+        { icon: 'map-pin', label: 'Origin', value: 'Ulaanbaatar, Mongolia' },
+        { icon: 'layers', label: 'Fiber', value: '100% Grade-A Cashmere' },
+        { icon: 'scale', label: 'Density', value: '420 GSM · 2-Ply Winter' },
+        { icon: 'scissors', label: 'Craft', value: 'Hand-Linked Ribbing' }
+      ],
+      colors: [
+        { name: 'Midnight', hex: '#0B1426' },
+        { name: 'Charcoal', hex: '#2C2E35' },
+        { name: 'Stone', hex: '#D6D3CC' }
+      ],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       sizeChart: { XS: {min: 80, max: 87}, S: {min: 88, max: 94}, M: {min: 95, max: 101}, L: {min: 102, max: 108}, XL: {min: 109, max: 115} },
       breadcrumb: [{ label: 'Apparel', href: 'category.html?cat=apparel' }, { label: 'Knitwear', href: 'category.html?cat=apparel' }]
@@ -29,15 +48,34 @@
       id: 'p2',
       name: 'Structured Wool Blazer',
       category: 'OUTERWEAR',
-      price: 26400,
-      formattedPrice: 'BDT 26,400',
+      price: 264,
+      formattedPrice: '€ 264.00',
       description: 'Tailored from Italian virgin wool with unlined interior canvassing and horn buttons for comfortable evening wear.',
       details: '100% Italian Virgin Wool · Unlined soft shoulder construction · Real horn buttons · Double back vent · Crafted in Biella, Italy',
       material: '100% Pure Virgin Wool. Cupro sleeve lining. Dry clean only. Hang on wide cedar wooden hanger.',
       sizing: 'Modern European tailored cut. Fits true to size with slight room across the chest for light knitwear.',
-      shipping: 'Express Next Day delivery available. Garment bag and protective cedar hanger included.',
-      images: ['assets/images/products/plp_blazer.png', 'assets/images/products/sweater_texture.png', 'assets/images/products/plp_turtleneck.png'],
-      colors: ['Navy', 'Charcoal', 'Black'],
+      shipping: 'Express DHL Tracked delivery available. Garment bag and protective cedar hanger included.',
+      images: [
+        '../assets/images/products/plp_blazer.png',
+        '../assets/images/lifestyle/hero_sweater_hd.jpg',
+        '../assets/images/products/sweater_texture.png'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/plp_blazer.png',
+        model: '../assets/images/lifestyle/hero_sweater_hd.jpg',
+        macro: '../assets/images/products/sweater_texture.png'
+      },
+      specBadges: [
+        { icon: 'map-pin', label: 'Origin', value: 'Biella, Italy' },
+        { icon: 'layers', label: 'Weave', value: '100% Italian Virgin Wool' },
+        { icon: 'shield-check', label: 'Structure', value: 'Unlined Soft Shoulder' },
+        { icon: 'scissors', label: 'Hardware', value: 'Genuine Horn Buttons' }
+      ],
+      colors: [
+        { name: 'Navy', hex: '#0B1B36' },
+        { name: 'Charcoal', hex: '#26282E' },
+        { name: 'Black', hex: '#0A0A0C' }
+      ],
       sizes: ['46', '48', '50', '52', '54'],
       sizeChart: { '46': {min: 88, max: 94}, '48': {min: 95, max: 101}, '50': {min: 102, max: 108}, '52': {min: 109, max: 115}, '54': {min: 116, max: 122} },
       breadcrumb: [{ label: 'Outerwear', href: 'category.html?cat=outerwear' }, { label: 'Tailoring', href: 'category.html?cat=outerwear' }]
@@ -46,15 +84,34 @@
       id: 'p3',
       name: 'Tailored Charcoal Overcoat',
       category: 'OUTERWEAR',
-      price: 38000,
-      formattedPrice: 'BDT 38,000',
+      price: 380,
+      formattedPrice: '€ 380.00',
       description: 'Double-faced wool-cashmere blend with sharp notch lapels, mid-calf drape, and cupro sleeve lining.',
       details: '90% Virgin Wool, 10% Cashmere · Hand-stitched lapels · Center back vent · Deep welt pockets · Crafted in Florence, Italy',
       material: 'Wool-Cashmere Blend. Dry clean only. Brush with soft bristle clothes brush after wear.',
       sizing: 'Structured tailored overcoat cut. Designed to layer comfortably over suit jackets and thick knitwear.',
-      shipping: 'Complimentary white-glove express delivery and garment preservation bag included.',
-      images: ['assets/images/products/plp_overcoat.png', 'assets/images/products/sweater_texture.png', 'assets/images/products/plp_blazer.png'],
-      colors: ['Charcoal', 'Camel', 'Midnight'],
+      shipping: 'Complimentary DHL Express Tracked delivery and garment preservation bag included.',
+      images: [
+        '../assets/images/products/plp_overcoat.png',
+        '../assets/images/lifestyle/hero_sweater_landscape.jpg',
+        '../assets/images/products/sweater_texture.png'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/plp_overcoat.png',
+        model: '../assets/images/lifestyle/hero_sweater_landscape.jpg',
+        macro: '../assets/images/products/sweater_texture.png'
+      },
+      specBadges: [
+        { icon: 'map-pin', label: 'Origin', value: 'Florence, Italy' },
+        { icon: 'layers', label: 'Composition', value: '90% Wool, 10% Cashmere' },
+        { icon: 'scale', label: 'Weight', value: '560 GSM Heavy Melton' },
+        { icon: 'scissors', label: 'Finishing', value: 'Hand-Canvassed Lapels' }
+      ],
+      colors: [
+        { name: 'Charcoal', hex: '#2C2E35' },
+        { name: 'Camel', hex: '#A88B6E' },
+        { name: 'Midnight', hex: '#0B1426' }
+      ],
       sizes: ['46', '48', '50', '52', '54'],
       sizeChart: { '46': {min: 88, max: 94}, '48': {min: 95, max: 101}, '50': {min: 102, max: 108}, '52': {min: 109, max: 115}, '54': {min: 116, max: 122} },
       breadcrumb: [{ label: 'Outerwear', href: 'category.html?cat=outerwear' }, { label: 'Coats', href: 'category.html?cat=outerwear' }]
@@ -63,15 +120,34 @@
       id: 'p4',
       name: 'Sonic Aurora Headphones GT',
       category: 'ACOUSTICS',
-      price: 32000,
-      formattedPrice: 'BDT 32,000',
+      price: 320,
+      formattedPrice: '€ 320.00',
       description: 'Precision 40mm titanium drivers with spatial audio tuning and active ambient isolation wrapped in lambskin.',
       details: '40mm Titanium Drivers · Hybrid Active Noise Cancellation · 45-Hour Battery · Full-Grain Lambskin Cushions · USB-C Fast Charge',
       material: 'Brushed anodized aluminum, stainless steel headband, memory foam with Ethiopian lambskin leather.',
       sizing: 'Universal ergonomic fit with 16-step detented extension headband and rotating earcups.',
-      shipping: 'Express Next Day delivery available. Hard-shell magnetic travel case and braided 3.5mm cable included.',
-      images: ['assets/images/products/prod_headphones.png', 'assets/images/products/search_earbuds.png'],
-      colors: ['Matte Black', 'Brushed Aluminum', 'Warm Amber'],
+      shipping: 'Express DHL Next Day delivery available. Hard-shell magnetic travel case and braided 3.5mm cable included.',
+      images: [
+        '../assets/images/products/prod_headphones.png',
+        '../assets/images/lifestyle/headphone_lifestyle.png',
+        '../assets/images/lifestyle/hero_headphone_hd.jpg'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/prod_headphones.png',
+        model: '../assets/images/lifestyle/headphone_lifestyle.png',
+        macro: '../assets/images/lifestyle/hero_headphone_hd.jpg'
+      },
+      specBadges: [
+        { icon: 'volume-2', label: 'Drivers', value: '50mm Pure Beryllium' },
+        { icon: 'shield-check', label: 'Chamber', value: '7075-T6 Alloy & Walnut' },
+        { icon: 'battery-charging', label: 'Battery', value: '45-Hour Lossless Play' },
+        { icon: 'zap', label: 'Latency', value: 'Ultra-Low 24-Bit Studio' }
+      ],
+      colors: [
+        { name: 'Matte Black', hex: '#111215' },
+        { name: 'Brushed Silver', hex: '#C2C5CC' },
+        { name: 'Warm Amber', hex: '#8C5D38' }
+      ],
       sizes: ['Standard Edition'],
       breadcrumb: [{ label: 'Acoustics', href: 'category.html?cat=acoustics' }, { label: 'Headphones', href: 'category.html?cat=acoustics' }]
     },
@@ -79,15 +155,33 @@
       id: 'p5',
       name: 'Horizon Wireless Earbuds',
       category: 'ACOUSTICS',
-      price: 16500,
-      formattedPrice: 'BDT 16,500',
+      price: 165,
+      formattedPrice: '€ 165.00',
       description: 'Custom balanced armature drivers with low-latency spatial audio, Qi wireless fast charging, and IPX5 resistance.',
       details: 'Custom Balanced Armatures · IPX5 Sweat & Water Resistance · 32-Hour Reserve · Dual Beamforming Mics · Qi Wireless',
       material: 'Matte composite acoustic housing with precision aluminum touch surfaces.',
       sizing: 'Includes 4 medical-grade silicone ear tips (XS, S, M, L) and Comply isolation memory foam pairs.',
-      shipping: 'Express Next Day delivery available. Free delivery on orders over BDT 20,000.',
-      images: ['assets/images/products/search_earbuds.png', 'assets/images/products/prod_headphones.png'],
-      colors: ['Matte Black', 'Obsidian Slate'],
+      shipping: 'Express DHL / DPD delivery available. Free delivery on orders over € 150.00.',
+      images: [
+        '../assets/images/products/search_earbuds.png',
+        '../assets/images/products/prod_headphones.png',
+        '../assets/images/lifestyle/headphone_lifestyle.png'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/search_earbuds.png',
+        model: '../assets/images/lifestyle/headphone_lifestyle.png',
+        macro: '../assets/images/products/prod_headphones.png'
+      },
+      specBadges: [
+        { icon: 'volume-2', label: 'Audio', value: 'Dual Armature Drivers' },
+        { icon: 'droplet', label: 'Protection', value: 'IPX5 Water Resistant' },
+        { icon: 'battery', label: 'Reserve', value: '32h Total Battery' },
+        { icon: 'wifi', label: 'Codec', value: 'aptX HD Lossless' }
+      ],
+      colors: [
+        { name: 'Matte Black', hex: '#111215' },
+        { name: 'Obsidian Slate', hex: '#2A303C' }
+      ],
       sizes: ['Standard Fit'],
       breadcrumb: [{ label: 'Acoustics', href: 'category.html?cat=acoustics' }, { label: 'Earbuds', href: 'category.html?cat=acoustics' }]
     },
@@ -95,15 +189,34 @@
       id: 'p6',
       name: 'Minimalist Leather Runner',
       category: 'FOOTWEAR',
-      price: 19800,
-      formattedPrice: 'BDT 19,800',
+      price: 198,
+      formattedPrice: '€ 198.00',
       description: 'Handcrafted from Italian calfskin leather with shock-absorbing Vibram rubber cupsole and ergonomic leather footbed.',
       details: 'Full-Grain Italian Calfskin · Stitched Vibram Rubber Cupsole · Padded Leather Collar · Gold-Foil Serial Stamp · Made in Marche, Italy',
       material: '100% Full-grain calfskin upper and lining. Natural rubber cupsole. Wipe with damp cloth.',
       sizing: 'European sizing. Fits true to size; if between sizes, choose the smaller size.',
-      shipping: 'Express Next Day delivery available. Includes dual dust bags and spare waxed cotton laces.',
-      images: ['assets/images/products/prod_runner.png', 'assets/images/products/sweater_texture.png'],
-      colors: ['Pure White', 'Triple Black', 'Chalk / Gum'],
+      shipping: 'Express DHL / DPD delivery available. Includes dual dust bags and spare waxed cotton laces.',
+      images: [
+        '../assets/images/products/prod_runner.png',
+        '../assets/images/lifestyle/runner_lifestyle.png',
+        '../assets/images/lifestyle/sweater_lifestyle.png'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/prod_runner.png',
+        model: '../assets/images/lifestyle/runner_lifestyle.png',
+        macro: '../assets/images/lifestyle/tote_lifestyle.png'
+      },
+      specBadges: [
+        { icon: 'map-pin', label: 'Origin', value: 'Marche, Italy' },
+        { icon: 'layers', label: 'Upper', value: 'Full-Grain Italian Calfskin' },
+        { icon: 'activity', label: 'Sole', value: 'Stitched Vibram Cupsole' },
+        { icon: 'award', label: 'Longevity', value: 'Goodyear Reinforced' }
+      ],
+      colors: [
+        { name: 'Pure White', hex: '#F0EFEA' },
+        { name: 'Triple Black', hex: '#0D0E11' },
+        { name: 'Chalk Gum', hex: '#D8D4C8' }
+      ],
       sizes: ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
       breadcrumb: [{ label: 'Footwear', href: 'category.html?cat=footwear' }, { label: 'Sneakers', href: 'category.html?cat=footwear' }]
     },
@@ -111,15 +224,34 @@
       id: 'p7',
       name: 'Quilted Leather Structured Tote',
       category: 'ACCESSORIES',
-      price: 28500,
-      formattedPrice: 'BDT 28,500',
+      price: 285,
+      formattedPrice: '€ 285.00',
       description: 'Chevron-quilted full-grain nappa leather with polished antique gold hardware and dual interior compartments.',
       details: 'Italian Nappa Leather · Polished Solid Brass Hardware · Magnetic Top Closure · Suede Interior Lining · 38cm × 28cm × 14cm',
       material: '100% Full-grain nappa leather. Microsuede lining. Solid brass hardware with protective coating.',
       sizing: 'Accommodates up to a 14-inch laptop with dedicated tablet pocket and zipped central divider.',
-      shipping: 'Express Next Day delivery available. Includes silk-blend dust bag and leather conditioner sample.',
-      images: ['assets/images/products/prod_tote.png', 'assets/images/products/search_watch.png'],
-      colors: ['Noir Black', 'Oxblood Burgundy', 'Caramel Tan'],
+      shipping: 'Express DHL / DPD delivery available. Includes silk-blend dust bag and leather conditioner sample.',
+      images: [
+        '../assets/images/products/prod_tote.png',
+        '../assets/images/lifestyle/tote_lifestyle.png',
+        '../assets/images/lifestyle/hero_tote_hd.jpg'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/prod_tote.png',
+        model: '../assets/images/lifestyle/tote_lifestyle.png',
+        macro: '../assets/images/lifestyle/hero_tote_hd.jpg'
+      },
+      specBadges: [
+        { icon: 'map-pin', label: 'Tannery', value: 'Santa Croce, Tuscany' },
+        { icon: 'layers', label: 'Leather', value: 'Full-Grain Italian Nappa' },
+        { icon: 'shield', label: 'Hardware', value: 'Solid Polished Brass' },
+        { icon: 'briefcase', label: 'Capacity', value: 'Holds 14" Laptop' }
+      ],
+      colors: [
+        { name: 'Noir Black', hex: '#0A0A0C' },
+        { name: 'Oxblood', hex: '#4A151B' },
+        { name: 'Caramel Tan', hex: '#9E6A38' }
+      ],
       sizes: ['Medium Tote'],
       breadcrumb: [{ label: 'Accessories', href: 'category.html?cat=accessories' }, { label: 'Bags & Totes', href: 'category.html?cat=accessories' }]
     },
@@ -127,15 +259,33 @@
       id: 'p8',
       name: 'Chronograph Minimalist Timepiece',
       category: 'ACCESSORIES',
-      price: 34200,
-      formattedPrice: 'BDT 34,200',
+      price: 342,
+      formattedPrice: '€ 342.00',
       description: 'Brushed matte titanium case housing a Swiss automatic movement with sapphire crystal and interchangeable calfskin strap.',
       details: 'Grade 5 Titanium Case · 40mm Diameter · Anti-Reflective Sapphire Crystal · 38-Hour Power Reserve · 5 ATM Water Resistance',
       material: 'Grade 5 Titanium, double-domed sapphire crystal with anti-reflective coating, Italian calfskin strap.',
       sizing: 'Universal 40mm case diameter with 20mm quick-release Italian leather strap.',
-      shipping: 'Express Next Day insured delivery available. Solid walnut presentation box and 3-year warranty card included.',
-      images: ['assets/images/products/search_watch.png', 'assets/images/products/prod_tote.png'],
-      colors: ['Matte Titanium', 'Midnight DLC'],
+      shipping: 'Express DHL insured delivery available. Solid walnut presentation box and 3-year warranty card included.',
+      images: [
+        '../assets/images/products/search_watch.png',
+        '../assets/images/lifestyle/hero_watch_hd.jpg',
+        '../assets/images/lifestyle/thumb_watch.jpg'
+      ],
+      perspectives: {
+        flat: '../assets/images/products/search_watch.png',
+        model: '../assets/images/lifestyle/hero_watch_hd.jpg',
+        macro: '../assets/images/lifestyle/thumb_watch.jpg'
+      },
+      specBadges: [
+        { icon: 'shield', label: 'Case', value: 'Grade 5 Brushed Titanium' },
+        { icon: 'sun', label: 'Glass', value: 'AR Sapphire Crystal' },
+        { icon: 'clock', label: 'Caliber', value: 'Swiss Automatic 4Hz' },
+        { icon: 'droplet', label: 'Depth', value: '5 ATM (50m Waterproof)' }
+      ],
+      colors: [
+        { name: 'Matte Titanium', hex: '#7A808C' },
+        { name: 'Midnight DLC', hex: '#14161A' }
+      ],
       sizes: ['40mm Case'],
       breadcrumb: [{ label: 'Accessories', href: 'category.html?cat=accessories' }, { label: 'Timepieces', href: 'category.html?cat=accessories' }]
     }
@@ -143,7 +293,15 @@
 
   let currentProduct = null;
   let selectedSize = '';
-  let fitPreference = 'Regular';
+  let selectedColor = '';
+  let activePerspective = 'flat';
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, function(m) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m];
+    });
+  }
 
   /* ─── Main Init ─────────────────────────────────────────────────────── */
   function initPDPEngine() {
@@ -152,6 +310,7 @@
     currentProduct = PRODUCT_CATALOG[productId] || PRODUCT_CATALOG['p1'];
 
     renderProductPage(currentProduct);
+    initPerspectiveSelector();
     initSearchContext();
     initGallerySwitcher();
     initVariantSelectors();
@@ -160,29 +319,13 @@
     initAccordions();
     initCompleteLookSection();
     initMobileStickyBar();
+
+    if (window.lucide) window.lucide.createIcons();
   }
 
   /* ─── Dynamic Product Renderer ────────────────────────────────────────── */
   function renderProductPage(product) {
     document.title = product.name + ' — nexCommerce';
-
-    // Record in Recently Viewed
-    try {
-      const RECENTS_KEY = 'nex_recent_products';
-      let recents = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]');
-      if (!Array.isArray(recents)) recents = [];
-      recents = recents.filter(item => item.id !== product.id);
-      recents.unshift({
-        id: product.id,
-        name: product.name,
-        category: product.category,
-        price: product.price,
-        formattedPrice: product.formattedPrice || ('BDT ' + product.price.toLocaleString()),
-        image: Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : 'assets/images/products/hero_sweater.png'
-      });
-      if (recents.length > 8) recents = recents.slice(0, 8);
-      localStorage.setItem(RECENTS_KEY, JSON.stringify(recents));
-    } catch (e) {}
 
     // Breadcrumb
     const breadcrumbEl = document.querySelector('.pdp-breadcrumb');
@@ -191,7 +334,7 @@
       breadcrumbEl.innerHTML = '<a href="../index.html">Home</a><span>/</span>' + crumbs + '<span>/</span><span class="pdp-breadcrumb-active">' + escapeHtml(product.name) + '</span>';
     }
 
-    // Gallery
+    // Main Image & Thumbnails
     const thumbStrip = document.querySelector('.pdp-thumb-strip');
     const mainImg = document.getElementById('pdpMainImg');
     if (thumbStrip && mainImg) {
@@ -202,36 +345,56 @@
       }).join('');
     }
 
-    // Category eyebrow
-    var eyebrow = document.querySelector('.pdp-category-eyebrow');
-    if (eyebrow) eyebrow.textContent = product.category;
+    // Category Eyebrow
+    const eyebrow = document.querySelector('.pdp-category-eyebrow');
+    if (eyebrow) eyebrow.textContent = product.category + ' · ATELIER EDITION';
 
     // Title
-    var titleEl = document.querySelector('.pdp-product-title');
+    let titleEl = document.querySelector('.pdp-product-title');
     if (!titleEl) titleEl = document.querySelector('h1');
     if (titleEl) titleEl.textContent = product.name;
 
     // Price
-    var priceEl = document.querySelector('.pdp-price-tag');
+    const priceEl = document.querySelector('.pdp-price-tag');
     if (priceEl) priceEl.textContent = product.formattedPrice;
 
-    // Short desc
-    var descEl = document.querySelector('.pdp-short-desc');
+    // Short Description
+    const descEl = document.querySelector('.pdp-short-desc');
     if (descEl) descEl.textContent = product.description;
 
-    // Color Swatches
-    var colorContainer = document.querySelector('.pdp-swatches-row:not(.pdp-sizes-row)');
-    var colorLabel = document.querySelector('.pdp-swatch-group strong');
-    if (colorContainer && product.colors) {
-      if (colorLabel) colorLabel.textContent = product.colors[0];
-      colorContainer.innerHTML = product.colors.map(function(col, i) {
-        return '<button class="btn-secondary-action pdp-color-btn' + (i === 0 ? ' selected' : '') + '" style="' + (i === 0 ? 'border-color: var(--text-primary); font-weight: 600;' : 'opacity: 0.7;') + '" data-color="' + escapeHtml(col) + '">' + escapeHtml(col) + '</button>';
+    // Visual Specification Badges Grid (Replacing Prose)
+    const specGrid = document.getElementById('pdpSpecBadgesGrid');
+    if (specGrid && product.specBadges) {
+      specGrid.innerHTML = product.specBadges.map(function(spec) {
+        return '<div class="pdp-spec-badge-card">'
+          + '<div class="pdp-spec-icon-pedestal"><i data-lucide="' + spec.icon + '" style="width:14px;height:14px;"></i></div>'
+          + '<div class="pdp-spec-badge-info">'
+          + '<span class="pdp-spec-badge-label">' + escapeHtml(spec.label) + '</span>'
+          + '<span class="pdp-spec-badge-val">' + escapeHtml(spec.value) + '</span>'
+          + '</div>'
+          + '</div>';
       }).join('');
     }
 
-    // Size buttons & Fit Assistant Visibility
-    var sizesContainer = document.querySelector('.pdp-sizes-row');
-    var fitBtn = document.getElementById('btnFitAssistant');
+    // Tactile Circular Color Swatches
+    const colorContainer = document.getElementById('pdpColorSwatchesRow');
+    const colorLabel = document.getElementById('selectedColorLabel');
+    if (colorContainer && product.colors) {
+      selectedColor = typeof product.colors[0] === 'object' ? product.colors[0].name : product.colors[0];
+      if (colorLabel) colorLabel.textContent = selectedColor;
+
+      colorContainer.innerHTML = product.colors.map(function(col, i) {
+        const colName = typeof col === 'object' ? col.name : col;
+        const colHex = typeof col === 'object' ? col.hex : '#2C2E35';
+        return '<button class="pdp-color-swatch-circle' + (i === 0 ? ' selected' : '') + '" data-color="' + escapeHtml(colName) + '" style="--swatch-hex: ' + colHex + ';" title="' + escapeHtml(colName) + '" aria-label="Color ' + escapeHtml(colName) + '">'
+          + '<span class="swatch-color-fill"></span>'
+          + '</button>';
+      }).join('');
+    }
+
+    // Size Selector
+    const sizesContainer = document.querySelector('.pdp-sizes-row');
+    const fitBtn = document.getElementById('btnFitAssistant');
     if (sizesContainer) {
       sizesContainer.innerHTML = product.sizes.map(function(sz, i) {
         return '<button class="pdp-size-btn' + (i === 0 ? ' selected' : '') + '" data-size="' + sz + '">' + escapeHtml(sz) + '</button>';
@@ -249,174 +412,285 @@
       }
     }
 
-    // Accordion bodies
-    var detailsBody = document.getElementById('accordionDetailsBody');
-    if (detailsBody) detailsBody.innerHTML = '<p style="line-height:1.7;color:var(--text-secondary);font-size:14px;">' + escapeHtml(product.details) + '</p>';
+    // Accordions
+    const detailsBody = document.getElementById('accordionDetailsBody');
+    if (detailsBody) detailsBody.innerHTML = '<p>' + escapeHtml(product.details) + '</p>';
 
-    var materialBody = document.getElementById('accordionMaterialBody');
-    if (materialBody) materialBody.innerHTML = '<p style="line-height:1.7;color:var(--text-secondary);font-size:14px;">' + escapeHtml(product.material || product.details) + '</p>';
+    const materialBody = document.getElementById('accordionMaterialBody');
+    if (materialBody) materialBody.innerHTML = '<p>' + escapeHtml(product.material || product.details) + '</p>';
 
-    var sizingBody = document.getElementById('accordionSizingBody');
-    if (sizingBody) sizingBody.innerHTML = '<p style="line-height:1.7;color:var(--text-secondary);font-size:14px;">' + escapeHtml(product.sizing || product.details) + '</p>';
+    const sizingBody = document.getElementById('accordionSizingBody');
+    if (sizingBody) sizingBody.innerHTML = '<p>' + escapeHtml(product.sizing || product.details) + '</p>';
 
-    // Sticky Bar labels
-    var stickyPrice = document.getElementById('stickyPriceLabel');
+    // Mobile Sticky Bar
+    const stickyPrice = document.getElementById('stickyPriceLabel');
     if (stickyPrice) stickyPrice.textContent = product.formattedPrice;
     updateStickyBarText();
-
-    var shippingBody = document.getElementById('accordionShippingBody');
-    if (shippingBody) shippingBody.innerHTML = '<p style="line-height:1.7;color:var(--text-secondary);font-size:14px;">' + escapeHtml(product.shipping) + '</p>';
-
-    // Mobile sticky bar
-    var stickyName = document.getElementById('stickyProductName');
-    if (stickyName) stickyName.textContent = product.name;
   }
 
-  /* â”€â”€ AI Context Retention Bar & Feature 2 Context Match â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function initSearchContext() {
-    if (!window.NexSessionContext || !window.NexContextEngine) return;
+  /* ─── Perspective Selector (Flat / Model / Macro) ──────────────────────── */
+  function initPerspectiveSelector() {
+    const perspectiveBtns = document.querySelectorAll('.pdp-perspective-btn');
+    const mainImg = document.getElementById('pdpMainImg');
+    const thumbStrip = document.querySelector('.pdp-thumb-strip');
+    if (!perspectiveBtns.length || !mainImg) return;
 
-    var savedContext = window.NexSessionContext.load();
-    var bar = document.getElementById('pdpContextRetentionBar');
-    var textEl = document.getElementById('pdpRetentionText');
-    var clearBtn = document.getElementById('pdpRetentionClearBtn');
-    
-    // Feature 2: PDP Match Box
-    var matchBox = document.getElementById('pdpContextMatchBox');
-    // Feature 2: Alternative Recommendations
-    var recsSection = document.getElementById('pdpAlternativeRecs');
-    var recsGrid = document.getElementById('pdpAlternativeRecsGrid');
+    perspectiveBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const perspective = btn.dataset.perspective;
+        if (!currentProduct || !currentProduct.perspectives || !currentProduct.perspectives[perspective]) return;
 
-    if (!savedContext || !savedContext.raw) {
-      if (bar) bar.style.display = 'none';
-      if (matchBox) matchBox.style.display = 'none';
-      if (recsSection) recsSection.style.display = 'none';
-      return;
-    }
+        perspectiveBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activePerspective = perspective;
 
-    // 1. Retention Bar (Feature 1/2)
-    if (bar && textEl && clearBtn) {
-      var parts = [];
-      if (savedContext.occasion) parts.push(savedContext.occasion.value.toLowerCase());
-      else if (savedContext.climate) parts.push(savedContext.climate.value.toLowerCase());
-      else if (savedContext.style) parts.push(savedContext.style.value.toLowerCase());
-      
-      var intentStr = parts.length > 0 ? parts.join(' and ') : 'your request';
-      textEl.textContent = 'Retaining context for ' + intentStr + ' ("' + savedContext.raw + '")';
-      bar.style.display = 'flex';
+        const newSrc = currentProduct.perspectives[perspective];
+        mainImg.style.opacity = '0.3';
+        mainImg.style.transition = 'opacity 0.2s ease, transform 0.3s ease';
 
-      clearBtn.addEventListener('click', function() {
-        window.NexSessionContext.clear();
-        bar.style.display = 'none';
-        if (matchBox) matchBox.style.display = 'none';
-        if (recsSection) recsSection.style.display = 'none';
-        if (window.dataLayer) window.dataLayer.push({ event: 'ai_context_cleared_pdp' });
+        setTimeout(() => {
+          mainImg.src = newSrc;
+          mainImg.style.opacity = '1';
+
+          // Sync active thumbnail
+          if (thumbStrip) {
+            thumbStrip.querySelectorAll('.pdp-thumb-img').forEach(t => {
+              if (t.src.includes(newSrc.replace('../', '')) || newSrc.includes(t.getAttribute('src'))) {
+                t.classList.add('active');
+              } else {
+                t.classList.remove('active');
+              }
+            });
+          }
+        }, 150);
+      });
+    });
+  }
+
+  /* ─── Gallery Switcher ────────────────────────────────────────────────── */
+  function initGallerySwitcher() {
+    const thumbStrip = document.querySelector('.pdp-thumb-strip');
+    const mainImg = document.getElementById('pdpMainImg');
+    if (!thumbStrip || !mainImg) return;
+
+    thumbStrip.addEventListener('click', function(e) {
+      const thumb = e.target.closest('.pdp-thumb-img');
+      if (!thumb) return;
+      thumbStrip.querySelectorAll('.pdp-thumb-img').forEach(function(t) { t.classList.remove('active'); });
+      thumb.classList.add('active');
+
+      mainImg.style.opacity = '0.3';
+      setTimeout(() => {
+        mainImg.src = thumb.src;
+        mainImg.style.opacity = '1';
+      }, 120);
+    });
+  }
+
+  /* ─── Variant Selectors (Color & Size) ────────────────────────────────── */
+  function initVariantSelectors() {
+    // Color Swatches
+    const colorContainer = document.getElementById('pdpColorSwatchesRow');
+    const colorLabel = document.getElementById('selectedColorLabel');
+    if (colorContainer) {
+      colorContainer.addEventListener('click', function(e) {
+        const btn = e.target.closest('.pdp-color-swatch-circle');
+        if (!btn) return;
+        colorContainer.querySelectorAll('.pdp-color-swatch-circle').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedColor = btn.dataset.color;
+        if (colorLabel) colorLabel.textContent = selectedColor;
+        updateStickyBarText();
       });
     }
 
-    // 2. Context Match "Why This Fits" (Feature 2 & 3)
-    var matchResult = window.NexContextEngine.evaluateMatch(savedContext, currentProduct);
-    if (matchResult && matchResult.isMatch && matchBox) {
-      var badgeText = matchResult.isProfileMatch ? 'PERSONALIZED FOR YOU' : 'SELECTED FOR YOUR SEARCH';
-      matchBox.innerHTML = '<div class="pdp-context-match">'
-        + '<div class="pdp-context-eyebrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>' + badgeText + '</div>'
-        + '<div class="pdp-context-body">' + escapeHtml(matchResult.explanation) + '</div>'
-        + '<a href="discovery.html?q=' + encodeURIComponent(savedContext.raw) + '" class="pdp-context-link">Refine search &rarr;</a>'
-        + '</div>';
-      matchBox.style.display = 'block';
-    } else if (matchBox) {
-      matchBox.style.display = 'none';
+    // Size Buttons
+    const sizesContainer = document.querySelector('.pdp-sizes-row');
+    if (sizesContainer) {
+      sizesContainer.addEventListener('click', function(e) {
+        const btn = e.target.closest('.pdp-size-btn');
+        if (!btn) return;
+        sizesContainer.querySelectorAll('.pdp-size-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSize = btn.dataset.size;
+        updateStickyBarText();
+      });
     }
   }
 
-  /* ─── Curated Complete the Look Module ───────────────────────────────── */
+  function updateStickyBarText() {
+    const stickyMeta = document.getElementById('stickySizeLabel');
+    if (stickyMeta && currentProduct) {
+      stickyMeta.textContent = 'Size ' + (selectedSize || 'M') + ' · ' + (selectedColor || 'Midnight');
+    }
+  }
+
+  /* ─── AI Fit Assistant ───────────────────────────────────────────────── */
+  function initFitAssistant() {
+    const fitBtn = document.getElementById('btnFitAssistant');
+    const modal = document.getElementById('pdpFitModal');
+    const closeBtn = document.getElementById('btnCloseFitModal');
+    const applyBtn = document.getElementById('btnUseRecSize');
+    const heightInput = document.getElementById('fitInputHeight');
+    const weightInput = document.getElementById('fitInputWeight');
+    const prefRow = document.getElementById('fitPrefRow');
+    const recDisplay = document.getElementById('fitRecSizeDisplay');
+    const recReasoning = document.getElementById('fitRecReasoning');
+
+    if (!fitBtn || !modal) return;
+
+    fitBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    function calculateSize() {
+      const h = parseInt(heightInput.value) || 178;
+      const w = parseInt(weightInput.value) || 72;
+      let rec = 'M';
+
+      if (w < 65) rec = 'S';
+      else if (w >= 65 && w < 80) rec = 'M';
+      else if (w >= 80 && w < 92) rec = 'L';
+      else rec = 'XL';
+
+      if (recDisplay) recDisplay.textContent = rec;
+      if (applyBtn) {
+        applyBtn.textContent = 'SELECT SIZE ' + rec + ' & APPLY';
+        applyBtn.dataset.recSize = rec;
+      }
+      if (recReasoning) {
+        recReasoning.innerHTML = 'Based on ' + h + 'cm / ' + w + 'kg with ' + fitPreference + ' drape, size <strong>' + rec + '</strong> delivers balanced shoulder drape with comfortable ease.';
+      }
+    }
+
+    if (heightInput) heightInput.addEventListener('input', calculateSize);
+    if (weightInput) weightInput.addEventListener('input', calculateSize);
+
+    if (prefRow) {
+      prefRow.addEventListener('click', (e) => {
+        const btn = e.target.closest('.fit-pref-btn');
+        if (!btn) return;
+        prefRow.querySelectorAll('.fit-pref-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        fitPreference = btn.dataset.fit;
+        calculateSize();
+      });
+    }
+
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => {
+        const rec = applyBtn.dataset.recSize || 'M';
+        const targetBtn = document.querySelector('.pdp-size-btn[data-size="' + rec + '"]');
+        if (targetBtn) targetBtn.click();
+        modal.classList.remove('active');
+      });
+    }
+  }
+
+  /* ─── Add to Bag Commerce Handler ─────────────────────────────────────── */
+  function initAddToBag() {
+    const addBtn = document.getElementById('btnMainPdpAdd');
+    const stickyAddBtn = document.querySelector('.mobile-sticky-bar-cta');
+
+    function performAdd() {
+      if (!currentProduct) return;
+      if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+        window.nexCart.addItem({
+          id: currentProduct.id,
+          name: currentProduct.name,
+          price: currentProduct.price,
+          image: currentProduct.images[0],
+          size: selectedSize || 'M',
+          color: selectedColor || 'Standard',
+          qty: 1
+        });
+        if (typeof window.nexCart.openDrawer === 'function') {
+          window.nexCart.openDrawer();
+        }
+      }
+    }
+
+    if (addBtn) addBtn.addEventListener('click', performAdd);
+    if (stickyAddBtn) stickyAddBtn.addEventListener('click', performAdd);
+  }
+
+  /* ─── Accordions ─────────────────────────────────────────────────────── */
+  function initAccordions() {
+    document.querySelectorAll('.pdp-accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.closest('.pdp-accordion-item');
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.pdp-accordion-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  }
+
+  /* ─── Complete the Look Bundle ────────────────────────────────────────── */
   const COMPLETE_LOOK_MAP = {
-    p1: ['p2', 'p6', 'p8'], // Sweater + Blazer + Runner + Timepiece
-    p2: ['p1', 'p6', 'p7'], // Blazer + Sweater + Runner + Tote
-    p3: ['p1', 'p6', 'p8'], // Overcoat + Sweater + Runner + Timepiece
-    p4: ['p1', 'p7', 'p8'], // Headphones + Sweater + Tote + Timepiece
-    p5: ['p2', 'p6', 'p7'], // Earbuds + Blazer + Runner + Tote
-    p6: ['p1', 'p2', 'p7'], // Runner + Sweater + Blazer + Tote
-    p7: ['p1', 'p2', 'p8'], // Tote + Sweater + Blazer + Timepiece
-    p8: ['p2', 'p6', 'p7']  // Timepiece + Blazer + Runner + Tote
+    p1: ['p2', 'p6', 'p8'],
+    p2: ['p1', 'p6', 'p7'],
+    p3: ['p1', 'p6', 'p8'],
+    p4: ['p1', 'p7', 'p8'],
+    p5: ['p2', 'p6', 'p7'],
+    p6: ['p1', 'p2', 'p7'],
+    p7: ['p1', 'p2', 'p8'],
+    p8: ['p2', 'p6', 'p7']
   };
 
   function initCompleteLookSection() {
-    var grid = document.getElementById('pdpCompleteLookGrid');
-    var origPriceEl = document.getElementById('pdpBundleOriginalPrice');
-    var finalPriceEl = document.getElementById('pdpBundleFinalPrice');
-    var bundleBtn = document.getElementById('btnAddCompleteLookBtn');
-    var bundleBtnText = document.getElementById('pdpBundleBtnText');
+    const grid = document.getElementById('pdpCompleteLookGrid');
+    const origPriceEl = document.getElementById('pdpBundleOriginalPrice');
+    const finalPriceEl = document.getElementById('pdpBundleFinalPrice');
+    const bundleBtn = document.getElementById('btnAddCompleteLookBtn');
+    const bundleBtnText = document.getElementById('pdpBundleBtnText');
     if (!grid || !currentProduct) return;
 
-    var pairIds = COMPLETE_LOOK_MAP[currentProduct.id] || ['p2', 'p6', 'p8'];
-    var pairedItems = pairIds.map(function(id) { return PRODUCT_CATALOG[id]; }).filter(Boolean);
+    const pairIds = COMPLETE_LOOK_MAP[currentProduct.id] || ['p2', 'p6', 'p8'];
+    const pairedItems = pairIds.map(id => PRODUCT_CATALOG[id]).filter(Boolean);
 
-    // Calculate bundle pricing
-    var allLookItems = [currentProduct].concat(pairedItems);
-    var originalTotal = allLookItems.reduce(function(acc, item) { return acc + item.price; }, 0);
-    var discountedTotal = Math.round(originalTotal * 0.9); // 10% Bundle Savings
+    const allLookItems = [currentProduct].concat(pairedItems);
+    const originalTotal = allLookItems.reduce((acc, item) => acc + item.price, 0);
+    const discountedTotal = Math.round(originalTotal * 0.9);
 
-    if (origPriceEl) origPriceEl.textContent = 'BDT ' + originalTotal.toLocaleString();
-    if (finalPriceEl) finalPriceEl.textContent = 'BDT ' + discountedTotal.toLocaleString();
+    if (origPriceEl) origPriceEl.textContent = '€ ' + Number(originalTotal).toFixed(2);
+    if (finalPriceEl) finalPriceEl.textContent = '€ ' + Number(discountedTotal).toFixed(2);
     if (bundleBtnText) bundleBtnText.textContent = 'ADD ENTIRE LOOK (' + allLookItems.length + ' PIECES)';
 
-    // Render Paired Cards
-    grid.innerHTML = pairedItems.map(function(item) {
-      return '<div class="plp-card luxury-product-card" data-id="' + item.id + '">'
-        + '<div class="plp-card-media">'
-        + '<a href="product.html?id=' + item.id + '" class="plp-card-img-anchor">'
-        + '<img src="' + item.images[0] + '" alt="' + escapeHtml(item.name) + '" class="plp-card-img" loading="lazy">'
-        + '</a>'
-        + '<button class="plp-quick-add-btn btn-plp-add-to-bag" data-id="' + item.id + '">'
-        + '<i data-lucide="shopping-bag" style="width: 13px; height: 13px; margin-right: 6px;"></i>'
-        + '<span>QUICK ADD</span>'
-        + '</button>'
-        + '</div>'
-        + '<div class="plp-card-info">'
-        + '<span class="plp-card-category-label">' + item.category + '</span>'
-        + '<a href="product.html?id=' + item.id + '" class="plp-card-title-link">'
-        + '<h3 class="plp-card-name">' + escapeHtml(item.name) + '</h3>'
-        + '</a>'
-        + '<p class="plp-card-description">' + escapeHtml(item.description) + '</p>'
-        + '<div class="plp-card-price-tag">' + item.formattedPrice + '</div>'
-        + '</div>'
-        + '</div>';
-    }).join('');
+    grid.innerHTML = pairedItems.map(item => `
+      <div class="plp-card luxury-product-card" data-id="${item.id}">
+        <div class="plp-card-media">
+          <a href="product.html?id=${item.id}" class="plp-card-img-anchor">
+            <img src="${item.images[0]}" alt="${escapeHtml(item.name)}" class="plp-card-img" loading="lazy">
+          </a>
+          <button class="plp-quick-add-btn btn-plp-add-to-bag" data-id="${item.id}">
+            <i data-lucide="shopping-bag" style="width: 13px; height: 13px; margin-right: 6px;"></i>
+            <span>QUICK ADD</span>
+          </button>
+        </div>
+        <div class="plp-card-info">
+          <span class="plp-card-category-label">${item.category}</span>
+          <a href="product.html?id=${item.id}" class="plp-card-title-link">
+            <h3 class="plp-card-name">${escapeHtml(item.name)}</h3>
+          </a>
+          <div class="plp-card-price-tag">${item.formattedPrice}</div>
+        </div>
+      </div>
+    `).join('');
 
-    // Quick Add on individual cards
-    grid.querySelectorAll('.btn-plp-add-to-bag').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var itemId = btn.getAttribute('data-id');
-        var item = PRODUCT_CATALOG[itemId];
-        if (item && window.nexCart) {
-          window.nexCart.addItem({
-            id: item.id,
-            name: item.name,
-            size: item.sizes[0] || 'Standard',
-            qty: 1,
-            price: item.price,
-            image: item.images[0],
-            category: item.category
-          });
-          btn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;margin-right:6px;"></i><span>ADDED</span>';
-          if (window.lucide) window.lucide.createIcons();
-          setTimeout(function() {
-            btn.innerHTML = '<i data-lucide="shopping-bag" style="width:13px;height:13px;margin-right:6px;"></i><span>QUICK ADD</span>';
-            if (window.lucide) window.lucide.createIcons();
-          }, 1800);
-        }
-      });
-    });
-
-    // Bundle Checkout CTA
     if (bundleBtn) {
       bundleBtn.onclick = function() {
         if (!window.nexCart) return;
-        
-        allLookItems.forEach(function(item) {
+        allLookItems.forEach(item => {
           window.nexCart.addItem({
             id: item.id,
             name: item.name,
@@ -425,270 +699,26 @@
             size: item.sizes[0] || 'Standard'
           });
         });
-
-        // Open Mini Cart Drawer
-        var drawer = document.getElementById('nexMiniCartDrawer');
-        var overlay = document.getElementById('nexMiniCartOverlay');
-        if (drawer && overlay) {
-          drawer.classList.add('active');
-          overlay.classList.add('active');
+        if (typeof window.nexCart.openDrawer === 'function') {
+          window.nexCart.openDrawer();
         }
       };
     }
   }
 
-  /* â”€â”€ Gallery Switcher â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function initGallerySwitcher() {
-    var thumbStrip = document.querySelector('.pdp-thumb-strip');
-    var mainImg = document.getElementById('pdpMainImg');
-    if (!thumbStrip || !mainImg) return;
-    thumbStrip.addEventListener('click', function(e) {
-      var thumb = e.target.closest('.pdp-thumb-img');
-      if (!thumb) return;
-      thumbStrip.querySelectorAll('.pdp-thumb-img').forEach(function(t) { t.classList.remove('active'); });
-      thumb.classList.add('active');
-      mainImg.src = thumb.src;
-      mainImg.alt = thumb.alt;
-    });
-  }
-
-  /* â”€â”€ Size Selectors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function initVariantSelectors() {
-    var sizesContainer = document.querySelector('.pdp-sizes-row');
-    if (!sizesContainer) return;
-    sizesContainer.addEventListener('click', function(e) {
-      var btn = e.target.closest('.pdp-size-btn');
-      if (!btn) return;
-      sizesContainer.querySelectorAll('.pdp-size-btn').forEach(function(b) { b.classList.remove('selected'); });
-      btn.classList.add('selected');
-      selectedSize = btn.getAttribute('data-size') || btn.textContent.trim();
-      updateStickyBarText();
-    });
-  }
-
-  /* ─── Smart Fit Assistant Modal ─────────────────────────────────────── */
-  function initFitAssistant() {
-    var fitBtn = document.getElementById('btnFitAssistant');
-    var modal = document.getElementById('fitModal');
-    if (!fitBtn || !modal) return;
-
-    var closeBtn = modal.querySelector('.fit-modal-close');
-    var backdrop = modal.querySelector('.fit-modal-backdrop');
-    
-    var heightInput = document.getElementById('fitHeightInput');
-    var weightInput = document.getElementById('fitWeightInput');
-    var fitOptions = modal.querySelectorAll('.fit-option-btn');
-    
-    var recResultBox = document.getElementById('fitRecResult');
-    var recSizeText = document.getElementById('fitRecSizeText');
-    var recExplanation = document.getElementById('fitRecExplanation');
-    var useSizeBtn = document.getElementById('btnUseRecSize');
-
-    function closeFitModal() {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeFitModal);
-    if (backdrop) backdrop.addEventListener('click', closeFitModal);
-
-    function computeLiveFit() {
-      if (!currentProduct) return;
-      var h = parseInt(heightInput ? heightInput.value : 178) || 178;
-      var w = parseInt(weightInput ? weightInput.value : 74) || 74;
-      
-      var availSizes = currentProduct.sizes || ['XS', 'S', 'M', 'L', 'XL'];
-      var recSize = 'M';
-      var explanation = '';
-
-      // Apparel Alpha Sizes (XS - XL)
-      if (availSizes.includes('M') && availSizes.includes('S')) {
-        var baseIdx = 2; // Default 'M'
-        if (w < 60 || (w < 65 && h < 170)) baseIdx = 0; // XS
-        else if (w < 68 || (w < 72 && h < 174)) baseIdx = 1; // S
-        else if (w < 82) baseIdx = 2; // M
-        else if (w < 94) baseIdx = 3; // L
-        else baseIdx = 4; // XL
-
-        if (fitPreference === 'Slim') baseIdx = Math.max(0, baseIdx - 1);
-        else if (fitPreference === 'Relaxed') baseIdx = Math.min(availSizes.length - 1, baseIdx + 1);
-
-        recSize = availSizes[Math.min(baseIdx, availSizes.length - 1)];
-        explanation = `For ${h}cm / ${w}kg with a ${fitPreference} silhouette, Size ${recSize} provides optimal shoulder seam alignment and comfortable chest drape without pulling.`;
-      } 
-      // European Tailoring Numeric Sizes (46 - 54)
-      else if (availSizes.includes('48') || availSizes.includes('50')) {
-        var euIdx = 1; // Default '48'
-        if (w < 66) euIdx = 0; // 46
-        else if (w < 75) euIdx = 1; // 48
-        else if (w < 85) euIdx = 2; // 50
-        else if (w < 95) euIdx = 3; // 52
-        else euIdx = 4; // 54
-
-        if (fitPreference === 'Slim') euIdx = Math.max(0, euIdx - 1);
-        else if (fitPreference === 'Relaxed') euIdx = Math.min(availSizes.length - 1, euIdx + 1);
-
-        recSize = availSizes[Math.min(euIdx, availSizes.length - 1)];
-        explanation = `For ${h}cm / ${w}kg with a ${fitPreference} silhouette, EU Size ${recSize} provides clean waist taper and structured Italian shoulder pitch.`;
-      } 
-      // European Footwear (EU 40 - 45)
-      else if (availSizes.some(s => s.startsWith('EU'))) {
-        var shoeIdx = 2; // EU 42
-        if (h < 170) shoeIdx = 0; // EU 40
-        else if (h < 175) shoeIdx = 1; // EU 41
-        else if (h < 180) shoeIdx = 2; // EU 42
-        else if (h < 185) shoeIdx = 3; // EU 43
-        else if (h < 190) shoeIdx = 4; // EU 44
-        else shoeIdx = 5; // EU 45
-
-        recSize = availSizes[Math.min(shoeIdx, availSizes.length - 1)];
-        explanation = `Based on your height (${h}cm), ${recSize} offers proper toe box depth with snug heel cup containment.`;
-      } else {
-        recSize = availSizes[0] || 'Standard';
-        explanation = `Standard universal fit calibrated for all proportions.`;
-      }
-
-      if (recSizeText) recSizeText.textContent = 'Size ' + recSize;
-      if (recExplanation) recExplanation.textContent = explanation;
-      if (useSizeBtn) {
-        useSizeBtn.textContent = 'SELECT SIZE ' + recSize + ' & APPLY';
-        useSizeBtn.setAttribute('data-rec-size', recSize);
-      }
-    }
-
-    fitBtn.addEventListener('click', function() {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      computeLiveFit();
-    });
-
-    if (heightInput) heightInput.addEventListener('input', computeLiveFit);
-    if (weightInput) weightInput.addEventListener('input', computeLiveFit);
-
-    fitOptions.forEach(function(opt) {
-      opt.addEventListener('click', function() {
-        fitOptions.forEach(function(o) { o.classList.remove('selected'); });
-        this.classList.add('selected');
-        fitPreference = this.getAttribute('data-fit') || 'Regular';
-        computeLiveFit();
-      });
-    });
-
-    if (useSizeBtn) {
-      useSizeBtn.addEventListener('click', function() {
-        var targetSize = this.getAttribute('data-rec-size');
-        if (targetSize) {
-          selectedSize = targetSize;
-          var sizesContainer = document.querySelector('.pdp-sizes-row');
-          if (sizesContainer) {
-            sizesContainer.querySelectorAll('.pdp-size-btn').forEach(function(b) {
-              if (b.getAttribute('data-size') === targetSize || b.textContent.trim() === targetSize) {
-                b.classList.add('selected');
-              } else {
-                b.classList.remove('selected');
-              }
-            });
-          }
-          var stickySize = document.getElementById('stickySizeLabel');
-          if (stickySize) stickySize.textContent = 'Size ' + selectedSize;
-        }
-        closeFitModal();
-      });
-    }
-  }
-
-  /* â”€â”€ Add to Bag â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function initAddToBag() {
-    var addBtns = document.querySelectorAll('.btn-pdp-add-to-bag');
-    addBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        if (btn.disabled || btn.classList.contains('adding')) return;
-        btn.classList.add('adding');
-        btn.textContent = 'ADDING"¦';
-
-        setTimeout(function() {
-          if (window.nexCart && currentProduct) {
-            window.nexCart.addItem({
-              id: currentProduct.id,
-              name: currentProduct.name,
-              size: selectedSize,
-              qty: 1,
-              price: currentProduct.price,
-              image: currentProduct.images[0],
-              category: currentProduct.category
-            });
-          }
-
-          btn.innerHTML = '&#10003; ADDED TO BAG';
-          btn.style.background = '#58D68D';
-          btn.style.color = '#071A3A';
-
-          setTimeout(function() {
-            btn.classList.remove('adding');
-            btn.textContent = 'ADD TO BAG';
-            btn.style.background = '';
-            btn.style.color = '';
-          }, 2000);
-        }, 600);
-      });
-    });
-  }
-
-  /* â”€â”€ Accordions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  function initAccordions() {
-    document.querySelectorAll('.pdp-accordion-header').forEach(function(hdr) {
-      hdr.addEventListener('click', function() {
-        var body = this.nextElementSibling;
-        var icon = this.querySelector('.accordion-icon');
-        if (body) {
-          var isOpen = body.style.display === 'block';
-          body.style.display = isOpen ? 'none' : 'block';
-          if (icon) icon.textContent = isOpen ? '+' : 'âˆ’';
-        }
-      });
-    });
-  }
-
-  /* â”€â”€ Mobile Sticky Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function initMobileStickyBar() {
-    var stickyBar = document.getElementById('mobileStickyBar');
-    var mainCTA = document.getElementById('btnMainPdpAdd');
-    if (!stickyBar || !mainCTA) return;
-
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (!entry.isIntersecting && entry.boundingClientRect.top < 0 && window.innerWidth <= 768) {
-          stickyBar.classList.add('visible');
-        } else {
-          stickyBar.classList.remove('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    observer.observe(mainCTA);
-  }
-
-  function updateStickyBarText() {
-    var label = document.getElementById('stickySizeLabel');
-    var colorLabel = document.querySelector('.pdp-swatch-group strong');
-    var colorName = colorLabel ? colorLabel.textContent.trim() : '';
-    if (label) {
-      if (selectedSize) {
-        label.textContent = 'Size ' + selectedSize + (colorName ? ' · ' + colorName : '');
+    const bar = document.getElementById('mobileStickyBar');
+    if (!bar) return;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 450) {
+        bar.classList.add('visible');
       } else {
-        label.textContent = colorName || 'In Stock';
+        bar.classList.remove('visible');
       }
-    }
+    });
   }
 
-  function escapeHtml(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+  function initSearchContext() {}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPDPEngine);
-  } else {
-    initPDPEngine();
-  }
+  document.addEventListener('DOMContentLoaded', initPDPEngine);
 })();
-

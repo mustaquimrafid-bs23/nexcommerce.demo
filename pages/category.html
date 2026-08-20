@@ -9,10 +9,76 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=39">
+  <style>
+    /* ─── Tactile Circular Swatches for 3-Item Luxury Cards ────────── */
+    .plp-card-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .plp-swatches-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plp-swatch-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .plp-swatch-dot:hover {
+      transform: scale(1.2);
+      border-color: #FFFFFF;
+    }
+
+    .plp-swatch-dot.active {
+      transform: scale(1.2);
+      border-color: #FFFFFF;
+      box-shadow: 0 0 0 2px #020B18, 0 0 0 3.5px var(--accent-cyan, #3DE0FF);
+    }
+
+    .plp-card-brand-row {
+      margin-bottom: 3px;
+    }
+
+    /* 3D Spring Tilt Perspective */
+    .luxury-product-card {
+      transform-style: preserve-3d;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+      will-change: transform;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Curated Ready-to-Wear, Acoustics &amp; Leathercraft</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
 
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
@@ -49,7 +115,7 @@
           <span>Concierge</span>
         </button>
 
-        <a href="discovery.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
           <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
@@ -58,6 +124,10 @@
           <i data-lucide="user"></i>
           <span data-auth-name style="display: none;">Tanvir</span>
         </a>
+
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <i data-lucide="search"></i>
+        </button>
 
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
           <i data-lucide="shopping-bag"></i>
@@ -110,28 +180,99 @@
 
 
   <!-- PART 3 CATEGORY / PLP MAIN SECTION -->
-  <main class="container plp-header-section reveal-on-scroll">
+  <main class="container plp-header-section">
     <!-- Breadcrumb -->
     <nav class="plp-breadcrumb" aria-label="Breadcrumb navigation">
-      <a href="../index.html" class="plp-breadcrumb-link" style="color: var(--text-secondary); text-decoration: none; transition: color 180ms ease;">Home</a>
-      <span style="opacity: 0.4;">/</span>
-      <span style="color: var(--text-secondary);">Collections</span>
-      <span style="opacity: 0.4;">/</span>
-      <span id="plpBreadcrumbCurrent" style="color: var(--text-primary); font-weight: 600;">All Products</span>
+      <a href="../index.html" class="plp-breadcrumb-link">Home</a>
+      <span class="plp-breadcrumb-sep">/</span>
+      <span class="plp-breadcrumb-crumb">Collections</span>
+      <span class="plp-breadcrumb-sep">/</span>
+      <span id="plpBreadcrumbCurrent" class="plp-breadcrumb-current">All Products</span>
     </nav>
 
     <!-- Main Category Heading -->
-    <div class="plp-hero-header" style="margin-bottom: 24px;">
-      <h1 class="plp-title" id="plpMainTitle" style="font-family: var(--font-serif); font-size: 52px; font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 8px;">All Products</h1>
-      <p class="plp-subtitle" id="plpMainSubtitle" style="font-size: 15px; color: var(--text-secondary); max-width: 580px; line-height: 1.5; margin-bottom: 0;">Pieces designed around natural comfort, architectural tailoring, and enduring quality.</p>
+    <div class="plp-hero-header">
+      <h1 class="plp-title" id="plpMainTitle">All Products</h1>
+      <p class="plp-subtitle" id="plpMainSubtitle">Pieces designed around natural comfort, architectural tailoring, and enduring quality.</p>
     </div>
+
+    <!-- CURATED CAPSULE SPOTLIGHT & 120FPS ANIMATION TRACK -->
+    <section class="plp-curation-spotlight" id="plpSpotlightSection" aria-label="Curated Look Spotlight">
+      <!-- 120fps GPU Progress Bar Track -->
+      <div class="spotlight-progress-track" aria-hidden="true">
+        <div class="spotlight-progress-bar" id="spotlightProgressBar"></div>
+      </div>
+
+      <!-- Spotlight Header: Live Whisper + Look Switcher Tabs -->
+      <div class="spotlight-header-row">
+        <div class="spotlight-eyebrow-tag">
+          <span class="spotlight-status-dot"></span>
+          <span id="spotlightLookEyebrow">CURATED CAPSULE &middot; 01 OF 03</span>
+          <button type="button" class="spotlight-pause-toggle-btn" id="spotlightPauseToggleBtn" aria-pressed="false" aria-label="Pause automatic capsule rotation">
+            <i data-lucide="pause" id="spotlightPauseIcon" style="width: 12px; height: 12px;"></i>
+          </button>
+        </div>
+        <div class="spotlight-capsule-tabs" id="spotlightTabs" role="tablist" aria-label="Curated Capsule Selection">
+          <button class="spotlight-tab-btn active" data-look="0" role="tab" aria-selected="true" aria-controls="spotlightBodyPanel" tabindex="0" id="spotlightTab0">
+            <span>01 TAILORING</span>
+          </button>
+          <button class="spotlight-tab-btn" data-look="1" role="tab" aria-selected="false" aria-controls="spotlightBodyPanel" tabindex="-1" id="spotlightTab1">
+            <span>02 ACOUSTICS</span>
+          </button>
+          <button class="spotlight-tab-btn" data-look="2" role="tab" aria-selected="false" aria-controls="spotlightBodyPanel" tabindex="-1" id="spotlightTab2">
+            <span>03 FOOTWEAR</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Spotlight Body Canvas (Split Layout) -->
+      <div class="spotlight-body-layout" id="spotlightBodyPanel" role="tabpanel" aria-labelledby="spotlightTab0">
+        <!-- Left: Capsule Story & Filter Sync -->
+        <div class="spotlight-story-pane">
+          <span class="spotlight-season-badge" id="spotlightSeasonBadge">SEASONAL EDIT &middot; AW26</span>
+          <h2 class="spotlight-capsule-title" id="spotlightCapsuleTitle">The Winter Tailoring Capsule</h2>
+          <p class="spotlight-capsule-desc" id="spotlightCapsuleDesc">Architectural double-faced wool blazers and structured cashmere layers designed for modern movement.</p>
+          <div class="spotlight-actions-group">
+            <button class="spotlight-sync-filter-btn" id="spotlightSyncFilterBtn" data-target-category="outerwear">
+              <span>View Capsule Pieces</span>
+              <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+            </button>
+            <span class="spotlight-piece-counter" id="spotlightPieceCount">1 Matching Piece</span>
+          </div>
+        </div>
+
+        <!-- Right: Visual Frame & 3D Shoppable Piece Pill -->
+        <div class="spotlight-visual-pane">
+          <div class="spotlight-img-frame" id="spotlightImgFrame">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Winter Tailoring Capsule" class="spotlight-featured-img" id="spotlightFeaturedImg" />
+            <div class="spotlight-vignette-overlay" aria-hidden="true"></div>
+          </div>
+            <!-- Floating 3D Shoppable Look Pill -->
+            <div class="spotlight-shoppable-pill" id="spotlightShoppablePill" data-id="p2" role="region" aria-label="Featured Look Piece">
+              <div class="spotlight-pill-thumb">
+                <img src="../assets/images/lifestyle/thumb_sweater.jpg" alt="Structured Wool Blazer" id="spotlightPillThumb" />
+              </div>
+              <div class="spotlight-pill-details">
+                <span class="spotlight-pill-tag" id="spotlightPillTag">FEATURED LOOK</span>
+                <h3 class="spotlight-pill-title" id="spotlightPillTitle">STRUCTURED WOOL BLAZER</h3>
+                <span class="spotlight-pill-price tabular-nums" id="spotlightPillPrice">€ 264.00</span>
+              </div>
+              <button class="spotlight-quick-add-btn btn-spotlight-quick-add" id="spotlightQuickAddBtn" data-id="p2" aria-label="Quick Add Structured Wool Blazer to Bag">
+                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                <span>BAG</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Product Count & Sort Toolbar -->
     <div class="plp-toolbar-row">
-      <span class="plp-product-count" id="plpProductCount">6 PRODUCTS</span>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary);">SORT BY</span>
-        <select class="plp-sort-select" id="plpSortSelect">
+      <span class="plp-product-count" id="plpProductCount">8 PIECES CURATED</span>
+      <div class="plp-sort-wrapper">
+        <label for="plpSortSelect" class="plp-sort-label">SORT BY</label>
+        <select class="plp-sort-select" id="plpSortSelect" aria-label="Sort products">
           <option value="recommended">Recommended</option>
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
@@ -141,151 +282,45 @@
 
     <!-- Category Filter Bar (Pills) -->
     <div class="plp-filter-bar" role="tablist" aria-label="Filter by Category">
-      <button class="plp-filter-pill active" data-category="all">ALL</button>
-      <button class="plp-filter-pill" data-category="apparel">APPAREL</button>
-      <button class="plp-filter-pill" data-category="outerwear">OUTERWEAR</button>
-      <button class="plp-filter-pill" data-category="acoustics">ACOUSTICS</button>
-      <button class="plp-filter-pill" data-category="footwear">FOOTWEAR</button>
-      <button class="plp-filter-pill" data-category="accessories">ACCESSORIES</button>
+      <button class="plp-filter-pill active" data-category="all" role="tab" aria-selected="true" aria-controls="plpProductGrid" tabindex="0">ALL</button>
+      <button class="plp-filter-pill plp-filter-pill--new" data-category="new" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">NEW IN</button>
+      <button class="plp-filter-pill" data-category="apparel" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">APPAREL</button>
+      <button class="plp-filter-pill" data-category="outerwear" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">OUTERWEAR</button>
+      <button class="plp-filter-pill" data-category="acoustics" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">ACOUSTICS</button>
+      <button class="plp-filter-pill" data-category="footwear" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">FOOTWEAR</button>
+      <button class="plp-filter-pill" data-category="accessories" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">ACCESSORIES</button>
     </div>
 
-    <!-- Editorial Curation Spotlight -->
-    <div class="plp-curation-spotlight reveal-on-scroll">
-      <div class="plp-spotlight-content">
-        <span class="plp-spotlight-eyebrow">
-          <i data-lucide="sparkles" style="width: 14px; height: 14px; margin-right: 6px; color: var(--accent-cyan);"></i>
-          CURATED SPOTLIGHT &middot; DHAKA EVENINGS
-        </span>
-        <h2 class="plp-spotlight-title">Minimal Layering for 18&deg;C Mild Climate</h2>
-        <p class="plp-spotlight-desc">Breathable cashmere knits, unlined virgin wool blazers, and Italian calfskin runners selected for effortless transition between indoor comfort and cool evening air.</p>
-      </div>
-      <div class="plp-spotlight-tags">
-        <span class="plp-spotlight-tag">Dhaka &middot; 18&deg;C</span>
-        <span class="plp-spotlight-tag">Natural Fibers</span>
-        <span class="plp-spotlight-tag">Evening Layering</span>
-      </div>
-    </div>
-
-    <!-- Product Grid (4 Columns Desktop / 1 Column Mobile) -->
-    <div class="plp-grid-4col reveal-on-scroll" id="plpProductGrid">
+    <!-- Product Grid (4 Columns Desktop / Differential Scroll Parallax) -->
+    <div class="plp-grid-4col" id="plpProductGrid" role="tabpanel" aria-label="Filtered products">
       <!-- Populated dynamically by js/plp.js -->
     </div>
   </main>
 
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="checkout.html" class="footer-link-item">Complimentary Returns</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- AI SEARCH OVERLAY MODAL -->
+  <!-- SEARCH OVERLAY (global CMD+K) -->
   <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
     <div class="search-backdrop"></div>
     <div class="search-panel">
       <div class="search-header-bar">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
-        <button class="search-close-btn" aria-label="Close Search Overlay (ESC)" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
       </div>
-
-      <div style="text-align: center; margin: 12px 0 8px;">
-        <h2 class="search-overlay-title" style="font-family: var(--font-serif); font-size: 48px; font-weight: 500; line-height: 1.05; color: var(--text-primary); margin-bottom: 8px;">What are you looking for?</h2>
-        <p class="type-body-sm" style="color: var(--text-secondary); font-size: 14px;">Tell us what you need in your own words.</p>
-      </div>
-
-      <div class="search-input-wrapper">
-        <span class="search-ai-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
-        <input type="text" class="search-ai-input" placeholder='Try "something comfortable for a rainy evening"' aria-label="Search for products or describe what you need" />
-        <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
-      </div>
-
-      <div id="aiSearchResults" class="search-results-body">
-        <div class="search-prompts-group">
-          <span class="search-prompt-label">START WITH A MOMENT</span>
-          <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Dhaka">
-            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something for a winter evening in Dhaka
-          </button>
-          <button class="search-prompt-btn" data-prompt="A minimal outfit for work">
-            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>For the office
-          </button>
-        </div>
-      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
     </div>
   </div>
 
   <!-- CDNs -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@1.32.0"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
@@ -295,15 +330,56 @@
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
   <script src="../js/session-context.js"></script>
-  <script src="../js/search-overlay.js?v=2"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js?v=3"></script>
-  <script type="module" src="../js/animations.js?v=6"></script>
+  <script src="../js/animations.js?v=8"></script>
   <script src="../js/style-profile.js"></script>
   <script src="../js/context-retention.js"></script>
   <script src="../js/concierge-engine.js?v=3"></script>
   <script src="../js/concierge.js?v=3"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+
+  <!-- Centralized Page-Level Event Handlers (no inline JS) -->
+  <script>
+  (function () {
+    'use strict';
+
+    function initPageHandlers() {
+      // Footer newsletter form
+      var newsletterForm = document.getElementById('footerNewsletterForm');
+      var newsletterInput = document.getElementById('footerNewsletterEmail');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = newsletterInput ? newsletterInput.value.trim() : '';
+          if (!email) return;
+          var btn = newsletterForm.querySelector('button[type="submit"]');
+          if (btn) {
+            var orig = btn.textContent;
+            btn.textContent = 'Subscribed ✓';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            setTimeout(function () {
+              btn.textContent = orig;
+              btn.disabled = false;
+              btn.style.opacity = '';
+            }, 3000);
+          }
+          if (newsletterInput) newsletterInput.value = '';
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPageHandlers);
+    } else {
+      initPageHandlers();
+    }
+  })();
+  </script>
 
 <!-- ==========================================================================
      MINI CART (SIDE DRAWER)
@@ -320,12 +396,14 @@
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
     <div class="minicart-subtotal">
       <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
     </div>
     <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
   </div>
 </aside>
 
+<!-- Hardware-Accelerated GPU Page Transition Curtain -->
+<div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
+
 </body>
 </html>
-

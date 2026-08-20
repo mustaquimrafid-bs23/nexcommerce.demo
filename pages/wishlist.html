@@ -10,10 +10,27 @@
   <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=6">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=35">
 </head>
 <body class="tracking-page-bg">
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading Atelier Archive" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Private Client Curation &middot; Atelier Archive</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
 
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
@@ -52,7 +69,7 @@
 
         <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist" style="color: var(--accent-cyan);">
           <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
-          <span class="wishlist-count-badge" id="headerWishlistCount">0</span>
+          <span class="wishlist-count-badge" id="headerWishlistCount">3</span>
         </a>
 
         <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
@@ -98,7 +115,7 @@
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">0</span>)</a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">3</span>)</a>
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
@@ -116,8 +133,36 @@
         </span>
         <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Your Saved Pieces</h1>
         <p class="profile-subhead" style="max-width: 660px;">
-          A private curation of silhouettes, acoustic instruments, and artisanal footwear reserved for your consideration. Move directly to your shopping bag or consult our digital tailor for styling pairing advice.
+          Silhouettes, instruments, and leathercraft — reserved for your consideration.
         </p>
+      </div>
+
+      <!-- CURATED LOOK SWITCHER / EDITORIAL SPOTLIGHT (manual tabs, no auto-cycle) -->
+      <div class="plp-curation-spotlight wishlist-curation-spotlight" id="wishlistSpotlightBar" role="region" aria-label="Curated Look Spotlight">
+        <div class="spotlight-header-row">
+          <span class="spotlight-eyebrow-tag" id="wishlistSpotlightEyebrow">
+            <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
+            <span>PRIVATE CURATION OVERVIEW</span>
+          </span>
+          <div class="spotlight-capsule-tabs" role="tablist" aria-label="Saved Piece Capsules">
+            <button type="button" class="spotlight-tab-btn active" data-tab-filter="all" role="tab" aria-selected="true">01 All Saved</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="apparel" role="tab" aria-selected="false">02 Ready-to-Wear</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="acoustics" role="tab" aria-selected="false">03 High Acoustics</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="footwear" role="tab" aria-selected="false">04 Footwear &amp; Leather</button>
+          </div>
+        </div>
+
+        <div class="spotlight-body-row">
+          <div class="plp-spotlight-content">
+            <h2 class="plp-spotlight-title" id="wishlistSpotlightTitle">Your Complete Atelier Archive</h2>
+            <p class="plp-spotlight-desc" id="wishlistSpotlightDesc">Every tailored silhouette, instrument, and leather piece reserved across your private collection.</p>
+          </div>
+          <div class="plp-spotlight-tags" id="wishlistSpotlightTags">
+            <span class="plp-spotlight-tag">3 Pieces Saved</span>
+            <span class="plp-spotlight-tag tabular-nums">€ 689.00</span>
+            <span class="plp-spotlight-tag">Atelier Reserved</span>
+          </div>
+        </div>
       </div>
 
       <!-- STATS & BULK ACTIONS BAR -->
@@ -130,25 +175,119 @@
           <div style="width: 1px; height: 28px; background: rgba(255, 255, 255, 0.1);"></div>
           <div>
             <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); display: block;">ESTIMATED VALUE</span>
-            <div style="font-family: var(--font-body); font-size: 16px; font-weight: 600; color: #FFFFFF;" id="wishlistValuationDisplay">BDT 68,900</div>
+            <div style="font-family: var(--font-body); font-size: 16px; font-weight: 600; color: #FFFFFF;" class="tabular-nums" id="wishlistValuationDisplay">€ 689.00</div>
           </div>
         </div>
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary-action" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" onclick="shareWishlist()">
+          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="share">
             <i data-lucide="share-2" style="width: 13px; height: 13px;"></i>
             <span>SHARE PRIVATE EDIT</span>
           </button>
-          <button type="button" class="btn-primary-commerce" style="height: 42px; font-size: 11px; padding: 0 20px; display: inline-flex; align-items: center; gap: 6px;" onclick="moveAllToBag()">
+          <button type="button" class="btn-primary-commerce wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 20px; display: inline-flex; align-items: center; gap: 6px;" data-action="move-all">
             <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
             <span>MOVE ALL TO BAG</span>
           </button>
         </div>
       </div>
 
-      <!-- WISHLIST GRID CONTAINER -->
+      <!-- WISHLIST GRID CONTAINER (Pre-rendered Default Seed for 0.000 CLS & Zero Reload Flicker) -->
       <div id="wishlistGrid" class="wishlist-grid">
-        <!-- Rendered dynamically by JavaScript -->
+        <div class="wishlist-card" id="wishCard_p1" data-parallax-depth="0.6" data-category="apparel">
+          <div class="wishlist-card-specular"></div>
+          <div class="wishlist-card-media">
+            <a href="product.html?id=p1" class="wishlist-card-img-anchor" aria-label="View Double-Breasted Wool Overcoat">
+              <img class="wishlist-card-img" src="../assets/images/products/plp_overcoat.png" alt="Double-Breasted Wool Overcoat" />
+            </a>
+            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p1" aria-label="Remove Double-Breasted Wool Overcoat from curation" title="Remove from Curation">
+              <i data-lucide="x" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+          <div class="wishlist-card-body">
+            <div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">MAISON APPAREL</span>
+              <a href="product.html?id=p1" class="wishlist-card-title-link">
+                <h2 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; line-height: 1.2; margin-bottom: 6px;">Double-Breasted Wool Overcoat</h2>
+              </a>
+              <div style="font-family: var(--font-body); font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 8px;" class="tabular-nums">€ 285.00</div>
+              <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 18px;">
+                <i data-lucide="check" style="width: 12px; height: 12px; vertical-align: middle; display: inline;"></i>
+                <span>Available in Atelier</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-primary-commerce wishlist-move-to-bag-btn" style="flex: 1; height: 42px; font-size: 11px;" data-action="move-to-bag" data-id="p1">
+                <span>MOVE TO BAG</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wishlist-card" id="wishCard_p4" data-parallax-depth="1.15" data-category="acoustics">
+          <div class="wishlist-card-specular"></div>
+          <div class="wishlist-card-media">
+            <a href="product.html?id=p4" class="wishlist-card-img-anchor" aria-label="View Planar Magnetic Studio Headphones">
+              <img class="wishlist-card-img" src="../assets/images/products/prod_headphones.png" alt="Planar Magnetic Studio Headphones" />
+            </a>
+            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p4" aria-label="Remove Planar Magnetic Studio Headphones from curation" title="Remove from Curation">
+              <i data-lucide="x" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+          <div class="wishlist-card-body">
+            <div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">HIGH ACOUSTICS</span>
+              <a href="product.html?id=p4" class="wishlist-card-title-link">
+                <h2 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; line-height: 1.2; margin-bottom: 6px;">Planar Magnetic Studio Headphones</h2>
+              </a>
+              <div style="font-family: var(--font-body); font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 8px;" class="tabular-nums">€ 220.00</div>
+              <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 18px;">
+                <i data-lucide="check" style="width: 12px; height: 12px; vertical-align: middle; display: inline;"></i>
+                <span>Limited Edition</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-primary-commerce wishlist-move-to-bag-btn" style="flex: 1; height: 42px; font-size: 11px;" data-action="move-to-bag" data-id="p4">
+                <span>MOVE TO BAG</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wishlist-card" id="wishCard_p6" data-parallax-depth="1.7" data-category="footwear">
+          <div class="wishlist-card-specular"></div>
+          <div class="wishlist-card-media">
+            <a href="product.html?id=p6" class="wishlist-card-img-anchor" aria-label="View Minimalist Leather Runner">
+              <img class="wishlist-card-img" src="../assets/images/products/prod_runner.png" alt="Minimalist Leather Runner" />
+            </a>
+            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p6" aria-label="Remove Minimalist Leather Runner from curation" title="Remove from Curation">
+              <i data-lucide="x" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
+          <div class="wishlist-card-body">
+            <div>
+              <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">ARTISANAL FOOTWEAR</span>
+              <a href="product.html?id=p6" class="wishlist-card-title-link">
+                <h2 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; line-height: 1.2; margin-bottom: 6px;">Minimalist Leather Runner</h2>
+              </a>
+              <div style="font-family: var(--font-body); font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 8px;" class="tabular-nums">€ 184.00</div>
+              <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 18px;">
+                <i data-lucide="check" style="width: 12px; height: 12px; vertical-align: middle; display: inline;"></i>
+                <span>Available in Atelier</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" class="btn-primary-commerce wishlist-move-to-bag-btn" style="flex: 1; height: 42px; font-size: 11px;" data-action="move-to-bag" data-id="p6">
+                <span>MOVE TO BAG</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPSULE FILTER EMPTY STATE (shown when the active look has no matching saved pieces) -->
+      <div id="wishlistFilterEmpty" class="wishlist-filter-empty">
+        <i data-lucide="filter" style="width: 15px; height: 15px;"></i>
+        <span>No saved pieces in this capsule yet.</span>
       </div>
 
       <!-- EMPTY STATE (HIDDEN BY DEFAULT) -->
@@ -158,7 +297,7 @@
         </div>
         <h2 style="font-family: var(--font-serif); font-size: 32px; color: #FFFFFF; font-weight: 400; margin-bottom: 8px;">Your curation awaits its first piece.</h2>
         <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 480px; margin: 0 auto 32px;">
-          Explore our seasonal lookbook, tailored ready-to-wear, and acoustic instruments to save items to your private atelier archive.
+          Explore the lookbook and collections to begin your private archive.
         </p>
         <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
           <a href="lookbook.html" class="btn-primary-commerce" style="height: 46px; padding: 0 28px; display: inline-flex; align-items: center; gap: 6px;">
@@ -176,7 +315,7 @@
         <div>
           <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">BESPOKE PAIRING ADVICE</div>
           <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Assemble Your Complete Ensemble</div>
-          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Consult our digital style concierge to assemble harmonic capsule outfits from your saved pieces.</p>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Let our digital concierge assemble capsule outfits from what you've saved.</p>
         </div>
         <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
           <span>STYLE MY SAVED PIECES</span>
@@ -188,86 +327,17 @@
   </main>
 
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="cart.html" class="footer-link-item">Shopping Bag</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="size-guide.html" class="footer-link-item">Size &amp; Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <!-- Hardware-Accelerated GPU Page Transition Curtain -->
+  <div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
 
   <!-- CDNs & Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/animations.js?v=13"></script>
+  <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/cart.js"></script>
   <script src="../js/auth.js"></script>
@@ -280,8 +350,8 @@
         id: 'p1',
         title: 'Double-Breasted Wool Overcoat',
         tag: 'MAISON APPAREL',
-        price: 28500,
-        image: 'assets/images/products/plp_overcoat.png',
+        price: 285,
+        image: '../assets/images/products/plp_overcoat.png',
         stock: 'Available in Atelier',
         desc: 'Virgin wool blend with structured shoulder silhouette.'
       },
@@ -289,8 +359,8 @@
         id: 'p2',
         title: 'Cashmere Blend Crewneck',
         tag: 'MAISON APPAREL',
-        price: 14200,
-        image: 'assets/images/lifestyle/sweater_lifestyle.png',
+        price: 142,
+        image: '../assets/images/lifestyle/sweater_lifestyle.png',
         stock: 'Low Stock · 2 Left',
         desc: '70% Mongolian cashmere with architectural ribbed cuff.'
       },
@@ -298,8 +368,8 @@
         id: 'p3',
         title: 'Architectural Wool Trousers',
         tag: 'MAISON APPAREL',
-        price: 16800,
-        image: 'assets/images/products/plp_trousers.png',
+        price: 168,
+        image: '../assets/images/products/plp_trousers.png',
         stock: 'Available in Atelier',
         desc: 'Double pleated high-waist drape in charcoal wool.'
       },
@@ -307,8 +377,8 @@
         id: 'p4',
         title: 'Planar Magnetic Studio Headphones',
         tag: 'HIGH ACOUSTICS',
-        price: 22000,
-        image: 'assets/images/products/prod_headphones.png',
+        price: 220,
+        image: '../assets/images/products/prod_headphones.png',
         stock: 'Limited Edition',
         desc: 'Beryllium drivers with memory foam lambskin pads.'
       },
@@ -316,8 +386,8 @@
         id: 'p5',
         title: 'Artisanal Suede Tote',
         tag: 'LEATHER & ACCESSORIES',
-        price: 19500,
-        image: 'assets/images/products/prod_tote.png',
+        price: 195,
+        image: '../assets/images/products/prod_tote.png',
         stock: 'Available in Atelier',
         desc: 'Hand-finished Tuscan calf suede with solid brass hardware.'
       },
@@ -325,8 +395,8 @@
         id: 'p6',
         title: 'Minimalist Leather Runner',
         tag: 'ARTISANAL FOOTWEAR',
-        price: 18400,
-        image: 'assets/images/products/prod_runner.png',
+        price: 184,
+        image: '../assets/images/products/prod_runner.png',
         stock: 'Available in Atelier',
         desc: 'Full-grain Italian nappa leather on custom Margom cupsole.'
       },
@@ -334,12 +404,78 @@
         id: 'p7',
         title: 'Obsidian Automatic Timepiece',
         tag: 'HIGH ACOUSTICS & WATCHES',
-        price: 34000,
-        image: 'assets/images/products/search_watch.png',
+        price: 340,
+        image: '../assets/images/products/search_watch.png',
         stock: 'Limited Atelier Edition',
         desc: 'DLC-coated stainless steel with bespoke automatic caliber.'
       }
     };
+
+    // Curated Look Switcher capsule copy (Motion Standard 1: 120fps auto-cycling progress timer).
+    // Auto-cycling only ever swaps this editorial copy — it never auto-filters the saved-pieces
+    // grid below, since silently hiding a user's own reserved items mid-browse is a hard anti-pattern.
+    // Each capsule keeps one editorial "flavor" tag; the other two tags shown are always
+    // computed live from what's actually saved (see paintSpotlightTags), not fixed copy.
+    var SPOTLIGHT_CAPSULES = [
+      {
+        key: 'all',
+        eyebrow: 'PRIVATE CURATION OVERVIEW',
+        title: 'Your Complete Atelier Archive',
+        desc: 'Every tailored silhouette, instrument, and leather piece reserved across your private collection.',
+        flavorTag: 'Atelier Reserved'
+      },
+      {
+        key: 'apparel',
+        eyebrow: 'MAISON APPAREL CAPSULE',
+        title: 'Tailored Silhouettes, Held in Reserve',
+        desc: 'Structured outerwear and considered knitwear selected for drape and seasonal versatility.',
+        flavorTag: 'Atelier Ready'
+      },
+      {
+        key: 'acoustics',
+        eyebrow: 'STUDIO ACOUSTICS CAPSULE',
+        title: 'Sound Engineered for the Private Ear',
+        desc: 'Precision-tuned instruments with beryllium drivers and hand-finished lambskin pads.',
+        flavorTag: 'Studio Grade'
+      },
+      {
+        key: 'footwear',
+        eyebrow: 'FOOTWEAR & LEATHER CAPSULE',
+        title: 'Hand-Finished Leather, Considered Craft',
+        desc: 'Full-grain leathers and suede finishes shaped on custom lasts for an artisanal stride.',
+        flavorTag: 'Italian Craft'
+      }
+    ];
+    var activeCapsuleIndex = 0;
+    var activeCategoryFilter = 'all';
+
+    function categoryKeyForTag(tag) {
+      if (!tag) return 'apparel';
+      if (tag.indexOf('ACOUSTICS') !== -1) return 'acoustics';
+      if (tag.indexOf('FOOTWEAR') !== -1 || tag.indexOf('LEATHER') !== -1) return 'footwear';
+      return 'apparel';
+    }
+
+    // Live per-capsule counts/valuation, recomputed from whatever is actually saved right now.
+    function computeCapsuleStats() {
+      var ids = getSavedWishlist();
+      var stats = {
+        all: { count: 0, value: 0 },
+        apparel: { count: 0, value: 0 },
+        acoustics: { count: 0, value: 0 },
+        footwear: { count: 0, value: 0 }
+      };
+      ids.forEach(function(id) {
+        var item = CATALOG_DB[id];
+        if (!item) return;
+        var key = categoryKeyForTag(item.tag);
+        stats.all.count += 1;
+        stats.all.value += item.price;
+        stats[key].count += 1;
+        stats[key].value += item.price;
+      });
+      return stats;
+    }
 
     function getSavedWishlist() {
       try {
@@ -354,6 +490,32 @@
       } catch (e) {
         return ['p1', 'p4', 'p6'];
       }
+    }
+
+    // Obsidian specular skeleton placeholder — see the CSS block for why this is safe to
+    // call unconditionally: it only stays visible for as long as the real render actually
+    // takes, which is zero time today.
+    function renderWishlistSkeletons(count) {
+      var grid = document.getElementById('wishlistGrid');
+      if (!grid) return;
+      var html = '';
+      for (var i = 0; i < count; i++) {
+        html += `
+          <div class="wishlist-skeleton-card" aria-hidden="true">
+            <div class="wishlist-skeleton-shimmer"></div>
+            <div class="wishlist-skeleton-media"></div>
+            <div class="wishlist-skeleton-body">
+              <div class="skeleton-pill skeleton-pill-tag"></div>
+              <div class="skeleton-pill skeleton-pill-title"></div>
+              <div class="skeleton-pill skeleton-pill-price"></div>
+              <div class="skeleton-pill skeleton-pill-stock"></div>
+              <div class="skeleton-pill skeleton-pill-btn"></div>
+            </div>
+          </div>
+        `;
+      }
+      grid.style.display = 'grid';
+      grid.innerHTML = html;
     }
 
     function renderWishlist() {
@@ -379,90 +541,360 @@
       var totalValuation = 0;
       var cardsHtml = '';
 
-      ids.forEach(function(id) {
+      ids.forEach(function(id, idx) {
         var item = CATALOG_DB[id] || {
           id: id,
           title: 'Atelier Curated Piece',
           tag: 'MAISON ARCHIVE',
           price: 18000,
-          image: 'assets/images/products/plp_overcoat.png',
+          image: '../assets/images/products/plp_overcoat.png',
           stock: 'Available in Atelier',
           desc: 'Artisanal silhouette handcrafted with pure textile integrity.'
         };
 
         totalValuation += item.price;
 
+        // Differential column depth: alternate travel distance by grid column (Motion Standard 4)
+        var depth = (idx % 3 === 0) ? 0.6 : (idx % 3 === 1) ? 1.15 : 1.7;
+
+        var categoryKey = categoryKeyForTag(item.tag);
+
         cardsHtml += `
-          <div class="wishlist-card" id="wishCard_${item.id}">
+          <div class="wishlist-card" id="wishCard_${item.id}" data-parallax-depth="${depth}" data-category="${categoryKey}">
+            <div class="wishlist-card-specular"></div>
             <div class="wishlist-card-media">
-              <img src="${item.image}" alt="${item.title}" loading="lazy" />
-              <button type="button" class="wishlist-remove-btn" onclick="removeFromWishlist('${item.id}')" aria-label="Remove ${item.title} from curation" title="Remove from Curation">
+              <a href="product.html?id=${item.id}" class="wishlist-card-img-anchor" aria-label="View ${item.title}">
+                <img class="wishlist-card-img" src="${item.image}" alt="${item.title}" loading="lazy" />
+              </a>
+              <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="${item.id}" aria-label="Remove ${item.title} from curation" title="Remove from Curation">
                 <i data-lucide="x" style="width: 15px; height: 15px;"></i>
               </button>
             </div>
             <div class="wishlist-card-body">
               <div>
                 <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 6px;">${item.tag}</span>
-                <h2 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; line-height: 1.2; margin-bottom: 6px;">${item.title}</h2>
-                <div style="font-family: var(--font-body); font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 8px;">BDT ${item.price.toLocaleString()}</div>
+                <a href="product.html?id=${item.id}" class="wishlist-card-title-link">
+                  <h2 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; line-height: 1.2; margin-bottom: 6px;">${item.title}</h2>
+                </a>
+                <div style="font-family: var(--font-body); font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 8px;" class="tabular-nums">€ ${Number(item.price).toFixed(2)}</div>
                 <div style="font-size: 11px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 18px;">
                   <i data-lucide="check" style="width: 12px; height: 12px; vertical-align: middle; display: inline;"></i>
                   <span>${item.stock}</span>
                 </div>
               </div>
               <div style="display: flex; gap: 10px;">
-                <button type="button" class="btn-primary-commerce" style="flex: 1; height: 42px; font-size: 11px;" onclick="moveSingleToBag('${item.id}')">
-                  MOVE TO BAG
+                <button type="button" class="btn-primary-commerce wishlist-move-to-bag-btn" style="flex: 1; height: 42px; font-size: 11px;" data-action="move-to-bag" data-id="${item.id}">
+                  <span>MOVE TO BAG</span>
                 </button>
-                <a href="concierge.html" class="btn-secondary-action" style="height: 42px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center;" title="Style with Concierge">
-                  <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--accent-cyan);"></i>
-                </a>
               </div>
             </div>
           </div>
         `;
       });
 
-      if (grid) grid.innerHTML = cardsHtml;
+      var currentCardIds = Array.prototype.slice.call(grid.querySelectorAll('.wishlist-card')).map(function(card) {
+        return card.id.replace('wishCard_', '');
+      });
+      var isSame = currentCardIds.length === ids.length && ids.every(function(id, idx) {
+        return id === currentCardIds[idx];
+      });
+
+      if (!isSame) {
+        grid.innerHTML = cardsHtml;
+      }
+
       if (countDisplay) countDisplay.textContent = ids.length + (ids.length === 1 ? ' Piece Reserved' : ' Pieces Reserved');
-      if (valDisplay) valDisplay.textContent = 'BDT ' + totalValuation.toLocaleString();
+      if (valDisplay) valDisplay.textContent = '€ ' + Number(totalValuation).toFixed(2);
 
       if (window.nexUpdateWishlistBadge) window.nexUpdateWishlistBadge(ids.length);
       if (window.lucide) window.lucide.createIcons();
+      if (window.initWishlistCardsMotion) window.initWishlistCardsMotion();
+
+      // Re-apply whichever capsule filter is active (e.g. after removing an item),
+      // silently — no transition, since entrance motion already just ran on these cards.
+      applyGridFilter(activeCategoryFilter, false);
+      refreshSpotlightStats();
+    }
+
+    // ─── Curated Look Switcher: manual-filter-only, auto-cycle is editorial-copy-only ───────
+    function applyGridFilter(key, animated) {
+      activeCategoryFilter = key;
+      var grid = document.getElementById('wishlistGrid');
+      var emptyMsg = document.getElementById('wishlistFilterEmpty');
+      if (!grid) return;
+
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.wishlist-card'));
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var visibleCount = 0;
+      var showIndex = 0;
+
+      cards.forEach(function(card) {
+        var matches = key === 'all' || card.getAttribute('data-category') === key;
+        if (matches) visibleCount++;
+
+        // A previous filter switch may have left a still-filling WAAPI animation on this
+        // card (fill: 'forwards' keeps applying its end-state indefinitely until canceled) —
+        // clear it first so it can never fight whatever we're about to set below. This was
+        // the root cause of cards staying invisible after switching back to a wider filter.
+        if (card._filterAnim) {
+          card._filterAnim.cancel();
+          card._filterAnim = null;
+        }
+
+        if (matches) {
+          var wasHidden = card.style.display === 'none';
+          card.style.display = '';
+          card.style.opacity = '';
+
+          if (animated && wasHidden && !prefersReduced && card.animate) {
+            var showAnim = card.animate(
+              [{ opacity: 0, transform: 'scale(0.96) translateY(6px)' }, { opacity: 1, transform: 'scale(1) translateY(0px)' }],
+              { duration: 320, delay: showIndex * 40, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' }
+            );
+            card._filterAnim = showAnim;
+            showAnim.onfinish = function() {
+              showAnim.cancel();
+              if (card._filterAnim === showAnim) card._filterAnim = null;
+            };
+            showIndex++;
+          }
+        } else if (card.style.display !== 'none') {
+          if (animated && !prefersReduced && card.animate) {
+            var hideAnim = card.animate(
+              [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0.96)' }],
+              { duration: 200, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+            );
+            card._filterAnim = hideAnim;
+            hideAnim.onfinish = function() {
+              card.style.display = 'none';
+              hideAnim.cancel();
+              if (card._filterAnim === hideAnim) card._filterAnim = null;
+            };
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+
+      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'flex' : 'none';
+    }
+
+    function indexForCapsuleKey(key) {
+      for (var i = 0; i < SPOTLIGHT_CAPSULES.length; i++) {
+        if (SPOTLIGHT_CAPSULES[i].key === key) return i;
+      }
+      return 0;
+    }
+
+    // Manual look switcher only — clicking a tab swaps the editorial copy and filters the
+    // grid below. No auto-cycling: an unattended timer that changes what's on screen while
+    // someone is reading or mid-click is exactly the kind of surprise this page shouldn't spring.
+    function paintSpotlightTags(capsule, tagsEl) {
+      if (!tagsEl) return;
+      var stats = computeCapsuleStats()[capsule.key] || { count: 0, value: 0 };
+      var tags = [
+        stats.count + (stats.count === 1 ? ' Piece Saved' : ' Pieces Saved'),
+        '€ ' + Number(stats.value).toFixed(2),
+        capsule.flavorTag
+      ];
+      tagsEl.innerHTML = tags.map(function(t) {
+        return '<span class="plp-spotlight-tag tabular-nums">' + t + '</span>';
+      }).join('');
+    }
+
+    // Repaints the currently active capsule's live count/value tags without touching the
+    // grid or replaying the tab-switch animation — used after add/remove so the numbers
+    // stay correct even though the user hasn't changed which capsule they're looking at.
+    // Stats bar tracks whichever capsule is currently active — "1 Piece" next to a
+    // "MOVE ALL TO BAG" button that still moves everything was the same class of mismatch
+    // already caught once with the auto-cycling tab highlight, so keep these two in lockstep.
+    function updateStatsBarForCapsule(capsule) {
+      var stats = computeCapsuleStats()[capsule.key] || { count: 0, value: 0 };
+      var countDisplay = document.getElementById('wishlistCountDisplay');
+      var valDisplay = document.getElementById('wishlistValuationDisplay');
+      if (countDisplay) countDisplay.textContent = stats.count + (stats.count === 1 ? ' Piece Reserved' : ' Pieces Reserved');
+      if (valDisplay) valDisplay.textContent = '€ ' + Number(stats.value).toFixed(2);
+    }
+
+    // Repaints the spotlight tags + stats bar for whichever capsule is active, without
+    // touching the grid or replaying the tab-switch animation — used after add/remove so
+    // the numbers stay correct even though the user hasn't changed which capsule they're on.
+    function refreshSpotlightStats() {
+      var capsule = SPOTLIGHT_CAPSULES[activeCapsuleIndex];
+      if (!capsule) return;
+      paintSpotlightTags(capsule, document.getElementById('wishlistSpotlightTags'));
+      updateStatsBarForCapsule(capsule);
+    }
+
+    var spotlightFadeAnims = [];
+
+    function setActiveCapsule(index, withAnimation) {
+      activeCapsuleIndex = index;
+      var capsule = SPOTLIGHT_CAPSULES[index];
+
+      var tabBtns = document.querySelectorAll('#wishlistSpotlightBar .spotlight-tab-btn');
+      tabBtns.forEach(function(btn) {
+        var isActive = btn.getAttribute('data-tab-filter') === capsule.key;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      var eyebrowEl = document.getElementById('wishlistSpotlightEyebrow');
+      var titleEl = document.getElementById('wishlistSpotlightTitle');
+      var descEl = document.getElementById('wishlistSpotlightDesc');
+      var tagsEl = document.getElementById('wishlistSpotlightTags');
+
+      function paintContent() {
+        if (eyebrowEl) {
+          var span = eyebrowEl.querySelector('span');
+          if (span) span.textContent = capsule.eyebrow;
+        }
+        if (titleEl) titleEl.textContent = capsule.title;
+        if (descEl) descEl.textContent = capsule.desc;
+        paintSpotlightTags(capsule, tagsEl);
+        updateStatsBarForCapsule(capsule);
+      }
+
+      // Cancel any fade still settling from a previous switch — otherwise a fast double-click
+      // leaves two overlapping opacity animations fighting over the same elements.
+      spotlightFadeAnims.forEach(function(a) { a.cancel(); });
+      spotlightFadeAnims = [];
+
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (withAnimation && titleEl && !prefersReduced && titleEl.animate) {
+        var fadeTargets = [titleEl, descEl].filter(Boolean);
+        var pending = fadeTargets.length;
+        fadeTargets.forEach(function(el) {
+          var out = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' });
+          spotlightFadeAnims.push(out);
+          out.onfinish = function() {
+            out.cancel();
+            pending--;
+            if (pending === 0) paintContent();
+            var fadeIn = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, fill: 'forwards' });
+            spotlightFadeAnims.push(fadeIn);
+            fadeIn.onfinish = function() { fadeIn.cancel(); };
+          };
+        });
+      } else {
+        paintContent();
+      }
+
+      applyGridFilter(capsule.key, withAnimation);
+    }
+
+    function initSpotlightController() {
+      var spotlightBar = document.getElementById('wishlistSpotlightBar');
+      if (!spotlightBar) return;
+      setActiveCapsule(0, false);
     }
 
     function removeFromWishlist(id) {
       var ids = getSavedWishlist();
       var idx = ids.indexOf(id);
-      if (idx !== -1) {
+      if (idx === -1) return;
+
+      function commit() {
         ids.splice(idx, 1);
         localStorage.setItem(WISHLIST_KEY, JSON.stringify(ids));
         renderWishlist();
       }
-    }
 
-    function moveSingleToBag(id) {
-      var item = CATALOG_DB[id];
-      if (item && window.NexCart) {
-        window.NexCart.addItem({
-          id: item.id,
-          name: item.title,
-          price: item.price,
-          image: item.image,
-          quantity: 1,
-          size: '48'
-        });
+      // GPU exit transition before the card leaves the DOM (Motion Standard 1)
+      var card = document.getElementById('wishCard_' + id);
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (card && card.animate && !prefersReduced) {
+        var anim = card.animate(
+          [
+            { opacity: 1, transform: 'scale(1) translateY(0px)' },
+            { opacity: 0, transform: 'scale(0.92) translateY(-8px)' }
+          ],
+          { duration: 320, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+        );
+        anim.onfinish = commit;
+      } else {
+        commit();
       }
-      alert(item ? item.title + ' transferred to your Shopping Bag.' : 'Piece added to Bag.');
     }
 
-    function moveAllToBag() {
+    function moveSingleToBag(id, btn) {
+      var item = CATALOG_DB[id];
+
+      if (!btn) {
+        if (item && window.nexCart) {
+          window.nexCart.addItem({ id: item.id, name: item.title, price: item.price, image: item.image, quantity: 1, size: '48' });
+        }
+        return;
+      }
+
+      if (btn.classList.contains('adding')) return;
+      btn.classList.add('adding');
+      btn.innerHTML = '<span>ADDING&hellip;</span>';
+
+      setTimeout(function() {
+        if (item && window.nexCart) {
+          window.nexCart.addItem({
+            id: item.id,
+            name: item.title,
+            price: item.price,
+            image: item.image,
+            quantity: 1,
+            size: '48'
+          });
+        }
+
+        btn.innerHTML = '<span>&#10003; MOVED TO BAG</span>';
+        btn.style.background = '#ffffff';
+        btn.style.color = '#000000';
+
+        setTimeout(function() {
+          btn.classList.remove('adding');
+          btn.innerHTML = '<span>MOVE TO BAG</span>';
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1600);
+      }, 420);
+    }
+
+    // Tactile ripple on Move-to-Bag / bulk action presses (Motion Standard 1)
+    document.addEventListener('pointerdown', function(e) {
+      var btn = e.target.closest('.wishlist-move-to-bag-btn, .wishlist-ripple-btn');
+      if (!btn) return;
+      var rect = btn.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
+      var ripple = document.createElement('span');
+      ripple.className = 'card-ripple';
+      ripple.style.width = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(function() { ripple.remove(); }, 450);
+    });
+
+    function moveAllToBag(btn) {
       var ids = getSavedWishlist();
-      if (ids && ids.length > 0 && window.NexCart) {
-        ids.forEach(function(id) {
+      if (!ids || ids.length === 0) return;
+
+      // "MOVE ALL TO BAG" must only move whatever the active capsule tab is currently
+      // showing — the stats bar right next to it already reports a filtered count
+      // (e.g. "1 Piece Reserved" under High Acoustics), so silently moving every saved
+      // item regardless of filter would move pieces the user can't even see right now.
+      var filterKey = activeCategoryFilter;
+      var filteredIds = ids.filter(function(id) {
+        if (filterKey === 'all') return true;
+        var item = CATALOG_DB[id];
+        return !!item && categoryKeyForTag(item.tag) === filterKey;
+      });
+      if (filteredIds.length === 0) return;
+
+      function commitAll() {
+        if (!window.nexCart) return;
+        filteredIds.forEach(function(id) {
           var item = CATALOG_DB[id];
           if (item) {
-            window.NexCart.addItem({
+            window.nexCart.addItem({
               id: item.id,
               name: item.title,
               price: item.price,
@@ -472,22 +904,165 @@
             });
           }
         });
-        alert('All ' + ids.length + ' pieces transferred to your Shopping Bag.');
       }
+
+      if (!btn) { commitAll(); return; }
+      if (btn.classList.contains('adding')) return;
+
+      var originalHTML = btn.innerHTML;
+      btn.classList.add('adding');
+      btn.innerHTML = '<span>MOVING&hellip;</span>';
+
+      setTimeout(function() {
+        commitAll();
+        btn.innerHTML = '<span>&#10003; ' + filteredIds.length + (filteredIds.length === 1 ? ' PIECE' : ' PIECES') + ' MOVED</span>';
+        btn.style.background = '#ffffff';
+        btn.style.color = '#000000';
+
+        setTimeout(function() {
+          btn.classList.remove('adding');
+          btn.innerHTML = originalHTML;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1800);
+      }, 420);
     }
 
-    function shareWishlist() {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Private Edit link copied to clipboard.');
+    function shareWishlist(btn) {
+      var url = window.location.href;
+      var originalHTML = btn ? btn.innerHTML : null;
+
+      function showCopied() {
+        if (!btn) return;
+        btn.innerHTML = '<span>&#10003; LINK COPIED</span>';
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+        }, 1800);
+      }
+
+      function legacyCopy() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showCopied();
+        } catch (e) {
+          if (btn) btn.innerHTML = '<span>COPY FAILED</span>';
+        }
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showCopied).catch(legacyCopy);
       } else {
-        alert('Share URL: ' + window.location.href);
+        legacyCopy();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      renderWishlist();
+    // ─── Centralized Event-Delegated Controller (Look Switcher tabs + all card/bar actions) ───
+    document.addEventListener('click', function(e) {
+      var tab = e.target.closest('[data-tab-filter]');
+      if (tab) {
+        e.preventDefault();
+        setActiveCapsule(indexForCapsuleKey(tab.getAttribute('data-tab-filter')), true);
+        return;
+      }
+
+      var removeBtn = e.target.closest('[data-action="remove-wish"]');
+      if (removeBtn) {
+        e.preventDefault();
+        removeFromWishlist(removeBtn.getAttribute('data-id'));
+        return;
+      }
+
+      var moveBtn = e.target.closest('[data-action="move-to-bag"]');
+      if (moveBtn) {
+        e.preventDefault();
+        moveSingleToBag(moveBtn.getAttribute('data-id'), moveBtn);
+        return;
+      }
+
+      var moveAllBtn = e.target.closest('[data-action="move-all"]');
+      if (moveAllBtn) {
+        e.preventDefault();
+        moveAllToBag(moveAllBtn);
+        return;
+      }
+
+      var shareBtn = e.target.closest('[data-action="share"]');
+      if (shareBtn) {
+        e.preventDefault();
+        shareWishlist(shareBtn);
+        return;
+      }
     });
+
+    // Hydrate immediately rather than waiting for DOMContentLoaded: this inline script sits
+    // at the end of <body>, so every element it touches is already parsed and in the DOM by
+    // the time it runs. Waiting for the event just adds a redundant tick where the grid is
+    // empty and visible — the actual source of the "flash of an empty page" on load/reload.
+    // The #pagePreloader itself is driven by the centralized initPagePreloader() in
+    // animations.js (loaded earlier in this page), not here.
+    function bootWishlistPage() {
+      renderWishlist();
+      initSpotlightController();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootWishlistPage);
+    } else {
+      bootWishlistPage();
+    }
   </script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+<!-- SEARCH OVERLAY (global CMD+K) -->
+<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+  <div class="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-header-bar">
+      <div class="search-input-wrapper">
+        <div class="search-ai-icon">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+        </div>
+        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+      </div>
+      <button class="search-close-btn" aria-label="Close search">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+    <div id="aiSearchResultsModal" class="search-body"></div>
+  </div>
+</div>
+<script src="../js/ai-engine.js?v=3"></script>
+<script src="../js/intent-parser.js"></script>
+<script src="../js/catalog-engine.js"></script>
+<script src="../js/session-context.js"></script>
+<script src="../js/search-overlay.js?v=1"></script>
+<script src="../js/cookie-consent.js"></script>
+
 </body>
 </html>

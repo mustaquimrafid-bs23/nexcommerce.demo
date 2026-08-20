@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Atelier Story &amp; Heritage &mdash; nexCommerce</title>
+  <meta name="description" content="The story of nexCommerce: an atelier uniting ancestral garment tailoring, artisanal Tuscan leather, and bespoke acoustic engineering with digital intelligence.">
+  <meta name="view-transition" content="same-origin" />
+
+  <!-- Google Fonts: Inter, Manrope, Plus Jakarta Sans, Instrument Serif, Cormorant Garamond, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=37">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ─── Hardware-Accelerated View Transitions ───────────────────────── */
+    @keyframes about-vt-fade-in  { from { opacity: 0; transform: scale(0.995); } to { opacity: 1; transform: scale(1); } }
+    @keyframes about-vt-fade-out { from { opacity: 1; transform: scale(1); }     to { opacity: 0; transform: scale(1.005); } }
+
+    ::view-transition-new(root)  { animation: about-vt-fade-in  280ms cubic-bezier(0.16,1,0.3,1) both; }
+    ::view-transition-old(root)  { animation: about-vt-fade-out 200ms ease both; }
+
+    body.about-page-bg {
+      color: #FFFFFF;
+      font-family: var(--font-body, 'Inter', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── Layout Wrapper ──────────────────────────────────────────────── */
+    .about-page-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: clamp(36px, 5vw, 64px) 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 8vw, 104px);
+    }
+
+    /* ─── Section Typography Utilities ────────────────────────────────── */
+    .about-sec-header {
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .about-sec-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .about-sec-eyebrow::before {
+      content: '';
+      width: 18px;
+      height: 1px;
+      background: var(--accent-cyan, #3DE0FF);
+      opacity: 0.6;
+    }
+
+    .about-sec-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ─── 1. Split Visual Hero ────────────────────────────────────────── */
+    .about-hero-split {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: clamp(32px, 5vw, 64px);
+      align-items: center;
+      padding-top: clamp(12px, 2vh, 28px);
+    }
+
+    .about-hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .about-hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-secondary, #94A3B8);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .about-hero-eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-cyan, #3DE0FF);
+      box-shadow: 0 0 8px rgba(61, 224, 255, 0.6);
+    }
+
+    .about-hero-headline {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(38px, 4.4vw, 58px);
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 0 0 20px;
+    }
+
+    .about-hero-headline em {
+      font-family: var(--font-accent, 'Instrument Serif', serif);
+      font-style: italic;
+      font-weight: 400;
+      color: #FFFFFF;
+    }
+
+    .about-hero-subhead {
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.6;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0 0 32px;
+      max-width: 480px;
+      font-weight: 300;
+    }
+
+    .about-hero-nav-rail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .about-hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      color: #E2E8F0;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .about-hero-pill:hover {
+      background: rgba(61, 224, 255, 0.1);
+      border-color: rgba(61, 224, 255, 0.35);
+      color: var(--accent-cyan, #3DE0FF);
+      transform: translateY(-1px);
+    }
+
+    .about-hero-visual-card {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #050D1A;
+      aspect-ratio: 16 / 11;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .about-hero-visual-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      filter: brightness(0.9) contrast(1.05);
+      display: block;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .about-hero-visual-card:hover .about-hero-visual-img {
+      transform: scale(1.03);
+    }
+
+    .about-hero-visual-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      padding: 8px 14px;
+      background: rgba(8, 14, 30, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(12px);
+    }
+
+    .about-hero-visual-badge span.badge-accent {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    /* ─── 2. Interactive Tactile Material Vault ───────────────────────── */
+    .material-vault-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 32px;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 48px;
+    }
+
+    .material-swatch-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .material-swatch-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      color: #94A3B8;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .material-swatch-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+    }
+
+    .material-swatch-btn.active {
+      background: rgba(61, 224, 255, 0.08);
+      border-color: rgba(61, 224, 255, 0.4);
+      color: #FFFFFF;
+    }
+
+    .swatch-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .swatch-btn-num {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--accent-cyan, #3DE0FF);
+      text-transform: uppercase;
+    }
+
+    .swatch-btn-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .swatch-btn-meta {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    .material-swatch-btn.active .swatch-btn-meta {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .material-display-stage {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #050D1A;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      aspect-ratio: 16 / 10;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .material-display-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease, transform 0.8s ease;
+    }
+
+    .material-overlay-card {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 28px;
+      background: linear-gradient(to top, rgba(2, 8, 20, 0.96) 20%, rgba(2, 8, 20, 0.7) 70%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .material-overlay-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .material-overlay-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .material-spec-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .material-spec-pill {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #CBD5E1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .material-overlay-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .material-overlay-cta:hover {
+      transform: translateX(3px);
+    }
+
+    /* ─── 3. Spatial Craftsmanship Anatomy Hotspots ──────────────────── */
+    .hotspot-viewer-stage {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #050D1A;
+      aspect-ratio: 16 / 9;
+      max-height: 580px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .hotspot-viewer-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: brightness(0.88) contrast(1.05);
+      display: block;
+    }
+
+    .hotspot-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(8, 14, 30, 0.85);
+      border: 1.5px solid #FFFFFF;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .hotspot-pin::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-cyan, #3DE0FF);
+      animation: hotspot-pulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    @keyframes hotspot-pulse {
+      0%   { transform: scale(1);   opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    .hotspot-pin:hover, .hotspot-pin.active {
+      background: var(--accent-cyan, #3DE0FF);
+      color: #020B18;
+      border-color: #FFFFFF;
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .hotspot-popover {
+      position: absolute;
+      padding: 16px 20px;
+      background: rgba(6, 12, 26, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 4px;
+      color: #FFFFFF;
+      width: 240px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 20;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(16px);
+    }
+
+    .hotspot-pin:hover + .hotspot-popover,
+    .hotspot-pin.active + .hotspot-popover {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .popover-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .popover-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 6px;
+      color: #FFFFFF;
+    }
+
+    .popover-desc {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── 4. Three Disciplines of Craft (Visual Grid) ─────────────────── */
+    .about-disciplines-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 40px;
+    }
+
+    .discipline-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .discipline-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .discipline-img-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #050D1A;
+      position: relative;
+    }
+
+    .discipline-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .discipline-card:hover .discipline-img {
+      transform: scale(1.04);
+    }
+
+    .discipline-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      background: rgba(8, 14, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #E2E8F0;
+    }
+
+    .discipline-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .discipline-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .discipline-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0 0 20px;
+      font-weight: 300;
+    }
+
+    .discipline-link {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease, transform 0.2s ease;
+      width: fit-content;
+    }
+
+    .discipline-link:hover {
+      color: var(--accent-cyan, #3DE0FF);
+      transform: translateX(3px);
+    }
+
+    /* ─── 5. Visual Milestone Chronology ──────────────────────────────── */
+    .timeline-visual-wrap {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 48px;
+    }
+
+    .timeline-nav-rail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .timeline-nav-rail::-webkit-scrollbar { display: none; }
+
+    .timeline-milestone-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      color: #94A3B8;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-milestone-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .timeline-milestone-btn.active {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      color: #020B18;
+      font-weight: 600;
+    }
+
+    .timeline-stage-card {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 40px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: clamp(24px, 4vw, 40px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .timeline-stage-year {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 72px);
+      font-weight: 600;
+      line-height: 1;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .timeline-stage-title {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .timeline-stage-caption {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .timeline-stage-img-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #050D1A;
+    }
+
+    .timeline-stage-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+      display: block;
+    }
+
+    /* ─── 6. Infographic Provenance & Care Dials ──────────────────────── */
+    .about-ledger-infographic {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: clamp(48px, 6vw, 72px) 0;
+    }
+
+    .ledger-dials-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .ledger-dial-card {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      transition: all 0.22s ease;
+    }
+
+    .ledger-dial-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .ledger-icon-pedestal {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 20px;
+    }
+
+    .ledger-val-highlight {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.5vw, 44px);
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #FFFFFF 20%, var(--accent-cyan, #3DE0FF) 130%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .ledger-dial-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .ledger-dial-subtext {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── 7. Guardians of Craft & Pre-Footer Invitation ───────────────── */
+    .about-guardians-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 40px;
+    }
+
+    .guardian-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .guardian-portrait-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1.15;
+      overflow: hidden;
+      background: #050D1A;
+    }
+
+    .guardian-portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      filter: grayscale(80%) brightness(0.9);
+      transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .guardian-card:hover .guardian-portrait-img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.02);
+    }
+
+    .guardian-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .guardian-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .guardian-role {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 12px;
+    }
+
+    .guardian-quote {
+      font-family: var(--font-accent, 'Instrument Serif', serif);
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #CBD5E1;
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .about-invitation-visual {
+      text-align: center;
+      padding: clamp(56px, 6vw, 88px) 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: radial-gradient(circle at 50% 100%, rgba(61, 224, 255, 0.06) 0%, transparent 70%);
+      border-radius: 6px;
+    }
+
+    .invitation-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .invitation-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary, #94A3B8);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      font-weight: 300;
+    }
+
+    .invitation-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .btn-atelier-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: #FFFFFF;
+      color: #020B18;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-atelier-light:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-atelier-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-atelier-ghost:hover {
+      border-color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Responsive Media Queries ────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .about-hero-split {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .material-vault-wrap {
+        grid-template-columns: 1fr;
+      }
+      .about-disciplines-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .ledger-dials-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .about-guardians-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .guardian-portrait-wrap {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-stage-card {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .ledger-dials-grid {
+        grid-template-columns: 1fr;
+      }
+      .invitation-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-atelier-light, .btn-atelier-ghost {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body class="about-page-bg">
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">The Maison Heritage</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <span>Concierge</span>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        </a>
+
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ATELIER CONTENT -->
+  <main class="about-page-wrap" id="mainContent">
+
+    <!-- 1. SPLIT EDITORIAL VISUAL HERO -->
+    <section class="about-hero-split" aria-labelledby="aboutHeroHeadline">
+      <div class="about-hero-content">
+        <div class="about-hero-eyebrow">
+          <span class="about-hero-eyebrow-dot"></span>
+          <span>The Maison Atelier &middot; Est. 2022</span>
+        </div>
+        <h1 class="about-hero-headline" id="aboutHeroHeadline">
+          The Art of <em>Considered Living</em>.
+        </h1>
+        <p class="about-hero-subhead">
+          Ancestral European tailoring and acoustic beryllium precision, united by digital intelligence.
+        </p>
+        <div class="about-hero-nav-rail">
+          <a href="#materials" class="about-hero-pill">01 Materials</a>
+          <a href="#hotspots" class="about-hero-pill">02 Craftsmanship</a>
+          <a href="#disciplines" class="about-hero-pill">03 Disciplines</a>
+          <a href="#timeline" class="about-hero-pill">04 Timeline</a>
+          <a href="#provenance" class="about-hero-pill">05 Provenance</a>
+        </div>
+      </div>
+
+      <div class="about-hero-visual-card">
+        <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Master Tailoring Atelier" class="about-hero-visual-img" loading="eager" />
+        <div class="about-hero-visual-badge">
+          <span class="badge-accent">✦ Atelier</span>
+          <span>Hand-Canvassed Mongolian Cashmere</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INTERACTIVE TACTILE MATERIAL VAULT -->
+    <section id="materials" aria-labelledby="materialsSectionTitle">
+      <div class="about-sec-header">
+        <span class="about-sec-eyebrow">Tactile Provenance</span>
+        <h2 class="about-sec-title" id="materialsSectionTitle">The Material Vault</h2>
+      </div>
+
+      <div class="material-vault-wrap">
+        <!-- Swatch Selector List -->
+        <div class="material-swatch-list" role="tablist" aria-label="Material Swatches">
+          <button type="button" class="material-swatch-btn active" role="tab" aria-selected="true" data-material="cashmere">
+            <div class="swatch-btn-left">
+              <span class="swatch-btn-num">01</span>
+              <span class="swatch-btn-name">Mongolian Cashmere</span>
+            </div>
+            <span class="swatch-btn-meta">420 GSM &middot; 2-Ply</span>
+          </button>
+
+          <button type="button" class="material-swatch-btn" role="tab" aria-selected="false" data-material="leather">
+            <div class="swatch-btn-left">
+              <span class="swatch-btn-num">02</span>
+              <span class="swatch-btn-name">Tuscan Calfskin</span>
+            </div>
+            <span class="swatch-btn-meta">Full-Grain &middot; Santa Croce</span>
+          </button>
+
+          <button type="button" class="material-swatch-btn" role="tab" aria-selected="false" data-material="beryllium">
+            <div class="swatch-btn-left">
+              <span class="swatch-btn-num">03</span>
+              <span class="swatch-btn-name">Acoustic Beryllium</span>
+            </div>
+            <span class="swatch-btn-meta">50mm Pure Foil &middot; 7075-T6</span>
+          </button>
+
+          <button type="button" class="material-swatch-btn" role="tab" aria-selected="false" data-material="silk">
+            <div class="swatch-btn-left">
+              <span class="swatch-btn-num">04</span>
+              <span class="swatch-btn-name">Japanese Selvedge Silk</span>
+            </div>
+            <span class="swatch-btn-meta">Shuttle Loom &middot; Fluid Drape</span>
+          </button>
+        </div>
+
+        <!-- Material Macro Display Stage -->
+        <div class="material-display-stage" id="materialDisplayStage">
+          <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Mongolian Cashmere Macro Texture" class="material-display-img" id="materialDisplayImg" />
+          <div class="material-overlay-card">
+            <div class="material-overlay-info">
+              <h3 class="material-overlay-title" id="materialOverlayTitle">Mongolian Grade-A Cashmere</h3>
+              <div class="material-spec-pills" id="materialSpecPills">
+                <span class="material-spec-pill">Weight: 420 GSM</span>
+                <span class="material-spec-pill">Origin: Ulaanbaatar</span>
+                <span class="material-spec-pill">Finish: Hand-Combed</span>
+              </div>
+            </div>
+            <a href="category.html?cat=apparel" class="material-overlay-cta" id="materialOverlayLink">
+              <span>View Pieces &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SPATIAL CRAFTSMANSHIP ANATOMY (HOTSPOT LENS) -->
+    <section id="hotspots" aria-labelledby="hotspotsTitle">
+      <div class="about-sec-header">
+        <span class="about-sec-eyebrow">Anatomy of Craft</span>
+        <h2 class="about-sec-title" id="hotspotsTitle">Interactive Inspection Lens</h2>
+      </div>
+
+      <div class="hotspot-viewer-stage" id="hotspotViewerStage">
+        <img src="../assets/images/lifestyle/hero_sweater_hd.jpg" alt="nexCommerce Tailoring Craftsmanship Anatomy" class="hotspot-viewer-img" />
+
+        <!-- Hotspot Pin 1: Lapel Canvassing -->
+        <div class="hotspot-pin" style="top: 40%; left: 45%;" tabindex="0" role="button" aria-label="Inspect Floating Canvas Detail">
+          <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+        </div>
+        <div class="hotspot-popover" style="top: 45%; left: 45%;">
+          <span class="popover-label">01 / Construction</span>
+          <h4 class="popover-title">Floating Canvas</h4>
+          <p class="popover-desc">4,000 hand stitches contour naturally to the wearer without synthetic fusing.</p>
+        </div>
+
+        <!-- Hotspot Pin 2: Pearl Buttons -->
+        <div class="hotspot-pin" style="top: 60%; left: 52%;" tabindex="0" role="button" aria-label="Inspect Mother-of-Pearl Buttons">
+          <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+        </div>
+        <div class="hotspot-popover" style="top: 65%; left: 52%;">
+          <span class="popover-label">02 / Hardware</span>
+          <h4 class="popover-title">Mother-of-Pearl</h4>
+          <p class="popover-desc">Hand-carved Australian shell buttons, cross-stitched with waxed Italian silk.</p>
+        </div>
+
+        <!-- Hotspot Pin 3: Split Seams -->
+        <div class="hotspot-pin" style="top: 75%; left: 65%;" tabindex="0" role="button" aria-label="Inspect Pick-Stitched Seams">
+          <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+        </div>
+        <div class="hotspot-popover" style="top: 50%; left: 58%;">
+          <span class="popover-label">03 / Ergonomics</span>
+          <h4 class="popover-title">Pick-Stitched Seams</h4>
+          <p class="popover-desc">Reinforced structural split hems allowing unconstrained natural movement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. THREE DISCIPLINES OF CRAFT (VISUAL GRID) -->
+    <section id="disciplines" aria-labelledby="disciplinesTitle">
+      <div class="about-sec-header">
+        <span class="about-sec-eyebrow">Disciplines</span>
+        <h2 class="about-sec-title" id="disciplinesTitle">Three Pillars of the Maison</h2>
+      </div>
+
+      <div class="about-disciplines-grid">
+        <!-- Pillar 1 -->
+        <article class="discipline-card">
+          <div class="discipline-img-wrap">
+            <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Tailored Ready-to-Wear" class="discipline-img" loading="lazy" />
+            <span class="discipline-tag">Cashmere &middot; Silk</span>
+          </div>
+          <div class="discipline-body">
+            <div>
+              <h3 class="discipline-title">Tailored Ready-to-Wear</h3>
+              <p class="discipline-desc">Structured silhouettes sculpted in 2-ply Mongolian cashmere and Japanese selvedge silk.</p>
+            </div>
+            <a href="category.html?cat=apparel" class="discipline-link">
+              <span>Explore Garments &rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Pillar 2 -->
+        <article class="discipline-card">
+          <div class="discipline-img-wrap">
+            <img src="../assets/images/lifestyle/tote_lifestyle.png" alt="Artisanal Tuscan Leather" class="discipline-img" loading="lazy" />
+            <span class="discipline-tag">Calfskin &middot; Tuscan</span>
+          </div>
+          <div class="discipline-body">
+            <div>
+              <h3 class="discipline-title">Artisanal Leather</h3>
+              <p class="discipline-desc">Tuscan vegetable-tanned calfskin assembled with Goodyear-welted longevity.</p>
+            </div>
+            <a href="category.html?cat=footwear" class="discipline-link">
+              <span>Explore Leather &rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Pillar 3 -->
+        <article class="discipline-card">
+          <div class="discipline-img-wrap">
+            <img src="../assets/images/lifestyle/headphone_lifestyle.png" alt="Bespoke High Acoustics" class="discipline-img" loading="lazy" />
+            <span class="discipline-tag">Beryllium &middot; Walnut</span>
+          </div>
+          <div class="discipline-body">
+            <div>
+              <h3 class="discipline-title">High Acoustics</h3>
+              <p class="discipline-desc">Machined aircraft aluminum chambers with 50mm pure beryllium acoustic drivers.</p>
+            </div>
+            <a href="category.html?cat=acoustics" class="discipline-link">
+              <span>Explore Acoustics &rarr;</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5. VISUAL MILESTONE CHRONOLOGY -->
+    <section id="timeline" class="timeline-visual-wrap" aria-labelledby="timelineTitle">
+      <div class="about-sec-header">
+        <span class="about-sec-eyebrow">Chronology</span>
+        <h2 class="about-sec-title" id="timelineTitle">Evolution of the Maison</h2>
+      </div>
+
+      <!-- Scrubber Tabs -->
+      <div class="timeline-nav-rail" role="tablist" aria-label="Atelier Milestones">
+        <button type="button" class="timeline-milestone-btn active" role="tab" aria-selected="true" data-year="2022">2022 &middot; Founding</button>
+        <button type="button" class="timeline-milestone-btn" role="tab" aria-selected="false" data-year="2023">2023 &middot; Tuscan Alliance</button>
+        <button type="button" class="timeline-milestone-btn" role="tab" aria-selected="false" data-year="2024">2024 &middot; Neural Concierge</button>
+        <button type="button" class="timeline-milestone-btn" role="tab" aria-selected="false" data-year="2025">2025 &middot; Circular Lab</button>
+        <button type="button" class="timeline-milestone-btn" role="tab" aria-selected="false" data-year="2026">2026 &middot; Global Maison</button>
+      </div>
+
+      <!-- Active Stage Card -->
+      <div class="timeline-stage-card" id="timelineStageCard" aria-live="polite">
+        <div>
+          <div class="timeline-stage-year" id="timelineStageYear">2022</div>
+          <h3 class="timeline-stage-title" id="timelineStageTitle">The Paris Atelier Founding</h3>
+          <p class="timeline-stage-caption" id="timelineStageDesc">
+            nexCommerce was born on Rue Saint-Honoré to honor ancestral European garment construction.
+          </p>
+        </div>
+        <div class="timeline-stage-img-wrap">
+          <img src="../assets/images/lifestyle/auth_lifestyle.jpg" alt="Atelier Timeline Visual" class="timeline-stage-img" id="timelineStageImg" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. INFOGRAPHIC PROVENANCE & CARE DIALS -->
+    <section id="provenance" class="about-ledger-infographic" aria-label="Provenance Metrics">
+      <div class="ledger-dials-grid">
+        <div class="ledger-dial-card">
+          <div class="ledger-icon-pedestal"><i data-lucide="leaf"></i></div>
+          <div class="ledger-val-highlight">100%</div>
+          <div class="ledger-dial-label">Traceable Fibres</div>
+          <p class="ledger-dial-subtext">Certified GOTS organic wool &amp; silk.</p>
+        </div>
+
+        <div class="ledger-dial-card">
+          <div class="ledger-icon-pedestal"><i data-lucide="shield-check"></i></div>
+          <div class="ledger-val-highlight">0%</div>
+          <div class="ledger-dial-label">Synthetics</div>
+          <p class="ledger-dial-subtext">Zero microplastic outer membranes.</p>
+        </div>
+
+        <div class="ledger-dial-card">
+          <div class="ledger-icon-pedestal"><i data-lucide="truck"></i></div>
+          <div class="ledger-val-highlight">Net 0</div>
+          <div class="ledger-dial-label">Carbon Transit</div>
+          <p class="ledger-dial-subtext">100% offset DHL Express custody.</p>
+        </div>
+
+        <div class="ledger-dial-card">
+          <div class="ledger-icon-pedestal"><i data-lucide="infinity"></i></div>
+          <div class="ledger-val-highlight">Lifetime</div>
+          <div class="ledger-dial-label">Atelier Care</div>
+          <p class="ledger-dial-subtext">Complimentary re-seaming &amp; care.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. GUARDIANS OF CRAFT & INVITATION -->
+    <section aria-labelledby="guardiansTitle">
+      <div class="about-sec-header">
+        <span class="about-sec-eyebrow">Curators</span>
+        <h2 class="about-sec-title" id="guardiansTitle">The Guardians of Craft</h2>
+      </div>
+
+      <div class="about-guardians-grid">
+        <!-- Guardian 1 -->
+        <article class="guardian-card">
+          <div class="guardian-portrait-wrap">
+            <img src="../assets/images/lifestyle/hero_watch_hd.jpg" alt="Aurelia Vance" class="guardian-portrait-img" loading="lazy" />
+          </div>
+          <div class="guardian-body">
+            <h3 class="guardian-name">Aurelia Vance</h3>
+            <div class="guardian-role">Creative Director &middot; Paris &amp; Milan</div>
+            <p class="guardian-quote">&ldquo;Luxury is absolute precision when everything non-essential is removed.&rdquo;</p>
+          </div>
+        </article>
+
+        <!-- Guardian 2 -->
+        <article class="guardian-card">
+          <div class="guardian-portrait-wrap">
+            <img src="../assets/images/lifestyle/hero_sweater_dark_hd.jpg" alt="Tariq Rahman" class="guardian-portrait-img" loading="lazy" />
+          </div>
+          <div class="guardian-body">
+            <h3 class="guardian-name">Tariq Rahman</h3>
+            <div class="guardian-role">Master Bespoke Tailor &middot; Gulshan</div>
+            <p class="guardian-quote">&ldquo;Natural fabrics carry an internal pulse. We let them breathe with human form.&rdquo;</p>
+          </div>
+        </article>
+
+        <!-- Guardian 3 -->
+        <article class="guardian-card">
+          <div class="guardian-portrait-wrap">
+            <img src="../assets/images/lifestyle/hero_headphone_hd.jpg" alt="Elena Rostova" class="guardian-portrait-img" loading="lazy" />
+          </div>
+          <div class="guardian-body">
+            <h3 class="guardian-name">Elena Rostova</h3>
+            <div class="guardian-role">Acoustic Engineering &middot; Berlin</div>
+            <p class="guardian-quote">&ldquo;We tune chambers to preserve the silence and breath between notes.&rdquo;</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 8. VISUAL PRE-FOOTER INVITATION -->
+    <section class="about-invitation-visual" aria-label="Atelier Invitation">
+      <h2 class="invitation-title">Experience Considered Luxury</h2>
+      <p class="invitation-desc">
+        Explore seasonal tailored pieces, artisanal leathercraft, and acoustic precision.
+      </p>
+      <div class="invitation-actions">
+        <a href="category.html?cat=all" class="btn-atelier-light">
+          <span>Explore Catalog</span>
+          <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </a>
+        <a href="contact.html" class="btn-atelier-ghost">
+          <span>Consult Concierge</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY MODAL -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body">
+      <!-- Populated by cart.js -->
+    </div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
+      </div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- Luxury GPU Page Transition Curtain -->
+  <div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
+
+  <!-- CDNs & Scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+
+  <!-- Visual-First Controllers: Material Vault, Hotspot Pins, and Timeline -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+
+      // Preloader dismissal
+      const preloader = document.getElementById('pagePreloader');
+      const progressBar = document.getElementById('preloaderProgressBar');
+      const percentEl = document.getElementById('preloaderPercent');
+      if (preloader) {
+        let pct = 0;
+        const iv = setInterval(() => {
+          pct += 20;
+          if (pct > 100) pct = 100;
+          if (progressBar) progressBar.style.width = pct + '%';
+          if (percentEl) percentEl.textContent = pct + '%';
+          if (pct >= 100) {
+            clearInterval(iv);
+            setTimeout(() => {
+              preloader.style.opacity = '0';
+              preloader.style.pointerEvents = 'none';
+              setTimeout(() => preloader.remove(), 350);
+            }, 180);
+          }
+        }, 25);
+      }
+
+      // 1. Material Vault Controller
+      const materialData = {
+        'cashmere': {
+          title: 'Mongolian Grade-A Cashmere',
+          img: '../assets/images/lifestyle/sweater_lifestyle.png',
+          link: 'category.html?cat=apparel',
+          pills: ['Weight: 420 GSM', 'Origin: Ulaanbaatar', 'Finish: Hand-Combed']
+        },
+        'leather': {
+          title: 'Tuscan Full-Grain Calfskin',
+          img: '../assets/images/lifestyle/tote_lifestyle.png',
+          link: 'category.html?cat=footwear',
+          pills: ['Tannery: Santa Croce', 'Cure: Vegetable Bark', 'Longevity: Welted']
+        },
+        'beryllium': {
+          title: 'Acoustic Beryllium Alloy',
+          img: '../assets/images/lifestyle/headphone_lifestyle.png',
+          link: 'category.html?cat=acoustics',
+          pills: ['Foil: 50mm Pure Foil', 'Chamber: 7075 Aluminum', 'Wood: American Walnut']
+        },
+        'silk': {
+          title: 'Japanese Selvedge Silk',
+          img: '../assets/images/lifestyle/hero_sweater_bright_hd.jpg',
+          link: 'category.html?cat=apparel',
+          pills: ['Loom: Shuttle Loom', 'Composition: 70/30 Silk-Wool', 'Drape: Fluid Structured']
+        }
+      };
+
+      const swatchButtons = document.querySelectorAll('.material-swatch-btn');
+      const materialImg = document.getElementById('materialDisplayImg');
+      const materialTitle = document.getElementById('materialOverlayTitle');
+      const materialPills = document.getElementById('materialSpecPills');
+      const materialLink = document.getElementById('materialOverlayLink');
+
+      swatchButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const matKey = btn.dataset.material;
+          const data = materialData[matKey];
+          if (!data) return;
+
+          swatchButtons.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          if (materialImg) {
+            materialImg.style.opacity = '0.3';
+            setTimeout(() => {
+              materialImg.src = data.img;
+              if (materialTitle) materialTitle.textContent = data.title;
+              if (materialLink) materialLink.href = data.link;
+              if (materialPills) {
+                materialPills.innerHTML = data.pills.map(p => `<span class="material-spec-pill">${p}</span>`).join('');
+              }
+              materialImg.style.opacity = '1';
+            }, 180);
+          }
+        });
+      });
+
+      // 2. Timeline Chronology Controller
+      const timelineData = {
+        '2022': {
+          year: '2022',
+          title: 'The Paris Atelier Founding',
+          desc: 'nexCommerce was born on Rue Saint-Honoré to honor ancestral European garment construction.',
+          img: '../assets/images/lifestyle/auth_lifestyle.jpg'
+        },
+        '2023': {
+          year: '2023',
+          title: 'The Tuscan Tannery Alliance',
+          desc: 'Direct partnerships with 3rd-generation master tanners in Santa Croce, Italy.',
+          img: '../assets/images/lifestyle/tote_lifestyle.png'
+        },
+        '2024': {
+          year: '2024',
+          title: 'Neural Style Concierge',
+          desc: 'Generative style intelligence mapping mood nuances to bespoke tailoring pieces.',
+          img: '../assets/images/lifestyle/hero_sweater_hd.jpg'
+        },
+        '2025': {
+          year: '2025',
+          title: 'Circular Craft & Acoustic Lab',
+          desc: 'Berlin acoustic laboratory and Lifetime Atelier Care guarantee launched.',
+          img: '../assets/images/lifestyle/hero_headphone_hd.jpg'
+        },
+        '2026': {
+          year: '2026',
+          title: 'The Modern Digital Maison',
+          desc: 'Global European luxury across 27 member states with Net-0 carbon custody.',
+          img: '../assets/images/lifestyle/hero_watch_landscape.jpg'
+        }
+      };
+
+      const timelineButtons = document.querySelectorAll('.timeline-milestone-btn');
+      const stageYear = document.getElementById('timelineStageYear');
+      const stageTitle = document.getElementById('timelineStageTitle');
+      const stageDesc = document.getElementById('timelineStageDesc');
+      const stageImg = document.getElementById('timelineStageImg');
+      const stageCard = document.getElementById('timelineStageCard');
+
+      timelineButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const year = btn.dataset.year;
+          const data = timelineData[year];
+          if (!data) return;
+
+          timelineButtons.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          if (stageCard) {
+            stageCard.style.opacity = '0.4';
+            stageCard.style.transition = 'opacity 0.2s ease';
+          }
+
+          setTimeout(() => {
+            if (stageYear) stageYear.textContent = data.year;
+            if (stageTitle) stageTitle.textContent = data.title;
+            if (stageDesc) stageDesc.textContent = data.desc;
+            if (stageImg) stageImg.src = data.img;
+            if (stageCard) stageCard.style.opacity = '1';
+          }, 160);
+        });
+      });
+
+      // 3. Hotspot Pin Keyboard/Touch Accessibility
+      const pins = document.querySelectorAll('.hotspot-pin');
+      pins.forEach(pin => {
+        pin.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isActive = pin.classList.contains('active');
+          pins.forEach(p => p.classList.remove('active'));
+          if (!isActive) pin.classList.add('active');
+        });
+      });
+
+      document.addEventListener('click', () => {
+        pins.forEach(p => p.classList.remove('active'));
+      });
+
+      // 4. GPU Page Transition Curtain
+      const curtain = document.getElementById('pageTransitionOverlay');
+      document.querySelectorAll('a[href]:not([href^="#"]):not([target="_blank"])').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('javascript:') && !href.startsWith('#')) {
+            if (curtain) {
+              e.preventDefault();
+              curtain.style.opacity = '1';
+              setTimeout(() => {
+                window.location.href = href;
+              }, 150);
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -244,7 +244,7 @@
   // Live Elastic Wishlist Badge Sync
   function updateWishlistBadge() {
     try {
-      const stored = localStorage.getItem('nex_curated_wishlist_ids') || '[]';
+      const stored = localStorage.getItem('nex_curated_wishlist_ids') || localStorage.getItem('nex_wishlist_items') || '[]';
       const list = JSON.parse(stored);
       const count = Array.isArray(list) ? list.length : 0;
       const badges = document.querySelectorAll('.wishlist-count-badge, #headerWishlistCount, #mobileWishlistCount');
@@ -265,16 +265,18 @@
   function updateCartBadge() {
     try {
       let count = 0;
-      if (window.nexCart && typeof window.nexCart.getCount === 'function') {
+      if (window.nexCart && typeof window.nexCart.getTotalCount === 'function') {
+        count = window.nexCart.getTotalCount();
+      } else if (window.nexCart && typeof window.nexCart.getCount === 'function') {
         count = window.nexCart.getCount();
       } else {
-        const stored = localStorage.getItem('nex_cart_items') || localStorage.getItem('cart') || '[]';
+        const stored = localStorage.getItem('nex_cart') || localStorage.getItem('nex_cart_items') || localStorage.getItem('cart') || '[]';
         const items = JSON.parse(stored);
         if (Array.isArray(items)) {
           count = items.reduce((acc, item) => acc + (item.quantity || 1), 0);
         }
       }
-      const badges = document.querySelectorAll('.bag-count-badge, #headerCartCount, #mobileCartCount');
+      const badges = document.querySelectorAll('.bag-count-badge, #headerCartCount, #mobileCartCount, .nav-cart-badge, [data-cart-count]');
       badges.forEach(b => {
         const prevCount = parseInt(b.textContent, 10) || 0;
         b.textContent = count;

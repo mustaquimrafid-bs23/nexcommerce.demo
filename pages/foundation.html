@@ -6,8 +6,8 @@
   <title>nexCommerce &mdash; Design System Foundation & AI Search Showcase</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=5">
   <style>
     .showcase-header {
       padding: 60px 0 40px;
@@ -51,6 +51,23 @@
   </style>
 </head>
 <body>
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Design Foundations &amp; Visual Language</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
 
   <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
@@ -188,7 +205,7 @@
         </div>
         <div>
           <span class="type-metadata">Body Secondary (14px)</span>
-          <p class="type-body-sm">Complementary shipping on orders over BDT20,000. Express delivery within 24 hours in Dhaka.</p>
+          <p class="type-body-sm">Complimentary express shipping on orders over € 150.00. 14-day statutory right of withdrawal.</p>
         </div>
       </div>
     </section>
@@ -235,7 +252,7 @@
     <!-- PART 6 SHOPPING BAG / CART HARNESS -->
     <section class="showcase-block">
       <h2 class="type-section" style="margin-bottom: 16px;">7. Part 6 Shopping Bag / Cart Page</h2>
-      <p class="type-body-sm" style="margin-bottom: 16px;">Test the full Shopping Bag page, quantity steppers, free Express delivery threshold progress bar (BDT20,000 threshold), max 2 recommendations, sticky order summary, and checkout CTA.</p>
+      <p class="type-body-sm" style="margin-bottom: 16px;">Test the full Shopping Bag page, quantity steppers, free Express delivery threshold progress bar (€ 150.00 threshold), max 2 recommendations, sticky order summary, and checkout CTA.</p>
       <a href="cart.html" class="btn-primary-commerce">Open Shopping Bag (cart.html) &rarr;</a>
     </section>
 
@@ -275,8 +292,8 @@
       <div id="aiSearchResults" class="search-results-body">
         <div class="search-prompts-group">
           <span class="search-prompt-label">START WITH A MOMENT</span>
-          <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Dhaka">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg> Something for a winter evening in Dhaka
+          <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Milan">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg> Something for a winter evening in Milan
           </button>
           <button class="search-prompt-btn" data-prompt="A minimal outfit for work">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-0.125em;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg> For the office
@@ -297,7 +314,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js?v=6"></script>
+  <script src="../js/animations.js?v=6"></script>
 
 <!-- ==========================================================================
      MINI CART (SIDE DRAWER)
@@ -314,11 +331,13 @@
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
     <div class="minicart-subtotal">
       <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
     </div>
     <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
   </div>
 </aside>
+
+  <script src="../js/cookie-consent.js"></script>
 
 </body>
 </html>

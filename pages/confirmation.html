@@ -10,7 +10,7 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=5">
 
   <style>
@@ -175,6 +175,34 @@
 </head>
 <body>
 
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Order Verified &middot; Atelier Preparation Initialized</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over €150</span>
+    </div>
+  </div>
+
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
@@ -210,14 +238,18 @@
           <span>CONCIERGE</span>
         </button>
 
-        <a data-auth-account href="account.html" class="nav-item-link desktop-only" aria-label="My Account">
-          <i data-lucide="user" style="width: 15px; height: 15px;"></i>
-          <span data-auth-name>Tanvir</span>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" aria-label="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 15px; height: 15px;"></i>
-          <span>Bag</span>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
           <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
@@ -259,6 +291,7 @@
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
     <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
@@ -361,13 +394,13 @@
           <div style="display:flex; flex-direction:column; gap:10px; font-size:13px;">
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
               <span>Subtotal</span>
-              <span id="conf-subtotal">BDT 0</span>
+              <span id="conf-subtotal" class="tabular-nums">€ 0.00</span>
             </div>
 
             <!-- Discount row (coupon applied) -->
             <div id="conf-discount-row" style="display:none; justify-content:space-between; color:#00E676;">
               <span id="conf-discount-label">Discount</span>
-              <span id="conf-discount-amount">−BDT 0</span>
+              <span id="conf-discount-amount" class="tabular-nums">−€ 0.00</span>
             </div>
 
             <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
@@ -376,8 +409,8 @@
             </div>
 
             <div style="display:flex; justify-content:space-between; font-size:17px; font-weight:700; color:var(--text-primary); padding-top:12px; border-top:1px solid var(--border-subtle); margin-top:4px;">
-              <span>Total Paid</span>
-              <span id="conf-total" style="font-family:var(--font-serif); font-size:20px;">BDT 0</span>
+              <span>Total Paid (incl. 19% VAT)</span>
+              <span id="conf-total" class="tabular-nums" style="font-family:var(--font-serif); font-size:20px;">€ 0.00</span>
             </div>
           </div>
 
@@ -532,85 +565,11 @@
 
   </main>
 
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="checkout.html" class="footer-link-item">Complimentary Returns</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER (EUROPEAN STANDARD) -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
   <script>
     (function () {
-      // ─── Refresh safety: only show if this tab has a confirmed order ─────────
       let order = null;
       try {
         const raw = sessionStorage.getItem('nex_confirmed_order');
@@ -625,11 +584,11 @@
 
       document.getElementById('confirmation-content').style.display = 'block';
 
-      // ─── Populate all fields from real order object ──────────────────────────
+      // Order Reference & Customer
       document.getElementById('conf-ref').textContent = order.ref;
       const custName = order.customerName || 'Valued Client';
       document.getElementById('conf-customer-line').textContent =
-        `Thank you, ${custName}. We've received your order and our fulfillment team is preparing it now.`;
+        `Thank you, ${custName}. We've confirmed your order and our European atelier logistics team is preparing it now.`;
       
       const emailEl = document.getElementById('conf-email');
       if (emailEl) emailEl.textContent = order.customerEmail || '—';
@@ -640,26 +599,29 @@
       const recipEl = document.getElementById('conf-recipient-name');
       if (recipEl) recipEl.textContent = custName;
 
-      // Items list &mdash; derived from actual cart snapshot with defensive fallback
+      // Currency Symbol
+      const sym = order.currencySymbol || '€';
+
+      // Items list
       const itemsList = document.getElementById('conf-items-list');
       if (Array.isArray(order.items) && order.items.length > 0) {
         itemsList.innerHTML = order.items.map(i => {
           const qty = i.quantity || i.qty || 1;
           const variant = i.variant || i.size || 'Standard';
           const price = Number(i.price) || 0;
-          const image = i.image || 'assets/images/products/p1.png';
+          const image = i.image || '../assets/images/products/p1.png';
           const category = i.category ? `<span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); display:block; margin-bottom:2px;">${i.category}</span>` : '';
           
           return `
             <div class="order-item-row">
-              <img src="${image}" alt="${i.name || 'Product'}" class="order-item-img" onerror="this.src="../assets/images/products/p1.png'">
+              <img src="${image}" alt="${i.name || 'Product'}" class="order-item-img" onerror="this.src='../assets/images/products/p1.png'">
               <div>
                 ${category}
                 <div style="font-size:14px; font-weight:500; color:var(--text-primary);">${i.name || 'Item'}</div>
                 <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${variant} &middot; Qty ${qty}</div>
               </div>
-              <div style="font-size:14px; font-weight:600; text-align:right;">
-                BDT ${(price * qty).toLocaleString()}
+              <div style="font-size:14px; font-weight:600; text-align:right;" class="tabular-nums">
+                ${sym} ${(price * qty).toFixed(2)}
               </div>
             </div>
           `;
@@ -668,20 +630,19 @@
         itemsList.innerHTML = '<div style="font-size:13px; color:var(--text-secondary); padding:10px 0;">Order details recorded.</div>';
       }
 
-      // Delivery address
-      const addrLine = [order.address, order.city, order.postcode].filter(Boolean).join(', ') || 'Dhaka, Bangladesh';
+      // Delivery destination
+      const addrLine = [order.address, order.city, order.postcode, order.country].filter(Boolean).join(', ') || 'Berlin, Germany';
       document.getElementById('conf-address').textContent = addrLine;
 
       // Delivery method + ETA pill
-      document.getElementById('conf-delivery-method').textContent = order.deliveryMethod || 'Standard Delivery';
+      document.getElementById('conf-delivery-method').textContent = order.deliveryMethod || 'Standard EU Tracked (DHL / DPD)';
       const etaMap = {
-        express:  'Guaranteed arrival by 8:00 PM tomorrow',
-        standard: 'Estimated arrival in 3–5 business days',
-        economy:  'Estimated arrival in 7–10 business days'
+        express:  'Guaranteed arrival by 12:00 PM tomorrow (DHL Express Air)',
+        standard: 'Estimated arrival in 2–4 business days (DHL Tracked)'
       };
       const etaText = etaMap[order.deliveryKey] || 'Estimated delivery in 2–4 business days';
       document.getElementById('conf-delivery-eta').innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="13" x="1" y="6" rx="2"/><polygon points="17 9 20 9 23 13 23 19 17 19 17 9"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <i data-lucide="truck" style="width:14px; height:14px;"></i>
         <span>${etaText}</span>
       `;
 
@@ -694,7 +655,7 @@
       // Price breakdown
       const subtotal = Number(order.subtotal) || 0;
       const total = Number(order.total) || subtotal;
-      document.getElementById('conf-subtotal').textContent = `BDT ${subtotal.toLocaleString()}`;
+      document.getElementById('conf-subtotal').textContent = `${sym} ${subtotal.toFixed(2)}`;
       
       // Discount line
       const discountAmt = Number(order.discountAmt) || 0;
@@ -705,7 +666,7 @@
           const discLabel = document.getElementById('conf-discount-label');
           if (discLabel) discLabel.textContent = order.discountCode ? `Discount (${order.discountCode})` : 'Discount';
           const discVal = document.getElementById('conf-discount-amount');
-          if (discVal) discVal.textContent = `−BDT ${discountAmt.toLocaleString()}`;
+          if (discVal) discVal.textContent = `−${sym} ${discountAmt.toFixed(2)}`;
         } else {
           discRow.style.display = 'none';
         }
@@ -716,23 +677,25 @@
         shipSummary.textContent = order.shippingLabel || 'FREE';
         if (order.shippingCost === 0) shipSummary.style.color = '#00E676';
       }
-      document.getElementById('conf-total').textContent = `BDT ${total.toLocaleString()}`;
+      document.getElementById('conf-total').textContent = `${sym} ${total.toFixed(2)}`;
 
       // Payment method label + icon
       const payMeta = {
-        bkash: { label: 'bKash Direct', icon: '<img src="../assets/images/brand/bkash.svg" alt="bKash" style="height:16px; width:auto; vertical-align:middle;">' },
-        nagad: { label: 'Nagad Wallet', icon: '<img src="../assets/images/brand/nagad.svg" alt="Nagad" style="height:16px; width:auto; vertical-align:middle;">' },
-        card:  { label: 'Credit / Debit Card', icon: '<img src="../assets/images/brand/visa.svg" alt="Card" style="height:14px; width:auto; vertical-align:middle; margin-right:4px;"><img src="../assets/images/brand/mastercard.svg" alt="Card" style="height:14px; width:auto; vertical-align:middle;">' },
-        cod:   { label: 'Cash on Delivery', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>' }
+        klarna:     { label: 'Klarna Pay in 30 Days', badge: '<span class="payment-brand-badge klarna-badge">Klarna.</span>' },
+        ideal:      { label: 'iDEAL Direct Banking', badge: '<span class="payment-brand-badge ideal-badge">iDEAL</span>' },
+        card:       { label: 'Credit / Debit Card (PSD2 3DS2)', badge: '<span style="background:#0F2042;color:#fff;font-size:10px;padding:2px 6px;border-radius:2px;">VISA/MC</span>' },
+        applepay:   { label: 'Apple Pay Biometric', badge: '<span class="payment-brand-badge applepay-badge"> Pay</span>' },
+        paypal:     { label: 'PayPal Secure Portal', badge: '<span class="payment-brand-badge paypal-badge">PayPal</span>' },
+        bancontact: { label: 'Bancontact Belgium', badge: '<span class="payment-brand-badge bancontact-badge">Bancontact</span>' },
+        sepa:       { label: 'SEPA Direct Debit Mandate', badge: '<span class="payment-brand-badge sepa-badge">SEPA</span>' }
       };
 
-      const currentPay = payMeta[order.paymentMethod] || { label: order.paymentMethod || 'Card', icon: '' };
+      const currentPay = payMeta[order.paymentMethod] || { label: order.paymentMethod || 'Card', badge: '' };
       const chip = document.getElementById('conf-payment-chip');
       if (chip) {
-        chip.innerHTML = `${currentPay.icon} <span>${currentPay.label}</span>`;
+        chip.innerHTML = `${currentPay.badge} <span style="margin-left:6px;">${currentPay.label}</span>`;
       }
 
-      // Track link &mdash; pass order ref to tracking page
       const trackLink = document.getElementById('conf-track-link');
       if (trackLink) {
         trackLink.href = `tracking.html?ref=${encodeURIComponent(order.ref)}`;
@@ -747,12 +710,14 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/ai-engine.js"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
   <script src="../js/style-profile.js"></script>
+
   <script src="../js/context-retention.js"></script>
   <script src="../js/concierge-engine.js"></script>
   <script src="../js/concierge.js"></script>
@@ -761,9 +726,49 @@
   <script src="../js/smart-reorder.js"></script>
   <script>
     if (window.lucide) window.lucide.createIcons();
-    // Set page context for smart-reorder.js
     document.body.dataset.slPage = 'confirmation';
   </script>
+
+<!-- MINI CART (SIDE DRAWER) -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+  </div>
+  <div id="minicartBody" class="minicart-body">
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+<!-- SEARCH OVERLAY (global CMD+K) -->
+<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+  <div class="search-backdrop"></div>
+  <div class="search-panel">
+    <div class="search-header-bar">
+      <div class="search-input-wrapper">
+        <div class="search-ai-icon">
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+        </div>
+        <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots, or acoustics..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+      </div>
+      <button class="search-close-btn" aria-label="Close search">
+        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+    <div id="aiSearchResultsModal" class="search-body"></div>
+  </div>
+</div>
+<script src="../js/session-context.js"></script>
+<script src="../js/search-overlay.js?v=1"></script>
+<script src="../js/cookie-consent.js"></script>
 
 </body>
 </html>

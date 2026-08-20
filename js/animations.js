@@ -1,13 +1,91 @@
-import { animate, inView, stagger, spring } from "https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm";
+// ─── Synchronous Native WAAPI & Motion Orchestrator Engine ───────────────────
+const animate = function(targets, keyframes, options = {}) {
+  const els = typeof targets === 'string' ? document.querySelectorAll(targets) : (Array.isArray(targets) || targets instanceof NodeList ? Array.from(targets) : [targets]);
+  const duration = (options.duration || 0.6) * 1000;
+  const delay = (options.delay || 0) * 1000;
+  const easing = options.easing ? (Array.isArray(options.easing) ? `cubic-bezier(${options.easing.join(',')})` : options.easing) : 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-console.error("ANIMATIONS.JS IS LOADED AND EXECUTING!");
+  els.forEach((el, i) => {
+    if (!el || !el.animate) return;
+    const elDelay = typeof options.delay === 'function' ? options.delay(i, els.length) * 1000 : delay;
+    const waapiFrames = [];
+    const keys = Object.keys(keyframes);
+    const numSteps = Math.max(...keys.map(k => Array.isArray(keyframes[k]) ? keyframes[k].length : 1));
+
+    for (let step = 0; step < numSteps; step++) {
+      const frame = {};
+      keys.forEach(k => {
+        const val = Array.isArray(keyframes[k]) ? keyframes[k][step] : keyframes[k];
+        if (k === 'y') frame.transform = `translateY(${val}px)`;
+        else if (k === 'x') frame.transform = `translateX(${val}px)`;
+        else if (k === 'scale') frame.transform = `scale(${val})`;
+        else frame[k] = val;
+      });
+      waapiFrames.push(frame);
+    }
+
+    el.animate(waapiFrames, {
+      duration: duration,
+      delay: elDelay,
+      easing: easing,
+      fill: 'forwards'
+    });
+  });
+};
+
+const inView = function(target, callback, options = {}) {
+  const els = typeof target === 'string' ? document.querySelectorAll(target) : (Array.isArray(target) || target instanceof NodeList ? Array.from(target) : [target]);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        callback({ target: entry.target });
+      }
+    });
+  }, { rootMargin: (options && options.margin) || '0px' });
+  els.forEach(el => {
+    if (el) observer.observe(el);
+  });
+};
+
+const stagger = function(duration = 0.06, options = {}) {
+  const startDelay = (options && options.startDelay) || 0;
+  return (index) => startDelay + (index * duration);
+};
+
+const spring = function() {
+  return 'cubic-bezier(0.23, 1, 0.32, 1)';
+};
+
+window.animate = animate;
+window.inView = inView;
+window.stagger = stagger;
+window.spring = spring;
+
+/**
+ * resetPageTransitionCurtain
+ * Every "GPU cross-dissolve" trigger across this file sets #pageTransitionOverlay's
+ * opacity/pointer-events via inline style right before navigating away. That inline
+ * style is plain DOM state, so if the browser restores this page from the back/forward
+ * cache (bfcache) instead of re-parsing it, the curtain can come back fully opaque and
+ * still eating clicks. `pageshow` fires on both a normal first load and a bfcache
+ * restore, so a single listener here covers both without needing a separate
+ * DOMContentLoaded handler.
+ */
+function resetPageTransitionCurtain() {
+  const curtain = document.getElementById('pageTransitionOverlay');
+  if (!curtain) return;
+  curtain.style.transition = 'opacity 180ms cubic-bezier(0.23, 1, 0.32, 1)';
+  curtain.style.opacity = '0';
+  curtain.style.pointerEvents = 'none';
+}
+window.addEventListener('pageshow', resetPageTransitionCurtain);
 
 /**
  * nexCommerce - Motion.dev Animation Orchestrator
  * Uses premium spring physics for a luxury editorial feel.
  */
 
-document.addEventListener("DOMContentLoaded", () => {
+function initAllMotion() {
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
@@ -25,7 +103,107 @@ document.addEventListener("DOMContentLoaded", () => {
   initTrustStripMotion();
   initRecentlyViewedMotion();
   initGlobalHeaderMotion();
-});
+  initCategoryPageMotion();
+  initDiscoverySearchPageMotion();
+  initWishlistPageMotion();
+  initSmartListPageMotion();
+  initSignInPageMotion();
+  initSignUpPageMotion();
+  initCartPageMotion();
+  initContactPageMotion();
+  initAboutPageMotion();
+}
+
+/**
+ * initPagePreloader
+ * Centralized Luxury Editorial Brand Preloader controller. Auto-detects #pagePreloader
+ * on whichever page includes this script, runs a calibrated ~480ms eased 0% -> 100%
+ * progress journey, hydrates Lucide icons before the curtain lifts, and cross-dissolves
+ * the preloader via the .is-loaded class. Single source of truth so every route gets an
+ * identical, zero-CLS brand arrival instead of a page-local copy of this loop.
+ */
+function initPagePreloader() {
+  const preloader = document.getElementById('pagePreloader');
+  if (!preloader) return;
+
+  const bar = document.getElementById('preloaderProgressBar') || preloader.querySelector('.preloader-progress-bar');
+  const percentEl = document.getElementById('preloaderPercent');
+
+  const DURATION = 480; // calibrated progression
+  const startTime = performance.now();
+  let isDismissed = false;
+
+  function dismissPreloader() {
+    if (isDismissed) return;
+    isDismissed = true;
+    requestAnimationFrame(() => {
+      preloader.classList.add('is-loaded');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 380);
+    });
+  }
+
+  function updateProgress(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / DURATION);
+    const eased = 1 - Math.pow(1 - progress, 2.5);
+    const currentPercent = Math.round(eased * 100);
+
+    if (bar) bar.style.transform = `scaleX(${eased.toFixed(4)})`;
+    if (percentEl) percentEl.textContent = `${currentPercent}%`;
+
+    if (progress < 1) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      if (bar) {
+        bar.style.transform = 'scaleX(1)';
+        bar.style.boxShadow = '0 0 16px rgba(61, 224, 255, 0.9)';
+      }
+      if (percentEl) {
+        percentEl.textContent = '100%';
+        percentEl.style.color = '#34D399';
+      }
+      // Ensure Lucide icons are fully rendered before curtain lifts
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+      // Pause 90ms on 100% completion for perceptual satisfaction, then dissolve
+      setTimeout(dismissPreloader, 90);
+    }
+  }
+
+  requestAnimationFrame(updateProgress);
+
+  // Failsafe: never let the preloader outlive 1200ms even if rAF stalls
+  setTimeout(dismissPreloader, 1200);
+
+  // BFCache restore: a Back/Forward navigation fires 'pageshow' with persisted=true
+  // instead of re-running this script, so without this the preloader's DOM state
+  // (opacity: 1, display: block from before navigation-away) would still be live and
+  // block the restored page. Force it instantly transparent in that case.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      preloader.style.transition = 'none';
+      preloader.classList.add('is-loaded');
+      preloader.style.opacity = '0';
+      preloader.style.pointerEvents = 'none';
+      preloader.style.display = 'none';
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", () => {
+    resetPageTransitionCurtain();
+    initPagePreloader();
+    initAllMotion();
+  });
+} else {
+  resetPageTransitionCurtain();
+  initPagePreloader();
+  initAllMotion();
+}
 
 
 // 0. Smooth Scrolling (Lenis)
@@ -302,7 +480,7 @@ function initScrollReveals() {
     if (info.target.classList.contains('home-category-editorial-section')) return;
 
     // When the element comes into view, animate it
-    animate(info.target, 
+    animate(info.target,
       { opacity: [0, 1], y: [20, 0] },
       { 
         duration: 0.8,
@@ -1708,4 +1886,1527 @@ function initGlobalHeaderMotion() {
 }
 
 window.initGlobalHeaderMotion = initGlobalHeaderMotion;
+
+/**
+ * 14. CATEGORY & COLLECTIONS PLP - 4 MOTION STANDARDS
+ * 1. Micro-interactions: Kinetic SplitType headline entrance, Look Switcher 120fps progress sync,
+ *    filter pill ripples, and Quick-Add tactile ripple state machine.
+ * 2. 3D Hover Effects: 3D spring tilt physics (±6.5°), dynamic cursor-following specular glare,
+ *    and multi-tier diffuse shadow elevation.
+ * 3. Page Transitions: Hardware-accelerated GPU curtain cross-dissolve (#pageTransitionOverlay) on card clicks.
+ * 4. Scroll Parallax: Differential column depth on scroll (Lenis-linked alternating column travel)
+ *    and sub-pixel internal image glide.
+ */
+function initCategoryPageMotion() {
+  const main = document.querySelector('main.plp-header-section');
+  if (!main) return;
+
+  const title = document.getElementById('plpMainTitle');
+  const subtitle = document.getElementById('plpMainSubtitle');
+  const breadcrumb = document.querySelector('.plp-breadcrumb');
+  const toolbar = document.querySelector('.plp-toolbar-row');
+  const filterBar = document.querySelector('.plp-filter-bar');
+  const spotlight = document.getElementById('plpSpotlightSection');
+  const curtain = document.getElementById('pageTransitionOverlay');
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. MICRO-INTERACTIONS: Kinetic Split-Text & Staggered Header Entrance
+  if (!prefersReduced) {
+    // Split heading words with SplitType if available
+    let headingWords = [];
+    if (title && typeof SplitType !== 'undefined') {
+      const split = new SplitType(title, { types: 'words' });
+      title.style.opacity = '1';
+      headingWords = split.words || [];
+    }
+
+    if (headingWords.length > 0) {
+      headingWords.forEach(w => { w.style.opacity = '0'; });
+      animate(headingWords,
+        { opacity: [0, 1], y: [24, 0] },
+        { delay: stagger(0.06, { startDelay: 0.05 }), duration: 0.8, easing: [0.16, 1, 0.3, 1] }
+      );
+    } else if (title) {
+      animate(title,
+        { opacity: [0, 1], y: [20, 0] },
+        { duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    if (breadcrumb) {
+      animate(breadcrumb,
+        { opacity: [0, 1], y: [10, 0] },
+        { duration: 0.5, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    if (subtitle) {
+      animate(subtitle,
+        { opacity: [0, 1], y: [16, 0] },
+        { delay: 0.12, duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    if (spotlight) {
+      animate(spotlight,
+        { opacity: [0, 1], y: [24, 0], scale: [0.985, 1] },
+        { delay: 0.20, duration: 0.85, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    if (toolbar) {
+      animate(toolbar,
+        { opacity: [0, 1], y: [12, 0] },
+        { delay: 0.28, duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    if (filterBar) {
+      animate(filterBar,
+        { opacity: [0, 1], y: [12, 0] },
+        { delay: 0.34, duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+
+  // Initialize Motion across cards
+  initCategoryCardsMotion();
+
+  // 4. SCROLL PARALLAX: Differential Column Depth (Lenis + rAF)
+  let pxTicking = false;
+
+  function updatePLPParallax() {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+      pxTicking = false;
+      return;
+    }
+
+    const grid = document.getElementById('plpProductGrid');
+    if (!grid) {
+      pxTicking = false;
+      return;
+    }
+
+    const rect = grid.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      const cards = grid.querySelectorAll('.plp-card.luxury-product-card');
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 7.5; // px differential travel
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+        card.style.setProperty('--plp-card-y', `${yCard}px`);
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        // Sub-pixel image internal float glide
+        const img = card.querySelector('.plp-card-img');
+        if (img) {
+          const yImg = (centered * depth * 3.5).toFixed(2);
+          card.style.setProperty('--plp-img-y', `${yImg}px`);
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestPLPParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updatePLPParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestPLPParallaxTick);
+  }
+  window.addEventListener('scroll', requestPLPParallaxTick, { passive: true });
+}
+
+/**
+ * initCategoryCardsMotion
+ * Binds 3D Hover physics, Specular Glare, GPU Page Transitions, and Staggered Cascade to rendered product cards
+ */
+function initCategoryCardsMotion() {
+  const grid = document.getElementById('plpProductGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.plp-card.luxury-product-card'));
+  if (cards.length === 0) return;
+
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 1. Staggered Cascade Entrance on Rendered Cards
+  if (!prefersReduced && !grid._hasAnimatedThisRender) {
+    grid._hasAnimatedThisRender = true;
+    animate(cards,
+      { opacity: [0, 1], y: [22, 0], scale: [0.97, 1] },
+      { delay: stagger(0.06, { startDelay: 0.1 }), duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+    );
+  }
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 6.5; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionBound) return;
+      card._hasMotionBound = true;
+
+      let curTX = 0, curTY = 0;
+      let tgtTX = 0, tgtTY = 0;
+      let rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => {
+        card._isHovered = true;
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--plp-glare-x', gx);
+        card.style.setProperty('--plp-glare-y', gy);
+        card.style.setProperty('--plp-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--plp-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Card Navigation
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  cards.forEach(card => {
+    if (card._hasNavBound) return;
+    card._hasNavBound = true;
+
+    const titleLink = card.querySelector('.plp-card-title-link');
+    const imgAnchor = card.querySelector('.plp-card-img-anchor');
+
+    [titleLink, imgAnchor].filter(Boolean).forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+          e.preventDefault();
+          triggerPageTransition(href);
+        }
+      });
+    });
+  });
+}
+
+window.initCategoryPageMotion = initCategoryPageMotion;
+window.initCategoryCardsMotion = initCategoryCardsMotion;
+
+/**
+ * initWishlistPageMotion
+ * Motion Standards for the Saved Pieces (wishlist) page:
+ * 1. Micro-interactions: Staggered header entrance cascade (badge → headline → subhead → stats bar).
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare (delegated to initWishlistCardsMotion).
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on card navigation (delegated to initWishlistCardsMotion).
+ * 4. Scroll Parallax:    Differential column depth on the saved-pieces grid (Lenis + rAF).
+ *
+ * Card-level motion (entrance, tilt, glare, nav) is (re)bound via initWishlistCardsMotion()
+ * on every renderWishlist() pass, since pieces can be added/removed at runtime.
+ */
+function initWishlistPageMotion() {
+  const wrap = document.querySelector('.wishlist-page-wrap');
+  if (!wrap) return;
+
+  // Bind card-level motion (3D tilt, specular glare, page transitions)
+  initWishlistCardsMotion();
+
+  // 4. SCROLL PARALLAX: Differential Column Depth (Lenis + rAF)
+  let pxTicking = false;
+
+  function updateWishlistParallax() {
+    const grid = document.getElementById('wishlistGrid');
+    if (!grid) { pxTicking = false; return; }
+
+    const rect = grid.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      const cards = grid.querySelectorAll('.wishlist-card');
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 7.5; // px differential travel
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        // Sub-pixel image internal float glide
+        const img = card.querySelector('.wishlist-card-img');
+        if (img) {
+          const yImg = (centered * depth * 3.5).toFixed(2);
+          card.style.setProperty('--wishlist-img-y', `${yImg}px`);
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestWishlistParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateWishlistParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestWishlistParallaxTick);
+  }
+  window.addEventListener('scroll', requestWishlistParallaxTick, { passive: true });
+}
+
+/**
+ * initWishlistCardsMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to rendered wishlist cards.
+ * Re-invoked on every renderWishlist() pass since cards can be added/removed/filtered.
+ */
+function initWishlistCardsMotion() {
+  const grid = document.getElementById('wishlistGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.wishlist-card'));
+  if (cards.length === 0) return;
+
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 6.5; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionBound) return;
+      card._hasMotionBound = true;
+
+      let curTX = 0, curTY = 0;
+      let tgtTX = 0, tgtTY = 0;
+      let rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => {
+        card._isHovered = true;
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--wishlist-glare-x', gx);
+        card.style.setProperty('--wishlist-glare-y', gy);
+        card.style.setProperty('--wishlist-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--wishlist-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Card Navigation
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  cards.forEach(card => {
+    if (card._hasNavBound) return;
+    card._hasNavBound = true;
+
+    const titleLink = card.querySelector('.wishlist-card-title-link');
+    const imgAnchor = card.querySelector('.wishlist-card-img-anchor');
+
+    [titleLink, imgAnchor].filter(Boolean).forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+          e.preventDefault();
+          triggerPageTransition(href);
+        }
+      });
+    });
+  });
+}
+
+window.initWishlistPageMotion = initWishlistPageMotion;
+window.initWishlistCardsMotion = initWishlistCardsMotion;
+
+/**
+ * initDiscoverySearchPageMotion
+ * Page-level setup for the Intelligent Discovery search results page — sets up the
+ * differential scroll parallax loop once (Motion Standard 4). Card-level motion
+ * (entrance, 3D tilt, specular glare — Standards 1 & 2) is (re)bound on every
+ * result render via initDiscoveryCardsMotion(), since results change per query.
+ */
+function initDiscoverySearchPageMotion() {
+  const resultsSection = document.getElementById('discoveryResultsSection');
+  if (!resultsSection) return;
+
+  let pxTicking = false;
+
+  function updateDiscoveryParallax() {
+    const grid = document.getElementById('discoveryResultsGrid');
+    if (!grid) { pxTicking = false; return; }
+
+    const rect = grid.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      const cards = grid.querySelectorAll('.discovery-card');
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 7.5;
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+        card.style.setProperty('--disc-card-y', `${yCard}px`);
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        const img = card.querySelector('.discovery-card-image img');
+        if (img) {
+          const yImg = (centered * depth * 3.5).toFixed(2);
+          card.style.setProperty('--disc-img-y', `${yImg}px`);
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestDiscoveryParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateDiscoveryParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) { window._nexLenis.on('scroll', requestDiscoveryParallaxTick); }
+  window.addEventListener('scroll', requestDiscoveryParallaxTick, { passive: true });
+}
+
+/**
+ * initDiscoveryCardsMotion
+ * Binds staggered entrance, 3D spring tilt, and dynamic specular glare to the
+ * currently-rendered discovery result cards. Called by discovery-ui.js after
+ * every renderResults() — results change per query, so entrance always replays.
+ */
+function initDiscoveryCardsMotion() {
+  const grid = document.getElementById('discoveryResultsGrid');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.discovery-card'));
+  if (cards.length === 0) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 1. MICRO-INTERACTIONS: Staggered Cascade Entrance
+  if (!prefersReduced && window.animate && window.stagger) {
+    animate(cards,
+      { opacity: [0, 1], y: [20, 0], scale: [0.97, 1] },
+      { delay: stagger(0.06, { startDelay: 0.05 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+    );
+  }
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 6.5;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionBound) return;
+      card._hasMotionBound = true;
+
+      let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => { card._isHovered = true; });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--disc-glare-x', gx);
+        card.style.setProperty('--disc-glare-y', gy);
+        card.style.setProperty('--disc-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--disc-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Discovery Card Navigation
+  const curtain = document.getElementById('pageTransitionOverlay');
+  function triggerDiscoveryPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  cards.forEach(card => {
+    if (card._hasNavBound) return;
+    card._hasNavBound = true;
+
+    const titleLink = card.querySelector('.discovery-card-name a');
+    const imgLink = card.querySelector('.discovery-card-image a');
+    const viewBtn = card.querySelector('.discovery-view-btn');
+
+    [titleLink, imgLink].filter(Boolean).forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+          e.preventDefault();
+          triggerDiscoveryPageTransition(href);
+        }
+      });
+    });
+
+    if (viewBtn) {
+      viewBtn.addEventListener('click', (e) => {
+        const pId = viewBtn.getAttribute('data-product-id');
+        if (pId) {
+          e.preventDefault();
+          triggerDiscoveryPageTransition(`product.html?id=${pId}`);
+        }
+      });
+    }
+  });
+}
+
+window.initDiscoverySearchPageMotion = initDiscoverySearchPageMotion;
+window.initDiscoveryCardsMotion = initDiscoveryCardsMotion;
+
+/**
+ * initSmartListPageMotion
+ * Motion Standards for the Smart Reorder (Smart List) page:
+ * 1. Micro-interactions: Staggered header entrance cascade & 120fps progress sync.
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare (delegated to initSmartListCardsMotion).
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on card navigation (delegated to initSmartListCardsMotion).
+ * 4. Scroll Parallax:    Differential column depth on the smart list grid (Lenis + rAF).
+ */
+function initSmartListPageMotion() {
+  const gridWrap = document.querySelector('.sl-grid-wrap');
+  if (!gridWrap) return;
+
+  initSmartListCardsMotion();
+
+  // renderSmartListPage() calls this again on every dismiss/undo/cadence-save;
+  // guard so re-renders don't stack duplicate scroll listeners on window.
+  if (gridWrap._slParallaxBound) return;
+  gridWrap._slParallaxBound = true;
+
+  // 4. SCROLL PARALLAX: Differential Column Depth (Lenis + rAF)
+  let pxTicking = false;
+
+  function updateSmartListParallax() {
+    const grid = document.getElementById('slGrid');
+    if (!grid) { pxTicking = false; return; }
+
+    const rect = grid.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      const cards = grid.querySelectorAll('.sl-card');
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
+        const travel = depth * 7.5; // px differential travel
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+
+        // Sub-pixel image internal float glide
+        const img = card.querySelector('.sl-card-img');
+        if (img) {
+          const yImg = (centered * depth * 3.5).toFixed(2);
+          card.style.setProperty('--sl-img-y', `${yImg}px`);
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestSmartListParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateSmartListParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestSmartListParallaxTick);
+  }
+  window.addEventListener('scroll', requestSmartListParallaxTick, { passive: true });
+}
+
+/**
+ * initSmartListCardsMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to rendered smart list cards.
+ */
+function initSmartListCardsMotion() {
+  const grid = document.getElementById('slGrid') || document.getElementById('slHomeStrip') || document.getElementById('slConfirmStrip');
+  if (!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.sl-card'));
+  if (cards.length === 0) return;
+
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 1. MICRO-INTERACTIONS: Staggered entrance if not yet animated
+  if (!prefersReduced && window.animate && window.stagger) {
+    const unrevealed = cards.filter(c => !c._hasEntranceRun);
+    if (unrevealed.length > 0) {
+      unrevealed.forEach(c => { c._hasEntranceRun = true; });
+      animate(unrevealed,
+        { opacity: [0, 1], y: [16, 0], scale: [0.98, 1] },
+        { delay: stagger(0.05, { startDelay: 0.04 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 6.5; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionBound) return;
+      card._hasMotionBound = true;
+
+      const glare = card.querySelector('.sl-glare');
+      let curTX = 0, curTY = 0;
+      let tgtTX = 0, tgtTY = 0;
+      let rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => {
+        card._isHovered = true;
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        if (glare) {
+          glare.style.setProperty('--gx', `${gx}%`);
+          glare.style.setProperty('--gy', `${gy}%`);
+          glare.style.opacity = '1';
+        }
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        if (glare) glare.style.opacity = '0';
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Card Navigation
+  function triggerPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  cards.forEach(card => {
+    if (card._hasNavBound) return;
+    card._hasNavBound = true;
+
+    const titleLink = card.querySelector('.sl-card-title-link');
+    const imgLink = card.querySelector('.sl-card-img-link');
+
+    [titleLink, imgLink].filter(Boolean).forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+          e.preventDefault();
+          triggerPageTransition(href);
+        }
+      });
+    });
+  });
+}
+
+window.initSmartListPageMotion = initSmartListPageMotion;
+window.initSmartListCardsMotion = initSmartListCardsMotion;
+
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * SIGN IN & AUTHENTICATION MOTION CONTROLLER (4 Motion Standards)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 1. Micro-interactions: Staggered form entrance cascade & 120fps progress sync.
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare.
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on auth navigation.
+ * 4. Scroll Parallax:    Differential depth on showcase and floating shoppable capsules.
+ */
+function initSignInPageMotion() {
+  const showcasePanel = document.querySelector('.auth-showcase-panel');
+  const formPanel = document.querySelector('.auth-form-panel');
+  if (!showcasePanel && !formPanel) return;
+
+  initSignInCardMotion();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. MICRO-INTERACTIONS: Staggered form entrance
+  if (!prefersReduced && window.animate && window.stagger && formPanel) {
+    const formItems = [
+      '.auth-brand-logo',
+      '.auth-heading',
+      '.auth-subheading',
+      '.auth-demo-pill',
+      '.auth-social-row',
+      '.auth-divider',
+      '.auth-form .form-group',
+      '.form-checkbox-row',
+      '.auth-submit-btn',
+      '.auth-footer-zone'
+    ];
+
+    const elements = formItems.map(selector => formPanel.querySelector(selector)).filter(Boolean);
+    if (elements.length > 0) {
+      animate(elements,
+        { opacity: [0, 1], y: [16, 0] },
+        { delay: stagger(0.05, { startDelay: 0.1 }), duration: 0.6, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+}
+
+/**
+ * initSignInCardMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to sign-in page elements.
+ */
+function initSignInCardMotion() {
+  const capsule = document.getElementById('authShoppableCapsule');
+  const demoPill = document.getElementById('quickDemoBtn');
+  const curtain = document.getElementById('pageTransitionOverlay');
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch && capsule) {
+    const MAX_TILT = 6.5; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const glare = capsule.querySelector('.auth-capsule-glare') || document.getElementById('capsuleGlare');
+
+    let curTX = 0, curTY = 0;
+    let tgtTX = 0, tgtTY = 0;
+    let rafId = null;
+
+    function applyTilt() {
+      curTX = lerp(curTX, tgtTX, 0.12);
+      curTY = lerp(curTY, tgtTY, 0.12);
+      capsule.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px)`;
+      if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+        rafId = requestAnimationFrame(applyTilt);
+      } else {
+        rafId = null;
+      }
+    }
+
+    capsule.addEventListener('mouseenter', () => {
+      if (glare) glare.style.opacity = '1';
+    });
+
+    capsule.addEventListener('mousemove', (e) => {
+      const r = capsule.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY = (dx * MAX_TILT);
+
+      const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+      const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+      if (glare) {
+        glare.style.setProperty('--gx', `${gx}%`);
+        glare.style.setProperty('--gy', `${gy}%`);
+      }
+
+      if (!rafId) rafId = requestAnimationFrame(applyTilt);
+    });
+
+    capsule.addEventListener('mouseleave', () => {
+      tgtTX = 0; tgtTY = 0;
+      if (glare) glare.style.opacity = '0';
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.16);
+        curTY = lerp(curTY, 0, 0.16);
+        capsule.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px)`;
+        if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          capsule.style.transform = '';
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
+    });
+  }
+}
+
+window.initSignInPageMotion = initSignInPageMotion;
+window.initSignInCardMotion = initSignInCardMotion;
+
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * SIGN UP & REGISTRATION MOTION CONTROLLER (4 Motion Standards)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 1. Micro-interactions: Staggered form entrance cascade & password strength transitions.
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare.
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on auth navigation.
+ * 4. Scroll Parallax:    Differential depth on showcase and registration form containers.
+ */
+function initSignUpPageMotion() {
+  const showcasePanel = document.querySelector('.auth-showcase-panel');
+  const formPanel = document.querySelector('.auth-form-panel');
+  if (!showcasePanel && !formPanel) return;
+
+  initSignUpCardMotion();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. MICRO-INTERACTIONS: Staggered form entrance
+  if (!prefersReduced && window.animate && window.stagger && formPanel) {
+    const formItems = [
+      '.auth-brand-logo',
+      '.auth-heading',
+      '.auth-subheading',
+      '.auth-demo-pill',
+      '.auth-social-row',
+      '.auth-divider',
+      '.auth-form .form-group',
+      '.auth-submit-btn',
+      '.auth-terms',
+      '.auth-footer-zone'
+    ];
+
+    const elements = formItems.map(selector => formPanel.querySelector(selector)).filter(Boolean);
+    if (elements.length > 0) {
+      animate(elements,
+        { opacity: [0, 1], y: [16, 0] },
+        { delay: stagger(0.04, { startDelay: 0.08 }), duration: 0.55, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+}
+
+/**
+ * initSignUpCardMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to sign-up page elements.
+ */
+function initSignUpCardMotion() {
+  const demoPill = document.getElementById('quickDemoBtn');
+  const socialBtns = document.querySelectorAll('.auth-social-btn');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  if (!prefersReduced && !isTouch) {
+    const interactiveCards = [demoPill, ...Array.from(socialBtns)].filter(Boolean);
+    interactiveCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms ease';
+      });
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        const tiltX = -(dy * 4.5).toFixed(2);
+        const tiltY = (dx * 4.5).toFixed(2);
+        card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-2px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+}
+
+window.initSignUpPageMotion = initSignUpPageMotion;
+window.initSignUpCardMotion = initSignUpCardMotion;
+
+/**
+ * initCartPageMotion
+ * Motion Standards for the Shopping Bag (Cart) page:
+ * 1. Micro-interactions: 120fps GPU Express Delivery Progress Bar & Curated Look Switcher sync.
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic specular glare.
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on checkout navigation.
+ * 4. Scroll Parallax:    Differential column depth on scroll between cart items and order summary.
+ */
+function initCartPageMotion() {
+  const cartGrid = document.getElementById('cartGrid');
+  if (!cartGrid) return;
+
+  initCartCardsMotion();
+
+  if (cartGrid._cartParallaxBound) return;
+  cartGrid._cartParallaxBound = true;
+
+  // 4. SCROLL PARALLAX: Differential Column Depth (Lenis + rAF)
+  let pxTicking = false;
+
+  function updateCartParallax() {
+    if (!cartGrid) { pxTicking = false; return; }
+
+    const rect = cartGrid.getBoundingClientRect();
+    const winH = window.innerHeight;
+
+    if (rect.bottom > 0 && rect.top < winH) {
+      const span = winH + rect.height;
+      const prog = (winH - rect.top) / span; // 0 → 1
+      const centered = (prog - 0.5) * 2;     // -1 → +1
+
+      const cards = cartGrid.querySelectorAll('.cart-item-card');
+      cards.forEach(card => {
+        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '0.04');
+        const travel = depth * 120; // px differential travel
+        const yCard = parseFloat((centered * travel).toFixed(2));
+        card._parallaxY = yCard;
+
+        if (!card._isHovered) {
+          card.style.transform = `translateY(${yCard}px)`;
+        }
+      });
+    }
+    pxTicking = false;
+  }
+
+  function requestCartParallaxTick() {
+    if (!pxTicking) {
+      requestAnimationFrame(updateCartParallax);
+      pxTicking = true;
+    }
+  }
+
+  if (window._nexLenis) {
+    window._nexLenis.on('scroll', requestCartParallaxTick);
+  }
+  window.addEventListener('scroll', requestCartParallaxTick, { passive: true });
+}
+
+/**
+ * initCartCardsMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to cart item cards and summary.
+ */
+function initCartCardsMotion() {
+  const cartGrid = document.getElementById('cartGrid');
+  if (!cartGrid) return;
+
+  const cards = Array.from(cartGrid.querySelectorAll('.cart-item-card, .cart-summary-card, .cart-curation-spotlight'));
+  if (cards.length === 0) return;
+
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 1. MICRO-INTERACTIONS: Staggered entrance
+  if (!prefersReduced && window.animate && window.stagger) {
+    const unrevealed = cards.filter(c => !c._hasEntranceRun);
+    if (unrevealed.length > 0) {
+      unrevealed.forEach(c => { c._hasEntranceRun = true; });
+      animate(unrevealed,
+        { opacity: [0, 1], y: [16, 0], scale: [0.98, 1] },
+        { delay: stagger(0.05, { startDelay: 0.04 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 5.0; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasMotionBound) return;
+      card._hasMotionBound = true;
+
+      let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(8px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => { card._isHovered = true; });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--cart-glare-x', gx);
+        card.style.setProperty('--cart-glare-y', gy);
+        card.style.setProperty('--cart-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--cart-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Cross-Dissolve Curtain on Checkout & Links
+  function triggerCartPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  const checkoutBtns = document.querySelectorAll('#cartCheckoutBtn, #mobileStickyCheckoutBtn');
+  checkoutBtns.forEach(btn => {
+    if (btn._hasNavBound) return;
+    btn._hasNavBound = true;
+    btn.addEventListener('click', (e) => {
+      const href = btn.getAttribute('href');
+      if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+        e.preventDefault();
+        triggerCartPageTransition(href);
+      }
+    });
+  });
+}
+
+window.initCartPageMotion = initCartPageMotion;
+window.initCartCardsMotion = initCartCardsMotion;
+
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ * CONTACT / CLIENT SERVICES MOTION CONTROLLER (4 Motion Standards)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 1. Micro-interactions: Staggered entry cascade, Look switcher 120fps progress timer, tactile quick-add ripple.
+ * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare.
+ * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on all channel & atelier links.
+ * 4. Scroll Parallax:    Differential column depth on scroll layers (data-parallax-depth).
+ */
+function initContactPageMotion() {
+  const contactWrap = document.querySelector('.contact-page-wrap');
+  if (!contactWrap) return;
+
+  initContactCardsMotion();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 1. MICRO-INTERACTIONS: Staggered Entrance Animations
+  if (!prefersReduced && window.animate && window.stagger) {
+    const heroElements = document.querySelectorAll('.contact-status-whisper, .contact-headline, .contact-subhead');
+    if (heroElements.length > 0) {
+      animate(heroElements,
+        { opacity: [0, 1], y: [16, 0] },
+        { delay: stagger(0.06, { startDelay: 0.05 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const channelCards = document.querySelectorAll('.contact-channel-card');
+    if (channelCards.length > 0) {
+      animate(channelCards,
+        { opacity: [0, 1], y: [20, 0], scale: [0.98, 1] },
+        { delay: stagger(0.07, { startDelay: 0.15 }), duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const spotlightSection = document.querySelector('.contact-curation-spotlight');
+    if (spotlightSection) {
+      animate(spotlightSection,
+        { opacity: [0, 1], y: [24, 0] },
+        { delay: 0.28, duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const formCard = document.getElementById('contactFormCard');
+    if (formCard) {
+      animate(formCard,
+        { opacity: [0, 1], y: [24, 0] },
+        { delay: 0.35, duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const atelierCards = document.querySelectorAll('.contact-atelier-card');
+    if (atelierCards.length > 0) {
+      animate(atelierCards,
+        { opacity: [0, 1], y: [20, 0] },
+        { delay: stagger(0.08, { startDelay: 0.42 }), duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+
+  // 4. SCROLL PARALLAX: Differential Column & Container Depth
+  if (!prefersReduced) {
+    const parallaxLayers = document.querySelectorAll('[data-parallax-depth]');
+    let pxTicking = false;
+
+    function updateContactParallax() {
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      parallaxLayers.forEach(layer => {
+        const depth = parseFloat(layer.getAttribute('data-parallax-depth')) || 0.04;
+        const offset = -(scrollY * depth);
+        if (layer.classList.contains('contact-channel-card') || layer.classList.contains('contact-atelier-card')) {
+          layer._parallaxY = offset;
+          if (!layer._isHovered) {
+            layer.style.transform = `translateY(${offset.toFixed(1)}px)`;
+          }
+        } else {
+          layer.style.transform = `translateY(${offset.toFixed(1)}px)`;
+        }
+      });
+      pxTicking = false;
+    }
+
+    function requestContactParallaxTick() {
+      if (!pxTicking) {
+        requestAnimationFrame(updateContactParallax);
+        pxTicking = true;
+      }
+    }
+
+    if (window._nexLenis) {
+      window._nexLenis.on('scroll', requestContactParallaxTick);
+    }
+    window.addEventListener('scroll', requestContactParallaxTick, { passive: true });
+  }
+}
+
+/**
+ * initContactCardsMotion
+ * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to contact page elements.
+ */
+function initContactCardsMotion() {
+  const cards = Array.from(document.querySelectorAll('.contact-channel-card, .contact-curation-spotlight, .contact-form-card, .contact-atelier-card, .contact-floating-look-pill'));
+  if (cards.length === 0) return;
+
+  const curtain = document.getElementById('pageTransitionOverlay');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
+
+  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  if (!prefersReduced && !isTouch) {
+    const MAX_TILT = 5.5; // degrees
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    cards.forEach(card => {
+      if (card._hasContactMotionBound) return;
+      card._hasContactMotionBound = true;
+
+      let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
+      card._isHovered = false;
+      card._parallaxY = 0;
+
+      function applyTilt() {
+        curTX = lerp(curTX, tgtTX, 0.12);
+        curTY = lerp(curTY, tgtTY, 0.12);
+        const py = card._parallaxY || 0;
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(8px) translateY(${py}px)`;
+        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+          rafId = requestAnimationFrame(applyTilt);
+        } else {
+          rafId = null;
+        }
+      }
+
+      card.addEventListener('mouseenter', () => { card._isHovered = true; });
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        tgtTX = -(dy * MAX_TILT);
+        tgtTY = (dx * MAX_TILT);
+
+        const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+        const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--contact-glare-x', gx);
+        card.style.setProperty('--contact-glare-y', gy);
+        card.style.setProperty('--contact-glare-opacity', '1');
+
+        if (!rafId) rafId = requestAnimationFrame(applyTilt);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card._isHovered = false;
+        tgtTX = 0; tgtTY = 0;
+        card.style.setProperty('--contact-glare-opacity', '0');
+
+        function springBack() {
+          curTX = lerp(curTX, 0, 0.16);
+          curTY = lerp(curTY, 0, 0.16);
+          const py = card._parallaxY || 0;
+          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
+          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+            rafId = requestAnimationFrame(springBack);
+          } else {
+            card.style.transform = `translateY(${py}px)`;
+            rafId = null;
+          }
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(springBack);
+      });
+    });
+  }
+
+  // 3. GPU PAGE TRANSITIONS: Smooth Cross-Dissolve Curtain on Links
+  function triggerContactPageTransition(href) {
+    if (!curtain || !href) {
+      if (href) window.location.href = href;
+      return;
+    }
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.opacity = '1';
+    curtain.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = href;
+    }, 210);
+  }
+
+  const channelBtns = document.querySelectorAll('.contact-channel-btn, .atelier-action-link, .nav-more-item');
+  channelBtns.forEach(btn => {
+    if (btn._hasNavBound) return;
+    btn._hasNavBound = true;
+    btn.addEventListener('click', (e) => {
+      const href = btn.getAttribute('href');
+      const target = btn.getAttribute('target');
+      if (target === '_blank') return;
+      if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.startsWith('tel:')) {
+        e.preventDefault();
+        triggerContactPageTransition(href);
+      }
+    });
+  });
+}
+
+window.initContactPageMotion = initContactPageMotion;
+window.initContactCardsMotion = initContactCardsMotion;
+
+/**
+ * initAboutPageMotion
+ * Dedicated Motion Orchestrator for the Atelier About Us page.
+ * Features 3D spring tilt physics, specular glare tracking, staggered entrance,
+ * and GPU page transition curtain.
+ */
+function initAboutPageMotion() {
+  const isAboutPage = document.body.classList.contains('about-page-bg') || document.querySelector('.about-hero-wrap');
+  if (!isAboutPage) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Staggered entrance animations
+  if (!prefersReduced && window.animate && window.stagger) {
+    const heroItems = document.querySelectorAll('.about-status-whisper, .about-headline, .about-subhead');
+    if (heroItems.length > 0) {
+      animate(heroItems,
+        { opacity: [0, 1], y: [16, 0] },
+        { delay: stagger(0.06, { startDelay: 0.05 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const cinematicCard = document.querySelector('.about-cinematic-card');
+    if (cinematicCard) {
+      animate(cinematicCard,
+        { opacity: [0, 1], y: [20, 0], scale: [0.99, 1] },
+        { delay: 0.2, duration: 0.75, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+
+    const pillarCards = document.querySelectorAll('.about-pillar-card');
+    if (pillarCards.length > 0) {
+      animate(pillarCards,
+        { opacity: [0, 1], y: [20, 0], scale: [0.98, 1] },
+        { delay: stagger(0.08, { startDelay: 0.28 }), duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }
+  }
+
+  // 3D Spring tilt & specular glare tracking on pillar, artisan, and ledger cards
+  const cards = document.querySelectorAll('.about-pillar-card, .artisan-card, .ledger-stat-card');
+  cards.forEach(card => {
+    if (card._hasTiltBound) return;
+    card._hasTiltBound = true;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -5.5;
+      const rotateY = ((x - centerX) / centerX) * 5.5;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+      card.style.setProperty('--about-glare-x', `${x}px`);
+      card.style.setProperty('--about-glare-y', `${y}px`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+    });
+  });
+}
+
+window.initAboutPageMotion = initAboutPageMotion;
 

@@ -14,7 +14,7 @@
       id: 'notif-1',
       type: 'info',
       title: 'YOUR ORDER IS OUT FOR DELIVERY',
-      message: 'Order #NX-M4KZ9 is on its way to Dhanmondi, Dhaka. Expected today between 2:00 PM &ndash; 5:00 PM.',
+      message: 'Order #NX-M4KZ9 is on its way via DHL Express to Maximilianstraße, Munich. Expected today between 14:00 &ndash; 17:00 CET.',
       actionUrl: 'tracking.html?ref=NX-M4KZ9',
       createdAt: '10 mins ago',
       read: false

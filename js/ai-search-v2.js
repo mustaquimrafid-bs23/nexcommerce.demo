@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    nexCommerce &mdash; AI Search Engine v2
    Feature 1: Intelligent Discovery (Level 1 UI Prototype)
    
@@ -24,25 +24,25 @@
       id: 'p1',
       name: 'Architectural Cashmere Sweater',
       category: 'Apparel',
-      price: 18400,
-      formattedPrice: 'BDT 18,400',
+      price: 184.00,
+      formattedPrice: '€ 184.00',
       image: 'assets/images/products/hero_sweater.png',
       matchBadge: 'Best Match',
-      reasoning: 'Warm enough after sunset without feeling heavy. Ideal for 18°C Dhaka evenings.',
+      reasoning: 'Warm enough after sunset without feeling heavy. Ideal for 18°C Milan evenings.',
       whyExpanded: [
         { label: 'Evening temperature', desc: 'Designed for cooler evening conditions (15&ndash;20°C).' },
         { label: 'Your style', desc: 'Minimal silhouette with a clean, relaxed structure.' },
         { label: 'Comfort', desc: 'Lightweight construction avoids excessive warmth.' },
-        { label: 'Location', desc: "Suitable for Dhaka's mild winter evenings." }
+        { label: 'Location', desc: "Suitable for European mild winter evenings." }
       ],
-      tags: ['evening', 'cool', 'dhaka', 'minimal', 'warm', 'sweater', 'cashmere', 'apparel', 'winter', 'layer']
+      tags: ['evening', 'cool', 'milan', 'minimal', 'warm', 'sweater', 'cashmere', 'apparel', 'winter', 'layer']
     },
     {
       id: 'p2',
       name: 'Monolith Runner GT',
       category: 'Footwear',
-      price: 24500,
-      formattedPrice: 'BDT 24,500',
+      price: 245.00,
+      formattedPrice: '€ 245.00',
       image: 'assets/images/products/prod_runner.png',
       matchBadge: 'Excellent Fit',
       reasoning: 'Cushioned carbon-sole build designed for extended city walking and travel comfort.',
@@ -57,8 +57,8 @@
       id: 'p3',
       name: 'Wireless Precision Earbuds',
       category: 'Acoustics',
-      price: 14200,
-      formattedPrice: 'BDT 14,200',
+      price: 142.00,
+      formattedPrice: '€ 142.00',
       image: 'assets/images/products/search_earbuds.png',
       matchBadge: 'Good Match',
       reasoning: 'Ergonomic in-ear fit with high-fidelity sound and seamless device switching for travel.',
@@ -72,8 +72,8 @@
       id: 'p4',
       name: 'Acoustic Over-Ear Headphones',
       category: 'Acoustics',
-      price: 32000,
-      formattedPrice: 'BDT 32,000',
+      price: 320.00,
+      formattedPrice: '€ 320.00',
       image: 'assets/images/products/prod_headphones.png',
       matchBadge: 'Highly Rated',
       reasoning: 'Active noise cancellation with a 40-hour battery life &mdash; ideal for focused work or long journeys.',
@@ -102,7 +102,11 @@
     else if (/summer|warm|hot|humid/.test(q)) climate = 'Warm climate';
 
     let location = null;
-    if (/dhaka/.test(q)) location = 'Dhaka';
+    if (/milan|milano/.test(q)) location = 'Milan';
+    else if (/munich|münchen/.test(q)) location = 'Munich';
+    else if (/paris/.test(q)) location = 'Paris';
+    else if (/berlin/.test(q)) location = 'Berlin';
+    else if (/dhaka/.test(q)) location = 'Dhaka';
 
     let style = null;
     if (/minimal|minimal|clean|simple|understated/.test(q)) style = 'Minimal';
@@ -110,8 +114,8 @@
     else if (/formal|smart|tailored/.test(q)) style = 'Formal';
 
     let budgetMax = null;
-    const matchUnder = q.match(/under\s*(?:bdt)?\s*([\d,]+k?)/i) || q.match(/less\s*than\s*(?:bdt)?\s*([\d,]+k?)/i);
-    const matchAround = q.match(/around\s*(?:bdt)?\s*([\d,]+k?)/i);
+    const matchUnder = q.match(/under\s*(?:€|eur|euros?|bdt)?\s*([\d,]+k?)/i) || q.match(/less\s*than\s*(?:€|eur|euros?|bdt)?\s*([\d,]+k?)/i);
+    const matchAround = q.match(/around\s*(?:€|eur|euros?|bdt)?\s*([\d,]+k?)/i);
     if (matchUnder) budgetMax = parseAmount(matchUnder[1]);
     else if (matchAround) budgetMax = parseAmount(matchAround[1]) * 1.15;
 
@@ -140,7 +144,7 @@
     if (intent.climate)  ctx.climate  = intent.climate;
     if (intent.location) ctx.location = intent.location;
     if (intent.style)    ctx.style    = intent.style;
-    if (intent.budgetMax) ctx.budget  = 'Under BDT ' + Math.round(intent.budgetMax).toLocaleString();
+    if (intent.budgetMax) ctx.budget  = 'Under € ' + Math.round(intent.budgetMax).toLocaleString();
     if (intent.recipient) ctx.recipient = 'For ' + intent.recipient;
     return ctx;
   }
@@ -153,7 +157,7 @@
     if (/less expensive|cheaper|budget/.test(q)) {
       // Reduce budget cap by roughly 30%
       const currentBudget = Object.values(CATALOG).reduce((max, p) => Math.max(max, p.price), 0);
-      merged.budget = 'Under BDT ' + Math.round(currentBudget * 0.6).toLocaleString();
+      merged.budget = 'Under € ' + Math.round(currentBudget * 0.6).toLocaleString();
     }
     if (/more casual|casual/.test(q)) merged.style = 'Casual';
     if (/more minimal|minimal/.test(q)) merged.style = 'Minimal';

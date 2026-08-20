@@ -20,3 +20,11 @@ When creating standalone visual preview files or mockups (`preview-*.html` or br
 1. **Link Global Design System**: Always include `<link rel="stylesheet" href="css/design-system.css">` rather than defining ad-hoc inline design tokens or color variables.
 2. **Exact Background Foundation**: Always set `body { background: var(--bg-main, #012148); }` to match the storefront's exact page background and lighting. Never invent arbitrary background hex colors (e.g., `#070D18`).
 
+---
+
+## 5. Antigravity Agent Artifact Verification Invariant
+Before submitting any frontend Artifact or UI task as complete:
+1. **Launch/Connect Localhost Server**: Ensure a local server is running (e.g., port 8080 or 3000).
+2. **Browser Subagent / DevTools Inspection**: Use the built-in Browser Subagent (`chrome-devtools` or `playwright`) to load the page.
+3. **Screenshot Audit**: Capture a viewport screenshot and inspect for overlapping text layouts, unexpected layout shifts, or responsive design breaks.
+

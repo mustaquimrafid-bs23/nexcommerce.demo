@@ -187,7 +187,7 @@ function initConciergeLogic() {
 
   function renderProductCards(products) {
     const cards = products.map(p => {
-      const priceStr = p.numericPrice ? 'BDT ' + p.numericPrice.toLocaleString() : (p.price || 'BDT 18,400');
+      const priceStr = p.numericPrice ? '€ ' + Number(p.numericPrice).toFixed(2) : (p.price || '€ 184.00');
       const reason = p.desc || p.reasoning || 'Designed for effortless comfort.';
       return `
         <div class="concierge-product-card">
@@ -199,9 +199,9 @@ function initConciergeLogic() {
             <a href="product.html?id=${p.id}" class="concierge-card-title-link">
               <div class="concierge-card-title">${escapeHtml(p.title)}</div>
             </a>
-            <div class="concierge-card-price">${priceStr}</div>
+            <div class="concierge-card-price tabular-nums">${priceStr}</div>
             <div class="concierge-card-why" title="${escapeHtml(reason)}">✦ ${escapeHtml(reason.length > 65 ? reason.slice(0, 62) + '...' : reason)}</div>
-            <button class="concierge-add-btn" onclick="window.conciergeAdd(this, '${p.id}', '${escapeHtml(p.title)}', ${p.numericPrice || 18400}, '${p.img}')">ADD TO BAG</button>
+            <button class="concierge-add-btn" onclick="window.conciergeAdd(this, '${p.id}', '${escapeHtml(p.title)}', ${p.numericPrice || 184}, '${p.img}')">ADD TO BAG</button>
           </div>
         </div>
       `;
@@ -225,7 +225,7 @@ function initConciergeLogic() {
             <a href="product.html?id=${p.id}" class="bundle-item-title-link">
               <div class="bundle-item-title">${escapeHtml(p.title)}</div>
             </a>
-            <div class="bundle-item-price">BDT ${pNum.toLocaleString()}</div>
+            <div class="bundle-item-price tabular-nums">€ ${Number(pNum).toFixed(2)}</div>
           </div>
         </div>
       `;
@@ -241,7 +241,7 @@ function initConciergeLogic() {
         </div>
         <div class="bundle-items">${itemsHtml}</div>
         <div class="bundle-footer">
-          <div class="bundle-total">Look Total: <strong>BDT ${total.toLocaleString()}</strong></div>
+          <div class="bundle-total">Look Total: <strong class="tabular-nums">€ ${Number(total).toFixed(2)}</strong></div>
           <button class="btn-primary-commerce bundle-add-btn" onclick="window.conciergeAddBundle(this, '${ids}')">ADD ALL TO BAG</button>
         </div>
       </div>

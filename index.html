@@ -7,8 +7,8 @@
   <meta name="description" content="A premium shopping experience that understands your intent and helps you make confident choices.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Instrument+Serif:ital@1&family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css?v=29">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=30">
 </head>
 <body>
 
@@ -32,11 +32,11 @@
   <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
-      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day effortless returns</span>
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
       <span class="announcement-dot"></span>
       <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
       <span class="announcement-dot"></span>
-      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over BDT 2,000</span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
     </div>
   </div>
 
@@ -64,7 +64,7 @@
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search"></i></span>
-          <span class="search-pill-placeholder">Search garments, acoustics, accents...</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
           <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
@@ -76,7 +76,7 @@
           <span>Concierge</span>
         </button>
 
-        <a href="pages/discovery.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+        <a href="pages/wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
           <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
@@ -144,7 +144,7 @@
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <div class="mobile-drawer-divider"></div>
-      <a href="pages/discovery.html" class="mobile-drawer-link" data-stagger="4">
+      <a href="pages/wishlist.html" class="mobile-drawer-link" data-stagger="4">
         <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="heart" style="width: 16px; height: 16px;"></i> Saved Wishlist</span>
         <span class="mobile-drawer-badge" id="mobileWishlistCount">0</span>
       </a>
@@ -188,7 +188,7 @@
           <div class="hero-hotspot-info">
             <span class="hero-hotspot-label" id="heroLookNum">FEATURED PIECE</span>
             <h3 class="hero-hotspot-title" id="heroHotspotTitle">STRUCTURED LEATHER TOTE</h3>
-            <span class="hero-hotspot-price" id="heroHotspotPrice">BDT 24,500</span>
+            <span class="hero-hotspot-price tabular-nums" id="heroHotspotPrice">€ 245.00</span>
           </div>
           <button class="hero-hotspot-add-btn" id="heroHotspotAddBtn" aria-label="Quick Add to Bag" title="Quick Add to Bag" type="button">
             <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
@@ -214,133 +214,6 @@
             <span>Explore Collection</span>
             <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
           </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CURATED DEPARTMENTS (EDITORIAL LUXURY BENTO SHOWCASE) -->
-    <section class="home-category-editorial-section reveal-on-scroll" aria-label="Curated Departments">
-      <div class="container">
-        <div class="cat-editorial-header">
-          <div>
-            <span class="cat-editorial-eyebrow">CURATED DEPARTMENTS</span>
-            <h2 class="cat-editorial-heading">Shop by Department</h2>
-            <p class="cat-editorial-sub">Architectural silhouettes, studio acoustics, precision horology, and crafted leather goods.</p>
-          </div>
-          <a href="pages/category.html?cat=all" class="cat-editorial-all-link" aria-label="View all departments">
-            <span>Explore all</span>
-            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-          </a>
-        </div>
-
-        <div class="cat-bento-layout">
-          <!-- Lead Featured Department (Hero Anchor) -->
-          <a href="pages/category.html?cat=apparel" class="cat-bento-card cat-bento-hero" data-cat="apparel" aria-label="Explore Ready-to-Wear and Apparel">
-            <div class="cat-bento-img-wrap">
-              <img src="assets/images/products/cat_apparel.png" alt="Ready-to-Wear Apparel Department" loading="lazy" />
-              <div class="cat-bento-vignette"></div>
-            </div>
-            <div class="cat-bento-content cat-bento-hero-content">
-              <div class="cat-bento-badge-row">
-                <span class="cat-bento-index-tag">01 / APPAREL</span>
-                <span class="cat-bento-count-tag">38 PIECES</span>
-              </div>
-              <h3 class="cat-bento-title cat-bento-hero-title">Ready-to-Wear &amp; Silhouettes</h3>
-              <p class="cat-bento-desc">Architectural cuts, heavy double-knit wools, and tailored daily essentials.</p>
-              <div class="cat-bento-subtags">
-                <span class="cat-subtag">Cashmere</span>
-                <span class="cat-subtag">Tailoring</span>
-                <span class="cat-subtag">Outerwear</span>
-              </div>
-              <span class="cat-bento-cta">
-                <span>Explore Collection</span>
-                <i data-lucide="arrow-up-right" style="width: 15px; height: 15px;"></i>
-              </span>
-            </div>
-          </a>
-
-          <!-- Curated Grid of Secondary Departments -->
-          <div class="cat-bento-grid-side">
-            <!-- 2. Footwear -->
-            <a href="pages/category.html?cat=footwear" class="cat-bento-card cat-bento-card-sm" data-cat="footwear" aria-label="Explore Footwear">
-              <div class="cat-bento-img-wrap">
-                <img src="assets/images/lifestyle/runner_lifestyle.png" alt="Footwear and Technical Soles" loading="lazy" />
-                <div class="cat-bento-vignette"></div>
-              </div>
-              <div class="cat-bento-content">
-                <div class="cat-bento-badge-row">
-                  <span class="cat-bento-index-tag">02 / FOOTWEAR</span>
-                  <span class="cat-bento-count-tag">19 PIECES</span>
-                </div>
-                <h3 class="cat-bento-title">Technical &amp; Tailored Soles</h3>
-                <p class="cat-bento-desc" style="font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; line-height: 1.4;">Minimal runners, technical soles, and hand-lasted leather.</p>
-                <span class="cat-bento-cta">
-                  <span>Explore</span>
-                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </span>
-              </div>
-            </a>
-
-            <!-- 3. Acoustics -->
-            <a href="pages/category.html?cat=acoustics" class="cat-bento-card cat-bento-card-sm" data-cat="acoustics" aria-label="Explore Acoustics">
-              <div class="cat-bento-img-wrap">
-                <img src="assets/images/lifestyle/headphone_lifestyle.png" alt="Acoustic Studio Sound" loading="lazy" />
-                <div class="cat-bento-vignette"></div>
-              </div>
-              <div class="cat-bento-content">
-                <div class="cat-bento-badge-row">
-                  <span class="cat-bento-index-tag">03 / ACOUSTICS</span>
-                  <span class="cat-bento-count-tag">14 PIECES</span>
-                </div>
-                <h3 class="cat-bento-title">Studio Acoustics &amp; Audio</h3>
-                <p class="cat-bento-desc" style="font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; line-height: 1.4;">Over-ear headphones, earbuds, and studio monitors.</p>
-                <span class="cat-bento-cta">
-                  <span>Explore</span>
-                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </span>
-              </div>
-            </a>
-
-            <!-- 4. Timepieces -->
-            <a href="pages/category.html?cat=accessories" class="cat-bento-card cat-bento-card-sm" data-cat="timepieces" aria-label="Explore Timepieces">
-              <div class="cat-bento-img-wrap">
-                <img src="assets/images/products/search_watch.png" alt="Precision Horology and Timepieces" loading="lazy" />
-                <div class="cat-bento-vignette"></div>
-              </div>
-              <div class="cat-bento-content">
-                <div class="cat-bento-badge-row">
-                  <span class="cat-bento-index-tag">04 / TIMEPIECES</span>
-                  <span class="cat-bento-count-tag">12 PIECES</span>
-                </div>
-                <h3 class="cat-bento-title">Precision Horology</h3>
-                <p class="cat-bento-desc" style="font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; line-height: 1.4;">Swiss-inspired dress and field watches for every occasion.</p>
-                <span class="cat-bento-cta">
-                  <span>Explore</span>
-                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </span>
-              </div>
-            </a>
-
-            <!-- 5. Leather Goods -->
-            <a href="pages/category.html?cat=accessories" class="cat-bento-card cat-bento-card-sm" data-cat="leather" aria-label="Explore Leather Goods">
-              <div class="cat-bento-img-wrap">
-                <img src="assets/images/lifestyle/tote_lifestyle.png" alt="Handcrafted Leather Goods" loading="lazy" />
-                <div class="cat-bento-vignette"></div>
-              </div>
-              <div class="cat-bento-content">
-                <div class="cat-bento-badge-row">
-                  <span class="cat-bento-index-tag">05 / LEATHER</span>
-                  <span class="cat-bento-count-tag">21 PIECES</span>
-                </div>
-                <h3 class="cat-bento-title">Handcrafted Leather &amp; Carry</h3>
-                <p class="cat-bento-desc" style="font-size: 12px; color: var(--text-secondary); margin: 4px 0 8px; line-height: 1.4;">Totes, wallets, and structured bags in full-grain calfskin.</p>
-                <span class="cat-bento-cta">
-                  <span>Explore</span>
-                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </span>
-              </div>
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -380,7 +253,7 @@
               <img src="assets/images/products/hero_sweater.png" alt="Merino Knit Sweater" loading="lazy" />
               <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="1990" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
+                <button class="deal-add-btn" data-id="p1" data-name="Merino Knit Sweater" data-price="160" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel">
                   <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
@@ -389,9 +262,9 @@
             <div class="deal-card-body">
               <div class="deal-card-cat">APPAREL</div>
               <div class="deal-card-title">Merino Knit Sweater</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 1,990</span>
-                <span class="deal-price-original">BDT 2,490</span>
+              <div class="deal-card-pricing tabular-nums">
+                <span class="deal-price-current">€ 160.00</span>
+                <span class="deal-price-original">€ 199.00</span>
               </div>
               <div class="deal-card-rating">
                 <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
@@ -411,7 +284,7 @@
               <img src="assets/images/products/prod_runner.png" alt="Minimal Runner" loading="lazy" />
               <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p6" data-name="Minimal Runner" data-price="5990" data-img="assets/images/products/prod_runner.png" data-cat="Footwear">
+                <button class="deal-add-btn" data-id="p6" data-name="Minimal Runner" data-price="185" data-img="assets/images/products/prod_runner.png" data-cat="Footwear">
                   <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
@@ -420,9 +293,9 @@
             <div class="deal-card-body">
               <div class="deal-card-cat">FOOTWEAR</div>
               <div class="deal-card-title">Minimal Runner</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 5,990</span>
-                <span class="deal-price-original">BDT 7,990</span>
+              <div class="deal-card-pricing tabular-nums">
+                <span class="deal-price-current">€ 185.00</span>
+                <span class="deal-price-original">€ 245.00</span>
               </div>
               <div class="deal-card-rating">
                 <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
@@ -442,7 +315,7 @@
               <img src="assets/images/products/search_watch.png" alt="Classic Leather Watch" loading="lazy" />
               <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p5" data-name="Classic Leather Watch" data-price="3380" data-img="assets/images/products/search_watch.png" data-cat="Accessories">
+                <button class="deal-add-btn" data-id="p5" data-name="Classic Leather Watch" data-price="285" data-img="assets/images/products/search_watch.png" data-cat="Accessories">
                   <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
@@ -451,9 +324,9 @@
             <div class="deal-card-body">
               <div class="deal-card-cat">ACCESSORIES</div>
               <div class="deal-card-title">Classic Leather Watch</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 3,380</span>
-                <span class="deal-price-original">BDT 3,980</span>
+              <div class="deal-card-pricing tabular-nums">
+                <span class="deal-price-current">€ 285.00</span>
+                <span class="deal-price-original">€ 340.00</span>
               </div>
               <div class="deal-card-rating">
                 <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
@@ -473,7 +346,7 @@
               <img src="assets/images/products/plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
               <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p2" data-name="Tailored Wool Blazer" data-price="8450" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
+                <button class="deal-add-btn" data-id="p2" data-name="Tailored Wool Blazer" data-price="245" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel">
                   <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
@@ -482,9 +355,9 @@
             <div class="deal-card-body">
               <div class="deal-card-cat">APPAREL</div>
               <div class="deal-card-title">Tailored Wool Blazer</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 8,450</span>
-                <span class="deal-price-original">BDT 12,000</span>
+              <div class="deal-card-pricing tabular-nums">
+                <span class="deal-price-current">€ 245.00</span>
+                <span class="deal-price-original">€ 270.00</span>
               </div>
               <div class="deal-card-rating">
                 <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
@@ -504,7 +377,7 @@
               <img src="assets/images/products/search_earbuds.png" alt="Noise Canceling Earbuds" loading="lazy" />
               <div class="deal-card-specular" aria-hidden="true"></div>
               <div class="deal-quick-add-overlay">
-                <button class="deal-add-btn" data-id="p8" data-name="Noise Canceling Earbuds" data-price="3390" data-img="assets/images/products/search_earbuds.png" data-cat="Electronics">
+                <button class="deal-add-btn" data-id="p8" data-name="Noise Canceling Earbuds" data-price="145" data-img="assets/images/products/search_earbuds.png" data-cat="Electronics">
                   <span class="deal-ripple" aria-hidden="true"></span>
                   <i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD
                 </button>
@@ -513,9 +386,9 @@
             <div class="deal-card-body">
               <div class="deal-card-cat">ELECTRONICS</div>
               <div class="deal-card-title">Noise Canceling Earbuds</div>
-              <div class="deal-card-pricing">
-                <span class="deal-price-current">BDT 3,390</span>
-                <span class="deal-price-original">BDT 4,890</span>
+              <div class="deal-card-pricing tabular-nums">
+                <span class="deal-price-current">€ 145.00</span>
+                <span class="deal-price-original">€ 185.00</span>
               </div>
               <div class="deal-card-rating">
                 <i data-lucide="star" style="width: 11px; height: 11px; fill: #FBBF24; stroke: none;"></i>
@@ -528,22 +401,20 @@
       </div>
     </section>
 
-
-    <!-- CONVERSATIONAL INTENT DISCOVERY CARD ("TELL US WHAT YOU NEED") -->
+    <!-- NATURAL LANGUAGE DISCOVERY (INTENT-BASED PRODUCT SEARCH) -->
     <section class="home-intent-card-section" id="homeIntentSectionRoot" aria-label="Intent-based Product Search">
       <div class="container">
         <div class="home-intent-card" data-intent-card data-parallax-depth="2">
           <!-- Multi-layer Specular & Ambient Sheen -->
           <div class="intent-specular-glare" aria-hidden="true"></div>
           <div class="intent-ambient-mesh" aria-hidden="true"></div>
-          
+
           <div class="intent-card-header">
             <div class="intent-badge-glow">
               <i data-lucide="sparkles" class="intent-badge-icon"></i>
               <span>Natural Language Discovery</span>
             </div>
             <h3 class="intent-text-heading">Tell us what you're dressing for.</h3>
-            <p class="intent-text-sub">Describe an occasion, destination, weather, style, or anything that matters to you.</p>
           </div>
 
           <form id="homeIntentForm" class="intent-input-wrap" data-parallax-depth="3">
@@ -551,12 +422,12 @@
               <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
             </div>
             <div class="intent-input-core">
-              <input 
-                type="text" 
-                id="homeIntentInput" 
-                class="intent-input-field" 
-                placeholder="Something for a winter evening in Dhaka" 
-                autocomplete="off" 
+              <input
+                type="text"
+                id="homeIntentInput"
+                class="intent-input-field"
+                placeholder="Something for a winter evening in Milan"
+                autocomplete="off"
                 aria-label="Describe what you are looking for"
               />
               <div class="intent-typewriter-progress" aria-hidden="true">
@@ -572,30 +443,30 @@
           <div class="intent-card-bottom" data-parallax-depth="1">
             <span class="intent-try-label">Popular Prompts</span>
             <div class="intent-chips-grid">
-              <button type="button" class="intent-chip-pill" data-query="Dinner outfit for a cool evening in Dhaka" data-chip-depth="1">
+              <button type="button" class="intent-chip-pill" data-query="Dinner outfit for a cool evening in Milan" data-chip-depth="1">
                 <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="wine" class="intent-chip-icon"></i>
-                <span>Dinner Outfit</span>
+                <span>Looking for a dinner outfit</span>
               </button>
               <button type="button" class="intent-chip-pill" data-query="Lightweight apparel for weekend trip" data-chip-depth="2">
                 <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="compass" class="intent-chip-icon"></i>
-                <span>Weekend Trip</span>
+                <span>Suggest something for a weekend trip</span>
               </button>
               <button type="button" class="intent-chip-pill" data-query="Minimalist tailored workwear" data-chip-depth="3">
                 <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="briefcase" class="intent-chip-icon"></i>
-                <span>Comfortable for Work</span>
+                <span>Something comfortable for work</span>
               </button>
               <button type="button" class="intent-chip-pill" data-query="Luxury gifts for him" data-chip-depth="2">
                 <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="gift" class="intent-chip-icon"></i>
-                <span>Gift for Him</span>
+                <span>Help me find a gift for him</span>
               </button>
               <button type="button" class="intent-chip-pill" data-query="Light breathable summer fabrics" data-chip-depth="1">
                 <span class="intent-chip-ripple" aria-hidden="true"></span>
                 <i data-lucide="sun" class="intent-chip-icon"></i>
-                <span>Light for Summer</span>
+                <span>Something light for summer</span>
               </button>
             </div>
           </div>
@@ -642,7 +513,7 @@
             <div class="curated-card-body">
               <div class="curated-card-meta">
                 <span class="curated-card-cat">ARC</span>
-                <span class="curated-card-price">BDT 18,400</span>
+                <span class="curated-card-price tabular-nums">€ 185.00</span>
               </div>
               <h3 class="curated-card-title">Architectural Cashmere Sweater</h3>
             </div>
@@ -661,7 +532,7 @@
             <div class="curated-img-box">
               <img src="assets/images/products/plp_blazer.png" alt="Structured Wool Blazer" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p2" data-name="Structured Wool Blazer" data-price="24500" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel" aria-label="Quick Add Structured Wool Blazer">
+                <button class="curated-quick-add-btn" data-id="p2" data-name="Structured Wool Blazer" data-price="245" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel" aria-label="Quick Add Structured Wool Blazer">
                   <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
@@ -671,7 +542,7 @@
             <div class="curated-card-body">
               <div class="curated-card-meta">
                 <span class="curated-card-cat">ARC</span>
-                <span class="curated-card-price">BDT 24,500</span>
+                <span class="curated-card-price tabular-nums">€ 245.00</span>
               </div>
               <h3 class="curated-card-title">Structured Wool Blazer</h3>
             </div>
@@ -690,7 +561,7 @@
             <div class="curated-img-box">
               <img src="assets/images/products/prod_tote.png" alt="Quilted Leather Structured Tote" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p7" data-name="Quilted Leather Structured Tote" data-price="28500" data-img="assets/images/products/prod_tote.png" data-cat="Leather Goods" aria-label="Quick Add Quilted Leather Structured Tote">
+                <button class="curated-quick-add-btn" data-id="p7" data-name="Quilted Leather Structured Tote" data-price="285" data-img="assets/images/products/prod_tote.png" data-cat="Leather Goods" aria-label="Quick Add Quilted Leather Structured Tote">
                   <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
@@ -700,7 +571,7 @@
             <div class="curated-card-body">
               <div class="curated-card-meta">
                 <span class="curated-card-cat">FORMA</span>
-                <span class="curated-card-price">BDT 28,500</span>
+                <span class="curated-card-price tabular-nums">€ 285.00</span>
               </div>
               <h3 class="curated-card-title">Quilted Leather Structured Tote</h3>
             </div>
@@ -719,7 +590,7 @@
             <div class="curated-img-box">
               <img src="assets/images/lifestyle/thumb_headphones.jpg" alt="Studio Acoustics Headphone GT" loading="lazy" />
               <div class="curated-img-action">
-                <button class="curated-quick-add-btn" data-id="p4" data-name="Studio Acoustics Headphone GT" data-price="32000" data-img="assets/images/lifestyle/thumb_headphones.jpg" data-cat="Acoustics" aria-label="Quick Add Studio Acoustics Headphone GT">
+                <button class="curated-quick-add-btn" data-id="p4" data-name="Studio Acoustics Headphone GT" data-price="320" data-img="assets/images/lifestyle/thumb_headphones.jpg" data-cat="Acoustics" aria-label="Quick Add Studio Acoustics Headphone GT">
                   <span class="curated-ripple" aria-hidden="true"></span>
                   <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
                   <span>Quick Add</span>
@@ -729,7 +600,7 @@
             <div class="curated-card-body">
               <div class="curated-card-meta">
                 <span class="curated-card-cat">FORM</span>
-                <span class="curated-card-price">BDT 32,000</span>
+                <span class="curated-card-price tabular-nums">€ 320.00</span>
               </div>
               <h3 class="curated-card-title">Studio Acoustics Headphone GT</h3>
             </div>
@@ -738,236 +609,16 @@
       </div>
     </section>
 
-    <!-- MICRO-MERCHANDISING EDITORIAL CLUSTER -->
-    <section id="homeMicroMerchSection" class="home-micro-merch-section" aria-label="Curated Product Collections">
-      <div class="container">
-        <!-- 3-Column Luxury Cluster Grid -->
-        <div class="micro-merch-grid-3col">
-          <!-- Column 1: New Arrivals (Parallax Depth: 1) -->
-          <div class="micro-merch-col" data-parallax-depth="1" data-col="arrivals">
-            <div class="micro-col-specular" aria-hidden="true"></div>
-            <div class="micro-col-header">
-              <div class="micro-col-head-left">
-                <span class="micro-col-title">New Arrivals</span>
-                <span class="micro-col-badge">Latest</span>
-              </div>
-              <a href="pages/category.html?sort=newest" class="micro-col-link" aria-label="View all new arrivals">
-                <span>See all</span>
-                <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
-              </a>
-            </div>
-            <div class="micro-item-list" role="list">
-              <div class="micro-item-row" data-id="p3" tabindex="0" role="button" aria-label="View Fine-Knit Merino Crew details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/plp_crewneck.png" alt="Fine-Knit Merino Crew" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Apparel</span>
-                  <span class="micro-item-title">Fine-Knit Merino Crew</span>
-                  <span class="micro-item-price">BDT 2,490</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p3" data-name="Fine-Knit Merino Crew" data-price="2490" data-img="assets/images/products/plp_crewneck.png" data-cat="Apparel" aria-label="Add Fine-Knit Merino Crew to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
+    <!-- AI FEATURES STRIP -->
+    <section class="trust-strip" id="trustStripSection" aria-label="AI-Powered Shopping Features">
 
-              <div class="micro-item-row" data-id="p2" tabindex="0" role="button" aria-label="View Structured Leather Tote details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/prod_tote.png" alt="Structured Leather Tote" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Leather Goods</span>
-                  <span class="micro-item-title">Structured Leather Tote</span>
-                  <span class="micro-item-price">BDT 14,900</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p2" data-name="Structured Leather Tote" data-price="14900" data-img="assets/images/products/prod_tote.png" data-cat="Leather Goods" aria-label="Add Structured Leather Tote to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p5_bag" tabindex="0" role="button" aria-label="View Canvas Weekender Bag details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/cat_accessories.jpg" alt="Canvas Weekender Bag" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Accessories</span>
-                  <span class="micro-item-title">Canvas Weekender Bag</span>
-                  <span class="micro-item-price">BDT 4,990</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p5_bag" data-name="Canvas Weekender Bag" data-price="4990" data-img="assets/images/products/cat_accessories.jpg" data-cat="Accessories" aria-label="Add Canvas Weekender Bag to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p7" tabindex="0" role="button" aria-label="View Tailored Chino Trousers details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/plp_trousers.png" alt="Tailored Chino Trousers" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Apparel</span>
-                  <span class="micro-item-title">Tailored Chino Trousers</span>
-                  <span class="micro-item-price">BDT 6,800</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p7" data-name="Tailored Chino Trousers" data-price="6800" data-img="assets/images/products/plp_trousers.png" data-cat="Apparel" aria-label="Add Tailored Chino Trousers to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 2: Best Sellers (Parallax Depth: 2) -->
-          <div class="micro-merch-col" data-parallax-depth="2" data-col="trending">
-            <div class="micro-col-specular" aria-hidden="true"></div>
-            <div class="micro-col-header">
-              <div class="micro-col-head-left">
-                <span class="micro-col-title">Best Sellers</span>
-                <span class="micro-col-badge">Trending</span>
-              </div>
-              <a href="pages/category.html?sort=popular" class="micro-col-link" aria-label="View all best sellers">
-                <span>See all</span>
-                <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
-              </a>
-            </div>
-            <div class="micro-item-list" role="list">
-              <div class="micro-item-row" data-id="p1" tabindex="0" role="button" aria-label="View Architectural Cashmere Sweater details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Apparel</span>
-                  <span class="micro-item-title">Architectural Cashmere Sweater</span>
-                  <span class="micro-item-price">BDT 18,400</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p1" data-name="Architectural Cashmere Sweater" data-price="18400" data-img="assets/images/products/hero_sweater.png" data-cat="Apparel" aria-label="Add Architectural Cashmere Sweater to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p6" tabindex="0" role="button" aria-label="View Minimalist Leather Runner details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/prod_runner.png" alt="Minimalist Leather Runner" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Footwear</span>
-                  <span class="micro-item-title">Minimalist Leather Runner</span>
-                  <span class="micro-item-price">BDT 11,900</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p6" data-name="Minimalist Leather Runner" data-price="11900" data-img="assets/images/products/prod_runner.png" data-cat="Footwear" aria-label="Add Minimalist Leather Runner to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p9" tabindex="0" role="button" aria-label="View Tailored Wool Blazer details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/plp_blazer.png" alt="Tailored Wool Blazer" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Apparel</span>
-                  <span class="micro-item-title">Tailored Wool Blazer</span>
-                  <span class="micro-item-price">BDT 8,450</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p9" data-name="Tailored Wool Blazer" data-price="8450" data-img="assets/images/products/plp_blazer.png" data-cat="Apparel" aria-label="Add Tailored Wool Blazer to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p5" tabindex="0" role="button" aria-label="View Classic Chronograph Watch details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/search_watch.png" alt="Classic Chronograph Watch" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Timepieces</span>
-                  <span class="micro-item-title">Classic Chronograph Watch</span>
-                  <span class="micro-item-price">BDT 3,380</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p5" data-name="Classic Chronograph Watch" data-price="3380" data-img="assets/images/products/search_watch.png" data-cat="Timepieces" aria-label="Add Classic Chronograph Watch to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 3: Picked for You (Parallax Depth: 1.5) -->
-          <div class="micro-merch-col" data-parallax-depth="1.5" data-col="curated">
-            <div class="micro-col-specular" aria-hidden="true"></div>
-            <div class="micro-col-header">
-              <div class="micro-col-head-left">
-                <span class="micro-col-title">Picked for You</span>
-                <span class="micro-col-badge">Curated</span>
-              </div>
-              <a href="pages/discovery.html" class="micro-col-link" aria-label="Explore all curated picks">
-                <span>See all</span>
-                <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
-              </a>
-            </div>
-            <div class="micro-item-list" role="list">
-              <div class="micro-item-row" data-id="p10" tabindex="0" role="button" aria-label="View Ribbed Cashmere Turtleneck details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/plp_turtleneck.png" alt="Ribbed Cashmere Turtleneck" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Apparel</span>
-                  <span class="micro-item-title">Ribbed Cashmere Turtleneck</span>
-                  <span class="micro-item-price">BDT 18,400</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p10" data-name="Ribbed Cashmere Turtleneck" data-price="18400" data-img="assets/images/products/plp_turtleneck.png" data-cat="Apparel" aria-label="Add Ribbed Cashmere Turtleneck to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p4" tabindex="0" role="button" aria-label="View Sonic Aurora Headphones GT details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/prod_headphones.png" alt="Sonic Aurora Headphones GT" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Electronics</span>
-                  <span class="micro-item-title">Sonic Aurora Headphones GT</span>
-                  <span class="micro-item-price">BDT 27,300</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p4" data-name="Sonic Aurora Headphones GT" data-price="27300" data-img="assets/images/products/prod_headphones.png" data-cat="Electronics" aria-label="Add Sonic Aurora Headphones GT to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p11" tabindex="0" role="button" aria-label="View Charcoal Wool Overcoat details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/plp_overcoat.png" alt="Charcoal Wool Overcoat" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Outerwear</span>
-                  <span class="micro-item-title">Charcoal Wool Overcoat</span>
-                  <span class="micro-item-price">BDT 24,500</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p11" data-name="Charcoal Wool Overcoat" data-price="24500" data-img="assets/images/products/plp_overcoat.png" data-cat="Outerwear" aria-label="Add Charcoal Wool Overcoat to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-
-              <div class="micro-item-row" data-id="p12" tabindex="0" role="button" aria-label="View Beige Suede Runner details">
-                <div class="micro-item-thumb">
-                  <img src="assets/images/products/cat_footwear.jpg" alt="Beige Suede Runner" loading="lazy" />
-                </div>
-                <div class="micro-item-info">
-                  <span class="micro-item-cat">Footwear</span>
-                  <span class="micro-item-title">Beige Suede Runner</span>
-                  <span class="micro-item-price">BDT 12,500</span>
-                </div>
-                <button type="button" class="micro-item-add-btn" data-id="p12" data-name="Beige Suede Runner" data-price="12500" data-img="assets/images/products/cat_footwear.jpg" data-cat="Footwear" aria-label="Add Beige Suede Runner to Bag" title="Quick Add">
-                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="container trust-strip-header">
+        <div class="trust-strip-eyebrow">AI-Powered Shopping</div>
+        <h2 class="trust-strip-title">Five Ways We Use AI</h2>
       </div>
-    </section>
 
-    <!-- TRUST / VALUE PROPOSITION STRIP -->
-    <section class="trust-strip" id="trustStripSection" aria-label="Why Choose nexCommerce">
-
-      <!-- 4-Column Trust Card Grid -->
+      <!-- 5-Column AI Feature Card Grid -->
       <div class="container trust-grid">
-
 
         <!-- Card 1: Intent Discovery -->
         <div class="trust-item-card" data-trust-index="0" data-parallax-depth="1.0" tabindex="0" role="article" aria-label="Curated Intent Discovery">
@@ -988,112 +639,82 @@
           </a>
         </div>
 
-        <!-- Card 2: Hyperlocal Courier -->
-        <div class="trust-item-card" data-trust-index="1" data-parallax-depth="1.8" tabindex="0" role="article" aria-label="Hyperlocal Express Courier">
+        <!-- Card 2: Style Concierge -->
+        <div class="trust-item-card" data-trust-index="1" data-parallax-depth="1.8" tabindex="0" role="article" aria-label="Style Concierge">
           <div class="trust-card-specular" aria-hidden="true"></div>
           <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
             <div class="trust-item-icon trust-icon-amber">
-              <i data-lucide="truck" style="width: 20px; height: 20px;"></i>
+              <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">02</span>
           </div>
-          <div class="trust-item-title">Hyperlocal Express Courier</div>
-          <div class="trust-item-sub">Real-time route optimization and live parcel milestones from dispatch to your door, same day within Dhaka.</div>
-          <a href="pages/tracking.html" class="trust-item-tag trust-link" aria-label="Track your order">
+          <div class="trust-item-title">Style Concierge</div>
+          <div class="trust-item-sub">A real-time AI stylist that chats through your wardrobe needs and curates full looks tailored to your taste.</div>
+          <a href="pages/concierge.html" class="trust-item-tag trust-link" aria-label="Open Style Concierge">
             <i data-lucide="zap" style="width: 11px; height: 11px;"></i>
-            <span>Same-Day in Dhaka</span>
+            <span>Live Style Chat</span>
             <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
           </a>
         </div>
 
-        <!-- Card 3: Guaranteed Security -->
-        <div class="trust-item-card" data-trust-index="2" data-parallax-depth="1.2" tabindex="0" role="article" aria-label="Guaranteed Security">
+        <!-- Card 3: Smart List Reorder -->
+        <div class="trust-item-card" data-trust-index="2" data-parallax-depth="1.2" tabindex="0" role="article" aria-label="Smart List Predictive Reorder">
           <div class="trust-card-specular" aria-hidden="true"></div>
           <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
             <div class="trust-item-icon trust-icon-emerald">
-              <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+              <i data-lucide="refresh-cw" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">03</span>
           </div>
-          <div class="trust-item-title">Guaranteed Protection</div>
-          <div class="trust-item-sub">End-to-end encrypted checkout with full support for bKash, Nagad, credit cards, and cash on delivery.</div>
-          <a href="pages/category.html?cat=all" class="trust-item-tag trust-link" aria-label="Shop securely">
-            <i data-lucide="lock" style="width: 11px; height: 11px;"></i>
-            <span>100% Secure &amp; Authentic</span>
+          <div class="trust-item-title">Predictive Reorder</div>
+          <div class="trust-item-sub">Learns your purchase cadence and resurfaces exactly what's due for reorder, from cashmere staples to studio acoustics.</div>
+          <a href="pages/smart-list.html" class="trust-item-tag trust-link" aria-label="Open Smart List">
+            <i data-lucide="repeat" style="width: 11px; height: 11px;"></i>
+            <span>Smart List AI</span>
             <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
           </a>
         </div>
 
-        <!-- Card 4: Effortless Returns -->
-        <div class="trust-item-card" data-trust-index="3" data-parallax-depth="2.0" tabindex="0" role="article" aria-label="Effortless Exchanges">
+        <!-- Card 4: AI Style Profile -->
+        <div class="trust-item-card" data-trust-index="3" data-parallax-depth="2.0" tabindex="0" role="article" aria-label="AI Style Profile">
           <div class="trust-card-specular" aria-hidden="true"></div>
           <span class="trust-ripple" aria-hidden="true"></span>
           <div class="trust-card-top">
             <div class="trust-item-icon trust-icon-rose">
-              <i data-lucide="refresh-cw" style="width: 20px; height: 20px;"></i>
+              <i data-lucide="fingerprint" style="width: 20px; height: 20px;"></i>
             </div>
             <span class="trust-card-num">04</span>
           </div>
-          <div class="trust-item-title">Effortless Exchanges</div>
-          <div class="trust-item-sub">Hassle-free 14-day doorstep return pickup. No paperwork, no conditions, no questions asked — ever.</div>
-          <a href="pages/account.html#orders" class="trust-item-tag trust-link" aria-label="Learn about our returns policy">
-            <i data-lucide="rotate-ccw" style="width: 11px; height: 11px;"></i>
-            <span>14-Day Guarantee</span>
+          <div class="trust-item-title">AI Style Profile</div>
+          <div class="trust-item-sub">Builds a living profile of your fit, palette, and silhouette preferences to sharpen every recommendation you see.</div>
+          <a href="pages/profile.html" class="trust-item-tag trust-link" aria-label="View your AI Style Profile">
+            <i data-lucide="user" style="width: 11px; height: 11px;"></i>
+            <span>Personalized Fit</span>
             <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
           </a>
         </div>
 
-      </div>
-    </section>
-
-    <!-- RECENTLY VIEWED PRODUCTS TRAY (CONTINUOUS FLUID CAROUSEL) -->
-    <section class="home-recently-viewed-section reveal-on-scroll" id="homeRecentlyViewedSection" aria-label="Recently Viewed Items">
-      <div class="container">
-        <!-- Section Header Row -->
-        <div class="recent-header-row">
-          <div class="recent-header-text">
-            <div class="recent-eyebrow">
-              <i data-lucide="history" style="width: 12px; height: 12px;"></i>
-              <span>RESUME BROWSING</span>
+        <!-- Card 5: Natural Language Search -->
+        <div class="trust-item-card" data-trust-index="4" data-parallax-depth="1.5" tabindex="0" role="article" aria-label="Natural Language Search">
+          <div class="trust-card-specular" aria-hidden="true"></div>
+          <span class="trust-ripple" aria-hidden="true"></span>
+          <div class="trust-card-top">
+            <div class="trust-item-icon trust-icon-purple">
+              <i data-lucide="search" style="width: 20px; height: 20px;"></i>
             </div>
-            <h2 class="recent-headline">Recently Visited Pieces</h2>
-            <p class="recent-subcaption">Curated history of garments, timepieces, and acoustics explored in your session.</p>
+            <span class="trust-card-num">05</span>
           </div>
-
-          <!-- Header Right Actions: Counter, Clear & Fluid Rail Navigation -->
-          <div class="recent-header-actions">
-            <div class="recent-counter-badge" id="recentCounterBadge" aria-live="polite">01 / 07</div>
-            <button type="button" class="recent-clear-btn" id="recentClearBtn" aria-label="Clear recently viewed history">
-              <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i>
-              <span>Clear History</span>
-            </button>
-            <div class="recent-glide-nav-wrap" role="group" aria-label="Scroll rail navigation">
-              <button type="button" class="recent-glide-nav-btn" id="recentPrevBtn" aria-label="Previous pieces">
-                <i data-lucide="chevron-left" style="width: 15px; height: 15px;"></i>
-              </button>
-              <button type="button" class="recent-glide-nav-btn" id="recentNextBtn" aria-label="Next pieces">
-                <i data-lucide="chevron-right" style="width: 15px; height: 15px;"></i>
-              </button>
-            </div>
-          </div>
+          <div class="trust-item-title">Natural Language Search</div>
+          <div class="trust-item-sub">Describe what you're after in plain language — our AI parses intent, size, and occasion in a single search.</div>
+          <button type="button" data-open-search class="trust-item-tag trust-link" aria-label="Try natural language search" style="cursor: pointer;">
+            <i data-lucide="command" style="width: 11px; height: 11px;"></i>
+            <span>Try It Now</span>
+            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 4px;"></i>
+          </button>
         </div>
 
-        <!-- Continuous Horizontal Momentum Glide Rail -->
-        <div class="recent-glide-rail-wrap">
-          <div class="recent-glide-rail" id="recentProductsRail" role="region" aria-label="Recently viewed continuous gallery" tabindex="0">
-            <!-- Dynamically populated by js/home.js -->
-          </div>
-        </div>
-
-        <!-- Empty / Cleared Feedback State (Hidden by default) -->
-        <div class="recent-empty-state" id="recentEmptyState" style="display: none;">
-          <div class="recent-empty-icon"><i data-lucide="clock" style="width: 28px; height: 28px;"></i></div>
-          <h3 class="recent-empty-title">Your Browsing History is Clear</h3>
-          <p class="recent-empty-desc">Discover the season's latest luxury garments, minimalist footwear, and bespoke acoustics.</p>
-          <a href="pages/catalog.html" class="recent-empty-cta">Explore Catalog</a>
-        </div>
       </div>
     </section>
 
@@ -1119,7 +740,7 @@
               </p>
 
               <!-- Interactive Intent Search Capsule -->
-              <form class="editorial-intent-form" id="editorialIntentForm" action="discovery.html" method="GET">
+              <form class="editorial-intent-form" id="editorialIntentForm" action="pages/discovery.html" method="GET">
                 <div class="editorial-intent-input-wrap">
                   <i data-lucide="search" class="editorial-intent-search-icon" style="width: 16px; height: 16px;"></i>
                   <input
@@ -1141,6 +762,9 @@
               <!-- Quick Inspiration Prompt Suggestions (Under-Input Rail) -->
               <div class="editorial-prompt-chips" role="group" aria-label="Suggested shopping intents">
                 <span class="editorial-prompt-label">Try:</span>
+                <button type="button" class="editorial-prompt-chip" data-prompt="Dinner outfit for a cool evening in Milan">
+                  <span>Dinner Outfit</span>
+                </button>
                 <button type="button" class="editorial-prompt-chip" data-prompt="Autumn merino wool layering">
                   <span>Merino Wool Layering</span>
                 </button>
@@ -1149,6 +773,9 @@
                 </button>
                 <button type="button" class="editorial-prompt-chip" data-prompt="Minimalist everyday chronograph">
                   <span>Minimalist Timepiece</span>
+                </button>
+                <button type="button" class="editorial-prompt-chip" data-prompt="Luxury gifts for him">
+                  <span>Gift for Him</span>
                 </button>
               </div>
 
@@ -1163,222 +790,29 @@
       </div>
     </section>
 
-    <!-- ═══ SMART REORDER — HOMEPAGE SECTION (AI-06) ═══════════════════════ -->
-    <section class="home-smart-list-section" id="homeSmartListSection" style="padding: 80px 0; display: none;">
-
-      <style>
-        /* Compact strip card — shared style for home and confirmation surfaces */
-        #slHomeStrip .sl-card--compact {
-          position: relative;
-          background: var(--bg-surface);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
-          overflow: visible;
-          cursor: default;
-          transform-style: preserve-3d;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.16);
-          will-change: transform;
-          flex-shrink: 0;
-          width: 200px;
-        }
-        #slHomeStrip .sl-glare {
-          position: absolute; inset: 0; border-radius: inherit;
-          background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.07) 0%, transparent 62%);
-          opacity: 0; transition: opacity 180ms ease; pointer-events: none; z-index: 2;
-        }
-        #slHomeStrip .sl-card-img-wrap {
-          width: 100%; aspect-ratio: 1/1; overflow: hidden;
-          border-radius: 11px 11px 0 0; background: rgba(255,255,255,0.03);
-          position: relative;
-        }
-        #slHomeStrip .sl-card-img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 400ms cubic-bezier(0.23,1,0.32,1);
-        }
-        #slHomeStrip .sl-card--compact:hover .sl-card-img { transform: scale(1.05); }
-        #slHomeStrip .sl-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 5px; }
-        #slHomeStrip .sl-reason-chip {
-          font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
-          color: var(--accent-cyan); line-height: 1; display: block;
-        }
-        #slHomeStrip .sl-card-name { font-size: 13px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
-        #slHomeStrip .sl-card-price { font-size: 14px; font-weight: 700; color: var(--text-primary); }
-        #slHomeStrip .sl-orig-price { font-size: 10px; color: var(--text-muted); text-decoration: line-through; margin-left: 5px; }
-        #slHomeStrip .sl-oos-badge {
-          position: absolute; bottom: 8px; left: 8px;
-          font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-          background: rgba(7,26,58,0.88); color: var(--text-muted);
-          padding: 3px 8px; border-radius: 9999px;
-        }
-        #slHomeStrip .sl-btn-add {
-          position: relative; overflow: hidden; width: 100%; height: 36px; margin-top: 6px;
-          background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 6px; color: var(--text-primary); font-size: 11px;
-          font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
-          transition: background 180ms ease;
-        }
-        #slHomeStrip .sl-btn-add:hover:not(:disabled) { background: rgba(255,255,255,0.11); }
-        #slHomeStrip .sl-btn-add--disabled { opacity: 0.4; cursor: not-allowed; }
-        #slHomeStrip .sl-btn-add--done { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); color: var(--color-success); }
-        #slHomeStrip .sl-ripple {
-          position: absolute; border-radius: 50%;
-          background: rgba(255,255,255,0.18);
-          transform: scale(0);
-          animation: sl-ripple-anim 420ms cubic-bezier(0.4,0,0.2,1) forwards;
-          pointer-events: none; will-change: transform;
-        }
-        @keyframes sl-ripple-anim { to { transform: scale(1); opacity: 0; } }
-      </style>
-
-      <div class="container">
-
-        <!-- Section header -->
-        <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
-          <div>
-            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-cyan); background: rgba(61,224,255,0.08); border: 1px solid rgba(61,224,255,0.18); border-radius: 9999px; padding: 5px 14px; margin-bottom: 14px;">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg>
-              Atelier Reorder · AI-06
-            </span>
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.5vw, 42px); font-weight: 500; color: var(--text-primary); margin: 0; line-height: 1.1; letter-spacing: -0.01em;">Your Curated Replenishments</h2>
-            <p style="font-size: 14px; color: var(--text-secondary); margin: 8px 0 0; line-height: 1.5;">Seasonal silhouettes and acoustic craft from your order history — ready for seamless reorder.</p>
-          </div>
-          <a id="slHomeViewAll" href="pages/smart-list.html" style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--accent-cyan); text-decoration: none; display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;">
-            View Full Archive
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- Horizontal product strip -->
-        <div id="slHomeStrip"
-             style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;"
-             aria-label="Your Smart List — recommended items" role="list">
-          <!-- Populated by smart-reorder.js -->
-        </div>
-
-      </div>
-    </section>
-    <!-- ═══ END SMART REORDER SECTION ═══════════════════════════════════════ -->
 
   </main>
 
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <!-- Social Links -->
-          <div style="display: flex; gap: 12px; margin: 16px 0;">
-            <a href="#" aria-label="nexCommerce on Instagram" title="Instagram" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.12); color: var(--text-secondary); transition: color 0.2s, border-color 0.2s;" onmouseover="this.style.color='var(--accent-pink)';this.style.borderColor='var(--accent-pink)';" onmouseout="this.style.color='';this.style.borderColor=''">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="#" aria-label="nexCommerce on TikTok" title="TikTok" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.12); color: var(--text-secondary); transition: color 0.2s, border-color 0.2s;" onmouseover="this.style.color='var(--accent-cyan)';this.style.borderColor='var(--accent-cyan)';" onmouseout="this.style.color='';this.style.borderColor=''">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.89a8.27 8.27 0 0 0 4.84 1.55V7a4.85 4.85 0 0 1-1.07-.31z"/></svg>
-            </a>
-            <a href="#" aria-label="nexCommerce on LinkedIn" title="LinkedIn" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.12); color: var(--text-secondary); transition: color 0.2s, border-color 0.2s;" onmouseover="this.style.color='#0A66C2';this.style.borderColor='#0A66C2';" onmouseout="this.style.color='';this.style.borderColor=''">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-          </div>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); window._nexNewsletterSubmit(this);">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="pages/category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="pages/category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="pages/category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="pages/category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="pages/lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="pages/tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="pages/foundation.html#returns" class="footer-link-item">Complimentary Returns</a>
-          <a href="pages/concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="pages/product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="pages/foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="pages/account.html" class="footer-link-item">Client Account</a>
-          <a href="pages/foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="pages/foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
 
   <!-- SEARCH OVERLAY MODAL -->
-  <div class="search-overlay-container" id="aiSearchModal">
+  <div id="aiSearchModal" class="search-overlay-container">
     <div class="search-backdrop"></div>
     <div class="search-panel">
       <div class="search-header-bar">
-        <div>
-          <span class="search-overlay-eyebrow">FIND SOMETHING THAT FITS</span>
-          <h2 style="font-family: var(--font-serif); font-size: 36px; font-weight: 500; color: var(--text-primary); margin-top: 4px;">What are you looking for?</h2>
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
-        <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search overlay" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
       </div>
-
-      <div class="search-input-wrapper">
-        <span class="search-ai-icon"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
-        <input type="text" id="aiSearchInput" class="search-ai-input" placeholder="Something for a winter evening in Dhaka" autocomplete="off" />
-        <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
-      </div>
-
-      <div class="search-prompts-group" id="aiSearchSuggestions">
-        <div class="search-prompt-label">TRY SOMETHING LIKE</div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button class="search-prompt-btn" data-prompt="Something comfortable for a long flight"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something comfortable for a long flight</button>
-          <button class="search-prompt-btn" data-prompt="An outfit for a dinner in Dhaka"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>An outfit for a dinner in Dhaka</button>
-          <button class="search-prompt-btn" data-prompt="Something warm but not bulky"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something warm but not bulky</button>
-          <button class="search-prompt-btn" data-prompt="Minimal everyday sneakers"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Minimal everyday sneakers</button>
-        </div>
-      </div>
-
-      <div id="aiSearchResultsModal"></div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
     </div>
   </div>
 
@@ -1398,7 +832,7 @@
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
     <div class="minicart-subtotal">
       <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
     </div>
     <a href="pages/cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
   </div>
@@ -1417,10 +851,11 @@
   <script src="js/intent-parser.js"></script>
   <script src="js/catalog-engine.js"></script>
   <script src="js/session-context.js"></script>
-  <script src="js/search-overlay.js?v=2"></script>
+  <script src="js/search-overlay.js?v=4"></script>
   <script src="js/home.js?v=26"></script>
+  <script src="js/footer.js"></script>
   <script src="js/theme-switcher.js?v=3"></script>
-  <script type="module" src="js/animations.js?v=10"></script>
+  <script src="js/animations.js?v=11"></script>
   <script src="js/style-profile.js"></script>
   <script src="js/context-retention.js"></script>
   <script src="js/concierge-engine.js?v=3"></script>
@@ -1428,6 +863,7 @@
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
   <script src="js/smart-reorder.js"></script>
+  <script src="js/cookie-consent.js"></script>
   <script>document.body.dataset.slPage = 'home';</script>
 
 </body>

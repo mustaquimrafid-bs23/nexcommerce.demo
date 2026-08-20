@@ -20,7 +20,7 @@
      */
     initialize() {
       let greeting = 'Good evening. I am your nexCommerce Style Concierge. What are you looking to discover today?';
-      let suggestedChips = ['Show me jackets', 'Under BDT 20,000', 'Something for the office', 'Complete a look'];
+      let suggestedChips = ['Show me jackets', 'Under € 250', 'Something for the office', 'Complete a look'];
 
       try {
         const storedIntent = sessionStorage.getItem('nexIntent');
@@ -28,7 +28,7 @@
           const intent = JSON.parse(storedIntent);
           if (intent.category && intent.category.value) {
             greeting = `I see you were exploring ${intent.category.value.toLowerCase()} earlier. Would you like to continue with that search, or are you looking for something different?`;
-            suggestedChips = [`Continue with ${intent.category.value.toLowerCase()}`, 'Check sizing', 'Under BDT 20,000', 'Start fresh'];
+            suggestedChips = [`Continue with ${intent.category.value.toLowerCase()}`, 'Check sizing', 'Under € 250', 'Start fresh'];
           }
         }
       } catch (e) {}
@@ -63,20 +63,20 @@
                 `• **Standard Chest Scale**: XS (36") · S (38") · M (40") · L (42") · XL (44")\n` +
                 `• **Footwear**: Our *Minimalist Leather Runner* fits true to standard European sizing with a cushioned ergonomic footbed.`,
           products: catalog.filter(p => p.category === 'Apparel' || p.category === 'Footwear').slice(0, 3),
-          suggestedChips: ['Show sweaters', 'Show blazers', 'Under BDT 20,000', 'Complete a look']
+          suggestedChips: ['Show sweaters', 'Show blazers', 'Under € 250', 'Complete a look']
         };
       }
 
       // ── 2. DELIVERY, SHIPPING & COURIER ──────────────────────────────────
-      if (/delivery|shipping|ship|dispatch|courier|how fast|when will it arrive|dhaka delivery|express|arrive/.test(rawText)) {
+      if (/delivery|shipping|ship|dispatch|courier|how fast|when will it arrive|express|arrive|dhl|dpd/.test(rawText)) {
         this.lastQueryType = 'delivery';
         return {
           type: 'delivery',
           text: `**Fulfillment & Delivery Timelines**\n\n` +
-                `• **Express Dhaka Courier**: Same-day delivery within **4–6 hours** for orders placed before 3:00 PM.\n` +
-                `• **Standard Delivery**: 24–48 hours nationwide across all divisions in Bangladesh.\n` +
-                `• **Live Tracking**: Every package is assigned real-time GPS courier tracking upon dispatch.\n` +
-                `• **Complimentary Shipping**: All orders over BDT 15,000 include free express delivery.`,
+                `• **DHL Express Courier**: Delivery within **24–48 hours** across all EU member states.\n` +
+                `• **Standard DPD Freight**: 2–4 business days with carbon-neutral transit.\n` +
+                `• **Live Tracking**: Every shipment includes end-to-end GPS custody tracking.\n` +
+                `• **Complimentary Shipping**: All orders over € 150.00 include free tracked express delivery.`,
           actionLink: { text: 'TRACK LIVE ORDER →', url: 'tracking.html' },
           products: [],
           suggestedChips: ['Track my order', 'Return policy', 'Shop new arrivals']
@@ -84,14 +84,14 @@
       }
 
       // ── 3. RETURNS, REFUNDS & EXCHANGES ──────────────────────────────────
-      if (/return|returns|refund|refunds|exchange|policy|guarantee|warranty|money back|damaged/.test(rawText)) {
+      if (/return|returns|refund|refunds|exchange|policy|guarantee|warranty|money back|damaged|withdrawal/.test(rawText)) {
         this.lastQueryType = 'returns';
         return {
           type: 'returns',
-          text: `**Complimentary Return & Exchange Policy**\n\n` +
-                `• **14-Day Window**: You may return or exchange any unworn item with original tags within 14 days of receipt.\n` +
-                `• **Doorstep Pickup**: Our dedicated courier will collect the package from your doorstep in Dhaka at no charge.\n` +
-                `• **Instant Refunds**: Processed back to your original payment method within 24 hours of inspection.`,
+          text: `**14-Day Statutory Right of Withdrawal & Returns**\n\n` +
+                `• **14-Day Window**: You may exercise your statutory right of withdrawal within 14 days of receipt.\n` +
+                `• **Prepaid EU Return Label**: Return portal generates instant DHL prepaid return labels.\n` +
+                `• **Instant Reimbursement**: Processed back to your original payment method (Klarna, Card, iDEAL, SEPA) within 24 hours of inspection.`,
           products: [],
           suggestedChips: ['Delivery details', 'Show collection', 'Contact concierge']
         };
@@ -104,7 +104,7 @@
           type: 'materials',
           text: `**Material Craft & Care Standards**\n\n` +
                 `• **2-Ply Cashmere**: Sourced from Inner Mongolia. We recommend dry cleaning or hand-washing cold with wool detergent; lay flat to dry.\n` +
-                `• **Unlined Merino Wool**: Breathable weave engineered for Dhaka's climate. Spot clean or professional dry clean only.\n` +
+                `• **Unlined Merino Wool**: Breathable 19.5-micron weave engineered for European temperate climates. Spot clean or professional dry clean only.\n` +
                 `• **Full-Grain Italian Leather**: Wipe gently with a damp cloth and apply neutral leather balm seasonally.\n` +
                 `• **Brushed Titanium**: Grade-5 titanium is scratch-resistant and hypoallergenic. Rinse in fresh water after saltwater exposure.`,
           products: catalog.slice(0, 3),
@@ -129,7 +129,7 @@
           type: 'greeting',
           text: `Hello. I can assist you with curated wardrobe recommendations, sizing advice, complete look pairings, or delivery information. What would you like to explore?`,
           products: catalog.slice(0, 2),
-          suggestedChips: ['Show me jackets', 'Under BDT 20,000', 'Something for dinner', 'Check sizing']
+          suggestedChips: ['Show me jackets', 'Under € 250', 'Something for dinner', 'Check sizing']
         };
       }
 
@@ -154,7 +154,7 @@
       let products = results.products || [];
 
       // Budget filtering safety check if mentioned in raw text
-      const budgetMatch = rawText.match(/(?:under|less than|below|max|upto|budget)\s*(?:bdt|tk)?\s*([\d,]+k?)/i);
+      const budgetMatch = rawText.match(/(?:under|less than|below|max|upto|budget)\s*(?:€|eur|bdt|tk)?\s*([\d,]+k?)/i);
       if (budgetMatch) {
         let maxVal = parseFloat(budgetMatch[1].replace(/,/g, ''));
         if (budgetMatch[1].toLowerCase().endsWith('k')) maxVal *= 1000;
@@ -169,7 +169,7 @@
           type: 'no_results',
           text: `I couldn't find an exact match for "${text}" in the current collection. Here are our most versatile wardrobe staples available right now:`,
           products: catalog.slice(0, 3),
-          suggestedChips: ['Show all apparel', 'Under BDT 20,000', 'Check sizing', 'Start fresh']
+          suggestedChips: ['Show all apparel', 'Under € 250', 'Check sizing', 'Start fresh']
         };
       }
 
@@ -193,7 +193,7 @@
           text: `Here is a complete look curated for your occasion. Every piece is selected to harmonize in tone, texture, and silhouette:`,
           products: lookItems.length >= 2 ? lookItems : products.slice(0, 3),
           isBundleLook: true,
-          suggestedChips: ['Under BDT 25,000', 'Check sizing', 'Different style', 'Show sweaters']
+          suggestedChips: ['Under € 350', 'Check sizing', 'Different style', 'Show sweaters']
         };
       }
 
@@ -216,7 +216,7 @@
         text: responseText,
         products: products.slice(0, 3),
         isBundleLook: false,
-        suggestedChips: ['Check sizing', 'Under BDT 20,000', 'Complete the look', 'Delivery options']
+        suggestedChips: ['Check sizing', 'Under € 250', 'Complete the look', 'Delivery options']
       };
     }
 
@@ -225,7 +225,7 @@
         type: 'text',
         text: 'I can help you explore our collection, select your size, or put together a complete look. What style or occasion are you shopping for?',
         products: [],
-        suggestedChips: ['Show me jackets', 'Under BDT 20,000', 'Check sizing']
+        suggestedChips: ['Show me jackets', 'Under € 250', 'Check sizing']
       };
     }
   }

@@ -5,16 +5,882 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Architectural Cashmere Sweater &mdash; nexCommerce</title>
   <meta name="description" content="Precision-crafted luxury apparel, acoustics, and timepieces at nexCommerce.">
+  <meta name="view-transition" content="same-origin" />
 
-  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <!-- Google Fonts: Inter, Manrope, Plus Jakarta Sans, Instrument Serif, Cormorant Garamond, Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=4">
-</head>
-<body>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=37">
 
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ─── Hardware-Accelerated View Transitions ───────────────────────── */
+    @keyframes pdp-vt-fade-in  { from { opacity: 0; transform: scale(0.995); } to { opacity: 1; transform: scale(1); } }
+    @keyframes pdp-vt-fade-out { from { opacity: 1; transform: scale(1); }     to { opacity: 0; transform: scale(1.005); } }
+
+    ::view-transition-new(root)  { animation: pdp-vt-fade-in  280ms cubic-bezier(0.16,1,0.3,1) both; }
+    ::view-transition-old(root)  { animation: pdp-vt-fade-out 200ms ease both; }
+
+    body.pdp-page-bg {
+      color: #FFFFFF;
+      font-family: var(--font-body, 'Inter', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── PDP Section & Layout ────────────────────────────────────────── */
+    .pdp-wrapper {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(48px, 6vw, 80px);
+    }
+
+    .pdp-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #64748B;
+      margin-bottom: -16px;
+    }
+
+    .pdp-breadcrumb a {
+      color: #94A3B8;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .pdp-breadcrumb a:hover { color: #FFFFFF; }
+    .pdp-breadcrumb-active { color: var(--accent-cyan, #3DE0FF); }
+
+    /* ─── 2-Column PDP Grid ───────────────────────────────────────────── */
+    .pdp-main-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(40px, 5vw, 64px);
+      align-items: start;
+    }
+
+    /* ─── Left: Interactive Gallery with Perspective Switcher ─────────── */
+    .pdp-gallery-container {
+      display: flex;
+      gap: 18px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .pdp-thumb-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 76px;
+      flex-shrink: 0;
+    }
+
+    .pdp-thumb-img {
+      width: 100%;
+      height: 96px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #020814;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      opacity: 0.65;
+      transition: all 0.2s ease;
+    }
+
+    .pdp-thumb-img:hover {
+      opacity: 0.9;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .pdp-thumb-img.active {
+      opacity: 1;
+      border-color: var(--accent-cyan, #3DE0FF);
+      box-shadow: 0 0 12px rgba(61, 224, 255, 0.3);
+    }
+
+    .pdp-stage-box {
+      position: relative;
+      flex: 1;
+      aspect-ratio: 4 / 5;
+      background: #050D1A;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+    }
+
+    .pdp-stage-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pdp-stage-box:hover .pdp-stage-img {
+      transform: scale(1.03);
+    }
+
+    /* Floating Perspective Bar */
+    .pdp-perspective-bar {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      background: rgba(8, 14, 30, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+      z-index: 10;
+    }
+
+    .pdp-perspective-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 9999px;
+      color: #94A3B8;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .pdp-perspective-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .pdp-perspective-btn.active {
+      background: #FFFFFF;
+      color: #020B18;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+    }
+
+    /* ─── Right: Product Buy-Box ──────────────────────────────────────── */
+    .pdp-buy-box {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .pdp-header-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pdp-category-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .pdp-product-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 600;
+      line-height: 1.1;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .pdp-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .pdp-price-tag {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .pdp-vat-tag {
+      font-size: 11px;
+      color: #64748B;
+      letter-spacing: 0.04em;
+    }
+
+    .pdp-short-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #CBD5E1;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Visual Specification Badges Matrix ──────────────────────────── */
+    .pdp-spec-badges-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+    }
+
+    .pdp-spec-badge-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .pdp-spec-icon-pedestal {
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      color: var(--accent-cyan, #3DE0FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pdp-spec-badge-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .pdp-spec-badge-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    .pdp-spec-badge-val {
+      font-size: 12px;
+      font-weight: 500;
+      color: #FFFFFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ─── Tactile Color Swatches ──────────────────────────────────────── */
+    .pdp-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pdp-control-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pdp-control-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .pdp-control-label strong {
+      color: #FFFFFF;
+      margin-left: 4px;
+    }
+
+    .pdp-color-swatches-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pdp-color-swatch-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      padding: 2px;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdp-color-swatch-circle .swatch-color-fill {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--swatch-hex, #2C2E35);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .pdp-color-swatch-circle:hover {
+      transform: scale(1.1);
+    }
+
+    .pdp-color-swatch-circle.selected {
+      border-color: var(--accent-cyan, #3DE0FF);
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.4);
+    }
+
+    /* ─── Size Selector & AI Fit Assistant ────────────────────────────── */
+    .pdp-sizes-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pdp-size-btn {
+      padding: 10px 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pdp-size-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .pdp-size-btn.selected {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .btn-fit-advisor {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 9999px;
+      color: var(--accent-cyan, #3DE0FF);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-fit-advisor:hover {
+      background: rgba(61, 224, 255, 0.16);
+      border-color: var(--accent-cyan, #3DE0FF);
+    }
+
+    /* ─── Commerce CTA & Trust ────────────────────────────────────────── */
+    .btn-pdp-add-to-bag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      height: 52px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .btn-pdp-add-to-bag:hover {
+      background: #E2E8F0;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+
+    .pdp-trust-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .pdp-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    .pdp-trust-item i {
+      color: var(--accent-cyan, #3DE0FF);
+      flex-shrink: 0;
+    }
+
+    /* ─── Scannable Product Accordions ────────────────────────────────── */
+    .pdp-accordions-wrap {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 16px;
+    }
+
+    .pdp-accordion-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .pdp-accordion-header {
+      width: 100%;
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .accordion-icon {
+      font-size: 16px;
+      color: #94A3B8;
+      transition: transform 0.2s ease;
+    }
+
+    .pdp-accordion-item.open .accordion-icon {
+      transform: rotate(45deg);
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .pdp-accordion-body {
+      display: none;
+      padding-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #CBD5E1;
+    }
+
+    .pdp-accordion-item.open .pdp-accordion-body {
+      display: block;
+    }
+
+    /* ─── Curated Complete the Look ───────────────────────────────────── */
+    .pdp-complete-look-section {
+      padding: clamp(48px, 6vw, 72px) 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .pdp-complete-look-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .pdp-complete-look-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 8px 0 0;
+      letter-spacing: -0.02em;
+    }
+
+    .pdp-bundle-quick-checkout {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pdp-bundle-pricing {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pdp-bundle-original-price {
+      font-size: 13px;
+      color: #64748B;
+      text-decoration: line-through;
+    }
+
+    .pdp-bundle-discount-badge {
+      padding: 3px 8px;
+      background: rgba(61, 224, 255, 0.1);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .pdp-bundle-final-price {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .pdp-bundle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      background: #FFFFFF;
+      color: #020B18;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pdp-bundle-btn:hover {
+      background: #E2E8F0;
+    }
+
+    .pdp-complete-look-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* ─── AI Fit Assistant Modal ──────────────────────────────────────── */
+    .fit-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(1, 6, 16, 0.82);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .fit-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fit-modal-panel {
+      width: 100%;
+      max-width: 480px;
+      background: #08101E;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fit-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fit-modal-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fit-modal-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .fit-modal-close {
+      background: none;
+      border: none;
+      color: #94A3B8;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .fit-modal-sub {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    .fit-input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .fit-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fit-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .fit-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      padding: 10px 14px;
+      color: #FFFFFF;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .fit-pref-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .fit-pref-btn {
+      flex: 1;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .fit-pref-btn.selected {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .fit-recommendation-card {
+      padding: 16px;
+      background: rgba(61, 224, 255, 0.05);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .fit-rec-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .fit-rec-size-value {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .fit-rec-reasoning {
+      font-size: 12px;
+      line-height: 1.5;
+      color: #CBD5E1;
+      margin: 0;
+    }
+
+    .fit-modal-apply-btn {
+      width: 100%;
+      padding: 12px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    /* ─── Mobile Sticky Bar ───────────────────────────────────────────── */
+    .mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 20px;
+      background: rgba(8, 14, 30, 0.96);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 100;
+      transform: translateY(100%);
+      transition: transform 0.28s ease;
+    }
+
+    .mobile-sticky-bar.visible {
+      transform: translateY(0);
+    }
+
+    .mobile-sticky-bar-price {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .mobile-sticky-bar-meta {
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    .mobile-sticky-bar-cta {
+      padding: 10px 20px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    /* ─── Responsive Media Queries ────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .pdp-main-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .pdp-gallery-container {
+        position: static;
+      }
+      .pdp-complete-look-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pdp-gallery-container {
+        flex-direction: column-reverse;
+      }
+      .pdp-thumb-strip {
+        flex-direction: row;
+        width: 100%;
+        overflow-x: auto;
+      }
+      .pdp-thumb-img {
+        width: 64px;
+        height: 80px;
+      }
+      .pdp-spec-badges-grid {
+        grid-template-columns: 1fr;
+      }
+      .pdp-complete-look-grid {
+        grid-template-columns: 1fr;
+      }
+      .pdp-complete-look-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body class="pdp-page-bg">
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Artisanal Atelier Specifications</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
@@ -30,7 +896,8 @@
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+        <a href="lookbook.html" class="nav-item-link">Lookbook</a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
@@ -45,26 +912,25 @@
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
         <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
           <span>Concierge</span>
         </button>
 
-        <a href="discovery.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart"></i>
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
-          <i data-lucide="user"></i>
-          <span data-auth-name style="display: none;">Tanvir</span>
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
         </a>
 
-        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag"></i>
-          <span class="bag-count-badge" id="headerCartCount">0</span>
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
         </a>
 
-        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <!-- 3-Dot Overflow Menu -->
         <div class="nav-more-menu" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
             <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
@@ -78,11 +944,11 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
+            <div class="nav-more-divider"></div>
             <a href="account.html#orders" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
             </a>
-            <div class="nav-more-divider"></div>
             <a href="contact.html" class="nav-more-item" role="menuitem">
               <i data-lucide="headphones"></i>
               <span>Client Services</span>
@@ -93,422 +959,314 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
-    </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
-  </div>
+  <!-- PDP MAIN SECTION -->
+  <main class="pdp-wrapper" id="mainContent">
 
-
-  <!-- PART 5 PDP MAIN SECTION -->
-  <main class="container pdp-section reveal-on-scroll">
     <!-- Breadcrumb -->
     <nav class="pdp-breadcrumb" aria-label="Breadcrumb navigation">
       <a href="../index.html">Home</a>
       <span>/</span>
-      <a href="../index.html">Apparel</a>
+      <a href="category.html?cat=apparel">Apparel</a>
       <span>/</span>
-      <a href="../index.html">Sweaters</a>
-      <span>/</span>
-      <span class="pdp-breadcrumb-active">Architectural Cashmere Sweater</span>
+      <span class="pdp-breadcrumb-active">Cashmere Turtleneck Sweater</span>
     </nav>
 
-    <!-- AI Context Retention Bar (Populated by js/pdp.js) -->
-    <div id="pdpContextRetentionBar" class="pdp-retention-bar" style="display:none;" role="status">
-      <div class="pdp-retention-left">
-        <i data-lucide="sparkles" class="pdp-retention-icon" style="width: 14px; height: 14px;"></i>
-        <span class="pdp-retention-text" id="pdpRetentionText"></span>
-      </div>
-      <button class="pdp-retention-clear" id="pdpRetentionClearBtn" aria-label="Clear search context" style="display: inline-flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 14px; height: 14px;"></i></button>
-    </div>
+    <!-- Main Grid -->
+    <div class="pdp-main-grid">
 
-    <div class="pdp-grid">
       <!-- Gallery Left -->
-      <div class="pdp-gallery-wrap">
-        <div class="pdp-thumb-strip">
-          <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater Angle 1" class="pdp-thumb-img active">
-          <img src="../assets/images/products/sweater_texture.png" alt="Architectural Cashmere Sweater Texture Detail" class="pdp-thumb-img">
-          <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Architectural Cashmere Sweater Lifestyle" class="pdp-thumb-img">
+      <div class="pdp-gallery-container">
+        <div class="pdp-thumb-strip" aria-label="Product image thumbnails">
+          <!-- Populated dynamically by js/pdp.js -->
         </div>
-        <div class="pdp-main-image-box">
-          <img id="pdpMainImg" src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater">
+
+        <div class="pdp-stage-box">
+          <img id="pdpMainImg" src="../assets/images/products/hero_sweater.png" alt="Product Image" class="pdp-stage-img" />
+
+          <!-- Perspective Switcher Bar -->
+          <div class="pdp-perspective-bar" role="tablist" aria-label="Image perspective views">
+            <button type="button" class="pdp-perspective-btn active" role="tab" aria-selected="true" data-perspective="flat">
+              ✦ Studio Flat
+            </button>
+            <button type="button" class="pdp-perspective-btn" role="tab" aria-selected="false" data-perspective="model">
+              ✦ On Model (182cm)
+            </button>
+            <button type="button" class="pdp-perspective-btn" role="tab" aria-selected="false" data-perspective="macro">
+              ✦ Macro Weave
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Buy Box Right -->
       <div class="pdp-buy-box">
-        <div>
-          <span class="pdp-category-eyebrow">APPAREL</span>
-          <h1 class="pdp-product-title">Architectural Cashmere Sweater</h1>
-          <div class="pdp-price-tag" style="margin-top: 6px;">BDT 18,400</div>
+        <div class="pdp-header-meta">
+          <span class="pdp-category-eyebrow">APPAREL &middot; ATELIER EDITION</span>
+          <h1 class="pdp-product-title">Cashmere Turtleneck Sweater</h1>
+          <div class="pdp-price-wrap">
+            <span class="pdp-price-tag tabular-nums">€ 185.00</span>
+            <span class="pdp-vat-tag">All prices incl. 19% statutory VAT &middot; Duties included</span>
+          </div>
         </div>
 
         <p class="pdp-short-desc">
-          Structured cashmere knit with lightweight warmth and a relaxed architectural silhouette. Crafted for evening refinement.
+          Spun from 2-ply Mongolian cashmere with relaxed raglan shoulders and ribbed trims for effortless evening drape.
         </p>
 
-        <!-- Variant Swatch: Color -->
-        <div class="pdp-swatch-group">
-          <span class="pdp-label">Color: <strong style="color: var(--text-primary);">Midnight</strong></span>
-          <div class="pdp-swatches-row">
-            <button class="btn-secondary-action" style="border-color: var(--text-primary); font-weight: 600;">Midnight</button>
-            <button class="btn-secondary-action" style="opacity: 0.7;">Stone</button>
-            <button class="btn-secondary-action" style="opacity: 0.7;">Charcoal</button>
+        <!-- Visual Specification Badges Grid (Replacing Prose) -->
+        <div class="pdp-spec-badges-grid" id="pdpSpecBadgesGrid">
+          <!-- Dynamically populated by js/pdp.js -->
+        </div>
+
+        <!-- Tactile Color Swatches -->
+        <div class="pdp-control-group">
+          <div class="pdp-control-label-row">
+            <span class="pdp-control-label">Color: <strong id="selectedColorLabel">Midnight</strong></span>
+          </div>
+          <div class="pdp-color-swatches-row" id="pdpColorSwatchesRow">
+            <!-- Dynamically populated by js/pdp.js -->
           </div>
         </div>
 
         <!-- Size Selector & AI Fit Assistant -->
-        <div class="pdp-swatch-group">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <span class="pdp-label">Size</span>
-            <!-- Level 2 Secondary Action: AI Fit Assistant Button -->
-            <button id="btnFitAssistant" class="btn-secondary-action" style="height: 36px; padding: 0 12px; font-size: 11px;">
-              <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>FIND MY SIZE
+        <div class="pdp-control-group">
+          <div class="pdp-control-label-row">
+            <span class="pdp-control-label">Size</span>
+            <button id="btnFitAssistant" class="btn-fit-advisor" type="button">
+              <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+              <span>Find My Size</span>
             </button>
           </div>
-
-          <div class="pdp-swatches-row pdp-sizes-row">
-            <button class="pdp-size-btn" data-size="S">S</button>
-            <button class="pdp-size-btn selected" data-size="M">M</button>
-            <button class="pdp-size-btn" data-size="L">L</button>
-            <button class="pdp-size-btn" data-size="XL">XL</button>
+          <div class="pdp-sizes-row">
+            <!-- Dynamically populated by js/pdp.js -->
           </div>
         </div>
 
-        <div id="pdpContextMatchBox" style="display:none;"></div>
-
-        <!-- Primary Commerce CTA Button -->
-        <button id="btnMainPdpAdd" class="btn-primary-commerce btn-pdp-add-to-bag" style="width: 100%; height: 52px; margin-top: 8px;">
-          ADD TO BAG
+        <!-- Primary Commerce CTA -->
+        <button id="btnMainPdpAdd" class="btn-pdp-add-to-bag" type="button">
+          <i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i>
+          <span>Add to Bag</span>
         </button>
 
-        <!-- Delivery & Terms -->
-        <div class="pdp-terms-row">
-          <div>&#10003; Express Next Day Delivery available (Free on orders over BDT 20,000)</div>
-          <div>&#10003; Easy 7-day returns included</div>
+        <!-- Trust Points -->
+        <div class="pdp-trust-grid">
+          <div class="pdp-trust-item">
+            <i data-lucide="truck" style="width: 14px; height: 14px;"></i>
+            <span>Express DHL Tracked Delivery</span>
+          </div>
+          <div class="pdp-trust-item">
+            <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+            <span>14-Day Right of Withdrawal</span>
+          </div>
         </div>
 
-        <div style="margin-top: 8px;">
-          <a href="../index.html" class="link-text-nav">See another option &rarr;</a>
+        <!-- Scannable Product Accordions -->
+        <div class="pdp-accordions-wrap">
+          <div class="pdp-accordion-item open">
+            <button class="pdp-accordion-header" type="button">
+              <span>Atelier Details</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="pdp-accordion-body" id="accordionDetailsBody">
+              <!-- Injected by js/pdp.js -->
+            </div>
+          </div>
+
+          <div class="pdp-accordion-item">
+            <button class="pdp-accordion-header" type="button">
+              <span>Material &amp; Care</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="pdp-accordion-body" id="accordionMaterialBody">
+              <!-- Injected by js/pdp.js -->
+            </div>
+          </div>
+
+          <div class="pdp-accordion-item">
+            <button class="pdp-accordion-header" type="button">
+              <span>Fit &amp; Silhouette</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="pdp-accordion-body" id="accordionSizingBody">
+              <!-- Injected by js/pdp.js -->
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
-    <!-- Collapsible Product Details Accordion -->
-    <div class="pdp-accordion-group reveal-on-scroll">
-      <div class="pdp-accordion-item">
-        <button class="pdp-accordion-header">
-          <span>PRODUCT DETAILS</span>
-          <span class="accordion-icon">+</span>
-        </button>
-        <div class="pdp-accordion-body" id="accordionDetailsBody">
-          Precision-knitted from 100% Mongolian cashmere featuring ribbed trims, drop shoulder seams, and breathable thermal regulation. Designed specifically for cool evening transitions.
-        </div>
-      </div>
-
-      <div class="pdp-accordion-item">
-        <button class="pdp-accordion-header">
-          <span>MATERIAL & CARE</span>
-          <span class="accordion-icon">+</span>
-        </button>
-        <div class="pdp-accordion-body" id="accordionMaterialBody">
-          100% Grade-A 2-Ply Mongolian Cashmere. Dry clean only. Store folded in a cool, dry place.
-        </div>
-      </div>
-
-      <div class="pdp-accordion-item">
-        <button class="pdp-accordion-header">
-          <span>FIT & SILHOUETTE</span>
-          <span class="accordion-icon">+</span>
-        </button>
-        <div class="pdp-accordion-body" id="accordionSizingBody">
-          Relaxed architectural fit. True to size for standard layering; choose one size smaller for a close-to-body silhouette.
-        </div>
-      </div>
-    </div>
-
-    <!-- EDITORIAL "COMPLETE THE LOOK" SECTION -->
-    <section id="pdpCompleteLookSection" class="pdp-complete-look-section reveal-on-scroll">
+    <!-- CURATED COMPLETE THE LOOK SECTION -->
+    <section id="pdpCompleteLookSection" class="pdp-complete-look-section">
       <div class="pdp-complete-look-header">
         <div>
-          <span class="pdp-complete-look-eyebrow">
-            <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
-            CURATED STYLING &middot; COMPLETE THE LOOK
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-cyan, #3DE0FF);">
+            Curated Styling &middot; Complete the Look
           </span>
           <h2 class="pdp-complete-look-title">Style With Enduring Essentials</h2>
-          <p class="pdp-complete-look-sub">Hand-selected pairings calibrated for seamless layering, proportion, and texture harmony.</p>
         </div>
 
         <div class="pdp-bundle-quick-checkout">
-          <div class="pdp-bundle-pricing">
-            <span class="pdp-bundle-original-price" id="pdpBundleOriginalPrice">BDT 0</span>
+          <div class="pdp-bundle-pricing tabular-nums">
+            <span class="pdp-bundle-original-price" id="pdpBundleOriginalPrice">€ 0.00</span>
             <span class="pdp-bundle-discount-badge">SAVE 10%</span>
-            <span class="pdp-bundle-final-price" id="pdpBundleFinalPrice">BDT 0</span>
+            <span class="pdp-bundle-final-price" id="pdpBundleFinalPrice">€ 0.00</span>
           </div>
-          <button id="btnAddCompleteLookBtn" class="btn-primary-commerce pdp-bundle-btn">
-            <i data-lucide="shopping-bag" style="width: 14px; height: 14px; margin-right: 8px;"></i>
+          <button id="btnAddCompleteLookBtn" class="pdp-bundle-btn" type="button">
+            <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
             <span id="pdpBundleBtnText">ADD ENTIRE LOOK (3 PIECES)</span>
           </button>
         </div>
       </div>
 
-      <!-- 3-Piece Styled Grid -->
       <div id="pdpCompleteLookGrid" class="pdp-complete-look-grid">
-        <!-- Populated dynamically by js/pdp.js -->
+        <!-- Injected by js/pdp.js -->
       </div>
     </section>
+
   </main>
 
-  <!-- SMART SIZE & FIT ADVISOR MODAL -->
-  <div id="fitModal" class="fit-modal-container" role="dialog" aria-modal="true" aria-label="Smart Size &amp; Fit Advisor">
-    <div class="fit-modal-backdrop"></div>
+  <!-- SIZING & FIT AI ASSISTANT MODAL -->
+  <div id="pdpFitModal" class="fit-modal-overlay" role="dialog" aria-modal="true" aria-label="AI Fit &amp; Size Consultation">
     <div class="fit-modal-panel">
-      <!-- Modal Header -->
       <div class="fit-modal-header">
-        <div class="fit-modal-badge">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan); margin-right: 6px;"></i>
-          <span>SMART SIZE &amp; FIT ADVISOR</span>
+        <div class="fit-modal-title-wrap">
+          <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-cyan, #3DE0FF);"></i>
+          <h2 class="fit-modal-title">Atelier Fit Advisor</h2>
         </div>
-        <button class="fit-modal-close" aria-label="Close Size Advisor">&times;</button>
+        <button id="btnCloseFitModal" class="fit-modal-close" aria-label="Close fit assistant">&times;</button>
       </div>
 
-      <!-- Title & Subtitle -->
-      <div class="fit-modal-intro">
-        <h3 class="fit-modal-heading">Find Your Ideal Fit</h3>
-        <p class="fit-modal-sub">Input your measurements and silhouette preference for a tailored sizing recommendation.</p>
-      </div>
+      <p class="fit-modal-sub">
+        Calibrated recommendations based on European tailoring standards and biometric height/weight mapping.
+      </p>
 
-      <!-- Measurements Section -->
-      <div class="fit-metrics-grid">
+      <div class="fit-input-grid">
         <div class="fit-input-group">
-          <label for="fitHeightInput" class="fit-input-label">Height</label>
-          <div class="fit-input-wrap">
-            <input type="number" id="fitHeightInput" class="fit-metric-input" value="178" min="140" max="215" />
-            <span class="fit-input-unit">cm</span>
-          </div>
+          <label class="fit-label" for="fitInputHeight">Height (cm)</label>
+          <input type="number" id="fitInputHeight" class="fit-input" placeholder="180" min="140" max="220" value="180">
         </div>
         <div class="fit-input-group">
-          <label for="fitWeightInput" class="fit-input-label">Weight</label>
-          <div class="fit-input-wrap">
-            <input type="number" id="fitWeightInput" class="fit-metric-input" value="74" min="40" max="150" />
-            <span class="fit-input-unit">kg</span>
-          </div>
+          <label class="fit-label" for="fitInputWeight">Weight (kg)</label>
+          <input type="number" id="fitInputWeight" class="fit-input" placeholder="74" min="40" max="150" value="74">
         </div>
       </div>
 
-      <!-- Silhouette Preference -->
-      <div class="fit-preference-section">
-        <label class="fit-input-label">Preferred Silhouette</label>
-        <div class="fit-options-grid">
-          <button class="fit-option-btn" data-fit="Slim">
-            <span class="fit-option-title">Slim</span>
-            <span class="fit-option-desc">Tailored</span>
-          </button>
-          <button class="fit-option-btn selected" data-fit="Regular">
-            <span class="fit-option-title">Regular</span>
-            <span class="fit-option-desc">Balanced</span>
-          </button>
-          <button class="fit-option-btn" data-fit="Relaxed">
-            <span class="fit-option-title">Relaxed</span>
-            <span class="fit-option-desc">Airy Drape</span>
-          </button>
+      <div class="fit-input-group">
+        <label class="fit-label">Preferred Fit Silhouette</label>
+        <div class="fit-pref-row" id="fitPrefRow">
+          <button type="button" class="fit-pref-btn" data-fit="Tailored">Tailored</button>
+          <button type="button" class="fit-pref-btn selected" data-fit="Regular">Regular</button>
+          <button type="button" class="fit-pref-btn" data-fit="Relaxed">Relaxed</button>
         </div>
       </div>
 
-      <!-- Recommendation Result Card -->
-      <div id="fitRecResult" class="fit-recommendation-card">
-        <div class="fit-rec-badge">RECOMMENDED FOR YOU</div>
-        <div class="fit-rec-size-display" id="fitRecSizeText">Size M</div>
-        <p class="fit-rec-reasoning" id="fitRecExplanation">
-          For 178cm / 74kg with a Regular silhouette, Size M gives you balanced room across the chest and ideal sleeve length.
+      <div class="fit-recommendation-card">
+        <div class="fit-rec-badge">Recommended Size</div>
+        <div class="fit-rec-size-value tabular-nums" id="fitRecSizeDisplay">M</div>
+        <p class="fit-rec-reasoning" id="fitRecReasoning">
+          Based on 180cm / 74kg with Regular drape preference, size <strong>M</strong> provides a balanced shoulder drape.
         </p>
       </div>
 
-      <!-- Actions -->
-      <div class="fit-modal-actions">
-        <button id="btnUseRecSize" class="btn-primary-commerce fit-modal-apply-btn" data-rec-size="M">
-          SELECT SIZE M &amp; APPLY
-        </button>
-      </div>
+      <button id="btnUseRecSize" class="fit-modal-apply-btn" type="button" data-rec-size="M">
+        Select Size M &amp; Apply
+      </button>
     </div>
   </div>
 
-  <!-- MOBILE STICKY PURCHASE BAR (64px) -->
+  <!-- MOBILE STICKY PURCHASE BAR -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
     <div class="mobile-sticky-bar-info">
-      <div id="stickyPriceLabel" class="mobile-sticky-bar-price">BDT 18,500</div>
+      <div id="stickyPriceLabel" class="mobile-sticky-bar-price tabular-nums">€ 185.00</div>
       <div id="stickySizeLabel" class="mobile-sticky-bar-meta">Size M &middot; Midnight</div>
     </div>
-    <button class="btn-primary-commerce btn-pdp-add-to-bag mobile-sticky-bar-cta">ADD TO BAG</button>
+    <button class="mobile-sticky-bar-cta" type="button">ADD TO BAG</button>
   </div>
 
-  <!-- AI SEARCH OVERLAY MODAL -->
-  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+  <!-- SEARCH OVERLAY MODAL -->
+  <div id="aiSearchModal" class="search-overlay-container">
     <div class="search-backdrop"></div>
     <div class="search-panel">
       <div class="search-header-bar">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="ai-indicator" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-cyan);"><i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>NEXCOMMERCE INTELLIGENT DISCOVERY</span>
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
-        <button class="search-close-btn" aria-label="Close Search Overlay (ESC)" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
       </div>
-
-      <div style="text-align: center; margin: 12px 0 8px;">
-        <h2 class="search-overlay-title" style="font-family: var(--font-serif); font-size: 48px; font-weight: 500; line-height: 1.05; color: var(--text-primary); margin-bottom: 8px;">What are you looking for?</h2>
-        <p class="type-body-sm" style="color: var(--text-secondary); font-size: 14px;">Tell us what you need in your own words.</p>
-      </div>
-
-      <div class="search-input-wrapper">
-        <span class="search-ai-icon"><i data-lucide="search" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em;"></i></span>
-        <input type="text" class="search-ai-input" placeholder='Try "something comfortable for a rainy evening"' aria-label="Search for products or describe what you need" />
-        <button class="btn-primary-commerce btn-search-submit" style="height: 52px; padding: 0 22px;">FIND PRODUCTS &rarr;</button>
-      </div>
-
-      <div id="aiSearchResults" class="search-results-body">
-        <div class="search-prompts-group">
-          <span class="search-prompt-label">START WITH A MOMENT</span>
-          <button class="search-prompt-btn" data-prompt="I need something for a winter evening in Dhaka">
-            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>Something for a winter evening in Dhaka
-          </button>
-          <button class="search-prompt-btn" data-prompt="A minimal outfit for work">
-            <i data-lucide="sparkles" style="width: 14px; height: 14px; display:inline-block; vertical-align:-0.125em; margin-right:4px;"></i>For the office
-          </button>
-        </div>
-      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
     </div>
   </div>
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
 
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
-        </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="checkout.html" class="footer-link-item">Complimentary Returns</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="product.html?id=p1" class="footer-link-item">Size & Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
     </div>
-  </footer>
+    <div id="minicartBody" class="minicart-body">
+      <!-- Populated by cart.js -->
+    </div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
+      </div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
 
-  <!-- CDNs -->
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- CDNs & Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
-  <script src="../js/cart.js"></script>
-  <script src="../js/pdp.js"></script>
-  <script src="../js/ai-engine.js"></script>
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/pdp.js?v=7"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
   <script src="../js/session-context.js"></script>
-  <script src="../js/style-profile.js"></script>
-  <script src="../js/context-retention.js"></script>
-  <script src="../js/search-overlay.js"></script>
-  <script src="../js/theme-switcher.js"></script>
-  <script type="module" src="../js/animations.js"></script>
-  <script src="../js/concierge-engine.js"></script>
-  <script src="../js/concierge.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
 
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
-
+  <script>
+    // Preloader Dismissal
+    document.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('pagePreloader');
+      const progressBar = document.getElementById('preloaderProgressBar');
+      const percentEl = document.getElementById('preloaderPercent');
+      if (preloader) {
+        let pct = 0;
+        const iv = setInterval(() => {
+          pct += 25;
+          if (pct > 100) pct = 100;
+          if (progressBar) progressBar.style.width = pct + '%';
+          if (percentEl) percentEl.textContent = pct + '%';
+          if (pct >= 100) {
+            clearInterval(iv);
+            setTimeout(() => {
+              preloader.style.opacity = '0';
+              preloader.style.pointerEvents = 'none';
+              setTimeout(() => preloader.remove(), 300);
+            }, 150);
+          }
+        }, 20);
+      }
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-

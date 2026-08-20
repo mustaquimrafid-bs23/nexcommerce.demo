@@ -26,6 +26,7 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 ### Full Stack Development — Preferred Stack
 > See `.agents/rules/tech-stack-and-engineering-standards.md` for the full canonical stack reference.
 > See `.agents/rules/workspace-organization-standards.md` for workspace directory layout and path standards.
+> See `.agents/rules/antigravity-frontend-execution-rules.md` for frontend design, typography, framework execution, and browser agent verification rules.
 
 - **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
 - **Backend**: Node.js / NestJS + TypeScript (primary), ASP.NET Core / C# (secondary)
@@ -235,11 +236,15 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - NEVER use cyan, purple, and pink simultaneously as structural colors.
 - Light mode variant is often MORE premium than dark for lifestyle/fashion.
 
-**2. TYPOGRAPHY — Editorial Confidence**
-- Hero headline: a refined serif font (e.g., Playfair Display, Cormorant Garamond) OR ultra-tight grotesque (e.g., Editorial New, Helvetica Neue Condensed).
-- Body: a clean grotesque — NOT Hanken Grotesk 900 ALL CAPS stacked everywhere.
-- Letter-spacing on body: 0 to 0.02em. NOT 0.1em monospace "tech" labels across every section.
-- Font size scaling must breathe: hero text can be huge, but never dense.
+**2. TYPOGRAPHY — European Luxury Editorial & Digital Usability Standard**
+- Master Reference: `.agents/rules/european-luxury-typography-standards.md`
+- **Headings & Display**: `Neue Haas Grotesk` (fallbacks: `Helvetica Now`, `Manrope`, `Plus Jakarta Sans`) — tight tracking (`-0.02em` to `-0.01em`), fluid responsive scale (`64–88px` desktop, `34–44px` mobile).
+- **UI & Body**: `Inter` (Navigation, buttons, product metadata, prices, filters, forms, checkout, accounts) — natural tracking (`0` to `+0.01em`), font-weight 400 (Regular) / 500 (Medium).
+- **Editorial Accent**: `Instrument Serif` (fallbacks: `Playfair Display`, `Cormorant Garamond`) — strictly limited to hero accent words and curated editorial campaigns (*never used everywhere*).
+- **Anti-AI Font Guardrail**: Strictly NO `Orbitron`, `Audiowide`, `Exo 2`, `Rajdhani`, gaming fonts, or excessive monospace typography.
+- **Weight Restraint**: 400 (Regular body), 500 (Medium UI), 600 (Semibold headers/CTAs), 700 (Bold sparingly for price emphasis).
+- **European Language Support**: Mandatory Latin Extended glyph coverage (`É`, `È`, `Ê`, `Ç`, `Ñ`, `Ö`, `Ü`, `Å`, `Ø`, `Æ`, `ß`, `Š`, `Ž`, `Ł`, `Č`).
+- **Uppercase Usage**: Selective only (navigation, small category tags, metadata pills, concise CTAs). Never for paragraphs or checkout copy.
 
 **3. WHITE SPACE — The Most Expensive Design Element**
 - Luxury is silence. Use GENEROUS white space (min 80px between sections).
@@ -322,6 +327,25 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - **Dynamic Script Auto-Injection Resilience**:
   - Global navigation controllers must gracefully inject and prepend missing DOM tracking indicators (such as `.nav-glider-pill`) on legacy pages to guarantee zero console errors and 100% feature coverage across all 22 storefront pages.
 
+**12. CATEGORY LOOK SWITCHER & 120FPS ANIMATION TRACK STANDARD**
+- **120fps GPU Progress Track**: Progress bars on look switchers and curated story capsules MUST use GPU `transform: scaleX(progress)` with `transform-origin: left center` and `will-change: transform`, driven by `requestAnimationFrame` + `performance.now()` with calibrated cycling (e.g. 6.0s).
+- **User-Control Pause/Resume**: Automatically pause the timer on `mouseenter` and `touchstart`; smoothly resume from the current elapsed timestamp on `mouseleave` and `touchend` without resetting progress.
+- **Dual Shoppable & Filter Sync**: Every look showcase must support both direct quick-addition of the featured item (tactile ripple + cart state machine) and catalog category filter synchronization (`applyCategoryFilter()` + `history.replaceState()` + smooth scroll).
+- **In-Place Media Transitions**: Transition imagery using subtle opacity/scale eases (`scale(1.04 → 1.0)`, `opacity: 0.4 → 1.0` over 120–300ms) while keeping DOM node references persistent (zero DOM thrashing).
+- **Horizontal Filter Pill Invariant**: All horizontal scrolling pill filters (`.plp-filter-bar`, tab strips) MUST have `flex-shrink: 0; white-space: nowrap;` to guarantee 100% text legibility across all mobile viewports (320px–480px).
+- **Hairline Luxury Border Invariant**: All dark luxury cards and capsules must strictly use translucent hairline borders (`1px solid rgba(255, 255, 255, 0.08)`) with multi-layer diffuse ambient shadows, strictly avoiding hard or thick solid outlines.
+
+**13. CANVAS CONTINUITY & CONTAINER SCOPING INVARIANTS**
+- **Zero Fragmented Page Background Overrides**: Standalone storefront pages (PLP, PDP, Discovery, Smart List, Search) must NEVER declare arbitrary hardcoded background overrides (e.g., `#05070D`, `#000000`) that sever visual continuity with the global platform canvas gradient (`#011126` to `#011C3D` to `#00132C` with subtle radial highlights).
+- **No Full-Width Dark Bands on Component Cards**: Spotlight cards, curated look showcases, and editorial bento cards must ALWAYS reside inside `.container`. Never apply card-level dark background gradients (`background: rgba(...)` or solid fills) to full-bleed `<section>` wrappers, as this creates jarring full-width black bands across wide screens.
+- **Full-Vertical Visual Audit Before Completion**: Verification must include full-page top-to-bottom inspection (hero, spotlight, product grid, AND subordinate refinement consoles / pagination) across desktop and mobile viewports.
+
+**14. VISUAL-FIRST & LOW-TEXT DENSITY STANDARD ("SHOW, DON'T TELL")**
+- **70/30 Visual-to-Text Ratio**: Dedicate ≥70% of viewport area to imagery, interactive canvas elements, and visual micro-UIs. UI copy must be minimal and impactful.
+- **Strict Copy Restraint**: Headlines max 4–6 words. Body descriptions max 1–2 sentences (≤25 words). Product cards strictly Brand + Title + Price.
+- **Visual Over Verbal**: Replace text paragraphs with visual swatches, interactive hotspot pins, icon pedestals, diagrammatic step counters, and visual fit/spec meters.
+- **No Text Walls**: Any prose block >3 lines without imagery or visual structure is strictly prohibited.
+
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Neon glow borders on product cards
 - 3+ badges on one product card
@@ -343,6 +367,7 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
 - Pulsing radar/beacon dots placed directly on human models
 - Auto-cycling category tabs or auto-filtering timers in product browsing trays / recently viewed feeds
 - CSS `transition: transform` applied during active `requestAnimationFrame` LERP mouse-tilt calculations
+- Continuous blocks of text (>3 lines) or walls of explanatory prose on storefront pages
 
 ### 🔍 Self-Check Before Presenting UI
 Before presenting any lifestyle e-commerce UI, ask:

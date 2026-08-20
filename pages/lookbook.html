@@ -3,467 +3,1479 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Winter Edit &mdash; Lookbook 2026 | nexCommerce</title>
-  <meta name="description" content="Explore The Winter Edit 2026 campaign &mdash; architectural apparel, acoustic objects, and refined footwear.">
+  <title>The Winter Edit &mdash; Editorial Lookbook 2026 | nexCommerce</title>
+  <meta name="description" content="Explore The Winter Edit 2026: an interactive visual runway featuring tailored cashmere outerwear, artisanal Tuscan leather, and bespoke acoustic objects.">
+  <meta name="view-transition" content="same-origin" />
 
-  <!-- Google Fonts: Playfair Display & Inter -->
+  <!-- Google Fonts: Inter, Manrope, Plus Jakarta Sans, Instrument Serif, Cormorant Garamond, Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=37">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    :root {
-      --bg-base: #f8f6f2;
-      --bg-surface: #ffffff;
-      --bg-card: #f2efe9;
-      --text-primary: #0a0a0a;
-      --text-secondary: #555555;
-      --text-muted: #888888;
-      --text-white: #ffffff;
-      --accent-dark: #121212;
-      --border-light: #e5e2dc;
-      --border-medium: #d1ccc4;
-      --overlay: rgba(10, 10, 10, 0.4);
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-      --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    /* ─── Hardware-Accelerated View Transitions ───────────────────────── */
+    @keyframes lookbook-vt-fade-in  { from { opacity: 0; transform: scale(0.995); } to { opacity: 1; transform: scale(1); } }
+    @keyframes lookbook-vt-fade-out { from { opacity: 1; transform: scale(1); }     to { opacity: 0; transform: scale(1.005); } }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::view-transition-new(root)  { animation: lookbook-vt-fade-in  280ms cubic-bezier(0.16,1,0.3,1) both; }
+    ::view-transition-old(root)  { animation: lookbook-vt-fade-out 200ms ease both; }
 
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 14px;
-      line-height: 1.5;
+    body.lookbook-page-bg {
+      color: #FFFFFF;
+      font-family: var(--font-body, 'Inter', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
     }
 
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; border: none; background: none; font-family: inherit; }
-
-    .container { max-width: 1440px; margin: 0 auto; padding: 0 40px; }
-
-    #announcement-bar {
-      background-color: var(--accent-dark);
-      color: var(--text-white);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-align: center;
-      padding: 10px 16px;
-    }
-
-    #header {
-      background-color: var(--bg-base);
-      border-bottom: 1px solid var(--border-light);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-inner {
-      display: grid;
-      grid-template-columns: 1fr  1fr;
-      align-items: center;
-      height: 80px;
-    }
-
-    .nav-menu { display: flex; gap: 32px; list-style: none; }
-    .nav-link {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      transition: color 200ms ease;
-    }
-    .nav-link:hover, .nav-link.active { color: var(--text-primary); }
-
-    .nav- {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-    }
-
-    .nav-actions { display: flex; justify-content: flex-end; gap: 24px; }
-    .nav-action-btn {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      transition: color 200ms ease;
-    }
-    .nav-action-btn:hover { color: var(--text-primary); }
-
-    /* Campaign  */
-    .campaign- {
-      position: relative;
-      height: 80vh;
+    /* ─── Layout Wrapper ──────────────────────────────────────────────── */
+    .lookbook-wrap {
+      max-width: 1320px;
       width: 100%;
+      margin: 0 auto;
+      padding: 0 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 8vw, 104px);
+    }
+
+    /* ─── 1. Full-Bleed Runway Hero ───────────────────────────────────── */
+    .lookbook-hero {
+      position: relative;
+      width: 100%;
+      min-height: clamp(480px, 72vh, 680px);
+      border-radius: 8px;
       overflow: hidden;
       display: flex;
       align-items: flex-end;
-      padding: 80px;
-      color: #ffffff;
-      margin-bottom: 100px;
+      padding: clamp(32px, 5vw, 64px);
+      margin-top: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      background: #050D1A;
     }
-    .campaign- img {
+
+    .lookbook-hero-bg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.8);
-    }
-    .campaign-hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 680px;
-    }
-    .campaign-tag {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #e5e2dc;
-      margin-bottom: 16px;
-    }
-    .campaign-title {
-      font-family: var(--font-serif);
-      font-size: 64px;
-      font-weight: 400;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-    .campaign-subhead {
-      font-size: 16px;
-      color: #d1ccc4;
-      line-height: 1.6;
-      margin-bottom: 36px;
+      object-position: center 30%;
+      filter: brightness(0.8) contrast(1.05);
+      transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Pull Quote Section */
-    .editorial-quote-section {
-      max-width: 860px;
-      margin: 0  120px;
-      text-align: center;
+    .lookbook-hero:hover .lookbook-hero-bg {
+      transform: scale(1.02);
     }
-    .pull-quote {
-      font-family: var(--font-serif);
-      font-size: 32px;
-      font-style: italic;
-      line-height: 1.4;
-      color: var(--text-primary);
-      margin-bottom: 24px;
+
+    .lookbook-hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(2, 8, 20, 0.2) 0%, rgba(2, 8, 20, 0.4) 50%, rgba(2, 8, 20, 0.94) 100%);
+      pointer-events: none;
     }
-    .quote-author {
+
+    .lookbook-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .lookbook-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(61, 224, 255, 0.1);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      border-radius: 9999px;
+      color: var(--accent-cyan, #3DE0FF);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      margin-bottom: 20px;
     }
 
-    /* Lookbook Gallery Grid */
-    .lookbook-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      margin-bottom: 120px;
+    .lookbook-hero-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(40px, 5.2vw, 68px);
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 0 0 16px;
     }
-    .look-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-      transition: transform 300ms var(--ease-luxury);
+
+    .lookbook-hero-title em {
+      font-family: var(--font-accent, 'Instrument Serif', serif);
+      font-style: italic;
+      font-weight: 400;
+      color: #FFFFFF;
     }
-    .look-card:hover { transform: translateY(-6px); }
-    .look-img-wrap {
-      width: 100%;
-      height: 480px;
+
+    .lookbook-hero-subhead {
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.6;
+      color: #CBD5E1;
+      margin: 0 0 28px;
+      font-weight: 300;
+    }
+
+    .lookbook-hero-dock {
+      position: absolute;
+      bottom: clamp(24px, 4vw, 48px);
+      right: clamp(24px, 4vw, 48px);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 18px;
+      background: rgba(8, 14, 30, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 6px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .lookbook-hero-dock:hover {
+      border-color: var(--accent-cyan, #3DE0FF);
+      transform: translateY(-2px);
+    }
+
+    .hero-dock-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
       overflow: hidden;
-      background: var(--bg-card);
+      background: #020814;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
     }
-    .look-img-wrap img {
+
+    .hero-dock-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 600ms var(--ease-luxury);
     }
-    .look-card:hover .look-img-wrap img { transform: scale(1.05); }
 
-    .look- { padding: 24px; }
-    .look-num { font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-    .look-title { font-family: var(--font-serif); font-size: 22px; font-weight: 400; color: var(--text-primary); margin-bottom: 12px; }
-    .look-products { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
-    .look-link { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-primary); }
+    .hero-dock-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
 
-    .btn-luxury {
+    .hero-dock-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .hero-dock-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .hero-dock-price {
+      font-size: 12px;
+      color: #E2E8F0;
+      font-weight: 500;
+    }
+
+    /* ─── 2. Capsule Drop Filter Rail ─────────────────────────────────── */
+    .lookbook-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 20px;
+      margin-top: -20px;
+    }
+
+    .filter-pills-rail {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .filter-pills-rail::-webkit-scrollbar { display: none; }
+
+    .capsule-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .capsule-filter-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .capsule-filter-btn.active {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .lookbook-count-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748B;
+      white-space: nowrap;
+    }
+
+    /* ─── 3. Interactive Look Cards Grid ──────────────────────────────── */
+    .lookbook-grid-visual {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+
+    .look-card-visual {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .look-card-visual:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .look-stage-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: #050D1A;
+    }
+
+    .look-stage-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .look-card-visual:hover .look-stage-img {
+      transform: scale(1.04);
+    }
+
+    .look-card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 5px 12px;
+      background: rgba(8, 14, 30, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      z-index: 5;
+    }
+
+    /* ─── Spatial Model Hotspot Pins ──────────────────────────────────── */
+    .look-hotspot-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(8, 14, 30, 0.88);
+      border: 1.5px solid #FFFFFF;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.22s ease;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .look-hotspot-pin::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-cyan, #3DE0FF);
+      animation: hotspot-pulse 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    .look-hotspot-pin:hover, .look-hotspot-pin.active {
+      background: var(--accent-cyan, #3DE0FF);
+      color: #020B18;
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .look-popover-card {
+      position: absolute;
+      padding: 14px 18px;
+      background: rgba(6, 12, 26, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 4px;
+      color: #FFFFFF;
+      width: 220px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 20;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
+    }
+
+    .look-hotspot-pin:hover + .look-popover-card,
+    .look-hotspot-pin.active + .look-popover-card {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .popover-item-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: #FFFFFF;
+    }
+
+    .popover-item-price {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 10px;
+    }
+
+    .popover-quick-add-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background-color: var(--accent-dark);
-      color: var(--text-white);
-      font-family: var(--font-body);
-      font-size: 12px;
+      gap: 6px;
+      width: 100%;
+      padding: 7px 12px;
+      background: #FFFFFF;
+      color: #020B18;
+      font-size: 10px;
       font-weight: 600;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 18px 36px;
-      border: 1px solid var(--accent-dark);
-      transition: all 300ms var(--ease-luxury);
+      border-radius: 2px;
+      border: none;
       cursor: pointer;
+      transition: background 0.2s ease;
     }
-    .btn-luxury:hover { background-color: transparent; color: var(--text-primary); }
 
-    /* Footer */
-    #footer { background: #111111; color: #fcfbf9; padding-top: 80px; padding-bottom: 40px; font-family: var(--font-body); }
-    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 60px; }
-    .footer-brand-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; margin-bottom: 16px; }
-    .footer-brand-desc { font-size: 13px; color: #bdbdbd; line-height: 1.7; max-width: 320px; }
-    .footer-col-title { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; margin-bottom: 24px; }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a { font-size: 13px; color: #bdbdbd; transition: color 200ms ease; }
-    .footer-links a:hover { color: #ffffff; }
-    .footer-bottom { padding-top: 40px; border-top: 1px solid #222222; display: flex; justify-content: space-between; font-size: 11px; color: #999999; }
+    .popover-quick-add-btn:hover {
+      background: #E2E8F0;
+    }
 
+    /* ─── Look Card Footer Drawer ─────────────────────────────────────── */
+    .look-card-footer {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(2, 8, 20, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .look-footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .look-footer-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .look-footer-ensemble {
+      font-size: 11px;
+      color: var(--text-secondary, #94A3B8);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .btn-shop-look {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .btn-shop-look:hover {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+    }
+
+    /* ─── 4. Pull Quote & Concierge Pre-Footer ────────────────────────── */
+    .lookbook-quote-wrap {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 24px;
+    }
+
+    .lookbook-quote-text {
+      font-family: var(--font-accent, 'Instrument Serif', serif);
+      font-style: italic;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.4;
+      color: #FFFFFF;
+      margin: 0 0 20px;
+      font-weight: 400;
+    }
+
+    .lookbook-quote-author {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .lookbook-invitation {
+      text-align: center;
+      padding: clamp(56px, 6vw, 88px) 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: radial-gradient(circle at 50% 100%, rgba(61, 224, 255, 0.06) 0%, transparent 70%);
+      border-radius: 6px;
+    }
+
+    .lookbook-invitation-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .lookbook-invitation-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary, #94A3B8);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      font-weight: 300;
+    }
+
+    .lookbook-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .btn-lookbook-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: #FFFFFF;
+      color: #020B18;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-lookbook-light:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-lookbook-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-lookbook-ghost:hover {
+      border-color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* ─── 5. "Shop the Look" Quick Drawer / Modal ─────────────────────── */
+    .shop-look-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(1, 6, 16, 0.82);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .shop-look-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .shop-look-modal-card {
+      width: 100%;
+      max-width: 520px;
+      background: #08101E;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(16px);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .shop-look-modal-overlay.active .shop-look-modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-look-header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-look-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close-btn:hover { color: #FFFFFF; }
+
+    .modal-ensemble-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .ensemble-item-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+    }
+
+    .ensemble-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #020814;
+    }
+
+    .ensemble-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ensemble-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ensemble-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .ensemble-spec {
+      font-size: 11px;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .ensemble-price {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .modal-look-footer {
+      padding: 20px 24px;
+      background: rgba(2, 8, 20, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-total-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .modal-total-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .modal-total-val {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .btn-add-entire-look {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: #FFFFFF;
+      color: #020B18;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add-entire-look:hover {
+      background: #E2E8F0;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Responsive Media Queries ────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .lookbook-grid { grid-template-columns: repeat(2, 1fr); }
-      .campaign-title { font-size: 44px; }
-      .campaign- { padding: 40px; height: 60vh; }
+      .lookbook-grid-visual {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+      .lookbook-hero {
+        padding: 36px;
+        min-height: 520px;
+      }
+      .lookbook-hero-dock {
+        position: static;
+        margin-top: 24px;
+        width: 100%;
+        justify-content: space-between;
+      }
     }
+
     @media (max-width: 640px) {
-      .lookbook-grid { grid-template-columns: 1fr; }
+      .lookbook-grid-visual {
+        grid-template-columns: 1fr;
+      }
+      .lookbook-filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .lookbook-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-lookbook-light, .btn-lookbook-ghost {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
-<body>
+<body class="lookbook-page-bg">
 
-  <!-- ANNOUNCEMENT BAR -->
-  <div id="announcement-bar" role="region" aria-label="Announcement Bar">
-    Complimentary Worldwide Shipping On Orders Over $250 &nbsp;&middot;&nbsp; Autumn / Winter 2026 Edition
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Editorial Lookbook 2026</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
   </div>
 
-  <!-- NAVIGATION HEADER -->
-  <header id="header" role="banner">
-    <div class="container">
-      <div class="nav-inner">
-        <nav aria-label="Main Navigation">
-          <ul class="nav-menu">
-            <li><a href="category.html?cat=new" class="nav-link">New Season</a></li>
-            <li><a href="category.html?cat=outerwear" class="nav-link">Outerwear</a></li>
-            <li><a href="category.html?cat=footwear" class="nav-link">Footwear</a></li>
-            <li><a href="category.html?cat=objects" class="nav-link">Objects</a></li>
-            <li><a href="lookbook.html" class="nav-link active">Editorial</a></li>
-          </ul>
-        </nav>
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
 
-        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" /></a>
+      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
+        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
+        <a href="category.html?cat=new" class="nav-item-link">New In</a>
+        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+        <a href="lookbook.html" class="nav-item-link active" style="color: var(--accent-cyan);">Lookbook</a>
+      </nav>
 
-        <div class="nav-actions">
-          <button class="nav-action-btn" aria-label="Search"><span>Search</span></button>
-          <button class="nav-action-btn" aria-label="Wishlist"><span>Saved</span></button>
-          <button class="nav-action-btn" id="cart-trigger" aria-label="Shopping Bag">
-            <span>Bag</span> <span class="bag-count" id="header-bag-count">(2)</span>
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">What are you looking for?</span>
+          <span class="search-kbd">Ctrl + K</span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <span>Concierge</span>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
+          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        </a>
+
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
           </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </header>
 
-  <main id="main-content">
-    <!-- Campaign  Cover -->
-    <section class="campaign-hero">
-      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1600&auto=format&fit=crop" alt="Editorial Campaign Lookbook Cover">
-      <div class="campaign-hero-content">
-        <div class="campaign-tag">Seasonal Campaign &nbsp;&middot;&nbsp; Issue 14</div>
-        <h1 class="campaign-title">The Winter Edit 2026</h1>
-        <p class="campaign-subhead">
-          An investigation into architectural restraint, Japanese wool blends, and studio acoustic objects. Photographed on location in Osaka.
+  <!-- MAIN EDITORIAL CONTENT -->
+  <main class="lookbook-wrap" id="mainContent">
+
+    <!-- 1. FULL-BLEED RUNWAY HERO -->
+    <section class="lookbook-hero" aria-labelledby="lookbookHeroTitle">
+      <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="The Winter Edit 2026 Lookbook Runway" class="lookbook-hero-bg" loading="eager" />
+      <div class="lookbook-hero-scrim"></div>
+
+      <div class="lookbook-hero-content">
+        <div class="lookbook-hero-tag">
+          <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+          <span>Seasonal Capsule &middot; Issue 14</span>
+        </div>
+        <h1 class="lookbook-hero-title" id="lookbookHeroTitle">
+          The <em>Winter Edit</em> 2026.
+        </h1>
+        <p class="lookbook-hero-subhead">
+          An architectural exploration of cashmere drape, Tuscan leather, and pure acoustic beryllium.
         </p>
-        <a href="#looks" class="btn-luxury" style="background: #ffffff; color: #121212; border-color: #ffffff;">Explore The Looks &rarr;</a>
+        <a href="#runway" class="btn-lookbook-light">
+          <span>Explore All 6 Looks &rarr;</span>
+        </a>
+      </div>
+
+      <!-- Docked Featured Look 01 Pill -->
+      <div class="lookbook-hero-dock" id="heroLookDock" role="button" tabindex="0" aria-label="Quick Shop Look 01">
+        <div class="hero-dock-thumb">
+          <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Look 01 Ensemble" />
+        </div>
+        <div class="hero-dock-meta">
+          <span class="hero-dock-label">✦ Featured Drop</span>
+          <span class="hero-dock-name">Look 01 &middot; Tailored Ensemble</span>
+          <span class="hero-dock-price">€ 1,020.00 &middot; 2 Pieces</span>
+        </div>
       </div>
     </section>
 
-    <!-- Editorial Director Pull Quote -->
-    <section class="container">
-      <div class="editorial-quote-section">
-        <div class="pull-quote">
-          "We started with a single question: What should a coat feel like when no one is watching? The answer is weightlessness encased in structure."
-        </div>
-        <div class="quote-author">Julian Mercer &nbsp;&middot;&nbsp; Creative Director</div>
+    <!-- 2. CAPSULE DROP FILTER RAIL -->
+    <section id="runway" class="lookbook-filter-bar" aria-label="Lookbook Category Filter">
+      <div class="filter-pills-rail" role="tablist">
+        <button type="button" class="capsule-filter-btn active" role="tab" aria-selected="true" data-filter="all">All Looks (6)</button>
+        <button type="button" class="capsule-filter-btn" role="tab" aria-selected="false" data-filter="tailoring">Tailoring &amp; Knitwear</button>
+        <button type="button" class="capsule-filter-btn" role="tab" aria-selected="false" data-filter="leather">Tuscan Leather</button>
+        <button type="button" class="capsule-filter-btn" role="tab" aria-selected="false" data-filter="acoustics">Bespoke Acoustics</button>
+        <button type="button" class="capsule-filter-btn" role="tab" aria-selected="false" data-filter="objects">Horology &amp; Objects</button>
       </div>
-
-      <!-- Looks Grid -->
-      <section id="looks">
-        <div style="text-align: center; margin-bottom: 56px;">
-          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);">Curated Ensemble Collection</span>
-          <h2 style="font-family: var(--font-serif); font-size: 36px; font-weight: 400; margin-top: 8px;">The Six Looks</h2>
-        </div>
-
-        <div class="lookbook-grid">
-          <!-- Look 01 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=800&auto=format&fit=crop" alt="Look 01">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 01 &nbsp;&middot;&nbsp; Outerwear</div>
-              <h3 class="look-title">Tailored Melton Trench</h3>
-              <div class="look-products">Paired with: Low Court Leather Trainer ($195)</div>
-              <a href="product.html?id=p10" class="look-link">Shop Look 01 &rarr;</a>
-            </div>
-          </div>
-
-          <!-- Look 02 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop" alt="Look 02">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 02 &nbsp;&middot;&nbsp; Knitwear</div>
-              <h3 class="look-title">Mongolian Cashmere Roll-Neck</h3>
-              <div class="look-products">Paired with: Studio Acoustic Headphones ($285)</div>
-              <a href="product.html?id=p6" class="look-link">Shop Look 02 &rarr;</a>
-            </div>
-          </div>
-
-          <!-- Look 03 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop" alt="Look 03">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 03 &nbsp;&middot;&nbsp; Footwear</div>
-              <h3 class="look-title">Carbon Pro Distance Runner</h3>
-              <div class="look-products">Paired with: Titanium Pulse Smartwatch ($420)</div>
-              <a href="product.html?id=p1" class="look-link">Shop Look 03 &rarr;</a>
-            </div>
-          </div>
-
-          <!-- Look 04 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop" alt="Look 04">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 04 &nbsp;&middot;&nbsp; Tailoring</div>
-              <h3 class="look-title">Wool Minimalist Jacket</h3>
-              <div class="look-products">Paired with: Architectural Canvas Tote ($120)</div>
-              <a href="product.html?id=p4" class="look-link">Shop Look 04 &rarr;</a>
-            </div>
-          </div>
-
-          <!-- Look 05 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop" alt="Look 05">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 05 &nbsp;&middot;&nbsp; Outdoor</div>
-              <h3 class="look-title">Trail Mesh Vibram Runner</h3>
-              <div class="look-products">Paired with: Brass Minimalist Desk Lamp ($210)</div>
-              <a href="product.html?id=p5" class="look-link">Shop Look 05 &rarr;</a>
-            </div>
-          </div>
-
-          <!-- Look 06 -->
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="Look 06">
-            </div>
-            <div class="look-info">
-              <div class="look-num">Look 06 &nbsp;&middot;&nbsp; Timepieces</div>
-              <h3 class="look-title">Steel Field Chronograph</h3>
-              <div class="look-products">Paired with: Portable Acoustic Speaker ($165)</div>
-              <a href="product.html?id=p8" class="look-link">Shop Look 06 &rarr;</a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <span class="lookbook-count-label" id="looksCounter">Showing 6 Ensembles</span>
     </section>
+
+    <!-- 3. INTERACTIVE SHOPPABLE LOOKS GRID -->
+    <section class="lookbook-grid-visual" id="lookbookGrid">
+
+      <!-- Look 01 -->
+      <article class="look-card-visual" data-category="tailoring" data-look-id="look-01">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Look 01 · Tailored Melton Trench" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 01 &middot; Outerwear</span>
+
+          <!-- Hotspot 1: Overcoat -->
+          <div class="look-hotspot-pin" style="top: 38%; left: 45%;" tabindex="0" role="button" aria-label="Inspect Cashmere Melton Overcoat">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 42%; left: 45%;">
+            <div class="popover-item-name">Cashmere Melton Overcoat</div>
+            <div class="popover-item-price">€ 680.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p10" data-item-title="Cashmere Melton Overcoat" data-item-price="680">Quick Add to Bag</button>
+          </div>
+
+          <!-- Hotspot 2: Knitwear -->
+          <div class="look-hotspot-pin" style="top: 58%; left: 52%;" tabindex="0" role="button" aria-label="Inspect Mongolian Roll-Neck">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 62%; left: 52%;">
+            <div class="popover-item-name">Mongolian Cashmere Roll-Neck</div>
+            <div class="popover-item-price">€ 340.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p6" data-item-title="Mongolian Cashmere Roll-Neck" data-item-price="340">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Tailored Melton Ensemble</h3>
+            <span class="look-footer-ensemble">Overcoat + 2-Ply Roll-Neck</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-01">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+      <!-- Look 02 -->
+      <article class="look-card-visual" data-category="leather" data-look-id="look-02">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/tote_lifestyle.png" alt="Look 02 · Tuscan Leathercraft" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 02 &middot; Leather</span>
+
+          <!-- Hotspot 1: Tote -->
+          <div class="look-hotspot-pin" style="top: 48%; left: 48%;" tabindex="0" role="button" aria-label="Inspect Architectural Tuscan Tote">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 52%; left: 48%;">
+            <div class="popover-item-name">Architectural Tuscan Tote</div>
+            <div class="popover-item-price">€ 420.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p4" data-item-title="Architectural Tuscan Tote" data-item-price="420">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Tuscan Leathercraft</h3>
+            <span class="look-footer-ensemble">Full-Grain Calfskin &middot; Santa Croce</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-02">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+      <!-- Look 03 -->
+      <article class="look-card-visual" data-category="acoustics" data-look-id="look-03">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/headphone_lifestyle.png" alt="Look 03 · Bespoke High Acoustics" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 03 &middot; Acoustics</span>
+
+          <!-- Hotspot 1: Headphones -->
+          <div class="look-hotspot-pin" style="top: 45%; left: 50%;" tabindex="0" role="button" aria-label="Inspect Beryllium Headphones">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 50%; left: 50%;">
+            <div class="popover-item-name">Studio Acoustic Beryllium</div>
+            <div class="popover-item-price">€ 490.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p2" data-item-title="Studio Acoustic Beryllium" data-item-price="490">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Acoustic Precision</h3>
+            <span class="look-footer-ensemble">50mm Pure Foil &middot; Solid Walnut</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-03">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+      <!-- Look 04 -->
+      <article class="look-card-visual" data-category="tailoring" data-look-id="look-04">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/runner_lifestyle.png" alt="Look 04 · Sartorial Active Movement" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 04 &middot; Active</span>
+
+          <!-- Hotspot 1: Runner -->
+          <div class="look-hotspot-pin" style="top: 55%; left: 45%;" tabindex="0" role="button" aria-label="Inspect Carbon Pro Distance Runner">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 60%; left: 45%;">
+            <div class="popover-item-name">Carbon Pro Distance Runner</div>
+            <div class="popover-item-price">€ 220.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p1" data-item-title="Carbon Pro Distance Runner" data-item-price="220">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Carbon Sartorial Movement</h3>
+            <span class="look-footer-ensemble">Adaptive Midsole + Technical Weave</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-04">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+      <!-- Look 05 -->
+      <article class="look-card-visual" data-category="objects" data-look-id="look-05">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/hero_watch_hd.jpg" alt="Look 05 · Horology & Minimalist Metal" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 05 &middot; Horology</span>
+
+          <!-- Hotspot 1: Watch -->
+          <div class="look-hotspot-pin" style="top: 50%; left: 52%;" tabindex="0" role="button" aria-label="Inspect Titanium Field Chronograph">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 55%; left: 52%;">
+            <div class="popover-item-name">Titanium Field Chronograph</div>
+            <div class="popover-item-price">€ 540.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p8" data-item-title="Titanium Field Chronograph" data-item-price="540">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Precision Horology</h3>
+            <span class="look-footer-ensemble">Grade 5 Titanium &middot; Sapphire Lens</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-05">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+      <!-- Look 06 -->
+      <article class="look-card-visual" data-category="tailoring" data-look-id="look-06">
+        <div class="look-stage-wrap">
+          <img src="../assets/images/lifestyle/hero_sweater_bright_hd.jpg" alt="Look 06 · The Atelier Evening Silhouette" class="look-stage-img" loading="lazy" />
+          <span class="look-card-badge">Look 06 &middot; Evening</span>
+
+          <!-- Hotspot 1: Knitwear -->
+          <div class="look-hotspot-pin" style="top: 45%; left: 48%;" tabindex="0" role="button" aria-label="Inspect Selvedge Silk Turtleneck">
+            <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+          </div>
+          <div class="look-popover-card" style="top: 50%; left: 48%;">
+            <div class="popover-item-name">Japanese Selvedge Silk Knit</div>
+            <div class="popover-item-price">€ 380.00</div>
+            <button class="popover-quick-add-btn" data-add-item="p3" data-item-title="Japanese Selvedge Silk Knit" data-item-price="380">Quick Add to Bag</button>
+          </div>
+        </div>
+
+        <div class="look-card-footer">
+          <div class="look-footer-info">
+            <h3 class="look-footer-title">Evening Atelier Silhouette</h3>
+            <span class="look-footer-ensemble">Selvedge Silk-Wool Drape</span>
+          </div>
+          <button class="btn-shop-look" data-open-look="look-06">Shop Look &rarr;</button>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- 4. EDITORIAL PULL-QUOTE & CONCIERGE -->
+    <section class="lookbook-quote-wrap" aria-label="Creative Direction Statement">
+      <blockquote class="lookbook-quote-text">
+        &ldquo;What should a garment feel like when no one is watching? Weightlessness encased in architectural structure.&rdquo;
+      </blockquote>
+      <span class="lookbook-quote-author">Aurelia Vance &middot; Creative Director</span>
+    </section>
+
+    <!-- 5. PRE-FOOTER INVITATION -->
+    <section class="lookbook-invitation" aria-label="Atelier Invitation">
+      <h2 class="lookbook-invitation-title">Explore The Seasonal Collection</h2>
+      <p class="lookbook-invitation-desc">
+        Browse the complete catalog of ready-to-wear, leather goods, and acoustic precision.
+      </p>
+      <div class="lookbook-actions">
+        <a href="category.html?cat=all" class="btn-lookbook-light">
+          <span>Explore All Pieces</span>
+          <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+        </a>
+        <a href="concierge.html" class="btn-lookbook-ghost">
+          <span>Private Style Concierge</span>
+        </a>
+      </div>
+    </section>
+
   </main>
 
-  <!-- LUXURY FOOTER -->
-  <footer id="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand-title">NEXCOMMERCE</div>
-          <p class="footer-brand-desc">A global destination for architectural apparel, acoustic objects, and refined everyday footwear.</p>
-        </div>
-        <div>
-          <div class="footer-col-title">Collections</div>
-          <ul class="footer-links">
-            <li><a href="category.html?cat=outerwear">Outerwear</a></li>
-            <li><a href="category.html?cat=footwear">Footwear</a></li>
-            <li><a href="category.html?cat=objects">Acoustics</a></li>
-            <li><a href="lookbook.html">Lookbook</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">Client Support</div>
-          <ul class="footer-links">
-            <li><a href="#">Shipping & Returns</a></li>
-            <li><a href="#">Size Advisor</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-col-title">The Gazette</div>
-          <p style="font-size: 13px; color: #bdbdbd; margin-bottom: 16px;">Private collection previews & editorial issues.</p>
-        </div>
+  <!-- 6. "SHOP THE LOOK" QUICK DRAWER / MODAL -->
+  <div class="shop-look-modal-overlay" id="shopLookModalOverlay" aria-hidden="true">
+    <div class="shop-look-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalLookTitle">
+      <div class="modal-look-header">
+        <h3 class="modal-look-title" id="modalLookTitle">Shop Look 01</h3>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
       </div>
 
-      <div class="footer-bottom">
-        <div>&copy; 2026 nexCommerce Inc. All Rights Reserved.</div>
-        <div style="display: flex; gap: 24px;"><span>Apple Pay</span><span>Visa</span><span>Amex</span></div>
+      <div class="modal-ensemble-body" id="modalEnsembleBody">
+        <!-- Injected via JavaScript based on active look -->
+      </div>
+
+      <div class="modal-look-footer">
+        <div class="modal-total-wrap">
+          <span class="modal-total-label">Ensemble Total</span>
+          <span class="modal-total-val" id="modalTotalVal">€ 1,020.00</span>
+        </div>
+        <button class="btn-add-entire-look" id="btnAddEntireLook">
+          <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
+          <span>Add Look to Bag</span>
+        </button>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <script src="../js/ai-engine.js?v=3"></script>
-  <script src="../js/theme-switcher.js?v=3"></script>
-  <!-- CDNs -->
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY MODAL -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body">
+      <!-- Populated by cart.js -->
+    </div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
+      </div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- Luxury GPU Page Transition Curtain -->
+  <div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
+
+  <!-- CDNs & Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js?v=6"></script>
+
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
-  <script src="../js/style-profile.js"></script>
-  <script src="../js/context-retention.js"></script>
-  <script src="../js/concierge-engine.js?v=3"></script>
-  <script src="../js/concierge.js?v=3"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
 
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
+  <!-- Lookbook Runway Interactive Controller -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
 
+      // 1. Preloader Dismissal
+      const preloader = document.getElementById('pagePreloader');
+      const progressBar = document.getElementById('preloaderProgressBar');
+      const percentEl = document.getElementById('preloaderPercent');
+      if (preloader) {
+        let pct = 0;
+        const iv = setInterval(() => {
+          pct += 20;
+          if (pct > 100) pct = 100;
+          if (progressBar) progressBar.style.width = pct + '%';
+          if (percentEl) percentEl.textContent = pct + '%';
+          if (pct >= 100) {
+            clearInterval(iv);
+            setTimeout(() => {
+              preloader.style.opacity = '0';
+              preloader.style.pointerEvents = 'none';
+              setTimeout(() => preloader.remove(), 350);
+            }, 180);
+          }
+        }, 25);
+      }
+
+      // 2. Ensemble Data Store for "Shop the Look"
+      const ensembleStore = {
+        'look-01': {
+          title: 'Look 01 · Tailored Melton Ensemble',
+          total: 1020,
+          items: [
+            { id: 'p10', name: 'Cashmere Melton Overcoat', spec: 'Mongolian Cashmere · Hand-Canvassed', price: 680, img: '../assets/images/lifestyle/sweater_lifestyle.png' },
+            { id: 'p6', name: 'Cashmere Roll-Neck Sweater', spec: '2-Ply 420 GSM · Ulaanbaatar', price: 340, img: '../assets/images/lifestyle/hero_sweater_hd.jpg' }
+          ]
+        },
+        'look-02': {
+          title: 'Look 02 · Tuscan Leathercraft',
+          total: 730,
+          items: [
+            { id: 'p4', name: 'Architectural Tuscan Tote', spec: 'Full-Grain Calfskin · Santa Croce', price: 420, img: '../assets/images/lifestyle/tote_lifestyle.png' },
+            { id: 'p11', name: 'Goodyear Welted Calf Derby', spec: 'Burnished Edge · Anatomical Last', price: 310, img: '../assets/images/lifestyle/hero_tote_hd.jpg' }
+          ]
+        },
+        'look-03': {
+          title: 'Look 03 · Bespoke High Acoustics',
+          total: 610,
+          items: [
+            { id: 'p2', name: 'Studio Acoustic Beryllium', spec: '50mm Pure Foil · 7075-T6 Alloy', price: 490, img: '../assets/images/lifestyle/headphone_lifestyle.png' },
+            { id: 'p12', name: 'Solid Walnut Acoustic Stand', spec: 'American Walnut · Hand Finished', price: 120, img: '../assets/images/lifestyle/hero_headphone_hd.jpg' }
+          ]
+        },
+        'look-04': {
+          title: 'Look 04 · Sartorial Active Movement',
+          total: 500,
+          items: [
+            { id: 'p1', name: 'Carbon Pro Distance Runner', spec: 'Adaptive Carbon Midsole · Lightweight', price: 220, img: '../assets/images/lifestyle/runner_lifestyle.png' },
+            { id: 'p13', name: 'Technical Tailored Windbreaker', spec: 'Water-Repellent Japanese Shell', price: 280, img: '../assets/images/lifestyle/hero_runner_landscape.jpg' }
+          ]
+        },
+        'look-05': {
+          title: 'Look 05 · Precision Horology',
+          total: 635,
+          items: [
+            { id: 'p8', name: 'Titanium Field Chronograph', spec: 'Grade 5 Titanium · Sapphire Glass', price: 540, img: '../assets/images/lifestyle/hero_watch_hd.jpg' },
+            { id: 'p14', name: 'Italian Calfskin Strap', spec: 'Hand-Stitched · Vegetable Tanned', price: 95, img: '../assets/images/lifestyle/thumb_watch.jpg' }
+          ]
+        },
+        'look-06': {
+          title: 'Look 06 · Evening Atelier Silhouette',
+          total: 670,
+          items: [
+            { id: 'p3', name: 'Japanese Selvedge Silk Knit', spec: '70% Silk / 30% Wool · Shuttle Loom', price: 380, img: '../assets/images/lifestyle/hero_sweater_bright_hd.jpg' },
+            { id: 'p15', name: 'Pleated Italian Wool Trouser', spec: 'Super 130s Merino · High Waisted', price: 290, img: '../assets/images/lifestyle/hero_sweater_dark_hd.jpg' }
+          ]
+        }
+      };
+
+      // 3. Capsule Drop Filter Tabs
+      const filterBtns = document.querySelectorAll('.capsule-filter-btn');
+      const lookCards = document.querySelectorAll('.look-card-visual');
+      const countLabel = document.getElementById('looksCounter');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+
+          filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          let visibleCount = 0;
+          lookCards.forEach(card => {
+            const cardCat = card.dataset.category;
+            if (filter === 'all' || cardCat === filter) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (countLabel) {
+            countLabel.textContent = `Showing ${visibleCount} Ensemble${visibleCount === 1 ? '' : 's'}`;
+          }
+        });
+      });
+
+      // 4. Hotspot Pins Click/Touch Handling
+      const pins = document.querySelectorAll('.look-hotspot-pin');
+      pins.forEach(pin => {
+        pin.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isActive = pin.classList.contains('active');
+          pins.forEach(p => p.classList.remove('active'));
+          if (!isActive) pin.classList.add('active');
+        });
+      });
+
+      document.addEventListener('click', () => {
+        pins.forEach(p => p.classList.remove('active'));
+      });
+
+      // Quick Add Button inside Popover
+      document.querySelectorAll('.popover-quick-add-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const itemId = btn.dataset.addItem;
+          const itemTitle = btn.dataset.itemTitle;
+          const itemPrice = parseFloat(btn.dataset.itemPrice) || 0;
+
+          if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+            window.nexCart.addItem(itemId, 1);
+          } else {
+            alert(`Added ${itemTitle} (€ ${itemPrice.toFixed(2)}) to your shopping bag.`);
+          }
+          pins.forEach(p => p.classList.remove('active'));
+        });
+      });
+
+      // 5. "Shop the Look" Modal Management
+      const modalOverlay = document.getElementById('shopLookModalOverlay');
+      const modalTitle = document.getElementById('modalLookTitle');
+      const modalBody = document.getElementById('modalEnsembleBody');
+      const modalTotal = document.getElementById('modalTotalVal');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const btnAddEntireLook = document.getElementById('btnAddEntireLook');
+      let currentActiveLook = null;
+
+      function openShopLookModal(lookId) {
+        const lookData = ensembleStore[lookId];
+        if (!lookData || !modalOverlay) return;
+
+        currentActiveLook = lookData;
+        if (modalTitle) modalTitle.textContent = lookData.title;
+        if (modalTotal) modalTotal.textContent = `€ ${lookData.total.toFixed(2)}`;
+
+        if (modalBody) {
+          modalBody.innerHTML = lookData.items.map(item => `
+            <div class="ensemble-item-row">
+              <div class="ensemble-thumb">
+                <img src="${item.img}" alt="${item.name}" />
+              </div>
+              <div class="ensemble-info">
+                <span class="ensemble-name">${item.name}</span>
+                <span class="ensemble-spec">${item.spec}</span>
+              </div>
+              <span class="ensemble-price">€ ${item.price.toFixed(2)}</span>
+            </div>
+          `).join('');
+        }
+
+        modalOverlay.classList.add('active');
+        modalOverlay.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeShopLookModal() {
+        if (modalOverlay) {
+          modalOverlay.classList.remove('active');
+          modalOverlay.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      document.querySelectorAll('[data-open-look]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lookId = btn.dataset.openLook;
+          openShopLookModal(lookId);
+        });
+      });
+
+      const heroDock = document.getElementById('heroLookDock');
+      if (heroDock) {
+        heroDock.addEventListener('click', () => openShopLookModal('look-01'));
+      }
+
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeShopLookModal);
+      if (modalOverlay) {
+        modalOverlay.addEventListener('click', (e) => {
+          if (e.target === modalOverlay) closeShopLookModal();
+        });
+      }
+
+      if (btnAddEntireLook) {
+        btnAddEntireLook.addEventListener('click', () => {
+          if (!currentActiveLook) return;
+          currentActiveLook.items.forEach(item => {
+            if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+              window.nexCart.addItem(item.id, 1);
+            }
+          });
+          closeShopLookModal();
+          if (window.nexCart && typeof window.nexCart.openDrawer === 'function') {
+            window.nexCart.openDrawer();
+          }
+        });
+      }
+
+      // 6. GPU Page Transition Curtain
+      const curtain = document.getElementById('pageTransitionOverlay');
+      document.querySelectorAll('a[href]:not([href^="#"]):not([target="_blank"])').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('javascript:') && !href.startsWith('#')) {
+            if (curtain) {
+              e.preventDefault();
+              curtain.style.opacity = '1';
+              setTimeout(() => {
+                window.location.href = href;
+              }, 150);
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

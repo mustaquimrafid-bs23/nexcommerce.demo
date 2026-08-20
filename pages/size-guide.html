@@ -3,605 +3,1431 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Size &amp; Fit Advisor Atelier &mdash; nexCommerce</title>
-  <meta name="description" content="Calculate your precise anatomical proportion size across ready-to-wear, tailored trousers, and artisanal footwear with our interactive atelier advisor.">
+  <title>Size &amp; Fit Atelier &mdash; nexCommerce</title>
+  <meta name="description" content="Find your exact atelier size with our interactive 2D silhouette measurement visualizer — no more guessing, just precision.">
   <meta name="view-transition" content="same-origin" />
 
-  <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=6">
-</head>
-<body class="tracking-page-bg">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=37">
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <style>
+    body.sizeguide-bg {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── Page Wrapper ─────────────────────────────────────────────────── */
+    .sg-wrap {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 7vw, 96px);
+    }
+
+    /* ─── Page Hero ────────────────────────────────────────────────────── */
+    .sg-hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sg-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-hero-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .sg-hero-sub {
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 560px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Section Label ────────────────────────────────────────────────── */
+    .sg-section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .sg-section-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       1. 2D SILHOUETTE MEASUREMENT VISUALIZER
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-visualizer-section {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* Left: SVG Silhouette Stage */
+    .sg-silhouette-stage {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .sg-silhouette-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 32px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: visible;
+    }
+
+    #silhouetteSVG {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+    }
+
+    /* Animated Measurement Tape Lines */
+    .meas-tape-line {
+      stroke-dasharray: 6 4;
+      stroke-dashoffset: 0;
+      animation: tape-march 1.2s linear infinite;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .meas-tape-line.visible {
+      opacity: 1;
+    }
+
+    @keyframes tape-march {
+      to { stroke-dashoffset: -20; }
+    }
+
+    /* Measurement Label Chips on SVG */
+    .meas-chip-group {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .meas-chip-group.visible { opacity: 1; }
+
+    /* Size Result Badge at bottom of silhouette */
+    .sg-size-result-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 28px;
+      background: rgba(61, 224, 255, 0.06);
+      border: 1px solid rgba(61, 224, 255, 0.22);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .sg-size-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-size-number {
+      font-family: 'Manrope', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .sg-size-sub {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .sg-confidence-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    /* Right: Control Sliders */
+    .sg-controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sg-unit-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 4px;
+      width: fit-content;
+    }
+
+    .sg-unit-btn {
+      padding: 6px 16px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .sg-unit-btn.active {
+      background: #FFFFFF;
+      color: #020B18;
+    }
+
+    /* Slider Groups */
+    .sg-slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .sg-slider-group:hover,
+    .sg-slider-group.active {
+      border-color: rgba(61, 224, 255, 0.35);
+      background: rgba(61, 224, 255, 0.03);
+    }
+
+    .sg-slider-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sg-slider-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sg-slider-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      color: var(--accent-cyan, #3DE0FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sg-slider-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .sg-slider-desc {
+      font-size: 11px;
+      color: #64748B;
+    }
+
+    .sg-slider-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-cyan, #3DE0FF);
+      white-space: nowrap;
+    }
+
+    /* Range Slider Styling */
+    input[type="range"].sg-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-track {
+      height: 3px;
+      border-radius: 9999px;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.4);
+      cursor: grab;
+      transition: box-shadow 0.2s ease;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      box-shadow: 0 0 0 5px rgba(61, 224, 255, 0.6);
+    }
+
+    /* Drape Preference Chips */
+    .sg-drape-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sg-drape-chip {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .sg-drape-chip.active {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* Shop CTA */
+    .sg-shop-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-sg-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sg-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .btn-sg-ghost {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .btn-sg-ghost:hover { border-color: #FFFFFF; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       2. MEASUREMENT POINT VISUAL CARDS
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-measurement-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .sg-measure-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .sg-measure-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .sg-measure-icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-measure-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-cyan, #3DE0FF);
+      letter-spacing: 0.14em;
+    }
+
+    .sg-measure-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .sg-measure-card-desc {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       3. SIZE CONVERSION MATRIX (Compact Visual Cards, not raw tables)
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-matrix-section {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .sg-matrix-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .sg-matrix-tabs::-webkit-scrollbar { display: none; }
+
+    .sg-matrix-tab {
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+
+    .sg-matrix-tab.active {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+    }
+
+    .sg-matrix-panel {
+      display: none;
+    }
+
+    .sg-matrix-panel.active {
+      display: block;
+    }
+
+    /* Visual Size Cards Grid */
+    .sg-size-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .sg-size-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sg-size-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .sg-size-card.recommended {
+      background: rgba(61, 224, 255, 0.06);
+      border-color: rgba(61, 224, 255, 0.35);
+    }
+
+    .sg-size-card-num {
+      font-family: 'Manrope', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+
+    .sg-size-card.recommended .sg-size-card-num {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-size-card-intl {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    .sg-size-card-chest {
+      font-size: 10px;
+      color: #64748B;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .sg-rec-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      padding: 2px 6px;
+      background: rgba(61, 224, 255, 0.12);
+      border-radius: 2px;
+    }
+
+    /* Footwear Visual Grid */
+    .sg-shoe-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .sg-shoe-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sg-shoe-card:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .sg-shoe-card.recommended {
+      background: rgba(61, 224, 255, 0.06);
+      border-color: rgba(61, 224, 255, 0.3);
+    }
+
+    .sg-shoe-eu {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .sg-shoe-card.recommended .sg-shoe-eu {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-shoe-uk-us {
+      font-size: 11px;
+      color: #94A3B8;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .sg-shoe-cm {
+      font-size: 10px;
+      color: #64748B;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       4. CONCIERGE INVITATION BRIDGE
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-concierge-bridge {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: clamp(48px, 5vw, 72px) 24px;
+      background: radial-gradient(circle at 50% 0%, rgba(61, 224, 255, 0.08) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+    }
+
+    .sg-concierge-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .sg-concierge-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 480px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .sg-visualizer-section {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .sg-silhouette-stage {
+        position: static;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .sg-silhouette-wrap {
+        flex: 0 0 200px;
+        max-width: 200px;
+      }
+      .sg-size-result-badge {
+        flex: 1;
+        min-width: 200px;
+      }
+      .sg-measurement-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sg-size-cards-grid,
+      .sg-shoe-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sg-measurement-cards {
+        grid-template-columns: 1fr;
+      }
+      .sg-size-cards-grid,
+      .sg-shoe-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sg-silhouette-stage {
+        flex-direction: column;
+        align-items: center;
+      }
+      .sg-size-result-badge {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="sizeguide-bg">
+
+  <!-- PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Atelier Silhouette &amp; Fit Calibrator</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
-      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
-        </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
-          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
         </a>
       </div>
-
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
         <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+        <a href="lookbook.html" class="nav-item-link">Lookbook</a>
       </nav>
-
-      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
           <span class="search-pill-placeholder">What are you looking for?</span>
           <span class="search-kbd">Ctrl + K</span>
         </button>
       </div>
-
-      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
         <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
+          <i data-lucide="sparkles" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
           <span>Concierge</span>
         </button>
-
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
-          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist">
+          <i data-lucide="heart" style="width:18px;height:18px;"></i>
         </a>
-
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account">
+          <i data-lucide="user" style="width:18px;height:18px;"></i>
         </a>
-
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
         </a>
-
-        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
         <div class="nav-more-menu" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal" style="width:18px;height:18px;"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="tracking.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="truck"></i>
-              <span>Track Order</span>
-            </a>
-            <a href="profile.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="sparkles"></i>
-              <span>AI Style Profile</span>
-            </a>
-            <div class="nav-more-divider"></div>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
-              <i data-lucide="receipt"></i>
-              <span>Order History</span>
-            </a>
+            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
+            <a href="contact.html" class="nav-more-item" role="menuitem"><i data-lucide="headphones"></i><span>Client Services</span></a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
-    </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
-  </div>
+  <main class="sg-wrap" id="mainContent">
 
-  <main>
-    <div class="size-guide-wrap">
+    <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
+    <section class="sg-hero">
+      <span class="sg-hero-tag">
+        <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
+        Bespoke Proportions &amp; Anatomical Fit
+      </span>
+      <h1 class="sg-hero-title">Size &amp; Fit Atelier</h1>
+      <p class="sg-hero-sub">
+        Move the sliders. Watch your silhouette respond. Find your exact size in seconds.
+      </p>
+    </section>
 
-      <!-- HERO / HEADER -->
-      <div class="size-guide-header">
-        <span class="account-tier-badge" style="margin-bottom: 8px;">
-          <i data-lucide="sparkles" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
-          <span>BESPOKE PROPORTIONS &amp; ANATOMICAL FIT</span>
-        </span>
-        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">The Atelier Size &amp; Fit Guide</h1>
-        <p class="profile-subhead" style="max-width: 680px;">
-          Every garment and footwear silhouette in our maison is tailored according to precise anatomical proportion guidelines. Use our interactive metric calculator, category conversion tables, and digital tailor advisor to find your exact silhouette.
-        </p>
-      </div>
+    <!-- ─── SECTION 1: 2D SILHOUETTE VISUALIZER ──────────────────────── -->
+    <section class="sg-visualizer-section" aria-labelledby="vizSectionTitle">
+      <!-- Left: Sticky Silhouette Stage -->
+      <div class="sg-silhouette-stage">
+        <div class="sg-silhouette-wrap" id="silhouetteWrap">
+          <!-- 2D SVG Body Silhouette with Annotated Measurement Lines -->
+          <svg id="silhouetteSVG" viewBox="0 0 220 460" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Interactive silhouette measurement diagram" role="img">
+            <defs>
+              <linearGradient id="bodyGrad" x1="110" y1="0" x2="110" y2="460" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1E3A5F"/>
+                <stop offset="100%" stop-color="#0D1F35"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
 
-      <!-- INTERACTIVE SMART FIT ADVISOR -->
-      <div class="fit-calculator-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 14px;">
-          <div>
-            <span class="preference-label" style="margin-bottom: 4px;">CALCULATOR ENGINE</span>
-            <div style="font-family: var(--font-serif); font-size: 26px; color: #FFFFFF;">Anatomical Size Calibrator</div>
-          </div>
-          <!-- Unit Switcher -->
-          <div class="unit-toggle-wrap">
-            <button type="button" class="unit-toggle-btn active" id="btnUnitCm" onclick="switchUnit('cm')">CENTIMETERS (CM)</button>
-            <button type="button" class="unit-toggle-btn" id="btnUnitIn" onclick="switchUnit('in')">INCHES (IN)</button>
-          </div>
+            <!-- ── Body Silhouette Shape ─────────────────────────────── -->
+            <!-- Head -->
+            <ellipse cx="110" cy="38" rx="24" ry="28" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+            <!-- Neck -->
+            <rect x="101" y="60" width="18" height="18" rx="3" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+            <!-- Shoulders + Torso -->
+            <path d="M52 86 Q60 76 101 74 L119 74 Q160 76 168 86 L172 130 Q168 138 160 140 L155 230 Q150 238 140 240 L80 240 Q70 238 65 230 L60 140 Q52 138 48 130 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+            <!-- Arms (Left) -->
+            <path d="M52 86 L40 90 Q28 95 24 140 L28 168 Q32 172 36 170 L44 140 Q48 118 56 110 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <!-- Arms (Right) -->
+            <path d="M168 86 L180 90 Q192 95 196 140 L192 168 Q188 172 184 170 L176 140 Q172 118 164 110 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+            <!-- Hands (Left) -->
+            <ellipse cx="29" cy="176" rx="8" ry="12" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <!-- Hands (Right) -->
+            <ellipse cx="191" cy="176" rx="8" ry="12" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+            <!-- Hip / Lower Torso -->
+            <path d="M80 240 L80 270 Q76 282 72 290 L88 290 L88 240 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <path d="M140 240 L140 270 Q144 282 148 290 L132 290 L132 240 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+            <!-- Hip bridge -->
+            <path d="M80 240 Q90 244 110 244 Q130 244 140 240 L140 270 Q130 278 110 280 Q90 278 80 270 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+            <!-- Legs (Left) -->
+            <path d="M72 290 L68 400 Q68 416 76 418 L88 418 Q92 416 92 400 L88 290 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+            <!-- Legs (Right) -->
+            <path d="M148 290 L152 400 Q152 416 144 418 L132 418 Q128 416 128 400 L132 290 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+            <!-- Feet (Left) -->
+            <ellipse cx="80" cy="422" rx="14" ry="8" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <!-- Feet (Right) -->
+            <ellipse cx="140" cy="422" rx="14" ry="8" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+            <!-- Height Line (always visible) -->
+            <line x1="208" y1="10" x2="208" y2="432" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="203" y1="10" x2="213" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <line x1="203" y1="432" x2="213" y2="432" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+            <!-- ── SHOULDER measurement tape ──────────────────────────── -->
+            <g id="shoulderTapeGroup" class="meas-tape-line">
+              <line x1="54" y1="80" x2="166" y2="80" stroke="#A78BFA" stroke-width="2" stroke-dasharray="8 5"/>
+              <line x1="54" y1="74" x2="54" y2="86" stroke="#A78BFA" stroke-width="1.5"/>
+              <line x1="166" y1="74" x2="166" y2="86" stroke="#A78BFA" stroke-width="1.5"/>
+            </g>
+            <g id="shoulderChipGroup" class="meas-chip-group">
+              <rect x="76" y="66" width="68" height="18" rx="3" fill="#A78BFA"/>
+              <text x="110" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="shoulderChipText">SHOULDER 46 cm</text>
+            </g>
+
+            <!-- ── CHEST measurement tape (animated) ─────────────────── -->
+            <g id="chestTapeGroup" class="meas-tape-line">
+              <!-- Left extension -->
+              <line x1="52" y1="112" x2="8" y2="112" stroke="#3DE0FF" stroke-width="1.5" stroke-dasharray="6 4"/>
+              <!-- Right extension -->
+              <line x1="168" y1="112" x2="212" y2="112" stroke="#3DE0FF" stroke-width="1.5" stroke-dasharray="6 4"/>
+              <!-- Horizontal span across body -->
+              <line x1="52" y1="112" x2="168" y2="112" stroke="#3DE0FF" stroke-width="2" stroke-dasharray="8 5"/>
+              <!-- End ticks -->
+              <line x1="52" y1="106" x2="52" y2="118" stroke="#3DE0FF" stroke-width="1.5"/>
+              <line x1="168" y1="106" x2="168" y2="118" stroke="#3DE0FF" stroke-width="1.5"/>
+            </g>
+            <!-- Chest Chip -->
+            <g id="chestChipGroup" class="meas-chip-group">
+              <rect x="72" y="98" width="76" height="18" rx="3" fill="#3DE0FF"/>
+              <text x="110" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="chestChipText">CHEST 102 cm</text>
+            </g>
+
+            <!-- ── WAIST measurement tape ─────────────────────────────── -->
+            <g id="waistTapeGroup" class="meas-tape-line">
+              <line x1="62" y1="172" x2="158" y2="172" stroke="#34D399" stroke-width="2" stroke-dasharray="8 5"/>
+              <line x1="62" y1="166" x2="62" y2="178" stroke="#34D399" stroke-width="1.5"/>
+              <line x1="158" y1="166" x2="158" y2="178" stroke="#34D399" stroke-width="1.5"/>
+            </g>
+            <g id="waistChipGroup" class="meas-chip-group">
+              <rect x="76" y="158" width="68" height="18" rx="3" fill="#34D399"/>
+              <text x="110" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="waistChipText">WAIST 84 cm</text>
+            </g>
+
+            <!-- ── HEIGHT Label ───────────────────────────────────────── -->
+            <text x="214" y="225" text-anchor="start" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="rgba(255,255,255,0.4)" id="heightLabelText" transform="rotate(90 214 225)">180 cm</text>
+
+          </svg>
         </div>
 
-        <div class="calc-grid">
-          <!-- Left: Sliders / Inputs -->
-          <div>
-            <div class="calc-input-group">
-              <label>
-                <span>Height</span>
-                <strong id="valHeightDisplay" style="color: var(--accent-cyan);">180 cm</strong>
-              </label>
-              <input type="range" id="sliderHeight" min="150" max="205" value="180" step="1" oninput="updateFitCalc()">
-            </div>
-
-            <div class="calc-input-group">
-              <label>
-                <span>Chest Circumference</span>
-                <strong id="valChestDisplay" style="color: var(--accent-cyan);">102 cm</strong>
-              </label>
-              <input type="range" id="sliderChest" min="80" max="130" value="102" step="1" oninput="updateFitCalc()">
-            </div>
-
-            <div class="calc-input-group">
-              <label>
-                <span>Natural Waist</span>
-                <strong id="valWaistDisplay" style="color: var(--accent-cyan);">84 cm</strong>
-              </label>
-              <input type="range" id="sliderWaist" min="65" max="120" value="84" step="1" oninput="updateFitCalc()">
-            </div>
-
-            <div style="margin-top: 24px;">
-              <span class="preference-label" style="margin-bottom: 10px;">DRAPE SILHOUETTE PREFERENCE</span>
-              <div class="chip-grid">
-                <button type="button" class="pref-chip" data-fit="fitted" onclick="setDrapePref('fitted', this)">Fitted Structure</button>
-                <button type="button" class="pref-chip selected" data-fit="regular" onclick="setDrapePref('regular', this)">Regular Tailored</button>
-                <button type="button" class="pref-chip" data-fit="relaxed" onclick="setDrapePref('relaxed', this)">Relaxed Architecture</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right: Calculated Recommendation Card -->
-          <div class="calc-recommendation-box">
-            <div>
-              <span class="calc-rec-badge">RECOMMENDED ATELIER SIZE</span>
-              <div class="calc-rec-size" id="recSizeDisplay">Size 48 &middot; M</div>
-              <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.25); border-radius: 9999px; font-size: 11px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 16px;">
-                <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
-                <span id="recConfidenceDisplay">98% Anatomical Match</span>
-              </div>
-              <p class="calc-rec-narrative" id="recNarrativeDisplay">
-                For a chest of 102 cm with regular tailored drape, Size 48 provides 6 cm of natural ease across the shoulders with crisp silhouette contouring through the torso.
-              </p>
-            </div>
-
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <a href="category.html?cat=apparel" class="btn-primary-commerce" style="height: 44px; font-size: 11px; padding: 0 20px; display: inline-flex; align-items: center; gap: 6px;">
-                <span>SHOP APPAREL</span>
-                <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
-              </a>
-              <button type="button" class="btn-secondary-action" style="height: 44px; font-size: 11px; padding: 0 16px;" onclick="saveToProfile()">
-                <span>SAVE TO PROFILE</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ATELIER SIZE CONVERSION MATRICES -->
-      <div>
-        <div style="text-align: center; margin-bottom: 32px;">
-          <span class="preference-label">GLOBAL EQUIVALENCY MATRICES</span>
-          <h2 style="font-family: var(--font-serif); font-size: 36px; color: #FFFFFF; font-weight: 400; margin-top: 8px;">Category Size Standards</h2>
-        </div>
-
-        <!-- Conversion Tabs -->
-        <div class="conversion-tabs">
-          <button type="button" class="conversion-tab-btn active" id="tabApparel" onclick="switchTableTab('apparel')">Coats &amp; Ready-to-Wear</button>
-          <button type="button" class="conversion-tab-btn" id="tabTrousers" onclick="switchTableTab('trousers')">Tailored Trousers</button>
-          <button type="button" class="conversion-tab-btn" id="tabFootwear" onclick="switchTableTab('footwear')">Artisanal Footwear</button>
-        </div>
-
-        <!-- Table 1: Apparel -->
-        <div id="tableApparelWrap" class="conversion-table-wrap">
-          <table class="conversion-table">
-            <thead>
-              <tr>
-                <th>Maison Size</th>
-                <th>International</th>
-                <th>UK / US</th>
-                <th>Chest (<span class="unit-label">CM</span>)</th>
-                <th>Shoulder (<span class="unit-label">CM</span>)</th>
-                <th>Sleeve (<span class="unit-label">CM</span>)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>44</strong></td>
-                <td>XS</td>
-                <td>34</td>
-                <td data-cm="88-92" data-in="34.6-36.2">88-92</td>
-                <td data-cm="43" data-in="16.9">43</td>
-                <td data-cm="63" data-in="24.8">63</td>
-              </tr>
-              <tr>
-                <td><strong>46</strong></td>
-                <td>S</td>
-                <td>36</td>
-                <td data-cm="92-96" data-in="36.2-37.8">92-96</td>
-                <td data-cm="44.5" data-in="17.5">44.5</td>
-                <td data-cm="64" data-in="25.2">64</td>
-              </tr>
-              <tr style="background: rgba(0, 210, 255, 0.04);">
-                <td><strong style="color: var(--accent-cyan);">48</strong></td>
-                <td>M</td>
-                <td>38</td>
-                <td data-cm="98-102" data-in="38.6-40.2">98-102</td>
-                <td data-cm="46" data-in="18.1">46</td>
-                <td data-cm="65" data-in="25.6">65</td>
-              </tr>
-              <tr>
-                <td><strong>50</strong></td>
-                <td>L</td>
-                <td>40</td>
-                <td data-cm="104-108" data-in="40.9-42.5">104-108</td>
-                <td data-cm="47.5" data-in="18.7">47.5</td>
-                <td data-cm="66" data-in="26.0">66</td>
-              </tr>
-              <tr>
-                <td><strong>52</strong></td>
-                <td>XL</td>
-                <td>42</td>
-                <td data-cm="110-114" data-in="43.3-44.9">110-114</td>
-                <td data-cm="49" data-in="19.3">49</td>
-                <td data-cm="67" data-in="26.4">67</td>
-              </tr>
-              <tr>
-                <td><strong>54</strong></td>
-                <td>XXL</td>
-                <td>44</td>
-                <td data-cm="116-120" data-in="45.7-47.2">116-120</td>
-                <td data-cm="50.5" data-in="19.9">50.5</td>
-                <td data-cm="68" data-in="26.8">68</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table 2: Trousers (Hidden by default) -->
-        <div id="tableTrousersWrap" class="conversion-table-wrap" style="display: none;">
-          <table class="conversion-table">
-            <thead>
-              <tr>
-                <th>Maison Size</th>
-                <th>Waist (<span class="unit-label">CM</span>)</th>
-                <th>Hip (<span class="unit-label">CM</span>)</th>
-                <th>Inseam (<span class="unit-label">CM</span>)</th>
-                <th>Leg Opening (<span class="unit-label">CM</span>)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>44</strong></td>
-                <td data-cm="74-77" data-in="29.1-30.3">74-77</td>
-                <td data-cm="92-95" data-in="36.2-37.4">92-95</td>
-                <td data-cm="82" data-in="32.3">82</td>
-                <td data-cm="18" data-in="7.1">18</td>
-              </tr>
-              <tr>
-                <td><strong>46</strong></td>
-                <td data-cm="78-81" data-in="30.7-31.9">78-81</td>
-                <td data-cm="96-99" data-in="37.8-39.0">96-99</td>
-                <td data-cm="83" data-in="32.7">83</td>
-                <td data-cm="18.5" data-in="7.3">18.5</td>
-              </tr>
-              <tr style="background: rgba(0, 210, 255, 0.04);">
-                <td><strong style="color: var(--accent-cyan);">48</strong></td>
-                <td data-cm="82-85" data-in="32.3-33.5">82-85</td>
-                <td data-cm="100-103" data-in="39.4-40.6">100-103</td>
-                <td data-cm="84" data-in="33.1">84</td>
-                <td data-cm="19" data-in="7.5">19</td>
-              </tr>
-              <tr>
-                <td><strong>50</strong></td>
-                <td data-cm="86-89" data-in="33.9-35.0">86-89</td>
-                <td data-cm="104-107" data-in="40.9-42.1">104-107</td>
-                <td data-cm="85" data-in="33.5">85</td>
-                <td data-cm="19.5" data-in="7.7">19.5</td>
-              </tr>
-              <tr>
-                <td><strong>52</strong></td>
-                <td data-cm="90-93" data-in="35.4-36.6">90-93</td>
-                <td data-cm="108-111" data-in="42.5-43.7">108-111</td>
-                <td data-cm="86" data-in="33.9">86</td>
-                <td data-cm="20" data-in="7.9">20</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table 3: Footwear (Hidden by default) -->
-        <div id="tableFootwearWrap" class="conversion-table-wrap" style="display: none;">
-          <table class="conversion-table">
-            <thead>
-              <tr>
-                <th>EU Size</th>
-                <th>UK Size</th>
-                <th>US Size</th>
-                <th>Foot Length (<span class="unit-label">CM</span>)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>40</strong></td>
-                <td>6.5</td>
-                <td>7.5</td>
-                <td data-cm="25.5" data-in="10.0">25.5</td>
-              </tr>
-              <tr>
-                <td><strong>41</strong></td>
-                <td>7.5</td>
-                <td>8.5</td>
-                <td data-cm="26.2" data-in="10.3">26.2</td>
-              </tr>
-              <tr style="background: rgba(0, 210, 255, 0.04);">
-                <td><strong style="color: var(--accent-cyan);">42</strong></td>
-                <td>8.5</td>
-                <td>9.5</td>
-                <td data-cm="27.0" data-in="10.6">27.0</td>
-              </tr>
-              <tr>
-                <td><strong>43</strong></td>
-                <td>9.5</td>
-                <td>10.5</td>
-                <td data-cm="27.8" data-in="10.9">27.8</td>
-              </tr>
-              <tr>
-                <td><strong>44</strong></td>
-                <td>10.5</td>
-                <td>11.5</td>
-                <td data-cm="28.5" data-in="11.2">28.5</td>
-              </tr>
-              <tr>
-                <td><strong>45</strong></td>
-                <td>11.5</td>
-                <td>12.5</td>
-                <td data-cm="29.2" data-in="11.5">29.2</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Size Result Badge -->
+        <div class="sg-size-result-badge" id="sizeResultBadge">
+          <span class="sg-size-label">Your Atelier Size</span>
+          <span class="sg-size-number" id="recSizeMain">48 · M</span>
+          <span class="sg-size-sub" id="recDrapeLabel">Regular Tailored Fit</span>
+          <span class="sg-confidence-pill">
+            <i data-lucide="sparkles" style="width:10px;height:10px;"></i>
+            <span id="recConfidencePill">98% Anatomical Match</span>
+          </span>
         </div>
       </div>
 
-      <!-- HOW TO MEASURE SECTION -->
-      <div style="margin-top: 40px;">
-        <div style="text-align: center; margin-bottom: 32px;">
-          <span class="preference-label">PRECISION ANATOMICAL METRICS</span>
-          <h2 style="font-family: var(--font-serif); font-size: 36px; color: #FFFFFF; font-weight: 400; margin-top: 8px;">How to Measure</h2>
-        </div>
-
-        <div class="measure-steps-grid">
-          <div class="measure-step-card">
-            <div class="measure-step-num">01</div>
-            <div class="measure-step-title">Chest Circumference</div>
-            <p class="measure-step-desc">Measure horizontally around the fullest part of your chest, keeping the tape comfortable under the arms.</p>
-          </div>
-          <div class="measure-step-card">
-            <div class="measure-step-num">02</div>
-            <div class="measure-step-title">Shoulder Breadth</div>
-            <p class="measure-step-desc">Measure across the upper back from the tip of one acromion bone to the tip of the other.</p>
-          </div>
-          <div class="measure-step-card">
-            <div class="measure-step-num">03</div>
-            <div class="measure-step-title">Natural Waistline</div>
-            <p class="measure-step-desc">Measure around the narrowest section of your natural waist, roughly 2 inches above the navel.</p>
-          </div>
-          <div class="measure-step-card">
-            <div class="measure-step-num">04</div>
-            <div class="measure-step-title">Foot Length &amp; Insole</div>
-            <p class="measure-step-desc">Place your heel against a flat wall on paper, mark your longest toe, and measure straight along the axis.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- CONCIERGE INTEGRATION BRIDGE -->
-      <div class="profile-concierge-card">
+      <!-- Right: Control Sliders Panel -->
+      <div class="sg-controls-panel">
         <div>
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">BESPOKE ADVISOR</div>
-          <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Uncertain About Silhouette Drape?</div>
-          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Consult our digital style concierge for real-time sizing recommendations based on specific pieces in the collection.</p>
+          <span id="vizSectionTitle" class="sg-section-eyebrow">Interactive Calibrator</span>
+          <h2 class="sg-section-title">Adjust Your Measurements</h2>
         </div>
-        <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
-          <span>CONSULT CONCIERGE</span>
-          <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-        </a>
+
+        <!-- Unit Toggle -->
+        <div class="sg-unit-toggle">
+          <button type="button" class="sg-unit-btn active" id="btnUnitCm" data-unit="cm">CM</button>
+          <button type="button" class="sg-unit-btn" id="btnUnitIn" data-unit="in">IN</button>
+        </div>
+
+        <!-- HEIGHT Slider -->
+        <div class="sg-slider-group" id="sgHeightGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon"><i data-lucide="ruler" style="width:14px;height:14px;"></i></div>
+              <div>
+                <div class="sg-slider-name">Height</div>
+                <div class="sg-slider-desc">Standing barefoot, vertical</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" id="valHeightDisplay">180 cm</span>
+          </div>
+          <input type="range" id="sliderHeight" class="sg-range" min="150" max="205" value="180" step="1" aria-label="Height slider">
+        </div>
+
+        <!-- CHEST Slider -->
+        <div class="sg-slider-group" id="sgChestGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="--icon-color:#3DE0FF;background:rgba(61,224,255,0.08);border-color:rgba(61,224,255,0.2);"><i data-lucide="move-horizontal" style="width:14px;height:14px;color:#3DE0FF;"></i></div>
+              <div>
+                <div class="sg-slider-name">Chest Circumference</div>
+                <div class="sg-slider-desc">Around fullest chest point</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#3DE0FF;" id="valChestDisplay">102 cm</span>
+          </div>
+          <input type="range" id="sliderChest" class="sg-range" min="80" max="130" value="102" step="1" aria-label="Chest circumference slider">
+        </div>
+
+        <!-- WAIST Slider -->
+        <div class="sg-slider-group" id="sgWaistGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.2);"><i data-lucide="circle" style="width:14px;height:14px;color:#34D399;"></i></div>
+              <div>
+                <div class="sg-slider-name">Natural Waist</div>
+                <div class="sg-slider-desc">Narrowest point, ~2in above navel</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#34D399;" id="valWaistDisplay">84 cm</span>
+          </div>
+          <input type="range" id="sliderWaist" class="sg-range" min="65" max="120" value="84" step="1" aria-label="Waist circumference slider">
+        </div>
+
+        <!-- SHOULDER Slider -->
+        <div class="sg-slider-group" id="sgShoulderGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);"><i data-lucide="arrow-left-right" style="width:14px;height:14px;color:#A78BFA;"></i></div>
+              <div>
+                <div class="sg-slider-name">Shoulder Breadth</div>
+                <div class="sg-slider-desc">Acromion to acromion, upper back</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#A78BFA;" id="valShoulderDisplay">46 cm</span>
+          </div>
+          <input type="range" id="sliderShoulder" class="sg-range" min="36" max="58" value="46" step="0.5" aria-label="Shoulder breadth slider">
+        </div>
+
+        <!-- DRAPE PREFERENCE -->
+        <div>
+          <div class="sg-slider-name" style="margin-bottom:12px;">Drape Silhouette</div>
+          <div class="sg-drape-chips">
+            <button type="button" class="sg-drape-chip" data-drape="fitted">Fitted Structure</button>
+            <button type="button" class="sg-drape-chip active" data-drape="regular">Regular Tailored</button>
+            <button type="button" class="sg-drape-chip" data-drape="relaxed">Relaxed Architecture</button>
+          </div>
+        </div>
+
+        <!-- Shop & Save CTAs -->
+        <div class="sg-shop-row">
+          <a href="category.html?cat=apparel" class="btn-sg-primary">
+            <i data-lucide="grid" style="width:13px;height:13px;"></i>
+            <span>Shop Apparel</span>
+          </a>
+          <button type="button" class="btn-sg-ghost" id="btnSaveToProfile">
+            <i data-lucide="bookmark" style="width:13px;height:13px;"></i>
+            <span>Save to Profile</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2: HOW TO MEASURE VISUAL CARDS ───────────────────── -->
+    <section aria-labelledby="measureSectionTitle">
+      <div style="margin-bottom:32px;">
+        <span class="sg-section-eyebrow">Precision Anatomical Metrics</span>
+        <h2 class="sg-section-title" id="measureSectionTitle">How to Measure</h2>
+      </div>
+      <div class="sg-measurement-cards">
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="move-horizontal" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">01</div>
+            <h3 class="sg-measure-card-title">Chest Circumference</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure horizontally around the fullest part of your chest, keeping the tape comfortable under the arms.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="arrow-left-right" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">02</div>
+            <h3 class="sg-measure-card-title">Shoulder Breadth</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure across the upper back from the tip of one acromion bone to the tip of the other.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="circle" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">03</div>
+            <h3 class="sg-measure-card-title">Natural Waistline</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure around the narrowest section of your natural waist, roughly 2 inches above the navel.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="footprints" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">04</div>
+            <h3 class="sg-measure-card-title">Foot Length</h3>
+          </div>
+          <p class="sg-measure-card-desc">Place your heel against a flat wall on paper, mark your longest toe, and measure straight along the axis.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 3: SIZE CONVERSION VISUAL CARDS MATRIX ───────────── -->
+    <section class="sg-matrix-section" aria-labelledby="matrixSectionTitle">
+      <div>
+        <span class="sg-section-eyebrow">Global Equivalency</span>
+        <h2 class="sg-section-title" id="matrixSectionTitle">Size Conversion Matrix</h2>
       </div>
 
-    </div>
+      <!-- Category Tabs -->
+      <div class="sg-matrix-tabs" role="tablist">
+        <button type="button" class="sg-matrix-tab active" data-tab="apparel" role="tab" aria-selected="true">Coats &amp; Ready-to-Wear</button>
+        <button type="button" class="sg-matrix-tab" data-tab="trousers" role="tab" aria-selected="false">Tailored Trousers</button>
+        <button type="button" class="sg-matrix-tab" data-tab="footwear" role="tab" aria-selected="false">Artisanal Footwear</button>
+      </div>
+
+      <!-- Apparel Panel -->
+      <div class="sg-matrix-panel active" id="panelApparel">
+        <div class="sg-size-cards-grid" id="apparelSizeGrid">
+          <!-- Dynamically built by JS below -->
+        </div>
+      </div>
+
+      <!-- Trousers Panel -->
+      <div class="sg-matrix-panel" id="panelTrousers">
+        <div class="sg-size-cards-grid" id="trousersSizeGrid"></div>
+      </div>
+
+      <!-- Footwear Panel -->
+      <div class="sg-matrix-panel" id="panelFootwear">
+        <div class="sg-shoe-cards-grid" id="footwearSizeGrid"></div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 4: CONCIERGE BRIDGE ──────────────────────────────── -->
+    <section class="sg-concierge-bridge">
+      <span class="sg-section-eyebrow">Bespoke Advisor</span>
+      <h2 class="sg-concierge-title">Uncertain About Silhouette Drape?</h2>
+      <p class="sg-concierge-desc">
+        Our digital style concierge provides real-time sizing guidance for specific pieces in the collection.
+      </p>
+      <a href="concierge.html" class="btn-sg-primary" style="width:auto;padding:0 32px;">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>Consult Private Concierge</span>
+      </a>
+    </section>
+
   </main>
 
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-main-grid">
-        <!-- Col 1: Brand & Private Edit -->
-        <div class="footer-brand-col">
-          <a href="../index.html" aria-label="nexCommerce Home" style="display: inline-block; text-decoration: none;">
-            <img src="../assets/images/brand/logo_light.png" alt="nexCommerce Atelier" class="footer-logo-img" />
-          </a>
-          <p class="footer-brand-desc">
-            A contemporary digital atelier uniting tailored ready-to-wear, artisanal footwear, and acoustic craft.
-          </p>
-          <div class="footer-newsletter-box">
-            <span class="footer-newsletter-label">The Private Edit</span>
-            <p class="footer-newsletter-sub">Receive private collection previews, seasonal capsule alerts, and atelier journals.</p>
-            <form id="footerNewsletterForm" class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Private Edit.');">
-              <input type="email" class="footer-newsletter-input" placeholder="Enter your email address" required aria-label="Email address for newsletter" />
-              <button type="submit" class="footer-newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
-        <!-- Col 2: Collections -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">COLLECTIONS</span>
-          <a href="category.html?sort=newest" class="footer-link-item">New Arrivals</a>
-          <a href="category.html?cat=apparel" class="footer-link-item">Ready-to-Wear</a>
-          <a href="category.html?cat=footwear" class="footer-link-item">Footwear & Leather</a>
-          <a href="category.html?cat=acoustics" class="footer-link-item">High Acoustics</a>
-          <a href="lookbook.html" class="footer-link-item">The Lookbook</a>
+  <!-- SEARCH OVERLAY -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
-
-        <!-- Col 3: Client Services -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">CLIENT SERVICES</span>
-          <a href="tracking.html" class="footer-link-item">Order Concierge</a>
-          <a href="cart.html" class="footer-link-item">Shopping Bag</a>
-          <a href="concierge.html" class="footer-link-item">Private Styling</a>
-          <a href="size-guide.html" class="footer-link-item" style="color: var(--accent-cyan);">Size &amp; Fit Guide</a>
-        </div>
-
-        <!-- Col 4: The Maison -->
-        <div class="footer-nav-col">
-          <span class="footer-col-heading">THE MAISON</span>
-          <a href="foundation.html" class="footer-link-item">Atelier Foundation</a>
-          <a href="account.html" class="footer-link-item">Client Account</a>
-          <a href="foundation.html#privacy" class="footer-link-item">Privacy & Terms</a>
-          <a href="foundation.html#security" class="footer-link-item">Authenticity & Trust</a>
-        </div>
+        <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
       </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy-text">&copy; 2026 nexCommerce Atelier Inc. All rights reserved.</div>
-        <div class="footer-locale-selector">
-          <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
-          <span>BDT &middot; Dhaka (EN)</span>
-        </div>
-        <div class="footer-payment-badges" aria-label="Accepted Payment Methods">
-          <div class="payment-logo-badge" title="bKash">
-            <img src="../assets/images/brand/bkash.svg" alt="bKash" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Nagad">
-            <img src="../assets/images/brand/nagad.svg" alt="Nagad" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Visa">
-            <img src="../assets/images/brand/visa.svg" alt="Visa" class="payment-logo-img" />
-          </div>
-          <div class="payment-logo-badge" title="Mastercard">
-            <img src="../assets/images/brand/mastercard.svg" alt="Mastercard" class="payment-logo-img" />
-          </div>
-        </div>
-      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
     </div>
-  </footer>
+  </div>
 
-  <!-- CDNs & Scripts -->
+  <!-- MINI CART -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display:none;">
+      <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/split-type"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js"></script>
-  <script src="../js/theme-switcher.js"></script>
-  <script src="../js/cart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+
   <script>
-    if (window.lucide) window.lucide.createIcons();
-
-    var currentUnit = 'cm';
-    var drapePref = 'regular';
-
-    function switchUnit(unit) {
-      currentUnit = unit;
-      document.getElementById('btnUnitCm').classList.toggle('active', unit === 'cm');
-      document.getElementById('btnUnitIn').classList.toggle('active', unit === 'in');
-
-      document.querySelectorAll('.unit-label').forEach(function(el) {
-        el.textContent = unit.toUpperCase();
-      });
-
-      document.querySelectorAll('td[data-' + unit + ']').forEach(function(td) {
-        td.textContent = td.getAttribute('data-' + unit);
-      });
-
-      updateFitCalc();
+  (function () {
+    // ── Preloader ──────────────────────────────────────────────────────────
+    const preloader = document.getElementById('pagePreloader');
+    const bar = document.getElementById('preloaderProgressBar');
+    const pct = document.getElementById('preloaderPercent');
+    if (preloader) {
+      let p = 0;
+      const iv = setInterval(() => {
+        p += 20; if (p > 100) p = 100;
+        if (bar) bar.style.width = p + '%';
+        if (pct) pct.textContent = p + '%';
+        if (p >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => preloader.remove(), 300);
+          }, 160);
+        }
+      }, 25);
     }
 
-    function setDrapePref(fit, btn) {
-      drapePref = fit;
-      document.querySelectorAll('.pref-chip[data-fit]').forEach(function(c) {
-        c.classList.remove('selected');
-      });
-      if (btn) btn.classList.add('selected');
-      updateFitCalc();
-    }
+    // ── State ──────────────────────────────────────────────────────────────
+    let unit = 'cm';
+    let drape = 'regular';
+    let recSize = 48;
+    let recShoeEU = 42;
 
-    function updateFitCalc() {
-      var h = parseInt(document.getElementById('sliderHeight').value, 10);
-      var c = parseInt(document.getElementById('sliderChest').value, 10);
-      var w = parseInt(document.getElementById('sliderWaist').value, 10);
+    // ── Apparel Size Data ──────────────────────────────────────────────────
+    const APPAREL_SIZES = [
+      { mai: 44, intl: 'XS', uk: 34, chest_cm: '88–92', chest_in: '34.6–36.2', shoulder: 43, sleeve: 63 },
+      { mai: 46, intl: 'S',  uk: 36, chest_cm: '92–96', chest_in: '36.2–37.8', shoulder: 44.5, sleeve: 64 },
+      { mai: 48, intl: 'M',  uk: 38, chest_cm: '98–102', chest_in: '38.6–40.2', shoulder: 46, sleeve: 65 },
+      { mai: 50, intl: 'L',  uk: 40, chest_cm: '104–108', chest_in: '40.9–42.5', shoulder: 47.5, sleeve: 66 },
+      { mai: 52, intl: 'XL', uk: 42, chest_cm: '110–114', chest_in: '43.3–44.9', shoulder: 49, sleeve: 67 },
+      { mai: 54, intl: 'XXL',uk: 44, chest_cm: '116–120', chest_in: '45.7–47.2', shoulder: 50.5, sleeve: 68 }
+    ];
 
-      var hDisplay = currentUnit === 'cm' ? h + ' cm' : (h / 2.54).toFixed(1) + ' in';
-      var cDisplay = currentUnit === 'cm' ? c + ' cm' : (c / 2.54).toFixed(1) + ' in';
-      var wDisplay = currentUnit === 'cm' ? w + ' cm' : (w / 2.54).toFixed(1) + ' in';
+    const TROUSERS_SIZES = [
+      { mai: 44, waist_cm: '74–77', waist_in: '29.1–30.3', hip_cm: '92–95', inseam: 82 },
+      { mai: 46, waist_cm: '78–81', waist_in: '30.7–31.9', hip_cm: '96–99', inseam: 83 },
+      { mai: 48, waist_cm: '82–85', waist_in: '32.3–33.5', hip_cm: '100–103', inseam: 84 },
+      { mai: 50, waist_cm: '86–89', waist_in: '33.9–35.0', hip_cm: '104–107', inseam: 85 },
+      { mai: 52, waist_cm: '90–93', waist_in: '35.4–36.6', hip_cm: '108–111', inseam: 86 }
+    ];
 
-      document.getElementById('valHeightDisplay').textContent = hDisplay;
-      document.getElementById('valChestDisplay').textContent = cDisplay;
-      document.getElementById('valWaistDisplay').textContent = wDisplay;
+    const FOOTWEAR_SIZES = [
+      { eu: 40, uk: '6.5', us: '7.5', cm: '25.5', inches: '10.0' },
+      { eu: 41, uk: '7.5', us: '8.5', cm: '26.2', inches: '10.3' },
+      { eu: 42, uk: '8.5', us: '9.5', cm: '27.0', inches: '10.6' },
+      { eu: 43, uk: '9.5', us: '10.5', cm: '27.8', inches: '10.9' },
+      { eu: 44, uk: '10.5', us: '11.5', cm: '28.5', inches: '11.2' },
+      { eu: 45, uk: '11.5', us: '12.5', cm: '29.2', inches: '11.5' }
+    ];
 
-      var baseSize = 48;
-      if (c < 92) baseSize = 44;
-      else if (c < 97) baseSize = 46;
-      else if (c < 103) baseSize = 48;
-      else if (c < 109) baseSize = 50;
-      else if (c < 115) baseSize = 52;
-      else baseSize = 54;
-
-      if (drapePref === 'relaxed' && baseSize < 54) {
-        baseSize += 2;
-      } else if (drapePref === 'fitted' && baseSize > 44) {
-        baseSize -= 2;
+    // ── Render Size Matrix Cards ───────────────────────────────────────────
+    function renderSizeCards() {
+      const apparelGrid = document.getElementById('apparelSizeGrid');
+      if (apparelGrid) {
+        apparelGrid.innerHTML = APPAREL_SIZES.map(s => {
+          const isRec = s.mai === recSize;
+          const chestLabel = unit === 'cm' ? s.chest_cm + ' cm' : s.chest_in + ' in';
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" title="${s.mai} – ${s.intl}">
+            <span class="sg-size-card-num">${s.mai}</span>
+            <span class="sg-size-card-intl">${s.intl} · UK${s.uk}</span>
+            <span class="sg-size-card-chest">Chest<br>${chestLabel}</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
       }
 
-      var sizeLabels = {
-        44: 'Size 44 · XS',
-        46: 'Size 46 · S',
-        48: 'Size 48 · M',
-        50: 'Size 50 · L',
-        52: 'Size 52 · XL',
-        54: 'Size 54 · XXL'
-      };
+      const trousersGrid = document.getElementById('trousersSizeGrid');
+      if (trousersGrid) {
+        trousersGrid.innerHTML = TROUSERS_SIZES.map(s => {
+          const isRec = s.mai === recSize;
+          const waistLabel = unit === 'cm' ? s.waist_cm + ' cm' : s.waist_in + ' in';
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}">
+            <span class="sg-size-card-num">${s.mai}</span>
+            <span class="sg-size-card-intl">Waist ${waistLabel}</span>
+            <span class="sg-size-card-chest">Inseam ${s.inseam} cm</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
+      }
 
-      document.getElementById('recSizeDisplay').textContent = sizeLabels[baseSize] || ('Size ' + baseSize);
-      
-      var ease = drapePref === 'relaxed' ? '8 cm' : (drapePref === 'fitted' ? '3 cm' : '6 cm');
-      document.getElementById('recNarrativeDisplay').textContent = 
-        'For a chest measurement of ' + cDisplay + ' with ' + drapePref + ' drape, Size ' + baseSize + 
-        ' delivers approx. ' + ease + ' of ease across the shoulders with tailored architectural balance.';
+      const shoeGrid = document.getElementById('footwearSizeGrid');
+      if (shoeGrid) {
+        shoeGrid.innerHTML = FOOTWEAR_SIZES.map(s => {
+          const isRec = s.eu === recShoeEU;
+          const footLabel = unit === 'cm' ? s.cm + ' cm' : s.inches + ' in';
+          return `<div class="sg-shoe-card ${isRec ? 'recommended' : ''}">
+            <span class="sg-shoe-eu">EU ${s.eu}</span>
+            <span class="sg-shoe-uk-us">UK ${s.uk}<br>US ${s.us}</span>
+            <span class="sg-shoe-cm">${footLabel}</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
+      }
     }
 
-    function switchTableTab(tab) {
-      document.getElementById('tabApparel').classList.toggle('active', tab === 'apparel');
-      document.getElementById('tabTrousers').classList.toggle('active', tab === 'trousers');
-      document.getElementById('tabFootwear').classList.toggle('active', tab === 'footwear');
-
-      document.getElementById('tableApparelWrap').style.display = tab === 'apparel' ? 'block' : 'none';
-      document.getElementById('tableTrousersWrap').style.display = tab === 'trousers' ? 'block' : 'none';
-      document.getElementById('tableFootwearWrap').style.display = tab === 'footwear' ? 'block' : 'none';
+    // ── Calculate Size from Measurements ──────────────────────────────────
+    function calcSize(chest) {
+      const offset = drape === 'fitted' ? -1 : drape === 'relaxed' ? 1 : 0;
+      if (chest <= 92) return 44 + offset * 2;
+      if (chest <= 96) return 46 + offset * 2;
+      if (chest <= 102) return 48 + offset * 2;
+      if (chest <= 108) return 50 + offset * 2;
+      if (chest <= 114) return 52 + offset * 2;
+      return 54 + offset * 2;
     }
 
-    function saveToProfile() {
-      alert('Anatomical size calibration saved to your Private Style Profile.');
+    function calcShoeSize(height) {
+      if (height <= 164) return 41;
+      if (height <= 170) return 41;
+      if (height <= 176) return 42;
+      if (height <= 182) return 43;
+      if (height <= 188) return 44;
+      return 45;
     }
+
+    // ── Update SVG Silhouette Annotations ─────────────────────────────────
+    function updateSVG(chest, waist, shoulder, height) {
+      // Show animated measurement lines
+      document.getElementById('chestTapeGroup').classList.add('visible');
+      document.getElementById('shoulderTapeGroup').classList.add('visible');
+      document.getElementById('waistTapeGroup').classList.add('visible');
+      document.getElementById('chestChipGroup').classList.add('visible');
+      document.getElementById('shoulderChipGroup').classList.add('visible');
+      document.getElementById('waistChipGroup').classList.add('visible');
+
+      // Update chip labels
+      const chestLabel = unit === 'cm' ? `CHEST ${chest} cm` : `CHEST ${(chest / 2.54).toFixed(1)} in`;
+      const shoulderLabel = unit === 'cm' ? `SHOULDER ${shoulder} cm` : `SHOULDER ${(shoulder / 2.54).toFixed(1)} in`;
+      const waistLabel = unit === 'cm' ? `WAIST ${waist} cm` : `WAIST ${(waist / 2.54).toFixed(1)} in`;
+      const heightLabel = unit === 'cm' ? `${height} cm` : `${(height / 2.54).toFixed(1)} in`;
+
+      const ct = document.getElementById('chestChipText');
+      if (ct) ct.textContent = chestLabel;
+      const st = document.getElementById('shoulderChipText');
+      if (st) st.textContent = shoulderLabel;
+      const wt = document.getElementById('waistChipText');
+      if (wt) wt.textContent = waistLabel;
+      const ht = document.getElementById('heightLabelText');
+      if (ht) ht.textContent = heightLabel;
+    }
+
+    // ── Main Update ────────────────────────────────────────────────────────
+    function updateAll() {
+      const h = parseInt(document.getElementById('sliderHeight').value, 10);
+      const c = parseInt(document.getElementById('sliderChest').value, 10);
+      const w = parseInt(document.getElementById('sliderWaist').value, 10);
+      const s = parseFloat(document.getElementById('sliderShoulder').value);
+
+      // Display values
+      const fmt = (v, d) => unit === 'cm' ? `${v} cm` : `${(v / 2.54).toFixed(d || 1)} in`;
+      document.getElementById('valHeightDisplay').textContent = fmt(h, 0);
+      document.getElementById('valChestDisplay').textContent = fmt(c, 0);
+      document.getElementById('valWaistDisplay').textContent = fmt(w, 0);
+      document.getElementById('valShoulderDisplay').textContent = fmt(s, 1);
+
+      // Calculate sizes
+      recSize = Math.min(54, Math.max(44, calcSize(c)));
+      recShoeEU = calcShoeSize(h);
+
+      // Update result badge
+      const sizeObj = APPAREL_SIZES.find(x => x.mai === recSize) || APPAREL_SIZES[2];
+      document.getElementById('recSizeMain').textContent = `${recSize} · ${sizeObj.intl}`;
+      document.getElementById('recDrapeLabel').textContent =
+        drape === 'fitted' ? 'Fitted Structure · Close-to-Body' :
+        drape === 'relaxed' ? 'Relaxed Architecture · Generous Ease' :
+        'Regular Tailored · Balanced Drape';
+
+      const confidence = c >= 88 && c <= 120 ? '98%' : '91%';
+      document.getElementById('recConfidencePill').textContent = `${confidence} Anatomical Match`;
+
+      // Update SVG
+      updateSVG(c, w, s, h);
+
+      // Re-render size cards
+      renderSizeCards();
+    }
+
+    // ── Slider Event Binding ───────────────────────────────────────────────
+    ['sliderHeight', 'sliderChest', 'sliderWaist', 'sliderShoulder'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateAll);
+        // Highlight the active slider group
+        const groupMap = {
+          sliderHeight: 'sgHeightGroup',
+          sliderChest: 'sgChestGroup',
+          sliderWaist: 'sgWaistGroup',
+          sliderShoulder: 'sgShoulderGroup'
+        };
+        el.addEventListener('focus', () => {
+          document.querySelectorAll('.sg-slider-group').forEach(g => g.classList.remove('active'));
+          const grp = document.getElementById(groupMap[id]);
+          if (grp) grp.classList.add('active');
+        });
+      }
+    });
+
+    // ── Unit Toggle ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-unit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        unit = btn.dataset.unit;
+        document.querySelectorAll('.sg-unit-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateAll();
+      });
+    });
+
+    // ── Drape Chips ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-drape-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        drape = chip.dataset.drape;
+        document.querySelectorAll('.sg-drape-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        updateAll();
+      });
+    });
+
+    // ── Matrix Tabs ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-matrix-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.sg-matrix-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.sg-matrix-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById(`panel${target.charAt(0).toUpperCase() + target.slice(1)}`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // ── Save to Profile ────────────────────────────────────────────────────
+    const saveBtn = document.getElementById('btnSaveToProfile');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        saveBtn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i><span>Saved!</span>';
+        if (window.lucide) window.lucide.createIcons();
+        setTimeout(() => {
+          saveBtn.innerHTML = '<i data-lucide="bookmark" style="width:13px;height:13px;"></i><span>Save to Profile</span>';
+          if (window.lucide) window.lucide.createIcons();
+        }, 2200);
+      });
+    }
+
+    // ── Init ───────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      updateAll();
+      // Trigger SVG tape lines after brief delay for visual delight
+      setTimeout(() => {
+        updateSVG(102, 84, 46, 180);
+      }, 800);
+    });
+
+  })();
   </script>
 </body>
 </html>

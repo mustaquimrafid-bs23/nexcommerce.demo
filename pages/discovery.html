@@ -3,344 +3,1225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Intelligent Discovery &mdash; nexCommerce</title>
-  <meta name="description" content="Describe what you need naturally. nexCommerce AI interprets your intent, climate, location, and style to find your perfect match.">
+  <title>Intelligent Visual Discovery &mdash; nexCommerce</title>
+  <meta name="description" content="Explore luxury apparel, acoustic instruments, and artisanal pieces through visual masonry moodboards, curated outfit drops, and semantic AI intent.">
+  <meta name="view-transition" content="same-origin" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=4">
-</head>
-<body class="discovery-page">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=38">
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <style>
+    body.discovery-v2-bg {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── Page Container ───────────────────────────────────────────────── */
+    .disc-container {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 7vw, 96px);
+    }
+
+    /* ─── Hero Section ─────────────────────────────────────────────────── */
+    .disc-hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .disc-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .disc-hero-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    .disc-hero-title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #E2E8F0;
+    }
+
+    .disc-hero-sub {
+      font-size: clamp(15px, 1.15vw, 17px);
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 580px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Natural Language Search Bar ──────────────────────────────────── */
+    .disc-search-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 12px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .disc-search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      padding: 6px 8px 6px 20px;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .disc-search-box:focus-within {
+      border-color: rgba(61, 224, 255, 0.5);
+      box-shadow: 0 0 24px rgba(61, 224, 255, 0.15);
+      background: rgba(3, 24, 56, 0.8);
+    }
+
+    .disc-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      padding: 8px 12px;
+    }
+
+    .disc-search-input::placeholder {
+      color: #64748B;
+    }
+
+    .disc-search-btn {
+      padding: 10px 24px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .disc-search-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       1. AESTHETIC FILTER SPHERES
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-spheres-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .disc-spheres-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .disc-spheres-track {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .disc-sphere-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-sphere-orb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .disc-sphere-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.02em;
+    }
+
+    .disc-sphere-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .disc-sphere-pill.active {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .disc-sphere-pill.active .disc-sphere-title {
+      color: #020B18;
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       2. VISUAL MASONRY MOODBOARD
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .disc-sec-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .disc-sec-sub {
+      font-size: 13px;
+      color: #94A3B8;
+      margin: 4px 0 0;
+    }
+
+    /* Masonry Grid with Asymmetric Column Flow */
+    .disc-masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .disc-masonry-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Masonry Card Types */
+    .disc-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-card:hover {
+      border-color: rgba(61, 224, 255, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Full-bleed Lifestyle Card with Shoppable Hotspots */
+    .disc-card-lifestyle {
+      position: relative;
+    }
+
+    .disc-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-card:hover .disc-card-img {
+      transform: scale(1.03);
+    }
+
+    .disc-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+    }
+
+    .disc-card-footer-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      pointer-events: auto;
+    }
+
+    .disc-card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 4px;
+    }
+
+    .disc-card-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    /* Hotspot Pulse Pin */
+    .disc-hotspot-pin {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .disc-hotspot-core {
+      width: 12px;
+      height: 12px;
+      background: #FFFFFF;
+      border: 2px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent-cyan, #3DE0FF);
+      position: relative;
+    }
+
+    .disc-hotspot-ring {
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 50%;
+      animation: hotspot-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    @keyframes hotspot-pulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* Product Card with Clean Studio Shot */
+    .disc-card-product {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .disc-product-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1.1;
+      background: #020B18;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .disc-product-img-box img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      transition: transform 0.4s ease;
+    }
+
+    .disc-card:hover .disc-product-img-box img {
+      transform: scale(1.05);
+    }
+
+    .disc-product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .disc-product-brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #94A3B8;
+      margin-bottom: 2px;
+    }
+
+    .disc-product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .disc-product-price {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .disc-product-cta-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-disc-primary {
+      flex: 1;
+      height: 38px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-disc-primary:hover { opacity: 0.9; }
+
+    .btn-disc-quick-add {
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-disc-quick-add:hover {
+      background: rgba(61, 224, 255, 0.15);
+      border-color: var(--accent-cyan, #3DE0FF);
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       3. CURATED EDITORIAL OUTFIT DROPS
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-drops-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .disc-drop-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .disc-drop-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .disc-drop-banner {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .disc-drop-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .disc-drop-card:hover .disc-drop-banner img {
+      transform: scale(1.04);
+    }
+
+    .disc-drop-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(1, 17, 38, 0.95) 100%);
+    }
+
+    .disc-drop-capsule-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      background: rgba(2, 11, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      backdrop-filter: blur(8px);
+    }
+
+    .disc-drop-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .disc-drop-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .disc-drop-desc {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    /* Pieces List Inside Drop */
+    .disc-drop-pieces {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .disc-drop-piece-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .disc-drop-piece-name {
+      font-size: 12px;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .disc-drop-piece-price {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    /* Bundle Summary & CTA */
+    .disc-drop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .disc-drop-total {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .disc-drop-total-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    .disc-drop-total-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .btn-disc-bundle {
+      padding: 10px 18px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-disc-bundle:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .disc-masonry-grid,
+      .disc-drops-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .disc-container {
+        padding: 20px 16px 80px;
+        gap: 48px;
+      }
+      .disc-hero-title {
+        font-size: 34px;
+        line-height: 1.15;
+      }
+      .disc-search-box {
+        padding: 4px 6px 4px 14px;
+      }
+      .disc-search-input {
+        font-size: 13px;
+        padding: 6px 6px;
+      }
+      .disc-search-btn {
+        padding: 8px 14px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+      .disc-masonry-grid,
+      .disc-drops-grid {
+        grid-template-columns: 1fr;
+      }
+      .disc-spheres-track {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        width: 100%;
+      }
+      .disc-spheres-track::-webkit-scrollbar { display: none; }
+      .disc-sphere-pill {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+    }
+  </style>
+</head>
+<body class="discovery-v2-bg">
+
+  <!-- PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Synthesizing Visual Masonry &amp; Outfit Capsules</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
-      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
-        </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
-          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
         </a>
       </div>
-
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+        <a href="discovery.html" class="nav-item-link active">Discover <span class="nav-badge-pink">NEW</span></a>
+        <a href="lookbook.html" class="nav-item-link">Lookbook</a>
       </nav>
-
-      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
           <span class="search-pill-placeholder">What are you looking for?</span>
           <span class="search-kbd">Ctrl + K</span>
         </button>
       </div>
-
-      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
         <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>CONCIERGE</span>
+          <i data-lucide="sparkles" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
+          <span>Concierge</span>
         </button>
-
-        <a data-auth-account href="account.html" class="nav-item-link desktop-only" aria-label="My Account">
-          <i data-lucide="user" style="width: 15px; height: 15px;"></i>
-          <span data-auth-name>Tanvir</span>
+        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist">
+          <i data-lucide="heart" style="width:18px;height:18px;"></i>
         </a>
-
-        <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" aria-label="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 15px; height: 15px;"></i>
-          <span>Bag</span>
-          <span class="bag-count-badge" id="headerCartCount">1</span>
+        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account">
+          <i data-lucide="user" style="width:18px;height:18px;"></i>
         </a>
-
-        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
+          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
+        </a>
         <div class="nav-more-menu" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal" style="width:18px;height:18px;"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="tracking.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="truck"></i>
-              <span>Track Order</span>
-            </a>
-            <a href="profile.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="sparkles"></i>
-              <span>AI Style Profile</span>
-            </a>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
-              <i data-lucide="receipt"></i>
-              <span>Order History</span>
-            </a>
-            <div class="nav-more-divider"></div>
-            <a href="contact.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="headphones"></i>
-              <span>Client Services</span>
-            </a>
+            <a href="size-guide.html" class="nav-more-item" role="menuitem"><i data-lucide="ruler"></i><span>Size Guide</span></a>
+            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
+            <a href="contact.html" class="nav-more-item" role="menuitem"><i data-lucide="headphones"></i><span>Client Services</span></a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
-    </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
-  </div>
+  <main class="disc-container" id="mainContent">
 
+    <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
+    <section class="disc-hero">
+      <span class="disc-hero-eyebrow">
+        <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
+        Intelligent Visual Discovery
+      </span>
+      <h1 class="disc-hero-title">
+        Discover by <em>Aesthetic &amp; Intent</em>
+      </h1>
+      <p class="disc-hero-sub">
+        Describe a mood, weather, or destination &mdash; or tap an aesthetic sphere to immerse in tailored visual moodboards.
+      </p>
 
-  <!-- DISCOVERY HERO -->
-  <section class="discovery-hero-section reveal-on-scroll" id="discoveryHeroSection">
-    <div class="container">
-      <div class="discovery-hero-content">
-
-        <div class="discovery-eyebrow">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; margin-right:4px;"></i>
-          Intelligent Discovery
+      <!-- Semantic Intent Search Bar -->
+      <div class="disc-search-wrap">
+        <div class="disc-search-box">
+          <i data-lucide="sparkles" style="width:18px;height:18px;color:var(--accent-cyan,#3DE0FF);"></i>
+          <input type="text" id="discoveryMainInput" class="disc-search-input" placeholder="e.g. Something warm for a Milan evening, minimal everyday sneakers..." autocomplete="off">
+          <button type="button" class="disc-search-btn" id="discoverySubmitBtn">
+            <span>Explore</span>
+            <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+          </button>
         </div>
-
-        <h1 class="discovery-hero-title">
-          Describe what<br><em>you need.</em>
-        </h1>
-
-        <p class="discovery-hero-subtitle">
-          No keywords. No filters. Tell us the occasion, the place, the weather, or the feeling &mdash; and we will find what fits.
-        </p>
-
-        <div id="aiFailureNotice" class="discovery-fallback-notice" style="display:none;" role="alert">
-          <i data-lucide="alert-circle" style="width: 14px; height: 14px; margin-right:4px;"></i>
-          AI search is currently unavailable. Standard keyword search is active.
-          <button onclick="window.NexDiscovery.disableAIFailure()" class="discovery-restore-ai-btn">Restore AI</button>
-        </div>
-
-        <div class="discovery-search-bar">
-          <div class="discovery-search-input-wrap" id="discoveryInputWrap">
-            <div class="discovery-search-icon">
-              <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-            </div>
-            <input type="text" id="discoveryMainInput" class="discovery-search-input"
-              placeholder="e.g. Something warm for a Dhaka evening..."
-              autocomplete="off" spellcheck="false"
-              aria-label="Describe what you are looking for" />
-            <div class="discovery-search-actions">
-              <button id="discoveryClearBtn" class="discovery-clear-btn" aria-label="Clear search" style="display:none;">
-                <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-              </button>
-              <button id="discoverySubmitBtn" class="btn-primary-commerce discovery-submit-btn">DISCOVER</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="discovery-example-prompts" id="discoveryPrompts">
-          <span class="discovery-prompts-label">Try asking</span>
-          <div class="discovery-prompts-list">
-            <button class="discovery-prompt-chip" data-prompt="Something warm for a cool evening in Dhaka">Cool evening in Dhaka</button>
-            <button class="discovery-prompt-chip" data-prompt="Comfortable for a long flight">Long flight comfort</button>
-            <button class="discovery-prompt-chip" data-prompt="Minimal everyday sneakers">Minimal sneakers</button>
-            <button class="discovery-prompt-chip" data-prompt="A gift for my brother under BDT 15000">Gift under BDT 15,000</button>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- RESULTS AREA -->
-  <section class="discovery-results-section reveal-on-scroll" id="discoveryResultsSection" style="display:none;">
-    <div class="container">
-
-      <div class="discovery-context-bar" id="discoveryContextBar" style="display:none;">
-        <div class="discovery-context-label">
-          <i data-lucide="sparkles" style="width: 11px; height: 11px; margin-right:4px;"></i>
-          UNDERSTOOD AS
-        </div>
-        <div class="discovery-context-chips" id="discoveryContextChips"></div>
-        <button class="discovery-reset-btn" id="discoveryResetBtn" aria-label="Clear search and start over">
-          <i data-lucide="rotate-ccw" style="width: 12px; height: 12px; margin-right:4px;"></i>
-          Start over
+    <!-- ─── 1. AESTHETIC FILTER SPHERES ───────────────────────────────── -->
+    <section class="disc-spheres-wrap" aria-label="Aesthetic Realms">
+      <span class="disc-spheres-label">Select Aesthetic Realm</span>
+      <div class="disc-spheres-track" id="spheresTrack">
+        <button type="button" class="disc-sphere-pill active" data-sphere="all">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #3DE0FF, #A78BFA);color:#3DE0FF;"></span>
+          <span class="disc-sphere-title">All Realms</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="quiet-luxury">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #CBD5E1, #334155);color:#CBD5E1;"></span>
+          <span class="disc-sphere-title">Quiet Luxury</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="alpine-thermal">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #38BDF8, #1E293B);color:#38BDF8;"></span>
+          <span class="disc-sphere-title">Alpine Thermal</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="nordic-minimal">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F8FAFC, #94A3B8);color:#F8FAFC;"></span>
+          <span class="disc-sphere-title">Nordic Minimal</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="nocturne-acoustic">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #22D3EE, #0F172A);color:#22D3EE;"></span>
+          <span class="disc-sphere-title">Nocturne Acoustic</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="transit-leisure">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F59E0B, #451A03);color:#F59E0B;"></span>
+          <span class="disc-sphere-title">Transit Leisure</span>
         </button>
       </div>
+    </section>
 
-      <div class="discovery-results-header" id="discoveryResultsHeader"></div>
-      <div class="discovery-results-grid" id="discoveryResultsGrid"></div>
-
-      <div class="discovery-refinement-bar" id="discoveryRefinementBar" style="display:none;">
-        <span class="discovery-refinement-label">Refine your request</span>
-        <div class="discovery-refinement-chips" id="discoveryRefinementChips">
-          <button class="discovery-refinement-chip" data-refine="more minimal">More minimal</button>
-          <button class="discovery-refinement-chip" data-refine="less expensive">Less expensive</button>
-          <button class="discovery-refinement-chip" data-refine="warmer">Warmer</button>
-          <button class="discovery-refinement-chip" data-refine="more casual">More casual</button>
-          <button class="discovery-refinement-chip" data-refine="show my size">Show my size</button>
+    <!-- ─── 2. VISUAL MASONRY MOODBOARD ───────────────────────────────── -->
+    <section aria-labelledby="masonryTitle">
+      <div class="disc-section-header">
+        <div>
+          <h2 class="disc-sec-title" id="masonryTitle">Visual Moodboard &amp; Runway</h2>
+          <p class="disc-sec-sub">Interactive editorial photography &mdash; tap pulsing pins to discover featured pieces.</p>
         </div>
       </div>
 
-    </div>
-  </section>
+      <div class="disc-masonry-grid" id="masonryGrid">
 
-  <!-- DEV DEMO BAR -->
-  <div id="aiFailureToggleBar" class="discovery-dev-bar">
-    <span style="font-size:11px;color:var(--text-muted);">Demo</span>
-    <button id="toggleAIFailureBtn" onclick="window.NexDiscovery && window.NexDiscovery.toggleAIFailure()" class="discovery-dev-btn">
-      Simulate AI failure
-    </button>
-  </div>
+        <!-- Column 1 -->
+        <div class="disc-masonry-col">
+          <!-- Card 1: Lifestyle with Hotspot -->
+          <div class="disc-card disc-card-lifestyle" style="height:440px;" data-sphere-match="alpine-thermal quiet-luxury">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Thermal Cashmere Runway" class="disc-card-img">
+            <div class="disc-card-scrim"></div>
+            <!-- Hotspot -->
+            <div class="disc-hotspot-pin" style="top:42%;left:48%;" onclick="window.location.href='product.html?id=p1'" title="Cashmere Sweater — € 220.00">
+              <div class="disc-hotspot-core"></div>
+              <div class="disc-hotspot-ring"></div>
+            </div>
+            <div class="disc-card-footer-info">
+              <div>
+                <div class="disc-card-tag">Alpine Thermal</div>
+                <h3 class="disc-card-title">Architectural Cashmere</h3>
+              </div>
+              <a href="product.html?id=p1" class="btn-disc-primary" style="padding:0 14px;height:32px;font-size:10px;">View</a>
+            </div>
+          </div>
 
-  <!-- SEARCH OVERLAY (global CMD+K) -->
+          <!-- Card 2: Product Card -->
+          <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury">
+            <div class="disc-product-img-box">
+              <img src="../assets/images/products/p2.png" alt="Structured Wool Blazer">
+            </div>
+            <div class="disc-product-meta">
+              <div>
+                <div class="disc-product-brand">Atelier Tailoring</div>
+                <h3 class="disc-product-name">Structured Wool Blazer</h3>
+              </div>
+              <div class="disc-product-price">€ 264.00</div>
+            </div>
+            <div class="disc-product-cta-row">
+              <a href="product.html?id=p2" class="btn-disc-primary">View Piece</a>
+              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p2', 'Structured Wool Blazer', 264, '../assets/images/products/p2.png')" aria-label="Quick add">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="disc-masonry-col">
+          <!-- Card 3: Product Card -->
+          <div class="disc-card disc-card-product" data-sphere-match="nordic-minimal">
+            <div class="disc-product-img-box">
+              <img src="../assets/images/products/p6.png" alt="Minimalist Leather Runner">
+            </div>
+            <div class="disc-product-meta">
+              <div>
+                <div class="disc-product-brand">Footwear Studio</div>
+                <h3 class="disc-product-name">Minimalist Leather Runner</h3>
+              </div>
+              <div class="disc-product-price">€ 198.00</div>
+            </div>
+            <div class="disc-product-cta-row">
+              <a href="product.html?id=p6" class="btn-disc-primary">View Piece</a>
+              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p6', 'Minimalist Leather Runner', 198, '../assets/images/products/p6.png')" aria-label="Quick add">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4: Lifestyle with Hotspot -->
+          <div class="disc-card disc-card-lifestyle" style="height:460px;" data-sphere-match="nocturne-acoustic">
+            <img src="../assets/images/lifestyle/hero_headphone_landscape.jpg" alt="Acoustic Isolation Edit" class="disc-card-img">
+            <div class="disc-card-scrim"></div>
+            <!-- Hotspot -->
+            <div class="disc-hotspot-pin" style="top:36%;left:54%;" onclick="window.location.href='product.html?id=p4'" title="Studio Headphones — € 320.00">
+              <div class="disc-hotspot-core"></div>
+              <div class="disc-hotspot-ring"></div>
+            </div>
+            <div class="disc-card-footer-info">
+              <div>
+                <div class="disc-card-tag">Nocturne Acoustic</div>
+                <h3 class="disc-card-title">Studio Spatial Resonance</h3>
+              </div>
+              <a href="product.html?id=p4" class="btn-disc-primary" style="padding:0 14px;height:32px;font-size:10px;">View</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="disc-masonry-col">
+          <!-- Card 5: Lifestyle with Hotspot -->
+          <div class="disc-card disc-card-lifestyle" style="height:420px;" data-sphere-match="transit-leisure">
+            <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Transit Leather Tote" class="disc-card-img">
+            <div class="disc-card-scrim"></div>
+            <!-- Hotspot -->
+            <div class="disc-hotspot-pin" style="top:58%;left:44%;" onclick="window.location.href='product.html?id=p7'" title="Leather Tote — € 285.00">
+              <div class="disc-hotspot-core"></div>
+              <div class="disc-hotspot-ring"></div>
+            </div>
+            <div class="disc-card-footer-info">
+              <div>
+                <div class="disc-card-tag">Transit Leisure</div>
+                <h3 class="disc-card-title">Weekender Carryall</h3>
+              </div>
+              <a href="product.html?id=p7" class="btn-disc-primary" style="padding:0 14px;height:32px;font-size:10px;">View</a>
+            </div>
+          </div>
+
+          <!-- Card 6: Product Card -->
+          <div class="disc-card disc-card-product" data-sphere-match="alpine-thermal quiet-luxury">
+            <div class="disc-product-img-box">
+              <img src="../assets/images/products/p1.png" alt="Architectural Cashmere Sweater">
+            </div>
+            <div class="disc-product-meta">
+              <div>
+                <div class="disc-product-brand">Knitwear Studio</div>
+                <h3 class="disc-product-name">Cashmere Knit Sweater</h3>
+              </div>
+              <div class="disc-product-price">€ 220.00</div>
+            </div>
+            <div class="disc-product-cta-row">
+              <a href="product.html?id=p1" class="btn-disc-primary">View Piece</a>
+              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p1', 'Cashmere Knit Sweater', 220, '../assets/images/products/p1.png')" aria-label="Quick add">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── 3. CURATED EDITORIAL OUTFIT DROPS ─────────────────────────── -->
+    <section aria-labelledby="dropsTitle">
+      <div class="disc-section-header">
+        <div>
+          <h2 class="disc-sec-title" id="dropsTitle">Curated Outfit Capsules</h2>
+          <p class="disc-sec-sub">Complete styled ensembles curated for climate, occasion, and harmony &mdash; 1-click bundle checkout.</p>
+        </div>
+      </div>
+
+      <div class="disc-drops-grid">
+
+        <!-- Drop 1 -->
+        <div class="disc-drop-card">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Milan Evening Edit">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 01 &middot; EVENING</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">The Milan Evening Ensemble</h3>
+            <p class="disc-drop-desc">Breathable cashmere knitwear paired with studio acoustics and leather transit carryall.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Cashmere Sweater</span>
+                <span class="disc-drop-piece-price">€ 220.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Studio Spatial Headphones</span>
+                <span class="disc-drop-piece-price">€ 320.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Leather Weekender Tote</span>
+                <span class="disc-drop-piece-price">€ 285.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (3 Pieces)</span>
+                <span class="disc-drop-total-val">€ 825.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p1', 'p4', 'p7'])">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drop 2 -->
+        <div class="disc-drop-card">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_runner_landscape.jpg" alt="Minimalist Motion">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 02 &middot; MOVEMENT</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">Minimalist Urban Rotation</h3>
+            <p class="disc-drop-desc">Structured tailoring engineered with Italian calfskin low-tops for quiet city mobility.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Structured Wool Blazer</span>
+                <span class="disc-drop-piece-price">€ 264.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Minimalist Leather Runner</span>
+                <span class="disc-drop-piece-price">€ 198.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
+                <span class="disc-drop-total-val">€ 462.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p2', 'p6'])">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drop 3 -->
+        <div class="disc-drop-card">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Transit Long Flight">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 03 &middot; TRANSIT</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">Long-Haul Flight Comfort</h3>
+            <p class="disc-drop-desc">Full-grain leather carryall and ultra-soft knitwear for effortless transit hours.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Cashmere Knit Sweater</span>
+                <span class="disc-drop-piece-price">€ 220.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Leather Weekender Tote</span>
+                <span class="disc-drop-piece-price">€ 285.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
+                <span class="disc-drop-total-val">€ 505.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p1', 'p7'])">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY -->
   <div id="aiSearchModal" class="search-overlay-container">
     <div class="search-backdrop"></div>
     <div class="search-panel">
       <div class="search-header-bar">
         <div class="search-input-wrapper">
-          <div class="search-ai-icon">
-            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-          </div>
-          <input type="text" class="search-ai-input" placeholder="Describe what you need... (Esc to close)" aria-label="Search query" />
+          <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off">
         </div>
-        <button class="search-close-btn" aria-label="Close search">
-          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-        </button>
+        <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
       </div>
       <div id="aiSearchResultsModal" class="search-body"></div>
     </div>
   </div>
 
-  <!-- WHY IT FITS MODAL -->
-  <div id="whyMatchesModal" class="why-matches-overlay" style="display:none;" role="dialog" aria-modal="true">
-    <div class="why-matches-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <span style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);">WHY IT FITS</span>
-        <button onclick="document.getElementById('whyMatchesModal').style.display='none'" style="background:none;border:none;color:var(--text-secondary);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;" aria-label="Close">
-          <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-        </button>
-      </div>
-      <div id="whyMatchesContent"></div>
-      <button class="btn-primary-commerce" style="width:100%;height:44px;margin-top:20px;" onclick="document.getElementById('whyMatchesModal').style.display='none'">Got it</button>
+  <!-- MINI CART -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
     </div>
-  </div>
-
-  <footer style="background:var(--bg-main);border-top:1px solid var(--border-subtle);padding:40px 0;">
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
-      <div style="font-family:var(--font-serif);font-size:22px;color:var(--text-primary);">nexCommerce</div>
-      <div style="display:flex;gap:24px;">
-        <a href="../index.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Home</a>
-        <a data-auth-account href="account.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Account</a>
-        <a href="tracking.html" style="color:var(--text-secondary);font-family:var(--font-body);font-size:13px;">Tracking</a>
-      </div>
-      <div style="color:var(--text-secondary);font-family:var(--font-body);font-size:12px;">&#169; 2026 nexCommerce.</div>
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display:none;">
+      <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
     </div>
-  </footer>
+  </aside>
 
+  <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script type="module" src="../js/animations.js?v=6"></script>
 
-  <script src="../js/cart.js?v=2"></script>
-  <script src="../js/notifications.js"></script>
+  <!-- Scripts -->
+  <script src="../js/cart.js?v=5"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
   <script src="../js/session-context.js"></script>
-  <script src="../js/discovery-ui.js"></script>
-  <script>
-  (function() {
-    'use strict';
-    document.addEventListener('DOMContentLoaded', function() {
-      if (window.NexDiscoveryUI) NexDiscoveryUI.renderDefaultState();
-
-      var mainInput  = document.getElementById('discoveryMainInput');
-      var submitBtn  = document.getElementById('discoverySubmitBtn');
-      var resetBtn   = document.getElementById('discoveryResetBtn');
-
-      if (mainInput) {
-        mainInput.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter') { e.preventDefault(); NexDiscoveryUI.execute(mainInput.value); }
-        });
-      }
-      if (submitBtn) submitBtn.addEventListener('click', function() { NexDiscoveryUI.execute(mainInput ? mainInput.value : ''); });
-      if (resetBtn)  resetBtn.addEventListener('click', function() { NexDiscoveryUI.reset(); });
-
-      // URL query param (e.g. discovery.html?q=cool+evening)
-      var params = new URLSearchParams(window.location.search);
-      var urlQ = params.get('q');
-      if (urlQ && mainInput) { mainInput.value = urlQ; NexDiscoveryUI.execute(urlQ); }
-
-      // Delegated events
-      document.addEventListener('click', function(e) {
-        // Chip removal (State 8)
-        var removeBtn = e.target.closest('[data-remove-key]');
-        if (removeBtn) { NexDiscoveryUI.removeContextKey(removeBtn.getAttribute('data-remove-key')); return; }
-
-        // Refinement chips (State 9)
-        var refChip = e.target.closest('.discovery-refinement-chip[data-refine]');
-        if (refChip) {
-          document.querySelectorAll('.discovery-refinement-chip').forEach(function(c) { c.classList.remove('active'); });
-          refChip.classList.add('active');
-          NexDiscoveryUI.execute(refChip.getAttribute('data-refine'), true);
-          return;
-        }
-
-        // View product &rarr; navigate (AC-21)
-        var viewBtn = e.target.closest('.discovery-view-btn');
-        if (viewBtn) {
-          window.location.href = 'product.html?id=' + viewBtn.getAttribute('data-product-id');
-          return;
-        }
-
-        // Example prompts
-        var promptChip = e.target.closest('.discovery-prompt-chip[data-prompt]');
-        if (promptChip && mainInput) {
-          mainInput.value = promptChip.getAttribute('data-prompt');
-          NexDiscoveryUI.execute(promptChip.getAttribute('data-prompt'));
-        }
-      });
-    });
-  })();
-  </script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js?v=3"></script>
-  <script src="../js/style-profile.js"></script>
-  <script src="../js/context-retention.js"></script>
-  <script src="../js/concierge-engine.js?v=3"></script>
-  <script src="../js/concierge.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
 
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">BDT 0</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
+  <script>
+    // ── Preloader ──────────────────────────────────────────────────────────
+    const preloader = document.getElementById('pagePreloader');
+    const bar = document.getElementById('preloaderProgressBar');
+    const pct = document.getElementById('preloaderPercent');
+    if (preloader) {
+      let p = 0;
+      const iv = setInterval(() => {
+        p += 20; if (p > 100) p = 100;
+        if (bar) bar.style.width = p + '%';
+        if (pct) pct.textContent = p + '%';
+        if (p >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => preloader.remove(), 300);
+          }, 160);
+        }
+      }, 25);
+    }
 
+    // ── Quick Add Helper ───────────────────────────────────────────────────
+    function quickAdd(id, name, price, img) {
+      if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+        window.nexCart.addItem({ id: id, name: name, price: price, image: img, category: 'Discovery Selection' });
+      }
+      if (window.showToast) {
+        showToast(`Added ${name} to your shopping bag.`, 'success');
+      }
+    }
+
+    // ── Bundle Add Helper ──────────────────────────────────────────────────
+    function addBundle(ids) {
+      const catalog = [
+        { id: 'p1', name: 'Architectural Cashmere Sweater', price: 220, image: '../assets/images/products/p1.png' },
+        { id: 'p2', name: 'Structured Wool Blazer', price: 264, image: '../assets/images/products/p2.png' },
+        { id: 'p4', name: 'Studio Spatial Headphones', price: 320, image: '../assets/images/products/p4.png' },
+        { id: 'p6', name: 'Minimalist Leather Runner', price: 198, image: '../assets/images/products/p6.png' },
+        { id: 'p7', name: 'Leather Weekender Tote', price: 285, image: '../assets/images/products/p7.png' }
+      ];
+
+      ids.forEach(id => {
+        const item = catalog.find(x => x.id === id);
+        if (item && window.nexCart && typeof window.nexCart.addItem === 'function') {
+          window.nexCart.addItem({ id: item.id, name: item.name, price: item.price, image: item.image, category: 'Curated Capsule' });
+        }
+      });
+
+      if (window.nexCart && typeof window.nexCart.openDrawer === 'function') {
+        window.nexCart.openDrawer();
+      }
+      if (window.showToast) {
+        showToast(`Added ${ids.length} capsule pieces to your shopping bag!`, 'success');
+      }
+    }
+
+    // ── Aesthetic Spheres Filter ───────────────────────────────────────────
+    document.querySelectorAll('.disc-sphere-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.disc-sphere-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const sphere = pill.dataset.sphere;
+        const cards = document.querySelectorAll('.disc-card[data-sphere-match]');
+        cards.forEach(card => {
+          if (sphere === 'all' || card.dataset.sphereMatch.includes(sphere)) {
+            card.style.display = 'flex';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ── Search Input ───────────────────────────────────────────────────────
+    const input = document.getElementById('discoveryMainInput');
+    const submitBtn = document.getElementById('discoverySubmitBtn');
+    if (submitBtn && input) {
+      submitBtn.addEventListener('click', () => {
+        const q = input.value.trim();
+        if (q) window.location.href = `category.html?q=${encodeURIComponent(q)}`;
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const q = input.value.trim();
+          if (q) window.location.href = `category.html?q=${encodeURIComponent(q)}`;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
 </body>
 </html>
-

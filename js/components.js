@@ -30,7 +30,7 @@ export function renderProductCard(product) {
       </div>
       <div class="product-info">
         <h3 class="product-title"><a href="product.html?id=${product.id}">${product.name}</a></h3>
-        <p class="product-price">৳ ${product.price.toLocaleString()}</p>
+        <p class="product-price tabular-nums">&euro; ${typeof product.price === 'number' ? product.price.toFixed(2) : product.price}</p>
       </div>
     </article>
   `;
@@ -75,7 +75,7 @@ export function renderQuickViewModal(product) {
           </div>
           <div class="qv-details">
             <h2 id="qv-title" class="qv-title">${product.name}</h2>
-            <p class="qv-price">৳ ${product.price.toLocaleString()}</p>
+            <p class="qv-price tabular-nums">&euro; ${typeof product.price === 'number' ? product.price.toFixed(2) : product.price}</p>
             <p class="qv-description">${product.description || 'Precision crafted with signature luxury materials.'}</p>
             <div class="qv-actions">
               <a href="product.html?id=${product.id}" class="btn-luxury" style="width:100%; text-align:center;">View Full Details</a>
