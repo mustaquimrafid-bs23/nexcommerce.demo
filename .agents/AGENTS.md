@@ -208,6 +208,13 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 **4. Search Navigation & Popup Isolation**:
 - "See All Results" or full catalog links must cleanly navigate to target pages (`discovery.html?q=...`) pre-filling on-page search inputs without auto-reopening modal overlay popups on page load.
 
+**5. NLP Intent Routing & Word-Boundary Safety**:
+- Always enforce `\b` word boundaries on keyword matching to prevent compound word collisions (e.g., `fit` vs `outfit`, `look` vs `looking for shoes`).
+- Disambiguate search intent (`isSearchOnly`) from action bundles, and prioritize multi-item action bundles (e.g., Outfit Bundles) before attribute inquiries (e.g., Sizing Guide).
+
+**6. Multi-Page Relative Path Resolution Invariant**:
+- All shared UI components rendered across root (`index.html`) and subpages (`pages/*.html`) must utilize dynamic URL/image resolution helpers (`resolveHref`, `resolveImg`) to ensure zero broken links or missing images regardless of nesting depth.
+
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
 When building any screen or component for nexCommerce, reference these real-world sites as design benchmarks:
