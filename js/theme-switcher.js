@@ -611,7 +611,7 @@
   /* ── Boot ────────────────────────────────────────────────────────────── */
   function init() {
     restoreTheme(); // Apply immediately to avoid FOUC
-    injectFooterThemePopup();
+    // Do not inject developer theme widget into the public luxury footer
   }
 
   if (document.readyState === 'loading') {

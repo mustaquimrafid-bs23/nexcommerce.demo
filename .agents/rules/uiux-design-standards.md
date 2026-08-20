@@ -90,6 +90,14 @@ I never design a page directly without ensuring it is built from documented comp
 - **Shadow / elevation levels**: purposeful, not decorative
 - **Icon system**: consistent stroke-based SVG icons (Lucide or equivalent) — never emoji or text characters
 
+### Modernist / Swiss Grid & Container Restraint Standards
+> Master Reference: `.agents/rules/modernist-design-system-standards.md`
+- **12-Column Grid Discipline**: All pages must align to a strict 12-column grid. Position major elements with deliberate spatial relationships.
+- **Intentional Asymmetry**: Guided by the underlying grid — never center everything blindly.
+- **Do Not Overuse UI Containers ("Not everything needs to be a card")**: Avoid excessive nested cards, nested borders, rounded containers, and floating panels. Use whitespace, grid, typography, and precise hairline borders (`1px solid rgba(...)`) to establish relationships.
+- **Image Composition Integrity**: Never blindly use `object-fit: cover`. Always inspect the focal point, model framing, and responsive aspect ratios.
+- **Restrained Surface Tokens**: Square or restrained radius (`0px–4px`), minimal/no drop shadows, and subtle background separation.
+
 ### Components I Must Design in All States
 Every interactive component must have: default, hover, active/pressed, disabled, loading, error, and (where applicable) empty/success states.
 
@@ -98,6 +106,7 @@ Core components: Buttons, Inputs, Selects, Checkboxes, Toggles, Cards, Tables, M
 E-commerce components: Product cards, product comparison, PDP gallery, cart drawer, checkout flow, order tracking, address selector, payment components, coupon components, dashboard widgets.
 
 ---
+
 
 ## 3. E-commerce UX — Screens I Must Know How to Design
 
@@ -361,26 +370,59 @@ When designing multi-column discovery sections (e.g., New Arrivals, Trending/Bes
 All storefront interfaces must prioritize visual communication over prose:
 
 1. **Visual Dominance (70/30 Rule)**:
-   - At least 70% of viewport area in hero sections, category showcases, lookbooks, and feature modules must be dedicated to high-fidelity lifestyle photography, product renders, diagrams, or interactive media.
+   - At least 70% of viewport area in hero sections, category showcases, lookbooks, tracking/telemetry, and feature modules must be dedicated to high-fidelity lifestyle photography, product renders, SVG visualizers, diagrams, or interactive media.
    - Text elements must occupy ≤30% of visible layout area.
 
 2. **Strict Text Budget & Conciseness**:
    - **Headlines**: Maximum 4–6 words. Punchy, declarative, emotionally resonant.
    - **Subtitles & Descriptions**: Maximum 1–2 short sentences (≤25 words total). NEVER write multi-paragraph explanatory blocks.
-   - **Section Headers**: 2–4 words (e.g., "The Run Edit", "Craft & Form", "New Season").
+   - **Section Headers**: 2–4 words (e.g., "The Run Edit", "Craft & Form", "Transit Telemetry").
    - **Product Cards**: Strictly 3-item metadata (Brand + Title + Price). Zero descriptive paragraphs or match explanations.
 
-3. **Visual Replacement Patterns (Replace Text with UI Visuals)**:
-   - **Features & Benefits**: Replace bullet lists of text with visual feature badges, icon-anchored micro-cards, or diagrammatic callouts.
+3. **Concrete Visual Replacement Patterns (Replace Text with UI Visuals)**:
+   - **Order & Transit Tracking**: Replace text log lists and tables with interactive SVG transit route maps, animated waypoint beacons, and 4-badge parcel spec matrices.
+   - **Features & Benefits**: Replace bullet lists of text with visual feature badges, icon-anchored micro-cards on frosted pedestals, or diagrammatic callouts.
    - **Materials & Colorways**: Use interactive visual swatches, texture previews, and live image switches instead of text descriptions.
    - **Step-by-Step / How-it-Works**: Use visual timeline steps, iconography, and diagrammatic flows rather than narrative copy.
-   - **Trust & Guarantees**: Use icon-backed frosted micro-pills with 2–3 word labels (e.g., `⚡ Same-Day Dispatch`, `↺ 14-Day Free Returns`) instead of full guarantee paragraphs.
+   - **Trust & Guarantees**: Use icon-backed frosted micro-pills with 2–3 word labels (e.g., `⚡ Same-Day Dispatch`, `↺ 14-Day Free Returns`, `🔒 Authenticity Assured`) instead of full guarantee paragraphs.
    - **Size & Fit**: Provide visual fit meters, silhouette overlays, and visual measurement diagrams over text tables.
 
-4. **Zero Walls of Text**:
+4. **Ultra-Modern & Premium Visual Aesthetics**:
+   - Deep obsidian canvas foundation (`#031838` to `#000B1A`) with glassmorphic cards (`backdrop-filter: blur(16px)`).
+   - Crisp 1px specular inner highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`).
+   - Vector Lucide icons housed in dedicated 44×44px translucent frosted glass pedestals.
+   - Smooth GPU-accelerated spring animations (mouse-tilt LERP `±5.5°`, curtain cross-dissolves, dashoffset route paths).
+
+5. **Zero Walls of Text**:
    - Any continuous block of text exceeding 3 lines without an accompanying visual, diagram, or interactive anchor is strictly forbidden on customer-facing pages.
 
 ---
 
-*Last updated: 2026-08-19 | My role: Senior UI/UX Designer / Product Designer*
+## 15. MODERNIST LUXURY FOOTER & HERO INVARIANTS
+
+1. **Human-Understandable Footer Copy & Anti-Jargon Rule**:
+   - Strictly prohibit pretentious jargon (`THE MAISON`, `THE ATELIER STORY`, `DATA PRIVACY (GDPR)`, `THE PRIVATE EDIT`).
+   - Use clean, human headings: **`ABOUT`** and **`NEWSLETTER`**.
+   - Strictly limit company links to **2 to 3 essential items**: `About Us`, `Privacy Policy`, `Terms of Service`.
+
+2. **Architectural 3-Column Main Grid**:
+   - **Column 1**: Brand Manifesto & Social Channels (Instagram, TikTok, LinkedIn).
+   - **Column 2**: `ABOUT` (3 simple links).
+   - **Column 3**: `NEWSLETTER` (straightforward 1-line copy + modern rectangular input + solid white `SUBSCRIBE` CTA).
+
+3. **3-Zone Architectural Footer Bottom Bar**:
+   - **Left Zone (1/3)**: Copyright statement, German/EU statutory VAT notice (`All prices incl. statutory VAT`), and discreet legal text links (`Impressum`, `Privacy`, `Cookie Settings`).
+   - **Center Zone (1/3)**: Centered payment trust marks.
+   - **Right Zone (1/3)**: Right-aligned market & currency selector (`[🌐 Europe · EUR (€)]`).
+   - **Strictly Top 3–4 Payment Methods**: `Apple Pay`, `Visa`, `Mastercard`, `Klarna`. Never 6+ rainbow badges. Always monochrome frosted glass.
+   - **Zero Developer Widgets**: Never inject theme switchers or debug tools into public storefront footers.
+
+4. **European Luxury Hero Headline & CTA**:
+   - **Headline**: Single-line or naturally balanced 2-line headline in `Neue Haas Grotesk`/`Manrope` (`-0.025em` tracking). No clashing italic serif stacks.
+   - **CTA Button**: Solid pure white `#FFFFFF` canvas, deep obsidian `#060E1A` typography, `2px` architectural border-radius, hairline border, and zero neon glow.
+
+---
+
+*Last updated: 2026-08-20 | My role: Senior UI/UX Designer / Product Designer*
+
 

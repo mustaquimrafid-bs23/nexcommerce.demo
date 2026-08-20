@@ -218,3 +218,26 @@ Every stylesheet across the codebase must reference the standardized typography 
   --tracking-wide:   0.08em;
 }
 ```
+
+---
+
+## 16. Final Visual Target
+
+The final result must feel closer to:
+**European fashion editorial + premium contemporary architecture + modern luxury e-commerce**
+and NEVER:
+**AI startup + gaming UI + sci-fi dashboard.**
+
+The typography should be quiet, confident, refined, and intentional.
+
+**Canonical Combination**:
+* **Display & Headings**: `Neue Haas Grotesk` / `Helvetica Now` / `Manrope`
+* **UI & Body**: `Inter`
+* **Editorial Accent**: `Instrument Serif` (strictly limited)
+
+Apply this typography system consistently across the homepage, navigation, product listing, product details, cart, checkout, account pages, search, filters, AI features, and marketing sections.
+
+---
+
+*Last updated: 2026-08-20 | Approved European Luxury Typography Blueprint*
+

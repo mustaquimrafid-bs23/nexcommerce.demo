@@ -55,13 +55,15 @@ The interface should feel:
 
 > **Simple at first glance, sophisticated when interacted with.**
 
-### Visual-First & Low-Text Density ("Show, Don't Tell")
-* **70/30 Visual Dominance**: Devote at least 70% of visible layout area to high-fidelity photography, interactive media, and visual micro-UIs. Keep text concise (≤30% area).
-* **Strict Copy Restraint**: Headlines max 4–6 words. Body copy max 1–2 sentences (≤25 words).
-* **Visual Information Replacement**: Replace text narratives with interactive swatches, hotspot pins, icon pedestals, and progress diagrams.
+### Visual-First & Radical Text Economy ("Show, Don't Tell")
+* **70/30 Visual Dominance**: Devote at least 70% of visible layout area to high-fidelity lifestyle photography, interactive SVG visualizers, telemetry route maps, and visual micro-UIs. Keep text elements concise (≤30% area).
+* **Strict Copy Restraint**: Headlines max 4–6 words. Body microcopy max 1–2 sentences (≤25 words). Product cards strictly 3-item metadata (Brand + Title + Price).
+* **Visual Information Replacement**: Replace narrative text logs and feature tables with interactive SVG transit maps, glowing waypoint beacons, 4-badge parcel spec matrices, interactive material swatches, silhouette overlays, and icon pedestals.
+* **Ultra-Modern Luxury Visual Polish**: Frosted dark obsidian cards (`#031838` to `#000B1A`, `backdrop-filter: blur(16px)`), specular inner highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`), feather-stroke Lucide icons, and GPU spring animations.
 * **No Walls of Text**: Never render text blocks longer than 3 lines on customer storefront routes without visual anchoring.
 
 ---
+
 
 # 3. Human-Centered UX
 

@@ -6,224 +6,203 @@
   <title>Checkout &mdash; nexCommerce</title>
   <meta name="description" content="Secure checkout at nexCommerce.">
   <meta name="view-transition" content="same-origin" />
-
-  <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=4">
 
   <style>
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    /* ── Base ───────────────────────────────────────────────────────── */
+    body { background-color: var(--bg-main); color: var(--text-primary); font-family: var(--font-body); min-height: 100vh; display: flex; flex-direction: column; }
+    .checkout-section { padding: 0 0 80px; flex: 1; }
 
-    .site-header {
-      height: 76px;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(7, 26, 58, 0.92);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .brand-logo {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-    }
+    /* ── Cinema Hero ────────────────────────────────────────────────── */
+    .checkout-cinema-hero { padding: 36px 0 28px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 32px; display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .checkout-hero-masthead { flex-shrink: 0; }
+    .checkout-eyebrow { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 10px; }
+    .live-security-dot { width: 6px; height: 6px; background: #34D399; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px #34D399; animation: secPulse 2s ease-in-out infinite; }
+    @keyframes secPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.4)} }
+    .checkout-headline { font-family: var(--font-serif); font-size: clamp(26px,3.2vw,40px); font-weight: 400; line-height: 1.15; color: var(--text-primary); margin: 0; }
+    .checkout-headline em { font-style: italic; color: #3DE0FF; }
 
-    .checkout-section { padding: 40px 0 80px; flex: 1; }
-    .checkout-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 50px;
-      align-items: flex-start;
-    }
+    /* ── Progress Ribbon ─────────────────────────────────────────────── */
+    .checkout-progress-ribbon { display: flex; align-items: center; flex: 1; max-width: 600px; }
+    .progress-step-item { display: flex; align-items: center; gap: 10px; flex-shrink: 0; opacity: 0.3; transition: opacity 0.35s ease; }
+    .progress-step-item.active { opacity: 1; }
+    .progress-step-item.completed { opacity: 0.6; }
+    .step-num-bubble { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; color: rgba(255,255,255,0.4); flex-shrink: 0; background: rgba(255,255,255,0.02); transition: all 0.35s ease; }
+    .progress-step-item.active .step-num-bubble { border-color: #3DE0FF; color: #3DE0FF; background: rgba(61,224,255,0.08); box-shadow: 0 0 16px rgba(61,224,255,0.2); }
+    .progress-step-item.completed .step-num-bubble { border-color: #34D399; color: #34D399; background: rgba(52,211,153,0.08); }
+    .step-meta { display: flex; flex-direction: column; gap: 2px; }
+    .step-title { font-size: 12px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em; }
+    .step-sub { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.04em; }
+    .progress-connector-line { flex: 1; height: 1px; background: rgba(255,255,255,0.08); min-width: 16px; max-width: 56px; margin: 0 6px; }
 
-    .checkout-form-col { display: flex; flex-direction: column; gap: 24px; }
-    .form-group-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 24px;
-    }
-    .group-title {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-    .input-box {
-      width: 100%;
-      background: rgba(7, 26, 58, 0.7);
-      border: 1px solid var(--border-subtle);
-      padding: 12px 16px;
-      border-radius: 4px;
-      color: var(--text-primary);
-      font-size: 14px;
-      transition: border-color 0.18s ease;
-    }
-    .input-box:focus {
-      outline: none;
-      border-color: rgba(255,255,255,0.35);
-    }
-    .input-box.input-error {
-      border-color: #FF3CAC;
-    }
-    .field-error-msg {
-      display: none;
-      font-size: 11px;
-      color: #FF3CAC;
-      margin-top: 4px;
-    }
+    /* ── Layout ──────────────────────────────────────────────────────── */
+    .checkout-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 44px; align-items: flex-start; }
+    .checkout-form-col { display: flex; flex-direction: column; gap: 18px; }
+
+    /* ── Express Wallets ─────────────────────────────────────────────── */
+    .express-wallets-panel { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 18px 20px; }
+    .express-wallets-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: rgba(255,255,255,0.25); text-align: center; margin-bottom: 12px; }
+    .express-wallets-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .wallet-btn { min-height: 48px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.09); background: rgba(255,255,255,0.03); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; letter-spacing: 0.01em; transition: background 0.2s, border-color 0.2s, transform 0.15s; }
+    .wallet-btn:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+    .wallet-btn:active { transform: translateY(0); }
+    .apple-pay-btn { font-size: 15px; }
+    .klarna-btn { font-size: 14px; font-weight: 800; }
+    .or-divider-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+    .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+    .divider-text { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.2); white-space: nowrap; }
+
+    /* ── Form Group Card ─────────────────────────────────────────────── */
+    .form-group-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 22px; }
+    .group-title { font-family: var(--font-serif); font-size: 20px; color: var(--text-primary); margin-bottom: 14px; font-weight: 400; }
+    .input-box { width: 100%; background: rgba(3,24,56,0.65); border: 1px solid rgba(255,255,255,0.08); padding: 12px 16px; border-radius: 8px; color: var(--text-primary); font-size: 14px; font-family: var(--font-body); transition: border-color 0.18s, box-shadow 0.18s; }
+    .input-box:focus { outline: none; border-color: rgba(61,224,255,0.35); box-shadow: 0 0 0 3px rgba(61,224,255,0.07); }
+    .input-box.input-error { border-color: #FB7185; box-shadow: 0 0 0 3px rgba(251,113,133,0.07); }
+    .field-error-msg { display: none; font-size: 11px; color: #FB7185; margin-top: 4px; }
     .field-error-msg.visible { display: block; }
 
-    /* Recovery banners */
-    .recovery-banner {
-      display: none;
-      padding: 16px 20px;
-      border-radius: 6px;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-    .recovery-banner.payment-fail {
-      background: rgba(255, 60, 172, 0.08);
-      border: 1px solid rgba(255, 60, 172, 0.3);
-    }
-    .recovery-banner.cart-warn {
-      background: rgba(255, 160, 0, 0.08);
-      border: 1px solid rgba(255, 160, 0, 0.3);
-    }
+    /* ── Recovery Banners ────────────────────────────────────────────── */
+    .recovery-banner { display: none; padding: 14px 18px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+    .recovery-banner.payment-fail { background: rgba(251,113,133,0.07); border: 1px solid rgba(251,113,133,0.22); }
+    .recovery-banner.cart-warn { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.22); }
     .recovery-banner.visible { display: block; }
     .recovery-banner strong { color: var(--text-primary); }
 
-    /* Interactive payment method buttons */
-    .payment-method-btn {
-      padding: 12px 16px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      background: rgba(255,255,255,0.02);
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: border-color 0.18s, background 0.18s;
-      text-align: center;
-    }
-    .payment-method-btn:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.3);
-    }
-    .payment-method-btn.selected {
-      border-color: var(--text-primary);
-      background: rgba(255,255,255,0.07);
-    }
+    /* ── Delivery Option Cards ───────────────────────────────────────── */
+    .delivery-options-grid { display: flex; flex-direction: column; gap: 9px; }
+    .delivery-option-card { display: flex; align-items: flex-start; gap: 14px; padding: 15px 16px; border: 1.5px solid rgba(255,255,255,0.07); border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.015); transition: border-color 0.22s, background 0.22s, box-shadow 0.22s; }
+    .delivery-option-card input[type="radio"] { display: none; }
+    .delivery-option-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.14); }
+    .delivery-option-card.active { border-color: #3DE0FF; background: rgba(61,224,255,0.04); box-shadow: 0 0 0 1px rgba(61,224,255,0.12), inset 0 0 30px rgba(61,224,255,0.015); }
+    .option-check-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.18); flex-shrink: 0; margin-top: 1px; position: relative; transition: border-color 0.2s, background 0.2s; }
+    .delivery-option-card.active .option-check-circle { border-color: #3DE0FF; background: #3DE0FF; }
+    .delivery-option-card.active .option-check-circle::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 8px; height: 8px; background: #000B1A; border-radius: 50%; }
+    .option-content { flex: 1; min-width: 0; }
+    .option-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .option-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .option-price { font-size: 13px; font-weight: 700; white-space: nowrap; color: #34D399; }
+    .delivery-option-card:not(.active) .option-price { color: var(--text-primary); }
+    .option-desc { font-size: 11px; color: rgba(255,255,255,0.38); line-height: 1.5; margin: 0 0 6px; }
+    .option-badge { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.09em; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.09); color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.03); }
+    .delivery-option-card.active .option-badge { border-color: rgba(61,224,255,0.28); color: #3DE0FF; background: rgba(61,224,255,0.06); }
 
-    /* Mobile Expandable Order Summary Bar (375px) */
-    .mobile-summary-bar {
-      display: none;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-medium);
-      border-radius: 6px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
-    }
-    .mobile-summary-details {
-      display: none;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    /* Desktop Sticky Sidebar Order Summary (1440px) */
-    .order-summary-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 28px;
-      position: sticky;
-      top: 100px;
-    }
-
-    /* Delivery method option cards */
-    .delivery-option {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 14px 16px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      cursor: pointer;
-      background: rgba(255,255,255,0.02);
-      transition: border-color 0.18s ease, background 0.18s ease;
-    }
-    .delivery-option:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.3);
-    }
-    .delivery-option.selected {
-      border-color: var(--text-primary);
-      background: rgba(255,255,255,0.06);
-    }
-    .delivery-option input[type="radio"] { display: none; }
-    .delivery-option-check {
-      width: 16px;
-      height: 16px;
-      border: 1.5px solid rgba(255,255,255,0.25);
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 2px;
-      position: relative;
-      transition: border-color 0.18s;
-    }
-    .delivery-option.selected .delivery-option-check {
-      border-color: var(--text-primary);
-      background: var(--text-primary);
-    }
-    .delivery-option.selected .delivery-option-check::after {
-      content: '';
-      position: absolute;
-      top: 3px; left: 3px;
-      width: 8px; height: 8px;
-      background: var(--bg-main);
-      border-radius: 50%;
-    }
-
-    /* Contextual guidance card */
-    .delivery-guidance {
-      margin-top: 12px;
-      padding: 14px 16px;
-      background: rgba(108, 59, 255, 0.06);
-      border: 1px solid rgba(108, 59, 255, 0.2);
-      border-radius: 4px;
-      font-size: 12px;
-      line-height: 1.5;
-      color: var(--text-secondary);
-    }
+    /* ── Delivery Guidance ───────────────────────────────────────────── */
+    .delivery-guidance { margin-bottom: 12px; padding: 11px 15px; background: rgba(61,224,255,0.04); border: 1px solid rgba(61,224,255,0.1); border-radius: 8px; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.45); }
     .delivery-guidance strong { color: var(--text-primary); }
 
+    /* ── 3D Holographic Card ─────────────────────────────────────────── */
+    .holographic-card-stage { perspective: 1200px; margin-bottom: 18px; display: flex; justify-content: center; }
+    .holographic-card-container { width: 100%; max-width: 360px; aspect-ratio: 1.586 / 1; position: relative; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.23,1,0.32,1); border-radius: 16px; }
+    .holographic-card-container.flipped { transform: rotateY(180deg); }
+    .card-face { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.09); overflow: hidden; }
+    .card-front { background: linear-gradient(135deg, #0A192F 0%, #030B17 50%, #172A45 100%); }
+    .card-back { background: linear-gradient(135deg, #030B17 0%, #0A192F 100%); transform: rotateY(180deg); padding: 0; justify-content: space-between; }
+    .card-chip-mesh { display: flex; justify-content: space-between; align-items: center; }
+    .card-emv-chip { width: 36px; height: 27px; background: linear-gradient(135deg, #E6C875 0%, #B89736 100%); border-radius: 5px; border: 1px solid rgba(0,0,0,0.2); }
+    .card-contactless { color: rgba(255,255,255,0.3); }
+    .card-number-display { font-family: 'Inter', monospace; font-size: clamp(14px,1.9vw,19px); letter-spacing: 0.2em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-weight: 500; }
+    .card-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 6px; }
+    .card-mini-label { font-size: 7px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.32); display: block; margin-bottom: 3px; }
+    .card-holder-name, .card-expiry-date { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #fff; text-transform: uppercase; }
+    .card-brand-pill { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: rgba(255,255,255,0.55); }
+    .card-shimmer-sheen { position: absolute; inset: 0; background: linear-gradient(45deg, transparent 35%, rgba(61,224,255,0.07) 50%, transparent 65%); pointer-events: none; background-size: 200% 200%; animation: card-sheen 6s ease-in-out infinite; border-radius: 16px; }
+    @keyframes card-sheen { 0%,100%{background-position:0% 0%} 50%{background-position:100% 100%} }
+    .card-mag-stripe { width: 100%; height: 42px; background: #000; margin-top: 22px; }
+    .card-cvv-band { padding: 0 20px; }
+    .card-cvv-label { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); display: block; margin-bottom: 4px; text-align: right; }
+    .card-cvv-box { background: #fff; color: #000; font-family: monospace; font-size: 14px; font-weight: 700; padding: 5px 12px; text-align: right; border-radius: 4px; letter-spacing: 0.2em; }
+    .card-back-meta { padding: 0 20px 14px; font-size: 7px; color: rgba(255,255,255,0.22); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+
+    /* ── Payment Method Cards ────────────────────────────────────────── */
+    .luxury-payment-card { padding: 13px 15px; border: 1.5px solid rgba(255,255,255,0.07); border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.015); transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+    .luxury-payment-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.16); }
+    .luxury-payment-card.selected { border-color: #3DE0FF; background: rgba(61,224,255,0.05); box-shadow: 0 0 0 1px rgba(61,224,255,0.1); }
+    .payment-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+    .payment-brand-badge { font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 4px; background: rgba(255,255,255,0.07); color: var(--text-primary); }
+    .klarna-badge { background: #FFB3C7; color: #000; }
+    .ideal-badge { background: #CC0066; color: #fff; }
+    .applepay-badge { background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .paypal-badge { background: #003087; color: #fff; }
+    .bancontact-badge { background: #005499; color: #fff; }
+    .sepa-badge { background: #003399; color: #fff; }
+    .payment-radio-indicator { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.18); transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+    .luxury-payment-card.selected .payment-radio-indicator { border-color: #3DE0FF; background: #3DE0FF; box-shadow: 0 0 8px rgba(61,224,255,0.35); }
+    .payment-card-info { display: flex; flex-direction: column; gap: 2px; }
+    .payment-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .payment-card-desc { font-size: 11px; color: rgba(255,255,255,0.32); }
+
+    /* ── Mobile Summary Bar ──────────────────────────────────────────── */
+    .mobile-summary-bar { display: none; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 18px; }
+    .mobile-summary-details { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    /* ── Order Summary Sticky Panel ──────────────────────────────────── */
+    .order-summary-sticky-panel { background: linear-gradient(155deg, rgba(10,25,47,0.98) 0%, rgba(3,11,23,0.98) 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 26px; position: sticky; top: 96px; display: flex; flex-direction: column; gap: 18px; }
+    .summary-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .summary-title { font-family: var(--font-serif); font-size: 21px; font-weight: 400; color: var(--text-primary); }
+    .summary-pieces-count { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: rgba(255,255,255,0.3); }
+    .summary-items-list { display: flex; flex-direction: column; gap: 13px; max-height: 260px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent; }
+
+    /* ── Promo Code ──────────────────────────────────────────────────── */
+    .coupon-box { display: flex; flex-direction: column; gap: 6px; }
+    .coupon-input { flex: 1; background: rgba(3,24,56,0.65); border: 1px solid rgba(255,255,255,0.08); padding: 10px 14px; border-radius: 8px; color: var(--text-primary); font-size: 13px; font-family: var(--font-body); transition: border-color 0.18s; }
+    .coupon-input:focus { outline: none; border-color: rgba(61,224,255,0.3); }
+    .coupon-input.coupon-input-error { border-color: #FB7185; }
+    .coupon-apply-btn { padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: var(--text-primary); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; cursor: pointer; transition: background 0.18s, border-color 0.18s; white-space: nowrap; font-family: var(--font-body); }
+    .coupon-apply-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+    .coupon-pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.28); color: #34D399; }
+    .coupon-remove-btn { background: none; border: none; color: rgba(255,255,255,0.3); cursor: pointer; font-size: 16px; line-height: 1; padding: 0 4px; transition: color 0.15s; }
+    .coupon-remove-btn:hover { color: #FB7185; }
+
+    /* ── Pricing Ledger ──────────────────────────────────────────────── */
+    .summary-ledger { display: flex; flex-direction: column; gap: 9px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ledger-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: rgba(255,255,255,0.45); }
+    .ledger-row .tabular-nums { font-variant-numeric: tabular-nums; color: var(--text-primary); }
+    .ledger-total { font-size: 16px; font-weight: 600; color: var(--text-primary); padding-top: 10px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.07); }
+    .ledger-total .tabular-nums { color: var(--text-primary); }
+
+    /* ── Trust Signals ───────────────────────────────────────────────── */
+    .checkout-trust-signals { display: flex; flex-direction: column; gap: 7px; }
+    .trust-signal-item { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: rgba(255,255,255,0.38); line-height: 1.4; }
+    .trust-signal-item i { flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Submit CTA ──────────────────────────────────────────────────── */
+    .btn-checkout-submit { width: 100%; min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; background: linear-gradient(135deg, #3DE0FF 0%, #00C4E0 100%); color: #000B1A; border: none; cursor: pointer; font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 8px 24px rgba(61,224,255,0.18); }
+    .btn-checkout-submit:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 12px 32px rgba(61,224,255,0.26); }
+    .btn-checkout-submit:active { transform: translateY(0); }
+    .btn-checkout-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .submit-total-tag { background: rgba(0,0,0,0.18); padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* ── Klarna Info ─────────────────────────────────────────────────── */
+    .klarna-info-panel { margin-top: 14px; padding: 12px 14px; background: rgba(255,179,199,0.05); border: 1px solid rgba(255,179,199,0.18); border-radius: 8px; font-size: 12px; line-height: 1.5; color: #FFE4EC; }
+
+    /* ── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 1024px) { .step-meta { display: none; } .checkout-progress-ribbon { max-width: 440px; } }
     @media (max-width: 900px) {
-      .checkout-grid { grid-template-columns: 1fr; gap: 24px; }
-      .order-summary-card { display: none; }
+      .checkout-cinema-hero { flex-direction: column; gap: 18px; }
+      .checkout-progress-ribbon { max-width: 100%; }
+      .step-meta { display: flex; }
+      .checkout-grid { grid-template-columns: 1fr; gap: 20px; }
+      .order-summary-sticky-panel { position: static; top: auto; }
       .mobile-summary-bar { display: block; }
       .site-header { padding: 0 20px; }
       .container { padding: 0 20px; }
-      .delivery-option { flex-wrap: wrap; gap: 8px; }
+      .express-wallets-grid { grid-template-columns: 1fr 1fr; }
+      .wallet-btn.gpay-btn { grid-column: 1 / -1; }
+    }
+    @media (max-width: 480px) {
+      .step-meta { display: none; }
+      .step-num-bubble { width: 34px; height: 34px; font-size: 10px; }
+      .progress-connector-line { max-width: 18px; min-width: 8px; }
+      .checkout-headline { font-size: 26px; }
+    }
+
+    @keyframes euAuthSlide {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(200%); }
     }
   </style>
 </head>
@@ -246,7 +225,7 @@
     </div>
   </div>
 
-  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <!-- TOP ANNOUNCEMENT BAR -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
       <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
@@ -257,95 +236,71 @@
     </div>
   </div>
 
-  <!-- Site Header -->
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
-      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display:none;background:none;border:none;color:var(--text-primary);cursor:pointer;align-items:center;justify-content:center;">
+          <i data-lucide="menu" style="width:22px;height:22px;"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
-          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
         </a>
       </div>
-
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
         <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
-
-      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
           <span class="search-pill-placeholder">What are you looking for?</span>
           <span class="search-kbd">Ctrl + K</span>
         </button>
       </div>
-
-      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           <span>CONCIERGE</span>
         </button>
-
-        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
-          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist">
+          <i data-lucide="heart" style="width:18px;height:18px;"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display:none;">0</span>
         </a>
-
-        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
-          <span data-auth-name style="display: none;">Tanvir</span>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account">
+          <i data-lucide="user" style="width:18px;height:18px;"></i>
+          <span data-auth-name style="display:none;">Tanvir</span>
         </a>
-
-        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag">
+          <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
           <span class="bag-count-badge" id="headerCartCount">1</span>
         </a>
-
-        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
         <div class="nav-more-menu" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal" style="width:18px;height:18px;"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="tracking.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="truck"></i>
-              <span>Track Order</span>
-            </a>
-            <a href="profile.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="sparkles"></i>
-              <span>AI Style Profile</span>
-            </a>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
-              <i data-lucide="receipt"></i>
-              <span>Order History</span>
-            </a>
+            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
+            <a href="profile.html" class="nav-more-item" role="menuitem"><i data-lucide="sparkles"></i><span>AI Style Profile</span></a>
+            <a href="account.html#orders" class="nav-more-item" role="menuitem"><i data-lucide="receipt"></i><span>Order History</span></a>
             <div class="nav-more-divider"></div>
-            <a href="contact.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="headphones"></i>
-              <span>Client Services</span>
-            </a>
+            <a href="contact.html" class="nav-more-item" role="menuitem"><i data-lucide="headphones"></i><span>Client Services</span></a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
+  <!-- MOBILE NAV DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <a href="../index.html" class="nav-logo"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height:24px;width:auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background:none;border:none;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Close mobile menu"><i data-lucide="x" style="width:22px;height:22px;"></i></button>
     </div>
     <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
     <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
+    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left:6px;">AI</span></a>
     <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
@@ -353,60 +308,106 @@
     <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
   </div>
 
-
   <main class="container">
     <section class="checkout-section reveal-on-scroll">
-      
-      <!-- Back  bag trigger -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding-bottom:12px; border-bottom:1px solid var(--border-subtle);">
-        <a href="../index.html" class="link-text-nav">&larr; Continue Shopping</a>
-        <span style="font-size:12px; color:var(--text-secondary);">Checkout Step 1 of 2</span>
+
+      <!-- ── CINEMATIC HERO + PROGRESS RIBBON ── -->
+      <div class="checkout-cinema-hero">
+        <div class="checkout-hero-masthead">
+          <span class="checkout-eyebrow">
+            <span class="live-security-dot"></span>
+            256-BIT ENCRYPTED ATELIER CHECKOUT
+          </span>
+          <h1 class="checkout-headline">Complete Your<br><em>Acquisition</em></h1>
+        </div>
+
+        <div class="checkout-progress-ribbon" id="checkoutProgressRibbon" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
+          <div class="progress-step-item active" data-step="1">
+            <div class="step-num-bubble">01</div>
+            <div class="step-meta">
+              <span class="step-title">Dispatch Details</span>
+              <span class="step-sub">Address &amp; Recipient</span>
+            </div>
+          </div>
+          <div class="progress-connector-line"></div>
+          <div class="progress-step-item" data-step="2">
+            <div class="step-num-bubble">02</div>
+            <div class="step-meta">
+              <span class="step-title">Courier Logistics</span>
+              <span class="step-sub">Complimentary Express</span>
+            </div>
+          </div>
+          <div class="progress-connector-line"></div>
+          <div class="progress-step-item" data-step="3">
+            <div class="step-num-bubble">03</div>
+            <div class="step-meta">
+              <span class="step-title">Payment Sanctuary</span>
+              <span class="step-sub">Encrypted Settlement</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Empty Cart Container -->
-      <div id="checkout-empty-state" style="display:none; padding:60px 20px; text-align:center; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:6px; max-width:600px; margin:40px auto;">
-        <h2 style="font-family:var(--font-serif); font-size:32px; margin-bottom:12px;">Your shopping bag is empty.</h2>
-        <p style="font-size:14px; color:var(--text-secondary); margin-bottom:24px;">Add items to your bag before proceeding  checkout.</p>
+      <!-- Empty Cart State -->
+      <div id="checkout-empty-state" style="display:none;padding:60px 20px;text-align:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:12px;max-width:600px;margin:40px auto;">
+        <h2 style="font-family:var(--font-serif);font-size:32px;margin-bottom:12px;">Your shopping bag is empty.</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:24px;">Add items to your bag before proceeding to checkout.</p>
         <a href="category.html" class="btn-primary-commerce">START SHOPPING</a>
       </div>
 
-      <!-- Checkout Grid (Forms + Summary) -->
+      <!-- ── CHECKOUT GRID ── -->
       <div id="checkout-main-grid" class="checkout-grid">
-        
-        <!-- Left Column: Customer & Delivery Forms -->
+
+        <!-- ══ LEFT COLUMN: FORM ══ -->
         <div class="checkout-form-col">
-          
-          <!-- Mobile Expandable Order Summary Bar (<= 900px) -->
-          <!-- Mobile Expandable Order Summary Bar (<= 900px) -->
+
+          <!-- Mobile Expandable Order Summary Bar -->
           <div class="mobile-summary-bar">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
-                <div style="font-size:14px; font-weight:600;" id="mobile-summary-title">Order summary &middot; € 0.00</div>
-                <div style="font-size:11px; color:var(--text-secondary);" id="mobile-summary-sub">0 Items &middot; Incl. VAT</div>
+                <div style="font-size:14px;font-weight:600;" id="mobile-summary-title">Order summary &middot; € 0.00</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.35);" id="mobile-summary-sub">0 Items &middot; Incl. VAT</div>
               </div>
-              <button id="mobile-summary-toggle" class="btn-secondary-action" onclick="toggleMobileSummary()">
-                View order details ↓
+              <button id="mobile-summary-toggle" class="btn-secondary-action" onclick="toggleMobileSummary()">View details ↓</button>
+            </div>
+            <div id="mobile-summary-details" class="mobile-summary-details"></div>
+          </div>
+
+          <!-- ── EXPRESS 1-TAP WALLETS ── -->
+          <div class="express-wallets-panel">
+            <div class="express-wallets-label">EXPRESS 1-TAP CHECKOUT</div>
+            <div class="express-wallets-grid">
+              <button type="button" class="wallet-btn apple-pay-btn" id="btnApplePay" aria-label="Pay with Apple Pay" onclick="alert('Apple Pay would open here in a live integration.')">
+                <span class="wallet-icon"> Pay</span>
+              </button>
+              <button type="button" class="wallet-btn gpay-btn" id="btnGooglePay" aria-label="Pay with Google Pay" onclick="alert('Google Pay would open here in a live integration.')">
+                <span class="wallet-icon"><span style="color:#4285F4">G</span><span style="color:#EA4335">o</span><span style="color:#FBBC05">o</span><span style="color:#4285F4">g</span><span style="color:#34A853">l</span><span style="color:#EA4335">e</span>&nbsp;Pay</span>
+              </button>
+              <button type="button" class="wallet-btn klarna-btn" id="btnKlarna" aria-label="Pay in 3 with Klarna" onclick="selectPayment('klarna');document.getElementById('section-payment').scrollIntoView({behavior:'smooth',block:'center'})">
+                <span class="wallet-icon">Klarna.</span>
               </button>
             </div>
-            <div id="mobile-summary-details" class="mobile-summary-details">
-              <!-- Dynamically populated from nex_cart -->
+            <div class="or-divider-row">
+              <span class="divider-line"></span>
+              <span class="divider-text">OR CONTINUE WITH ATELIER DISPATCH</span>
+              <span class="divider-line"></span>
             </div>
           </div>
 
-          <!-- Customer Information -->
-          <div class="form-group-card">
+          <!-- ── CUSTOMER INFORMATION ── -->
+          <div class="form-group-card" id="section-customer">
             <h2 class="group-title">Customer Information</h2>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
               <div>
-                <input type="text" id="cust-name" class="input-box" value="Alexander Wright" placeholder="Full Name">
+                <input type="text" id="cust-name" class="input-box" value="Alexander Wright" placeholder="Full Name" autocomplete="name">
                 <div class="field-error-msg" id="err-cust-name">Please enter your full name.</div>
               </div>
               <div>
-                <input type="email" id="cust-email" class="input-box" value="alexander@maison.eu" placeholder="Email Address">
+                <input type="email" id="cust-email" class="input-box" value="alexander@maison.eu" placeholder="Email Address" autocomplete="email">
                 <div class="field-error-msg" id="err-cust-email">Please enter a valid email address.</div>
               </div>
             </div>
-            <div style="display:grid; grid-template-columns:140px 1fr; gap:12px;">
+            <div style="display:grid;grid-template-columns:140px 1fr;gap:12px;">
               <select id="cust-phone-country" class="input-box" aria-label="Country Code">
                 <option value="+49" selected>🇩🇪 +49 (DE)</option>
                 <option value="+33">🇫🇷 +33 (FR)</option>
@@ -425,18 +426,18 @@
                 <option value="+358">🇫🇮 +358 (FI)</option>
               </select>
               <div>
-                <input type="tel" id="cust-phone" class="input-box" value="15123456789" placeholder="Mobile Number">
+                <input type="tel" id="cust-phone" class="input-box" value="15123456789" placeholder="Mobile Number" autocomplete="tel">
                 <div class="field-error-msg" id="err-cust-phone">Please enter a valid phone number.</div>
               </div>
             </div>
           </div>
 
-          <!-- Shipping Address -->
-          <div class="form-group-card">
+          <!-- ── DELIVERY ADDRESS ── -->
+          <div class="form-group-card" id="section-shipping">
             <h2 class="group-title">Delivery Address</h2>
-            <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex;flex-direction:column;gap:12px;">
               <div>
-                <select id="ship-country" class="input-box" aria-label="Destination Country" onchange="buildDeliveryGuidance(); updateSummaryTotals();">
+                <select id="ship-country" class="input-box" aria-label="Destination Country" onchange="buildDeliveryGuidance();updateSummaryTotals();">
                   <option value="DE" selected>Germany (Deutschland)</option>
                   <option value="FR">France</option>
                   <option value="NL">Netherlands (Nederland)</option>
@@ -455,61 +456,75 @@
                 </select>
               </div>
               <div>
-                <input type="text" id="ship-address" class="input-box" value="Friedrichstraße 43" placeholder="Street Address &amp; House Number">
+                <input type="text" id="ship-address" class="input-box" value="Friedrichstraße 43" placeholder="Street Address &amp; House Number" autocomplete="street-address">
                 <div class="field-error-msg" id="err-ship-address">Please enter your street address and house number.</div>
               </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                 <div>
-                  <input type="text" id="ship-city" class="input-box" value="Berlin" placeholder="City">
+                  <input type="text" id="ship-city" class="input-box" value="Berlin" placeholder="City" autocomplete="address-level2">
                   <div class="field-error-msg" id="err-ship-city">Please enter your city.</div>
                 </div>
                 <div>
-                  <input type="text" id="ship-postcode" class="input-box" value="10117" placeholder="Postal Code (e.g. 10117 / SW1A 1AA)">
+                  <input type="text" id="ship-postcode" class="input-box" value="10117" placeholder="Postal Code" autocomplete="postal-code">
                   <div class="field-error-msg" id="err-ship-postcode">Please enter a valid postal code.</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Delivery Method (European Standards) -->
-          <div class="form-group-card">
-            <h2 class="group-title">Delivery Method</h2>
+          <!-- ── COURIER SELECTION ── -->
+          <div class="form-group-card" id="section-delivery">
+            <h2 class="group-title">Courier Selection</h2>
 
-            <!-- Contextual recommendation banner -->
-            <div id="delivery-guidance" class="delivery-guidance" style="margin-bottom:14px;">
-              <!-- Rendered by buildDeliveryGuidance() from real cart + destination state -->
+            <div id="delivery-guidance" class="delivery-guidance"></div>
+
+            <div class="delivery-options-grid" role="radiogroup" aria-label="Select delivery method">
+              <label class="delivery-option-card active" id="opt-standard" onclick="selectDelivery('standard')">
+                <input type="radio" name="shippingMethod" id="shippingStandard" value="0" checked />
+                <div class="option-check-circle"></div>
+                <div class="option-content">
+                  <div class="option-top">
+                    <span class="option-name">Complimentary Atelier Express</span>
+                    <span class="option-price">FREE</span>
+                  </div>
+                  <p class="option-desc">2–4 business days via DHL Express Carbon Neutral tracked delivery.</p>
+                  <span class="option-badge">INCLUDED OVER € 150</span>
+                </div>
+              </label>
+
+              <label class="delivery-option-card" id="opt-overnight" onclick="selectDelivery('overnight')">
+                <input type="radio" name="shippingMethod" id="shippingOvernight" value="18" />
+                <div class="option-check-circle"></div>
+                <div class="option-content">
+                  <div class="option-top">
+                    <span class="option-name">Priority Aerodynamic Courier</span>
+                    <span class="option-price">€ 18.00</span>
+                  </div>
+                  <p class="option-desc">Guaranteed next-business-day delivery before 12:00 PM.</p>
+                  <span class="option-badge">NEXT DAY DISPATCH</span>
+                </div>
+              </label>
+
+              <label class="delivery-option-card" id="opt-whiteglove" onclick="selectDelivery('whiteglove')">
+                <input type="radio" name="shippingMethod" id="shippingWhiteGlove" value="35" />
+                <div class="option-check-circle"></div>
+                <div class="option-content">
+                  <div class="option-top">
+                    <span class="option-name">White-Glove VIP Evening Courier</span>
+                    <span class="option-price">€ 35.00</span>
+                  </div>
+                  <p class="option-desc">Hand-delivered in garment archive trunk, scheduled 1-hour evening window.</p>
+                  <span class="option-badge">CONCIERGE TRUNK</span>
+                </div>
+              </label>
             </div>
-
-            <!-- Option: Standard EU Tracked -->
-            <label class="delivery-option selected" id="opt-standard" onclick="selectDelivery('standard')" style="margin-bottom:8px; gap:12px;">
-              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
-                <div class="delivery-option-check"></div>
-                <div>
-                  <div style="font-size:13px; font-weight:600;">Standard EU Tracked (DHL / DPD)</div>
-                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">2&ndash;4 business days with carbon-neutral transport</div>
-                </div>
-              </div>
-              <div id="cost-standard" style="font-size:13px; font-weight:600; white-space:nowrap; color:#00E676;">FREE</div>
-            </label>
-
-            <!-- Option: Express DHL Next Day -->
-            <label class="delivery-option" id="opt-express" onclick="selectDelivery('express')" style="gap:12px;">
-              <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
-                <div class="delivery-option-check"></div>
-                <div>
-                  <div style="font-size:13px; font-weight:600;">DHL Express Air (Next-Day)</div>
-                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Guaranteed delivery by 12:00 PM tomorrow</div>
-                </div>
-              </div>
-              <div id="cost-express" style="font-size:13px; font-weight:600; white-space:nowrap; color:var(--text-primary);">€ 24.00</div>
-            </label>
           </div>
 
           <!-- Payment Failure Recovery Banner -->
           <div id="banner-payment-fail" class="recovery-banner payment-fail">
             <strong>Payment authorization could not be completed.</strong><br>
             Your order has not been placed and your bag is safely preserved. Please choose another European payment method or retry.
-            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
               <button class="btn-secondary-action" onclick="retryPayment()">Try again</button>
               <button class="btn-secondary-action" onclick="changePaymentMethod()">Choose another method</button>
             </div>
@@ -524,19 +539,18 @@
             </div>
           </div>
 
-          <!-- Payment Method (Pan-European Gateways) -->
-          <div class="form-group-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <!-- ── PAYMENT METHOD ── -->
+          <div class="form-group-card" id="section-payment">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
               <h2 class="group-title" style="margin:0;">Payment Method</h2>
-              <span style="font-size:11px; color:var(--text-secondary); display:flex; align-items:center; gap:4px;">
-                <i data-lucide="shield-check" style="width:14px; height:14px; color:#00E676;"></i>
-                PSD2 / 3DS 2.2 Compliant
+              <span style="font-size:11px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:4px;">
+                <i data-lucide="shield-check" style="width:13px;height:13px;color:#34D399;"></i>
+                PSD2 / 3DS 2.2
               </span>
             </div>
 
-            <div class="payment-methods-grid" id="payment-method-group" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-              
-              <!-- Klarna Option (DACH, Nordics, UK) -->
+            <div id="payment-method-group" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+
               <div class="luxury-payment-card selected" id="pay-klarna" onclick="selectPayment('klarna')">
                 <div class="payment-card-header">
                   <div class="payment-brand-badge klarna-badge">Klarna.</div>
@@ -548,12 +562,11 @@
                 </div>
               </div>
 
-              <!-- Credit/Debit Card (Visa, Mastercard, Cartes Bancaires, Amex) -->
               <div class="luxury-payment-card" id="pay-card" onclick="selectPayment('card')">
                 <div class="payment-card-header">
-                  <div style="display:flex; align-items:center; gap:4px;">
-                    <div class="payment-brand-badge" style="background:#0F2042; color:#fff; font-size:10px; padding:2px 6px;">VISA</div>
-                    <div class="payment-brand-badge" style="background:#EA001B; color:#fff; font-size:10px; padding:2px 6px;">MC</div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <div class="payment-brand-badge" style="background:#0F2042;color:#fff;font-size:10px;padding:2px 6px;">VISA</div>
+                    <div class="payment-brand-badge" style="background:#EA001B;color:#fff;font-size:10px;padding:2px 6px;">MC</div>
                   </div>
                   <div class="payment-radio-indicator"></div>
                 </div>
@@ -563,7 +576,6 @@
                 </div>
               </div>
 
-              <!-- iDEAL Option (Netherlands) -->
               <div class="luxury-payment-card" id="pay-ideal" onclick="selectPayment('ideal')">
                 <div class="payment-card-header">
                   <div class="payment-brand-badge ideal-badge">iDEAL</div>
@@ -575,10 +587,9 @@
                 </div>
               </div>
 
-              <!-- Apple Pay & Google Pay -->
               <div class="luxury-payment-card" id="pay-applepay" onclick="selectPayment('applepay')">
                 <div class="payment-card-header">
-                  <div class="payment-brand-badge applepay-badge"> Pay</div>
+                  <div class="payment-brand-badge applepay-badge"> Pay</div>
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
@@ -587,7 +598,6 @@
                 </div>
               </div>
 
-              <!-- PayPal Option -->
               <div class="luxury-payment-card" id="pay-paypal" onclick="selectPayment('paypal')">
                 <div class="payment-card-header">
                   <div class="payment-brand-badge paypal-badge">PayPal</div>
@@ -599,7 +609,6 @@
                 </div>
               </div>
 
-              <!-- Bancontact Option (Belgium) -->
               <div class="luxury-payment-card" id="pay-bancontact" onclick="selectPayment('bancontact')">
                 <div class="payment-card-header">
                   <div class="payment-brand-badge bancontact-badge">Bancontact</div>
@@ -611,8 +620,7 @@
                 </div>
               </div>
 
-              <!-- SEPA Direct Debit -->
-              <div class="luxury-payment-card" id="pay-sepa" onclick="selectPayment('sepa')" style="grid-column: span 2;">
+              <div class="luxury-payment-card" id="pay-sepa" onclick="selectPayment('sepa')" style="grid-column:span 2;">
                 <div class="payment-card-header">
                   <div class="payment-brand-badge sepa-badge">SEPA Direct Debit</div>
                   <div class="payment-radio-indicator"></div>
@@ -622,29 +630,67 @@
                   <span class="payment-card-desc">Direct debit from any EU bank account (IBAN)</span>
                 </div>
               </div>
-
             </div>
 
-            <!-- Card Details Sub-panel (Shown when Card is selected) -->
-            <div id="card-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
-              <div style="display:flex; flex-direction:column; gap:10px;">
+            <!-- ── Card Details Panel with 3D Holographic Preview ── -->
+            <div id="card-details-panel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.06);">
+              <!-- 3D HOLOGRAPHIC CARD -->
+              <div class="holographic-card-stage">
+                <div class="holographic-card-container" id="holographicCard">
+                  <!-- FRONT -->
+                  <div class="card-face card-front">
+                    <div class="card-chip-mesh">
+                      <div class="card-emv-chip"></div>
+                      <svg class="card-contactless" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12a10 10 0 0 1 10-10"/><path d="M5 16a6 6 0 0 1 6-6"/><path d="M5 20a2 2 0 0 1 2-2"/></svg>
+                    </div>
+                    <div class="card-number-display" id="cardDisplayNumber">•••• •••• •••• ••••</div>
+                    <div class="card-bottom-row">
+                      <div>
+                        <span class="card-mini-label">CARDHOLDER</span>
+                        <span class="card-holder-name" id="cardDisplayName">YOUR NAME</span>
+                      </div>
+                      <div>
+                        <span class="card-mini-label">EXPIRES</span>
+                        <span class="card-expiry-date" id="cardDisplayExpiry">MM/YY</span>
+                      </div>
+                      <div id="cardBrandIcon">
+                        <span class="card-brand-pill">CARD</span>
+                      </div>
+                    </div>
+                    <div class="card-shimmer-sheen"></div>
+                  </div>
+                  <!-- BACK -->
+                  <div class="card-face card-back">
+                    <div class="card-mag-stripe"></div>
+                    <div class="card-cvv-band">
+                      <span class="card-cvv-label">SECURITY CODE (CVV/CVC)</span>
+                      <div class="card-cvv-box" id="cardDisplayCvc">•••</div>
+                    </div>
+                    <div class="card-back-meta">
+                      <span>AUTHORIZED SIGNATURE · NOT VALID UNLESS SIGNED</span>
+                      <span>nexCommerce Atelier</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Inputs -->
+              <div style="display:flex;flex-direction:column;gap:10px;">
                 <div>
                   <div style="position:relative;">
                     <input type="text" id="card-number" class="input-box" placeholder="Card Number (16 digits)" maxlength="19"
-                           oninput="formatCardNumber(this)" style="padding-right:52px; letter-spacing:0.08em;">
-                    <span id="card-brand-icon" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--text-secondary); pointer-events:none;"></span>
+                           oninput="formatCardNumber(this)" style="padding-right:52px;letter-spacing:0.08em;">
+                    <span id="card-brand-icon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:rgba(255,255,255,0.4);pointer-events:none;"></span>
                   </div>
                   <div class="field-error-msg" id="err-card-number">Please enter a valid 16-digit card number.</div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                   <div>
-                    <input type="text" id="card-expiry" class="input-box" placeholder="MM / YY" maxlength="7"
-                           oninput="formatCardExpiry(this)">
+                    <input type="text" id="card-expiry" class="input-box" placeholder="MM / YY" maxlength="7" oninput="formatCardExpiry(this)">
                     <div class="field-error-msg" id="err-card-expiry">Please enter a valid expiry date.</div>
                   </div>
                   <div>
-                    <input type="text" id="card-cvv" class="input-box" placeholder="CVV (3 or 4 digits)" maxlength="4"
-                           oninput="this.value=this.value.replace(/\D/g,'')">
+                    <input type="text" id="card-cvv" class="input-box" placeholder="CVV (3 or 4 digits)" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')">
                     <div class="field-error-msg" id="err-card-cvv">Please enter a valid CVV.</div>
                   </div>
                 </div>
@@ -655,9 +701,9 @@
               </div>
             </div>
 
-            <!-- iDEAL Sub-panel (Shown when iDEAL is selected) -->
-            <div id="ideal-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
-              <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">Select Your Dutch Bank:</label>
+            <!-- iDEAL Panel -->
+            <div id="ideal-details-panel" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+              <label style="font-size:12px;color:rgba(255,255,255,0.4);display:block;margin-bottom:6px;">Select Your Dutch Bank:</label>
               <select id="ideal-bank-select" class="input-box">
                 <option value="ing">ING Bank</option>
                 <option value="rabobank">Rabobank</option>
@@ -671,14 +717,14 @@
               </select>
             </div>
 
-            <!-- SEPA Sub-panel (Shown when SEPA is selected) -->
-            <div id="sepa-details-panel" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border-subtle);">
-              <div style="display:flex; flex-direction:column; gap:10px;">
+            <!-- SEPA Panel -->
+            <div id="sepa-details-panel" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+              <div style="display:flex;flex-direction:column;gap:10px;">
                 <div>
-                  <input type="text" id="sepa-iban" class="input-box" placeholder="IBAN (e.g. DE89 3704 0044 0532 0130 00)" maxlength="34" style="text-transform:uppercase; letter-spacing:0.06em;">
+                  <input type="text" id="sepa-iban" class="input-box" placeholder="IBAN (e.g. DE89 3704 0044 0532 0130 00)" maxlength="34" style="text-transform:uppercase;letter-spacing:0.06em;">
                   <div class="field-error-msg" id="err-sepa-iban">Please enter a valid European IBAN.</div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                   <div>
                     <input type="text" id="sepa-bic" class="input-box" placeholder="BIC / SWIFT Code" maxlength="11" style="text-transform:uppercase;">
                     <div class="field-error-msg" id="err-sepa-bic">Please enter a valid BIC code.</div>
@@ -688,110 +734,153 @@
                     <div class="field-error-msg" id="err-sepa-holder">Please enter the account holder name.</div>
                   </div>
                 </div>
-                <div style="font-size:11px; color:var(--text-secondary); line-height:1.4; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:4px; border:1px solid var(--border-subtle);">
+                <div style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.4;background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);">
                   By confirming, you authorize nexCommerce to instruct your bank to debit your account in accordance with the SEPA direct debit mandate rules.
                 </div>
               </div>
             </div>
 
-            <!-- Klarna Sub-panel info -->
-            <div id="klarna-details-panel" style="display:block; margin-top:16px; padding:12px 14px; background:rgba(255, 179, 199, 0.08); border:1px solid rgba(255, 179, 199, 0.3); border-radius:6px; font-size:12px; line-height:1.5; color:#FFE4EC;">
+            <!-- Klarna Info Panel -->
+            <div id="klarna-details-panel" class="klarna-info-panel">
               <strong>Klarna Smooth Payment:</strong> Receive your atelier pieces first, inspect at home, and pay within 30 days. No upfront payment required.
             </div>
-
           </div>
-
-          <!-- Primary EU Compliant "Button Solution" CTA -->
-          <button id="btn-place-order" class="btn-primary-commerce" style="width:100%; min-height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;" onclick="handlePlaceOrder()">
-            <span id="btn-order-primary-text" style="font-weight:700; font-size:14px; letter-spacing:0.08em;">PAY &middot; € 0.00</span>
-            <span style="font-size:10px; font-weight:500; opacity:0.75; letter-spacing:0.06em; text-transform:uppercase;">Order with obligation to pay &middot; 14-day statutory return</span>
-          </button>
 
         </div>
+        <!-- END LEFT COLUMN -->
 
-        <!-- Right Column: Desktop Sticky Sidebar Order Summary -->
-        <aside class="order-summary-card">
-          <h2 style="font-family:var(--font-serif); font-size:22px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border-subtle);">Order Summary</h2>
-          
-          <div id="desktop-items-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px; max-height:300px; overflow-y:auto;">
-            <!-- Rendered dynamically from localStorage.nex_cart -->
+        <!-- ══ RIGHT COLUMN: ORDER SUMMARY ══ -->
+        <aside class="order-summary-sticky-panel">
+
+          <div class="summary-header">
+            <h2 class="summary-title">Acquisition Summary</h2>
+            <span class="summary-pieces-count" id="checkoutPiecesCount">0 PIECES</span>
           </div>
 
-          <!-- Promo Code Engine -->
-          <div class="coupon-box" style="margin-bottom:16px;">
-            <div id="coupon-input-row" style="display:flex; gap:8px; align-items:stretch;">
-              <input type="text" id="coupon-input" class="coupon-input" placeholder="Promo or gift code" maxlength="20" autocomplete="off"
+          <!-- Visual Product List -->
+          <div class="summary-items-list" id="desktop-items-list" role="region" aria-label="Reserved pieces in order">
+            <!-- Populated by loadCheckoutState() -->
+          </div>
+
+          <!-- Promo Code -->
+          <div class="coupon-box">
+            <div id="coupon-input-row" style="display:flex;gap:8px;align-items:stretch;">
+              <input type="text" id="coupon-input" class="coupon-input" placeholder="Enter VIP Privilège Code" maxlength="20" autocomplete="off"
                      onkeydown="if(event.key==='Enter') applyCoupon()">
-              <button class="coupon-apply-btn" onclick="applyCoupon()">Apply</button>
+              <button class="coupon-apply-btn" onclick="applyCoupon()">APPLY</button>
             </div>
-            <div id="coupon-feedback" style="font-size:11px; margin-top:6px; display:none;"></div>
-            <!-- Applied coupon pill — shown after valid code -->
-            <div id="coupon-pill-wrap" style="display:none; margin-top:8px; align-items:center; gap:8px;">
+            <div id="coupon-feedback" style="font-size:11px;margin-top:4px;display:none;"></div>
+            <div id="coupon-pill-wrap" style="display:none;margin-top:8px;align-items:center;gap:8px;">
               <span class="coupon-pill" id="coupon-pill-label"></span>
               <button class="coupon-remove-btn" onclick="removeCoupon()" aria-label="Remove promo code">&times;</button>
             </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; margin-bottom:16px;">
-            <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
-              <span>Subtotal</span>
+          <!-- Pricing Ledger -->
+          <div class="summary-ledger">
+            <div class="ledger-row">
+              <span>Atelier Subtotal</span>
               <span id="summary-subtotal" class="tabular-nums">€ 0.00</span>
             </div>
-            <!-- Discount row — hidden until coupon applied -->
-            <div id="summary-discount-row" style="display:none; justify-content:space-between; color:#00E676;">
-              <span id="summary-discount-label">Discount</span>
+            <div class="ledger-row">
+              <span id="summary-shipping-label">Complimentary Express Shipping</span>
+              <span id="summary-shipping" class="tabular-nums" style="color:#34D399;">FREE</span>
+            </div>
+            <div id="summary-discount-row" class="ledger-row" style="display:none;color:#FB7185;">
+              <span id="summary-discount-label">VIP Privilege Savings</span>
               <span id="summary-discount-amount" class="tabular-nums">−€ 0.00</span>
             </div>
-            <div style="display:flex; justify-content:space-between; color:var(--text-secondary);">
-              <span>Standard EU Tracked Shipping</span>
-              <span style="color:#00E676; font-weight:600;" id="summary-shipping">FREE</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.5);">
-              <span>Included 19% Statutory VAT</span>
+            <div class="ledger-row" style="font-size:11px;color:rgba(255,255,255,0.3);">
+              <span>Included Statutory VAT</span>
               <span id="summary-vat" class="tabular-nums">€ 0.00</span>
             </div>
-            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:600; color:var(--text-primary); padding-top:10px; border-top:1px solid var(--border-subtle);">
-              <span>Total Due</span>
+            <div class="ledger-row ledger-total">
+              <span>Estimated Total (Incl. VAT)</span>
               <span id="summary-total" class="tabular-nums">€ 0.00</span>
             </div>
           </div>
 
-          <div style="font-size:11px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px; border-top:1px solid var(--border-subtle); padding-top:12px;">
-            <div>
-              <i data-lucide="shield-check" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em; color:#00E676;"></i>
-              PSD2 3D Secure 2.2 Protected
+          <!-- European Consumer Trust Signals -->
+          <div class="checkout-trust-signals">
+            <div class="trust-signal-item">
+              <i data-lucide="rotate-ccw" style="width:14px;height:14px;color:#3DE0FF;"></i>
+              <span>14-Day Statutory Right of Withdrawal (EU Consumer Rights Directive)</span>
             </div>
-            <div>
-              <i data-lucide="rotate-ccw" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em;"></i>
-              14-Day Statutory Right of Withdrawal
+            <div class="trust-signal-item">
+              <i data-lucide="shield-check" style="width:14px;height:14px;color:#3DE0FF;"></i>
+              <span>100% Guaranteed Authentic — Direct from Atelier</span>
             </div>
-            <div>
-              <i data-lucide="check-circle" style="width:12px; height:12px; display:inline-block; vertical-align:-0.1em;"></i>
-              All prices inclusive of European statutory VAT
+            <div class="trust-signal-item">
+              <i data-lucide="lock" style="width:14px;height:14px;color:#3DE0FF;"></i>
+              <span>End-to-End PCI-DSS Level 1 Vault Encryption</span>
+            </div>
+            <div class="trust-signal-item">
+              <i data-lucide="leaf" style="width:14px;height:14px;color:#34D399;"></i>
+              <span>Carbon Neutral Courier Offsetting via Pachama</span>
             </div>
           </div>
+
+          <!-- Primary CTA -->
+          <button id="btn-place-order" class="btn-checkout-submit" onclick="handlePlaceOrder()">
+            <i data-lucide="lock" style="width:15px;height:15px;"></i>
+            <span id="btn-order-primary-text">COMPLETE SECURE PURCHASE</span>
+            <span class="submit-total-tag" id="submit-total-display">€ 0.00</span>
+          </button>
+
+          <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.05em;margin-top:-4px;">
+            ORDER WITH OBLIGATION TO PAY &middot; 14-DAY STATUTORY RETURN
+          </p>
+
         </aside>
 
       </div>
     </section>
   </main>
 
+  <!-- ── EUROPEAN PAYMENT AUTHENTICATION MODAL ── -->
+  <div id="payment-modal-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(5,14,36,0.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;" onclick="handleModalBackdropClick(event)">
+    <div id="eu-payment-auth-card" style="display:none;width:100%;max-width:440px;margin:0 20px;background:rgba(10,25,47,0.98);border-radius:14px;padding:32px 28px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 25px 50px -12px rgba(0,0,0,0.6);text-align:center;">
+      <div id="eu-auth-badge" style="margin-bottom:16px;display:inline-flex;align-items:center;justify-content:center;"></div>
+      <h3 id="eu-auth-title" style="font-family:var(--font-serif);font-size:22px;color:#fff;margin-bottom:8px;">Authenticating Transaction</h3>
+      <p id="eu-auth-desc" style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:20px;"></p>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Amount to Authorize</span>
+        <span id="eu-auth-amount" style="font-size:20px;font-weight:700;font-family:var(--font-serif);color:#fff;" class="tabular-nums">€ 0.00</span>
+      </div>
+      <div style="height:3px;width:100%;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:20px;">
+        <div style="height:100%;width:50%;background:#3DE0FF;animation:euAuthSlide 1.5s infinite ease-in-out;"></div>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;">SECURE ENCRYPTED 256-BIT SESSION &middot; PSD2 VERIFIED</div>
+    </div>
+    <div id="payment-success-panel" style="display:none;text-align:center;padding:50px 30px;background:rgba(10,25,47,0.98);border-radius:14px;border:1px solid rgba(255,255,255,0.1);max-width:400px;width:100%;margin:0 20px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,0.12);border:2px solid #34D399;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+        <i data-lucide="check" style="width:32px;height:32px;color:#34D399;"></i>
+      </div>
+      <div style="font-family:var(--font-serif);font-size:26px;color:#fff;margin-bottom:8px;">Order Confirmed</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.4);">Redirecting to your official invoice &amp; atelier receipt…</div>
+    </div>
+  </div>
+
+  <!-- ELEVATED LUXURY FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
   <script src="../js/cart.js"></script>
   <script>
-    // ─── European Delivery Method State ───────────────────────────────────────
+    /* ── Delivery State ─────────────────────────────────────────────── */
     const DELIVERY_OPTIONS = {
-      standard: { label: 'Standard EU Tracked (DHL / DPD)', cost: 12, costLabel: '€ 12.00' },
-      express:  { label: 'DHL Express Air (Next-Day)',     cost: 24, costLabel: '€ 24.00' }
+      standard:   { label: 'Complimentary Atelier Express',     cost: 12, costLabel: '€ 12.00' },
+      overnight:  { label: 'Priority Aerodynamic Courier',      cost: 18, costLabel: '€ 18.00' },
+      whiteglove: { label: 'White-Glove VIP Evening Courier',   cost: 35, costLabel: '€ 35.00' }
     };
     let activeDelivery = 'standard';
     let cartSubtotal   = 0;
     const FREE_SHIPPING_THRESHOLD = 150;
 
-    // ─── Promo Code Engine ───────────────────────────────────────────────────
+    /* ── Promo Code Engine ──────────────────────────────────────────── */
     const PROMO_CODES = {
-      'NEX10':    { label: 'NEX10 — 10% off',         type: 'percent',  value: 10 },
-      'LUXURY20': { label: 'LUXURY20 — 20% off',       type: 'percent',  value: 20 },
-      'FREESHIP': { label: 'FREESHIP — Free Delivery', type: 'shipping', value: 0  }
+      'NEX10':    { label: 'NEX10 — 10% off',          type: 'percent',  value: 10 },
+      'LUXURY20': { label: 'LUXURY20 — 20% off',        type: 'percent',  value: 20 },
+      'FREESHIP': { label: 'FREESHIP — Free Delivery',  type: 'shipping', value: 0  }
     };
     let activeCoupon = null;
 
@@ -799,30 +888,24 @@
       const input    = document.getElementById('coupon-input');
       const feedback = document.getElementById('coupon-feedback');
       if (!input || !feedback) return;
-
       const code = (input.value || '').trim().toUpperCase();
       if (!code) return;
-
       const promo = PROMO_CODES[code];
       if (!promo) {
         showCouponFeedback("This code isn't valid or has expired.", 'error');
         input.classList.add('coupon-input-error');
         return;
       }
-
       activeCoupon = { code, ...promo };
       input.value = '';
       input.classList.remove('coupon-input-error');
       hideCouponFeedback();
-
       const pillWrap  = document.getElementById('coupon-pill-wrap');
       const pillLabel = document.getElementById('coupon-pill-label');
-      if (pillWrap)  pillWrap.style.display = 'flex';
-      if (pillLabel) pillLabel.textContent  = promo.label;
-
-      const inputRow = document.getElementById('coupon-input-row');
-      if (inputRow) inputRow.style.display = 'none';
-
+      if (pillWrap)  pillWrap.style.display  = 'flex';
+      if (pillLabel) pillLabel.textContent   = promo.label;
+      const inputRow  = document.getElementById('coupon-input-row');
+      if (inputRow)  inputRow.style.display  = 'none';
       updateSummaryTotals();
     }
 
@@ -843,11 +926,10 @@
     function showCouponFeedback(msg, type) {
       const el = document.getElementById('coupon-feedback');
       if (!el) return;
-      el.textContent = msg;
-      el.style.display = 'block';
-      el.style.color = type === 'error' ? '#FB7185' : '#34D399';
+      el.textContent    = msg;
+      el.style.display  = 'block';
+      el.style.color    = type === 'error' ? '#FB7185' : '#34D399';
     }
-
     function hideCouponFeedback() {
       const el = document.getElementById('coupon-feedback');
       if (el) el.style.display = 'none';
@@ -855,160 +937,147 @@
 
     function computeDiscount(subtotal) {
       if (!activeCoupon) return 0;
-      if (activeCoupon.type === 'percent') {
-        return Math.round(subtotal * activeCoupon.value / 100);
-      }
+      if (activeCoupon.type === 'percent') return Math.round(subtotal * activeCoupon.value / 100);
       return 0;
     }
 
+    /* ── Delivery Selection ─────────────────────────────────────────── */
     function selectDelivery(method) {
       if (!DELIVERY_OPTIONS[method]) return;
       activeDelivery = method;
-      ['standard', 'express'].forEach(key => {
+      ['standard', 'overnight', 'whiteglove'].forEach(key => {
         const el = document.getElementById('opt-' + key);
-        if (el) el.classList.toggle('selected', key === method);
+        if (el) el.classList.toggle('active', key === method);
       });
       updateSummaryTotals();
     }
 
+    /* ── Summary Totals ─────────────────────────────────────────────── */
     function updateSummaryTotals() {
-      const deliveryMethod = DELIVERY_OPTIONS[activeDelivery] || DELIVERY_OPTIONS.standard;
-      const discountAmt = computeDiscount(cartSubtotal);
-      const discountedSubtotal = Math.max(0, cartSubtotal - discountAmt);
+      const discountAmt       = computeDiscount(cartSubtotal);
+      const discountedSub     = Math.max(0, cartSubtotal - discountAmt);
+      const freeShipCoupon    = activeCoupon && activeCoupon.type === 'shipping';
 
-      const discRow    = document.getElementById('summary-discount-row');
-      const discLabel  = document.getElementById('summary-discount-label');
-      const discAmount = document.getElementById('summary-discount-amount');
+      // Discount row
+      const discRow   = document.getElementById('summary-discount-row');
+      const discLabel = document.getElementById('summary-discount-label');
+      const discAmt   = document.getElementById('summary-discount-amount');
       if (discRow) {
         if (activeCoupon && discountAmt > 0) {
           discRow.style.display = 'flex';
-          if (discLabel)  discLabel.textContent = activeCoupon.label;
-          if (discAmount) discAmount.textContent = `−€ ${discountAmt.toFixed(2)}`;
+          if (discLabel) discLabel.textContent = activeCoupon.label;
+          if (discAmt)   discAmt.textContent   = `−€ ${discountAmt.toFixed(2)}`;
         } else {
           discRow.style.display = 'none';
         }
       }
 
-      const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      let shippingCost;
-      let shippingLabel;
-
+      // Shipping cost
+      let shippingCost, shippingLabel;
       if (activeDelivery === 'standard') {
         if (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) {
-          shippingCost = 0;
+          shippingCost  = 0;
           shippingLabel = 'FREE';
         } else {
-          shippingCost = deliveryMethod.cost;
-          shippingLabel = `€ ${shippingCost.toFixed(2)}`;
+          shippingCost  = DELIVERY_OPTIONS.standard.cost;
+          shippingLabel = DELIVERY_OPTIONS.standard.costLabel;
         }
       } else {
-        shippingCost = deliveryMethod.cost;
-        shippingLabel = `€ ${shippingCost.toFixed(2)}`;
+        shippingCost  = DELIVERY_OPTIONS[activeDelivery].cost;
+        shippingLabel = DELIVERY_OPTIONS[activeDelivery].costLabel;
       }
 
-      const standardCostEl = document.getElementById('cost-standard');
-      if (standardCostEl) {
-        standardCostEl.textContent = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 'FREE' : '€ 12.00';
-        standardCostEl.style.color = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? '#00E676' : 'var(--text-primary)';
-      }
+      const grandTotal    = discountedSub + shippingCost;
+      const estimatedVat  = grandTotal * 0.19 / 1.19;
 
-      const grandTotal = discountedSubtotal + shippingCost;
-      const estimatedVat = (grandTotal * 0.19 / 1.19);
-
-      const shippingEl = document.getElementById('summary-shipping');
+      const shippingEl    = document.getElementById('summary-shipping');
       if (shippingEl) {
         shippingEl.textContent = shippingLabel;
-        shippingEl.style.color = shippingCost === 0 ? '#00E676' : 'var(--text-primary)';
+        shippingEl.style.color = shippingCost === 0 ? '#34D399' : 'var(--text-primary)';
       }
 
-      const vatEl = document.getElementById('summary-vat');
+      const vatEl         = document.getElementById('summary-vat');
       if (vatEl) vatEl.textContent = `€ ${estimatedVat.toFixed(2)}`;
 
-      const subtotalEl = document.getElementById('summary-subtotal');
+      const subtotalEl    = document.getElementById('summary-subtotal');
       if (subtotalEl) subtotalEl.textContent = `€ ${cartSubtotal.toFixed(2)}`;
 
-      const totalEl = document.getElementById('summary-total');
+      const totalEl       = document.getElementById('summary-total');
       if (totalEl) totalEl.textContent = `€ ${grandTotal.toFixed(2)}`;
 
-      const primaryCtaText = document.getElementById('btn-order-primary-text');
-      if (primaryCtaText) primaryCtaText.textContent = `PAY · € ${grandTotal.toFixed(2)}`;
+      const submitTotal   = document.getElementById('submit-total-display');
+      if (submitTotal) submitTotal.textContent = `€ ${grandTotal.toFixed(2)}`;
 
-      const mobileTitle = document.getElementById('mobile-summary-title');
+      const mobileTitle   = document.getElementById('mobile-summary-title');
       if (mobileTitle) mobileTitle.textContent = `Order summary · € ${grandTotal.toFixed(2)}`;
     }
 
+    /* ── Delivery Guidance ──────────────────────────────────────────── */
     function buildDeliveryGuidance() {
       const countrySelect = document.getElementById('ship-country');
-      const countryName = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Europe';
-      const panel = document.getElementById('delivery-guidance');
+      const countryName   = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Europe';
+      const panel         = document.getElementById('delivery-guidance');
       if (!panel) return;
-
       if (cartSubtotal >= FREE_SHIPPING_THRESHOLD) {
-        panel.innerHTML = `<strong>Complimentary Tracked Delivery Unlocked —</strong> Your order to ${countryName} qualifies for <strong>Free Standard EU Tracked Delivery</strong> (2–4 business days, carbon neutral).`;
+        panel.innerHTML = `<strong>Complimentary Tracked Delivery Unlocked —</strong> Your order to ${countryName} qualifies for <strong>Free Atelier Express Delivery</strong> (2–4 business days, carbon neutral).`;
       } else {
         const diff = (FREE_SHIPPING_THRESHOLD - cartSubtotal).toFixed(2);
-        panel.innerHTML = `<strong>Shipping to ${countryName}.</strong> Add <strong>€ ${diff}</strong> more to unlock Free Standard EU Tracked Delivery — or choose DHL Express Air for guaranteed next-day arrival.`;
+        panel.innerHTML = `<strong>Shipping to ${countryName}.</strong> Add <strong>€ ${diff}</strong> more to unlock Free Atelier Express Delivery — or choose Priority Aerodynamic Courier for guaranteed next-day arrival.`;
       }
     }
 
+    /* ── Load Checkout State ────────────────────────────────────────── */
     function loadCheckoutState() {
       let cart = [];
-      try {
-        const raw = localStorage.getItem('nex_cart');
-        cart = raw ? JSON.parse(raw) : [];
-      } catch(e) {
-        cart = [];
-      }
+      try { const raw = localStorage.getItem('nex_cart'); cart = raw ? JSON.parse(raw) : []; } catch(e) { cart = []; }
 
       const emptyState = document.getElementById('checkout-empty-state');
       const mainGrid   = document.getElementById('checkout-main-grid');
-
       if (!cart || cart.length === 0) {
-        emptyState.style.display = 'block';
-        mainGrid.style.display   = 'none';
+        if (emptyState) emptyState.style.display = 'block';
+        if (mainGrid)   mainGrid.style.display   = 'none';
         return;
       }
-
-      emptyState.style.display = 'none';
-      mainGrid.style.display   = 'grid';
+      if (emptyState) emptyState.style.display = 'none';
+      if (mainGrid)   mainGrid.style.display   = 'grid';
 
       cartSubtotal     = cart.reduce((sum, i) => sum + (Number(i.price) * (parseInt(i.quantity || i.qty, 10) || 1)), 0);
       const totalCount = cart.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty, 10) || 1), 0);
 
+      const piecesCount = document.getElementById('checkoutPiecesCount');
+      if (piecesCount) piecesCount.textContent = `${totalCount} PIECE${totalCount !== 1 ? 'S' : ''}`;
+
       const desktopList = document.getElementById('desktop-items-list');
       if (desktopList) {
         desktopList.innerHTML = cart.map(i => {
-          const itemQty = i.quantity || i.qty || 1;
-          const itemVariant = i.variant || i.size || 'Standard';
+          const itemQty     = i.quantity || i.qty || 1;
+          const itemVariant = i.variant  || i.size || 'Standard';
           return `
-          <div style="display:grid; grid-template-columns:50px 1fr auto; gap:12px; align-items:center;">
-            <img src="${i.image}" alt="${i.name}" style="width:50px; height:62px; object-fit:cover; border-radius:2px; background:var(--bg-main);">
+          <div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;">
+            <img src="${i.image}" alt="${i.name}" style="width:52px;height:66px;object-fit:cover;border-radius:6px;background:rgba(255,255,255,0.04);">
             <div>
-              <div style="font-size:13px; font-weight:500;">${i.name}</div>
-              <div style="font-size:11px; color:var(--text-secondary);">${itemVariant} &middot; Qty ${itemQty}</div>
+              <div style="font-size:13px;font-weight:500;margin-bottom:2px;">${i.name}</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);">${itemVariant} &middot; Qty ${itemQty}</div>
             </div>
-            <div style="font-size:13px; font-weight:600;" class="tabular-nums">€ ${(Number(i.price) * itemQty).toFixed(2)}</div>
-          </div>
-        `;}).join('');
+            <div style="font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;">€ ${(Number(i.price) * itemQty).toFixed(2)}</div>
+          </div>`;
+        }).join('');
       }
 
-      const mobileSub = document.getElementById('mobile-summary-sub');
+      const mobileSub     = document.getElementById('mobile-summary-sub');
       const mobileDetails = document.getElementById('mobile-summary-details');
-      if (mobileSub) mobileSub.textContent = `${totalCount} Piece${totalCount > 1 ? 's' : ''} · Incl. 19% VAT`;
+      if (mobileSub) mobileSub.textContent = `${totalCount} Piece${totalCount > 1 ? 's' : ''} · Incl. VAT`;
       if (mobileDetails) {
         mobileDetails.innerHTML = cart.map(i => {
-          const itemQty = i.quantity || i.qty || 1;
-          const itemVariant = i.variant || i.size || 'Standard';
-          return `
-          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
+          const itemQty     = i.quantity || i.qty || 1;
+          const itemVariant = i.variant  || i.size || 'Standard';
+          return `<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
             <span>${i.name} (${itemVariant}) &times;${itemQty}</span>
-            <span class="tabular-nums">€ ${(Number(i.price) * itemQty).toFixed(2)}</span>
-          </div>
-        `;}).join('') + `
-          <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:600; padding-top:8px; border-top:1px solid var(--border-subtle); margin-top:8px;">
-            <span>Subtotal</span><span class="tabular-nums">€ ${cartSubtotal.toFixed(2)}</span>
-          </div>
-        `;
+            <span style="font-variant-numeric:tabular-nums;">€ ${(Number(i.price) * itemQty).toFixed(2)}</span>
+          </div>`;
+        }).join('') + `<div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;">
+          <span>Subtotal</span><span style="font-variant-numeric:tabular-nums;">€ ${cartSubtotal.toFixed(2)}</span>
+        </div>`;
       }
 
       updateSummaryTotals();
@@ -1019,6 +1088,8 @@
       loadCheckoutState();
       const cityInput = document.getElementById('ship-city');
       if (cityInput) cityInput.addEventListener('input', buildDeliveryGuidance);
+      initHolographicCardSync();
+      initProgressTracking();
     });
 
     function toggleMobileSummary() {
@@ -1027,10 +1098,10 @@
       if (!details) return;
       const open = details.style.display === 'block';
       details.style.display = open ? 'none' : 'block';
-      btn.textContent = open ? 'View order details ↓' : 'Hide order details ↑';
+      if (btn) btn.textContent = open ? 'View details ↓' : 'Hide details ↑';
     }
 
-    // ─── Payment Method Selection (Pan-European) ─────────────────────────────
+    /* ── Payment Method Selection ───────────────────────────────────── */
     let activePayment = 'klarna';
     function selectPayment(method) {
       activePayment = method;
@@ -1038,19 +1109,16 @@
         const btn = document.getElementById('pay-' + m);
         if (btn) btn.classList.toggle('selected', m === method);
       });
-
-      // Toggle relevant sub-panels
       const cardPanel   = document.getElementById('card-details-panel');
       const idealPanel  = document.getElementById('ideal-details-panel');
       const sepaPanel   = document.getElementById('sepa-details-panel');
       const klarnaPanel = document.getElementById('klarna-details-panel');
-
-      if (cardPanel)   cardPanel.style.display   = (method === 'card')   ? 'block' : 'none';
-      if (idealPanel)  idealPanel.style.display  = (method === 'ideal')  ? 'block' : 'none';
-      if (sepaPanel)   sepaPanel.style.display   = (method === 'sepa')   ? 'block' : 'none';
-      if (klarnaPanel) klarnaPanel.style.display = (method === 'klarna') ? 'block' : 'none';
-
+      if (cardPanel)   cardPanel.style.display   = method === 'card'   ? 'block' : 'none';
+      if (idealPanel)  idealPanel.style.display  = method === 'ideal'  ? 'block' : 'none';
+      if (sepaPanel)   sepaPanel.style.display   = method === 'sepa'   ? 'block' : 'none';
+      if (klarnaPanel) klarnaPanel.style.display = method === 'klarna' ? 'block' : 'none';
       hideBanner('banner-payment-fail');
+      if (method === 'card') updateProgressStep(3);
     }
 
     function formatCardNumber(input) {
@@ -1058,48 +1126,33 @@
       input.value = v.replace(/(.{4})/g, '$1 ').trim();
       const icon = document.getElementById('card-brand-icon');
       if (icon) {
-        if (/^4/.test(v))            icon.textContent = 'VISA';
+        if (/^4/.test(v))           icon.textContent = 'VISA';
         else if (/^5[1-5]/.test(v)) icon.textContent = 'MC';
         else if (/^3[47]/.test(v))  icon.textContent = 'AMEX';
-        else                         icon.textContent = '';
+        else                        icon.textContent = '';
       }
     }
 
     function formatCardExpiry(input) {
       let v = input.value.replace(/\D/g, '').slice(0, 4);
-      if (v.length >= 3) v = v.slice(0,2) + ' / ' + v.slice(2);
+      if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
       input.value = v;
     }
 
-    function retryPayment() {
-      hideBanner('banner-payment-fail');
-      resetOrderCTA();
-    }
-
+    function retryPayment()       { hideBanner('banner-payment-fail'); resetOrderCTA(); }
     function changePaymentMethod() {
-      hideBanner('banner-payment-fail');
-      resetOrderCTA();
+      hideBanner('banner-payment-fail'); resetOrderCTA();
       const group = document.getElementById('payment-method-group');
       if (group) group.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+    function hideBanner(id) { const el = document.getElementById(id); if (el) el.classList.remove('visible'); }
+    function showBanner(id) { const el = document.getElementById(id); if (el) el.classList.add('visible'); }
 
-    function hideBanner(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove('visible');
-    }
-    function showBanner(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('visible');
-    }
-
-    document.addEventListener('focusin', (e) => {
+    document.addEventListener('focusin', e => {
       if (e.target.classList.contains('input-box')) {
         e.target.classList.remove('input-error');
         const errId = e.target.id ? 'err-' + e.target.id : null;
-        if (errId) {
-          const errEl = document.getElementById(errId);
-          if (errEl) errEl.classList.remove('visible');
-        }
+        if (errId) { const errEl = document.getElementById(errId); if (errEl) errEl.classList.remove('visible'); }
       }
     });
 
@@ -1114,38 +1167,37 @@
 
     function validateFields() {
       let valid = true;
-      const name     = document.getElementById('cust-name')?.value.trim()  || '';
-      const email    = document.getElementById('cust-email')?.value.trim() || '';
-      const phone    = document.getElementById('cust-phone')?.value.trim() || '';
+      const name     = document.getElementById('cust-name')?.value.trim()    || '';
+      const email    = document.getElementById('cust-email')?.value.trim()   || '';
+      const phone    = document.getElementById('cust-phone')?.value.trim()   || '';
       const address  = document.getElementById('ship-address')?.value.trim() || '';
-      const city     = document.getElementById('ship-city')?.value.trim()  || '';
-      const postcode = document.getElementById('ship-postcode')?.value.trim() || '';
+      const city     = document.getElementById('ship-city')?.value.trim()    || '';
+      const postcode = document.getElementById('ship-postcode')?.value.trim()|| '';
 
-      if (!markField('cust-name', 'err-cust-name', name.length >= 2 && name.length <= 120)) valid = false;
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!markField('cust-email', 'err-cust-email', emailOk)) valid = false;
-      if (!markField('cust-phone', 'err-cust-phone', phone.length >= 6)) valid = false;
-      if (!markField('ship-address', 'err-ship-address', address.length >= 5)) valid = false;
-      if (!markField('ship-city', 'err-ship-city', city.length >= 2)) valid = false;
-      if (!markField('ship-postcode', 'err-ship-postcode', postcode.length >= 3)) valid = false;
+      if (!markField('cust-name',     'err-cust-name',     name.length >= 2 && name.length <= 120))       valid = false;
+      if (!markField('cust-email',    'err-cust-email',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))     valid = false;
+      if (!markField('cust-phone',    'err-cust-phone',    phone.length >= 6))                             valid = false;
+      if (!markField('ship-address',  'err-ship-address',  address.length >= 5))                           valid = false;
+      if (!markField('ship-city',     'err-ship-city',     city.length >= 2))                              valid = false;
+      if (!markField('ship-postcode', 'err-ship-postcode', postcode.length >= 3))                          valid = false;
 
       if (activePayment === 'card') {
-        const cardNum  = (document.getElementById('card-number')?.value || '').replace(/\s/g,'');
-        const expiry   = (document.getElementById('card-expiry')?.value  || '').replace(/\s/g,'');
+        const cardNum  = (document.getElementById('card-number')?.value || '').replace(/\s/g, '');
+        const expiry   = (document.getElementById('card-expiry')?.value  || '').replace(/\s/g, '');
         const cvv      = (document.getElementById('card-cvv')?.value     || '');
         const cardName = (document.getElementById('card-name')?.value    || '').trim();
-        if (!markField('card-number', 'err-card-number', /^\d{16}$/.test(cardNum))) valid = false;
+        if (!markField('card-number', 'err-card-number', /^\d{16}$/.test(cardNum)))   valid = false;
         if (!markField('card-expiry', 'err-card-expiry', /^\d{2}\/\d{2}$/.test(expiry))) valid = false;
-        if (!markField('card-cvv',    'err-card-cvv',    /^\d{3,4}$/.test(cvv)))         valid = false;
-        if (!markField('card-name',   'err-card-name',   cardName.length >= 2))           valid = false;
+        if (!markField('card-cvv',    'err-card-cvv',    /^\d{3,4}$/.test(cvv)))      valid = false;
+        if (!markField('card-name',   'err-card-name',   cardName.length >= 2))       valid = false;
       }
 
       if (activePayment === 'sepa') {
-        const iban = (document.getElementById('sepa-iban')?.value || '').replace(/\s/g,'');
-        const bic  = (document.getElementById('sepa-bic')?.value || '').trim();
+        const iban   = (document.getElementById('sepa-iban')?.value   || '').replace(/\s/g, '');
+        const bic    = (document.getElementById('sepa-bic')?.value    || '').trim();
         const holder = (document.getElementById('sepa-holder')?.value || '').trim();
-        if (!markField('sepa-iban', 'err-sepa-iban', /^[A-Z]{2}[0-9A-Z]{13,32}$/i.test(iban))) valid = false;
-        if (!markField('sepa-bic', 'err-sepa-bic', bic.length >= 8)) valid = false;
+        if (!markField('sepa-iban',   'err-sepa-iban',   /^[A-Z]{2}[0-9A-Z]{13,32}$/i.test(iban))) valid = false;
+        if (!markField('sepa-bic',    'err-sepa-bic',    bic.length >= 8))   valid = false;
         if (!markField('sepa-holder', 'err-sepa-holder', holder.length >= 2)) valid = false;
       }
 
@@ -1158,115 +1210,93 @@
       const cta = document.getElementById('btn-place-order');
       if (!cta) return;
       cta.disabled = true;
-      cta.style.opacity = '0.7';
+      cta.style.opacity = '0.65';
       cta.style.cursor  = 'not-allowed';
       const txt = document.getElementById('btn-order-primary-text');
       if (txt) txt.textContent = 'AUTHENTICATING PAYMENT…';
+      const st = document.getElementById('submit-total-display');
+      if (st) st.style.display = 'none';
     }
 
     function resetOrderCTA() {
       orderSubmitting = false;
       const cta = document.getElementById('btn-place-order');
       if (!cta) return;
-      cta.disabled = false;
+      cta.disabled      = false;
       cta.style.opacity = '';
       cta.style.cursor  = '';
+      const txt = document.getElementById('btn-order-primary-text');
+      if (txt) txt.textContent = 'COMPLETE SECURE PURCHASE';
+      const st = document.getElementById('submit-total-display');
+      if (st) st.style.display = '';
       updateSummaryTotals();
     }
 
     function cartIntegrityOk() {
-      try {
-        const raw  = localStorage.getItem('nex_cart');
-        const cart = raw ? JSON.parse(raw) : [];
-        return Array.isArray(cart) && cart.length > 0;
-      } catch (e) {
-        return false;
-      }
+      try { const cart = JSON.parse(localStorage.getItem('nex_cart') || '[]'); return Array.isArray(cart) && cart.length > 0; }
+      catch(e) { return false; }
     }
 
-    // ─── European PSD2 & Payment Verification Modal ────────────────────────────
+    /* ── Payment Modal ──────────────────────────────────────────────── */
     function openPaymentModal() {
       const overlay = document.getElementById('payment-modal-overlay');
       if (!overlay) return;
       overlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
-      const discountAmt = computeDiscount(cartSubtotal);
       const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      const shippingCost = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
-      const displayTotal = (cartSubtotal - discountAmt) + shippingCost;
+      const shippingCost   = (activeDelivery === 'standard' && (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon)) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
+      const discountAmt    = computeDiscount(cartSubtotal);
+      const displayTotal   = (cartSubtotal - discountAmt) + shippingCost;
 
-      const authCard = document.getElementById('eu-payment-auth-card');
+      const authCard  = document.getElementById('eu-payment-auth-card');
       const authTitle = document.getElementById('eu-auth-title');
-      const authDesc = document.getElementById('eu-auth-desc');
-      const authAmount = document.getElementById('eu-auth-amount');
+      const authDesc  = document.getElementById('eu-auth-desc');
+      const authAmt   = document.getElementById('eu-auth-amount');
       const authBadge = document.getElementById('eu-auth-badge');
 
-      if (authAmount) authAmount.textContent = `€ ${displayTotal.toFixed(2)}`;
+      if (authAmt) authAmt.textContent = `€ ${displayTotal.toFixed(2)}`;
 
-      if (activePayment === 'card') {
-        authTitle.textContent = '3D Secure 2.2 Bank Challenge';
-        authDesc.textContent = 'Please confirm this purchase in your bank mobile app (Verified by Visa / Mastercard Identity Check).';
-        authBadge.innerHTML = '<span style="background:#0F2042;color:#fff;font-size:11px;padding:3px 8px;border-radius:3px;font-weight:700;">PSD2 3DS2</span>';
-      } else if (activePayment === 'ideal') {
-        const bankName = document.getElementById('ideal-bank-select')?.options[document.getElementById('ideal-bank-select')?.selectedIndex]?.text || 'iDEAL Bank';
-        authTitle.textContent = `Redirecting to ${bankName}`;
-        authDesc.textContent = 'Authenticating your direct bank transfer in encrypted token session.';
-        authBadge.innerHTML = '<span class="payment-brand-badge ideal-badge">iDEAL</span>';
-      } else if (activePayment === 'klarna') {
-        authTitle.textContent = 'Klarna Smooth Checkout';
-        authDesc.textContent = 'Verifying your 30-day payment authorization with Klarna Bank AB.';
-        authBadge.innerHTML = '<span class="payment-brand-badge klarna-badge">Klarna.</span>';
-      } else if (activePayment === 'applepay') {
-        authTitle.textContent = 'Apple Pay Authorization';
-        authDesc.textContent = 'Double-click side button or confirm with Face ID to pay.';
-        authBadge.innerHTML = '<span class="payment-brand-badge applepay-badge"> Pay</span>';
-      } else if (activePayment === 'paypal') {
-        authTitle.textContent = 'PayPal Secure Portal';
-        authDesc.textContent = 'Authenticating one-touch express token session with PayPal.';
-        authBadge.innerHTML = '<span class="payment-brand-badge paypal-badge">PayPal</span>';
-      } else if (activePayment === 'bancontact') {
-        authTitle.textContent = 'Bancontact Belgium';
-        authDesc.textContent = 'Connecting with Payconiq / Bancontact secure gateway.';
-        authBadge.innerHTML = '<span class="payment-brand-badge bancontact-badge">Bancontact</span>';
-      } else {
-        authTitle.textContent = 'SEPA Direct Debit Mandate';
-        authDesc.textContent = 'Registering electronic SEPA creditor identifier with European banking network.';
-        authBadge.innerHTML = '<span class="payment-brand-badge sepa-badge">SEPA CORE</span>';
-      }
+      const methodLabels = {
+        card:       ['3D Secure 2.2 Bank Challenge', 'Please confirm this purchase in your bank mobile app (Verified by Visa / Mastercard Identity Check).', '<span style="background:#0F2042;color:#fff;font-size:11px;padding:3px 8px;border-radius:3px;font-weight:700;">PSD2 3DS2</span>'],
+        ideal:      [`Redirecting to ${document.getElementById('ideal-bank-select')?.options[document.getElementById('ideal-bank-select')?.selectedIndex]?.text || 'iDEAL Bank'}`, 'Authenticating your direct bank transfer in encrypted token session.', '<span class="payment-brand-badge ideal-badge">iDEAL</span>'],
+        klarna:     ['Klarna Smooth Checkout', 'Verifying your 30-day payment authorization with Klarna Bank AB.', '<span class="payment-brand-badge klarna-badge">Klarna.</span>'],
+        applepay:   ['Apple Pay Authorization', 'Double-click side button or confirm with Face ID to pay.', '<span class="payment-brand-badge applepay-badge"> Pay</span>'],
+        paypal:     ['PayPal Secure Portal', 'Authenticating one-touch express token session with PayPal.', '<span class="payment-brand-badge paypal-badge">PayPal</span>'],
+        bancontact: ['Bancontact Belgium', 'Connecting with Payconiq / Bancontact secure gateway.', '<span class="payment-brand-badge bancontact-badge">Bancontact</span>'],
+        sepa:       ['SEPA Direct Debit Mandate', 'Registering electronic SEPA creditor identifier with European banking network.', '<span class="payment-brand-badge sepa-badge">SEPA CORE</span>']
+      };
+      const ml = methodLabels[activePayment] || methodLabels.klarna;
+      if (authTitle) authTitle.textContent  = ml[0];
+      if (authDesc)  authDesc.textContent   = ml[1];
+      if (authBadge) authBadge.innerHTML    = ml[2];
 
       if (authCard) {
         authCard.style.display = 'block';
-        requestAnimationFrame(() => {
-          authCard.style.transform = 'translateY(0)';
-          authCard.style.opacity = '1';
-        });
+        requestAnimationFrame(() => { authCard.style.transform = 'translateY(0)'; authCard.style.opacity = '1'; });
       }
 
-      // Auto-progress through simulated banking verification
-      setTimeout(() => {
-        completeOrderFlow();
-      }, 2200);
+      setTimeout(() => { completeOrderFlow(); }, 2200);
     }
 
     function completeOrderFlow() {
-      const authCard = document.getElementById('eu-payment-auth-card');
+      const authCard     = document.getElementById('eu-payment-auth-card');
       const successPanel = document.getElementById('payment-success-panel');
-      if (authCard) authCard.style.display = 'none';
+      if (authCard)     authCard.style.display     = 'none';
       if (successPanel) successPanel.style.display = 'block';
 
       const freeShipCoupon = activeCoupon && activeCoupon.type === 'shipping';
-      const shippingCost = (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
-      const discountAmt = computeDiscount(cartSubtotal);
-      const grandTotal  = (cartSubtotal - discountAmt) + shippingCost;
-      const orderRef    = 'NX-EU-' + Date.now().toString(36).toUpperCase().slice(-5);
+      const shippingCost   = (activeDelivery === 'standard' && (cartSubtotal >= FREE_SHIPPING_THRESHOLD || freeShipCoupon)) ? 0 : DELIVERY_OPTIONS[activeDelivery].cost;
+      const discountAmt    = computeDiscount(cartSubtotal);
+      const grandTotal     = (cartSubtotal - discountAmt) + shippingCost;
+      const orderRef       = 'NX-EU-' + Date.now().toString(36).toUpperCase().slice(-5);
 
       let cartItems = [];
       try { cartItems = JSON.parse(localStorage.getItem('nex_cart') || '[]'); } catch(e) {}
 
       const countrySelect = document.getElementById('ship-country');
-      const countryCode = countrySelect ? countrySelect.value : 'DE';
-      const countryName = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Germany';
+      const countryCode   = countrySelect ? countrySelect.value : 'DE';
+      const countryName   = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Germany';
 
       const confirmedOrder = {
         ref:            orderRef,
@@ -1277,7 +1307,7 @@
         customerEmail:  document.getElementById('cust-email')?.value.trim()    || 'alexander@maison.eu',
         customerPhone:  (document.getElementById('cust-phone-country')?.value || '+49') + ' ' + (document.getElementById('cust-phone')?.value.trim() || ''),
         country:        countryName,
-        countryCode:    countryCode,
+        countryCode,
         address:        document.getElementById('ship-address')?.value.trim()  || '',
         city:           document.getElementById('ship-city')?.value.trim()     || '',
         postcode:       document.getElementById('ship-postcode')?.value.trim() || '',
@@ -1299,10 +1329,7 @@
       localStorage.removeItem('nex_cart');
       window.dispatchEvent(new Event('cart-updated'));
 
-      setTimeout(() => {
-        orderSubmitting = false;
-        window.location.href = 'confirmation.html';
-      }, 1400);
+      setTimeout(() => { orderSubmitting = false; window.location.href = 'confirmation.html'; }, 1400);
     }
 
     function closePaymentModal() {
@@ -1312,79 +1339,139 @@
       orderSubmitting = false;
       resetOrderCTA();
     }
-
-    function handleModalBackdropClick(e) {
-      if (e.target.id === 'payment-modal-overlay') closePaymentModal();
-    }
+    function handleModalBackdropClick(e) { if (e.target.id === 'payment-modal-overlay') closePaymentModal(); }
 
     function handlePlaceOrder() {
       if (orderSubmitting) return;
       hideBanner('banner-payment-fail');
       hideBanner('banner-cart-warn');
-
       const fieldsOk = validateFields();
       if (!fieldsOk) {
         const firstErr = document.querySelector('.input-error');
         if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
-      if (!cartIntegrityOk()) {
-        showBanner('banner-cart-warn');
-        return;
-      }
-
+      if (!cartIntegrityOk()) { showBanner('banner-cart-warn'); return; }
       orderSubmitting = true;
       setOrderCTAProcessing();
       openPaymentModal();
     }
+
+    /* ── Progress Ribbon Tracking ───────────────────────────────────── */
+    function updateProgressStep(step) {
+      document.querySelectorAll('.progress-step-item').forEach((el, i) => {
+        el.classList.toggle('completed', i + 1 < step);
+        el.classList.toggle('active',    i + 1 === step);
+      });
+      const ribbon = document.getElementById('checkoutProgressRibbon');
+      if (ribbon) ribbon.setAttribute('aria-valuenow', step);
+    }
+
+    function initProgressTracking() {
+      const step1Fields = ['cust-name', 'cust-email', 'cust-phone', 'ship-address', 'ship-city', 'ship-postcode', 'ship-country'];
+      const step2Fields = ['opt-standard', 'opt-overnight', 'opt-whiteglove'];
+      const step3Parent = document.getElementById('section-payment');
+
+      step1Fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('focus', () => updateProgressStep(1));
+      });
+
+      step2Fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', () => updateProgressStep(2));
+      });
+
+      if (step3Parent) {
+        step3Parent.addEventListener('focusin', () => updateProgressStep(3));
+        step3Parent.addEventListener('click',   () => updateProgressStep(3));
+      }
+    }
+
+    /* ── 3D Holographic Card Sync ───────────────────────────────────── */
+    function initHolographicCardSync() {
+      const cardContainer  = document.getElementById('holographicCard');
+      const numInput       = document.getElementById('card-number');
+      const nameInput      = document.getElementById('card-name');
+      const expiryInput    = document.getElementById('card-expiry');
+      const cvcInput       = document.getElementById('card-cvv');
+      const numDisplay     = document.getElementById('cardDisplayNumber');
+      const nameDisplay    = document.getElementById('cardDisplayName');
+      const expiryDisplay  = document.getElementById('cardDisplayExpiry');
+      const cvcDisplay     = document.getElementById('cardDisplayCvc');
+      const brandIcon      = document.getElementById('cardBrandIcon');
+
+      if (!cardContainer) return;
+
+      if (numInput && numDisplay) {
+        numInput.addEventListener('input', e => {
+          const val       = e.target.value.replace(/\D/g, '').substring(0, 16);
+          const groups    = val.match(/.{1,4}/g);
+          numDisplay.textContent = groups ? groups.join(' ') : '•••• •••• •••• ••••';
+          if (brandIcon) {
+            if (/^4/.test(val))           brandIcon.innerHTML = '<span class="card-brand-pill" style="color:#3DE0FF;">VISA</span>';
+            else if (/^5[1-5]/.test(val)) brandIcon.innerHTML = '<span class="card-brand-pill" style="color:#FB7185;">MASTERCARD</span>';
+            else if (/^3[47]/.test(val))  brandIcon.innerHTML = '<span class="card-brand-pill" style="color:#34D399;">AMEX</span>';
+            else                          brandIcon.innerHTML = '<span class="card-brand-pill">CARD</span>';
+          }
+        });
+      }
+
+      if (nameInput && nameDisplay) {
+        nameInput.addEventListener('input', e => {
+          nameDisplay.textContent = e.target.value.trim().toUpperCase() || 'YOUR NAME';
+        });
+      }
+
+      if (expiryInput && expiryDisplay) {
+        expiryInput.addEventListener('input', e => {
+          expiryDisplay.textContent = e.target.value || 'MM/YY';
+        });
+      }
+
+      if (cvcInput && cvcDisplay && cardContainer) {
+        cvcInput.addEventListener('focus', () => cardContainer.classList.add('flipped'));
+        cvcInput.addEventListener('blur',  () => cardContainer.classList.remove('flipped'));
+        cvcInput.addEventListener('input', e => {
+          cvcDisplay.textContent = e.target.value.replace(/\D/g, '') || '•••';
+        });
+      }
+    }
   </script>
 
-  <!-- =========================================================================
-       EUROPEAN PAYMENT AUTHENTICATION MODAL (PSD2 / 3DS2 / iDEAL / Klarna)
-       ========================================================================= -->
-  <div id="payment-modal-overlay" style="display:none; position:fixed; inset:0; z-index:9000; background:rgba(5,14,36,0.88); backdrop-filter:blur(8px); align-items:center; justify-content:center;" onclick="handleModalBackdropClick(event)">
-
-    <!-- Auth Card Panel -->
-    <div id="eu-payment-auth-card" style="display:none; width:100%; max-width:440px; margin:0 20px; background:var(--bg-surface); border-radius:12px; padding:32px 28px; border:1px solid var(--border-default); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align:center;">
-      <div id="eu-auth-badge" style="margin-bottom:16px; display:inline-flex; align-items:center; justify-content:center;"></div>
-      <h3 id="eu-auth-title" style="font-family:var(--font-serif); font-size:22px; color:#fff; margin-bottom:8px;">Authenticating Transaction</h3>
-      <p id="eu-auth-desc" style="font-size:13px; color:var(--text-secondary); line-height:1.5; margin-bottom:20px;"></p>
-      
-      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:8px; padding:14px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.06em;">Amount to Authorize</span>
-        <span id="eu-auth-amount" style="font-size:20px; font-weight:700; font-family:var(--font-serif); color:#fff;" class="tabular-nums">€ 0.00</span>
-      </div>
-
-      <!-- Animated Progress Line -->
-      <div style="height:3px; width:100%; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; margin-bottom:20px;">
-        <div style="height:100%; width:50%; background:var(--accent-cyan); animation: euAuthSlide 1.5s infinite ease-in-out;"></div>
-      </div>
-      <div style="font-size:11px; color:var(--text-secondary); letter-spacing:0.04em;">SECURE ENCRYPTED 256-BIT SESSION &middot; PSD2 VERIFIED</div>
+  <!-- MINI CART DRAWER -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
     </div>
-
-    <!-- Success Flash -->
-    <div id="payment-success-panel" style="display:none; text-align:center; padding:50px 30px; background:var(--bg-surface); border-radius:12px; border:1px solid var(--border-default); max-width:400px; width:100%; margin:0 20px;">
-      <div style="width:64px; height:64px; border-radius:50%; background:rgba(0,230,118,0.15); border:2px solid #00E676; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
-        <i data-lucide="check" style="width:32px; height:32px; color:#00E676;"></i>
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display:none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
       </div>
-      <div style="font-family:var(--font-serif); font-size:26px; color:#fff; margin-bottom:8px;">Order Confirmed</div>
-      <div style="font-size:13px; color:var(--text-secondary);">Redirecting to your official invoice &amp; atelier receipt…</div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
     </div>
+  </aside>
 
+  <!-- SEARCH OVERLAY -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots…" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
   </div>
 
-  <style>
-    @keyframes euAuthSlide {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-      100% { transform: translateX(200%); }
-    }
-  </style>
-
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER (EUROPEAN STANDARD) -->
-  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
-  
-  <!-- CDNs -->
+  <!-- CDNs & Site Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
@@ -1400,68 +1487,9 @@
   <script src="../js/concierge.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
-  <script>
-    if (window.lucide) window.lucide.createIcons();
-  </script>
-
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-  <script src="../js/theme-switcher.js"></script>
-  <script src="../js/ai-engine.js"></script>
-  <script src="../js/intent-parser.js"></script>
-  <script src="../js/catalog-engine.js"></script>
-  <script src="../js/style-profile.js"></script>
-  <script src="../js/context-retention.js"></script>
-  <script src="../js/concierge-engine.js"></script>
-  <script src="../js/concierge.js"></script>
-  <script src="../js/auth.js"></script>
-  <script src="../js/header.js"></script>
-  <script>
-    if (window.lucide) window.lucide.createIcons();
-  </script>
-
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">€ 0.00</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
-
-<!-- SEARCH OVERLAY (global CMD+K) -->
-<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
-  <div class="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-header-bar">
-      <div class="search-input-wrapper">
-        <div class="search-ai-icon">
-          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-        </div>
-        <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots, or acoustics..." autocomplete="off" spellcheck="false" aria-label="Search query" />
-      </div>
-      <button class="search-close-btn" aria-label="Close search">
-        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-      </button>
-    </div>
-    <div id="aiSearchResultsModal" class="search-body"></div>
-  </div>
-</div>
-<script src="../js/session-context.js"></script>
-<script src="../js/search-overlay.js?v=1"></script>
-<script src="../js/cookie-consent.js"></script>
-
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=1"></script>
+  <script src="../js/cookie-consent.js"></script>
+  <script>if (window.lucide) window.lucide.createIcons();</script>
 </body>
 </html>

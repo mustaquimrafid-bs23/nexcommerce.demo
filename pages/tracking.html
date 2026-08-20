@@ -10,56 +10,98 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=4">
   <style>
-    /* Page-specific overrides */
-    .tracking-page-bg {
-      background: var(--bg-main);
-      min-height: 100vh;
-    }
+    .tracking-page-bg { background: var(--bg-main); min-height: 100vh; }
+
     .tracking-top-bar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 40px 24px;
+      max-width: 1200px; margin: 0 auto; padding: 48px 40px 20px;
     }
+    @media (max-width: 900px) { .tracking-top-bar { padding: 32px 16px 16px; } }
+
+    /* ── Stage Simulator Strip ── */
+    .stage-simulator-wrap {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px 20px;
+    }
+    @media (max-width: 900px) { .stage-simulator-wrap { padding: 0 16px 16px; } }
+
+    .sim-pill {
+      font-family: var(--font-body); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+      padding: 6px 14px; cursor: pointer; transition: all 200ms ease;
+    }
+    .sim-pill:hover { color: var(--text-secondary); border-color: var(--border-default); background: rgba(255,255,255,0.07); }
+    .sim-pill--active {
+      color: var(--bg-main); background: var(--accent-cyan);
+      border-color: var(--accent-cyan); font-weight: 700;
+    }
+
+    /* ── Main 2-col Layout ── */
     .tracking-layout {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1200px; margin: 0 auto;
       padding: 0 40px 80px;
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 48px;
-      align-items: start;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 40px; align-items: start;
     }
-    @media (max-width: 900px) {
-      .tracking-layout {
-        grid-template-columns: 1fr;
-        padding: 0 16px 80px;
-        gap: 28px;
-      }
-      .tracking-top-bar { padding: 32px 16px 16px; }
+    @media (max-width: 960px) {
+      .tracking-layout { grid-template-columns: 1fr; padding: 0 16px 80px; gap: 28px; }
     }
-    .tracking-summary-card {
-      background: #0B2147;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 24px;
-      position: sticky;
-      top: 100px;
-    }
+
+    /* ── ETA Banner ── */
     .tracking-eta-banner {
-      background: rgba(0, 200, 255, 0.06);
-      border: 1px solid rgba(0, 200, 255, 0.20);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
+      background: rgba(61,224,255,0.05);
+      border: 1px solid rgba(61,224,255,0.18);
+      border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px;
     }
-    .tracking-connector {
-      width: 2px;
-      height: 28px;
-      margin: 4px 0 4px 9px;
-      border-radius: 2px;
+
+    /* ── Route Map ── */
+    .route-map-wrap {
+      background: rgba(0,18,48,0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg); overflow: hidden;
+      margin-bottom: 20px;
     }
-    .tracking-connector.completed { background: rgba(0, 200, 255, 0.55); }
-    .tracking-connector.upcoming  { background: rgba(255, 255, 255, 0.12); }
+
+    /* ── Telemetry Grid ── */
+    .telemetry-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    @media (max-width: 540px) { .telemetry-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .telemetry-badge {
+      background: rgba(10,42,84,0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md); padding: 14px 15px;
+      backdrop-filter: blur(6px);
+      transition: border-color 200ms ease;
+    }
+    .telemetry-badge:hover { border-color: rgba(61,224,255,0.2); }
+    .telemetry-badge-icon { font-size: 18px; margin-bottom: 8px; display: block; }
+
+    /* ── Order Summary Card ── */
+    .tracking-summary-card {
+      background: rgba(10,42,84,0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg); padding: 24px;
+      position: sticky; top: 100px;
+    }
+
+    /* ── Beacon Animations ── */
+    @keyframes beacon-pulse {
+      0%, 100% { r: 5.5; opacity: 1; }
+      50%       { r: 7; opacity: 0.6; }
+    }
+    @keyframes glow-ring {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 0.9; }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    .beacon-pulse        { animation: beacon-pulse 2s ease-in-out infinite; }
+    .beacon-glow-ring    { animation: glow-ring 2s ease-in-out infinite; }
   </style>
 </head>
 <body class="tracking-page-bg">
@@ -122,7 +164,7 @@
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           <span>CONCIERGE</span>
         </button>
@@ -193,43 +235,45 @@
     <!-- ORDER HEADING -->
     <div class="tracking-top-bar">
       <div class="tracking-header-block">
-        <span id="trackingEyebrow" class="tracking-meta" style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;"></span>
-        <h1 class="tracking-title" id="trackingTitle">Track your order</h1>
-        <span class="tracking-meta" id="trackingMeta"></span>
+        <span id="trackingEyebrow" style="font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;"></span>
+        <h1 id="trackingTitle" style="font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.75rem);font-weight:500;color:var(--text-primary);margin:0 0 6px;">Track your order</h1>
+        <span id="trackingMeta" style="font-family:var(--font-body);font-size:13px;color:var(--text-muted);"></span>
       </div>
+    </div>
+
+    <!-- STAGE SIMULATOR BAR -->
+    <div class="stage-simulator-wrap">
+      <div id="stageSimulator" style="background:rgba(10,42,84,0.5);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:16px 20px;"></div>
     </div>
 
     <div class="tracking-layout">
 
-      <!-- LEFT COLUMN: Timeline + Status + Service Message -->
+      <!-- LEFT COLUMN: Route Map + Telemetry + AI Assistant -->
       <div>
 
         <!-- ETA BANNER -->
         <div class="tracking-eta-banner" id="trackingETA" aria-live="polite"></div>
 
-        <!-- CURRENT STATUS BLOCK -->
-        <div id="trackingCurrentStatus" style="margin-bottom: 32px;"></div>
-
-        <!-- 6-STAGE TIMELINE -->
-        <div class="tracking-timeline-box" style="margin-bottom: 28px;">
-          <div style="font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 24px;">TRACKING</div>
-          <div class="tracking-timeline-list" id="trackingTimeline" role="list" aria-label="Order timeline"></div>
+        <!-- INTERACTIVE SVG ROUTE MAP -->
+        <div class="route-map-wrap">
+          <div id="routeMapContainer" style="width:100%;"></div>
         </div>
 
-        <!-- INTELLIGENT SERVICE MESSAGE + Q&A -->
-        <!-- TODO: Wire to real AI delivery API -->
+        <!-- 4-BADGE PARCEL TELEMETRY MATRIX -->
+        <div id="telemetryBadges" style="margin-bottom:20px;"></div>
+
+        <!-- AI DELIVERY ASSISTANT + Q&A -->
         <div id="trackingServiceMsg"></div>
 
       </div>
 
-      <!-- RIGHT COLUMN: Order Summary Card -->
+      <!-- RIGHT COLUMN: Order Summary -->
       <div>
         <div class="tracking-summary-card" id="trackingOrderSummary">
-          <!-- Rendered dynamically by js/tracking.js -->
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-            <div class="cart-skeleton-card" style="height: 80px; border-radius: var(--radius-sm);"></div>
-            <div class="cart-skeleton-card" style="height: 16px; width: 60%; border-radius: 4px;"></div>
-            <div class="cart-skeleton-card" style="height: 16px; width: 80%; border-radius: 4px;"></div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="cart-skeleton-card" style="height:88px;border-radius:var(--radius-sm);"></div>
+            <div class="cart-skeleton-card" style="height:14px;width:55%;border-radius:4px;"></div>
+            <div class="cart-skeleton-card" style="height:14px;width:75%;border-radius:4px;"></div>
           </div>
         </div>
       </div>

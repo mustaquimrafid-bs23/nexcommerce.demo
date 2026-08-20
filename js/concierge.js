@@ -42,7 +42,7 @@
     drawer.className = 'concierge-drawer';
     drawer.setAttribute('aria-hidden', 'true');
     drawer.setAttribute('role', 'dialog');
-    drawer.setAttribute('aria-label', 'Style Concierge');
+    drawer.setAttribute('aria-label', 'Ask Stylist');
     drawer.setAttribute('data-lenis-prevent', '');
 
     drawer.innerHTML = `
@@ -50,9 +50,9 @@
       <div class="concierge-header">
         <div class="concierge-header-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="color: #F13365;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          Style Concierge
+          Ask Stylist
         </div>
-        <button type="button" class="concierge-close" aria-label="Close Concierge" data-action="close-concierge">
+        <button type="button" class="concierge-close" aria-label="Close" data-action="close-concierge">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
@@ -81,11 +81,11 @@
     floatingPill.id = 'nexConciergeFloatingPill';
     floatingPill.type = 'button';
     floatingPill.className = 'concierge-floating-pill';
-    floatingPill.setAttribute('aria-label', 'Open Style Concierge');
+    floatingPill.setAttribute('aria-label', 'Ask Stylist');
     floatingPill.setAttribute('data-action', 'open-concierge');
     floatingPill.innerHTML = `
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lucide-sparkles" style="color: #F13365;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-      <span>✦ Style Concierge</span>
+      <span>✦ Ask Stylist</span>
     `;
 
     document.body.appendChild(overlay);

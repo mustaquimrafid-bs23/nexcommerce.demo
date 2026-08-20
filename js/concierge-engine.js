@@ -131,7 +131,7 @@
       // 4. Default Luxury Welcome
       return {
         type: 'text',
-        text: `Good evening. I am your nexCommerce Personal Shopper. I can help you put together complete outfits, find your exact size, or check your delivery status. What are you shopping for today?`,
+        text: `Good evening. I am your Personal Stylist. I can help you put together complete outfits, find your exact size, or check your delivery status. What are you shopping for today?`,
         suggestedChips: [
           'Complete an office outfit',
           'Show me jackets & coats',

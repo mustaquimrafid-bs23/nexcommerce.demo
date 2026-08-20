@@ -11,6 +11,337 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=4">
+  <style>
+    /* ── Wardrobe DNA Page Layout ──────────────────── */
+    .profile-page-canvas {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 100px;
+    }
+    .profile-hero-strip {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .profile-eyebrow-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #3DE0FF;
+      margin-bottom: 16px;
+    }
+    .profile-live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #34D399;
+      animation: live-pulse 2s ease-in-out infinite;
+    }
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .profile-dna-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+    .profile-dna-headline em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: #3DE0FF;
+      font-weight: 400;
+    }
+    .profile-dna-subhead {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: rgba(255,255,255,0.5);
+      margin: 0;
+    }
+    /* ── Split Grid ─────────────────────────────── */
+    .profile-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 80px;
+    }
+    @media (max-width: 900px) {
+      .profile-split-grid { grid-template-columns: 1fr; }
+      .profile-page-canvas { padding: 32px 16px 80px; }
+    }
+    /* ── Radar Frame ─────────────────────────────── */
+    .profile-radar-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 360px;
+      margin: 0 auto 32px;
+    }
+    #radarSvgCanvas {
+      width: 100%; height: 100%;
+      overflow: visible;
+    }
+    .radar-dna-badge {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #3DE0FF;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      border-radius: 20px;
+      padding: 6px 14px;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    /* ── Archetype Cards ─────────────────────────── */
+    .archetype-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .archetype-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      min-height: 44px;
+    }
+    .archetype-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      background: rgba(61, 224, 255, 0.04);
+    }
+    .archetype-card.active {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.08);
+      box-shadow: 0 0 12px rgba(61, 224, 255, 0.12);
+    }
+    .archetype-icon { font-size: 20px; line-height: 1; }
+    .archetype-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .archetype-card.active .archetype-label { color: #3DE0FF; }
+    /* ── Colour DNA Wheel ────────────────────────── */
+    .profile-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+    .colour-dna-wheel {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 32px;
+    }
+    .colour-dna-swatch {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      position: relative;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 44px; min-height: 44px;
+    }
+    .colour-dna-swatch:hover { transform: scale(1.15); }
+    .colour-dna-swatch.active {
+      box-shadow: 0 0 0 3px #020B18, 0 0 0 5px #3DE0FF;
+      transform: scale(1.15);
+    }
+    /* ── Lifestyle Intensity ─────────────────────── */
+    .lifestyle-intensity-grid {
+      display: flex; flex-direction: column; gap: 14px;
+      margin-bottom: 36px;
+    }
+    .lifestyle-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 28px;
+      align-items: center;
+      gap: 12px;
+    }
+    .lifestyle-row-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .lifestyle-intensity-track {
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+      padding: 20px 0;
+      margin: -20px 0;
+    }
+    .lifestyle-intensity-fill {
+      height: 3px;
+      background: linear-gradient(90deg, #3DE0FF, #A78BFA);
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      left: 0;
+    }
+    .lifestyle-intensity-thumb {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid #3DE0FF;
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      cursor: grab;
+      box-shadow: 0 0 8px rgba(61,224,255,0.4);
+      transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .lifestyle-intensity-value {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    /* ── Action Strip ────────────────────────────── */
+    .profile-action-strip { display: flex; flex-direction: column; gap: 20px; }
+    .profile-personalization-toggle {
+      display: flex; align-items: center; gap: 12px; cursor: pointer;
+    }
+    .profile-personalization-toggle input { display: none; }
+    .toggle-track {
+      width: 44px; height: 24px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .profile-personalization-toggle input:checked ~ .toggle-track {
+      background: #3DE0FF;
+    }
+    .toggle-thumb {
+      width: 18px; height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px; left: 3px;
+      transition: left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .profile-personalization-toggle input:checked ~ .toggle-track .toggle-thumb {
+      left: 23px;
+    }
+    .toggle-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    .profile-btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-profile-ghost {
+      height: 48px; padding: 0 24px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-profile-ghost:hover {
+      border-color: rgba(251, 113, 133, 0.6);
+      color: #FB7185;
+    }
+    /* ── AI Look Pinboard ───────────────────────── */
+    .ai-look-pinboard-section { margin-top: 0; }
+    .ai-look-pinboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+    @media (max-width: 768px) {
+      .ai-look-pinboard { grid-template-columns: 1fr; }
+    }
+    .look-pin-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+      text-decoration: none;
+    }
+    .look-pin-card:hover {
+      border-color: rgba(61, 224, 255, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+    .look-pin-img {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; object-position: center 20%;
+      display: block;
+    }
+    .look-pin-meta {
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .look-pin-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: #FB7185;
+    }
+    .look-pin-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px; font-weight: 600;
+      color: #FFFFFF; line-height: 1.3;
+    }
+    .look-pin-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      font-variant-numeric: tabular-nums;
+      margin-top: 4px;
+    }
+    /* ── Profile config pane section spacing ──── */
+    .profile-radar-pane,
+    .profile-config-pane { display: flex; flex-direction: column; }
+    .colour-dna-section { margin-bottom: 32px; }
+    .lifestyle-section { margin-bottom: 0; }
+    #profileMsg {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -72,7 +403,7 @@
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           <span>CONCIERGE</span>
         </button>
@@ -138,81 +469,63 @@
   </div>
 
 
-  <main class="container" id="aiProfileContainer">
-    <div class="profile-section">
-      
-      <div class="profile-header">
-        <span class="ai-personalized-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/></svg>
-          AI STYLE PROFILE
-        </span>
-        <h1 class="profile-title">Your style preferences</h1>
-        <p class="profile-subtitle">Tell us what you usually like and we'll use it to personalize your shopping experience. Select your preferences below.</p>
-        <div id="profileMsg" class="profile-msg"></div>
-      </div>
+  <main id="aiProfileContainer" class="profile-page-canvas">
 
-      <div class="preference-group">
-        <label class="preference-label">STYLE (Multiple)</label>
-        <div class="chip-grid">
-          <button class="pref-chip" data-cat="style" data-val="Minimal">Minimal</button>
-          <button class="pref-chip" data-cat="style" data-val="Classic">Classic</button>
-          <button class="pref-chip" data-cat="style" data-val="Trendy">Trendy</button>
-          <button class="pref-chip" data-cat="style" data-val="Sporty">Sporty</button>
-          <button class="pref-chip" data-cat="style" data-val="Formal">Formal</button>
-          <button class="pref-chip" data-cat="style" data-val="Casual">Casual</button>
-        </div>
-      </div>
-
-      <div class="preference-group">
-        <label class="preference-label">FIT (Select one)</label>
-        <div class="chip-grid">
-          <button class="pref-chip" data-cat="fit" data-val="Fitted">Fitted</button>
-          <button class="pref-chip" data-cat="fit" data-val="Regular">Regular</button>
-          <button class="pref-chip" data-cat="fit" data-val="Relaxed">Relaxed</button>
-          <button class="pref-chip" data-cat="fit" data-val="Oversized">Oversized</button>
-        </div>
-      </div>
-
-      <div class="preference-group">
-        <label class="preference-label">COLOR PALETTE (Multiple)</label>
-        <div class="chip-grid">
-          <button class="pref-chip" data-cat="color" data-val="Neutral">Neutral</button>
-          <button class="pref-chip" data-cat="color" data-val="Black">Black</button>
-          <button class="pref-chip" data-cat="color" data-val="White">White</button>
-          <button class="pref-chip" data-cat="color" data-val="Earth tones">Earth tones</button>
-          <button class="pref-chip" data-cat="color" data-val="Bright colors">Bright colors</button>
-          <button class="pref-chip" data-cat="color" data-val="Pastels">Pastels</button>
-        </div>
-      </div>
-
-      <div class="preference-group">
-        <label class="preference-label">LIFESTYLE (Multiple)</label>
-        <div class="chip-grid">
-          <button class="pref-chip" data-cat="lifestyle" data-val="Office">Office</button>
-          <button class="pref-chip" data-cat="lifestyle" data-val="Everyday">Everyday</button>
-          <button class="pref-chip" data-cat="lifestyle" data-val="Travel">Travel</button>
-          <button class="pref-chip" data-cat="lifestyle" data-val="Fitness">Fitness</button>
-          <button class="pref-chip" data-cat="lifestyle" data-val="Outdoor">Outdoor</button>
-          <button class="pref-chip" data-cat="lifestyle" data-val="Social">Social</button>
-        </div>
-      </div>
-
-      <div class="profile-actions">
-        <div class="toggle-group">
-          <label class="toggle-switch">
-            <input type="checkbox" id="togglePersonalization" checked>
-            <span class="toggle-slider"></span>
-          </label>
-          <span style="font-size: 13px; color: var(--text-primary); font-weight: 500;">Use my style profile for recommendations</span>
-        </div>
-        
-        <div style="display: flex; gap: 16px;">
-          <button id="btnDeleteProfile" class="btn-secondary-action" style="height: 48px; border-color: rgba(255,0,0,0.4); color: #ff5555;">DELETE PROFILE</button>
-          <button id="btnSaveProfile" class="btn-primary-commerce" style="height: 48px; padding: 0 32px;">SAVE PREFERENCES</button>
-        </div>
-      </div>
-
+    <!-- HERO HEADER -->
+    <div class="profile-hero-strip">
+      <span class="profile-eyebrow-tag">
+        <span class="profile-live-dot"></span>
+        AI STYLE DNA · LIVE CALIBRATION
+      </span>
+      <h1 class="profile-dna-headline">Your Wardrobe<br><em>DNA</em></h1>
+      <p class="profile-dna-subhead">Six aesthetic dimensions. One living style signature.</p>
     </div>
+
+    <!-- 2-COLUMN VISUAL GRID -->
+    <div class="profile-split-grid">
+
+      <!-- LEFT: Radar + Archetype -->
+      <div class="profile-radar-pane">
+        <div class="profile-radar-frame" id="radarFrame">
+          <svg id="radarSvgCanvas" viewBox="0 0 320 320" aria-label="Style DNA Radar Chart" role="img"></svg>
+          <div class="radar-dna-badge" id="radarArchetypeBadge">QUIET LUXURY</div>
+        </div>
+        <div class="archetype-grid" id="aestheticArchetypeGrid" role="radiogroup" aria-label="Select your aesthetic archetype"></div>
+      </div>
+
+      <!-- RIGHT: Colour DNA + Lifestyle + Actions -->
+      <div class="profile-config-pane">
+        <div class="colour-dna-section">
+          <div class="profile-section-label">COLOUR DNA</div>
+          <div class="colour-dna-wheel" id="colourDnaWheel" role="group" aria-label="Select colour preferences"></div>
+        </div>
+
+        <div class="lifestyle-section">
+          <div class="profile-section-label">LIFESTYLE INTENSITY</div>
+          <div class="lifestyle-intensity-grid" id="lifestyleIntensityGrid"></div>
+        </div>
+
+        <div class="profile-action-strip">
+          <label class="profile-personalization-toggle">
+            <input type="checkbox" id="togglePersonalization" checked aria-label="Use my style profile for recommendations">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span class="toggle-label">Personalise my experience</span>
+          </label>
+          <div id="profileMsg" style="display:none;"></div>
+          <div class="profile-btn-row">
+            <button id="profileResetBtn" class="btn-profile-ghost" type="button">RESET DNA</button>
+            <button id="profileSaveBtn" class="btn-primary-commerce" style="height: 48px; padding: 0 32px;" type="button">SAVE PROFILE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI LOOK PINBOARD -->
+    <section class="ai-look-pinboard-section">
+      <div class="profile-section-label">CURATED FOR YOUR DNA</div>
+      <div class="ai-look-pinboard" id="aiLookPinboard"></div>
+    </section>
+
   </main>
 
   <script src="../js/style-profile.js"></script>

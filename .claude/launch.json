@@ -5,7 +5,8 @@
       "name": "static-site",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8843"],
-      "port": 8843
+      "port": 8843,
+      "autoPort": true
     }
   ]
 }

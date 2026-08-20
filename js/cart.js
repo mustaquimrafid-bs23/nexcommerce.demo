@@ -362,15 +362,20 @@ const CartState = {
   },
 
   removeItem(id, variant) {
-    const row = document.querySelector(`.cart-item-card[data-id="${id}"][data-variant="${encodeURIComponent(variant)}"]`);
+    const predicate = variant !== undefined
+      ? i => i.id === id && i.variant === variant
+      : i => i.id === id;
+    const variantAttr = variant !== undefined ? `[data-variant="${encodeURIComponent(variant)}"]` : '';
+    const row = document.querySelector(`.cart-item-luxury-row[data-id="${id}"]${variantAttr}`)
+      || document.querySelector(`.cart-item-card[data-id="${id}"]${variantAttr}`);
     if (row) {
       row.classList.add('is-removing');
       setTimeout(() => {
-        this.items = this.items.filter(i => !(i.id === id && i.variant === variant));
+        this.items = this.items.filter(i => !predicate(i));
         this.save();
       }, 240);
     } else {
-      this.items = this.items.filter(i => !(i.id === id && i.variant === variant));
+      this.items = this.items.filter(i => !predicate(i));
       this.save();
     }
   },
@@ -415,6 +420,58 @@ const CartState = {
     document.addEventListener('click', (e) => {
       if (e.target.closest('#minicartCloseBtn') || e.target.closest('#nexMiniCartOverlay')) {
         this.closeMiniCart();
+      }
+    });
+
+    // Qty decrease — delegated, survives re-renders
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-cart-qty-decrease');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const item = CartState.items.find(i => i.id === id);
+      if (!item) return;
+      const qty = parseInt(item.quantity || item.qty, 10) || 1;
+      if (qty > 1) { item.quantity = qty - 1; CartState.save(); }
+    });
+
+    // Qty increase — delegated
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-cart-qty-increase');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const item = CartState.items.find(i => i.id === id);
+      if (item) { item.quantity = (parseInt(item.quantity || item.qty, 10) || 1) + 1; CartState.save(); }
+    });
+
+    // Remove — delegated
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-cart-remove');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const v = btn.getAttribute('data-variant');
+      CartState.removeItem(id, v ? decodeURIComponent(v) : undefined);
+    });
+
+    // Wishlist toggle — delegated
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.cart-item-wishlist-btn');
+      if (!btn) return;
+      e.preventDefault();
+      const id = btn.getAttribute('data-id');
+      let list = [];
+      try { list = JSON.parse(localStorage.getItem('nex_wishlist') || '[]'); } catch {}
+      if (list.includes(id)) {
+        list = list.filter(x => x !== id);
+        btn.classList.remove('active');
+      } else {
+        list.push(id);
+        btn.classList.add('active');
+      }
+      try { localStorage.setItem('nex_wishlist', JSON.stringify(list)); } catch {}
+      const wishBadge = document.getElementById('headerWishlistCount');
+      if (wishBadge) {
+        wishBadge.textContent = list.length;
+        wishBadge.style.display = list.length > 0 ? 'inline-flex' : 'none';
       }
     });
   },
@@ -520,72 +577,7 @@ const CartState = {
     }
 
     // 2. Render Cart Item Rows
-    const isInPages = window.location.pathname.includes('/pages/');
-    const self = this;
-
-    itemsList.innerHTML = this.items.map(item => {
-      let imgSrc = item.image || '';
-      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('../') && !imgSrc.startsWith('/')) {
-        imgSrc = imgSrc.replace(/^assets\//, '');
-        if (!imgSrc.includes('/')) {
-          const lifestyleNames = ['runner_lifestyle', 'tote_lifestyle', 'hero_watch_landscape', 'lifestyle'];
-          const isLifestyle = lifestyleNames.some(n => imgSrc.includes(n));
-          imgSrc = (isLifestyle ? 'images/lifestyle/' : 'images/products/') + imgSrc;
-        }
-        imgSrc = (isInPages ? '../' : '') + 'assets/' + imgSrc;
-      }
-
-      return `
-        <div class="cart-item-card" data-id="${item.id}" data-variant="${encodeURIComponent(item.variant || 'Standard')}" data-parallax-depth="0.04">
-          <div class="cart-item-media">
-            <img src="${imgSrc}" alt="${escapeHtml(item.name)}" loading="lazy" />
-          </div>
-          <div class="cart-item-body">
-            <span class="cart-item-category-tag">${escapeHtml(item.category || 'Atelier Selection')}</span>
-            <h3 class="cart-item-name">${escapeHtml(item.name)}</h3>
-            <p class="cart-item-variant">${escapeHtml(item.variant || 'Standard')}</p>
-            <div class="cart-item-controls">
-              <div class="cart-stepper">
-                <button class="stepper-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button>
-                <span class="stepper-val">${item.quantity}</span>
-                <button class="stepper-btn" data-action="inc" aria-label="Increase quantity">+</button>
-              </div>
-            </div>
-          </div>
-          <div class="cart-item-end">
-            <span class="cart-item-price tabular-nums">€ ${(item.price * item.quantity).toFixed(2)}</span>
-            <div class="cart-item-actions">
-              <button class="cart-action-icon-btn wishlist-btn" data-action="wishlist" title="Save for Later" aria-label="Save for Later">
-                <i data-lucide="heart" style="width: 15px; height: 15px;"></i>
-              </button>
-              <button class="cart-action-icon-btn remove-btn" data-action="remove" title="Remove item" aria-label="Remove item">
-                <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    // Attach Row Listeners
-    itemsList.querySelectorAll('.cart-item-card').forEach(row => {
-      const id = row.getAttribute('data-id');
-      const variant = decodeURIComponent(row.getAttribute('data-variant'));
-
-      row.querySelector('[data-action="dec"]').addEventListener('click', () => { self.updateQuantity(id, variant, -1); });
-      row.querySelector('[data-action="inc"]').addEventListener('click', () => { self.updateQuantity(id, variant, 1); });
-      row.querySelector('[data-action="remove"]').addEventListener('click', () => { self.removeItem(id, variant); });
-      
-      const wishBtn = row.querySelector('[data-action="wishlist"]');
-      if (wishBtn) {
-        wishBtn.addEventListener('click', () => {
-          self.saveToWishlist(id);
-          wishBtn.style.color = '#F43F5E';
-          wishBtn.style.transform = 'scale(1.2)';
-          setTimeout(() => { wishBtn.style.transform = ''; }, 200);
-        });
-      }
-    });
+    itemsList.innerHTML = this.items.map(item => this.renderCartItem(item)).join('');
 
     // 3. Render Order Summary
     let discountAmt = 0;
@@ -684,6 +676,77 @@ const CartState = {
     if (typeof window.initCartCardsMotion === 'function') {
       window.initCartCardsMotion();
     }
+  },
+
+  /* ─── Luxury Cart Item Row Renderer ─────────────────────────────────────── */
+  renderCartItem(item) {
+    const qty = parseInt(item.quantity || item.qty, 10) || 1;
+    const price = Number(item.price) || 0;
+    const lineTotal = (price * qty).toFixed(2);
+    const isInPages = window.location.pathname.includes('/pages/');
+
+    let img = item.image || '';
+    if (img && !img.startsWith('http') && !img.startsWith('../') && !img.startsWith('/')) {
+      img = img.replace(/^assets\//, '');
+      if (!img.includes('/')) {
+        const lifestyleNames = ['runner_lifestyle', 'tote_lifestyle', 'hero_watch_landscape', 'lifestyle'];
+        const isLifestyle = lifestyleNames.some(n => img.includes(n));
+        img = (isLifestyle ? 'images/lifestyle/' : 'images/products/') + img;
+      }
+      img = (isInPages ? '../' : '') + 'assets/' + img;
+    }
+    if (!img) img = '../assets/images/products/p1.png';
+
+    const variant = item.variant || item.size || 'One Size';
+    const category = item.category || 'APPAREL';
+    const variantEncoded = encodeURIComponent(item.variant || 'Standard');
+
+    const isWishlisted = (() => {
+      try {
+        const list = JSON.parse(localStorage.getItem('nex_wishlist') || '[]');
+        return list.includes(item.id);
+      } catch { return false; }
+    })();
+
+    return `
+      <div class="cart-item-luxury-row" data-id="${escapeHtml(item.id)}" data-variant="${variantEncoded}" role="listitem">
+        <a href="product.html?id=${escapeHtml(item.id)}" class="cart-item-img-anchor" tabindex="-1" aria-label="View ${escapeHtml(item.name)}">
+          <div class="cart-item-media-frame">
+            <img src="${img}"
+                 alt="${escapeHtml(item.name)}"
+                 class="cart-item-media-img"
+                 onerror="this.src='../assets/images/products/p1.png'"
+                 loading="lazy" />
+          </div>
+        </a>
+        <div class="cart-item-details">
+          <div class="cart-item-brand-tag">${escapeHtml(category)}</div>
+          <a href="product.html?id=${escapeHtml(item.id)}" class="cart-item-name-link">
+            <h3 class="cart-item-name">${escapeHtml(item.name)}</h3>
+          </a>
+          <div class="cart-item-variant-tag">${escapeHtml(variant)}</div>
+          <div class="cart-item-actions-row">
+            <div class="cart-qty-stepper" role="group" aria-label="Quantity for ${escapeHtml(item.name)}">
+              <button class="cart-qty-btn btn-cart-qty-decrease" data-id="${escapeHtml(item.id)}" aria-label="Decrease quantity"${qty <= 1 ? ' disabled' : ''}>−</button>
+              <span class="cart-qty-value" aria-live="polite">${qty}</span>
+              <button class="cart-qty-btn btn-cart-qty-increase" data-id="${escapeHtml(item.id)}" aria-label="Increase quantity">+</button>
+            </div>
+            <div class="cart-item-micro-actions">
+              <button class="cart-item-wishlist-btn${isWishlisted ? ' active' : ''}" data-id="${escapeHtml(item.id)}" aria-label="Save to wishlist" title="Save to Wishlist">
+                <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
+              </button>
+              <button class="cart-item-remove-btn btn-cart-remove" data-id="${escapeHtml(item.id)}" data-variant="${variantEncoded}" aria-label="Remove ${escapeHtml(item.name)} from bag" title="Remove">
+                <i data-lucide="x" style="width: 13px; height: 13px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="cart-item-price-col">
+          <div class="cart-item-unit-price">€ ${price.toFixed(2)}</div>
+          ${qty > 1 ? `<div class="cart-item-line-total tabular-nums">€ ${lineTotal}</div>` : ''}
+        </div>
+      </div>
+    `;
   },
 
   /* ─── Mini Cart Drawer Renderer ─────────────────────────────────────────── */

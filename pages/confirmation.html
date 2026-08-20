@@ -7,7 +7,6 @@
   <meta name="description" content="Your order has been confirmed. Thank you for shopping at nexCommerce.">
   <meta name="view-transition" content="same-origin" />
 
-  <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
@@ -37,25 +36,6 @@
       z-index: 100;
     }
 
-    /* Check mark animated ring */
-    .confirm-check-ring {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: rgba(0, 230, 118, 0.12);
-      border: 1.5px solid rgba(0, 230, 118, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      box-shadow: 0 0 30px rgba(0, 230, 118, 0.2);
-      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-    @keyframes popIn {
-      from { transform: scale(0.5); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
     .confirm-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -82,7 +62,6 @@
       margin: 18px 0;
     }
 
-    /* Status badge */
     .status-badge {
       display: inline-flex;
       align-items: center;
@@ -98,7 +77,6 @@
       color: #00E676;
     }
 
-    /* Estimated delivery pill */
     .delivery-eta-pill {
       display: inline-flex;
       align-items: center;
@@ -112,30 +90,6 @@
       background: rgba(0, 210, 255, 0.06);
     }
 
-    /* Item row */
-    .order-item-row {
-      display: grid;
-      grid-template-columns: 60px 1fr auto;
-      gap: 16px;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-    .order-item-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .order-item-img {
-      width: 60px;
-      height: 75px;
-      object-fit: cover;
-      border-radius: 4px;
-      background: #071A3A;
-      border: 1px solid var(--border-subtle);
-    }
-
-    /* Payment method chip */
     .payment-method-chip {
       display: inline-flex;
       align-items: center;
@@ -148,7 +102,6 @@
       font-weight: 500;
     }
 
-    /* Fallback no-order state */
     #no-order-state {
       display: none;
       text-align: center;
@@ -157,10 +110,477 @@
       margin: 60px auto;
     }
 
+    /* ── Celebration Hero ─────────────────────────────────────────────── */
+    .celebration-hero-wrap {
+      text-align: center;
+      margin-bottom: 56px;
+      position: relative;
+    }
+    .celebration-halo-ring {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(52, 211, 153, 0.1);
+      border: 2px solid rgba(52, 211, 153, 0.4);
+      box-shadow: 0 0 40px rgba(52, 211, 153, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      position: relative;
+      animation: haloPulse 3s ease-in-out infinite;
+    }
+    @keyframes haloPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(52, 211, 153, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(52, 211, 153, 0.4); }
+    }
+    .live-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34D399;
+      display: inline-block;
+      animation: liveDotPulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes liveDotPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .celebration-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #34D399;
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .celebration-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+    .celebration-headline em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: #3DE0FF;
+      font-weight: 400;
+    }
+    .celebration-subhead {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 580px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* ── Digital Atelier Boarding Pass ─────────────────────────────────── */
+    .digital-atelier-pass {
+      max-width: 780px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(7, 26, 58, 0.85) 0%, rgba(3, 11, 23, 0.95) 100%);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 16px;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(61, 224, 255, 0.08);
+      text-align: left;
+    }
+    .pass-left-section {
+      flex: 1;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .pass-header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pass-brand-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.4);
+    }
+    .pass-status-pill {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      background: rgba(52, 211, 153, 0.15);
+      color: #34D399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .pass-main-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .pass-meta-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .pass-ref-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pass-ref-code {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #3DE0FF;
+    }
+    .btn-copy-ref {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.7);
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .btn-copy-ref:hover { color: #FFFFFF; background: rgba(255,255,255,0.15); }
+    .pass-info-val {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    .pass-actions-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .btn-pass-action {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-pass-action:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.25);
+    }
+    .btn-pass-primary {
+      background: #3DE0FF;
+      border-color: #3DE0FF;
+      color: #000B1A;
+    }
+    .btn-pass-primary:hover {
+      background: #5CE6FF;
+      color: #000B1A;
+    }
+    .pass-notch-divider {
+      width: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .notch {
+      width: 24px;
+      height: 12px;
+      background: var(--bg-main, #000B1A);
+    }
+    .notch-top { border-radius: 0 0 12px 12px; }
+    .notch-bottom { border-radius: 12px 12px 0 0; }
+    .notch-line {
+      flex: 1;
+      width: 1px;
+      border-left: 2px dashed rgba(255,255,255,0.15);
+    }
+    .pass-right-section {
+      width: 180px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      flex-shrink: 0;
+    }
+    .pass-qr-frame {
+      width: 100px;
+      height: 100px;
+      background: #FFFFFF;
+      padding: 6px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .pass-qr-caption {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+    }
+
+    /* ── Dispatch Timeline ─────────────────────────────────────────────── */
+    .dispatch-stage-card { overflow: visible; }
+    .dispatch-timeline-track {
+      display: flex;
+      align-items: flex-start;
+      padding: 8px 0 4px;
+    }
+    .stage-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .stage-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+    .stage-step.completed .stage-dot {
+      background: rgba(52, 211, 153, 0.15);
+      border-color: #34D399;
+      color: #34D399;
+    }
+    .stage-step.current .stage-dot {
+      background: rgba(61, 224, 255, 0.08);
+      border-color: #3DE0FF;
+    }
+    .stage-pulsar {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #3DE0FF;
+      animation: stagePulse 1.5s ease-in-out infinite;
+    }
+    @keyframes stagePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    .stage-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      text-align: center;
+      max-width: 80px;
+    }
+    .stage-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.3;
+    }
+    .stage-time {
+      font-size: 9px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+    }
+    .stage-step.completed .stage-name { color: #34D399; }
+    .stage-step.current .stage-name { color: #3DE0FF; }
+    .stage-step.current .stage-time { color: rgba(61, 224, 255, 0.6); }
+    .stage-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 15px;
+      flex-shrink: 1;
+    }
+    .stage-line.active { background: linear-gradient(90deg, #34D399, rgba(61,224,255,0.5)); }
+
+    /* ── Luxury Item Rows ──────────────────────────────────────────────── */
+    .order-item-luxury-row {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .order-item-luxury-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .order-item-thumb-frame {
+      width: 64px;
+      height: 80px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #071A3A;
+      flex-shrink: 0;
+    }
+    .order-item-media-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .order-item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .order-item-brand-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.38);
+      text-transform: uppercase;
+    }
+    .order-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.35;
+    }
+    .order-item-variant-tag {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+    }
+    .order-item-price-col {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+    .order-item-line-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      font-variant-numeric: tabular-nums;
+    }
+    .order-item-unit-price {
+      font-size: 11px;
+      color: rgba(255,255,255,0.38);
+    }
+
+    /* ── Smart Reorder Strip ───────────────────────────────────────────── */
+    .sl-card--compact {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      overflow: visible;
+      cursor: default;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.16);
+      will-change: transform;
+      flex-shrink: 0;
+      width: 176px;
+    }
+    .sl-card--compact .sl-glare {
+      position: absolute; inset: 0; border-radius: inherit;
+      background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.07) 0%, transparent 62%);
+      opacity: 0; transition: opacity 180ms ease; pointer-events: none; z-index: 2;
+    }
+    .sl-card--compact .sl-card-img-wrap {
+      width: 100%; aspect-ratio: 1/1; overflow: hidden;
+      border-radius: 11px 11px 0 0; background: rgba(255,255,255,0.03);
+      position: relative;
+    }
+    .sl-card--compact .sl-card-img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 400ms cubic-bezier(0.23,1,0.32,1);
+    }
+    .sl-card--compact:hover .sl-card-img { transform: scale(1.05); }
+    .sl-card--compact .sl-card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 5px; }
+    .sl-card--compact .sl-reason-chip {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
+      color: var(--accent-cyan); line-height: 1; display: block;
+    }
+    .sl-card--compact .sl-card-name { font-size: 12px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
+    .sl-card--compact .sl-card-price { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .sl-card--compact .sl-orig-price { font-size: 10px; color: var(--text-muted); text-decoration: line-through; margin-left: 5px; }
+    .sl-card--compact .sl-oos-badge {
+      position: absolute; bottom: 8px; left: 8px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(7,26,58,0.88); color: var(--text-muted);
+      padding: 3px 8px; border-radius: 9999px;
+    }
+    .sl-card--compact .sl-btn-add {
+      position: relative; overflow: hidden; width: 100%; height: 34px; margin-top: 6px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; color: var(--text-primary); font-size: 11px;
+      font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
+      transition: background 180ms ease;
+    }
+    .sl-card--compact .sl-btn-add:hover:not(:disabled) { background: rgba(255,255,255,0.11); }
+    .sl-card--compact .sl-btn-add--disabled { opacity: 0.4; cursor: not-allowed; }
+    .sl-card--compact .sl-btn-add--done { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); color: var(--color-success); }
+    .sl-ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transform: scale(0);
+      animation: sl-ripple-anim 420ms cubic-bezier(0.4,0,0.2,1) forwards;
+      pointer-events: none; will-change: transform;
+    }
+    @keyframes sl-ripple-anim { to { transform: scale(1); opacity: 0; } }
+    .sl-toast {
+      position: fixed; bottom: 32px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(10,42,84,0.96);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 12px 20px;
+      font-size: 13px; color: var(--text-primary);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      opacity: 0; transition: opacity 280ms ease, transform 300ms cubic-bezier(0.16,1,0.3,1);
+      z-index: 9999; backdrop-filter: blur(12px);
+      white-space: nowrap; max-width: 90vw;
+    }
+    .sl-toast--visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .sl-toast--success .sl-toast-icon { color: var(--color-success); }
+    .sl-toast--warn .sl-toast-icon { color: #FBC02D; }
+    .sl-toast-icon { width: 16px; height: 16px; flex-shrink: 0; }
+
     @media print {
-      .site-header, .site-footer, .next-actions-box, .btn-print-receipt {
-        display: none !important;
-      }
+      .site-header, .site-footer, .next-actions-box, .btn-print-receipt { display: none !important; }
       body { background: #fff !important; color: #000 !important; }
       .confirm-card { border: 1px solid #ddd !important; background: #fff !important; color: #000 !important; }
       .confirm-grid { grid-template-columns: 1fr !important; }
@@ -168,8 +588,24 @@
 
     @media (max-width: 900px) {
       .site-header { padding: 0 20px; }
-      .container   { padding: 0 20px; }
+      .container { padding: 0 20px; }
       .confirm-grid { grid-template-columns: 1fr !important; gap: 24px; }
+    }
+
+    @media (max-width: 700px) {
+      .digital-atelier-pass { flex-direction: column; }
+      .pass-notch-divider { display: none; }
+      .pass-right-section {
+        width: 100%;
+        border-top: 1px dashed rgba(255,255,255,0.1);
+        padding: 20px;
+        flex-direction: row;
+        gap: 16px;
+        justify-content: center;
+      }
+      .pass-main-info { grid-template-columns: 1fr; }
+      .dispatch-timeline-track { flex-wrap: wrap; gap: 12px; }
+      .stage-line { display: none; }
     }
   </style>
 </head>
@@ -192,7 +628,7 @@
     </div>
   </div>
 
-  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <!-- TOP ANNOUNCEMENT BAR -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
       <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
@@ -203,10 +639,9 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
-      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
         <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
           <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
@@ -222,7 +657,6 @@
         <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
-      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
@@ -231,9 +665,8 @@
         </button>
       </div>
 
-      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Open Style Concierge">
+        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           <span>CONCIERGE</span>
         </button>
@@ -253,7 +686,6 @@
           <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
-        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
         <div class="nav-more-menu" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
             <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
@@ -298,7 +730,7 @@
     <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
   </div>
 
-  <!-- Fallback: no session order found (refresh guard) -->
+  <!-- Fallback: no session order found -->
   <div id="no-order-state">
     <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
       <i data-lucide="shopping-bag" style="width: 28px; height: 28px; color: var(--text-secondary);"></i>
@@ -314,31 +746,124 @@
   <!-- Confirmation content (shown when sessionStorage has order) -->
   <main id="confirmation-content" class="container" style="display:none; padding-top:48px; padding-bottom:80px; flex:1;">
 
-    <!-- Header receipt hero -->
-    <div style="text-align:center; margin-bottom:44px;">
-      <div class="confirm-check-ring">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <!-- CINEMATIC CELEBRATION HERO -->
+    <div class="celebration-hero-wrap">
+      <div class="celebration-halo-ring">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
       </div>
-      <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;">
-        <span class="status-badge">
-          <span style="width:6px; height:6px; border-radius:50%; background:#00E676; display:inline-block;"></span>
-          Order Confirmed
-        </span>
-      </div>
-      <h1 style="font-family:var(--font-serif); font-size:38px; margin-bottom:8px; letter-spacing:-0.01em;">Thank you for your order</h1>
-      <p style="font-size:14px; color:var(--text-secondary); max-width:540px; margin:0 auto 18px; line-height:1.6;" id="conf-customer-line"></p>
-      
-      <div style="display:inline-flex; align-items:center; gap:12px; padding:10px 24px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:4px;">
-        <span style="font-size:11px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.12em;">Order Reference</span>
-        <span id="conf-ref" style="font-size:16px; font-weight:700; font-family:var(--font-serif); letter-spacing:0.04em; color:var(--accent-cyan);"></span>
+
+      <span class="celebration-eyebrow">
+        <span class="live-status-dot"></span>
+        ACQUISITION CONFIRMED &amp; VAULT-SEALED
+      </span>
+
+      <h1 class="celebration-headline">Your Acquisition is<br><em>Sealed</em></h1>
+      <p class="celebration-subhead" id="conf-customer-line">
+        Thank you for your acquisition. Our European atelier logistics artisans are now preparing your pieces for express dispatch.
+      </p>
+
+      <!-- DIGITAL ATELIER BOARDING PASS -->
+      <div class="digital-atelier-pass" id="digitalAtelierPass">
+        <div class="pass-left-section">
+          <div class="pass-header-meta">
+            <span class="pass-brand-label">NEXCOMMERCE ATELIER · CLIENT PASS</span>
+            <span class="pass-status-pill">AUTHENTICATED</span>
+          </div>
+          <div class="pass-main-info">
+            <div class="pass-info-block">
+              <span class="pass-meta-label">ORDER REFERENCE</span>
+              <div class="pass-ref-row">
+                <span class="pass-ref-code" id="conf-ref">NEX-7291-8840</span>
+                <button type="button" class="btn-copy-ref" id="btnCopyRef" title="Copy Order Reference" aria-label="Copy Order Reference">
+                  <i data-lucide="copy" style="width: 13px; height: 13px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="pass-info-block">
+              <span class="pass-meta-label">ESTIMATED ATELIER ARRIVAL</span>
+              <span class="pass-info-val" id="conf-pass-eta">—</span>
+            </div>
+          </div>
+          <div class="pass-actions-row">
+            <button type="button" class="btn-pass-action" id="btnCalendarSync">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              <span>Add to Calendar</span>
+            </button>
+            <a href="tracking.html" id="conf-track-link" class="btn-pass-action btn-pass-primary">
+              <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+              <span>Live Route Telemetry</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- TICKET NOTCH DIVIDER -->
+        <div class="pass-notch-divider">
+          <div class="notch notch-top"></div>
+          <div class="notch-line"></div>
+          <div class="notch notch-bottom"></div>
+        </div>
+
+        <!-- PASS RIGHT (SCANNABLE QR) -->
+        <div class="pass-right-section">
+          <div class="pass-qr-frame" id="passQrFrame">
+            <svg class="pass-qr-svg" id="passQrSvg" viewBox="0 0 100 100" width="100" height="100" aria-label="Order Tracking QR Code"></svg>
+          </div>
+          <span class="pass-qr-caption">SCAN TO TRACK SHIPMENT</span>
+        </div>
       </div>
     </div>
 
     <!-- Two-column layout -->
     <div class="confirm-grid" style="display:grid; grid-template-columns:1.35fr 1fr; gap:36px; align-items:flex-start;">
 
-      <!-- Left: items + delivery destination -->
+      <!-- Left column -->
       <div style="display:flex; flex-direction:column; gap:24px;">
+
+        <!-- Live 4-Stage Dispatch Timeline -->
+        <div class="confirm-card dispatch-stage-card">
+          <div class="section-label">
+            <i data-lucide="package-check" style="width: 14px; height: 14px; color: #3DE0FF;"></i>
+            <span>ATELIER DISPATCH TIMELINE</span>
+          </div>
+
+          <div class="dispatch-timeline-track" id="dispatchTimelineTrack">
+            <div class="stage-step completed">
+              <div class="stage-dot">
+                <i data-lucide="check" style="width: 11px; height: 11px;"></i>
+              </div>
+              <div class="stage-info">
+                <span class="stage-name">Atelier Verification</span>
+                <span class="stage-time">Completed Today</span>
+              </div>
+            </div>
+            <div class="stage-line active"></div>
+            <div class="stage-step current">
+              <div class="stage-dot"><span class="stage-pulsar"></span></div>
+              <div class="stage-info">
+                <span class="stage-name">Garment Conditioning</span>
+                <span class="stage-time">In Progress</span>
+              </div>
+            </div>
+            <div class="stage-line"></div>
+            <div class="stage-step pending">
+              <div class="stage-dot"></div>
+              <div class="stage-info">
+                <span class="stage-name">Courier Handover</span>
+                <span class="stage-time">Expected Tomorrow</span>
+              </div>
+            </div>
+            <div class="stage-line"></div>
+            <div class="stage-step pending">
+              <div class="stage-dot"></div>
+              <div class="stage-info">
+                <span class="stage-name">Private Delivery</span>
+                <span class="stage-time">Final Step</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Items ordered -->
         <div class="confirm-card">
@@ -381,7 +906,7 @@
         </div>
       </div>
 
-      <!-- Right: payment summary breakdown + next actions -->
+      <!-- Right column -->
       <div style="display:flex; flex-direction:column; gap:24px;">
 
         <!-- Payment receipt summary -->
@@ -397,7 +922,6 @@
               <span id="conf-subtotal" class="tabular-nums">€ 0.00</span>
             </div>
 
-            <!-- Discount row (coupon applied) -->
             <div id="conf-discount-row" style="display:none; justify-content:space-between; color:#00E676;">
               <span id="conf-discount-label">Discount</span>
               <span id="conf-discount-amount" class="tabular-nums">−€ 0.00</span>
@@ -432,11 +956,6 @@
           </div>
 
           <div style="display:flex; flex-direction:column; gap:10px;">
-            <a href="tracking.html" id="conf-track-link" class="btn-primary-commerce" style="display:flex; align-items:center; justify-content:center; gap:8px; height:46px; text-decoration:none;">
-              <span>Track Your Order</span>
-              <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
-            </a>
-            
             <button class="btn-secondary-action btn-print-receipt" onclick="window.print()" style="display:flex; align-items:center; justify-content:center; gap:8px; height:44px; width:100%; cursor:pointer;">
               <i data-lucide="printer" style="width:14px; height:14px;"></i>
               <span>Print Receipt</span>
@@ -456,90 +975,8 @@
       </div>
     </div>
 
-    <!-- ═══ SMART REORDER WIDGET (AI-06) ═══════════════════════════════ -->
+    <!-- SMART REORDER WIDGET (AI-06) -->
     <div id="slConfirmWidget" style="max-width: 1100px; margin: 48px auto 0; padding: 0 40px 0; box-sizing: border-box;">
-
-      <style>
-        /* Compact card for confirmation strip */
-        .sl-card--compact {
-          position: relative;
-          background: var(--bg-surface);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
-          overflow: visible;
-          cursor: default;
-          transform-style: preserve-3d;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.16);
-          will-change: transform;
-          flex-shrink: 0;
-          width: 176px;
-        }
-        .sl-card--compact .sl-glare {
-          position: absolute; inset: 0; border-radius: inherit;
-          background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.07) 0%, transparent 62%);
-          opacity: 0; transition: opacity 180ms ease; pointer-events: none; z-index: 2;
-        }
-        .sl-card--compact .sl-card-img-wrap {
-          width: 100%; aspect-ratio: 1/1; overflow: hidden;
-          border-radius: 11px 11px 0 0; background: rgba(255,255,255,0.03);
-          position: relative;
-        }
-        .sl-card--compact .sl-card-img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 400ms cubic-bezier(0.23,1,0.32,1);
-        }
-        .sl-card--compact:hover .sl-card-img { transform: scale(1.05); }
-        .sl-card--compact .sl-card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 5px; }
-        .sl-card--compact .sl-reason-chip {
-          font-size: 9px; font-weight: 600; letter-spacing: 0.05em;
-          color: var(--accent-cyan); line-height: 1; display: block;
-        }
-        .sl-card--compact .sl-card-name { font-size: 12px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
-        .sl-card--compact .sl-card-price { font-size: 13px; font-weight: 700; color: var(--text-primary); }
-        .sl-card--compact .sl-orig-price { font-size: 10px; color: var(--text-muted); text-decoration: line-through; margin-left: 5px; }
-        .sl-card--compact .sl-oos-badge {
-          position: absolute; bottom: 8px; left: 8px;
-          font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-          background: rgba(7,26,58,0.88); color: var(--text-muted);
-          padding: 3px 8px; border-radius: 9999px;
-        }
-        .sl-card--compact .sl-btn-add {
-          position: relative; overflow: hidden; width: 100%; height: 34px; margin-top: 6px;
-          background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 6px; color: var(--text-primary); font-size: 11px;
-          font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
-          transition: background 180ms ease;
-        }
-        .sl-card--compact .sl-btn-add:hover:not(:disabled) { background: rgba(255,255,255,0.11); }
-        .sl-card--compact .sl-btn-add--disabled { opacity: 0.4; cursor: not-allowed; }
-        .sl-card--compact .sl-btn-add--done { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.25); color: var(--color-success); }
-        .sl-ripple {
-          position: absolute; border-radius: 50%;
-          background: rgba(255,255,255,0.18);
-          transform: scale(0);
-          animation: sl-ripple-anim 420ms cubic-bezier(0.4,0,0.2,1) forwards;
-          pointer-events: none; will-change: transform;
-        }
-        @keyframes sl-ripple-anim { to { transform: scale(1); opacity: 0; } }
-        .sl-toast {
-          position: fixed; bottom: 32px; left: 50%;
-          transform: translateX(-50%) translateY(20px);
-          display: flex; align-items: center; gap: 10px;
-          background: rgba(10,42,84,0.96);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 10px; padding: 12px 20px;
-          font-size: 13px; color: var(--text-primary);
-          box-shadow: 0 16px 48px rgba(0,0,0,0.4);
-          opacity: 0; transition: opacity 280ms ease, transform 300ms cubic-bezier(0.16,1,0.3,1);
-          z-index: 9999; backdrop-filter: blur(12px);
-          white-space: nowrap; max-width: 90vw;
-        }
-        .sl-toast--visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .sl-toast--success .sl-toast-icon { color: var(--color-success); }
-        .sl-toast--warn .sl-toast-icon { color: #FBC02D; }
-        .sl-toast-icon { width: 16px; height: 16px; flex-shrink: 0; }
-      </style>
-
       <!-- Widget header -->
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
         <div>
@@ -554,25 +991,105 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-
-      <!-- Horizontal strip -->
       <div id="slConfirmStrip" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none;" aria-label="Recommended items to reorder" role="list">
         <!-- Populated by smart-reorder.js -->
       </div>
-
     </div>
-    <!-- ═══ END SMART REORDER WIDGET ════════════════════════════════════ -->
 
   </main>
 
-  <!-- ELEVATED LUXURY 4-COLUMN FOOTER (EUROPEAN STANDARD) -->
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
   <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
   <script>
     (function () {
-      let order = null;
+      // ── Helper: render SVG QR code placeholder ───────────────────────
+      function renderOrderQr(ref) {
+        var svg = document.getElementById('passQrSvg');
+        if (!svg) return;
+        // Deterministic dot pattern derived from order ref character codes
+        var seed = 0;
+        for (var k = 0; k < ref.length; k++) seed += ref.charCodeAt(k);
+        var dots = '';
+        var positions = [
+          [42,12],[52,18],[38,26],[58,30],[44,36],[56,42],[40,50],
+          [52,44],[66,48],[44,68],[56,74],[76,70],[48,80],[66,64],[72,56]
+        ];
+        // Use seed to vary which dots appear (always show at least 8)
+        for (var d = 0; d < positions.length; d++) {
+          if (d < 8 || ((seed + d * 37) % 3 !== 0)) {
+            dots += '<rect x="' + positions[d][0] + '" y="' + positions[d][1] + '" width="6" height="6" fill="#000000"/>';
+          }
+        }
+        svg.innerHTML = [
+          '<rect width="100" height="100" fill="#FFFFFF"/>',
+          // Corner markers
+          '<rect x="10" y="10" width="24" height="24" fill="#000000"/>',
+          '<rect x="14" y="14" width="16" height="16" fill="#FFFFFF"/>',
+          '<rect x="18" y="18" width="8" height="8" fill="#000000"/>',
+          '<rect x="66" y="10" width="24" height="24" fill="#000000"/>',
+          '<rect x="70" y="14" width="16" height="16" fill="#FFFFFF"/>',
+          '<rect x="74" y="18" width="8" height="8" fill="#000000"/>',
+          '<rect x="10" y="66" width="24" height="24" fill="#000000"/>',
+          '<rect x="14" y="70" width="16" height="16" fill="#FFFFFF"/>',
+          '<rect x="18" y="74" width="8" height="8" fill="#000000"/>',
+          dots
+        ].join('');
+      }
+
+      // ── Helper: 1-click iCal download ───────────────────────────────
+      function setupCalendarSync(order) {
+        var btn = document.getElementById('btnCalendarSync');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          var title = 'nexCommerce Delivery: ' + order.ref;
+          var desc = 'Your nexCommerce acquisition (' + order.ref + ') is scheduled for delivery.';
+          var delivDate = new Date(Date.now() + 2 * 86400000);
+          var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+          var dateStr = delivDate.getFullYear() + '' + pad(delivDate.getMonth() + 1) + '' + pad(delivDate.getDate());
+          var ics = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//nexCommerce//Delivery//EN',
+            'BEGIN:VEVENT',
+            'SUMMARY:' + title,
+            'DESCRIPTION:' + desc,
+            'DTSTART;VALUE=DATE:' + dateStr,
+            'DTEND;VALUE=DATE:' + dateStr,
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ].join('\r\n');
+          var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+          var link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = 'delivery-' + order.ref + '.ics';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      }
+
+      // ── Helper: 1-click copy reference ──────────────────────────────
+      function setupCopyRef(ref) {
+        var btn = document.getElementById('btnCopyRef');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          if (!navigator.clipboard) return;
+          navigator.clipboard.writeText(ref).then(function () {
+            btn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;color:#34D399;"></i>';
+            if (window.lucide) window.lucide.createIcons();
+            setTimeout(function () {
+              btn.innerHTML = '<i data-lucide="copy" style="width:13px;height:13px;"></i>';
+              if (window.lucide) window.lucide.createIcons();
+            }, 2000);
+          });
+        });
+      }
+
+      // ── Main order hydration ─────────────────────────────────────────
+      var order = null;
       try {
-        const raw = sessionStorage.getItem('nex_confirmed_order');
+        var raw = sessionStorage.getItem('nex_confirmed_order');
         order = raw ? JSON.parse(raw) : null;
       } catch (e) { order = null; }
 
@@ -584,129 +1101,133 @@
 
       document.getElementById('confirmation-content').style.display = 'block';
 
-      // Order Reference & Customer
+      // Order reference & customer
       document.getElementById('conf-ref').textContent = order.ref;
-      const custName = order.customerName || 'Valued Client';
+      var custName = order.customerName || 'Valued Client';
       document.getElementById('conf-customer-line').textContent =
-        `Thank you, ${custName}. We've confirmed your order and our European atelier logistics team is preparing it now.`;
-      
-      const emailEl = document.getElementById('conf-email');
+        'Thank you, ' + custName + '. We’ve confirmed your acquisition and our European atelier logistics artisans are now preparing your pieces for express dispatch.';
+
+      var emailEl = document.getElementById('conf-email');
       if (emailEl) emailEl.textContent = order.customerEmail || '—';
-      
-      const phoneEl = document.getElementById('conf-phone');
+
+      var phoneEl = document.getElementById('conf-phone');
       if (phoneEl) phoneEl.textContent = order.customerPhone || '—';
-      
-      const recipEl = document.getElementById('conf-recipient-name');
+
+      var recipEl = document.getElementById('conf-recipient-name');
       if (recipEl) recipEl.textContent = custName;
 
-      // Currency Symbol
-      const sym = order.currencySymbol || '€';
+      // Currency symbol
+      var sym = order.currencySymbol || '€';
 
-      // Items list
-      const itemsList = document.getElementById('conf-items-list');
+      // Boarding pass ETA
+      var etaMap = {
+        express:  'Tomorrow Before 12:00 (DHL Express)',
+        standard: 'In 2–4 Business Days (DHL Tracked)'
+      };
+      var passEtaEl = document.getElementById('conf-pass-eta');
+      if (passEtaEl) passEtaEl.textContent = etaMap[order.deliveryKey] || 'In 2–4 Business Days';
+
+      // Tracking link
+      var trackLink = document.getElementById('conf-track-link');
+      if (trackLink) trackLink.href = 'tracking.html?ref=' + encodeURIComponent(order.ref);
+
+      // Luxury item rows
+      var itemsList = document.getElementById('conf-items-list');
       if (Array.isArray(order.items) && order.items.length > 0) {
-        itemsList.innerHTML = order.items.map(i => {
-          const qty = i.quantity || i.qty || 1;
-          const variant = i.variant || i.size || 'Standard';
-          const price = Number(i.price) || 0;
-          const image = i.image || '../assets/images/products/p1.png';
-          const category = i.category ? `<span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); display:block; margin-bottom:2px;">${i.category}</span>` : '';
-          
-          return `
-            <div class="order-item-row">
-              <img src="${image}" alt="${i.name || 'Product'}" class="order-item-img" onerror="this.src='../assets/images/products/p1.png'">
-              <div>
-                ${category}
-                <div style="font-size:14px; font-weight:500; color:var(--text-primary);">${i.name || 'Item'}</div>
-                <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">${variant} &middot; Qty ${qty}</div>
-              </div>
-              <div style="font-size:14px; font-weight:600; text-align:right;" class="tabular-nums">
-                ${sym} ${(price * qty).toFixed(2)}
-              </div>
-            </div>
-          `;
+        itemsList.innerHTML = order.items.map(function(i) {
+          var qty = i.quantity || i.qty || 1;
+          var variant = i.variant || i.size || 'Standard';
+          var price = Number(i.price) || 0;
+          var image = i.image || '../assets/images/products/p1.png';
+          var category = i.category || 'MAISON APPAREL';
+
+          return [
+            '<div class="order-item-luxury-row">',
+              '<div class="order-item-thumb-frame">',
+                '<img src="' + image + '" alt="' + (i.name || 'Product') + '" class="order-item-media-img" onerror="this.src=\'../assets/images/products/p1.png\'">',
+              '</div>',
+              '<div class="order-item-details">',
+                '<span class="order-item-brand-tag">' + category + '</span>',
+                '<h3 class="order-item-title">' + (i.name || 'Piece') + '</h3>',
+                '<span class="order-item-variant-tag">' + variant + ' · Qty ' + qty + '</span>',
+              '</div>',
+              '<div class="order-item-price-col">',
+                '<span class="order-item-line-price">' + sym + ' ' + (price * qty).toFixed(2) + '</span>',
+                (qty > 1 ? '<span class="order-item-unit-price">' + sym + ' ' + price.toFixed(2) + ' ea</span>' : ''),
+              '</div>',
+            '</div>'
+          ].join('');
         }).join('');
       } else {
         itemsList.innerHTML = '<div style="font-size:13px; color:var(--text-secondary); padding:10px 0;">Order details recorded.</div>';
       }
 
       // Delivery destination
-      const addrLine = [order.address, order.city, order.postcode, order.country].filter(Boolean).join(', ') || 'Berlin, Germany';
+      var addrLine = [order.address, order.city, order.postcode, order.country].filter(Boolean).join(', ') || 'Berlin, Germany';
       document.getElementById('conf-address').textContent = addrLine;
 
       // Delivery method + ETA pill
       document.getElementById('conf-delivery-method').textContent = order.deliveryMethod || 'Standard EU Tracked (DHL / DPD)';
-      const etaMap = {
-        express:  'Guaranteed arrival by 12:00 PM tomorrow (DHL Express Air)',
-        standard: 'Estimated arrival in 2–4 business days (DHL Tracked)'
-      };
-      const etaText = etaMap[order.deliveryKey] || 'Estimated delivery in 2–4 business days';
-      document.getElementById('conf-delivery-eta').innerHTML = `
-        <i data-lucide="truck" style="width:14px; height:14px;"></i>
-        <span>${etaText}</span>
-      `;
+      var etaText = etaMap[order.deliveryKey] || 'Estimated delivery in 2–4 business days';
+      document.getElementById('conf-delivery-eta').innerHTML =
+        '<i data-lucide="truck" style="width:14px; height:14px;"></i><span>' + etaText + '</span>';
 
-      const shipCostEl = document.getElementById('conf-shipping-cost');
+      var shipCostEl = document.getElementById('conf-shipping-cost');
       if (shipCostEl) {
         shipCostEl.textContent = order.shippingLabel || 'FREE';
         if (order.shippingCost === 0) shipCostEl.style.color = '#00E676';
       }
 
       // Price breakdown
-      const subtotal = Number(order.subtotal) || 0;
-      const total = Number(order.total) || subtotal;
-      document.getElementById('conf-subtotal').textContent = `${sym} ${subtotal.toFixed(2)}`;
-      
-      // Discount line
-      const discountAmt = Number(order.discountAmt) || 0;
-      const discRow = document.getElementById('conf-discount-row');
+      var subtotal = Number(order.subtotal) || 0;
+      var total = Number(order.total) || subtotal;
+      document.getElementById('conf-subtotal').textContent = sym + ' ' + subtotal.toFixed(2);
+
+      var discountAmt = Number(order.discountAmt) || 0;
+      var discRow = document.getElementById('conf-discount-row');
       if (discRow) {
         if (discountAmt > 0) {
           discRow.style.display = 'flex';
-          const discLabel = document.getElementById('conf-discount-label');
-          if (discLabel) discLabel.textContent = order.discountCode ? `Discount (${order.discountCode})` : 'Discount';
-          const discVal = document.getElementById('conf-discount-amount');
-          if (discVal) discVal.textContent = `−${sym} ${discountAmt.toFixed(2)}`;
+          var discLabel = document.getElementById('conf-discount-label');
+          if (discLabel) discLabel.textContent = order.discountCode ? 'Discount (' + order.discountCode + ')' : 'Discount';
+          var discVal = document.getElementById('conf-discount-amount');
+          if (discVal) discVal.textContent = '−' + sym + ' ' + discountAmt.toFixed(2);
         } else {
           discRow.style.display = 'none';
         }
       }
 
-      const shipSummary = document.getElementById('conf-shipping');
+      var shipSummary = document.getElementById('conf-shipping');
       if (shipSummary) {
         shipSummary.textContent = order.shippingLabel || 'FREE';
         if (order.shippingCost === 0) shipSummary.style.color = '#00E676';
       }
-      document.getElementById('conf-total').textContent = `${sym} ${total.toFixed(2)}`;
+      document.getElementById('conf-total').textContent = sym + ' ' + total.toFixed(2);
 
-      // Payment method label + icon
-      const payMeta = {
+      // Payment method chip
+      var payMeta = {
         klarna:     { label: 'Klarna Pay in 30 Days', badge: '<span class="payment-brand-badge klarna-badge">Klarna.</span>' },
         ideal:      { label: 'iDEAL Direct Banking', badge: '<span class="payment-brand-badge ideal-badge">iDEAL</span>' },
         card:       { label: 'Credit / Debit Card (PSD2 3DS2)', badge: '<span style="background:#0F2042;color:#fff;font-size:10px;padding:2px 6px;border-radius:2px;">VISA/MC</span>' },
-        applepay:   { label: 'Apple Pay Biometric', badge: '<span class="payment-brand-badge applepay-badge"> Pay</span>' },
+        applepay:   { label: 'Apple Pay Biometric', badge: '<span class="payment-brand-badge applepay-badge"> Pay</span>' },
         paypal:     { label: 'PayPal Secure Portal', badge: '<span class="payment-brand-badge paypal-badge">PayPal</span>' },
         bancontact: { label: 'Bancontact Belgium', badge: '<span class="payment-brand-badge bancontact-badge">Bancontact</span>' },
         sepa:       { label: 'SEPA Direct Debit Mandate', badge: '<span class="payment-brand-badge sepa-badge">SEPA</span>' }
       };
+      var currentPay = payMeta[order.paymentMethod] || { label: order.paymentMethod || 'Card', badge: '' };
+      var chip = document.getElementById('conf-payment-chip');
+      if (chip) chip.innerHTML = currentPay.badge + '<span style="margin-left:6px;">' + currentPay.label + '</span>';
 
-      const currentPay = payMeta[order.paymentMethod] || { label: order.paymentMethod || 'Card', badge: '' };
-      const chip = document.getElementById('conf-payment-chip');
-      if (chip) {
-        chip.innerHTML = `${currentPay.badge} <span style="margin-left:6px;">${currentPay.label}</span>`;
-      }
-
-      const trackLink = document.getElementById('conf-track-link');
-      if (trackLink) {
-        trackLink.href = `tracking.html?ref=${encodeURIComponent(order.ref)}`;
-      }
+      // Wire up interactive features
+      renderOrderQr(order.ref);
+      setupCalendarSync(order);
+      setupCopyRef(order.ref);
 
       if (window.lucide) window.lucide.createIcons();
     })();
   </script>
 
   <script src="../js/cart.js"></script>
-  <!-- CDNs -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
@@ -717,7 +1238,6 @@
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
   <script src="../js/style-profile.js"></script>
-
   <script src="../js/context-retention.js"></script>
   <script src="../js/concierge-engine.js"></script>
   <script src="../js/concierge.js"></script>
@@ -729,46 +1249,44 @@
     document.body.dataset.slPage = 'confirmation';
   </script>
 
-<!-- MINI CART (SIDE DRAWER) -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">€ 0.00</span>
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
     </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
-
-<!-- SEARCH OVERLAY (global CMD+K) -->
-<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
-  <div class="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-header-bar">
-      <div class="search-input-wrapper">
-        <div class="search-ai-icon">
-          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-        </div>
-        <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots, or acoustics..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
       </div>
-      <button class="search-close-btn" aria-label="Close search">
-        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-      </button>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
     </div>
-    <div id="aiSearchResultsModal" class="search-body"></div>
+  </aside>
+
+  <!-- SEARCH OVERLAY -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Search cashmere coats, artisanal chelsea boots, or acoustics..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
   </div>
-</div>
-<script src="../js/session-context.js"></script>
-<script src="../js/search-overlay.js?v=1"></script>
-<script src="../js/cookie-consent.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=1"></script>
+  <script src="../js/cookie-consent.js"></script>
 
 </body>
 </html>
