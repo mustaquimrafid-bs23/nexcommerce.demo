@@ -205,9 +205,14 @@
   function getRecentSearches() {
     try {
       const stored = localStorage.getItem('nex_recent_searches');
-      return stored ? JSON.parse(stored) : ['Winter evening in Milan', 'Leather runner sneakers', 'Studio headphones'];
-    } catch (_) {
+      if (stored !== null) {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+      }
+      // Initial default for first-time visitors
       return ['Winter evening in Milan', 'Leather runner sneakers', 'Studio headphones'];
+    } catch (_) {
+      return [];
     }
   }
 
@@ -232,7 +237,7 @@
 
   function clearAllRecentSearches() {
     try {
-      localStorage.removeItem('nex_recent_searches');
+      localStorage.setItem('nex_recent_searches', JSON.stringify([]));
     } catch (_) {}
     renderIdleState();
   }
