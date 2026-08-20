@@ -2,122 +2,92 @@
 
 **Date**: 2026-08-20  
 **Target File**: `pages/smart-list.html`  
+**Aesthetic Standard**: Modernist / Swiss Luxury — Visual-First, Text-Minimalist, High-Res Editorial  
 **Architecture**: Approach A (Unified Modular Architecture with Centralized State Store)  
-**Status**: Validated & Approved  
+**Status**: Revised per UI/UX Feedback (Less Text, Maximum Visualization, Ultra-Modern Luxury)
 
 ---
 
-## 1. Executive Summary & Problem Definition
+## 1. Executive Summary & Design Direction
 
-The **Smart List** (`pages/smart-list.html`) in nexCommerce is the curated replenishment and wardrobe intelligence hub. While the page currently features an elevated Modernist hero, 120fps spotlight bar, and 3:4 aspect-ratio luxury cards, shoppers currently lack:
-1. **Multi-Item Selection & Batch Operations**: Shoppers cannot select multiple items for collective actions like adding a tailored batch to bag, saving to wishlist, or batch dismissal.
-2. **Inline Variant & Size Customization**: Shoppers must navigate away or rely on defaults to change sizes or metal finishes.
-3. **Deep Product Inspection without Page Transition**: Shoppers lack an instantaneous editorial Quick Look drawer to review materials, craftsmanship, lifestyle photography, and replenishment cadence before committing.
-
-This specification details the end-to-end design and implementation of the **Comprehensive Luxury Replenishment Suite** to solve these friction points while maintaining the highest European luxury design standards.
+Following executive UI/UX feedback, `pages/smart-list.html` is being refined to be **Visual-First, Text-Restrained, and Ultra-Modern Luxury** (benchmarking SSENSE, NET-A-PORTER, and Loewe):
+- **Visual Dominance (70–80% visual ratio)**: Large 3:4 aspect-ratio imagery, dynamic high-res gallery drawer, metallic finish swatches, and clean geometric size boxes.
+- **Aggressive Text Reduction**: Eliminate descriptive clutter, long cadence paragraphs, and wordy AI labels from cards. Let the product photography and tactile micro-visuals speak.
+- **Ultra-Modern Polish**: Deep obsidian glassmorphism, GPU-accelerated spring physics (`120fps`), hairline borders, and generous breathing room.
 
 ---
 
-## 2. Core Feature Architecture
+## 2. Visual-First Component Design
 
-### 2.1 Centralized `SmartListStore` State Engine
-A reactive, decoupled client-side store managing data and state interactions:
-- **State Properties**:
-  - `items`: Map of all product items with full variant options, pricing, stock levels, and replenishment analytics.
-  - `selectedIds`: Set of currently selected item IDs for batch operations.
-  - `activeFilter`: Current category filter (`'all'`, `'audio'`, `'footwear'`, `'ready-to-wear'`, `'watches'`).
-  - `quickLookId`: Product ID currently opened in the Quick Look Drawer (or `null`).
-  - `isBatchDockVisible`: Boolean derived dynamically from `selectedIds.size > 0`.
-- **Core Methods**:
-  - `toggleSelect(productId)`: Toggles individual item selection.
-  - `selectAll()` / `deselectAll()`: Selects or deselects all currently visible filtered items.
-  - `setVariant(productId, { finishId, sizeId })`: Updates active variant, recalculates price deltas and stock.
-  - `updateQuantity(productId, qty)`: Adjusts item replenishment quantity.
-  - `addSelectedToBag()`: Injects all selected items with chosen variants into cart, fires bag pulse animation, and resets selection.
-  - `moveSelectedToWishlist()`: Syncs selected items to wishlist state.
-  - `dismissSelected()`: Removes selected items with undo toast support.
-  - `openQuickLook(productId)` / `closeQuickLook()`: Controls modal drawer visibility.
+### 2.1 Visual-First Product Cards (80% Visual Ratio)
+- **Zero Paragraph Clutter**: Cards strictly contain 3 clean lines of text:
+  1. **Brand Eyebrow**: `NEXCOMMERCE ATELIER` (9.5px, 0.12em uppercase letter-spacing).
+  2. **Product Name**: Single-line title in `Inter` / `Manrope` (clean, un-truncated).
+  3. **Price**: Bold, confident typography with live variant adjustments.
+- **Tactile Visual Selectors**:
+  - **Finish Swatches**: 16×16px circular metallic discs with authentic surface luster (18k Yellow Gold, Platinum White, Matte Obsidian, Slate).
+  - **Size Selector**: Crisp 24×24px architectural square blocks (`[S]`, `[M]`, `[L]`, `[XL]`).
+  - **Visual Inventory Dot**: Minimal 6px status beacon (Cyan: In Stock, Amber: 2 Left, Diagonal Hairline: Sold Out) instead of verbose text.
+- **Ambient Selection Ring**:
+  - Floating 24×24px glass ring at top-left. Turns solid cyan with crisp checkmark on select; illuminates card with a tailored ambient halo.
 
 ---
 
-### 2.2 Fluid Ambient Bulk Selection & Floating Batch Dock
-- **In-Card Selection Rings**:
-  - Located at `top: 10px; left: 10px` on each card.
-  - **Rest State**: 26×26px circular glass ring with hairline white border (`rgba(255, 255, 255, 0.20)`).
-  - **Hover State**: Border shifts to cyan glow (`rgba(61, 224, 255, 0.5)`).
-  - **Selected State**: Solid cyan fill (`#3DE0FF`), dark checkmark glyph (`#030814`), and card border illuminates (`border-color: rgba(61, 224, 255, 0.45); box-shadow: 0 0 0 1px rgba(61, 224, 255, 0.30)`).
-- **Toolbar Quick-Action**:
-  - `[ ◯ Select All (N) ]` / `[ ✕ Deselect All ]` toggle inside `.sl-toolbar`.
-- **Floating Luxury Batch Dock**:
-  - Centered horizontally at `bottom: 28px` (desktop) / docked at `bottom: 0` with safe-area padding (mobile).
-  - Material: High-density obsidian glass (`rgba(8, 14, 30, 0.94)`), `backdrop-filter: blur(24px)`, hairline border (`rgba(255, 255, 255, 0.14)`), deep shadow (`0 24px 60px rgba(0, 0, 0, 0.75)`).
-  - Metrics: Displays `N Items Selected` • `$X,XXX Total` (real-time aggregation).
-  - Action Controls:
-    - Primary: `[ Add Selected to Bag (N) ]` (Solid `#FFFFFF` button, dark text, tactile cart pulse).
-    - Secondary: `[ Move to Wishlist ]` (Ghost pill with heart icon).
-    - Danger: `[ Dismiss Selected ]` (Subtle danger ghost pill with trash icon).
-    - Dismiss: `[ Clear ✕ ]`.
-  - Motion: `transform: translateY(0)` (active) vs `transform: translateY(140%)` (hidden) with `cubic-bezier(0.16, 1, 0.3, 1)`.
+### 2.2 Modernist Hero & Toolbar (Quiet Editorial Luxury)
+- **Minimalist Masthead**:
+  - Headline: Confident 3-word title (*"The Replenishment Edit"* / *"Curated For You"*).
+  - Subtitle: Exactly one quiet sentence.
+- **Streamlined Toolbar**:
+  - Clear visual metrics: `[ ◯ Select All ]` toggle • `12 Items` • `$14,850 Total Value`.
+  - Category filter pills: Architectural 2px pills with active glowing border indicators.
 
 ---
 
-### 2.3 Inline Size & Finish Switcher Micro-Pills
-- **Card Body & Quick Add Overlay Integration**:
-  - Micro-swatches for material finishes (e.g., 18k Yellow Gold `#D4AF37`, White Gold `#E5E4E2`, Obsidian `#1A1A1A`, Slate Titanium `#708090`).
-  - Micro-pills for sizing (`[S]`, `[M]`, `[L]`, `[XL]`, or shoe sizes `[40]`, `[41]`, `[42]`, `[43]`).
-  - Active pill: Solid white fill (`#FFFFFF`) with dark text (`#030814`).
-  - Out of stock pill: Diagonal slash styling (`opacity: 0.35; text-decoration: line-through; pointer-events: none;`).
-- **Reactive Updates**:
-  - Live recalculation of price, stock availability alerts, and total Smart List valuation.
-  - Zero layout shift (CLS < 0.01) with fixed-height container bounds.
+### 2.3 Floating Visual Batch Dock (Obsidian Island)
+- **Ergonomics & Polish**:
+  - Floating island anchored at `bottom: 28px` (desktop) / docked at `bottom: 0` (mobile).
+  - Deep obsidian glass (`rgba(8, 14, 30, 0.94)`), `backdrop-filter: blur(24px)`, hairline border (`rgba(255, 255, 255, 0.14)`).
+- **Streamlined Contents**:
+  - `3 Selected • $3,420` (Bold Manrope typography).
+  - `[ Add Selected to Bag ]` (Crisp solid white button with cart injection micro-animation).
+  - `[ ♡ ]` (Wishlist icon button).
+  - `[ ✕ ]` (Clear selection).
 
 ---
 
-### 2.4 Modernist Quick Look Slide-Over Drawer
-- **Dimensions & Backdrop**:
-  - Desktop: 520px right-hand slide-over panel.
-  - Mobile: Full-width bottom-sheet (`max-height: 88vh; border-radius: 20px 20px 0 0`).
-  - Backdrop: Obsidian veil (`rgba(3, 8, 20, 0.80)`) with `backdrop-filter: blur(16px)`.
-- **Content Hierarchy**:
-  1. **Masthead**: Atelier spec eyebrow + close trigger `[ ✕ ]` (keyboard `Escape` supported).
-  2. **Gallery**: 4:3 high-res media display with interactive 3-asset thumbnail filmstrip.
-  3. **Editorial Title & Pricing**: Headline in `Manrope` + live price synchronized with active variant.
-  4. **Usage Cadence Insight**: Dynamic replenishment indicator (e.g., *"Recommended every 45 days based on your atelier usage"*).
-  5. **Variant Matrix**: Full interactive finish swatches and size grid.
-  6. **Craft & Care Tabs**: Handcrafted origin, materials breakdown, sustainability notes, and care guide.
-  7. **Sticky Action Footer**: Quantity stepper `[ - 1 + ]` + `[ Add to Bag — $X,XXX ]` CTA + link to standalone `product.html`.
+### 2.4 Visual-Dominant Quick Look Slide-Over Drawer
+- **Visual Dominance (70% Media Area)**:
+  - Large 4:3 high-res main viewer with fluid hover-zoom and 3-asset thumbnail filmstrip (Studio, Angle Detail, On-Model Lifestyle).
+- **Text-Restrained Luxury Specs**:
+  - Large headline & dynamic price.
+  - Visual swatch & size matrix.
+  - 3 concise icon specs: `[ Origin: Milan ]` • `[ Material: 18k Solid Gold ]` • `[ 45-Day Cadence ]`.
+  - Sticky bottom action: `[ Add to Bag — $X,XXX ]` + direct link to standalone page.
 
 ---
 
-## 3. Responsive Breakpoints & Ergonomics
+## 3. Responsive Layout Grid
 
-| Breakpoint | Product Grid | Quick Look Drawer | Floating Batch Dock |
+| Viewport | Product Grid | Quick Look Drawer | Floating Batch Dock |
 | :--- | :--- | :--- | :--- |
-| **Desktop (≥1280px)** | 4 Columns | 520px Right Slide-over | Centered Floating Pill (`max-w: 640px; bottom: 28px`) |
-| **Tablet (768px–1279px)**| 2–3 Columns | 440px Right Slide-over | Floating Bar (`max-w: 90%; bottom: 20px`) |
-| **Mobile (≤767px)** | 1–2 Columns | Full-width Bottom-Sheet | Docked Bottom Bar (`bottom: 0; safe-area-inset`) |
+| **Desktop (≥1280px)** | 4 Columns (3:4 ratio) | 520px Right Slide-over | Centered Floating Island (`bottom: 28px`) |
+| **Tablet (768px–1279px)**| 2–3 Columns | 440px Right Slide-over | Floating Bar (`max-width: 90%`) |
+| **Mobile (≤767px)** | 1–2 Columns | Full-width Bottom-Sheet | Docked Bottom Bar (`bottom: 0; safe-area`) |
 
 ---
 
 ## 4. Accessibility & Quality Standards (WCAG 2.1 AA)
 
-- **Keyboard Navigation**: Full `Tab`, `Space`, and `Enter` support for selection rings, size pills, and batch actions.
-- **Focus Management**: Focus trap inside Quick Look Drawer when active, returning focus to trigger element on close.
-- **ARIA Attributes**: `role="checkbox"`, `aria-checked="true|false"`, `role="dialog"`, `aria-modal="true"`, `aria-live="polite"` for batch totals.
-- **Contrast**: Minimum 4.5:1 text-to-background contrast ratio across all states.
-- **Reduced Motion**: Graceful fallback to instantaneous state changes under `@media (prefers-reduced-motion: reduce)`.
+- Full keyboard navigation for selection rings (`Space`/`Enter`) and size boxes.
+- Focus trap inside Quick Look Drawer with `Escape` dismiss.
+- High contrast (≥ 4.5:1), visible focus rings, and ARIA live regions for cart and batch updates.
 
 ---
 
 ## 5. Verification & Test Plan
 
-1. **Unit & Functional Verification**:
-   - Verify selecting individual items updates `SmartListStore.selectedIds` and animates Floating Batch Dock.
-   - Verify "Select All" selects all filtered cards and accurately aggregates prices.
-   - Verify switching sizes/finishes updates card price, stock badge, and Batch Dock subtotal without page jump.
-   - Verify Quick Look Drawer opens on image/title/button click, syncs variants, and adds item to bag.
-   - Verify Batch "Add Selected to Bag" injects all selected items into `cart` and updates global header badge.
-2. **Responsive & Visual Testing**:
-   - Audit across 1440px Desktop, 768px Tablet, and 375px Mobile viewports.
-3. **Accessibility Audit**:
-   - Keyboard-only navigation run-through and focus containment verification.
+1. **Visual & Aesthetic Audit**: Verify card visual ratio > 75%, text is clean, no paragraph clutter, swatches look metallic and tactile.
+2. **Interactive Selection & Batch Dock**: Verify selecting items smoothly animates the Floating Batch Dock with live price calculation and instant cart addition.
+3. **Variant Switching**: Verify clicking size/finish swatches updates card pricing, image, and stock without page jump.
+4. **Quick Look Drawer**: Verify smooth 120fps opening, image gallery switching, and variant sync.
+5. **Multi-Device Responsive QA**: Audit at 1440px, 768px, and 375px viewports.
