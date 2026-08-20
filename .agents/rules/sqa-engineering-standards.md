@@ -34,6 +34,8 @@ I must convert requirements into **comprehensive test coverage** — not just ha
 - Happy paths
 - Negative scenarios
 - Edge cases and boundary conditions
+- Complete list depletion / 0-item boundary transitions (e.g. clearing entire cart/wishlist and verifying all peripheral metrics reset cleanly to zero)
+- Direct bulk clear affordance availability and empty-state recovery testing
 - Invalid inputs
 - Missing or incomplete data
 - Duplicate data

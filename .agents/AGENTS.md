@@ -59,6 +59,7 @@ After completing **every single task or feature change**, you MUST unconditional
    - Run automated unit tests covering all deterministic logic, state transitions, calculations, and NLP/regex parsers with zero regressions.
 2. **Tier 2: Full Functional Test**:
    - Execute programmatic verification of all business flows, end-to-end data pipelines, event dispatching, shopping cart synchronization, and storage integrity across root (`index.html`) and subpages (`pages/*.html`).
+   - **Mandatory List Depletion & 0-Item Boundary Verification**: For any list/curation feature (Cart, Wishlist, Smart List, Recent Searches, Notifications), verification MUST unconditionally execute a complete depletion flow down to 0 items (`[]`). Assert that *all* peripheral metrics, hero stat counters, capsule filter badges, and spotlight summaries reset cleanly to 0/empty state with zero stale DOM values.
 3. **Tier 3: Full UI / Visual Test (`chrome-devtools-mcp` / `playwright`)**:
    - Perform live browser interactions across both Desktop (`1440x900`) and Mobile (`375x812`) viewports.
    - Verify layout reflow, touch target sizing ($\ge 44\text{px}$), visual hierarchies, interactive animations, and capture visual screenshot evidence saved to workspace root.
@@ -214,6 +215,13 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 
 **6. Multi-Page Relative Path Resolution Invariant**:
 - All shared UI components rendered across root (`index.html`) and subpages (`pages/*.html`) must utilize dynamic URL/image resolution helpers (`resolveHref`, `resolveImg`) to ensure zero broken links or missing images regardless of nesting depth.
+
+**7. Curation Depletion & Ambient Metric Reset Invariant**:
+- When managing list/curation views (Wishlist, Smart List, Cart, Bag), renderers encountering `ids.length === 0` must unconditionally update all external/ambient metrics (hero counters, category badges, spotlight banners) to zero/empty before returning or toggling empty-state containers.
+- Every curated list or multi-item collection must provide a primary 1-click "Clear All" / "Remove All" action in the main toolbar alongside "Select All" and "Move All", rather than burying deletion exclusively inside multi-select sub-menus.
+
+**8. Card Action Clusters & Legacy Position Isolation**:
+- When grouping interactive action buttons inside card flex overlays (`.card-top-actions`), always explicitly enforce `position: relative !important; top: auto !important; right: auto !important; margin: 0;` on all child buttons to prevent legacy monolithic stylesheet rules (e.g., `.wishlist-remove-btn { position: absolute; }`) from breaking out of flex containers and superimposing onto adjacent icons.
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
