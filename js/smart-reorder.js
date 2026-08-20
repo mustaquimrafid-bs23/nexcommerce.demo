@@ -48,13 +48,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/hero_sweater.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 4,
     avgIntervalDays: 60,
     daysSinceLast: 58,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 4× · Seasonal Autumn/Winter rotation due'
+    reason: 'Purchased 4× · Recommended for winter'
   },
   {
     id: 'p2',
@@ -64,13 +64,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/plp_crewneck.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 5,
     avgIntervalDays: 45,
     daysSinceLast: 42,
     suggestedQty: 2,
     inStock: true,
-    reason: 'Acquired 5× · Essential layering staple'
+    reason: 'Purchased 5× · Everyday essential'
   },
   {
     id: 'p3',
@@ -80,13 +80,13 @@ const SL_PRODUCTS = [
     originalPrice: 270,
     image: 'assets/images/products/plp_blazer.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 3,
     avgIntervalDays: 90,
     daysSinceLast: 86,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 3× · Tailored silhouette update'
+    reason: 'Purchased 3× · Classic tailoring'
   },
   {
     id: 'p4',
@@ -96,13 +96,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/prod_headphones.png',
     category: 'Acoustics',
-    categoryLabel: 'High Acoustics',
+    categoryLabel: 'Audio',
     boughtCount: 3,
     avgIntervalDays: 120,
     daysSinceLast: 115,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 3× · High-fidelity acoustic upgrade'
+    reason: 'Purchased 3× · Studio audio favorite'
   },
   {
     id: 'p5',
@@ -112,13 +112,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/prod_runner.png',
     category: 'Footwear',
-    categoryLabel: 'Artisanal Footwear',
+    categoryLabel: 'Footwear',
     boughtCount: 4,
     avgIntervalDays: 90,
     daysSinceLast: 88,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 4× · Annual urban footwear renewal'
+    reason: 'Purchased 4× · Daily footwear essential'
   },
   {
     id: 'p6',
@@ -128,13 +128,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/prod_tote.png',
     category: 'Accessories',
-    categoryLabel: 'Leather & Accessories',
+    categoryLabel: 'Bags & Accessories',
     boughtCount: 3,
     avgIntervalDays: 75,
     daysSinceLast: 70,
     suggestedQty: 1,
     inStock: false,
-    reason: 'Acquired 3× · Everyday atelier carryall'
+    reason: 'Purchased 3× · Everyday tote bag'
   },
   {
     id: 'p7',
@@ -144,13 +144,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/search_earbuds.png',
     category: 'Acoustics',
-    categoryLabel: 'High Acoustics',
+    categoryLabel: 'Audio',
     boughtCount: 4,
     avgIntervalDays: 60,
     daysSinceLast: 56,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 4× · Daily commute & travel companion'
+    reason: 'Purchased 4× · Travel & commute favorite'
   },
   {
     id: 'p8',
@@ -160,13 +160,13 @@ const SL_PRODUCTS = [
     originalPrice: 320,
     image: 'assets/images/products/plp_overcoat.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 2,
     avgIntervalDays: 180,
     daysSinceLast: 175,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 2× · Winter capsule cornerstone'
+    reason: 'Purchased 2× · Winter coat staple'
   },
   {
     id: 'p9',
@@ -176,13 +176,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/search_watch.png',
     category: 'Timepieces',
-    categoryLabel: 'Timepieces',
+    categoryLabel: 'Watches',
     boughtCount: 2,
     avgIntervalDays: 180,
     daysSinceLast: 170,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 2× · Limited atelier caliber series'
+    reason: 'Purchased 2× · Automatic timepiece'
   },
   {
     id: 'p10',
@@ -192,13 +192,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/plp_trousers.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 4,
     avgIntervalDays: 75,
     daysSinceLast: 72,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 4× · Double-pleat wardrobe staple'
+    reason: 'Purchased 4× · Wardrobe staple trousers'
   },
   {
     id: 'p11',
@@ -208,13 +208,13 @@ const SL_PRODUCTS = [
     originalPrice: null,
     image: 'assets/images/products/plp_turtleneck.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 3,
     avgIntervalDays: 60,
     daysSinceLast: 57,
     suggestedQty: 1,
     inStock: false,
-    reason: 'Acquired 3× · Archive layering knit'
+    reason: 'Purchased 3× · Silk-cashmere knit'
   },
   {
     id: 'p12',
@@ -224,13 +224,13 @@ const SL_PRODUCTS = [
     originalPrice: 215,
     image: 'assets/images/products/hero_jeans_rack.png',
     category: 'Apparel',
-    categoryLabel: 'Ready-to-Wear',
+    categoryLabel: 'Clothing',
     boughtCount: 3,
     avgIntervalDays: 90,
     daysSinceLast: 84,
     suggestedQty: 1,
     inStock: true,
-    reason: 'Acquired 3× · Raw selvedge rotation due'
+    reason: 'Purchased 3× · Raw denim essential'
   }
 ];
 
@@ -240,31 +240,31 @@ const CURATED_REPLENISHMENT_LOOKS = [
     index: 0,
     key: 'apparel',
     tabLabel: '01 KNITWEAR',
-    eyebrow: 'CURATED CAPSULE · 01 OF 04',
-    seasonBadge: 'SEASONAL EDIT · AW26',
-    title: 'The Winter Tailoring Capsule',
-    desc: 'Double-faced wool overcoats and structured cashmere layers designed for seasonal rotation.',
+    eyebrow: 'CURATED LOOK · 01 OF 04',
+    seasonBadge: 'WINTER COLLECTION · AW26',
+    title: 'The Winter Tailoring Collection',
+    desc: 'Double-faced wool overcoats and structured cashmere layers designed for the colder months.',
     targetCategory: 'Apparel',
     image: 'assets/images/lifestyle/hero_sweater_landscape.jpg',
     featuredProductId: 'p1',
     featuredProductThumb: 'assets/images/products/hero_sweater.png',
-    featuredProductTag: 'FEATURED REORDER',
+    featuredProductTag: 'FEATURED ITEM',
     featuredProductTitle: 'Architectural Cashmere Sweater',
     featuredProductPrice: '€ 185.00'
   },
   {
     index: 1,
     key: 'acoustics',
-    tabLabel: '02 ACOUSTICS',
-    eyebrow: 'STUDIO CRAFT · 02 OF 04',
-    seasonBadge: 'HIGH FIDELITY · 2026',
-    title: 'Acoustic Precision & Spatial Sound',
-    desc: 'Studio-grade planar magnetic drivers and active acoustic isolation for focused listening.',
+    tabLabel: '02 AUDIO',
+    eyebrow: 'AUDIO & SOUND · 02 OF 04',
+    seasonBadge: 'STUDIO SOUND · 2026',
+    title: 'Acoustic Precision & Studio Sound',
+    desc: 'Studio-grade planar magnetic drivers and active noise isolation for focused listening.',
     targetCategory: 'Acoustics',
     image: 'assets/images/lifestyle/hero_headphone_landscape.jpg',
     featuredProductId: 'p4',
     featuredProductThumb: 'assets/images/products/prod_headphones.png',
-    featuredProductTag: 'ACOUSTIC CRAFT',
+    featuredProductTag: 'STUDIO AUDIO',
     featuredProductTitle: 'Planar Magnetic Studio Headphones',
     featuredProductPrice: '€ 220.00'
   },
@@ -272,31 +272,31 @@ const CURATED_REPLENISHMENT_LOOKS = [
     index: 2,
     key: 'footwear',
     tabLabel: '03 FOOTWEAR',
-    eyebrow: 'ARTISANAL STRIDE · 03 OF 04',
-    seasonBadge: 'BESPOKE SOLE · 2026',
-    title: 'Hand-Finished Nappa Leather Runners',
-    desc: 'Full-grain Italian calfskin handcrafted on ergonomic cup soles for enduring comfort.',
+    eyebrow: 'FOOTWEAR · 03 OF 04',
+    seasonBadge: 'HANDCRAFTED · 2026',
+    title: 'Handcrafted Nappa Leather Sneakers',
+    desc: 'Full-grain Italian calfskin handcrafted on ergonomic soles for enduring daily comfort.',
     targetCategory: 'Footwear',
     image: 'assets/images/lifestyle/hero_runner_landscape.jpg',
     featuredProductId: 'p5',
     featuredProductThumb: 'assets/images/products/prod_runner.png',
-    featuredProductTag: 'ARTISANAL RUNNER',
+    featuredProductTag: 'LEATHER SNEAKERS',
     featuredProductTitle: 'Minimalist Leather Runner',
     featuredProductPrice: '€ 185.00'
   },
   {
     index: 3,
     key: 'timepieces',
-    tabLabel: '04 HOROLOGY',
-    eyebrow: 'CALIBER SERIES · 04 OF 04',
-    seasonBadge: 'LIMITED ARCHIVE',
+    tabLabel: '04 WATCHES',
+    eyebrow: 'WATCHES · 04 OF 04',
+    seasonBadge: 'AUTOMATIC SERIES',
     title: 'Obsidian Automatic Timepieces',
-    desc: 'DLC-coated stainless steel timepieces engineered with bespoke mechanical calibers.',
+    desc: 'DLC-coated stainless steel timepieces engineered with automatic mechanical movements.',
     targetCategory: 'Timepieces',
     image: 'assets/images/lifestyle/hero_watch_landscape.jpg',
     featuredProductId: 'p9',
     featuredProductThumb: 'assets/images/products/search_watch.png',
-    featuredProductTag: 'LIMITED HOROLOGY',
+    featuredProductTag: 'PREMIUM WATCH',
     featuredProductTitle: 'Obsidian Automatic Timepiece',
     featuredProductPrice: '€ 340.00'
   }
@@ -716,9 +716,9 @@ function openCadenceModal(productId) {
     <div class="sl-cadence-dialog" role="dialog" aria-modal="true" aria-labelledby="slCadenceTitle">
       <div class="sl-cadence-header">
         <div>
-          <span class="sl-ai-chip" style="margin-bottom: 6px; font-size: 9px;">CADENCE CONFIGURATION</span>
-          <h3 id="slCadenceTitle" style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; margin: 0; color: #FFFFFF; font-weight: 400;">
-            Adjust Replenishment Cycle
+          <span class="sl-ai-chip" style="margin-bottom: 6px; font-size: 9px;">REORDER SCHEDULE</span>
+          <h3 id="slCadenceTitle" style="font-family: 'Manrope', sans-serif; font-size: 18px; margin: 0; color: #FFFFFF; font-weight: 600;">
+            Adjust Reorder Frequency
           </h3>
           <div style="font-size: 12px; color: var(--text-secondary, #94A3B8); margin-top: 4px;">${product.name}</div>
         </div>
@@ -727,7 +727,7 @@ function openCadenceModal(productId) {
 
       <div class="sl-cadence-body">
         <p style="font-size: 12.5px; color: var(--text-secondary, #94A3B8); line-height: 1.5; margin: 0 0 16px;">
-          Choose your preferred replenishment interval. The AI recommendation engine prioritizes this piece based on your selected cycle:
+          Choose how often you would like to reorder this item. We will remind you when it is time for a refresh:
         </p>
 
         <div class="sl-cadence-options">
@@ -735,7 +735,7 @@ function openCadenceModal(productId) {
             <input type="radio" name="slInterval" value="30" ${currentInterval === 30 ? 'checked' : ''} />
             <div class="sl-cadence-opt-text">
               <strong>Monthly</strong>
-              <span>Every 30 days &middot; High rotation</span>
+              <span>Every 30 days &middot; Frequent restock</span>
             </div>
             <i data-lucide="check" class="sl-cadence-check"></i>
           </label>
@@ -744,7 +744,7 @@ function openCadenceModal(productId) {
             <input type="radio" name="slInterval" value="60" ${currentInterval === 60 ? 'checked' : ''} />
             <div class="sl-cadence-opt-text">
               <strong>Bi-Monthly</strong>
-              <span>Every 60 days &middot; Recommended</span>
+              <span>Every 60 days &middot; Most popular</span>
             </div>
             <i data-lucide="check" class="sl-cadence-check"></i>
           </label>
@@ -761,8 +761,8 @@ function openCadenceModal(productId) {
           <label class="sl-cadence-option ${currentInterval === 180 ? 'selected' : ''}">
             <input type="radio" name="slInterval" value="180" ${currentInterval === 180 ? 'checked' : ''} />
             <div class="sl-cadence-opt-text">
-              <strong>Biannual / Seasonal</strong>
-              <span>Every 180 days &middot; Archival refresh</span>
+              <strong>Every 6 Months</strong>
+              <span>Every 180 days &middot; Twice a year</span>
             </div>
             <i data-lucide="check" class="sl-cadence-check"></i>
           </label>
@@ -771,7 +771,7 @@ function openCadenceModal(productId) {
 
       <div class="sl-cadence-footer">
         <button class="sl-btn-cadence-cancel" id="slCadenceCancelBtn">Cancel</button>
-        <button class="sl-btn-cadence-save" id="slCadenceSaveBtn">Save Cadence</button>
+        <button class="sl-btn-cadence-save" id="slCadenceSaveBtn">Save Schedule</button>
       </div>
     </div>
   `;
@@ -802,7 +802,7 @@ function openCadenceModal(productId) {
       setCustomInterval(product.id, days);
       closeModal();
       renderSmartListPage();
-      showToast(`Cadence for ${product.name} updated to every ${days} days`, 'success');
+      showToast(`Reorder schedule for ${product.name} updated to every ${days} days`, 'success');
     }
   });
 
@@ -821,7 +821,7 @@ function showUndoToast(productName, onUndo) {
   toast.innerHTML = `
     <div style="display: flex; align-items: center; gap: 8px;">
       <i data-lucide="trash-2" class="sl-toast-icon" style="color: var(--accent-pink, #FB7185);"></i>
-      <span><strong>${productName}</strong> removed from curation</span>
+      <span><strong>${productName}</strong> removed from list</span>
     </div>
     <button class="sl-toast-undo-btn" id="slToastUndoBtn">Undo</button>
   `;
@@ -945,21 +945,21 @@ function buildCardHTML(product, index = 0, isCompact = false) {
   return `
     <article class="sl-card${oos ? ' sl-card--oos' : ''}" data-id="${product.id}" data-category="${product.category}" data-parallax-depth="${depth}" role="listitem" aria-label="${product.name}">
       <div class="sl-glare" aria-hidden="true"></div>
-      <button class="sl-dismiss-btn" data-dismiss="${product.id}" aria-label="Remove ${product.name} from curation" title="Remove from curation">
+      <button class="sl-dismiss-btn" data-dismiss="${product.id}" aria-label="Remove ${product.name} from list" title="Remove from list">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
       <div class="sl-card-img-wrap">
         <a href="product.html?id=${product.id}" class="sl-card-img-link" aria-label="View ${product.name}">
           <img src="${resolvedImg}" alt="${product.name}" class="sl-card-img" loading="lazy" />
         </a>
-        ${oos ? '<div class="sl-oos-badge">Atelier Reserved</div>' : ''}
-        ${hasSale ? '<div class="sl-sale-badge">Private Archive</div>' : ''}
+        ${oos ? '<div class="sl-oos-badge">Out of Stock</div>' : ''}
+        ${hasSale ? '<div class="sl-sale-badge">Special Offer</div>' : ''}
         ${quickAddOverlayHTML}
       </div>
       <div class="sl-card-body">
         
-        <!-- Interactive Cadence / Reason Pill -->
-        <button class="sl-reason-chip sl-reason-chip--interactive" data-cadence-trigger="${product.id}" title="Click to adjust replenishment cycle">
+        <!-- Interactive Reorder Frequency / Reason Pill -->
+        <button class="sl-reason-chip sl-reason-chip--interactive" data-cadence-trigger="${product.id}" title="Click to adjust reorder schedule">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
           <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 200px;">${product.reason}</span>
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left: 2px; opacity: 0.6;"><path d="m6 9 6 6 6-6"/></svg>
@@ -973,7 +973,7 @@ function buildCardHTML(product, index = 0, isCompact = false) {
           ${priceStr}
           ${hasSale ? `<span class="sl-orig-price">${origStr}</span>` : ''}
         </div>
-        ${hasSale ? `<div class="sl-omnibus-prior-price" style="font-size: 9.5px; color: var(--text-secondary); margin-top: 1px; letter-spacing: 0.02em;">Lowest price in 30 days prior: ${origStr}</div>` : ''}
+        ${hasSale ? `<div class="sl-omnibus-prior-price" style="font-size: 9.5px; color: var(--text-secondary); margin-top: 1px; letter-spacing: 0.02em;">Lowest price in last 30 days: ${origStr}</div>` : ''}
 
         <!-- Unified Horizontal Action Row -->
         <div class="sl-action-row">
@@ -983,7 +983,7 @@ function buildCardHTML(product, index = 0, isCompact = false) {
             <button class="sl-stepper-btn sl-stepper-inc" data-id="${product.id}" aria-label="Increase quantity">+</button>
           </div>
           <button class="sl-btn-add${oos ? ' sl-btn-add--disabled' : ''}" data-id="${product.id}" ${oos ? 'disabled aria-disabled="true"' : ''}>
-            <span class="sl-btn-add-inner">${oos ? 'Reserved' : 'Move to Bag'}</span>
+            <span class="sl-btn-add-inner">${oos ? 'Out of Stock' : 'Add to Bag'}</span>
           </button>
         </div>
       </div>
@@ -1118,7 +1118,7 @@ function updateListStats() {
 
   if (addAllBtn && !addAllBtn.disabled) {
     const span = addAllBtn.querySelector('span');
-    if (span) span.textContent = activeCategoryFilter === 'all' ? 'Move All to Bag' : 'Move Filtered to Bag';
+    if (span) span.textContent = activeCategoryFilter === 'all' ? 'Add All to Bag' : 'Add Filtered to Bag';
   }
 
   // Update category pill counts (always reflect full totals per category,
@@ -1129,7 +1129,7 @@ function updateListStats() {
     let count = 0;
     if (cat === 'all') {
       count = allAvailable.length;
-      pill.textContent = `All Pieces (${count})`;
+      pill.textContent = `All Items (${count})`;
     } else {
       count = allAvailable.filter(p => p.category.toLowerCase() === cat.toLowerCase()).length;
       const baseLabel = pill.dataset.label || cat;
@@ -1255,13 +1255,13 @@ function renderSmartListPage() {
       const oosItems     = scopedList.filter(p => !p.inStock);
 
       if (!inStockItems.length) {
-        showToast('No available atelier pieces to add', 'warn');
+        showToast('No available items to add', 'warn');
         return;
       }
 
       addAllBtn.disabled = true;
       const originalText = addAllBtn.querySelector('span').textContent;
-      addAllBtn.querySelector('span').textContent = 'Moving to Bag…';
+      addAllBtn.querySelector('span').textContent = 'Adding to Bag…';
       if (progressWrap) progressWrap.style.display = 'block';
 
       if (progressBar) {
@@ -1272,8 +1272,8 @@ function renderSmartListPage() {
       setTimeout(() => {
         inStockItems.forEach(p => addToCart(p, getQty(p.id)));
 
-        let msg = `${inStockItems.length} ${inStockItems.length === 1 ? 'piece' : 'pieces'} added to your shopping bag`;
-        if (oosItems.length) msg += ` · ${oosItems.length} reserved`;
+        let msg = `${inStockItems.length} ${inStockItems.length === 1 ? 'item' : 'items'} added to your shopping bag`;
+        if (oosItems.length) msg += ` · ${oosItems.length} out of stock`;
         showToast(msg, oosItems.length ? 'warn' : 'success');
 
         addAllBtn.disabled = false;

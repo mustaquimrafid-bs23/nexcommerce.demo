@@ -1441,15 +1441,15 @@
 
   <main>
 
-    <!-- HERO: Visual Natural Language Wardrobe Architect -->
+    <!-- HERO: Personalized Shopping & Wardrobe Curation -->
     <section class="sl-hero-cinema" id="slHero">
       <div class="sl-hero-masthead">
         <span class="sl-ai-live-tag">
           <span class="neural-spark-dot"></span>
-          AGENTIC COMMERCE &middot; NATURAL LANGUAGE ARCHITECT
+          SMART RECOMMENDATIONS &middot; PERSONAL SHOPPING LIST
         </span>
-        <h1 class="sl-headline">Smart List<br><em>Architect</em></h1>
-        <p class="sl-subhead">Synthesize complete seasonal capsules or replenish tailored essentials via conversational AI intent.</p>
+        <h1 class="sl-headline">Smart List<br><em>Curated For You</em></h1>
+        <p class="sl-subhead">Personalized recommendations and wardrobe essentials tailored to your style and routine.</p>
       </div>
 
       <!-- NATURAL LANGUAGE PROMPT OMNIBAR -->
@@ -1459,10 +1459,10 @@
             <i data-lucide="sparkles" style="width: 18px; height: 18px; color: #3DE0FF;"></i>
           </div>
           <input type="text" id="capsulePromptInput" class="sl-prompt-input"
-                 placeholder="Describe your capsule (e.g., 'Winter alpine layering in obsidian and slate with acoustics')..."
-                 autocomplete="off" spellcheck="false" aria-label="Natural Language Wardrobe Prompt" />
-          <button type="button" id="btnSynthesizeCapsule" class="btn-synthesize-action" aria-label="Synthesize Capsule">
-            <span>SYNTHESIZE</span>
+                 placeholder="Describe what you're looking for (e.g., 'Warm winter layers in black and navy with headphones')..."
+                 autocomplete="off" spellcheck="false" aria-label="Search or describe what you need" />
+          <button type="button" id="btnSynthesizeCapsule" class="btn-synthesize-action" aria-label="Curate list">
+            <span>CURATE</span>
             <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
           </button>
         </div>
@@ -1470,26 +1470,26 @@
         <!-- AI NEURAL STATUS WHISPER -->
         <div class="sl-neural-status" id="capsuleNeuralStatus" style="display: none;">
           <span class="neural-pulse-beacon"></span>
-          <span id="neuralStatusText">Analyzing silhouette constraints &amp; extracting tonal harmony...</span>
+          <span id="neuralStatusText">Finding matching items for your style...</span>
         </div>
 
         <!-- 4 LUXURY LIFESTYLE PRESETS -->
-        <div class="sl-presets-strip" id="capsulePresetsGrid" role="group" aria-label="Curated Capsule Presets">
+        <div class="sl-presets-strip" id="capsulePresetsGrid" role="group" aria-label="Curated Style Presets">
           <button type="button" class="preset-pill-btn active" data-preset="alpine">
             <span class="preset-icon">❄️</span>
-            <span>Winter Alpine in St. Moritz</span>
+            <span>Winter Alpine Warmth</span>
           </button>
           <button type="button" class="preset-pill-btn" data-preset="monochrome">
             <span class="preset-icon">🏛️</span>
-            <span>Monochrome Studio Architecture</span>
+            <span>Monochrome Essentials</span>
           </button>
           <button type="button" class="preset-pill-btn" data-preset="transit">
             <span class="preset-icon">✈️</span>
-            <span>Minimalist Transit Uniform</span>
+            <span>Travel &amp; Commute</span>
           </button>
           <button type="button" class="preset-pill-btn" data-preset="gala">
             <span class="preset-icon">🍸</span>
-            <span>Milano Evening Gallery Opening</span>
+            <span>Evening &amp; Formal</span>
           </button>
         </div>
       </div>
@@ -1497,7 +1497,7 @@
       <!-- TONAL HARMONY PALETTE & AESTHETIC DNA BAR -->
       <div class="sl-harmony-canvas" id="capsulePaletteBar">
         <div class="harmony-meta-group">
-          <span class="harmony-label">EXTRACTED TONAL DNA</span>
+          <span class="harmony-label">COLOR PALETTE</span>
           <div class="harmony-swatches-row" id="harmonySwatchesRow">
             <span class="swatch-bubble" style="background:#0D131F;" title="Obsidian"></span>
             <span class="swatch-bubble" style="background:#374151;" title="Charcoal"></span>
@@ -1506,8 +1506,8 @@
           </div>
         </div>
         <div class="harmony-score-group">
-          <span class="harmony-archetype-tag" id="harmonyArchetypeTag">ALPINE THERMAL</span>
-          <span class="harmony-score-val" id="harmonyScoreVal">97% HARMONY</span>
+          <span class="harmony-archetype-tag" id="harmonyArchetypeTag">WINTER ALPINE</span>
+          <span class="harmony-score-val" id="harmonyScoreVal">CURATED MATCH</span>
         </div>
       </div>
     </section>
@@ -1524,23 +1524,23 @@
         <div class="spotlight-header-row">
           <div class="spotlight-eyebrow-tag">
             <span class="spotlight-status-dot"></span>
-            <span id="slSpotlightLookEyebrow">CURATED CAPSULE &middot; 01 OF 04</span>
-            <button type="button" class="spotlight-pause-toggle-btn" id="slSpotlightPauseToggleBtn" aria-pressed="false" aria-label="Pause automatic capsule rotation">
+            <span id="slSpotlightLookEyebrow">CURATED LOOK &middot; 01 OF 04</span>
+            <button type="button" class="spotlight-pause-toggle-btn" id="slSpotlightPauseToggleBtn" aria-pressed="false" aria-label="Pause automatic rotation">
               <i data-lucide="pause" id="slSpotlightPauseIcon" style="width: 12px; height: 12px;"></i>
             </button>
           </div>
-          <div class="spotlight-capsule-tabs" id="slSpotlightTabs" role="tablist" aria-label="Curated Capsule Selection">
+          <div class="spotlight-capsule-tabs" id="slSpotlightTabs" role="tablist" aria-label="Curated Look Selection">
             <button class="spotlight-tab-btn active" data-look="0" role="tab" aria-selected="true" id="slSpotlightTab0">
               <span>01 KNITWEAR</span>
             </button>
             <button class="spotlight-tab-btn" data-look="1" role="tab" aria-selected="false" id="slSpotlightTab1">
-              <span>02 ACOUSTICS</span>
+              <span>02 AUDIO</span>
             </button>
             <button class="spotlight-tab-btn" data-look="2" role="tab" aria-selected="false" id="slSpotlightTab2">
               <span>03 FOOTWEAR</span>
             </button>
             <button class="spotlight-tab-btn" data-look="3" role="tab" aria-selected="false" id="slSpotlightTab3">
-              <span>04 HOROLOGY</span>
+              <span>04 WATCHES</span>
             </button>
           </div>
         </div>
@@ -1549,32 +1549,32 @@
         <div class="spotlight-body-layout" id="slSpotlightBodyPanel" role="tabpanel" aria-labelledby="slSpotlightTab0">
           <!-- Left: Capsule Story & Filter Sync -->
           <div class="spotlight-story-pane">
-            <span class="spotlight-season-badge" id="slSpotlightSeasonBadge">SEASONAL EDIT &middot; AW26</span>
-            <h2 class="spotlight-capsule-title" id="slSpotlightCapsuleTitle">The Winter Tailoring Capsule</h2>
-            <p class="spotlight-capsule-desc" id="slSpotlightCapsuleDesc">Double-faced wool overcoats and structured cashmere layers designed for seasonal rotation.</p>
+            <span class="spotlight-season-badge" id="slSpotlightSeasonBadge">WINTER COLLECTION &middot; AW26</span>
+            <h2 class="spotlight-capsule-title" id="slSpotlightCapsuleTitle">The Winter Tailoring Collection</h2>
+            <p class="spotlight-capsule-desc" id="slSpotlightCapsuleDesc">Double-faced wool overcoats and structured cashmere layers designed for the colder months.</p>
             <div class="spotlight-actions-group">
               <button class="spotlight-sync-filter-btn" id="slSpotlightSyncFilterBtn" data-target-category="apparel">
-                <span>View Replenishments</span>
+                <span>Explore Collection</span>
                 <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
               </button>
-              <span class="spotlight-piece-counter" id="slSpotlightPieceCount">7 Matching Pieces</span>
+              <span class="spotlight-piece-counter" id="slSpotlightPieceCount">7 Matching Items</span>
             </div>
           </div>
 
           <!-- Right: Visual Frame & 3D Shoppable Piece Pill -->
           <div class="spotlight-visual-pane">
             <div class="spotlight-img-frame" id="slSpotlightImgFrame">
-              <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Winter Tailoring Capsule" class="spotlight-featured-img" id="slSpotlightFeaturedImg" />
+              <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Winter Tailoring Collection" class="spotlight-featured-img" id="slSpotlightFeaturedImg" />
               <div class="spotlight-vignette-overlay" aria-hidden="true"></div>
             </div>
 
             <!-- Floating 3D Shoppable Look Pill -->
-            <div class="spotlight-shoppable-pill" id="slSpotlightShoppablePill" data-id="p1" role="region" aria-label="Featured Look Piece">
+            <div class="spotlight-shoppable-pill" id="slSpotlightShoppablePill" data-id="p1" role="region" aria-label="Featured Look Item">
               <div class="spotlight-pill-thumb">
                 <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater" id="slSpotlightPillThumb" />
               </div>
               <div class="spotlight-pill-details">
-                <span class="spotlight-pill-tag" id="slSpotlightPillTag">FEATURED REORDER</span>
+                <span class="spotlight-pill-tag" id="slSpotlightPillTag">FEATURED ITEM</span>
                 <h3 class="spotlight-pill-title" id="slSpotlightPillTitle">Architectural Cashmere Sweater</h3>
                 <span class="spotlight-pill-price tabular-nums" id="slSpotlightPillPrice">€ 185.00</span>
               </div>
@@ -1592,12 +1592,12 @@
     <div class="sl-toolbar" id="slToolbar">
       <div class="sl-stats-group">
         <div>
-          <span class="sl-stat-label">Recommended Pieces</span>
-          <div class="sl-stat-val"><span id="slItemCount">12</span> Pieces</div>
+          <span class="sl-stat-label">Recommended Items</span>
+          <div class="sl-stat-val"><span id="slItemCount">12</span> Items</div>
         </div>
         <div class="sl-divider-v"></div>
         <div>
-          <span class="sl-stat-label">Estimated Curation Value</span>
+          <span class="sl-stat-label">Estimated Total</span>
           <div class="sl-stat-val tabular-nums" id="slValuationDisplay" style="font-family: var(--font-body, 'Inter', sans-serif); font-size: 17px; font-weight: 700;">€ 2,148.00</div>
         </div>
       </div>
@@ -1605,7 +1605,7 @@
       <div class="sl-add-all-wrap">
         <button id="slAddAll" class="sl-btn-add-all">
           <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
-          <span>Move All to Bag</span>
+          <span>Add All to Bag</span>
         </button>
         <div class="sl-progress-wrap" id="slProgressWrap">
           <div class="sl-progress-bar" id="slProgressBar"></div>
@@ -1615,12 +1615,12 @@
 
     <!-- CATEGORY FILTER PILLS -->
     <div class="sl-filter-bar" id="slFilterBar" role="tablist" aria-label="Filter by category">
-      <button class="sl-filter-pill active" data-category="all" role="tab" aria-selected="true">All Pieces (12)</button>
-      <button class="sl-filter-pill" data-category="Apparel" data-label="Ready-to-Wear" role="tab" aria-selected="false">Ready-to-Wear (7)</button>
-      <button class="sl-filter-pill" data-category="Acoustics" data-label="High Acoustics" role="tab" aria-selected="false">High Acoustics (2)</button>
-      <button class="sl-filter-pill" data-category="Footwear" data-label="Artisanal Footwear" role="tab" aria-selected="false">Artisanal Footwear (1)</button>
-      <button class="sl-filter-pill" data-category="Timepieces" data-label="Timepieces" role="tab" aria-selected="false">Timepieces (1)</button>
-      <button class="sl-filter-pill" data-category="Accessories" data-label="Leather & Accessories" role="tab" aria-selected="false">Leather &amp; Accessories (1)</button>
+      <button class="sl-filter-pill active" data-category="all" role="tab" aria-selected="true">All Items (12)</button>
+      <button class="sl-filter-pill" data-category="Apparel" data-label="Clothing" role="tab" aria-selected="false">Clothing (7)</button>
+      <button class="sl-filter-pill" data-category="Acoustics" data-label="Audio" role="tab" aria-selected="false">Audio (2)</button>
+      <button class="sl-filter-pill" data-category="Footwear" data-label="Footwear" role="tab" aria-selected="false">Footwear (1)</button>
+      <button class="sl-filter-pill" data-category="Timepieces" data-label="Watches" role="tab" aria-selected="false">Watches (1)</button>
+      <button class="sl-filter-pill" data-category="Accessories" data-label="Bags & Accessories" role="tab" aria-selected="false">Bags &amp; Accessories (1)</button>
     </div>
 
     <!-- GRID -->
@@ -1634,8 +1634,8 @@
         <div class="sl-empty-icon">
           <i data-lucide="list-restart" style="width: 28px; height: 28px;"></i>
         </div>
-        <h2 class="sl-empty-headline">Your atelier curation is forming.</h2>
-        <p class="sl-empty-sub">Personalized reorder recommendations appear after your private archive acquisitions. Explore our seasonal collections to begin.</p>
+        <h2 class="sl-empty-headline">Your shopping list is empty.</h2>
+        <p class="sl-empty-sub">Personalized recommendations will appear here based on your previous orders and preferences. Explore our collections to get started.</p>
         <a href="category.html?cat=all" class="btn-primary-commerce" style="height: 44px; padding: 0 24px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
           <span>Explore Collections</span>
           <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
@@ -1646,12 +1646,12 @@
     <!-- CONCIERGE BRIDGE -->
     <div class="sl-concierge-bridge" id="slConciergeBridge">
       <div>
-        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">BESPOKE ATELIER PAIRING</div>
-        <div style="font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #FFFFFF; margin-bottom: 6px;">Assemble Your Complete Ensemble</div>
-        <p style="font-size: 13.5px; color: var(--text-secondary); margin: 0; max-width: 540px; line-height: 1.55;">Consult our digital style concierge to harmonize your replenishment pieces into curated seasonal capsules.</p>
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">PERSONAL STYLING</div>
+        <div style="font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #FFFFFF; margin-bottom: 6px;">Complete Your Look</div>
+        <p style="font-size: 13.5px; color: var(--text-secondary); margin: 0; max-width: 540px; line-height: 1.55;">Consult our personal style concierge to find the perfect matching pieces for your wardrobe.</p>
       </div>
       <a href="concierge.html" class="btn-primary-commerce" style="height: 42px; padding: 0 22px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap; font-size: 10.5px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; border-radius: 2px;">
-        <span>Style My Replenishments</span>
+        <span>Chat with Stylist</span>
         <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
       </a>
     </div>
@@ -1723,34 +1723,34 @@
     /* ── Capsule Profile Definitions ─────────────────────────── */
     var CAPSULE_PROFILES = {
       alpine: {
-        title:     'Winter Alpine in St. Moritz',
-        prompt:    'Winter alpine layering with 2-ply Mongolian cashmere, structured outerwear, and acoustics',
-        archetype: 'ALPINE THERMAL',
-        harmony:   '97% HARMONY',
+        title:     'Winter Alpine Warmth',
+        prompt:    'Warm winter layers with cashmere sweaters, structured overcoat, and studio headphones',
+        archetype: 'WINTER ALPINE',
+        harmony:   'CURATED MATCH',
         swatches:  ['#0D131F', '#374151', '#FFFBEB', '#92400E'],
         filterFn:  function(p) { return ['p1','p2','p3','p4','p6'].indexOf(p.id) !== -1; }
       },
       monochrome: {
-        title:     'Monochrome Studio Architecture',
-        prompt:    'Architectural charcoal and obsidian tailored layers with minimalist leather runner',
+        title:     'Monochrome Essentials',
+        prompt:    'Classic charcoal and black tailored layers with minimalist leather sneakers',
         archetype: 'NORDIC MINIMAL',
-        harmony:   '99% HARMONY',
+        harmony:   'CURATED MATCH',
         swatches:  ['#0A0A0A', '#1E293B', '#64748B', '#F1F5F9'],
         filterFn:  function(p) { return ['p1','p3','p6','p8'].indexOf(p.id) !== -1; }
       },
       transit: {
-        title:     'Minimalist Transit Uniform',
-        prompt:    'Effortless lightweight travel pieces with high acoustics isolation and structured tote',
-        archetype: 'TRANSIT EASE',
-        harmony:   '94% HARMONY',
+        title:     'Travel & Commute',
+        prompt:    'Comfortable lightweight travel essentials with noise canceling earbuds and canvas tote',
+        archetype: 'TRAVEL COMFORT',
+        harmony:   'CURATED MATCH',
         swatches:  ['#172554', '#334155', '#3DE0FF', '#E2E8F0'],
         filterFn:  function(p) { return ['p2','p4','p5','p6'].indexOf(p.id) !== -1; }
       },
       gala: {
-        title:     'Milano Evening Gallery Opening',
-        prompt:    'Sophisticated dark tailoring with gold horology and Tuscan calfskin accents',
-        archetype: 'QUIET LUXURY',
-        harmony:   '98% HARMONY',
+        title:     'Evening & Formal',
+        prompt:    'Tailored formal evening jacket with black timepiece and leather accessories',
+        archetype: 'EVENING CLASSIC',
+        harmony:   'CURATED MATCH',
         swatches:  ['#020617', '#451A03', '#FB7185', '#D6C7B2'],
         filterFn:  function(p) { return ['p1','p3','p5','p7'].indexOf(p.id) !== -1; }
       }
@@ -1798,11 +1798,11 @@
         btn.classList.toggle('active', btn.getAttribute('data-preset') === profileKey);
       });
 
-      /* Neural status flash */
+      /* Status flash */
       var statusEl  = document.getElementById('capsuleNeuralStatus');
       var statusTxt = document.getElementById('neuralStatusText');
       if (statusEl && statusTxt) {
-        statusTxt.textContent  = 'Extracting silhouette constraints for ' + profile.title + '...';
+        statusTxt.textContent  = 'Finding recommendations for ' + profile.title + '...';
         statusEl.style.display = 'flex';
         setTimeout(function () { statusEl.style.display = 'none'; }, 900);
       }
