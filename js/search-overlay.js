@@ -1194,15 +1194,14 @@
       });
     }
 
-    // Auto-search query param if on discovery.html
+    // Auto-fill on-page discovery search input if present on discovery.html without opening the popup overlay
     const params = new URLSearchParams(window.location.search);
     const qParam = params.get('q');
-    if (qParam && window.location.pathname.includes('discovery.html')) {
-      setTimeout(() => {
-        if (input) input.value = qParam;
-        openSearchOverlay();
-        executeSearch(qParam);
-      }, 250);
+    if (qParam) {
+      const discInput = document.getElementById('discoveryMainInput');
+      if (discInput) {
+        discInput.value = qParam;
+      }
     }
   }
 
