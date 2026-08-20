@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saved Pieces &mdash; nexCommerce Luxury Digital Atelier</title>
+  <title>Wardrobe Vault &mdash; nexCommerce Luxury Digital Atelier</title>
   <meta name="description" content="View and manage your private curation of tailored ready-to-wear, acoustic craft, and artisanal footwear.">
   <meta name="view-transition" content="same-origin" />
 
@@ -20,9 +20,9 @@
       align-items: flex-end;
       justify-content: space-between;
       gap: 24px;
-      padding: 48px 0 40px;
+      padding: 48px 0 32px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
     }
     .vault-eyebrow-tag {
@@ -30,15 +30,16 @@
       align-items: center;
       gap: 8px;
       font-family: 'Inter', sans-serif;
-      font-size: 11px; font-weight: 600;
+      font-size: 10.5px; font-weight: 600;
       letter-spacing: 0.16em; text-transform: uppercase;
       color: #3DE0FF;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .vault-live-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: #34D399;
+      box-shadow: 0 0 8px #34D399;
       animation: live-pulse 2s ease-in-out infinite;
     }
     @keyframes live-pulse {
@@ -47,10 +48,10 @@
     }
     .vault-headline {
       font-family: 'Manrope', sans-serif;
-      font-size: clamp(36px, 4vw, 64px);
+      font-size: clamp(34px, 4vw, 56px);
       font-weight: 700;
       color: #FFFFFF;
-      line-height: 1.05;
+      line-height: 1.08;
       letter-spacing: -0.02em;
       margin: 0;
     }
@@ -61,7 +62,7 @@
       font-weight: 400;
     }
     .vault-hero-right {
-      display: flex; align-items: center; gap: 28px;
+      display: flex; align-items: center; gap: 24px;
       flex-shrink: 0;
     }
     .vault-stat-pair {
@@ -69,17 +70,17 @@
     }
     .vault-stat-value {
       font-family: 'Manrope', sans-serif;
-      font-size: 28px; font-weight: 700;
+      font-size: 26px; font-weight: 700;
       color: #FFFFFF; line-height: 1;
     }
     .vault-stat-label {
       font-family: 'Inter', sans-serif;
-      font-size: 10px; font-weight: 600;
+      font-size: 9.5px; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.4);
     }
     .vault-stat-divider {
-      width: 1px; height: 40px;
+      width: 1px; height: 36px;
       background: rgba(255, 255, 255, 0.1);
     }
 
@@ -103,41 +104,44 @@
       color: #000B1A;
     }
 
-    /* ── Asymmetric Masonry Grid ─────────────────── */
+    /* ── Clean Architectural 4-Column Grid ──────────── */
     .wishlist-grid {
       display: grid !important;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 60px;
-      gap: 20px;
-      align-items: start;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 1200px) {
+      .wishlist-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
     }
     @media (max-width: 900px) {
-      .wishlist-grid { grid-template-columns: repeat(2, 1fr); }
+      .wishlist-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     }
     @media (max-width: 560px) {
-      .wishlist-grid { grid-template-columns: 1fr; }
+      .wishlist-grid { grid-template-columns: 1fr; gap: 14px; }
     }
 
-    /* Alternating card heights for editorial masonry */
-    .wishlist-card:nth-child(3n+1) { grid-row: span 7; }
-    .wishlist-card:nth-child(3n+2) { grid-row: span 6; }
-    .wishlist-card:nth-child(3n+3) { grid-row: span 8; }
-
+    /* ── Visual-First Product Card (80% Visual Ratio) ── */
     .wishlist-card {
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(8, 14, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex; flex-direction: column;
       position: relative;
       transform-style: preserve-3d;
       will-change: transform;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
       cursor: pointer;
     }
     .wishlist-card:hover {
-      border-color: rgba(61, 224, 255, 0.2);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border-color: rgba(61, 224, 255, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .wishlist-card.selected {
+      border-color: #3DE0FF;
+      box-shadow: 0 0 24px rgba(61, 224, 255, 0.25), 0 20px 50px rgba(0, 0, 0, 0.6);
     }
 
     /* Specular glare layer */
@@ -147,15 +151,16 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s;
-      border-radius: 12px;
+      border-radius: 14px;
     }
 
-    /* Card media takes most of card height */
+    /* Card media container (3:4 ratio) */
     .wishlist-card-media {
-      flex: 1;
       position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
       overflow: hidden;
-      min-height: 200px;
+      background: #020611;
     }
     .wishlist-card-img-anchor {
       display: block;
@@ -171,44 +176,121 @@
       transform: scale(1.04);
     }
 
-    /* Remove button */
-    .wishlist-remove-btn {
+    /* Ambient Select Ring (Top-Left) */
+    .card-select-ring {
+      position: absolute;
+      top: 12px; left: 12px;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 4;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color: transparent;
+    }
+    .card-select-ring:hover {
+      border-color: #3DE0FF;
+      transform: scale(1.08);
+    }
+    .wishlist-card.selected .card-select-ring {
+      background: #3DE0FF;
+      border-color: #3DE0FF;
+      color: #000B1A;
+    }
+
+    /* Top-Right Quick Action Cluster */
+    .card-top-actions {
       position: absolute;
       top: 12px; right: 12px;
-      width: 32px; height: 32px;
+      display: flex; align-items: center; gap: 6px;
+      z-index: 4;
+    }
+    .card-quicklook-btn,
+    .wishlist-remove-btn {
+      width: 30px; height: 30px;
       border-radius: 50%;
       background: rgba(0, 0, 0, 0.55);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.75);
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 3;
+      cursor: pointer;
       opacity: 0;
-      transform: scale(0.8);
+      transform: scale(0.85);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .wishlist-card:hover .card-quicklook-btn,
     .wishlist-card:hover .wishlist-remove-btn {
       opacity: 1; transform: scale(1);
     }
+    .card-quicklook-btn:hover {
+      background: rgba(61, 224, 255, 0.25);
+      border-color: #3DE0FF;
+      color: #3DE0FF;
+    }
     .wishlist-remove-btn:hover {
-      background: rgba(251, 113, 133, 0.3);
-      border-color: rgba(251, 113, 133, 0.5);
+      background: rgba(251, 113, 133, 0.25);
+      border-color: #FB7185;
       color: #FB7185;
     }
-    /* Always-visible remove on touch/mobile */
-    @media (max-width: 560px) {
-      .wishlist-remove-btn { opacity: 1; transform: scale(1); }
+    @media (max-width: 768px) {
+      .card-quicklook-btn, .wishlist-remove-btn { opacity: 1; transform: scale(1); }
     }
+
+    /* Media Bottom Bar: Tactile Selectors */
+    .card-media-footer {
+      position: absolute;
+      bottom: 10px; left: 10px; right: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 3;
+      pointer-events: auto;
+      opacity: 0.95;
+    }
+    .card-swatch-list {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .card-swatch-disc {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .card-swatch-disc:hover { transform: scale(1.2); }
+    .card-swatch-disc.active {
+      border-color: #3DE0FF;
+      box-shadow: 0 0 6px #3DE0FF;
+      transform: scale(1.15);
+    }
+    .card-stock-beacon {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 3px 7px; border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .card-stock-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .card-stock-dot.in-stock { background: #34D399; box-shadow: 0 0 6px #34D399; }
+    .card-stock-dot.low-stock { background: #FBBF24; box-shadow: 0 0 6px #FBBF24; }
 
     /* Card body: strict 3-item luxury metadata */
     .wishlist-card-body {
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      padding: 14px 16px 16px;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; gap: 4px;
     }
     .wishlist-card-brand {
       font-family: 'Inter', sans-serif;
@@ -219,17 +301,17 @@
     .wishlist-card-title-link { text-decoration: none; }
     .wishlist-card-name {
       font-family: 'Manrope', sans-serif;
-      font-size: 14px; font-weight: 600;
+      font-size: 13.5px; font-weight: 600;
       color: #FFFFFF; line-height: 1.25;
-      margin: 0;
+      margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .wishlist-card-title-link:hover .wishlist-card-name {
-      color: rgba(255, 255, 255, 0.75);
+      color: #3DE0FF;
     }
     .wishlist-card-price-row {
       display: flex; align-items: center;
       justify-content: space-between;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .wishlist-card-price {
       font-family: 'Inter', sans-serif;
@@ -238,9 +320,9 @@
       font-variant-numeric: tabular-nums;
     }
     .wishlist-move-bag-btn {
-      height: 32px; padding: 0 14px;
+      height: 30px; padding: 0 12px;
       background: rgba(61, 224, 255, 0.1);
-      border: 1px solid rgba(61, 224, 255, 0.25);
+      border: 1px solid rgba(61, 224, 255, 0.3);
       border-radius: 6px;
       color: #3DE0FF;
       font-family: 'Inter', sans-serif;
@@ -249,16 +331,178 @@
       cursor: pointer;
       transition: all 0.18s;
       display: inline-flex; align-items: center; gap: 4px;
-      min-width: 44px; min-height: 44px;
+      min-width: 44px; min-height: 32px;
     }
     .wishlist-move-bag-btn:hover {
       background: #3DE0FF;
       color: #000B1A;
     }
-    .wishlist-move-bag-btn.added {
-      background: #34D399;
-      border-color: #34D399;
-      color: #000000;
+
+    /* ── Floating Obsidian Batch Island ─────────────── */
+    .wishlist-batch-dock {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      z-index: 100;
+      background: rgba(8, 14, 30, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+      padding: 8px 12px 8px 20px;
+      display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(61, 224, 255, 0.15);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+      max-width: 92vw;
+    }
+    .wishlist-batch-dock.active {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (max-width: 640px) {
+      .wishlist-batch-dock {
+        bottom: 0; left: 0; right: 0;
+        transform: translateY(100%);
+        border-radius: 16px 16px 0 0;
+        width: 100%; max-width: 100%;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        justify-content: space-between;
+      }
+      .wishlist-batch-dock.active {
+        transform: translateY(0);
+      }
+    }
+    .batch-dock-stat {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: #FFFFFF; white-space: nowrap;
+    }
+    .batch-dock-stat span { color: #3DE0FF; margin-right: 4px; }
+    .batch-dock-actions {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .batch-dock-btn-primary {
+      height: 38px; padding: 0 18px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: none;
+      color: #030814;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .batch-dock-btn-primary:hover {
+      background: #3DE0FF;
+      transform: scale(1.02);
+    }
+    .batch-dock-icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.75);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .batch-dock-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+    }
+
+    /* ── Quick Look Slide-Over Drawer ─────────────────── */
+    .quicklook-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 4, 12, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .quicklook-overlay.active {
+      opacity: 1; pointer-events: auto;
+    }
+    .quicklook-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 520px; max-width: 100vw;
+      background: #080E1E;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 201;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+    }
+    .quicklook-drawer.active {
+      transform: translateX(0);
+    }
+    @media (max-width: 640px) {
+      .quicklook-drawer {
+        top: auto; left: 0; right: 0; bottom: 0;
+        width: 100%; height: 88vh;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+      }
+      .quicklook-drawer.active { transform: translateY(0); }
+    }
+    .quicklook-header {
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .quicklook-body {
+      flex: 1; overflow-y: auto;
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .quicklook-media-stage {
+      width: 100%; aspect-ratio: 4 / 3;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #030611;
+      position: relative;
+    }
+    .quicklook-main-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .quicklook-filmstrip {
+      display: flex; gap: 10px;
+    }
+    .quicklook-thumb {
+      width: 60px; height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+    .quicklook-thumb.active {
+      border-color: #3DE0FF;
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.4);
+    }
+    .quicklook-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .quicklook-footer {
+      padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; gap: 12px;
     }
   </style>
 </head>
@@ -414,7 +658,7 @@
         <div class="spotlight-body-row">
           <div class="plp-spotlight-content">
             <h2 class="plp-spotlight-title" id="wishlistSpotlightTitle">Your Complete Atelier Archive</h2>
-            <p class="plp-spotlight-desc" id="wishlistSpotlightDesc">Every tailored silhouette, instrument, and leather piece reserved across your private collection.</p>
+            <p class="plp-spotlight-desc" id="wishlistSpotlightDesc">Every tailored silhouette, acoustic instrument, and artisanal piece reserved across your private vault.</p>
           </div>
           <div class="plp-spotlight-tags" id="wishlistSpotlightTags">
             <span class="plp-spotlight-tag">3 Pieces Saved</span>
@@ -439,6 +683,10 @@
         </div>
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="select-all">
+            <i data-lucide="check-square" style="width: 13px; height: 13px;"></i>
+            <span>SELECT ALL</span>
+          </button>
           <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="share">
             <i data-lucide="share-2" style="width: 13px; height: 13px;"></i>
             <span>SHARE PRIVATE EDIT</span>
@@ -450,86 +698,13 @@
         </div>
       </div>
 
-      <!-- WISHLIST GRID CONTAINER (Pre-rendered Default Seed for 0.000 CLS & Zero Reload Flicker) -->
+      <!-- WISHLIST GRID CONTAINER -->
       <div id="wishlistGrid" class="wishlist-grid">
-        <div class="wishlist-card" id="wishCard_p1" data-category="apparel">
-          <div class="wishlist-card-specular" aria-hidden="true"></div>
-          <div class="wishlist-card-media">
-            <a href="product.html?id=p1" class="wishlist-card-img-anchor" aria-label="View Double-Breasted Wool Overcoat">
-              <img class="wishlist-card-img" src="../assets/images/products/plp_overcoat.png" alt="Double-Breasted Wool Overcoat" />
-            </a>
-            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p1" aria-label="Remove Double-Breasted Wool Overcoat from curation" title="Remove from Curation">
-              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-            </button>
-          </div>
-          <div class="wishlist-card-body">
-            <span class="wishlist-card-brand">MAISON APPAREL</span>
-            <a href="product.html?id=p1" class="wishlist-card-title-link">
-              <h2 class="wishlist-card-name">Double-Breasted Wool Overcoat</h2>
-            </a>
-            <div class="wishlist-card-price-row">
-              <span class="wishlist-card-price">€ 285.00</span>
-              <button type="button" class="wishlist-move-bag-btn" data-action="move-to-bag" data-id="p1" aria-label="Move Double-Breasted Wool Overcoat to Bag">
-                <i data-lucide="shopping-bag" style="width: 11px; height: 11px;"></i>
-                ADD
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="wishlist-card" id="wishCard_p4" data-category="acoustics">
-          <div class="wishlist-card-specular" aria-hidden="true"></div>
-          <div class="wishlist-card-media">
-            <a href="product.html?id=p4" class="wishlist-card-img-anchor" aria-label="View Planar Magnetic Studio Headphones">
-              <img class="wishlist-card-img" src="../assets/images/products/prod_headphones.png" alt="Planar Magnetic Studio Headphones" />
-            </a>
-            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p4" aria-label="Remove Planar Magnetic Studio Headphones from curation" title="Remove from Curation">
-              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-            </button>
-          </div>
-          <div class="wishlist-card-body">
-            <span class="wishlist-card-brand">HIGH ACOUSTICS</span>
-            <a href="product.html?id=p4" class="wishlist-card-title-link">
-              <h2 class="wishlist-card-name">Planar Magnetic Studio Headphones</h2>
-            </a>
-            <div class="wishlist-card-price-row">
-              <span class="wishlist-card-price">€ 220.00</span>
-              <button type="button" class="wishlist-move-bag-btn" data-action="move-to-bag" data-id="p4" aria-label="Move Planar Magnetic Studio Headphones to Bag">
-                <i data-lucide="shopping-bag" style="width: 11px; height: 11px;"></i>
-                ADD
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="wishlist-card" id="wishCard_p6" data-category="footwear">
-          <div class="wishlist-card-specular" aria-hidden="true"></div>
-          <div class="wishlist-card-media">
-            <a href="product.html?id=p6" class="wishlist-card-img-anchor" aria-label="View Minimalist Leather Runner">
-              <img class="wishlist-card-img" src="../assets/images/products/prod_runner.png" alt="Minimalist Leather Runner" />
-            </a>
-            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="p6" aria-label="Remove Minimalist Leather Runner from curation" title="Remove from Curation">
-              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-            </button>
-          </div>
-          <div class="wishlist-card-body">
-            <span class="wishlist-card-brand">ARTISANAL FOOTWEAR</span>
-            <a href="product.html?id=p6" class="wishlist-card-title-link">
-              <h2 class="wishlist-card-name">Minimalist Leather Runner</h2>
-            </a>
-            <div class="wishlist-card-price-row">
-              <span class="wishlist-card-price">€ 184.00</span>
-              <button type="button" class="wishlist-move-bag-btn" data-action="move-to-bag" data-id="p6" aria-label="Move Minimalist Leather Runner to Bag">
-                <i data-lucide="shopping-bag" style="width: 11px; height: 11px;"></i>
-                ADD
-              </button>
-            </div>
-          </div>
-        </div>
+        <!-- Rendered by js/wishlist.js -->
       </div>
 
       <!-- CAPSULE FILTER EMPTY STATE (shown when the active look has no matching saved pieces) -->
-      <div id="wishlistFilterEmpty" class="wishlist-filter-empty">
+      <div id="wishlistFilterEmpty" class="wishlist-filter-empty" style="display: none;">
         <i data-lucide="filter" style="width: 15px; height: 15px;"></i>
         <span>No saved pieces in this capsule yet.</span>
       </div>
@@ -570,6 +745,42 @@
     </div>
   </main>
 
+  <!-- FLOATING OBSIDIAN BATCH ACTION ISLAND -->
+  <aside id="wishlistBatchDock" class="wishlist-batch-dock" role="region" aria-label="Batch Actions Toolbar">
+    <div class="batch-dock-stat">
+      <span id="batchSelectedCount">0</span> Selected &middot; <span id="batchSelectedValue" class="tabular-nums">€ 0.00</span>
+    </div>
+    <div class="batch-dock-actions">
+      <button type="button" id="batchMoveToBagBtn" class="batch-dock-btn-primary" aria-label="Move selected items to bag">
+        <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
+        <span>MOVE SELECTED TO BAG</span>
+      </button>
+      <button type="button" id="batchRemoveBtn" class="batch-dock-icon-btn" aria-label="Remove selected items" title="Remove Selected">
+        <i data-lucide="trash-2" style="width: 14px; height: 14px; color: #FB7185;"></i>
+      </button>
+      <button type="button" id="batchClearBtn" class="batch-dock-icon-btn" aria-label="Clear selection" title="Clear Selection">
+        <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- QUICK LOOK SLIDE-OVER DRAWER -->
+  <div id="quicklookOverlay" class="quicklook-overlay" aria-hidden="true"></div>
+  <aside id="quicklookDrawer" class="quicklook-drawer" aria-hidden="true" role="dialog" aria-label="Product Quick Inspection">
+    <div class="quicklook-header">
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #3DE0FF;">ATELIER QUICK LOOK</div>
+      <button type="button" id="quicklookCloseBtn" style="background: none; border: none; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%;" aria-label="Close Quick Look">
+        <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+      </button>
+    </div>
+    <div id="quicklookBody" class="quicklook-body">
+      <!-- Populated dynamically by wishlist.js -->
+    </div>
+    <div id="quicklookFooter" class="quicklook-footer">
+      <!-- Populated dynamically by wishlist.js -->
+    </div>
+  </aside>
+
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
   <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
@@ -586,769 +797,51 @@
   <script src="../js/cart.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
-  <script>
-    var WISHLIST_KEY = 'nex_curated_wishlist_ids';
-
-    var CATALOG_DB = {
-      'p1': {
-        id: 'p1',
-        title: 'Double-Breasted Wool Overcoat',
-        tag: 'MAISON APPAREL',
-        price: 285,
-        image: '../assets/images/products/plp_overcoat.png',
-        stock: 'Available in Atelier',
-        desc: 'Virgin wool blend with structured shoulder silhouette.'
-      },
-      'p2': {
-        id: 'p2',
-        title: 'Cashmere Blend Crewneck',
-        tag: 'MAISON APPAREL',
-        price: 142,
-        image: '../assets/images/lifestyle/sweater_lifestyle.png',
-        stock: 'Low Stock · 2 Left',
-        desc: '70% Mongolian cashmere with architectural ribbed cuff.'
-      },
-      'p3': {
-        id: 'p3',
-        title: 'Architectural Wool Trousers',
-        tag: 'MAISON APPAREL',
-        price: 168,
-        image: '../assets/images/products/plp_trousers.png',
-        stock: 'Available in Atelier',
-        desc: 'Double pleated high-waist drape in charcoal wool.'
-      },
-      'p4': {
-        id: 'p4',
-        title: 'Planar Magnetic Studio Headphones',
-        tag: 'HIGH ACOUSTICS',
-        price: 220,
-        image: '../assets/images/products/prod_headphones.png',
-        stock: 'Limited Edition',
-        desc: 'Beryllium drivers with memory foam lambskin pads.'
-      },
-      'p5': {
-        id: 'p5',
-        title: 'Artisanal Suede Tote',
-        tag: 'LEATHER & ACCESSORIES',
-        price: 195,
-        image: '../assets/images/products/prod_tote.png',
-        stock: 'Available in Atelier',
-        desc: 'Hand-finished Tuscan calf suede with solid brass hardware.'
-      },
-      'p6': {
-        id: 'p6',
-        title: 'Minimalist Leather Runner',
-        tag: 'ARTISANAL FOOTWEAR',
-        price: 184,
-        image: '../assets/images/products/prod_runner.png',
-        stock: 'Available in Atelier',
-        desc: 'Full-grain Italian nappa leather on custom Margom cupsole.'
-      },
-      'p7': {
-        id: 'p7',
-        title: 'Obsidian Automatic Timepiece',
-        tag: 'HIGH ACOUSTICS & WATCHES',
-        price: 340,
-        image: '../assets/images/products/search_watch.png',
-        stock: 'Limited Atelier Edition',
-        desc: 'DLC-coated stainless steel with bespoke automatic caliber.'
-      }
-    };
-
-    // Curated Look Switcher capsule copy.
-    var SPOTLIGHT_CAPSULES = [
-      {
-        key: 'all',
-        eyebrow: 'PRIVATE CURATION OVERVIEW',
-        title: 'Your Complete Atelier Archive',
-        desc: 'Every tailored silhouette, instrument, and leather piece reserved across your private collection.',
-        flavorTag: 'Atelier Reserved'
-      },
-      {
-        key: 'apparel',
-        eyebrow: 'MAISON APPAREL CAPSULE',
-        title: 'Tailored Silhouettes, Held in Reserve',
-        desc: 'Structured outerwear and considered knitwear selected for drape and seasonal versatility.',
-        flavorTag: 'Atelier Ready'
-      },
-      {
-        key: 'acoustics',
-        eyebrow: 'STUDIO ACOUSTICS CAPSULE',
-        title: 'Sound Engineered for the Private Ear',
-        desc: 'Precision-tuned instruments with beryllium drivers and hand-finished lambskin pads.',
-        flavorTag: 'Studio Grade'
-      },
-      {
-        key: 'footwear',
-        eyebrow: 'FOOTWEAR & LEATHER CAPSULE',
-        title: 'Hand-Finished Leather, Considered Craft',
-        desc: 'Full-grain leathers and suede finishes shaped on custom lasts for an artisanal stride.',
-        flavorTag: 'Italian Craft'
-      }
-    ];
-    var activeCapsuleIndex = 0;
-    var activeCategoryFilter = 'all';
-
-    function categoryKeyForTag(tag) {
-      if (!tag) return 'apparel';
-      if (tag.indexOf('ACOUSTICS') !== -1) return 'acoustics';
-      if (tag.indexOf('FOOTWEAR') !== -1 || tag.indexOf('LEATHER') !== -1) return 'footwear';
-      return 'apparel';
-    }
-
-    function computeCapsuleStats() {
-      var ids = getSavedWishlist();
-      var stats = {
-        all: { count: 0, value: 0 },
-        apparel: { count: 0, value: 0 },
-        acoustics: { count: 0, value: 0 },
-        footwear: { count: 0, value: 0 }
-      };
-      ids.forEach(function(id) {
-        var item = CATALOG_DB[id];
-        if (!item) return;
-        var key = categoryKeyForTag(item.tag);
-        stats.all.count += 1;
-        stats.all.value += item.price;
-        stats[key].count += 1;
-        stats[key].value += item.price;
-      });
-      return stats;
-    }
-
-    function getSavedWishlist() {
-      try {
-        var raw = localStorage.getItem(WISHLIST_KEY);
-        if (!raw) {
-          var seed = ['p1', 'p4', 'p6'];
-          localStorage.setItem(WISHLIST_KEY, JSON.stringify(seed));
-          return seed;
-        }
-        return JSON.parse(raw);
-      } catch (e) {
-        return ['p1', 'p4', 'p6'];
-      }
-    }
-
-    function escapeStr(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    function getCardCategory(tag) {
-      return categoryKeyForTag(tag);
-    }
-
-    function renderWishlistCard(item, categoryKey) {
-      return `
-        <div class="wishlist-card" id="wishCard_${item.id}" data-category="${categoryKey}" data-id="${item.id}">
-          <div class="wishlist-card-specular" aria-hidden="true"></div>
-          <div class="wishlist-card-media">
-            <a href="product.html?id=${item.id}" class="wishlist-card-img-anchor" aria-label="View ${escapeStr(item.title)}">
-              <img class="wishlist-card-img" src="${item.image}" alt="${escapeStr(item.title)}" loading="lazy" />
-            </a>
-            <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="${item.id}" aria-label="Remove ${escapeStr(item.title)} from curation" title="Remove from Curation">
-              <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-            </button>
-          </div>
-          <div class="wishlist-card-body">
-            <span class="wishlist-card-brand">${escapeStr(item.tag)}</span>
-            <a href="product.html?id=${item.id}" class="wishlist-card-title-link">
-              <h2 class="wishlist-card-name">${escapeStr(item.title)}</h2>
-            </a>
-            <div class="wishlist-card-price-row">
-              <span class="wishlist-card-price">€ ${Number(item.price).toFixed(2)}</span>
-              <button type="button" class="wishlist-move-bag-btn" data-action="move-to-bag" data-id="${item.id}" aria-label="Move ${escapeStr(item.title)} to Bag">
-                <i data-lucide="shopping-bag" style="width: 11px; height: 11px;"></i>
-                ADD
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderWishlistSkeletons(count) {
-      var grid = document.getElementById('wishlistGrid');
-      if (!grid) return;
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        html += `
-          <div class="wishlist-skeleton-card" aria-hidden="true">
-            <div class="wishlist-skeleton-shimmer"></div>
-            <div class="wishlist-skeleton-media"></div>
-            <div class="wishlist-skeleton-body">
-              <div class="skeleton-pill skeleton-pill-tag"></div>
-              <div class="skeleton-pill skeleton-pill-title"></div>
-              <div class="skeleton-pill skeleton-pill-price"></div>
-              <div class="skeleton-pill skeleton-pill-stock"></div>
-              <div class="skeleton-pill skeleton-pill-btn"></div>
-            </div>
-          </div>
-        `;
-      }
-      grid.style.display = 'grid';
-      grid.innerHTML = html;
-    }
-
-    function renderWishlist() {
-      var ids = getSavedWishlist();
-      var grid = document.getElementById('wishlistGrid');
-      var statsBar = document.getElementById('wishlistStatsBar');
-      var emptyState = document.getElementById('wishlistEmptyState');
-      var countDisplay = document.getElementById('wishlistCountDisplay');
-      var valDisplay = document.getElementById('wishlistValuationDisplay');
-
-      if (!ids || ids.length === 0) {
-        if (grid) grid.style.display = 'none';
-        if (statsBar) statsBar.style.display = 'none';
-        if (emptyState) emptyState.style.display = 'block';
-        if (window.nexUpdateWishlistBadge) window.nexUpdateWishlistBadge(0);
-        return;
-      }
-
-      if (grid) grid.style.display = 'grid';
-      if (statsBar) statsBar.style.display = 'flex';
-      if (emptyState) emptyState.style.display = 'none';
-
-      var totalValuation = 0;
-      var cardsHtml = '';
-
-      ids.forEach(function(id) {
-        var item = CATALOG_DB[id] || {
-          id: id,
-          title: 'Atelier Curated Piece',
-          tag: 'MAISON ARCHIVE',
-          price: 18000,
-          image: '../assets/images/products/plp_overcoat.png',
-          stock: 'Available in Atelier',
-          desc: 'Artisanal silhouette handcrafted with pure textile integrity.'
-        };
-
-        totalValuation += item.price;
-        var categoryKey = categoryKeyForTag(item.tag);
-        cardsHtml += renderWishlistCard(item, categoryKey);
-      });
-
-      var currentCardIds = Array.prototype.slice.call(grid.querySelectorAll('.wishlist-card')).map(function(card) {
-        return card.id.replace('wishCard_', '');
-      });
-      var isSame = currentCardIds.length === ids.length && ids.every(function(id, idx) {
-        return id === currentCardIds[idx];
-      });
-
-      if (!isSame) {
-        grid.innerHTML = cardsHtml;
-      }
-
-      if (countDisplay) countDisplay.textContent = ids.length + (ids.length === 1 ? ' Piece Reserved' : ' Pieces Reserved');
-      if (valDisplay) valDisplay.textContent = '€ ' + Number(totalValuation).toFixed(2);
-
-      if (window.nexUpdateWishlistBadge) window.nexUpdateWishlistBadge(ids.length);
-      if (window.lucide) window.lucide.createIcons();
-      if (window.initWishlistCardsMotion) window.initWishlistCardsMotion();
-
-      applyGridFilter(activeCategoryFilter, false);
-      refreshSpotlightStats();
-      updateTabCountBadges();
-    }
-
-    // ─── Curated Look Switcher ───────────────────────────────────────────────────
-    function applyGridFilter(key, animated) {
-      activeCategoryFilter = key;
-      var grid = document.getElementById('wishlistGrid');
-      var emptyMsg = document.getElementById('wishlistFilterEmpty');
-      if (!grid) return;
-
-      var cards = Array.prototype.slice.call(grid.querySelectorAll('.wishlist-card'));
-      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var visibleCount = 0;
-      var showIndex = 0;
-
-      cards.forEach(function(card) {
-        var matches = key === 'all' || card.getAttribute('data-category') === key;
-        if (matches) visibleCount++;
-
-        if (card._filterAnim) {
-          card._filterAnim.cancel();
-          card._filterAnim = null;
-        }
-
-        if (matches) {
-          var wasHidden = card.style.display === 'none';
-          card.style.display = '';
-          card.style.opacity = '';
-
-          if (animated && wasHidden && !prefersReduced && card.animate) {
-            var showAnim = card.animate(
-              [{ opacity: 0, transform: 'scale(0.96) translateY(6px)' }, { opacity: 1, transform: 'scale(1) translateY(0px)' }],
-              { duration: 320, delay: showIndex * 40, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' }
-            );
-            card._filterAnim = showAnim;
-            showAnim.onfinish = function() {
-              showAnim.cancel();
-              if (card._filterAnim === showAnim) card._filterAnim = null;
-            };
-            showIndex++;
-          }
-        } else if (card.style.display !== 'none') {
-          if (animated && !prefersReduced && card.animate) {
-            var hideAnim = card.animate(
-              [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0.96)' }],
-              { duration: 200, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
-            );
-            card._filterAnim = hideAnim;
-            hideAnim.onfinish = function() {
-              card.style.display = 'none';
-              hideAnim.cancel();
-              if (card._filterAnim === hideAnim) card._filterAnim = null;
-            };
-          } else {
-            card.style.display = 'none';
-          }
-        }
-      });
-
-      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'flex' : 'none';
-    }
-
-    function indexForCapsuleKey(key) {
-      for (var i = 0; i < SPOTLIGHT_CAPSULES.length; i++) {
-        if (SPOTLIGHT_CAPSULES[i].key === key) return i;
-      }
-      return 0;
-    }
-
-    function paintSpotlightTags(capsule, tagsEl) {
-      if (!tagsEl) return;
-      var stats = computeCapsuleStats()[capsule.key] || { count: 0, value: 0 };
-      var tags = [
-        stats.count + (stats.count === 1 ? ' Piece Saved' : ' Pieces Saved'),
-        '€ ' + Number(stats.value).toFixed(2),
-        capsule.flavorTag
-      ];
-      tagsEl.innerHTML = tags.map(function(t) {
-        return '<span class="plp-spotlight-tag tabular-nums">' + t + '</span>';
-      }).join('');
-    }
-
-    function updateStatsBarForCapsule(capsule) {
-      var stats = computeCapsuleStats()[capsule.key] || { count: 0, value: 0 };
-      var countDisplay = document.getElementById('wishlistCountDisplay');
-      var valDisplay = document.getElementById('wishlistValuationDisplay');
-      if (countDisplay) countDisplay.textContent = stats.count + (stats.count === 1 ? ' Piece Reserved' : ' Pieces Reserved');
-      if (valDisplay) valDisplay.textContent = '€ ' + Number(stats.value).toFixed(2);
-    }
-
-    function refreshSpotlightStats() {
-      var capsule = SPOTLIGHT_CAPSULES[activeCapsuleIndex];
-      if (!capsule) return;
-      paintSpotlightTags(capsule, document.getElementById('wishlistSpotlightTags'));
-      updateStatsBarForCapsule(capsule);
-    }
-
-    var spotlightFadeAnims = [];
-
-    function setActiveCapsule(index, withAnimation) {
-      activeCapsuleIndex = index;
-      var capsule = SPOTLIGHT_CAPSULES[index];
-
-      var tabBtns = document.querySelectorAll('#wishlistSpotlightBar .spotlight-tab-btn');
-      tabBtns.forEach(function(btn) {
-        var isActive = btn.getAttribute('data-tab-filter') === capsule.key;
-        btn.classList.toggle('active', isActive);
-        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-
-      var eyebrowEl = document.getElementById('wishlistSpotlightEyebrow');
-      var titleEl = document.getElementById('wishlistSpotlightTitle');
-      var descEl = document.getElementById('wishlistSpotlightDesc');
-      var tagsEl = document.getElementById('wishlistSpotlightTags');
-
-      function paintContent() {
-        if (eyebrowEl) {
-          var span = eyebrowEl.querySelector('span');
-          if (span) span.textContent = capsule.eyebrow;
-        }
-        if (titleEl) titleEl.textContent = capsule.title;
-        if (descEl) descEl.textContent = capsule.desc;
-        paintSpotlightTags(capsule, tagsEl);
-        updateStatsBarForCapsule(capsule);
-      }
-
-      spotlightFadeAnims.forEach(function(a) { a.cancel(); });
-      spotlightFadeAnims = [];
-
-      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (withAnimation && titleEl && !prefersReduced && titleEl.animate) {
-        var fadeTargets = [titleEl, descEl].filter(Boolean);
-        var pending = fadeTargets.length;
-        fadeTargets.forEach(function(el) {
-          var out = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: 'forwards' });
-          spotlightFadeAnims.push(out);
-          out.onfinish = function() {
-            out.cancel();
-            pending--;
-            if (pending === 0) paintContent();
-            var fadeIn = el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250, fill: 'forwards' });
-            spotlightFadeAnims.push(fadeIn);
-            fadeIn.onfinish = function() { fadeIn.cancel(); };
-          };
-        });
-      } else {
-        paintContent();
-      }
-
-      applyGridFilter(capsule.key, withAnimation);
-    }
-
-    function initSpotlightController() {
-      var spotlightBar = document.getElementById('wishlistSpotlightBar');
-      if (!spotlightBar) return;
-      setActiveCapsule(0, false);
-    }
-
-    function removeFromWishlist(id) {
-      var ids = getSavedWishlist();
-      var idx = ids.indexOf(id);
-      if (idx === -1) return;
-
-      function commit() {
-        ids.splice(idx, 1);
-        localStorage.setItem(WISHLIST_KEY, JSON.stringify(ids));
-        renderWishlist();
-      }
-
-      var card = document.getElementById('wishCard_' + id);
-      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (card && card.animate && !prefersReduced) {
-        var anim = card.animate(
-          [
-            { opacity: 1, transform: 'scale(1) translateY(0px)' },
-            { opacity: 0, transform: 'scale(0.92) translateY(-8px)' }
-          ],
-          { duration: 320, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
-        );
-        anim.onfinish = commit;
-      } else {
-        commit();
-      }
-    }
-
-    function moveSingleToBag(id, btn) {
-      var item = CATALOG_DB[id];
-
-      if (!btn) {
-        if (item && window.nexCart) {
-          window.nexCart.addItem({ id: item.id, name: item.title, price: item.price, image: item.image, quantity: 1, size: '48' });
-        }
-        return;
-      }
-
-      if (btn.classList.contains('adding')) return;
-      btn.classList.add('adding');
-      btn.innerHTML = '<span>ADDING&hellip;</span>';
-
-      setTimeout(function() {
-        if (item && window.nexCart) {
-          window.nexCart.addItem({
-            id: item.id,
-            name: item.title,
-            price: item.price,
-            image: item.image,
-            quantity: 1,
-            size: '48'
-          });
-        }
-
-        btn.classList.add('added');
-        btn.innerHTML = '<span>&#10003; ADDED</span>';
-
-        setTimeout(function() {
-          btn.classList.remove('adding', 'added');
-          btn.innerHTML = '<i data-lucide="shopping-bag" style="width:11px;height:11px;"></i> ADD';
-          if (window.lucide) window.lucide.createIcons({ nodes: [btn] });
-        }, 1600);
-      }, 420);
-    }
-
-    // Tactile ripple on action button presses
-    document.addEventListener('pointerdown', function(e) {
-      var btn = e.target.closest('.wishlist-move-bag-btn, .wishlist-ripple-btn');
-      if (!btn) return;
-      var rect = btn.getBoundingClientRect();
-      var size = Math.max(rect.width, rect.height);
-      var ripple = document.createElement('span');
-      ripple.className = 'card-ripple';
-      ripple.style.width = size + 'px';
-      ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-      btn.appendChild(ripple);
-      setTimeout(function() { ripple.remove(); }, 450);
-    });
-
-    function moveAllToBag(btn) {
-      var ids = getSavedWishlist();
-      if (!ids || ids.length === 0) return;
-
-      // Only move what the active capsule is currently showing
-      var filterKey = activeCategoryFilter;
-      var filteredIds = ids.filter(function(id) {
-        if (filterKey === 'all') return true;
-        var item = CATALOG_DB[id];
-        return !!item && categoryKeyForTag(item.tag) === filterKey;
-      });
-      if (filteredIds.length === 0) return;
-
-      if (!btn) {
-        if (window.nexCart) {
-          filteredIds.forEach(function(id) {
-            var item = CATALOG_DB[id];
-            if (item) window.nexCart.addItem({ id: item.id, name: item.title, price: item.price, image: item.image, quantity: 1, size: '48' });
-          });
-        }
-        return;
-      }
-      if (btn.classList.contains('adding')) return;
-
-      var originalHTML = btn.innerHTML;
-      btn.classList.add('adding');
-      btn.innerHTML = '<span>ADDING ' + filteredIds.length + ' PIECE' + (filteredIds.length === 1 ? '' : 'S') + '&hellip;</span>';
-      btn.disabled = true;
-
-      setTimeout(function() {
-        if (window.nexCart) {
-          filteredIds.forEach(function(id) {
-            var item = CATALOG_DB[id];
-            if (item) {
-              window.nexCart.addItem({
-                id: item.id,
-                name: item.title,
-                price: item.price,
-                image: item.image,
-                category: item.tag,
-                quantity: 1,
-                size: '48'
-              });
-            }
-          });
-        }
-
-        btn.innerHTML = '<span>&#10003; ALL ADDED TO BAG</span>';
-        btn.style.background = '#34D399';
-        btn.style.color = '#000000';
-
-        setTimeout(function() {
-          btn.classList.remove('adding');
-          btn.innerHTML = originalHTML;
-          btn.style.background = '';
-          btn.style.color = '';
-          btn.disabled = false;
-          if (window.lucide) window.lucide.createIcons({ nodes: [btn] });
-        }, 2200);
-      }, 400);
-    }
-
-    function shareWishlist(btn) {
-      var url = window.location.href;
-      var originalHTML = btn ? btn.innerHTML : null;
-
-      function showCopied() {
-        if (!btn) return;
-        btn.innerHTML = '<span>&#10003; LINK COPIED</span>';
-        setTimeout(function() { btn.innerHTML = originalHTML; }, 1800);
-      }
-
-      function legacyCopy() {
-        try {
-          var ta = document.createElement('textarea');
-          ta.value = url;
-          ta.style.position = 'fixed';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          showCopied();
-        } catch (e) {
-          if (btn) btn.innerHTML = '<span>COPY FAILED</span>';
-        }
-      }
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(showCopied).catch(legacyCopy);
-      } else {
-        legacyCopy();
-      }
-    }
-
-    // ─── Tab count badges & vault stats ─────────────────────────────────────────
-    function updateTabCountBadges() {
-      var ids = getSavedWishlist();
-      var categoryCounts = { all: ids.length, apparel: 0, acoustics: 0, footwear: 0 };
-      ids.forEach(function(id) {
-        var item = CATALOG_DB[id];
-        if (!item) return;
-        var key = categoryKeyForTag(item.tag);
-        if (categoryCounts[key] !== undefined) categoryCounts[key]++;
-      });
-
-      document.querySelectorAll('.spotlight-tab-btn[data-tab-filter]').forEach(function(tab) {
-        var filter = tab.getAttribute('data-tab-filter');
-        var count = categoryCounts[filter] !== undefined ? categoryCounts[filter] : 0;
-        var existing = tab.querySelector('.tab-count-badge');
-        if (existing) existing.remove();
-        var badge = document.createElement('span');
-        badge.className = 'tab-count-badge';
-        badge.textContent = count;
-        tab.appendChild(badge);
-      });
-
-      // Update vault hero stats
-      var total = ids.reduce(function(sum, id) {
-        return sum + (CATALOG_DB[id] ? CATALOG_DB[id].price : 0);
-      }, 0);
-      var countEl = document.getElementById('vaultPieceCount');
-      var valEl = document.getElementById('vaultTotalValue');
-      if (countEl) countEl.textContent = ids.length;
-      if (valEl) valEl.textContent = '€ ' + total.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    }
-
-    // ─── Centralized Event-Delegated Controller ──────────────────────────────────
-    document.addEventListener('click', function(e) {
-      var tab = e.target.closest('[data-tab-filter]');
-      if (tab) {
-        e.preventDefault();
-        setActiveCapsule(indexForCapsuleKey(tab.getAttribute('data-tab-filter')), true);
-        return;
-      }
-
-      var removeBtn = e.target.closest('[data-action="remove-wish"]');
-      if (removeBtn) {
-        e.preventDefault();
-        removeFromWishlist(removeBtn.getAttribute('data-id'));
-        return;
-      }
-
-      var moveBtn = e.target.closest('[data-action="move-to-bag"]');
-      if (moveBtn) {
-        e.preventDefault();
-        moveSingleToBag(moveBtn.getAttribute('data-id'), moveBtn);
-        return;
-      }
-
-      var moveAllBtn = e.target.closest('[data-action="move-all"]');
-      if (moveAllBtn) {
-        e.preventDefault();
-        moveAllToBag(moveAllBtn);
-        return;
-      }
-
-      var shareBtn = e.target.closest('[data-action="share"]');
-      if (shareBtn) {
-        e.preventDefault();
-        shareWishlist(shareBtn);
-        return;
-      }
-    });
-
-    // ─── 3D Spring Tilt & Specular Glare ────────────────────────────────────────
-    (function initWishlistTilt() {
-      var grid = document.getElementById('wishlistGrid');
-      if (!grid) return;
-
-      grid.addEventListener('mousemove', function(e) {
-        var card = e.target.closest('.wishlist-card');
-        if (!card) return;
-        var rect = card.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        var cx = rect.width / 2;
-        var cy = rect.height / 2;
-        var rotX = ((y - cy) / cy) * -4.5;
-        var rotY = ((x - cx) / cx) * 4.5;
-
-        card.style.transform = 'perspective(1000px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg)';
-
-        var specular = card.querySelector('.wishlist-card-specular');
-        if (specular) {
-          specular.style.opacity = '1';
-          specular.style.background = 'radial-gradient(circle at ' + x + 'px ' + y + 'px, rgba(255,255,255,0.08) 0%, transparent 65%)';
-        }
-      });
-
-      // Use capture on mouseleave so it fires even when cursor moves fast off the card
-      grid.addEventListener('mouseleave', function(e) {
-        var card = e.target.closest ? e.target.closest('.wishlist-card') : null;
-        if (card) {
-          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-          var specular = card.querySelector('.wishlist-card-specular');
-          if (specular) specular.style.opacity = '0';
-        }
-      }, true);
-    })();
-
-    // Hydrate immediately — script sits at end of <body> so DOM is already parsed.
-    function bootWishlistPage() {
-      renderWishlist();
-      initSpotlightController();
-      updateTabCountBadges();
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', bootWishlistPage);
-    } else {
-      bootWishlistPage();
-    }
-  </script>
-
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
-  </div>
-  <div id="minicartBody" class="minicart-body">
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">€ 0.00</span>
+  <script src="../js/wishlist-engine.js?v=1"></script>
+  <script src="../js/wishlist.js?v=1"></script>
+
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
     </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
-
-<!-- SEARCH OVERLAY (global CMD+K) -->
-<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
-  <div class="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-header-bar">
-      <div class="search-input-wrapper">
-        <div class="search-ai-icon">
-          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-        </div>
-        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
       </div>
-      <button class="search-close-btn" aria-label="Close search">
-        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-      </button>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
     </div>
-    <div id="aiSearchResultsModal" class="search-body"></div>
+  </aside>
+
+  <!-- SEARCH OVERLAY (global CMD+K) -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
   </div>
-</div>
-<script src="../js/ai-engine.js?v=3"></script>
-<script src="../js/intent-parser.js"></script>
-<script src="../js/catalog-engine.js"></script>
-<script src="../js/session-context.js"></script>
-<script src="../js/search-overlay.js?v=1"></script>
-<script src="../js/cookie-consent.js"></script>
+
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=1"></script>
+  <script src="../js/cookie-consent.js"></script>
 
 </body>
 </html>
