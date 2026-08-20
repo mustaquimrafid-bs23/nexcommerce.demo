@@ -1695,6 +1695,320 @@
     @media (max-width: 480px) {
       .harmony-meta-group { flex-wrap: wrap; }
     }
+    /* ─── Quick Look Slide-Over Drawer ───────────────────────────────── */
+    .sl-quicklook-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 8, 20, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms ease;
+      z-index: 210;
+    }
+    .sl-quicklook-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sl-quicklook-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: rgba(6, 12, 26, 0.98);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transform: translateX(100%);
+      transition: transform 340ms cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 220;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.85);
+    }
+    .sl-quicklook-drawer.is-open {
+      transform: translateX(0);
+    }
+
+    /* Drawer Header */
+    .sl-drawer-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .sl-drawer-brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 4px;
+    }
+    .sl-drawer-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk Display Pro', 'Manrope', sans-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .sl-drawer-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary, #94A3B8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 160ms ease;
+      flex-shrink: 0;
+    }
+    .sl-drawer-close-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Drawer Body */
+    .sl-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Gallery & Thumbnails */
+    .sl-drawer-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sl-drawer-hero-img-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .sl-drawer-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      transition: opacity 200ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sl-drawer-filmstrip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sl-drawer-thumb-btn {
+      width: 54px;
+      height: 48px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 150ms ease;
+    }
+    .sl-drawer-thumb-btn:hover {
+      opacity: 0.9;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .sl-drawer-thumb-btn.active {
+      opacity: 1;
+      border-color: var(--accent-cyan, #3DE0FF);
+      box-shadow: 0 0 8px rgba(61, 224, 255, 0.4);
+    }
+    .sl-drawer-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Pricing section */
+    .sl-drawer-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .sl-drawer-price {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .sl-drawer-orig-price {
+      font-size: 14px;
+      color: var(--text-muted, #64748B);
+      text-decoration: line-through;
+    }
+    .sl-drawer-omnibus {
+      font-size: 10.5px;
+      color: var(--text-secondary, #94A3B8);
+      margin-top: 2px;
+    }
+
+    /* Option sections */
+    .sl-drawer-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary, #94A3B8);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .sl-drawer-section-title span.val {
+      color: #FFFFFF;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Spec Matrix (2-column Architectural Grid) */
+    .sl-drawer-specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 4px;
+      padding: 14px 16px;
+    }
+    .sl-spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .sl-spec-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted, #64748B);
+    }
+    .sl-spec-val {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 12px;
+      font-weight: 500;
+      color: #FFFFFF;
+      line-height: 1.35;
+    }
+
+    /* Drawer Footer */
+    .sl-drawer-footer {
+      padding: 16px 24px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(4, 9, 20, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .sl-drawer-action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sl-drawer-btn-add {
+      flex: 1;
+      height: 44px;
+      background: #FFFFFF;
+      color: #030814;
+      border: none;
+      border-radius: 2px;
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 160ms ease;
+    }
+    .sl-drawer-btn-add:hover {
+      background: var(--accent-cyan, #3DE0FF);
+      transform: translateY(-1px);
+    }
+    .sl-drawer-btn-add:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .sl-drawer-pdp-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--accent-cyan, #3DE0FF);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+    .sl-drawer-pdp-link:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    /* Card quick look button trigger */
+    .sl-card-quick-look-btn {
+      position: absolute;
+      top: 8px;
+      right: 48px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(5, 12, 26, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-secondary, #94A3B8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 140ms ease, color 140ms ease;
+    }
+    .sl-card:hover .sl-card-quick-look-btn {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .sl-card-quick-look-btn:hover {
+      background: rgba(61, 224, 255, 0.2);
+      border-color: var(--accent-cyan, #3DE0FF);
+      color: #3DE0FF;
+    }
+    @media (hover: none) {
+      .sl-card-quick-look-btn { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body data-sl-page="smart-list">
@@ -2036,6 +2350,83 @@
           <span>Add Selected</span>
         </button>
       </div>
+    </div>
+  </aside>
+
+  <!-- QUICK LOOK SLIDE-OVER DRAWER -->
+  <div id="slQuickLookBackdrop" class="sl-quicklook-backdrop" aria-hidden="true"></div>
+  <aside id="slQuickLookDrawer" class="sl-quicklook-drawer" role="dialog" aria-modal="true" aria-labelledby="slDrawerTitle" aria-hidden="true">
+    <div class="sl-drawer-header">
+      <div>
+        <div class="sl-drawer-brand" id="slDrawerBrand">BRAND</div>
+        <h2 class="sl-drawer-title" id="slDrawerTitle">Product Name</h2>
+      </div>
+      <button type="button" class="sl-drawer-close-btn" id="slDrawerCloseBtn" aria-label="Close product quick look">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="sl-drawer-body" id="slDrawerBody">
+      <!-- Gallery -->
+      <div class="sl-drawer-gallery">
+        <div class="sl-drawer-hero-img-wrap">
+          <img src="" alt="" class="sl-drawer-hero-img" id="slDrawerHeroImg" />
+        </div>
+        <div class="sl-drawer-filmstrip" id="slDrawerFilmstrip"></div>
+      </div>
+
+      <!-- Pricing -->
+      <div>
+        <div class="sl-drawer-price-row">
+          <div class="sl-drawer-price tabular-nums" id="slDrawerPrice">€ 0.00</div>
+          <div class="sl-drawer-orig-price tabular-nums" id="slDrawerOrigPrice"></div>
+        </div>
+        <div class="sl-drawer-omnibus" id="slDrawerOmnibus" style="display: none;">Lowest price in last 30 days</div>
+      </div>
+
+      <!-- Finishes Section -->
+      <div id="slDrawerFinishesSection">
+        <div class="sl-drawer-section-title">
+          <span>Finish</span>
+          <span class="val" id="slDrawerSelectedFinishName">Default</span>
+        </div>
+        <div class="sl-swatches-strip" id="slDrawerSwatches"></div>
+      </div>
+
+      <!-- Sizes Section -->
+      <div id="slDrawerSizesSection">
+        <div class="sl-drawer-section-title">
+          <span>Size</span>
+          <span class="val" id="slDrawerSelectedSizeName">Standard</span>
+        </div>
+        <div class="sl-sizes-strip" id="slDrawerSizes"></div>
+      </div>
+
+      <!-- Architectural Spec Matrix -->
+      <div>
+        <div class="sl-drawer-section-title">
+          <span>Architectural Specifications</span>
+        </div>
+        <div class="sl-drawer-specs-grid" id="slDrawerSpecsGrid"></div>
+      </div>
+    </div>
+
+    <div class="sl-drawer-footer">
+      <div class="sl-drawer-action-row">
+        <div class="sl-stepper" role="group" aria-label="Quick look quantity">
+          <button type="button" class="sl-stepper-btn" id="slDrawerStepperDec" aria-label="Decrease quantity">−</button>
+          <span class="sl-stepper-val" id="slDrawerStepperVal" aria-live="polite">1</span>
+          <button type="button" class="sl-stepper-btn" id="slDrawerStepperInc" aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button" class="sl-drawer-btn-add" id="slDrawerAddBtn">
+          <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
+          <span id="slDrawerAddBtnLabel">Add to Bag</span>
+        </button>
+      </div>
+      <a href="#" class="sl-drawer-pdp-link" id="slDrawerPdpLink">
+        <span>View Full Editorial PDP</span>
+        <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+      </a>
     </div>
   </aside>
 

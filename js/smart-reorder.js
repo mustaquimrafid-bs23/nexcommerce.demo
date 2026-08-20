@@ -1374,6 +1374,9 @@ function buildCardHTML(product, index = 0, isCompact = false) {
         <a href="product.html?id=${product.id}" class="sl-card-img-link" aria-label="View ${product.name}">
           <img src="${resolvedImg}" alt="${product.name}" class="sl-card-img" loading="lazy" />
         </a>
+        <button type="button" class="sl-card-quick-look-btn" data-action="quick-look" data-id="${product.id}" aria-label="Quick look for ${product.name}" title="Quick Look">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
         ${effectiveOOS ? '<div class="sl-oos-badge">Out of Stock</div>' : ''}
         ${hasSale ? '<div class="sl-sale-badge">Special Offer</div>' : ''}
         ${quickAddOverlayHTML}
@@ -1438,15 +1441,24 @@ function bindCardEvents(container) {
   container._slEventsBound = true;
 
   container.addEventListener('click', e => {
-    const selectBtn   = e.target.closest('[data-action="toggle-select"]');
-    const finishBtn   = e.target.closest('[data-action="select-finish"]');
-    const sizeBtn     = e.target.closest('[data-action="select-size"]');
-    const quickAddBtn = e.target.closest('[data-action="quick-add"]');
-    const cadenceBtn  = e.target.closest('[data-cadence-trigger]');
-    const dismissBtn  = e.target.closest('[data-dismiss]');
-    const addBtn      = e.target.closest('.sl-btn-add:not(.sl-btn-add--disabled)');
-    const decBtn      = e.target.closest('.sl-stepper-dec');
-    const incBtn      = e.target.closest('.sl-stepper-inc');
+    const quickLookBtn = e.target.closest('[data-action="quick-look"]');
+    const selectBtn    = e.target.closest('[data-action="toggle-select"]');
+    const finishBtn    = e.target.closest('[data-action="select-finish"]');
+    const sizeBtn      = e.target.closest('[data-action="select-size"]');
+    const quickAddBtn  = e.target.closest('[data-action="quick-add"]');
+    const cadenceBtn   = e.target.closest('[data-cadence-trigger]');
+    const dismissBtn   = e.target.closest('[data-dismiss]');
+    const addBtn       = e.target.closest('.sl-btn-add:not(.sl-btn-add--disabled)');
+    const decBtn       = e.target.closest('.sl-stepper-dec');
+    const incBtn       = e.target.closest('.sl-stepper-inc');
+
+    if (quickLookBtn) {
+      const id = quickLookBtn.dataset.id;
+      if (window.smartListStore) {
+        window.smartListStore.openQuickLook(id);
+      }
+      return;
+    }
 
     if (selectBtn) {
       const id = selectBtn.dataset.id;
@@ -1677,7 +1689,279 @@ if (window.smartListStore) {
       updateListStats();
       updateBatchDock();
     }
+
+    if (event.type === 'QUICK_LOOK_OPEN') {
+      updateQuickLookDrawer(event.id);
+    }
+
+    if (event.type === 'QUICK_LOOK_CLOSE') {
+      updateQuickLookDrawer(null);
+    }
   });
+}
+
+/* ─── Modernist Quick Look Slide-Over Drawer Controller ───────────────────── */
+let quickLookCurrentQty = 1;
+
+function initQuickLookDrawer() {
+  const drawer = document.getElementById('slQuickLookDrawer');
+  const backdrop = document.getElementById('slQuickLookBackdrop');
+  const closeBtn = document.getElementById('slDrawerCloseBtn');
+  const decBtn = document.getElementById('slDrawerStepperDec');
+  const incBtn = document.getElementById('slDrawerStepperInc');
+  const addBtn = document.getElementById('slDrawerAddBtn');
+
+  if (!drawer || drawer._hasQuickLookBound) return;
+  drawer._hasQuickLookBound = true;
+
+  const closeDrawer = () => {
+    if (window.smartListStore) {
+      window.smartListStore.closeQuickLook();
+    }
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+      closeDrawer();
+    }
+  });
+
+  if (decBtn) {
+    decBtn.addEventListener('click', () => {
+      quickLookCurrentQty = Math.max(1, quickLookCurrentQty - 1);
+      const val = document.getElementById('slDrawerStepperVal');
+      if (val) val.textContent = quickLookCurrentQty;
+      if (window.smartListStore && window.smartListStore.quickLookId) {
+        const p = window.smartListStore.getItem(window.smartListStore.quickLookId);
+        const curPrice = window.smartListStore.getItemPrice(p.id);
+        const addBtnLabel = document.getElementById('slDrawerAddBtnLabel');
+        if (addBtnLabel && p.inStock) {
+          addBtnLabel.textContent = `Add to Bag — € ${Number(curPrice * quickLookCurrentQty).toFixed(2)}`;
+        }
+      }
+    });
+  }
+
+  if (incBtn) {
+    incBtn.addEventListener('click', () => {
+      quickLookCurrentQty = Math.min(10, quickLookCurrentQty + 1);
+      const val = document.getElementById('slDrawerStepperVal');
+      if (val) val.textContent = quickLookCurrentQty;
+      if (window.smartListStore && window.smartListStore.quickLookId) {
+        const p = window.smartListStore.getItem(window.smartListStore.quickLookId);
+        const curPrice = window.smartListStore.getItemPrice(p.id);
+        const addBtnLabel = document.getElementById('slDrawerAddBtnLabel');
+        if (addBtnLabel && p.inStock) {
+          addBtnLabel.textContent = `Add to Bag — € ${Number(curPrice * quickLookCurrentQty).toFixed(2)}`;
+        }
+      }
+    });
+  }
+
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      if (!window.smartListStore) return;
+      const pid = window.smartListStore.quickLookId;
+      if (!pid) return;
+      const product = window.smartListStore.getItem(pid);
+      if (!product) return;
+
+      const isSizeOOS = !window.smartListStore.isSizeInStock(pid, product.selectedSize);
+      if (!product.inStock || isSizeOOS) {
+        showToast('This variant is currently out of stock', 'warn');
+        return;
+      }
+
+      attachRipple(addBtn);
+      addToCart(product, quickLookCurrentQty);
+      showToast(`${product.name} added to bag`, 'success');
+      closeDrawer();
+    });
+  }
+}
+
+function updateQuickLookDrawer(productId) {
+  const drawer = document.getElementById('slQuickLookDrawer');
+  const backdrop = document.getElementById('slQuickLookBackdrop');
+  if (!drawer || !backdrop) return;
+
+  if (!productId || !window.smartListStore) {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('is-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    return;
+  }
+
+  const product = window.smartListStore.getItem(productId);
+  if (!product) return;
+
+  quickLookCurrentQty = getQty(productId) || 1;
+  const stepperVal = document.getElementById('slDrawerStepperVal');
+  if (stepperVal) stepperVal.textContent = quickLookCurrentQty;
+
+  const brandEl = document.getElementById('slDrawerBrand');
+  const titleEl = document.getElementById('slDrawerTitle');
+  const priceEl = document.getElementById('slDrawerPrice');
+  const origPriceEl = document.getElementById('slDrawerOrigPrice');
+  const omnibusEl = document.getElementById('slDrawerOmnibus');
+  const heroImg = document.getElementById('slDrawerHeroImg');
+  const filmstrip = document.getElementById('slDrawerFilmstrip');
+  const swatchesEl = document.getElementById('slDrawerSwatches');
+  const finishNameEl = document.getElementById('slDrawerSelectedFinishName');
+  const sizesEl = document.getElementById('slDrawerSizes');
+  const sizeNameEl = document.getElementById('slDrawerSelectedSizeName');
+  const specsEl = document.getElementById('slDrawerSpecsGrid');
+  const pdpLink = document.getElementById('slDrawerPdpLink');
+  const addBtn = document.getElementById('slDrawerAddBtn');
+  const addBtnLabel = document.getElementById('slDrawerAddBtnLabel');
+
+  if (brandEl) brandEl.textContent = `${product.brand} · ${product.categoryLabel || product.category}`;
+  if (titleEl) titleEl.textContent = product.name;
+
+  const currentPrice = window.smartListStore.getItemPrice(productId);
+  if (priceEl) priceEl.textContent = `€ ${Number(currentPrice).toFixed(2)}`;
+
+  if (origPriceEl) {
+    if (product.originalPrice && product.originalPrice > currentPrice) {
+      origPriceEl.textContent = `€ ${Number(product.originalPrice).toFixed(2)}`;
+      origPriceEl.style.display = 'inline';
+      if (omnibusEl) {
+        omnibusEl.textContent = `Lowest price in last 30 days: € ${Number(product.originalPrice).toFixed(2)}`;
+        omnibusEl.style.display = 'block';
+      }
+    } else {
+      origPriceEl.textContent = '';
+      origPriceEl.style.display = 'none';
+      if (omnibusEl) omnibusEl.style.display = 'none';
+    }
+  }
+
+  // Gallery (3+ assets)
+  const gallery = (product.gallery && product.gallery.length > 0) ? product.gallery : [product.image];
+  if (heroImg) {
+    heroImg.src = resolveImgPath(gallery[0]);
+    heroImg.alt = product.name;
+  }
+
+  if (filmstrip) {
+    filmstrip.innerHTML = gallery.map((img, idx) => `
+      <button type="button" class="sl-drawer-thumb-btn${idx === 0 ? ' active' : ''}" data-idx="${idx}" aria-label="View photo ${idx + 1} of ${product.name}">
+        <img src="${resolveImgPath(img)}" alt="${product.name} detail ${idx + 1}" />
+      </button>
+    `).join('');
+
+    filmstrip.querySelectorAll('.sl-drawer-thumb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        filmstrip.querySelectorAll('.sl-drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (heroImg && gallery[idx]) {
+          heroImg.style.opacity = '0';
+          setTimeout(() => {
+            heroImg.src = resolveImgPath(gallery[idx]);
+            heroImg.style.opacity = '1';
+          }, 120);
+        }
+      });
+    });
+  }
+
+  // Finishes
+  const finishes = product.variants?.finishes || [];
+  const selectedFinish = product.selectedFinish || (finishes[0]?.id);
+  const curFinishObj = finishes.find(f => f.id === selectedFinish) || finishes[0];
+  if (finishNameEl) finishNameEl.textContent = curFinishObj ? curFinishObj.name : 'Standard';
+
+  const finishesSection = document.getElementById('slDrawerFinishesSection');
+  if (finishesSection) finishesSection.style.display = finishes.length > 1 ? 'block' : 'none';
+
+  if (swatchesEl) {
+    swatchesEl.innerHTML = finishes.map(f => `
+      <button type="button" class="sl-swatch-dot${f.id === selectedFinish ? ' active' : ''}" 
+              data-drawer-finish="${f.id}" style="background: ${f.color}; width: 22px; height: 22px;" 
+              title="${f.name}${f.priceDelta ? ' (+€' + f.priceDelta + ')' : ''}" 
+              aria-label="${f.name}" role="radio" aria-checked="${f.id === selectedFinish}">
+      </button>
+    `).join('');
+
+    swatchesEl.querySelectorAll('.sl-swatch-dot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fid = btn.dataset.drawerFinish;
+        window.smartListStore.setVariant(productId, { finishId: fid });
+        updateQuickLookDrawer(productId);
+      });
+    });
+  }
+
+  // Sizes
+  const sizes = product.variants?.sizes || [];
+  const selectedSize = product.selectedSize || (sizes[0]?.id);
+  const curSizeObj = sizes.find(s => s.id === selectedSize) || sizes[0];
+  if (sizeNameEl) sizeNameEl.textContent = curSizeObj ? curSizeObj.name : 'Standard';
+
+  const sizesSection = document.getElementById('slDrawerSizesSection');
+  if (sizesSection) sizesSection.style.display = sizes.length > 1 ? 'block' : 'none';
+
+  if (sizesEl) {
+    sizesEl.innerHTML = sizes.map(s => `
+      <button type="button" class="sl-size-btn${s.id === selectedSize ? ' active' : ''}" 
+              data-drawer-size="${s.id}" ${s.inStock === false ? 'disabled' : ''} 
+              style="min-width: 34px; height: 28px; font-size: 11px;"
+              aria-label="Size ${s.name}${s.inStock === false ? ' (Out of stock)' : ''}" role="radio" aria-checked="${s.id === selectedSize}">
+        ${s.name}
+      </button>
+    `).join('');
+
+    sizesEl.querySelectorAll('.sl-size-btn:not(:disabled)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sid = btn.dataset.drawerSize;
+        window.smartListStore.setVariant(productId, { sizeId: sid });
+        updateQuickLookDrawer(productId);
+      });
+    });
+  }
+
+  // Architectural Spec Matrix
+  if (specsEl) {
+    const specs = [
+      { label: 'Origin', val: product.origin || 'European Union' },
+      { label: 'Composition', val: product.material || 'Premium Sustainable Composition' },
+      { label: 'Care', val: product.care || 'Specialist Care Recommended' },
+      { label: 'Fit & Silhouette', val: product.fit || 'Tailored European Fit' }
+    ];
+    specsEl.innerHTML = specs.map(sp => `
+      <div class="sl-spec-item">
+        <span class="sl-spec-label">${sp.label}</span>
+        <span class="sl-spec-val">${sp.val}</span>
+      </div>
+    `).join('');
+  }
+
+  // Stock & Add Button
+  const isSizeOOS = !window.smartListStore.isSizeInStock(productId, selectedSize);
+  const isOOS = !product.inStock || isSizeOOS;
+  if (addBtn) {
+    addBtn.disabled = isOOS;
+    if (addBtnLabel) addBtnLabel.textContent = isOOS ? 'Out of Stock' : `Add to Bag — € ${Number(currentPrice * quickLookCurrentQty).toFixed(2)}`;
+  }
+
+  // PDP Link
+  if (pdpLink) {
+    pdpLink.href = `product.html?id=${productId}`;
+  }
+
+  drawer.classList.add('is-open');
+  drawer.setAttribute('aria-hidden', 'false');
+  backdrop.classList.add('is-open');
+  backdrop.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [drawer] });
 }
 
 /* ─── Floating Batch Dock Controller (Obsidian Island) ───────────────────── */
@@ -1850,6 +2134,9 @@ function renderSmartListPage() {
   // Initialize Floating Batch Actions Dock
   initBatchDock();
   updateBatchDock();
+
+  // Initialize Modernist Quick Look Slide-Over Drawer
+  initQuickLookDrawer();
 
   // Update live statistics and valuation
   updateListStats();
