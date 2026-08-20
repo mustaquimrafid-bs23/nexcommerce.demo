@@ -63,6 +63,7 @@ After completing **every single task or feature change**, you MUST unconditional
 3. **Tier 3: Full UI / Visual Test (`chrome-devtools-mcp` / `playwright`)**:
    - Perform live browser interactions across both Desktop (`1440x900`) and Mobile (`375x812`) viewports.
    - Verify layout reflow, touch target sizing ($\ge 44\text{px}$), visual hierarchies, interactive animations, and capture visual screenshot evidence saved to workspace root.
+   - **Adjacent Interactive Element Non-Overlap Assertion**: In any component featuring action clusters (e.g. card action buttons, swatch discs, badge groups, floating bars), visual testing MUST explicitly verify that adjacent interactive targets maintain clean separation ($\ge 6\text{–}8\text{px}$ gap) with zero element superposition, clipping, or z-index collisions in both idle and hover/active states.
 
 ### DevOps
 - CI/CD: GitHub Actions (primary), Azure DevOps, GitLab CI.

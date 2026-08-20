@@ -28,3 +28,10 @@ Before submitting any frontend Artifact or UI task as complete:
 2. **Browser Subagent / DevTools Inspection**: Use the built-in Browser Subagent (`chrome-devtools` or `playwright`) to load the page.
 3. **Screenshot Audit**: Capture a viewport screenshot and inspect for overlapping text layouts, unexpected layout shifts, or responsive design breaks.
 
+---
+
+## 6. Interactive Action Cluster & Overlay Non-Overlap Invariant
+When cards, overlays, or floating docks contain 2+ adjacent action buttons or interactive controls:
+1. **Trigger Active/Hover State**: Trigger the container's `:hover` / active state during browser subagent inspection.
+2. **Assert Distinct Bounding Boxes**: Verify that button bounding boxes do not intersect (`rectA.right <= rectB.left - gap`), maintaining $\ge 6\text{–}8\text{px}$ clear separation.
+3. **Hit Target Independence**: Verify that each action button in the cluster can be clicked independently without triggering accidental sibling actions or mis-clicks.
