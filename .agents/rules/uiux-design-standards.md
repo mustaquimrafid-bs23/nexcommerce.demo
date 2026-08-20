@@ -169,6 +169,11 @@ When designing conversational discovery banners, intent search capsules, or prom
   - Use **"Size & Fit Guide"** (never "Sartorial Proportion Advisor").
   - Use **"Live Order Tracking"** (never "Courier Custody Verification").
 
+### The "Visual-First First-Frame" Invariant (Zero Text-Only Welcomes)
+- **Zero Text-Only Welcome Screens**: Assistants, drawers, and modal overlays must NEVER open to a blank text terminal or a multi-sentence conversational essay. The initial unprompted state must immediately lead with rich studio photography cards or visual look capsules.
+- **Strict $\ge 70\%$ Visual Area**: Merchandising imagery and product cards must occupy $\ge 70\%$ of the visible drawer height on initial launch.
+- **Maximum 1-Line Minimalist Label**: Text on drawer open must be capped at a single, crisp label (e.g., `"Featured pieces & styling ideas:"`). Zero introductory paragraphs or chatbot pleasantries.
+
 > **Key principle I must apply**: Customer UI optimizes for emotion, discovery, and conversion. Admin UI optimizes for speed, clarity, and bulk operations. These require fundamentally different UX strategies.
 
 ---

@@ -190,9 +190,10 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - When managing persistent user lists (Recent Searches, Wishlist, Smart List) that feature initial default items, always distinguish between first-time visitors (`stored === null`) and cleared states (`stored === '[]'`).
 - "Clear All" user actions must explicitly store `[]` (`localStorage.setItem(key, JSON.stringify([]))`), never just remove the key if a fallback repopulates when the key is null.
 
-**3. Visual-First Merchandising Standard**:
-- Overlays, search panels, and modals must lead with rich visual photography (visual category tiles, studio product cards with prices and 1-click Quick-Add). Product and merchandising imagery must occupy $\ge 70\%$ of visible overlay real estate.
-- Text and AI explanation chrome must remain strictly minimal: single-line badges only (`✨ 3 Recommended Pieces`), zero paragraph quote clutter.
+**3. Visual-First Merchandising Standard & The "First-Frame" Invariant**:
+- Overlays, side-drawers, assistants, and modals must lead with rich visual photography (visual category tiles, studio product cards with prices and 1-click Quick-Add). Product and merchandising imagery must occupy $\ge 70\%$ of visible overlay real estate.
+- **Zero Text-Only Welcome Screens**: Assistants and side-drawers must NEVER open to a blank text terminal or multi-sentence conversational essay explaining their capabilities. The initial unprompted state must immediately lead with rich studio photography cards or visual look capsules.
+- **Strict 1-Line Text Budget**: Text and greeting chrome on drawer open must remain strictly minimal: single-line badges/labels only (`✨ Featured pieces & styling ideas:` or `✨ 3 Recommended Pieces`), zero paragraph clutter.
 
 **4. Search Navigation & Popup Isolation**:
 - "See All Results" or full catalog links must cleanly navigate to target pages (`discovery.html?q=...`) pre-filling on-page search inputs without auto-reopening modal overlay popups on page load.
