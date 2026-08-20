@@ -61,6 +61,12 @@ When conducting or analyzing user research (interviews, usability testing, custo
 - **Observe Behavior over Opinion**: Watch for hesitation, backtracking, missed cues, and incorrect clicks rather than asking *"Do you like the design?"*.
 - **Funnel Measurement**: Track drop-offs across the funnel (Discovery → PLP → PDP → Add to Cart → Cart Review → Checkout Step 1 → Payment → Confirmation) to pinpoint friction points.
 
+### 🛡️ MANDATORY 3-TIER VERIFICATION PROTOCOL (Executed After EVERY Task)
+Never claim a task or feature is complete without executing all 3 verification tiers:
+1. **Tier 1 — Full Unit / Regression Test**: Run automated test suites (`node tests/...`) asserting state transitions, NLP matching, word boundaries, and calculations.
+2. **Tier 2 — Full Functional Test**: Programmatically verify end-to-end user workflows, cart item persistence (`localStorage`), search filters, and multi-page routing.
+3. **Tier 3 — Full UI / Visual Test**: Perform live browser tests across Desktop (1440px) and Mobile (375px) viewports with touch target compliance ($\ge 44\text{px}$) and screenshot evidence.
+
 ---
 
 ## 2. Design System Thinking — My Primary Mode
