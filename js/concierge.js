@@ -1,5 +1,5 @@
 /**
- * nexCommerce AI &mdash; Elevated Concierge UI Controller (Feature 6)
+ * nexCommerce AI &mdash; Elevated Stylist UI Controller (Feature 6)
  * Injects the persistent Side Drawer and Floating Pill into the DOM on every page.
  * Wires the ConciergeEngine to the chat stream with rich card rendering, 
  * interactive size advisor, look bundle builder, and live order tracking.
@@ -18,6 +18,34 @@
   let formEl = null;
   let hasInitialized = false;
   let lastActiveTrigger = null;
+
+  function resolveHref(target) {
+    if (!target) return '#';
+    const isInPages = typeof window !== 'undefined' && (window.location.pathname.includes('/pages/') || window.location.pathname.includes('\\pages\\'));
+    if (target.startsWith('http://') || target.startsWith('https://') || target.startsWith('#')) return target;
+    if (target === 'product.html' || target.startsWith('product.html?')) {
+      return isInPages ? target : 'pages/' + target;
+    }
+    if (target === 'tracking.html' || target.startsWith('tracking.html?')) {
+      return isInPages ? target : 'pages/' + target;
+    }
+    if (target === 'cart.html' || target.startsWith('cart.html?')) {
+      return isInPages ? target : 'pages/' + target;
+    }
+    return target;
+  }
+
+  function resolveImg(imgPath) {
+    if (!imgPath) return 'assets/images/products/hero_sweater.png';
+    const isInPages = typeof window !== 'undefined' && (window.location.pathname.includes('/pages/') || window.location.pathname.includes('\\pages\\'));
+    if (isInPages) {
+      if (imgPath.startsWith('assets/')) return '../' + imgPath;
+      return imgPath;
+    } else {
+      if (imgPath.startsWith('../assets/')) return imgPath.substring(3);
+      return imgPath;
+    }
+  }
 
   if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
     document.addEventListener('DOMContentLoaded', function() {
@@ -102,29 +130,33 @@
   }
 
   function initConciergeLogic() {
-    // 1. Floating Pill Scroll Visibility
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-      if (scrollTimeout) return;
-      scrollTimeout = setTimeout(function() {
-        if (window.scrollY > 200) {
-          floatingPillEl.classList.add('visible');
-        } else {
-          floatingPillEl.classList.remove('visible');
-        }
-        scrollTimeout = null;
-      }, 80);
-    }, { passive: true });
+    // 1. Floating Pill Scroll Detection
+    let lastScrollY = window.scrollY;
+    function handleScroll() {
+      if (window.scrollY > 200) {
+        if (floatingPillEl) floatingPillEl.classList.add('visible');
+      } else {
+        if (floatingPillEl) floatingPillEl.classList.remove('visible');
+      }
+      lastScrollY = window.scrollY;
+    }
 
-    // 2. Global Document Event Delegation for Opening
+    if (window._nexLenis) {
+      window._nexLenis.on('scroll', handleScroll);
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // 2. Open Triggers (Global Header Button, Floating Pill, PDP Trigger)
     document.addEventListener('click', function(e) {
-      const trigger = e.target.closest('.concierge-nav-btn, [data-concierge-trigger], [data-action="open-concierge"]');
+      const trigger = e.target.closest('.concierge-nav-btn, [data-concierge-trigger], [data-action="open-concierge"], #conciergeNavTrigger');
       if (trigger) {
         e.preventDefault();
         lastActiveTrigger = trigger;
         
         let ctx = {};
-        if (trigger.hasAttribute('data-pdp-context') || window.location.pathname.includes('product.html')) {
+        if (trigger.getAttribute('data-pdp-context') === 'true') {
+          ctx.url = window.location.href;
           const match = window.location.search.match(/[?&]id=([^&#]+)/);
           if (match) ctx.productId = decodeURIComponent(match[1]);
         }
@@ -184,7 +216,7 @@
     overlayEl.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_opened' });
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_opened' });
 
     if (!hasInitialized && window.NexConciergeEngine) {
       const initResponse = window.NexConciergeEngine.initialize(context);
@@ -208,52 +240,51 @@
     if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
       lastActiveTrigger.focus();
     }
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_closed' });
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_closed' });
   }
 
   function handleUserMessage(text) {
     appendUserMessage(text);
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_message_sent', query: text });
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_message_sent', query: text });
 
     // Typing simulation
     const typingId = appendTypingIndicator();
     if (chipsContainerEl) chipsContainerEl.innerHTML = '';
 
     setTimeout(function() {
-      const typingEl = document.getElementById(typingId);
-      if (typingEl) typingEl.remove();
-
+      removeTypingIndicator(typingId);
       if (window.NexConciergeEngine) {
         const response = window.NexConciergeEngine.processMessage(text);
         renderConciergeResponse(response);
-        if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_response_rendered', state: response.type });
       }
     }, 450);
   }
 
-  /* ─── Rendering Helpers ───────────────────────────────────── */
-
   function appendUserMessage(text) {
-    const el = document.createElement('div');
-    el.className = 'msg-user-wrapper';
-    el.innerHTML = `<div class="msg-user">${escapeHtml(text)}</div>`;
-    streamEl.appendChild(el);
+    if (!streamEl) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'msg-user-wrapper';
+    wrapper.innerHTML = `<div class="msg-user">${escapeHtml(text)}</div>`;
+    streamEl.appendChild(wrapper);
     scrollToBottom();
   }
 
   function appendTypingIndicator() {
-    const id = 'typing-' + Date.now();
-    const el = document.createElement('div');
-    el.id = id;
-    el.className = 'msg-concierge-wrapper';
-    el.innerHTML = `
-      <div class="msg-concierge typing">
-        <span></span><span></span><span></span>
-      </div>
-    `;
-    streamEl.appendChild(el);
+    if (!streamEl) return null;
+    const id = 'typing_' + Date.now();
+    const typing = document.createElement('div');
+    typing.id = id;
+    typing.className = 'msg-concierge typing';
+    typing.innerHTML = `<span></span><span></span><span></span>`;
+    streamEl.appendChild(typing);
     scrollToBottom();
     return id;
+  }
+
+  function removeTypingIndicator(id) {
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el) el.remove();
   }
 
   function renderConciergeResponse(response) {
@@ -282,9 +313,10 @@
 
     // Action Link if present
     if (response.actionLink) {
+      const resolvedUrl = resolveHref(response.actionLink.url);
       html += `
         <div class="concierge-action-wrap">
-          <a href="${response.actionLink.url}" class="concierge-action-btn">${escapeHtml(response.actionLink.text)}</a>
+          <a href="${resolvedUrl}" class="concierge-action-btn">${escapeHtml(response.actionLink.text)}</a>
         </div>
       `;
     }
@@ -302,12 +334,13 @@
     const itemsHtml = products.map((p, idx) => {
       const pNum = p.numericPrice || parseInt((p.price || '0').replace(/[^0-9]/g, ''), 10) || 184;
       total += pNum;
+      const imgSrc = resolveImg(p.img || 'assets/images/products/hero_sweater.png');
       return `
-        <div class="bundle-item" data-bundle-item data-id="${p.id}" data-title="${escapeHtml(p.title)}" data-price="${pNum}" data-img="${p.img || ''}">
+        <div class="bundle-item" data-bundle-item data-id="${p.id}" data-title="${escapeHtml(p.title)}" data-price="${pNum}" data-img="${imgSrc}">
           <label class="bundle-item-label">
             <input type="checkbox" checked class="bundle-checkbox" data-action="toggle-bundle-item" aria-label="Select ${escapeHtml(p.title)}" />
             <span class="bundle-item-thumb-link">
-              <img src="${p.img || 'assets/images/products/hero_sweater.png'}" alt="${escapeHtml(p.title)}" />
+              <img src="${imgSrc}" alt="${escapeHtml(p.title)}" />
             </span>
             <div class="bundle-item-info">
               <div class="bundle-item-cat">${escapeHtml(p.category || 'Apparel')}</div>
@@ -340,7 +373,7 @@
   }
 
   function renderSizingAdvisorWidget(payload) {
-    const catPills = (payload.categories || ['Apparel (Knitwear & Tops)', 'Footwear']).map((cat, idx) => `
+    const catPills = (payload.categories || ['Tops & Sweaters', 'Footwear']).map((cat, idx) => `
       <button type="button" class="size-pill ${idx === 0 ? 'active' : ''}" data-action="select-size-category" data-val="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
     `).join('');
 
@@ -348,7 +381,7 @@
       <button type="button" class="size-pill ${idx === 2 ? 'active' : ''}" data-action="select-size-measurement" data-val="${escapeHtml(s)}">${escapeHtml(s)}</button>
     `).join('');
 
-    const fitPills = (payload.fits || ['Tailored (True to size)', 'Relaxed Layering (Size up)']).map((f, idx) => `
+    const fitPills = (payload.fits || ['True to size (Regular fit)', 'Size up (Relaxed fit for layering)']).map((f, idx) => `
       <button type="button" class="size-pill ${idx === 0 ? 'active' : ''}" data-action="select-size-fit" data-val="${escapeHtml(f)}">${escapeHtml(f)}</button>
     `).join('');
 
@@ -410,18 +443,20 @@
   function renderProductCards(products) {
     const cards = products.map(p => {
       const priceStr = p.numericPrice ? '€ ' + Number(p.numericPrice).toFixed(2) : (p.price || '€ 184.00');
+      const productHref = resolveHref(`product.html?id=${p.id}`);
+      const imgSrc = resolveImg(p.img || 'assets/images/products/hero_sweater.png');
       return `
         <div class="concierge-product-card">
-          <a href="product.html?id=${p.id}" class="concierge-card-img-link" title="View details for ${escapeHtml(p.title)}">
-            <img src="${p.img || 'assets/images/products/hero_sweater.png'}" alt="${escapeHtml(p.title)}" loading="lazy" />
+          <a href="${productHref}" class="concierge-card-img-link" title="View details for ${escapeHtml(p.title)}">
+            <img src="${imgSrc}" alt="${escapeHtml(p.title)}" loading="lazy" />
           </a>
           <div class="concierge-card-body">
             <div class="concierge-card-cat">${escapeHtml(p.category || 'Apparel')}</div>
-            <a href="product.html?id=${p.id}" class="concierge-card-title-link">
+            <a href="${productHref}" class="concierge-card-title-link">
               <div class="concierge-card-title">${escapeHtml(p.title)}</div>
             </a>
             <div class="concierge-card-price tabular-nums">${priceStr}</div>
-            <button type="button" class="concierge-add-btn" data-action="add-to-bag" data-id="${p.id}" data-title="${escapeHtml(p.title)}" data-price="${p.numericPrice || 184}" data-img="${p.img || ''}">
+            <button type="button" class="concierge-add-btn" data-action="add-to-bag" data-id="${p.id}" data-title="${escapeHtml(p.title)}" data-price="${p.numericPrice || 184}" data-img="${imgSrc}">
               ADD TO BAG
             </button>
           </div>
@@ -445,18 +480,22 @@
   }
 
   function scrollToBottom() {
+    if (!streamEl) return;
     setTimeout(function() {
-      if (streamEl) streamEl.scrollTop = streamEl.scrollHeight;
+      streamEl.scrollTo({
+        top: streamEl.scrollHeight,
+        behavior: 'smooth'
+      });
     }, 60);
   }
 
-  function escapeHtml(unsafe) {
-    return (unsafe || '').toString()
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
   function formatMarkdownText(str) {
@@ -480,17 +519,34 @@
     btn.textContent = 'ADDING...';
     btn.disabled = true;
 
-    if (window.NexCart) {
-      window.NexCart.addItem({
+    const cart = window.nexCart || window.NexCart;
+    if (cart && typeof cart.addItem === 'function') {
+      cart.addItem({
         id: id,
         name: title,
+        title: title,
         price: price,
         qty: 1,
-        image: img
+        quantity: 1,
+        image: img,
+        img: img
       });
+    } else {
+      try {
+        const stored = JSON.parse(localStorage.getItem('nex_cart') || '[]');
+        const existing = stored.find(i => i.id === id);
+        if (existing) existing.quantity = (existing.quantity || 1) + 1;
+        else stored.push({ id, name: title, title, price, quantity: 1, image: img });
+        localStorage.setItem('nex_cart', JSON.stringify(stored));
+        const count = stored.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll('#headerCartCount, #mobileCartCount, .bag-count-badge').forEach(b => {
+          b.textContent = count;
+          b.style.display = 'inline-flex';
+        });
+      } catch (e) {}
     }
 
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_add_to_bag', product_id: id });
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_add_to_bag', product_id: id });
 
     setTimeout(function() {
       btn.textContent = 'ADDED ✓';
@@ -500,7 +556,7 @@
         btn.classList.remove('added');
         btn.disabled = false;
       }, 2000);
-    }, 400);
+    }, 350);
   }
 
   function updateBundleSubtotal(bundleCard) {
@@ -518,7 +574,7 @@
 
     if (totalValEl) totalValEl.textContent = '€ ' + subtotal.toFixed(2);
     if (addBtn) {
-      addBtn.textContent = `ADD SELECTED TO BAG (${checkedItems.length} Pieces · € ${subtotal.toFixed(2)})`;
+      addBtn.textContent = `ADD SELECTED ITEMS TO BAG (${checkedItems.length} Items · € ${subtotal.toFixed(2)})`;
       addBtn.disabled = checkedItems.length === 0;
     }
   }
@@ -530,25 +586,53 @@
     const checkedItems = bundleCard.querySelectorAll('.bundle-item input[type="checkbox"]:checked');
     if (checkedItems.length === 0) return;
 
-    btn.textContent = 'ADDING LOOK...';
+    btn.textContent = 'ADDING OUTFIT...';
     btn.disabled = true;
 
-    if (window.NexCart) {
-      checkedItems.forEach(cb => {
-        const itemEl = cb.closest('[data-bundle-item]');
-        if (itemEl) {
-          window.NexCart.addItem({
-            id: itemEl.getAttribute('data-id'),
-            name: itemEl.getAttribute('data-title'),
-            price: parseFloat(itemEl.getAttribute('data-price')) || 184,
+    const cart = window.nexCart || window.NexCart;
+    checkedItems.forEach(cb => {
+      const itemEl = cb.closest('[data-bundle-item]');
+      if (itemEl) {
+        const id = itemEl.getAttribute('data-id');
+        const title = itemEl.getAttribute('data-title');
+        const price = parseFloat(itemEl.getAttribute('data-price')) || 184;
+        const img = itemEl.getAttribute('data-img');
+
+        if (cart && typeof cart.addItem === 'function') {
+          cart.addItem({
+            id: id,
+            name: title,
+            title: title,
+            price: price,
             qty: 1,
-            image: itemEl.getAttribute('data-img')
+            quantity: 1,
+            image: img,
+            img: img
           });
+        } else {
+          try {
+            const stored = JSON.parse(localStorage.getItem('nex_cart') || '[]');
+            const existing = stored.find(i => i.id === id);
+            if (existing) existing.quantity = (existing.quantity || 1) + 1;
+            else stored.push({ id, name: title, title, price, quantity: 1, image: img });
+            localStorage.setItem('nex_cart', JSON.stringify(stored));
+          } catch (e) {}
         }
-      });
+      }
+    });
+
+    if (!cart) {
+      try {
+        const stored = JSON.parse(localStorage.getItem('nex_cart') || '[]');
+        const count = stored.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll('#headerCartCount, #mobileCartCount, .bag-count-badge').forEach(b => {
+          b.textContent = count;
+          b.style.display = 'inline-flex';
+        });
+      } catch (e) {}
     }
 
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_concierge_add_look_to_bag' });
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_add_look_to_bag' });
 
     setTimeout(function() {
       btn.textContent = 'ALL ADDED TO BAG ✓';
@@ -558,34 +642,36 @@
         btn.classList.remove('added');
         btn.disabled = false;
       }, 2500);
-    }, 500);
+    }, 450);
   }
 
   function handleSizeInteractiveSelect(btn, action) {
-    const widget = btn.closest('[data-size-widget]');
-    if (!widget) return;
+    const sizeWidget = btn.closest('[data-size-widget]');
+    if (!sizeWidget) return;
 
-    // Toggle active state in row
+    // Highlight clicked pill in its section
     const row = btn.closest('.size-pills-row');
     if (row) {
       row.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
     }
 
-    // If changing category, switch between chest measurements and shoe sizes
+    // Category change: switch measurement pills if category is Footwear vs Apparel
     if (action === 'select-size-category') {
-      const isFootwear = btn.getAttribute('data-val').includes('Footwear');
-      const measureContainer = widget.querySelector('.size-pills-measurements');
-      if (measureContainer) {
-        if (isFootwear) {
-          measureContainer.innerHTML = `
+      const catVal = btn.getAttribute('data-val') || '';
+      const measurementsRow = sizeWidget.querySelector('.size-pills-measurements');
+      if (measurementsRow) {
+        if (catVal.includes('Footwear') || catVal.includes('Shoes') || catVal.includes('Sneakers')) {
+          measurementsRow.innerHTML = `
+            <button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 40">EU 40</button>
             <button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 41">EU 41</button>
             <button type="button" class="size-pill active" data-action="select-size-measurement" data-val="EU 42">EU 42</button>
             <button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 43">EU 43</button>
             <button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 44">EU 44</button>
+            <button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 45">EU 45</button>
           `;
         } else {
-          measureContainer.innerHTML = `
+          measurementsRow.innerHTML = `
             <button type="button" class="size-pill" data-action="select-size-measurement" data-val="XS (36&quot;)">XS (36")</button>
             <button type="button" class="size-pill" data-action="select-size-measurement" data-val="S (38&quot;)">S (38")</button>
             <button type="button" class="size-pill active" data-action="select-size-measurement" data-val="M (40&quot;)">M (40")</button>
@@ -596,32 +682,30 @@
       }
     }
 
-    // Read active states
-    const activeCat = widget.querySelector('[data-action="select-size-category"].active');
-    const activeMeasure = widget.querySelector('[data-action="select-size-measurement"].active');
-    const activeFit = widget.querySelector('[data-action="select-size-fit"].active');
+    // Recompute recommendation
+    const activeCat = sizeWidget.querySelector('[data-action="select-size-category"].active')?.getAttribute('data-val') || 'Tops & Sweaters';
+    const activeSize = sizeWidget.querySelector('[data-action="select-size-measurement"].active')?.getAttribute('data-val') || 'M (40")';
+    const activeFit = sizeWidget.querySelector('[data-action="select-size-fit"].active')?.getAttribute('data-val') || 'True to size';
 
-    const catVal = activeCat ? activeCat.getAttribute('data-val') : 'Apparel';
-    const measureVal = activeMeasure ? activeMeasure.getAttribute('data-val') : 'M';
-    const fitVal = activeFit ? activeFit.getAttribute('data-val') : 'Tailored';
-
-    if (window.NexConciergeEngine && typeof window.NexConciergeEngine.calculateSize === 'function') {
-      const res = window.NexConciergeEngine.calculateSize(catVal, measureVal, fitVal);
-      const resTextEl = widget.querySelector('.size-result-text');
-      const resNoteEl = widget.querySelector('.size-result-note');
-      if (resTextEl) resTextEl.innerHTML = `<strong>Recommended Size: ${escapeHtml(res.recommendedSize)}</strong> · ${res.confidence}% Match`;
-      if (resNoteEl) resNoteEl.textContent = res.advice;
+    if (window.NexConciergeEngine) {
+      const calc = window.NexConciergeEngine.calculateSize(activeCat, activeSize, activeFit);
+      const textEl = sizeWidget.querySelector('.size-result-text');
+      const noteEl = sizeWidget.querySelector('.size-result-note');
+      if (textEl) {
+        textEl.innerHTML = `<strong>Recommended Size: ${escapeHtml(calc.recommendedSize)}</strong> · ${calc.confidence}% Match`;
+      }
+      if (noteEl) {
+        noteEl.textContent = calc.advice;
+      }
     }
   }
 
   function handleTrackOrderSubmit(btn) {
-    const input = btn.closest('.concierge-tracker-stepper')?.querySelector('input');
-    const code = input ? input.value.trim() : 'NX-8921-X';
-    handleUserMessage(`Track order ${code}`);
+    const trackerCard = btn.closest('.concierge-tracker-card');
+    if (!trackerCard) return;
+    const input = trackerCard.querySelector('input');
+    if (!input || !input.value.trim()) return;
+    handleUserMessage('Track order ' + input.value.trim());
   }
-
-  // Global window methods
-  window.openConcierge = openDrawer;
-  window.closeConcierge = closeDrawer;
 
 })(typeof window !== 'undefined' ? window : global, typeof document !== 'undefined' ? document : {});

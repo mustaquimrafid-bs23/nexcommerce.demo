@@ -156,7 +156,8 @@
       const catalog = this._getCatalog();
 
       // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
-      if (/outfit|look|pair|complete.*look|complete.*outfit|capsule|wedding|office|business|casual|dinner|gala|summer|weekend|evening/i.test(rawText)) {
+      const isSearchOnly = /^(looking for|search for|find me|show me|where are)/i.test(rawText) && !/outfit|complete|capsule/i.test(rawText);
+      if (!isSearchOnly && (/\b(outfits?|complete (outfit|look)|(office|wedding|business|casual|dinner|gala|summer|weekend|evening) (look|outfit)|capsules?|pairings?|put together (an outfit|a look)|full outfit|complete the look)\b/i.test(rawText) || /complete.*(look|outfit)/i.test(rawText) || /\b(the look|this look|curated look|look bundle|wedding look|office look|evening look|wedding|gala|casual outfit)\b/i.test(rawText))) {
         this.lastQueryType = 'bundle';
         
         let bundleItems = [];
@@ -218,7 +219,7 @@
       }
 
       // ── 3. ORDER TRACKING & LIVE COURIER STATUS WIDGET ───────────────────
-      if (/track|where is my order|order status|find my order|nx-\d+|shipment status|courier status/i.test(rawText)) {
+      if (/\b(track|tracking|order status|find my order|where is my order|where is my package|my package|package status|shipment status|courier status|delivery status)\b/i.test(rawText) || /where.*(order|package|parcel|shipment)/i.test(rawText) || /nx-\d+/i.test(rawText)) {
         this.lastQueryType = 'tracking';
         const codeMatch = text.match(/NX-\d{4}-[A-Z0-9]+/i);
         const orderCode = codeMatch ? codeMatch[0].toUpperCase() : 'NX-8921-X';
@@ -295,15 +296,15 @@
       let filteredProducts = catalog;
 
       // Extract Category Intent
-      if (/jacket|coat|trench|outerwear|blazer/i.test(rawText)) {
+      if (/\b(jackets?|coats?|trench(es)?|outerwear|blazers?)\b/i.test(rawText)) {
         filteredProducts = catalog.filter(p => /coat|jacket|trench|blazer/i.test(p.title) || p.category === 'Apparel');
-      } else if (/sweater|knit|cashmere|crew|pullover/i.test(rawText)) {
+      } else if (/\b(sweaters?|knits?|knitwear|cashmere|crewneck|crews?|pullovers?)\b/i.test(rawText)) {
         filteredProducts = catalog.filter(p => /knit|sweater|cashmere|crew/i.test(p.title) || p.category === 'Apparel');
-      } else if (/trouser|pant|pants/i.test(rawText)) {
+      } else if (/\b(trousers?|pants?)\b/i.test(rawText)) {
         filteredProducts = catalog.filter(p => /trouser|pant/i.test(p.title) || p.category === 'Apparel');
-      } else if (/shoe|sneaker|runner|footwear|boots/i.test(rawText)) {
+      } else if (/\b(shoes?|sneakers?|runners?|footwear|boots?)\b/i.test(rawText)) {
         filteredProducts = catalog.filter(p => p.category === 'Footwear' || /runner|sneaker|shoe/i.test(p.title));
-      } else if (/bag|tote|accessory|accessories|watch|headphone/i.test(rawText)) {
+      } else if (/\b(bags?|totes?|accessory|accessories|watch(es)?|headphones?)\b/i.test(rawText)) {
         filteredProducts = catalog.filter(p => p.category === 'Accessories' || /tote|watch|bag|headphone/i.test(p.title));
       }
 
