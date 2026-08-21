@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Journey &amp; Fulfillment Archive — nexCommerce</title>
+  <title>Your Orders — nexCommerce</title>
   <meta name="description" content="View and track all private client orders, real-time courier journeys, and digital invoices.">
   <meta name="view-transition" content="same-origin" />
 
@@ -23,7 +23,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Private Client Acquisitions &amp; Archive</span>
+        <span id="preloaderStatusText">Loading your orders...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -130,11 +130,11 @@
       <div class="orders-header-wrap">
         <span class="account-tier-badge" style="margin-bottom: 8px;">
           <i data-lucide="sparkles" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
-          <span>PRIVATE CLIENT FULFILLMENT &amp; LOGISTICS ARCHIVE</span>
+          <span>YOUR ORDERS</span>
         </span>
-        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Your Order Journey</h1>
+        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Your Orders</h1>
         <p class="profile-subhead" style="max-width: 680px;">
-          Every bespoke garment and acoustic instrument in our maison is tracked with sub-kilometer precision from our Milan &amp; Paris finishing ateliers to your residence.
+          Track all your orders in real time from dispatch to delivery.
         </p>
       </div>
 
@@ -163,7 +163,7 @@
         </div>
         <h2 style="font-family: var(--font-serif); font-size: 28px; color: #FFFFFF; font-weight: 400; margin-bottom: 8px;">No orders found in this view.</h2>
         <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 440px; margin: 0 auto 24px;">
-          Switch filters above or explore our seasonal collections to place a bespoke order.
+          Switch filters above or browse our collections to place an order.
         </p>
         <button type="button" class="btn-secondary-action" onclick="filterOrders('all')">
           <span>VIEW ALL ORDERS</span>
@@ -173,12 +173,12 @@
       <!-- CONCIERGE INTEGRATION BRIDGE -->
       <div class="profile-concierge-card">
         <div>
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">WHITE-GLOVE ATELIER CARE</div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">NEED HELP?</div>
           <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Questions Regarding a Shipment?</div>
-          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Our dedicated logistics concierge is available 24/7 for delivery scheduling, address modifications, or bespoke return requests.</p>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Our dedicated logistics concierge is available 24/7 for delivery scheduling, address modifications, or return requests.</p>
         </div>
         <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
-          <span>CONTACT CONCIERGE</span>
+          <span>CONTACT SUPPORT</span>
           <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
         </a>
       </div>
@@ -219,14 +219,14 @@
         id: 'ORD-9428-NX',
         date: 'August 16, 2026',
         status: 'transit',
-        statusLabel: 'Out for White-Glove Delivery',
+        statusLabel: 'Out for Delivery',
         eta: 'Today · By 6:00 PM',
         progress: 75,
         total: 285,
         items: [
           {
             name: 'Double-Breasted Wool Overcoat',
-            tag: 'Maison Apparel · Charcoal · Size 48',
+            tag: 'Apparel · Charcoal · Size 48',
             price: 285,
             image: '../assets/images/products/plp_overcoat.png',
             quantity: 1
@@ -234,13 +234,13 @@
         ],
         destination: 'Leopoldstraße 42, 80802 Munich, Germany',
         courier: 'DHL Express On-Demand Delivery',
-        payment: 'Settled via Klarna Pay in 30 Days'
+        payment: 'Paid with Klarna Pay Later'
       },
       {
         id: 'ORD-8712-NX',
         date: 'July 28, 2026',
         status: 'delivered',
-        statusLabel: 'Delivered · Signed by Concierge',
+        statusLabel: 'Delivered',
         eta: 'Delivered on July 29, 2026',
         progress: 100,
         total: 320,
@@ -336,7 +336,7 @@
             <div class="order-item-row">
               <img src="${item.image}" alt="${item.name}" class="order-item-thumb" />
               <div style="flex: 1;">
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 2px;">${item.tag || 'MAISON CURATION'}</span>
+                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); display: block; margin-bottom: 2px;">${item.tag || ''}</span>
                 <h3 style="font-family: var(--font-serif); font-size: 18px; color: #FFFFFF; margin: 0 0 4px; font-weight: 400;">${item.name}</h3>
                 <div style="font-size: 13px; color: var(--text-secondary);">Qty: ${item.quantity || 1} &middot; <strong style="color: #FFFFFF;" class="tabular-nums">€ ${(item.price * (item.quantity || 1)).toFixed(2)}</strong></div>
               </div>
@@ -351,7 +351,7 @@
           <div class="order-card" id="card_${order.id}">
             <div class="order-card-header">
               <div>
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block;">ORDER REFERENCE</span>
+                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block;">ORDER NUMBER</span>
                 <div style="font-family: var(--font-mono, monospace); font-size: 15px; font-weight: 700; color: #FFFFFF; margin-top: 2px;">${order.id}</div>
               </div>
               <div>
@@ -359,7 +359,7 @@
                 <div style="font-size: 13px; font-weight: 500; color: #FFFFFF; margin-top: 2px;">${order.date}</div>
               </div>
               <div>
-                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block;">TOTAL SETTLEMENT (INCL. 19% VAT)</span>
+                <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block;">TOTAL (INC. VAT)</span>
                 <div style="font-size: 14px; font-weight: 700; color: #FFFFFF; margin-top: 2px;" class="tabular-nums">€ ${Number(order.total).toFixed(2)}</div>
               </div>
               <div>
@@ -380,8 +380,8 @@
                   <div class="order-progress-fill" style="width: ${order.progress}%;"></div>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
-                  <span>Dispatch from Atelier</span>
-                  <span style="color: var(--accent-cyan); font-weight: 600;">Out for Courier Delivery</span>
+                  <span>Shipped</span>
+                  <span style="color: var(--accent-cyan); font-weight: 600;">Out for Delivery</span>
                   <span>Estimated by 6:00 PM</span>
                 </div>
               ` : ''}
@@ -458,25 +458,25 @@
       content.innerHTML = `
         <div style="text-align: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px;">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 22px; width: auto; margin-bottom: 8px;" />
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent-cyan); text-transform: uppercase;">OFFICIAL ATELIER INVOICE &middot; EU COMPLIANT</div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent-cyan); text-transform: uppercase;">INVOICE</div>
           <div style="font-family: var(--font-mono, monospace); font-size: 14px; color: #FFFFFF; margin-top: 4px;">${order.id}</div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 12px; margin-bottom: 20px;">
           <div>
-            <span style="color: var(--text-secondary); display: block;">Billing Client:</span>
+            <span style="color: var(--text-secondary); display: block;">Billed to:</span>
             <strong style="color: #FFFFFF;">Private Client #9428</strong>
             <div style="color: var(--text-secondary);">${order.destination}</div>
           </div>
           <div>
-            <span style="color: var(--text-secondary); display: block;">Payment Instrument:</span>
+            <span style="color: var(--text-secondary); display: block;">Payment method:</span>
             <strong style="color: #FFFFFF;">${order.payment}</strong>
             <div style="color: var(--text-secondary);">${order.date}</div>
           </div>
         </div>
 
         <div style="margin-bottom: 24px;">
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 8px;">ORDER ITEMS (INCL. 19% STATUTORY VAT)</div>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 8px;">ITEMS (INC. VAT)</div>
           ${itemsRows}
         </div>
 

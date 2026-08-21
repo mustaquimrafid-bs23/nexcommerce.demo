@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wardrobe Vault &mdash; nexCommerce Luxury Digital Atelier</title>
+  <title>Your Wishlist — nexCommerce</title>
   <meta name="description" content="View and manage your private curation of tailored ready-to-wear, acoustic craft, and artisanal footwear.">
   <meta name="view-transition" content="same-origin" />
 
@@ -594,7 +594,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Private Client Curation &middot; Atelier Archive</span>
+        <span id="preloaderStatusText">Loading your saved items...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -701,9 +701,9 @@
         <div class="vault-hero-left">
           <div class="vault-eyebrow-tag">
             <span class="vault-live-dot"></span>
-            PRIVATE CURATION · ATELIER ARCHIVE
+            YOUR WISHLIST
           </div>
-          <h1 class="vault-headline">Your Wardrobe<br><em>Vault</em></h1>
+          <h1 class="vault-headline">Your <em>Wishlist</em></h1>
         </div>
         <div class="vault-hero-right">
           <div class="vault-stat-pair">
@@ -723,25 +723,24 @@
         <div class="spotlight-header-row">
           <span class="spotlight-eyebrow-tag" id="wishlistSpotlightEyebrow">
             <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
-            <span>PRIVATE CURATION OVERVIEW</span>
+            <span>YOUR SAVED ITEMS</span>
           </span>
           <div class="spotlight-capsule-tabs" role="tablist" aria-label="Saved Piece Capsules">
-            <button type="button" class="spotlight-tab-btn active" data-tab-filter="all" role="tab" aria-selected="true">01 All Saved</button>
-            <button type="button" class="spotlight-tab-btn" data-tab-filter="apparel" role="tab" aria-selected="false">02 Ready-to-Wear</button>
-            <button type="button" class="spotlight-tab-btn" data-tab-filter="acoustics" role="tab" aria-selected="false">03 High Acoustics</button>
-            <button type="button" class="spotlight-tab-btn" data-tab-filter="footwear" role="tab" aria-selected="false">04 Footwear &amp; Leather</button>
+            <button type="button" class="spotlight-tab-btn active" data-tab-filter="all" role="tab" aria-selected="true">All</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="apparel" role="tab" aria-selected="false">Clothing</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="acoustics" role="tab" aria-selected="false">03 Headphones &amp; Audio</button>
+            <button type="button" class="spotlight-tab-btn" data-tab-filter="footwear" role="tab" aria-selected="false">Shoes &amp; Bags</button>
           </div>
         </div>
 
         <div class="spotlight-body-row">
           <div class="plp-spotlight-content">
-            <h2 class="plp-spotlight-title" id="wishlistSpotlightTitle">Your Complete Atelier Archive</h2>
-            <p class="plp-spotlight-desc" id="wishlistSpotlightDesc">Every tailored silhouette, acoustic instrument, and artisanal piece reserved across your private vault.</p>
+            <h2 class="plp-spotlight-title" id="wishlistSpotlightTitle">All Your Saved Items</h2>
+            <p class="plp-spotlight-desc" id="wishlistSpotlightDesc">All the items you've saved.</p>
           </div>
           <div class="plp-spotlight-tags" id="wishlistSpotlightTags">
             <span class="plp-spotlight-tag">3 Pieces Saved</span>
             <span class="plp-spotlight-tag tabular-nums">€ 689.00</span>
-            <span class="plp-spotlight-tag">Atelier Reserved</span>
           </div>
         </div>
       </div>
@@ -750,8 +749,8 @@
       <div class="wishlist-stats-bar" id="wishlistStatsBar">
         <div style="display: flex; align-items: center; gap: 20px;">
           <div>
-            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); display: block;">CURATION SUMMARY</span>
-            <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF;" id="wishlistCountDisplay">3 Pieces Reserved</div>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); display: block;">SUMMARY</span>
+            <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF;" id="wishlistCountDisplay">3 Items Saved</div>
           </div>
           <div style="width: 1px; height: 28px; background: rgba(255, 255, 255, 0.1);"></div>
           <div>
@@ -767,7 +766,7 @@
           </button>
           <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;" data-action="share" title="Share Private Edit">
             <i data-lucide="share-2" style="width: 13px; height: 13px;"></i>
-            <span>SHARE EDIT</span>
+            <span>SHARE LIST</span>
           </button>
           <button type="button" class="btn-secondary-action wishlist-ripple-btn" style="height: 42px; font-size: 11px; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; color: #FB7185; border-color: rgba(251, 113, 133, 0.35);" data-action="clear-all" title="Remove All Items From Wishlist">
             <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
@@ -796,9 +795,9 @@
         <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(0, 210, 255, 0.08); border: 1px solid rgba(0, 210, 255, 0.25); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--accent-cyan);">
           <i data-lucide="heart" style="width: 28px; height: 28px;"></i>
         </div>
-        <h2 style="font-family: var(--font-serif); font-size: 32px; color: #FFFFFF; font-weight: 400; margin-bottom: 8px;">Your curation awaits its first piece.</h2>
+        <h2 style="font-family: var(--font-serif); font-size: 32px; color: #FFFFFF; font-weight: 400; margin-bottom: 8px;">Your wishlist is empty.</h2>
         <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 480px; margin: 0 auto 32px;">
-          Explore the lookbook and collections to begin your private archive, or restore the default atelier curation.
+          Explore the lookbook and collections to begin saving items, or restore default items.
         </p>
         <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
           <a href="lookbook.html" class="btn-primary-commerce" style="height: 46px; padding: 0 28px; display: inline-flex; align-items: center; gap: 6px;">
@@ -807,7 +806,7 @@
           </a>
           <button type="button" class="btn-secondary-action" data-action="reset-defaults" style="height: 46px; padding: 0 24px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
             <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
-            <span>RESTORE CURATION</span>
+            <span>RESTORE DEFAULTS</span>
           </button>
           <a href="category.html?cat=all" class="btn-secondary-action" style="height: 46px; padding: 0 24px;">
             <span>EXPLORE COLLECTIONS</span>
@@ -818,9 +817,9 @@
       <!-- CONCIERGE INTEGRATION BRIDGE -->
       <div class="profile-concierge-card">
         <div>
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">BESPOKE PAIRING ADVICE</div>
-          <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Assemble Your Complete Ensemble</div>
-          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Let our digital concierge assemble capsule outfits from what you've saved.</p>
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">STYLING HELP</div>
+          <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Create a Complete Outfit</div>
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Let our AI stylist suggest outfits using your saved items.</p>
         </div>
         <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
           <span>STYLE MY SAVED PIECES</span>
@@ -855,7 +854,7 @@
   <div id="quicklookOverlay" class="quicklook-overlay" aria-hidden="true"></div>
   <aside id="quicklookDrawer" class="quicklook-drawer" aria-hidden="true" role="dialog" aria-label="Product Quick Inspection">
     <div class="quicklook-header">
-      <div style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #3DE0FF;">ATELIER QUICK LOOK</div>
+      <div style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #3DE0FF;">QUICK VIEW</div>
       <button type="button" id="quicklookCloseBtn" style="background: none; border: none; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%;" aria-label="Close Quick Look">
         <i data-lucide="x" style="width: 18px; height: 18px;"></i>
       </button>
