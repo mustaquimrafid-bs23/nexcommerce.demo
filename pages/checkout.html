@@ -881,12 +881,15 @@
 
     /* ── Promo Code Engine ──────────────────────────────────────────── */
     const PROMO_CODES = {
-      'NEX10':     { label: 'NEX10 — 10% off',          type: 'percent',  value: 10 },
-      'LUXURY20':  { label: 'LUXURY20 — 20% off',        type: 'percent',  value: 20 },
-      'VIP20':     { label: 'VIP20 — 20% off',           type: 'percent',  value: 20 },
-      'ATELIER15': { label: 'ATELIER15 — 15% off',       type: 'percent',  value: 15 },
-      'WELCOME10': { label: 'WELCOME10 — 10% off',       type: 'percent',  value: 10 },
-      'FREESHIP':  { label: 'FREESHIP — Free Delivery',  type: 'shipping', value: 0  }
+      'NEX10':       { label: 'NEX10 — 10% off',              type: 'percent',  value: 10 },
+      'LUXURY20':    { label: 'LUXURY20 — 20% off',            type: 'percent',  value: 20 },
+      'VIP20':       { label: 'VIP20 — 20% off',               type: 'percent',  value: 20 },
+      'ATELIER15':   { label: 'ATELIER15 — 15% off',           type: 'percent',  value: 15 },
+      'WELCOME10':   { label: 'WELCOME10 — 10% off',           type: 'percent',  value: 10 },
+      'COMEBACK15':  { label: 'COMEBACK15 — 15% VIP Hold',     type: 'percent',  value: 15 },
+      'COMEBACK10':  { label: 'COMEBACK10 — 10% Recovery',     type: 'percent',  value: 10 },
+      'FREESHIPNOW': { label: 'FREESHIPNOW — Free Delivery',  type: 'shipping', value: 0  },
+      'FREESHIP':    { label: 'FREESHIP — Free Delivery',      type: 'shipping', value: 0  }
     };
     window.PROMO_CODES = PROMO_CODES;
     window.applyCoupon = applyCoupon;
@@ -1098,6 +1101,14 @@
       if (cityInput) cityInput.addEventListener('input', buildDeliveryGuidance);
       initHolographicCardSync();
       initProgressTracking();
+
+      const recoveryCode = sessionStorage.getItem('applied_recovery_code');
+      if (recoveryCode) {
+        sessionStorage.removeItem('applied_recovery_code');
+        const input = document.getElementById('coupon-input');
+        if (input) input.value = recoveryCode;
+        setTimeout(() => applyCoupon(), 200);
+      }
     });
 
     function toggleMobileSummary() {
@@ -1488,6 +1499,8 @@
   <script src="../js/checkout-savings-ui.js?v=10"></script>
   <script src="../js/delivery-gate-engine.js?v=1"></script>
   <script src="../js/delivery-gate-ui.js?v=1"></script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
   <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/ai-engine.js"></script>

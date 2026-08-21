@@ -238,6 +238,32 @@
         };
       }
 
+      // ── 0F. CART RECOVERY & ABANDONMENT ASSISTANT (Capability 7) ────────
+      if (/\b(recover.*cart|restore.*cart|abandoned.*cart|my bag|items.*in.*bag|resume.*order|saved.*cart)\b/i.test(rawText)) {
+        this.lastQueryType = 'cart_recovery';
+        const cart = (typeof window !== 'undefined' && window.nexCart) ? (window.nexCart.items || []) : [];
+        if (cart.length > 0) {
+          if (typeof window !== 'undefined' && window.NexCartRecoveryUI && typeof window.NexCartRecoveryUI.showRecoveryModal === 'function') {
+            setTimeout(function() { window.NexCartRecoveryUI.showRecoveryModal(); }, 300);
+          }
+          return {
+            type: 'cart_recovery',
+            text: `**Cart Recovery & Reservation Assistant**\n\nYou currently have **${cart.length} pieces reserved** in your bag. I've unlocked your exclusive recovery incentive modal so you can claim your pieces before the hold expires!`,
+            actionLink: { text: 'VIEW SHOPPING BAG →', url: 'cart.html' },
+            products: cart.slice(0, 2),
+            suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
+          };
+        } else {
+          return {
+            type: 'cart_recovery',
+            text: `**Cart Recovery Assistant**\n\nYour bag is currently clear. Browse our latest arrivals or use our **Budget Cart Builder** to assemble a fresh curated capsule!`,
+            actionLink: { text: 'BUILD CART BY BUDGET →', url: '#' },
+            products: catalog.slice(0, 3),
+            suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
+          };
+        }
+      }
+
       // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
       const isSearchOnly = /^(looking for|search for|find me|show me|where are)/i.test(rawText) && !/outfit|complete|capsule/i.test(rawText);
       if (!isSearchOnly && (/\b(outfits?|complete (outfit|look)|(office|wedding|business|casual|dinner|gala|summer|weekend|evening) (look|outfit)|capsules?|pairings?|put together (an outfit|a look)|full outfit|complete the look)\b/i.test(rawText) || /complete.*(look|outfit)/i.test(rawText) || /\b(the look|this look|curated look|look bundle|wedding look|office look|evening look|wedding|gala|casual outfit)\b/i.test(rawText))) {
