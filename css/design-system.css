@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext');
+﻿@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 
 :root {
   /* Official Brand Navy Foundations (§5) */
@@ -44,7 +44,7 @@
   --shadow-floating:  0 20px 60px rgba(0, 0, 0, 0.38);
 
   /* European Luxury Typography Foundations (§8) */
-  --font-display:     'Neue Haas Grotesk', 'Helvetica Now', 'Manrope', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display:     'Neue Haas Grotesk', 'Helvetica Now', 'Manrope', system-ui, -apple-system, sans-serif;
   --font-body:        'Inter', system-ui, -apple-system, sans-serif;
   --font-accent:      'Instrument Serif', Georgia, serif;
   --font-serif:       'Cormorant Garamond', Georgia, 'Times New Roman', serif;
@@ -81,11 +81,11 @@
   --tracking-label:   0.05em;
   --tracking-wide:    0.08em;
 
-  /* Border Radius System */
-  --radius-sm:        6px;    /* Small controls / Buttons */
-  --radius-input:     8px;    /* Form inputs */
-  --radius-md:        10px;   /* Standard Cards */
-  --radius-lg:        12px;   /* Large panels */
+  /* Border Radius System — Modernist: restrained, architectural */
+  --radius-sm:        2px;    /* Small controls / Buttons */
+  --radius-input:     4px;    /* Form inputs */
+  --radius-md:        4px;    /* Standard Cards */
+  --radius-lg:        6px;    /* Large panels */
   --radius-pill:      9999px; /* Status tags / compact indicators */
 
   /* Global Spacing Scale (8px-based) */
@@ -771,7 +771,7 @@ textarea.input-field {
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   background: rgba(0, 200, 255, 0.15);
   color: var(--accent-cyan);
   font-size: 10px;
@@ -902,7 +902,7 @@ textarea.input-field {
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 28px 32px 36px;
   box-shadow: 0 30px 80px rgba(0, 14, 38, 0.55), 0 0 50px rgba(0, 51, 113, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   display: flex;
@@ -926,7 +926,7 @@ textarea.input-field {
     margin: 16px auto 0;
     padding: 20px 16px 28px;
     max-height: 94vh;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     gap: 16px;
   }
 }
@@ -945,7 +945,7 @@ textarea.input-field {
   gap: 12px;
   background: rgba(20, 60, 118, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 12px 16px;
   transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
@@ -1155,7 +1155,7 @@ textarea.input-field {
 .search-visual-dept-card {
   position: relative;
   height: 110px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: #06224C;
@@ -1240,7 +1240,7 @@ textarea.input-field {
   flex-direction: column;
   background: rgba(14, 46, 92, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   transition: all 200ms ease;
 }
@@ -1701,7 +1701,7 @@ mark.search-hl {
   position: relative;
   background: linear-gradient(180deg, rgba(20, 62, 122, 0.95) 0%, rgba(10, 38, 82, 0.96) 100%);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -2093,7 +2093,7 @@ mark.search-hl {
   max-width: 480px;
   background: linear-gradient(180deg, #072654 0%, #031A3B 100%);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: 0 24px 60px rgba(0, 10, 28, 0.8), 0 0 30px rgba(0, 51, 113, 0.35);
   display: flex;
@@ -3542,7 +3542,7 @@ mark.search-hl {
 .plp-curation-spotlight {
   background: rgba(8, 14, 30, 0.80);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   padding: 24px 28px;
   margin-bottom: 32px;
   position: relative;
@@ -3765,7 +3765,7 @@ mark.search-hl {
 /* Spotlight Visual Frame & Shoppable Pill */
 .spotlight-visual-pane {
   position: relative;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   height: 220px;
   background: #060e1e;
@@ -3777,7 +3777,7 @@ mark.search-hl {
   height: 100%;
   position: relative;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
 }
 
 .spotlight-featured-img {
@@ -3909,7 +3909,7 @@ mark.search-hl {
 
 @media (max-width: 900px) {
   .plp-curation-spotlight {
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
   }
   .spotlight-body-layout {
     grid-template-columns: 1fr;
@@ -3922,7 +3922,7 @@ mark.search-hl {
 
 @media (max-width: 600px) {
   .plp-curation-spotlight {
-    border-radius: 14px;
+    border-radius: var(--radius-lg);
     padding: 18px 16px;
   }
   .spotlight-body-layout {
@@ -4246,7 +4246,7 @@ mark.search-hl {
   text-align: center;
   background: rgba(8, 14, 30, 0.60);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 .plp-empty-title {
@@ -7082,7 +7082,7 @@ mark.search-hl {
   max-width: 420px;
   height: 520px;
   aspect-ratio: 4/5;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--bg-surface);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.30);
@@ -7195,7 +7195,7 @@ mark.search-hl {
   height: 64px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(170, 182, 200, 0.25);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   padding: 0 12px 0 20px;
@@ -7233,7 +7233,7 @@ mark.search-hl {
 .home-discovery-submit-btn {
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--accent-violet), var(--accent-indigo));
   color: #FFFFFF;
   font-size: 18px;
@@ -7904,7 +7904,7 @@ mark.search-hl {
 .tracking-status-badge {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   border: 1px solid;
   font-family: var(--font-body);
   font-size: 11px;
@@ -7918,7 +7918,7 @@ mark.search-hl {
   padding: 28px 24px;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
 }
 
 .tracking-timeline-list {
@@ -8034,7 +8034,7 @@ mark.search-hl {
   padding: 20px 24px;
   background: rgba(0, 200, 255, 0.04);
   border: 1px solid rgba(0, 200, 255, 0.14);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -8050,7 +8050,7 @@ mark.search-hl {
 
 .tracking-qa-chip {
   padding: 8px 14px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.12);
   color: var(--text-secondary);
@@ -8117,7 +8117,7 @@ mark.search-hl {
 .account-sidebar {
   background: #0B2147;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 16px 0;
   display: flex;
   flex-direction: column;
@@ -8179,7 +8179,7 @@ mark.search-hl {
     padding: 8px;
     flex-direction: row;
     overflow-x: auto;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     scrollbar-width: none;
   }
   .account-sidebar::-webkit-scrollbar { display: none; }
@@ -8205,7 +8205,7 @@ mark.search-hl {
 .account-card {
   background: #0B2147;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 28px;
   margin-bottom: 28px;
   animation: cardEntrance 300ms ease-out;
@@ -8271,7 +8271,7 @@ mark.search-hl {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
@@ -8307,7 +8307,7 @@ mark.search-hl {
 .address-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -8346,7 +8346,7 @@ mark.search-hl {
 
 .preference-chip {
   padding: 8px 18px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text-secondary);
@@ -8399,7 +8399,7 @@ mark.search-hl {
   color: var(--accent-cyan);
   background: rgba(0, 200, 255, 0.08);
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 
 /* Selected For You 3-Product Grid */
@@ -8419,7 +8419,7 @@ mark.search-hl {
 .rec-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -8504,7 +8504,7 @@ mark.search-hl {
 .toast-card {
   background: #0B2147;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px;
   display: flex;
   gap: 14px;
@@ -8768,7 +8768,7 @@ mark.search-hl {
 .intent-extraction-box {
   background: rgba(0, 200, 255, 0.04);
   border: 1px solid rgba(0, 200, 255, 0.18);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px 20px;
   margin-bottom: 24px;
   display: flex;
@@ -8787,7 +8787,7 @@ mark.search-hl {
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   background: rgba(0, 200, 255, 0.08);
   border: 1px solid rgba(0, 200, 255, 0.25);
   font-family: var(--font-body);
@@ -8838,7 +8838,7 @@ mark.search-hl {
 .why-matches-card {
   background: #0B2147;
   border: 1px solid rgba(0, 200, 255, 0.25);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 28px;
   width: 100%;
   max-width: 480px;
@@ -8887,7 +8887,7 @@ mark.search-hl {
 
 .refinement-chip {
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--text-secondary);
@@ -9520,7 +9520,7 @@ mark.search-hl {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 6px;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 1px rgba(255, 255, 255, 0.25);
   z-index: 1050;
@@ -9613,6 +9613,7 @@ mark.search-hl {
   width: 100%;
   max-width: 340px;
   height: 100vh;
+  height: 100dvh;
   background: rgba(6, 14, 28, 0.98);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
@@ -9621,6 +9622,7 @@ mark.search-hl {
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   transform: translateX(-100%);
   transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
   box-shadow: 20px 0 60px rgba(0, 0, 0, 0.7);
@@ -9662,6 +9664,10 @@ mark.search-hl {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .mobile-drawer-link {
@@ -9671,7 +9677,7 @@ mark.search-hl {
   color: var(--text-secondary);
   text-decoration: none;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11266,7 +11272,7 @@ mark.search-hl {
 /* Base Bento Card - Hardware Accelerated & Apple/Linear Spotlight Sheen */
 .cat-bento-card {
   position: relative;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-decoration: none;
   background: #0B1426;
@@ -11694,7 +11700,7 @@ mark.search-hl {
 .home-cat-pill {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 14px 8px;
   display: flex;
   flex-direction: column;
@@ -11866,7 +11872,7 @@ mark.search-hl {
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border: 1px solid rgba(61, 224, 255, 0.18);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 8px 14px 10px;
   min-width: 120px;
 }
@@ -11944,7 +11950,7 @@ mark.search-hl {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -12230,7 +12236,7 @@ mark.search-hl {
   backdrop-filter: blur(28px) saturate(1.3);
   -webkit-backdrop-filter: blur(28px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 46px 48px 42px;
   overflow: hidden;
   display: flex;
@@ -12574,7 +12580,7 @@ mark.search-hl {
   .home-intent-card-section { padding: 32px 0 40px; perspective: none; }
   .home-intent-card {
     padding: 32px 18px 28px;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     transform: none !important;
   }
   .intent-text-heading { font-size: 22px; }
@@ -12681,7 +12687,7 @@ mark.search-hl {
   backdrop-filter: blur(20px) saturate(1.3);
   -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -13047,7 +13053,7 @@ mark.search-hl {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
@@ -13147,7 +13153,7 @@ mark.search-hl {
   align-items: center;
   gap: 14px;
   padding: 10px 12px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   text-decoration: none;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid rgba(255, 255, 255, 0.02);
@@ -13482,7 +13488,7 @@ mark.search-hl {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 12px;
   text-decoration: none;
   color: inherit;
@@ -13511,7 +13517,7 @@ mark.search-hl {
 .recent-card-glare {
   position: absolute;
   inset: 0;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   pointer-events: none;
   z-index: 3;
   opacity: var(--recents-glare-opacity, 0);
@@ -13523,7 +13529,7 @@ mark.search-hl {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1.08;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: radial-gradient(circle at 50% 35%, #16243D 0%, #080F1E 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -13663,7 +13669,7 @@ mark.search-hl {
   padding: 44px 20px;
   background: rgba(10, 18, 32, 0.5);
   border: 1px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   margin: 12px 0;
 }
 
@@ -13779,7 +13785,7 @@ mark.search-hl {
   display: block;
   text-decoration: none;
   width: 100%;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
@@ -13918,7 +13924,7 @@ mark.search-hl {
   transition: opacity 220ms ease, transform 260ms cubic-bezier(0.25, 1, 0.5, 1);
   background: rgba(8, 14, 30, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(24px);
   padding: 12px 14px;
@@ -14099,7 +14105,7 @@ mark.search-hl {
 .lookbook-modal-card {
   background: #080E1E;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   width: 100%;
   max-width: 540px;
@@ -14189,7 +14195,7 @@ mark.search-hl {
   padding: 12px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   transition: background-color 200ms ease;
 }
 
@@ -14333,7 +14339,7 @@ mark.search-hl {
   background: #FFFFFF;
   color: #080E1E;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
@@ -14356,7 +14362,7 @@ mark.search-hl {
 
 @media (max-width: 900px) {
   .editorial-lifestyle-banner {
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     aspect-ratio: 16 / 10;
     max-height: 440px;
   }
@@ -14364,7 +14370,7 @@ mark.search-hl {
 
 @media (max-width: 600px) {
   .editorial-lifestyle-banner {
-    border-radius: 14px;
+    border-radius: var(--radius-lg);
     aspect-ratio: 4 / 5;
     max-height: 460px;
   }
@@ -14824,7 +14830,7 @@ body.discovery-page {
   gap: 14px;
   background: var(--bg-surface, #0A2A54);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 8px 10px 8px 22px;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -15000,7 +15006,7 @@ body.discovery-page {
   position: relative;
   background: linear-gradient(145deg, rgba(8, 32, 70, 0.72) 0%, rgba(3, 18, 44, 0.82) 100%);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 24px 32px 32px;
   overflow: hidden;
   box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
@@ -15219,7 +15225,7 @@ body.discovery-page {
 
 .discovery-spotlight-card .spotlight-visual-pane {
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: visible;
 }
 
@@ -15227,7 +15233,7 @@ body.discovery-page {
   position: relative;
   width: 100%;
   height: 230px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: #001838;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -15255,7 +15261,7 @@ body.discovery-page {
   left: 12px;
   background: rgba(3, 18, 44, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 9px 14px;
   display: flex;
   align-items: center;
@@ -15359,7 +15365,7 @@ body.discovery-page {
   padding: 12px 18px;
   background: var(--bg-surface, #0A2A54);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   margin-bottom: 32px;
   backdrop-filter: blur(12px);
   animation: chipFadeIn 260ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -15551,7 +15557,7 @@ body.discovery-page {
   position: relative;
   background: var(--bg-surface, #0A2A54);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -15773,7 +15779,7 @@ body.discovery-page {
   padding: 16px 22px;
   background: var(--bg-surface, #0A2A54);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   margin-top: 48px;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -15898,7 +15904,7 @@ body.discovery-page {
 .why-matches-card {
   background: rgba(10, 15, 26, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 28px;
   max-width: 440px;
   width: 100%;
@@ -16015,7 +16021,7 @@ body.discovery-page {
 .discovery-no-results-title { font-family: var(--font-serif); font-size: 28px; font-weight: 500; color: var(--text-primary); margin-bottom: 12px; }
 .discovery-no-results-body { font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 380px; margin: 0 auto 24px; }
 .discovery-relax-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.discovery-relax-chip { padding: 6px 14px; border: 1px solid var(--border-subtle); border-radius: 20px; font-family: var(--font-body); font-size: 12px; color: var(--accent-cyan); background: none; cursor: pointer; transition: border-color 0.2s; }
+.discovery-relax-chip { padding: 6px 14px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); font-family: var(--font-body); font-size: 12px; color: var(--accent-cyan); background: none; cursor: pointer; transition: border-color 0.2s; }
 .discovery-relax-chip:hover { border-color: var(--accent-cyan); }
 .discovery-ai-error { padding: 40px 0; text-align: center; }
 .discovery-ai-error-label { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-pink); margin-bottom: 8px; }
@@ -16202,7 +16208,7 @@ body.discovery-page {
   background-color: var(--surface-2);
   border: 1px solid var(--border-subtle);
   transition: .2s;
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
 }
 .toggle-slider:before {
   position: absolute;
@@ -16469,7 +16475,7 @@ input:checked + .toggle-slider:before {
 .msg-user {
   background: var(--bg-card, rgba(255, 255, 255, 0.06));
   padding: 10px 16px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   border-bottom-right-radius: 4px;
   font-family: var(--font-body);
   font-size: 13.5px;
@@ -16485,7 +16491,7 @@ input:checked + .toggle-slider:before {
   gap: 5px;
   padding: 8px 12px;
   background: var(--bg-card, rgba(255, 255, 255, 0.04));
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
 }
 .msg-concierge.typing span {
@@ -16608,7 +16614,7 @@ input:checked + .toggle-slider:before {
 .concierge-look-bundle {
   background: var(--bg-card, rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px;
   width: 100%;
 }
@@ -16750,7 +16756,7 @@ input:checked + .toggle-slider:before {
 .concierge-size-advisor {
   background: var(--bg-card, rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px;
   width: 100%;
   display: flex;
@@ -16781,7 +16787,7 @@ input:checked + .toggle-slider:before {
   font-family: var(--font-body);
   font-size: 11px;
   padding: 6px 11px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all 180ms ease;
 }
@@ -16822,7 +16828,7 @@ input:checked + .toggle-slider:before {
 .concierge-tracker-stepper {
   background: var(--bg-card, rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 16px;
   width: 100%;
   display: flex;
@@ -16844,7 +16850,7 @@ input:checked + .toggle-slider:before {
   background: rgba(241, 51, 101, 0.12);
   color: #F13365;
   padding: 3px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
 }
 .tracker-eta {
   font-size: 12.5px;
@@ -16939,7 +16945,7 @@ input:checked + .toggle-slider:before {
   font-family: var(--font-body);
   font-size: 11.5px;
   padding: 6px 12px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   white-space: nowrap;
   transition: all 180ms ease;
@@ -16954,7 +16960,7 @@ input:checked + .toggle-slider:before {
   align-items: center;
   background: var(--bg-card, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 4px 4px 4px 16px;
   transition: border-color 200ms ease;
 }
@@ -17640,7 +17646,7 @@ input:checked + .toggle-slider:before {
   padding: 4px 10px;
   background: rgba(0, 230, 118, 0.10);
   border: 1px solid rgba(0, 230, 118, 0.35);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   color: #00E676;
   font-family: var(--font-body);
   font-size: 11px;
@@ -17916,7 +17922,7 @@ svg.lucide {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 24px 28px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
   color: #F8FAFC;
@@ -18095,7 +18101,7 @@ svg.lucide {
 .nex-cookie-modal-card {
   background: #080E1E;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   width: 100%;
   max-width: 680px;
   max-height: calc(90vh - 40px);
@@ -18172,7 +18178,7 @@ svg.lucide {
 .cookie-category-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 16px 20px;
   transition: border-color 200ms ease, background 200ms ease;
 }
@@ -18307,7 +18313,7 @@ svg.lucide {
   inset: 0;
   background-color: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   transition: all 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 

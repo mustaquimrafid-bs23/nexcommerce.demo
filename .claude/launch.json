@@ -4,7 +4,7 @@
     {
       "name": "static-site",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8843"],
+      "runtimeArgs": ["-m", "http.server", "8843", "--directory", "C:/Users/BS1572/OneDrive - Brain Station 23/Documents/nexcomarch"],
       "port": 8843,
       "autoPort": true
     }

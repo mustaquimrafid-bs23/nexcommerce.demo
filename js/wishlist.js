@@ -489,6 +489,7 @@
   // Quick Look Drawer Controller
   var activeQuickLookId = null;
   var quickLookLastFocus = null;
+  var _qlWheelHandler = null;
 
   function openQuickLook(id) {
     var Engine = window.NexWishlistEngine;
@@ -587,6 +588,8 @@
     overlay.classList.add('active');
     drawer.classList.add('active');
     drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (window._nexLenis) window._nexLenis.stop();
     if (window.lucide) window.lucide.createIcons();
 
     var closeBtn = drawer.querySelector('#quicklookCloseBtn');
@@ -601,6 +604,8 @@
       drawer.classList.remove('active');
       drawer.setAttribute('aria-hidden', 'true');
     }
+    document.body.style.overflow = '';
+    if (window._nexLenis) window._nexLenis.start();
     activeQuickLookId = null;
     if (quickLookLastFocus && quickLookLastFocus.focus) {
       quickLookLastFocus.focus();

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,7 +6,7 @@
   <title>nexCommerce &mdash; Step 8C Mobile Checkout Summary</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* ─── STEP 8C DESIGN SYSTEM & MOBILE SUMMARY ─────────────────────── */
@@ -36,7 +36,7 @@
       --cta-primary:     #F5F7FA;
       --cta-primary-text:#071A3A;
 
-      --font-serif:      'Cormorant Garamond', Georgia, serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
       --font-sans:       'Inter', system-ui, sans-serif;
     }
 
@@ -280,7 +280,7 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;"><i data-lucide="menu" style="width: 22px; height: 22px;"></i></button>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer"><i data-lucide="menu" class="menu-icon-bars"></i></button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
@@ -289,7 +289,7 @@
       <nav class="nav-left nav-menu-links desktop-only">
 <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="discovery.html" class="nav-item-link">Discover</a>
+        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <div class="nav-search-pill-wrap desktop-only">
@@ -309,7 +309,7 @@
         <a data-auth-account href="account.html" class="nav-item-link desktop-only">Account</a>
         <a href="cart.html" class="cart-trigger nav-item-link" id="headerCartLink" style="display: flex; align-items: center; gap: 6px;">
           <span>Bag</span>
-          <span class="bag-badge" id="headerCartCount">1</span>
+          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
         </a>
       </div>
     </div>
@@ -326,7 +326,7 @@
     <a href="discovery.html" class="mobile-drawer-link">Discover</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
   </div>
 
 
@@ -503,7 +503,7 @@
 <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
   <div class="minicart-header">
     <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
   <div id="minicartBody" class="minicart-body">
     <!-- Populated by cart.js -->

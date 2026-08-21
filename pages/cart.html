@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,8 +10,8 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=6">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
 
   <style>
     /* ── Luxury Cart Item Rows ──────────────────────────────── */
@@ -193,7 +193,7 @@
       <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
         <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+          <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
@@ -219,7 +219,7 @@
       <div class="nav-right-actions">
         <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>CONCIERGE</span>
+          <span>Ask Stylist</span>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
@@ -256,10 +256,7 @@
               <span>Order History</span>
             </a>
             <div class="nav-more-divider"></div>
-            <a href="contact.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="headphones"></i>
-              <span>Client Services</span>
-            </a>
+
           </div>
         </div>
       </div>
@@ -511,29 +508,29 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Scripts -->
-  <script src="../js/cart.js"></script>
-  <script src="../js/ai-engine.js"></script>
-  <script src="../js/intent-parser.js"></script>
-  <script src="../js/catalog-engine.js"></script>
-  <script src="../js/session-context.js"></script>
-  <script src="../js/style-profile.js"></script>
-  <script src="../js/context-retention.js"></script>
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js?v=1"></script>
+  <script src="../js/catalog-engine.js?v=1"></script>
+  <script src="../js/session-context.js?v=1"></script>
+  <script src="../js/style-profile.js?v=1"></script>
+  <script src="../js/context-retention.js?v=1"></script>
   <script src="../js/search-overlay.js?v=4"></script>
-  <script src="../js/footer.js"></script>
-  <script src="../js/theme-switcher.js"></script>
-  <script src="../js/animations.js"></script>
+  <script src="../js/footer.js?v=1"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=11"></script>
   <script src="../js/concierge-engine.js?v=4"></script>
   <script src="../js/concierge.js?v=4"></script>
-  <script src="../js/auth.js"></script>
-  <script src="../js/header.js"></script>
-  <script src="../js/cookie-consent.js"></script>
+  <script src="../js/auth.js?v=1"></script>
+  <script src="../js/header.js?v=1"></script>
+  <script src="../js/cookie-consent.js?v=1"></script>
 
   <!-- MINI CART (SIDE DRAWER) -->
   <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
   <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
     <div class="minicart-header">
       <div class="minicart-title">Shopping Bag</div>
-      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
     </div>
     <div id="minicartBody" class="minicart-body">
       <!-- Populated by cart.js -->

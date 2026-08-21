@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,8 +9,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=37">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -751,6 +751,9 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
+        </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
         </a>
@@ -758,8 +761,7 @@
       <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
         <a href="category.html?cat=all" class="nav-item-link">Categories</a>
         <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
-        <a href="lookbook.html" class="nav-item-link">Lookbook</a>
+        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
@@ -789,12 +791,28 @@
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
-            <a href="contact.html" class="nav-more-item" role="menuitem"><i data-lucide="headphones"></i><span>Client Services</span></a>
+            
           </div>
         </div>
       </div>
     </div>
   </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
+      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    </div>
+    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
+    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
+    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
+    <a href="lookbook.html" class="mobile-drawer-link">Lookbook</a>
+    <a href="size-guide.html" class="mobile-drawer-link active">Size Guide</a>
+    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
+    <a href="wishlist.html" class="mobile-drawer-link">Wishlist <span class="mobile-count-badge" id="mobileWishlistCount" style="display:none;">0</span></a>
+  </div>
 
   <main class="sg-wrap" id="mainContent">
 
@@ -1147,7 +1165,6 @@
   </aside>
 
   <!-- CDNs -->
-  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Scripts -->

@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="view-transition" content="same-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apparel & Collections &mdash; nexCommerce</title>
   <meta name="description" content="Explore precision-crafted apparel, acoustics, and footwear at nexCommerce.">
@@ -9,8 +10,8 @@
   <!-- Google Fonts: Cormorant Garamond & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=39">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
   <style>
     /* ─── Tactile Circular Swatches for 3-Item Luxury Cards ────────── */
     .plp-card-bottom-row {
@@ -80,13 +81,24 @@
     </div>
   </div>
 
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
@@ -164,7 +176,7 @@
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
       <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
       <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
@@ -175,7 +187,7 @@
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
   </div>
 
 
@@ -321,7 +333,7 @@
   </div>
 
   <!-- CDNs -->
-  <script src="https://unpkg.com/lucide@1.32.0"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
@@ -389,7 +401,7 @@
 <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
   <div class="minicart-header">
     <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
   <div id="minicartBody" class="minicart-body">
     <!-- Populated by cart.js -->

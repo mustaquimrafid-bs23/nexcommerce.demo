@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="view-transition" content="same-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Style Concierge &mdash; nexCommerce</title>
   <meta name="description" content="Your personal AI Style Concierge. Expertly curating complete looks, finding perfect fits, and refining selections based on your unique style profile.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
   <style>
     /* ── Studio Layout ───────────────────────────── */
     .concierge-studio-canvas {
@@ -329,8 +330,8 @@
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
@@ -356,7 +357,7 @@
       <div class="nav-right-actions">
         <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>CONCIERGE</span>
+          <span>Ask Stylist</span>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
@@ -371,7 +372,7 @@
 
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
           <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount">1</span>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
@@ -416,7 +417,7 @@
     <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
     <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
     <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">1</span>)</a>
+    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
   </div>
 
 
@@ -466,10 +467,10 @@
 
         <!-- QUICK SCENARIO PROMPTS -->
         <div class="studio-scenario-chips" id="studioScenarioChips">
-          <button type="button" class="scenario-chip" data-prompt="Curate a 3-day winter trip in St. Moritz">❄️ 3-Day Winter Alpine Trip</button>
-          <button type="button" class="scenario-chip" data-prompt="Show me tailored knitwear and blazers">🏛️ Tailored Knitwear Edit</button>
-          <button type="button" class="scenario-chip" data-prompt="What size should I get for cashmere sweaters?">📏 Fit &amp; Sizing Advice</button>
-          <button type="button" class="scenario-chip" data-prompt="How fast is express delivery across the EU?">✈️ Delivery Timelines</button>
+          <button type="button" class="scenario-chip" data-prompt="Curate a 3-day winter trip in St. Moritz">3-Day Winter Alpine Trip</button>
+          <button type="button" class="scenario-chip" data-prompt="Show me tailored knitwear and blazers">Tailored Knitwear Edit</button>
+          <button type="button" class="scenario-chip" data-prompt="What size should I get for cashmere sweaters?">Fit &amp; Sizing Advice</button>
+          <button type="button" class="scenario-chip" data-prompt="How fast is express delivery across the EU?">Delivery Timelines</button>
         </div>
 
         <!-- INPUT DOCK -->
@@ -757,7 +758,6 @@
 
     });
   </script>
-  <script src="../js/animations.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
 
@@ -768,7 +768,7 @@
 <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
   <div class="minicart-header">
     <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
   <div id="minicartBody" class="minicart-body">
     <!-- Populated by cart.js -->

@@ -1748,6 +1748,7 @@ function updateQuickLookDrawer(productId) {
     backdrop.classList.remove('is-open');
     backdrop.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (window._nexLenis) window._nexLenis.start();
     return;
   }
 
@@ -1914,6 +1915,7 @@ function updateQuickLookDrawer(productId) {
   backdrop.classList.add('is-open');
   backdrop.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  if (window._nexLenis) window._nexLenis.stop();
 
   if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [drawer] });
 }

@@ -5,6 +5,8 @@ const animate = function(targets, keyframes, options = {}) {
   const delay = (options.delay || 0) * 1000;
   const easing = options.easing ? (Array.isArray(options.easing) ? `cubic-bezier(${options.easing.join(',')})` : options.easing) : 'cubic-bezier(0.16, 1, 0.3, 1)';
 
+  const TRANSFORM_KEYS = ['x', 'y', 'scale', 'scaleX', 'scaleY', 'rotate'];
+
   els.forEach((el, i) => {
     if (!el || !el.animate) return;
     const elDelay = typeof options.delay === 'function' ? options.delay(i, els.length) * 1000 : delay;
@@ -12,24 +14,55 @@ const animate = function(targets, keyframes, options = {}) {
     const keys = Object.keys(keyframes);
     const numSteps = Math.max(...keys.map(k => Array.isArray(keyframes[k]) ? keyframes[k].length : 1));
 
+    // Pre-hide element to the first keyframe state so there's no visible flash
+    // during the stagger delay before the animation starts.
+    if (elDelay > 0) {
+      const firstTransformParts = [];
+      keys.forEach(k => {
+        const val = Array.isArray(keyframes[k]) ? keyframes[k][0] : keyframes[k];
+        if (k === 'y')      firstTransformParts.push(`translateY(${val}px)`);
+        else if (k === 'x') firstTransformParts.push(`translateX(${val}px)`);
+        else if (k === 'scale')  firstTransformParts.push(`scale(${val})`);
+        else if (k === 'scaleX') firstTransformParts.push(`scaleX(${val})`);
+        else if (k === 'scaleY') firstTransformParts.push(`scaleY(${val})`);
+        else if (k === 'rotate') firstTransformParts.push(`rotate(${val}deg)`);
+        else el.style[k] = val;
+      });
+      if (firstTransformParts.length) el.style.transform = firstTransformParts.join(' ');
+    }
+
     for (let step = 0; step < numSteps; step++) {
       const frame = {};
+      const transformParts = [];
       keys.forEach(k => {
         const val = Array.isArray(keyframes[k]) ? keyframes[k][step] : keyframes[k];
-        if (k === 'y') frame.transform = `translateY(${val}px)`;
-        else if (k === 'x') frame.transform = `translateX(${val}px)`;
-        else if (k === 'scale') frame.transform = `scale(${val})`;
+        if (k === 'y')           transformParts.push(`translateY(${val}px)`);
+        else if (k === 'x')      transformParts.push(`translateX(${val}px)`);
+        else if (k === 'scale')  transformParts.push(`scale(${val})`);
+        else if (k === 'scaleX') transformParts.push(`scaleX(${val})`);
+        else if (k === 'scaleY') transformParts.push(`scaleY(${val})`);
+        else if (k === 'rotate') transformParts.push(`rotate(${val}deg)`);
         else frame[k] = val;
       });
+      if (transformParts.length) frame.transform = transformParts.join(' ');
       waapiFrames.push(frame);
     }
 
-    el.animate(waapiFrames, {
+    const anim = el.animate(waapiFrames, {
       duration: duration,
       delay: elDelay,
       easing: easing,
       fill: 'forwards'
     });
+
+    // Commit final keyframe values to inline style then cancel the WAAPI fill layer.
+    // WAAPI fill has higher cascade priority than el.style, so without this, any code
+    // that writes to el.style.transform after the animation (e.g. scroll parallax) is
+    // silently overridden and appears broken.
+    anim.onfinish = () => {
+      try { if (anim.commitStyles) anim.commitStyles(); } catch (e) {}
+      anim.cancel();
+    };
   });
 };
 
@@ -39,6 +72,7 @@ const inView = function(target, callback, options = {}) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         callback({ target: entry.target });
+        observer.unobserve(entry.target);
       }
     });
   }, { rootMargin: (options && options.margin) || '0px' });
@@ -90,9 +124,26 @@ function initAllMotion() {
     lucide.createIcons();
   }
   initSmoothScroll();
+
+  // Unified parallax dispatcher — one rAF tick per scroll event shared by all sections.
+  // Each section registers its updater via window._nexParallaxUpdaters.push(fn) instead
+  // of adding its own scroll listener, eliminating N parallel rAF chains on every scroll.
+  window._nexParallaxUpdaters = [];
+  let _nexPxTicking = false;
+  window._nexRequestParallax = function() {
+    if (!_nexPxTicking) {
+      _nexPxTicking = true;
+      requestAnimationFrame(() => {
+        window._nexParallaxUpdaters.forEach(fn => fn());
+        _nexPxTicking = false;
+      });
+    }
+  };
+  window.addEventListener('scroll', window._nexRequestParallax, { passive: true });
+  if (window._nexLenis) window._nexLenis.on('scroll', window._nexRequestParallax);
   initHeroAnimations();
   initCuratedDepartmentsMotion();
-  // initTextSplits();
+  initTextSplits();
   initScrollReveals();
   initHoverEffects();
   initTrackingAnimations();
@@ -450,11 +501,7 @@ function initCuratedDepartmentsMotion() {
     }
   }
 
-  // Hook into Lenis or native scroll for buttery bidirectional updates
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestParallaxTick);
-  }
-  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateBidirectionalParallax);
 
   // 4. Dynamic Cursor-Tracking Obsidian Spotlight Sheen
   allCards.forEach(card => {
@@ -475,32 +522,36 @@ function initCuratedDepartmentsMotion() {
 
 // 3. Scroll Reveal Animations (Trust Strip, Category Grid, etc.)
 function initScrollReveals() {
-  // Target any section or wrapper with .reveal-on-scroll, excluding curated departments
-  inView(".reveal-on-scroll", (info) => {
+  const CHILD_SELECTOR = '.home-cat-pill, .deal-product-card, .curated-product-card, .trust-item-card, .category-tile, .ai-explain-card, .product-card';
+
+  // Pre-hide all reveal targets and their animated children before the observer
+  // starts, so elements start invisible and there is no "visible → flash hidden → animate in" jump.
+  document.querySelectorAll('.reveal-on-scroll').forEach(section => {
+    if (section.classList.contains('home-category-editorial-section')) return;
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(20px)';
+    section.querySelectorAll(CHILD_SELECTOR).forEach(child => {
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(15px)';
+    });
+  });
+
+  inView('.reveal-on-scroll', (info) => {
     if (info.target.classList.contains('home-category-editorial-section')) return;
 
-    // When the element comes into view, animate it
     animate(info.target,
       { opacity: [0, 1], y: [20, 0] },
-      { 
-        duration: 0.8,
-        easing: [0.22, 1, 0.36, 1]
-      }
+      { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
     );
-    
-    // Animate children elements inside if they are cards/grids
-    const childrenToStagger = info.target.querySelectorAll('.home-cat-pill, .deal-product-card, .curated-product-card, .trust-item-card, .category-tile, .ai-explain-card, .product-card');
+
+    const childrenToStagger = info.target.querySelectorAll(CHILD_SELECTOR);
     if (childrenToStagger.length > 0) {
       animate(childrenToStagger,
         { opacity: [0, 1], y: [15, 0] },
-        { 
-          delay: stagger(0.06),
-          duration: 0.8,
-          easing: [0.22, 1, 0.36, 1]
-        }
+        { delay: stagger(0.055, { startDelay: 0.05 }), duration: 0.65, easing: [0.22, 1, 0.36, 1] }
       );
     }
-  }, { margin: "100px 0px" });
+  }, { margin: '0px 0px -5% 0px' });
 }
 
 // 4. Premium Hover Micro-interactions (Motion-powered)
@@ -521,46 +572,37 @@ function initHoverEffects() {
   }, true);
 }
 
-// 4. Split Text Initializations (PLP / PDP)
+// Split Text Initializations — word-by-word staggered entrance on key page titles
 function initTextSplits() {
   try {
     if (typeof SplitType === 'undefined') return;
-    
-    const plpTitle = document.querySelector('.plp-title');
-    if (plpTitle) {
-      const split = new SplitType(plpTitle, { types: 'words' });
-      plpTitle.style.opacity = 1;
-      if (split.words && split.words.length > 0) {
-        animate(split.words, 
-          { opacity: [0, 1], y: [20, 0] },
-          { delay: stagger(0.08, { startDelay: 0.1 }), type: 'spring', stiffness: 100, damping: 20 }
-        );
-      }
-    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const pdpTitle = document.querySelector('.pdp-product-title');
-    if (pdpTitle) {
-      const split = new SplitType(pdpTitle, { types: 'words' });
-      pdpTitle.style.opacity = 1;
-      if (split.words && split.words.length > 0) {
-        animate(split.words, 
-          { opacity: [0, 1], y: [20, 0] },
-          { delay: stagger(0.08, { startDelay: 0.1 }), type: 'spring', stiffness: 100, damping: 20 }
-        );
-      }
-    }
+    const SPLIT_TARGETS = [
+      { selector: '.plp-title',           delay: 0.1 },
+      { selector: '.pdp-product-title',   delay: 0.05 },
+      { selector: '.discovery-hero-title',delay: 0.1 },
+      { selector: '.cart-page-title',     delay: 0.05 },
+      { selector: '.wishlist-page-title', delay: 0.05 },
+    ];
 
-    const discoveryTitle = document.querySelector('.discovery-hero-title');
-    if (discoveryTitle) {
-      const split = new SplitType(discoveryTitle, { types: 'words' });
-      discoveryTitle.style.opacity = 1;
+    SPLIT_TARGETS.forEach(({ selector, delay }) => {
+      const el = document.querySelector(selector);
+      if (!el) return;
+
+      // Hide before split so SplitType doesn't flash unstyled text
+      el.style.opacity = '0';
+      const split = new SplitType(el, { types: 'words' });
+      el.style.opacity = '1'; // parent visible; words handle their own opacity
+
       if (split.words && split.words.length > 0) {
-        animate(split.words, 
-          { opacity: [0, 1], y: [20, 0] },
-          { delay: stagger(0.08, { startDelay: 0.1 }), type: 'spring', stiffness: 100, damping: 20 }
+        split.words.forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(18px)'; });
+        animate(split.words,
+          { opacity: [0, 1], y: [18, 0] },
+          { delay: stagger(0.07, { startDelay: delay }), duration: 0.75, easing: [0.22, 1, 0.36, 1] }
         );
       }
-    }
+    });
   } catch (err) {
     console.error("Animation error in initTextSplits:", err);
   }
@@ -618,13 +660,18 @@ function initDealsSectionMotion() {
   const cards = Array.from(section.querySelectorAll('.deal-product-card'));
 
   // ── 1. MICRO-INTERACTIONS: Staggered scroll-reveal entrance ──────────
+  // Pre-hide so there's no flash before the stagger animation starts.
+  const headerLeft  = section.querySelector('.deals-header-left');
+  const headerRight = section.querySelector('.deals-header-right');
+  if (headerLeft)  { headerLeft.style.opacity  = '0'; headerLeft.style.transform  = 'translateY(12px)'; }
+  if (headerRight) { headerRight.style.opacity = '0'; headerRight.style.transform = 'translateY(12px)'; }
+  cards.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(28px) scale(0.96)'; });
+
   let revealed = false;
   inView(section, () => {
     if (revealed) return;
     revealed = true;
 
-    const headerLeft  = section.querySelector('.deals-header-left');
-    const headerRight = section.querySelector('.deals-header-right');
     if (headerLeft) {
       animate(headerLeft,  { opacity: [0, 1], y: [12, 0] },
         { duration: 0.6, easing: [0.16, 1, 0.3, 1] });
@@ -783,8 +830,7 @@ function initDealsSectionMotion() {
     }
   }
 
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxFrame); }
-  window.addEventListener('scroll', requestParallaxFrame, { passive: true });
+  window._nexParallaxUpdaters.push(updateDealsParallax);
 }
 
 /**
@@ -944,8 +990,7 @@ function initIntentCardMotion() {
     }
   }
 
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
-  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateIntentParallax);
 }
 
 /**
@@ -966,6 +1011,8 @@ function initCuratedGridMotion() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ── 1. MICRO-INTERACTIONS: Scroll Reveal Stagger ────────────────────
+  cards.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(28px) scale(0.96)'; });
+
   let revealed = false;
   inView(section, () => {
     if (revealed) return;
@@ -1106,8 +1153,7 @@ function initCuratedGridMotion() {
     }
   }
 
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
-  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateCuratedParallax);
 }
 
 /**
@@ -1128,6 +1174,8 @@ function initMicroMerchClusterMotion() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ── 1. MICRO-INTERACTIONS: Scroll Reveal Stagger ────────────────────
+  cols.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(32px) scale(0.96)'; });
+
   let revealed = false;
   inView(section, () => {
     if (revealed) return;
@@ -1268,8 +1316,7 @@ function initMicroMerchClusterMotion() {
     }
   }
 
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestParallaxTick); }
-  window.addEventListener('scroll', requestParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateMicroParallax);
 }
 
 /**
@@ -1292,6 +1339,12 @@ function initTrustStripMotion() {
 
   // 1a. SCROLL REVEAL: Staggered Motion.dev entrance
   if (!prefersReduced) {
+    const header = section.querySelector('.trust-strip-header');
+    const progressArea = section.querySelector('.trust-progress-container');
+    if (header)       { header.style.opacity = '0';       header.style.transform = 'translateY(20px)'; }
+    if (progressArea) { progressArea.style.opacity = '0'; progressArea.style.transform = 'translateY(12px)'; }
+    cards.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(28px) scale(0.97)'; });
+
     let revealed = false;
     inView(section, () => {
       if (revealed) return;
@@ -1533,8 +1586,7 @@ function initTrustStripMotion() {
     }
   }
 
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestTrustParallaxTick); }
-  window.addEventListener('scroll', requestTrustParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateTrustParallax);
 }
 
 /**
@@ -1558,6 +1610,11 @@ function initRecentlyViewedMotion() {
     section._hasEntranceAnimated = true;
     try {
       if (typeof inView !== 'undefined' && typeof animate !== 'undefined') {
+        // Pre-hide before observer attaches to prevent flash-then-hide jank
+        if (header) { header.style.opacity = '0'; header.style.transform = 'translateY(16px)'; }
+        if (tabs)   { tabs.style.opacity   = '0'; tabs.style.transform   = 'translateY(16px)'; }
+        cards.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(20px) scale(0.97)'; });
+
         inView(section, () => {
           if (header) {
             animate(header, { opacity: [0, 1], y: [16, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
@@ -1715,10 +1772,7 @@ function initRecentlyViewedMotion() {
     }
   }
 
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestRecentsParallaxTick);
-  }
-  window.addEventListener('scroll', requestRecentsParallaxTick, { passive: true });
+  window._nexParallaxUpdaters.push(updateRecentsParallax);
 }
 
 window.initRecentlyViewedMotion = initRecentlyViewedMotion;
