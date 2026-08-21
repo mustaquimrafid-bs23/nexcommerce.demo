@@ -167,7 +167,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Reviewing Your Reserved Atelier Selections</span>
+        <span id="preloaderStatusText">Loading your bag...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -179,7 +179,7 @@
   <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
-      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
       <span class="announcement-dot"></span>
       <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
       <span class="announcement-dot"></span>
@@ -283,19 +283,26 @@
   <main class="container cart-main-container">
     <!-- Header Title & Eyebrow -->
     <div class="cart-header-block">
-      <span class="cart-eyebrow">YOUR RESERVED ATELIER SELECTION</span>
+      <span class="cart-eyebrow">YOUR SHOPPING BAG</span>
       <h1 class="cart-title">Your Shopping Bag</h1>
       <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-top:14px;">
         <div class="cart-header-meta" style="margin:0;">
           <span class="cart-item-count" id="cartItemCount">0 pieces selected</span>
           <span class="cart-meta-divider">&middot;</span>
-          <span class="cart-meta-whisper"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Authentic Direct Atelier Sourced</span>
+          <span class="cart-meta-whisper"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Sold directly by nexCommerce</span>
         </div>
-        <button class="slip-preset-btn" data-trigger="slip-modal" id="cartOpenSlipBtn" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:8px; border:1px solid rgba(61,224,255,0.3); background:rgba(61,224,255,0.06); color:#3DE0FF; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
-          <i data-lucide="file-up" style="width:15px;height:15px;"></i>
-          <span>Upload Shopping Slip / List</span>
-          <span style="font-size:9px; background:rgba(61,224,255,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
-        </button>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button class="slip-preset-btn" data-trigger="budget-modal" data-budget="500" id="cartOpenBudgetBtn" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:8px; border:1px solid rgba(0,245,160,0.3); background:rgba(0,245,160,0.06); color:#00F5A0; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
+            <i data-lucide="calculator" style="width:15px;height:15px;"></i>
+            <span>Build Cart by Budget</span>
+            <span style="font-size:9px; background:rgba(0,245,160,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
+          </button>
+          <button class="slip-preset-btn" data-trigger="slip-modal" id="cartOpenSlipBtn" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:8px; border:1px solid rgba(61,224,255,0.3); background:rgba(61,224,255,0.06); color:#3DE0FF; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
+            <i data-lucide="file-up" style="width:15px;height:15px;"></i>
+            <span>Upload Shopping Slip / List</span>
+            <span style="font-size:9px; background:rgba(61,224,255,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -348,7 +355,7 @@
             </div>
             <div class="confidence-badge-text">
               <span class="confidence-badge-label">Secure Checkout</span>
-              <span class="confidence-badge-sub">SSL · 3DS2 · PCI DSS</span>
+              <span class="confidence-badge-sub">Bank-level secure checkout</span>
             </div>
           </div>
           <div class="confidence-badge">
@@ -357,7 +364,7 @@
             </div>
             <div class="confidence-badge-text">
               <span class="confidence-badge-label">Carbon Neutral</span>
-              <span class="confidence-badge-sub">Offset via Pachama forests</span>
+              <span class="confidence-badge-sub">Carbon offset</span>
             </div>
           </div>
         </div>
@@ -520,6 +527,8 @@
   <script src="../js/comparison-ui.js?v=1"></script>
   <script src="../js/slip-parser.js?v=1"></script>
   <script src="../js/slip-to-cart-ui.js?v=1"></script>
+  <script src="../js/budget-cart-builder.js?v=1"></script>
+  <script src="../js/budget-cart-ui.js?v=1"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js?v=1"></script>
   <script src="../js/catalog-engine.js?v=1"></script>

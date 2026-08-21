@@ -134,10 +134,10 @@
         type: 'product_grid',
         text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
+          'Build cart by budget',
           'Compare top pieces',
           'Upload shopping slip',
           'Complete an office outfit',
-          'Show jackets & coats',
           'Size & fit guide'
         ],
         products: catalog.slice(0, 3)
@@ -183,6 +183,23 @@
           actionLink: { text: 'OPEN COMPARISON MATRIX →', url: '#' },
           products: catalog.slice(0, 2),
           suggestedChips: ['Find my size', 'Upload shopping slip', 'Under € 300']
+        };
+      }
+
+      // ── 0C. AUTONOMOUS TARGET-BUDGET CART BUILDER (Capability 3) ─────────
+      if (/\b(budget.*cart|make.*cart|build.*cart|cart.*under|wardrobe.*under|pack.*under)\b/i.test(rawText) || (/\d{2,4}\s*(euro|€|eur|tk)/i.test(rawText) && /cart|wardrobe|basket/i.test(rawText))) {
+        this.lastQueryType = 'budget_cart';
+        const numMatch = rawText.match(/(\d{2,4})/);
+        const targetBudget = numMatch ? parseInt(numMatch[1], 10) : 500;
+        if (typeof window !== 'undefined' && window.NexBudgetCartUI && typeof window.NexBudgetCartUI.openModal === 'function') {
+          setTimeout(function() { window.NexBudgetCartUI.openModal(targetBudget, 'autumn'); }, 300);
+        }
+        return {
+          type: 'budget_cart',
+          text: `**Autonomous Target-Budget Cart Builder**\n\nI've launched the Budget Cart Optimizer set to **€ ${targetBudget}**. It has curated synergistic pieces maximizing budget efficiency while preserving headroom.`,
+          actionLink: { text: 'OPEN BUDGET BUILDER →', url: '#' },
+          products: catalog.slice(0, 3),
+          suggestedChips: ['€ 300 Essentials', '€ 500 Autumn Wardrobe', 'Upload shopping slip']
         };
       }
 
