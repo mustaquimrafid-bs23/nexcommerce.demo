@@ -1,0 +1,133 @@
+/**
+ * nexCommerce — Proactive Checkout Savings UI Controller (Capability 5)
+ * Orchestrates savings evaluation, card hydration in the checkout order summary,
+ * and 1-click optimal coupon execution.
+ */
+(function(window) {
+  'use strict';
+
+  class CheckoutSavingsUI {
+    constructor() {
+      this.currentEvaluation = null;
+      this.init();
+    }
+
+    init() {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          this.mountAdvisor();
+        });
+      } else {
+        this.mountAdvisor();
+      }
+    }
+
+    _getSubtotal() {
+      const subtotalEl = document.getElementById('ledgerSubtotal') || document.querySelector('[data-ledger-subtotal]');
+      if (subtotalEl) {
+        const txt = subtotalEl.textContent.replace(/[^0-9.]/g, '');
+        const parsed = parseFloat(txt);
+        if (!isNaN(parsed) && parsed > 0) return parsed;
+      }
+      return 245.00; // Default fallback
+    }
+
+    mountAdvisor() {
+      const container = document.getElementById('checkoutSavingsMount') || document.querySelector('.coupon-box');
+      if (!container) return;
+
+      const subtotal = this._getSubtotal();
+      if (!window.NexSavingsEngine) return;
+
+      this.currentEvaluation = window.NexSavingsEngine.evaluateSavings(subtotal, 'card');
+      this.renderSavingsCard(container, this.currentEvaluation);
+    }
+
+    renderSavingsCard(container, evalData) {
+      if (!evalData || !evalData.bestCoupon) return;
+
+      let card = document.getElementById('aiSavingsAdvisorCard');
+      if (!card) {
+        card = document.createElement('div');
+        card.id = 'aiSavingsAdvisorCard';
+        card.className = 'savings-advisor-card';
+        // Insert above coupon box
+        container.parentNode.insertBefore(card, container);
+      }
+
+      const best = evalData.bestCoupon;
+      const upgrade = evalData.upgradeOpportunity;
+
+      card.innerHTML = `
+        <div class="savings-card-top">
+          <div class="savings-advisor-badge">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>AI Savings Advisor</span>
+          </div>
+          <div class="savings-amount-highlight">Save € ${best.discountAmount.toFixed(2)}</div>
+        </div>
+
+        <div class="savings-recommendation-text">
+          Optimal code <strong>\`${best.code}\`</strong> (${best.label}) gives you the highest net savings on your selection.
+        </div>
+
+        ${upgrade ? `
+          <div class="savings-upgrade-alert">
+            <i data-lucide="zap" style="width:14px;height:14px;color:#3DE0FF;flex-shrink:0;"></i>
+            <span>${upgrade.message}</span>
+          </div>
+        ` : ''}
+
+        <button id="btnAutoApplySavings" class="savings-apply-action-btn" data-apply-code="${best.code}">
+          <i data-lucide="check-circle" style="width:14px;height:14px;"></i>
+          <span>⚡ Apply Best Promo (${best.code} · -€${best.discountAmount.toFixed(2)})</span>
+        </button>
+      `;
+
+      if (window.lucide) window.lucide.createIcons();
+
+      const applyBtn = card.querySelector('#btnAutoApplySavings');
+      if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+          this.applyBestPromo(best.code, card);
+        });
+      }
+    }
+
+    applyBestPromo(code, cardElement) {
+      const couponInput = document.getElementById('couponInput');
+      const applyBtn = document.getElementById('btnCouponApply') || document.querySelector('.coupon-apply-btn');
+
+      if (couponInput) {
+        couponInput.value = code;
+      }
+
+      if (applyBtn) {
+        applyBtn.click();
+      }
+
+      if (cardElement) {
+        cardElement.innerHTML = `
+          <div class="savings-card-top">
+            <div class="savings-advisor-badge">
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#00F5A0;"></i>
+              <span>Optimal Savings Applied</span>
+            </div>
+            <div class="savings-applied-pill">✓ Code ${code} Active</div>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;">
+            ✨ Highest possible savings rate activated. Your order ledger has been discounted automatically.
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      if (typeof window.showToast === 'function') {
+        window.showToast(`⚡ Optimal promo code ${code} applied successfully!`);
+      }
+    }
+  }
+
+  window.NexSavingsUI = new CheckoutSavingsUI();
+
+})(typeof window !== 'undefined' ? window : global);
