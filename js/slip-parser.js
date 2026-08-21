@@ -71,7 +71,8 @@
                       line.match(/\b(3[6-9]|4[0-8]|5[0-4])\b/);
 
       if (sizeMatch) {
-        sizeHint = sizeMatch[1].toUpperCase();
+        sizeHint = (sizeMatch[1] || sizeMatch[0]).toUpperCase();
+        line = line.replace(sizeMatch[0], ' ').trim();
       }
 
       // Extract finish / color hint
@@ -79,6 +80,7 @@
       var colorMatch = line.match(/\b(black|charcoal|navy|obsidian|ivory|slate|grey|gray|white|sand|brown)\b/i);
       if (colorMatch) {
         colorHint = colorMatch[1].toLowerCase();
+        line = line.replace(colorMatch[0], ' ').trim();
       }
 
       // Clean query tokens
@@ -96,6 +98,8 @@
     return parsed;
   }
 
+  const STOP_WORDS = new Set(['size', 'eu', 'uk', 'us', 'qty', 'pcs', 'color', 'the', 'a', 'an', 'in', 'of', 'for', 'with', 'and']);
+
   function matchSlipToCatalog(parsedLines, catalog) {
     var cat = Array.isArray(catalog) ? catalog : [];
     var matched = [];
@@ -103,7 +107,9 @@
 
     for (var i = 0; i < parsedLines.length; i++) {
       var item = parsedLines[i];
-      var queryTerms = item.cleanQuery.toLowerCase().split(/\s+/).filter(function(t) { return t.length > 1; });
+      var queryTerms = item.cleanQuery.toLowerCase().split(/\s+/).filter(function(t) {
+        return t.length > 1 && !STOP_WORDS.has(t);
+      });
       var scored = [];
 
       for (var c = 0; c < cat.length; c++) {
@@ -150,7 +156,10 @@
         var selectedSize = item.sizeHint || 'M';
         if (best.product.variants && Array.isArray(best.product.variants.sizes)) {
           var avail = best.product.variants.sizes.find(function(s) {
-            return s.name.toUpperCase() === (item.sizeHint || '').toUpperCase() || s.id.toUpperCase() === (item.sizeHint || '').toUpperCase();
+            var sName = (s.name || s.id || '').toUpperCase();
+            var sId = (s.id || s.name || '').toUpperCase();
+            var target = (item.sizeHint || '').toUpperCase();
+            return target && (sName === target || sId === target);
           });
           if (avail) selectedSize = avail.id || avail.name;
           else if (best.product.variants.sizes[0]) selectedSize = best.product.variants.sizes[0].id || best.product.variants.sizes[0].name;
