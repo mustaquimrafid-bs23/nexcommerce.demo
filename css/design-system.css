@@ -19002,6 +19002,10 @@ svg.lucide {
   .compare-products-header-grid, .compare-matrix-row {
     grid-template-columns: 1fr 1fr;
   }
+  .compare-products-header-grid > div:first-child {
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+  }
   .compare-matrix-row > .compare-spec-label {
     grid-column: 1 / -1;
     margin-bottom: -6px;
