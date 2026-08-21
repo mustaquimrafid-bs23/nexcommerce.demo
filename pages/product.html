@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1065,6 +1065,13 @@
           <span>Ask Stylist About Sizing &amp; Outfits</span>
         </button>
 
+        <!-- Side-by-Side Comparison CTA (Capability 2) -->
+        <button type="button" id="pdpCompareBtn" data-trigger="compare-modal" data-compare-ids="p1,p2" style="margin-top: 8px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; background: rgba(61, 224, 255, 0.05); border: 1px solid rgba(61, 224, 255, 0.25); border-radius: 6px; color: #3DE0FF; font-family: var(--font-body); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 180ms ease;">
+          <i data-lucide="columns-2" style="width: 14px; height: 14px;"></i>
+          <span>Compare with Alternative Piece</span>
+          <span style="font-size:9px; background:rgba(61,224,255,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
+        </button>
+
         <!-- Trust Points -->
         <div class="pdp-trust-grid">
           <div class="pdp-trust-item">
@@ -1246,6 +1253,8 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <script src="../js/cart.js?v=5"></script>
+  <script src="../js/comparison-engine.js?v=1"></script>
+  <script src="../js/comparison-ui.js?v=1"></script>
   <script src="../js/pdp.js?v=7"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>

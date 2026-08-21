@@ -134,11 +134,11 @@
         type: 'product_grid',
         text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
+          'Compare top pieces',
           'Upload shopping slip',
           'Complete an office outfit',
           'Show jackets & coats',
-          'Size & fit guide',
-          'Track order'
+          'Size & fit guide'
         ],
         products: catalog.slice(0, 3)
       };
@@ -168,6 +168,21 @@
           actionLink: { text: 'OPEN SLIP SCANNER →', url: '#' },
           products: catalog.slice(0, 3),
           suggestedChips: ['Under € 300', 'Complete an outfit', 'Track my order']
+        };
+      }
+
+      // ── 0B. COMPARISON / PRODUCT ADVISOR WIDGET (Capability 2) ──────────
+      if (/\b(compare|comparison|which (is )?better|which one|difference between|versus|\bvs\b)\b/i.test(rawText)) {
+        this.lastQueryType = 'comparison';
+        if (typeof window !== 'undefined' && window.NexComparisonUI && typeof window.NexComparisonUI.openComparison === 'function') {
+          setTimeout(function() { window.NexComparisonUI.openComparison(['p1', 'p2']); }, 300);
+        }
+        return {
+          type: 'comparison_advisor',
+          text: `**Product Advisor & Side-by-Side Comparison**\n\nI've launched the comparison matrix comparing our top pieces across fabric grade, warmth, breathability, and use case.`,
+          actionLink: { text: 'OPEN COMPARISON MATRIX →', url: '#' },
+          products: catalog.slice(0, 2),
+          suggestedChips: ['Find my size', 'Upload shopping slip', 'Under € 300']
         };
       }
 
