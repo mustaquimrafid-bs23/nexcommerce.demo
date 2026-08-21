@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -285,10 +285,17 @@
     <div class="cart-header-block">
       <span class="cart-eyebrow">YOUR RESERVED ATELIER SELECTION</span>
       <h1 class="cart-title">Your Shopping Bag</h1>
-      <div class="cart-header-meta">
-        <span class="cart-item-count" id="cartItemCount">0 pieces selected</span>
-        <span class="cart-meta-divider">&middot;</span>
-        <span class="cart-meta-whisper"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Authentic Direct Atelier Sourced</span>
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-top:14px;">
+        <div class="cart-header-meta" style="margin:0;">
+          <span class="cart-item-count" id="cartItemCount">0 pieces selected</span>
+          <span class="cart-meta-divider">&middot;</span>
+          <span class="cart-meta-whisper"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Authentic Direct Atelier Sourced</span>
+        </div>
+        <button class="slip-preset-btn" data-trigger="slip-modal" id="cartOpenSlipBtn" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:8px; border:1px solid rgba(61,224,255,0.3); background:rgba(61,224,255,0.06); color:#3DE0FF; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s ease;">
+          <i data-lucide="file-up" style="width:15px;height:15px;"></i>
+          <span>Upload Shopping Slip / List</span>
+          <span style="font-size:9px; background:rgba(61,224,255,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
+        </button>
       </div>
     </div>
 
@@ -509,6 +516,8 @@
 
   <!-- Scripts -->
   <script src="../js/cart.js?v=5"></script>
+  <script src="../js/slip-parser.js?v=1"></script>
+  <script src="../js/slip-to-cart-ui.js?v=1"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js?v=1"></script>
   <script src="../js/catalog-engine.js?v=1"></script>

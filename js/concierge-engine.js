@@ -134,6 +134,7 @@
         type: 'product_grid',
         text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
+          'Upload shopping slip',
           'Complete an office outfit',
           'Show jackets & coats',
           'Size & fit guide',
@@ -154,6 +155,21 @@
 
       const rawText = text.toLowerCase().trim();
       const catalog = this._getCatalog();
+
+      // ── 0. SLIP TO CART / SHOPPING LIST AGENT WIDGET (Capability 4) ─────
+      if (/\b(upload.*slip|shopping slip|slip to cart|scan.*list|grocery list|shopping list|paste.*list|upload.*list|grocery slip)\b/i.test(rawText)) {
+        this.lastQueryType = 'slip_to_cart';
+        if (typeof window !== 'undefined' && window.NexSlipUI && typeof window.NexSlipUI.openModal === 'function') {
+          setTimeout(function() { window.NexSlipUI.openModal('capsule'); }, 300);
+        }
+        return {
+          type: 'slip_to_cart',
+          text: `**Shopping Slip to Cart Agent**\n\nI've opened the Slip Scanner for you. Drag & drop your receipt, choose a sample capsule, or paste your list to prepare your cart instantly.`,
+          actionLink: { text: 'OPEN SLIP SCANNER →', url: '#' },
+          products: catalog.slice(0, 3),
+          suggestedChips: ['Under € 300', 'Complete an outfit', 'Track my order']
+        };
+      }
 
       // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
       const isSearchOnly = /^(looking for|search for|find me|show me|where are)/i.test(rawText) && !/outfit|complete|capsule/i.test(rawText);
