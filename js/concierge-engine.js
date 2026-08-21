@@ -230,7 +230,7 @@
           setTimeout(function() { window.NexDeliveryUI.openHubModal(); }, 300);
         }
         return {
-          type: 'delivery_advisor',
+          type: 'delivery',
           text: `**Hyperlocal Dark Store & Express Delivery**\n\nWe offer instant **45–60 min Same-Day Delivery** from our **${hub.city} (${hub.region})** fulfillment dark store! Order within the next hours to receive your pieces today.`,
           actionLink: { text: 'CHANGE LOCATION HUB →', url: '#' },
           products: catalog.slice(0, 2),
