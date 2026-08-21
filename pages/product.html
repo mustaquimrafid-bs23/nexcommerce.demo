@@ -871,7 +871,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Artisanal Atelier Specifications</span>
+        <span id="preloaderStatusText">Loading product...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -997,13 +997,13 @@
           <!-- Perspective Switcher Bar -->
           <div class="pdp-perspective-bar" role="tablist" aria-label="Image perspective views">
             <button type="button" class="pdp-perspective-btn active" role="tab" aria-selected="true" data-perspective="flat">
-              ✦ Studio Flat
+              Product Shot
             </button>
             <button type="button" class="pdp-perspective-btn" role="tab" aria-selected="false" data-perspective="model">
               ✦ On Model (182cm)
             </button>
             <button type="button" class="pdp-perspective-btn" role="tab" aria-selected="false" data-perspective="macro">
-              ✦ Macro Weave
+              Fabric Close-Up
             </button>
           </div>
         </div>
@@ -1012,7 +1012,7 @@
       <!-- Buy Box Right -->
       <div class="pdp-buy-box">
         <div class="pdp-header-meta">
-          <span class="pdp-category-eyebrow">APPAREL &middot; ATELIER EDITION</span>
+          <span class="pdp-category-eyebrow">APPAREL</span>
           <h1 class="pdp-product-title">Cashmere Turtleneck Sweater</h1>
           <div class="pdp-price-wrap">
             <span class="pdp-price-tag tabular-nums">€ 185.00</span>
@@ -1088,7 +1088,7 @@
         <div class="pdp-accordions-wrap">
           <div class="pdp-accordion-item open">
             <button class="pdp-accordion-header" type="button">
-              <span>Atelier Details</span>
+              <span>Product Details</span>
               <span class="accordion-icon">+</span>
             </button>
             <div class="pdp-accordion-body" id="accordionDetailsBody">
@@ -1108,7 +1108,7 @@
 
           <div class="pdp-accordion-item">
             <button class="pdp-accordion-header" type="button">
-              <span>Fit &amp; Silhouette</span>
+              <span>Sizing &amp; Fit</span>
               <span class="accordion-icon">+</span>
             </button>
             <div class="pdp-accordion-body" id="accordionSizingBody">
@@ -1125,9 +1125,9 @@
       <div class="pdp-complete-look-header">
         <div>
           <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-cyan, #3DE0FF);">
-            Curated Styling &middot; Complete the Look
+            Complete the Look
           </span>
-          <h2 class="pdp-complete-look-title">Style With Enduring Essentials</h2>
+          <h2 class="pdp-complete-look-title">Style It With</h2>
         </div>
 
         <div class="pdp-bundle-quick-checkout">
@@ -1138,7 +1138,7 @@
           </div>
           <button id="btnAddCompleteLookBtn" class="pdp-bundle-btn" type="button">
             <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
-            <span id="pdpBundleBtnText">ADD ENTIRE LOOK (3 PIECES)</span>
+            <span id="pdpBundleBtnText">Add All to Bag (3 items)</span>
           </button>
         </div>
       </div>
@@ -1156,13 +1156,13 @@
       <div class="fit-modal-header">
         <div class="fit-modal-title-wrap">
           <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-cyan, #3DE0FF);"></i>
-          <h2 class="fit-modal-title">Atelier Fit Advisor</h2>
+          <h2 class="fit-modal-title">Find My Size</h2>
         </div>
         <button id="btnCloseFitModal" class="fit-modal-close" aria-label="Close fit assistant">&times;</button>
       </div>
 
       <p class="fit-modal-sub">
-        Calibrated recommendations based on European tailoring standards and biometric height/weight mapping.
+        We'll recommend your size based on your height and weight
       </p>
 
       <div class="fit-input-grid">
@@ -1177,7 +1177,7 @@
       </div>
 
       <div class="fit-input-group">
-        <label class="fit-label">Preferred Fit Silhouette</label>
+        <label class="fit-label">How do you like it to fit?</label>
         <div class="fit-pref-row" id="fitPrefRow">
           <button type="button" class="fit-pref-btn" data-fit="Tailored">Tailored</button>
           <button type="button" class="fit-pref-btn selected" data-fit="Regular">Regular</button>
@@ -1259,6 +1259,8 @@
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
   <script src="../js/session-context.js"></script>
   <script src="../js/search-overlay.js?v=4"></script>
   <script src="../js/footer.js"></script>

@@ -222,6 +222,22 @@
         };
       }
 
+      // ── 0E. DELIVERY-AWARE SHOPPING & HYPERLOCAL GATE (Capability 6) ────
+      if (/\b(same[- ]day|express delivery|deliver today|how fast|shipping time|courier|dark store|hub)\b/i.test(rawText)) {
+        this.lastQueryType = 'delivery';
+        const hub = (typeof window !== 'undefined' && window.NexDeliveryEngine) ? window.NexDeliveryEngine.DARK_STORE_HUBS[0] : { city: 'Berlin', region: 'Central Mitte' };
+        if (typeof window !== 'undefined' && window.NexDeliveryUI && typeof window.NexDeliveryUI.openHubModal === 'function') {
+          setTimeout(function() { window.NexDeliveryUI.openHubModal(); }, 300);
+        }
+        return {
+          type: 'delivery_advisor',
+          text: `**Hyperlocal Dark Store & Express Delivery**\n\nWe offer instant **45–60 min Same-Day Delivery** from our **${hub.city} (${hub.region})** fulfillment dark store! Order within the next hours to receive your pieces today.`,
+          actionLink: { text: 'CHANGE LOCATION HUB →', url: '#' },
+          products: catalog.slice(0, 2),
+          suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
+        };
+      }
+
       // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
       const isSearchOnly = /^(looking for|search for|find me|show me|where are)/i.test(rawText) && !/outfit|complete|capsule/i.test(rawText);
       if (!isSearchOnly && (/\b(outfits?|complete (outfit|look)|(office|wedding|business|casual|dinner|gala|summer|weekend|evening) (look|outfit)|capsules?|pairings?|put together (an outfit|a look)|full outfit|complete the look)\b/i.test(rawText) || /complete.*(look|outfit)/i.test(rawText) || /\b(the look|this look|curated look|look bundle|wedding look|office look|evening look|wedding|gala|casual outfit)\b/i.test(rawText))) {
