@@ -13,22 +13,34 @@
     }
 
     init() {
+      const runMount = () => {
+        setTimeout(() => this.mountAdvisor(), 50);
+      };
+
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          this.mountAdvisor();
-        });
+        document.addEventListener('DOMContentLoaded', runMount);
       } else {
-        this.mountAdvisor();
+        runMount();
       }
+
+      window.addEventListener('cart-updated', runMount);
     }
 
     _getSubtotal() {
-      const subtotalEl = document.getElementById('ledgerSubtotal') || document.querySelector('[data-ledger-subtotal]');
+      const subtotalEl = document.getElementById('summary-subtotal') || document.getElementById('ledgerSubtotal') || document.querySelector('[data-ledger-subtotal]');
       if (subtotalEl) {
         const txt = subtotalEl.textContent.replace(/[^0-9.]/g, '');
         const parsed = parseFloat(txt);
         if (!isNaN(parsed) && parsed > 0) return parsed;
       }
+      try {
+        const raw = localStorage.getItem('nex_cart');
+        const cart = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(cart) && cart.length > 0) {
+          const sum = cart.reduce((total, i) => total + (Number(i.price) * (parseInt(i.quantity || i.qty, 10) || 1)), 0);
+          if (sum > 0) return sum;
+        }
+      } catch(e) {}
       return 245.00; // Default fallback
     }
 
@@ -51,8 +63,11 @@
         card = document.createElement('div');
         card.id = 'aiSavingsAdvisorCard';
         card.className = 'savings-advisor-card';
-        // Insert above coupon box
-        container.parentNode.insertBefore(card, container);
+        if (container.id === 'checkoutSavingsMount') {
+          container.appendChild(card);
+        } else {
+          container.parentNode.insertBefore(card, container);
+        }
       }
 
       const best = evalData.bestCoupon;
@@ -95,14 +110,16 @@
     }
 
     applyBestPromo(code, cardElement) {
-      const couponInput = document.getElementById('couponInput');
-      const applyBtn = document.getElementById('btnCouponApply') || document.querySelector('.coupon-apply-btn');
+      const couponInput = document.getElementById('coupon-input') || document.getElementById('couponInput');
+      const applyBtn = document.querySelector('.coupon-apply-btn') || document.getElementById('btnCouponApply');
 
       if (couponInput) {
         couponInput.value = code;
       }
 
-      if (applyBtn) {
+      if (typeof window.applyCoupon === 'function') {
+        window.applyCoupon();
+      } else if (applyBtn) {
         applyBtn.click();
       }
 

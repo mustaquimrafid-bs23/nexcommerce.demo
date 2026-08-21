@@ -881,10 +881,15 @@
 
     /* ── Promo Code Engine ──────────────────────────────────────────── */
     const PROMO_CODES = {
-      'NEX10':    { label: 'NEX10 — 10% off',          type: 'percent',  value: 10 },
-      'LUXURY20': { label: 'LUXURY20 — 20% off',        type: 'percent',  value: 20 },
-      'FREESHIP': { label: 'FREESHIP — Free Delivery',  type: 'shipping', value: 0  }
+      'NEX10':     { label: 'NEX10 — 10% off',          type: 'percent',  value: 10 },
+      'LUXURY20':  { label: 'LUXURY20 — 20% off',        type: 'percent',  value: 20 },
+      'VIP20':     { label: 'VIP20 — 20% off',           type: 'percent',  value: 20 },
+      'ATELIER15': { label: 'ATELIER15 — 15% off',       type: 'percent',  value: 15 },
+      'WELCOME10': { label: 'WELCOME10 — 10% off',       type: 'percent',  value: 10 },
+      'FREESHIP':  { label: 'FREESHIP — Free Delivery',  type: 'shipping', value: 0  }
     };
+    window.PROMO_CODES = PROMO_CODES;
+    window.applyCoupon = applyCoupon;
     let activeCoupon = null;
 
     function applyCoupon() {
@@ -1479,8 +1484,8 @@
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="../js/animations.js"></script>
-  <script src="../js/checkout-savings-engine.js?v=1"></script>
-  <script src="../js/checkout-savings-ui.js?v=1"></script>
+  <script src="../js/checkout-savings-engine.js?v=10"></script>
+  <script src="../js/checkout-savings-ui.js?v=10"></script>
   <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/ai-engine.js"></script>
