@@ -203,6 +203,25 @@
         };
       }
 
+      // ── 0D. PROACTIVE CHECKOUT SAVINGS & PROMO ADVISOR (Capability 5) ───
+      if (/\b(promo|promos|coupons?|discounts?|save money|savings|best deal|vouchers?|promo code)\b/i.test(rawText)) {
+        this.lastQueryType = 'savings';
+        const promos = [
+          '✨ **VIP20** · 20% off orders over €400',
+          '✨ **ATELIER15** · 15% off orders over €200',
+          '✨ **WELCOME10** · 10% off any order',
+          '✨ **FREESHIP** · Complimentary Express Courier'
+        ].join('\n');
+
+        return {
+          type: 'savings_advisor',
+          text: `**AI Checkout Savings & Promo Advisor**\n\nHere are our active atelier promotional codes:\n\n${promos}\n\nOur system will also auto-apply the highest-saving code for you at checkout!`,
+          actionLink: { text: 'GO TO CHECKOUT →', url: 'checkout.html' },
+          products: catalog.slice(0, 2),
+          suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
+        };
+      }
+
       // ── 1. OCCASIONS & COMPLETE THE LOOK / OUTFIT BUNDLE WIDGET ─────────
       const isSearchOnly = /^(looking for|search for|find me|show me|where are)/i.test(rawText) && !/outfit|complete|capsule/i.test(rawText);
       if (!isSearchOnly && (/\b(outfits?|complete (outfit|look)|(office|wedding|business|casual|dinner|gala|summer|weekend|evening) (look|outfit)|capsules?|pairings?|put together (an outfit|a look)|full outfit|complete the look)\b/i.test(rawText) || /complete.*(look|outfit)/i.test(rawText) || /\b(the look|this look|curated look|look bundle|wedding look|office look|evening look|wedding|gala|casual outfit)\b/i.test(rawText))) {

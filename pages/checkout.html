@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -216,7 +216,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Secure Private Client Checkout &amp; Logistics</span>
+        <span id="preloaderStatusText">Loading checkout...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -228,7 +228,7 @@
   <!-- TOP ANNOUNCEMENT BAR -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
-      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
       <span class="announcement-dot"></span>
       <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
       <span class="announcement-dot"></span>
@@ -316,16 +316,16 @@
         <div class="checkout-hero-masthead">
           <span class="checkout-eyebrow">
             <span class="live-security-dot"></span>
-            256-BIT ENCRYPTED ATELIER CHECKOUT
+            SECURE CHECKOUT
           </span>
-          <h1 class="checkout-headline">Complete Your<br><em>Acquisition</em></h1>
+          <h1 class="checkout-headline">Complete Your<br><em>Order</em></h1>
         </div>
 
         <div class="checkout-progress-ribbon" id="checkoutProgressRibbon" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3">
           <div class="progress-step-item active" data-step="1">
             <div class="step-num-bubble">01</div>
             <div class="step-meta">
-              <span class="step-title">Dispatch Details</span>
+              <span class="step-title">Shipping Address</span>
               <span class="step-sub">Address &amp; Recipient</span>
             </div>
           </div>
@@ -333,16 +333,16 @@
           <div class="progress-step-item" data-step="2">
             <div class="step-num-bubble">02</div>
             <div class="step-meta">
-              <span class="step-title">Courier Logistics</span>
-              <span class="step-sub">Complimentary Express</span>
+              <span class="step-title">Delivery Options</span>
+              <span class="step-sub">Free Shipping</span>
             </div>
           </div>
           <div class="progress-connector-line"></div>
           <div class="progress-step-item" data-step="3">
             <div class="step-num-bubble">03</div>
             <div class="step-meta">
-              <span class="step-title">Payment Sanctuary</span>
-              <span class="step-sub">Encrypted Settlement</span>
+              <span class="step-title">Payment</span>
+              <span class="step-sub">Secure Payment</span>
             </div>
           </div>
         </div>
@@ -375,7 +375,7 @@
 
           <!-- ── EXPRESS 1-TAP WALLETS ── -->
           <div class="express-wallets-panel">
-            <div class="express-wallets-label">EXPRESS 1-TAP CHECKOUT</div>
+            <div class="express-wallets-label">FAST CHECKOUT</div>
             <div class="express-wallets-grid">
               <button type="button" class="wallet-btn apple-pay-btn" id="btnApplePay" aria-label="Pay with Apple Pay" onclick="alert('Apple Pay would open here in a live integration.')">
                 <span class="wallet-icon"> Pay</span>
@@ -389,7 +389,7 @@
             </div>
             <div class="or-divider-row">
               <span class="divider-line"></span>
-              <span class="divider-text">OR CONTINUE WITH ATELIER DISPATCH</span>
+              <span class="divider-text">Or enter your details below</span>
               <span class="divider-line"></span>
             </div>
           </div>
@@ -474,7 +474,7 @@
 
           <!-- ── COURIER SELECTION ── -->
           <div class="form-group-card" id="section-delivery">
-            <h2 class="group-title">Courier Selection</h2>
+            <h2 class="group-title">Delivery Options</h2>
 
             <div id="delivery-guidance" class="delivery-guidance"></div>
 
@@ -484,7 +484,7 @@
                 <div class="option-check-circle"></div>
                 <div class="option-content">
                   <div class="option-top">
-                    <span class="option-name">Complimentary Atelier Express</span>
+                    <span class="option-name">Standard Free Delivery</span>
                     <span class="option-price">FREE</span>
                   </div>
                   <p class="option-desc">2–4 business days via DHL Express Carbon Neutral tracked delivery.</p>
@@ -497,7 +497,7 @@
                 <div class="option-check-circle"></div>
                 <div class="option-content">
                   <div class="option-top">
-                    <span class="option-name">Priority Aerodynamic Courier</span>
+                    <span class="option-name">Express Next-Day Delivery</span>
                     <span class="option-price">€ 18.00</span>
                   </div>
                   <p class="option-desc">Guaranteed next-business-day delivery before 12:00 PM.</p>
@@ -510,11 +510,11 @@
                 <div class="option-check-circle"></div>
                 <div class="option-content">
                   <div class="option-top">
-                    <span class="option-name">White-Glove VIP Evening Courier</span>
+                    <span class="option-name">Premium Evening Delivery</span>
                     <span class="option-price">€ 35.00</span>
                   </div>
-                  <p class="option-desc">Hand-delivered in garment archive trunk, scheduled 1-hour evening window.</p>
-                  <span class="option-badge">CONCIERGE TRUNK</span>
+                  <p class="option-desc">Hand-delivered in protective packaging, scheduled 1-hour evening window.</p>
+                  <span class="option-badge">PREMIUM SERVICE</span>
                 </div>
               </label>
             </div>
@@ -523,7 +523,7 @@
           <!-- Payment Failure Recovery Banner -->
           <div id="banner-payment-fail" class="recovery-banner payment-fail">
             <strong>Payment authorization could not be completed.</strong><br>
-            Your order has not been placed and your bag is safely preserved. Please choose another European payment method or retry.
+            Your order has not been placed and your bag is saved. Please choose another European payment method or retry.
             <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
               <button class="btn-secondary-action" onclick="retryPayment()">Try again</button>
               <button class="btn-secondary-action" onclick="changePaymentMethod()">Choose another method</button>
@@ -582,7 +582,7 @@
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
-                  <span class="payment-card-title">iDEAL Direct</span>
+                  <span class="payment-card-title">iDEAL</span>
                   <span class="payment-card-desc">Netherlands direct bank checkout</span>
                 </div>
               </div>
@@ -742,7 +742,7 @@
 
             <!-- Klarna Info Panel -->
             <div id="klarna-details-panel" class="klarna-info-panel">
-              <strong>Klarna Smooth Payment:</strong> Receive your atelier pieces first, inspect at home, and pay within 30 days. No upfront payment required.
+              <strong>Pay Later with Klarna:</strong> Receive your order first, inspect at home, and pay within 30 days. No upfront payment required.
             </div>
           </div>
 
@@ -753,7 +753,7 @@
         <aside class="order-summary-sticky-panel">
 
           <div class="summary-header">
-            <h2 class="summary-title">Acquisition Summary</h2>
+            <h2 class="summary-title">Order Summary</h2>
             <span class="summary-pieces-count" id="checkoutPiecesCount">0 PIECES</span>
           </div>
 
@@ -762,10 +762,13 @@
             <!-- Populated by loadCheckoutState() -->
           </div>
 
+          <!-- Proactive AI Savings Advisor Mount (Capability 5) -->
+          <div id="checkoutSavingsMount" style="margin-bottom: 12px;"></div>
+
           <!-- Promo Code -->
           <div class="coupon-box">
             <div id="coupon-input-row" style="display:flex;gap:8px;align-items:stretch;">
-              <input type="text" id="coupon-input" class="coupon-input" placeholder="Enter VIP Privilège Code" maxlength="20" autocomplete="off"
+              <input type="text" id="coupon-input" class="coupon-input" placeholder="Enter promo code" maxlength="20" autocomplete="off"
                      onkeydown="if(event.key==='Enter') applyCoupon()">
               <button class="coupon-apply-btn" onclick="applyCoupon()">APPLY</button>
             </div>
@@ -779,19 +782,19 @@
           <!-- Pricing Ledger -->
           <div class="summary-ledger">
             <div class="ledger-row">
-              <span>Atelier Subtotal</span>
+              <span>Subtotal</span>
               <span id="summary-subtotal" class="tabular-nums">€ 0.00</span>
             </div>
             <div class="ledger-row">
-              <span id="summary-shipping-label">Complimentary Express Shipping</span>
+              <span id="summary-shipping-label">Free Shipping</span>
               <span id="summary-shipping" class="tabular-nums" style="color:#34D399;">FREE</span>
             </div>
             <div id="summary-discount-row" class="ledger-row" style="display:none;color:#FB7185;">
-              <span id="summary-discount-label">VIP Privilege Savings</span>
+              <span id="summary-discount-label">Discount</span>
               <span id="summary-discount-amount" class="tabular-nums">−€ 0.00</span>
             </div>
             <div class="ledger-row" style="font-size:11px;color:rgba(255,255,255,0.3);">
-              <span>Included Statutory VAT</span>
+              <span>VAT included</span>
               <span id="summary-vat" class="tabular-nums">€ 0.00</span>
             </div>
             <div class="ledger-row ledger-total">
@@ -808,15 +811,15 @@
             </div>
             <div class="trust-signal-item">
               <i data-lucide="shield-check" style="width:14px;height:14px;color:#3DE0FF;"></i>
-              <span>100% Guaranteed Authentic — Direct from Atelier</span>
+              <span>100% Authentic Products</span>
             </div>
             <div class="trust-signal-item">
               <i data-lucide="lock" style="width:14px;height:14px;color:#3DE0FF;"></i>
-              <span>End-to-End PCI-DSS Level 1 Vault Encryption</span>
+              <span>Secure encrypted payment</span>
             </div>
             <div class="trust-signal-item">
               <i data-lucide="leaf" style="width:14px;height:14px;color:#34D399;"></i>
-              <span>Carbon Neutral Courier Offsetting via Pachama</span>
+              <span>Carbon neutral delivery</span>
             </div>
           </div>
 
@@ -828,7 +831,7 @@
           </button>
 
           <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.05em;margin-top:-4px;">
-            ORDER WITH OBLIGATION TO PAY &middot; 14-DAY STATUTORY RETURN
+            Place order &middot; 14-day returns apply
           </p>
 
         </aside>
@@ -841,16 +844,16 @@
   <div id="payment-modal-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(5,14,36,0.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;" onclick="handleModalBackdropClick(event)">
     <div id="eu-payment-auth-card" style="display:none;width:100%;max-width:440px;margin:0 20px;background:rgba(10,25,47,0.98);border-radius:14px;padding:32px 28px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 25px 50px -12px rgba(0,0,0,0.6);text-align:center;">
       <div id="eu-auth-badge" style="margin-bottom:16px;display:inline-flex;align-items:center;justify-content:center;"></div>
-      <h3 id="eu-auth-title" style="font-family:var(--font-serif);font-size:22px;color:#fff;margin-bottom:8px;">Authenticating Transaction</h3>
+      <h3 id="eu-auth-title" style="font-family:var(--font-serif);font-size:22px;color:#fff;margin-bottom:8px;">Verifying payment...</h3>
       <p id="eu-auth-desc" style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:20px;"></p>
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Amount to Authorize</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;">Amount to pay</span>
         <span id="eu-auth-amount" style="font-size:20px;font-weight:700;font-family:var(--font-serif);color:#fff;" class="tabular-nums">€ 0.00</span>
       </div>
       <div style="height:3px;width:100%;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:20px;">
         <div style="height:100%;width:50%;background:#3DE0FF;animation:euAuthSlide 1.5s infinite ease-in-out;"></div>
       </div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;">SECURE ENCRYPTED 256-BIT SESSION &middot; PSD2 VERIFIED</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;">Secure &amp; encrypted</div>
     </div>
     <div id="payment-success-panel" style="display:none;text-align:center;padding:50px 30px;background:rgba(10,25,47,0.98);border-radius:14px;border:1px solid rgba(255,255,255,0.1);max-width:400px;width:100%;margin:0 20px;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,0.12);border:2px solid #34D399;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
@@ -868,9 +871,9 @@
   <script>
     /* ── Delivery State ─────────────────────────────────────────────── */
     const DELIVERY_OPTIONS = {
-      standard:   { label: 'Complimentary Atelier Express',     cost: 12, costLabel: '€ 12.00' },
-      overnight:  { label: 'Priority Aerodynamic Courier',      cost: 18, costLabel: '€ 18.00' },
-      whiteglove: { label: 'White-Glove VIP Evening Courier',   cost: 35, costLabel: '€ 35.00' }
+      standard:   { label: 'Standard Free Delivery',            cost: 12, costLabel: '€ 12.00' },
+      overnight:  { label: 'Express Next-Day Delivery',         cost: 18, costLabel: '€ 18.00' },
+      whiteglove: { label: 'Premium Evening Delivery',          cost: 35, costLabel: '€ 35.00' }
     };
     let activeDelivery = 'standard';
     let cartSubtotal   = 0;
@@ -1019,10 +1022,10 @@
       const panel         = document.getElementById('delivery-guidance');
       if (!panel) return;
       if (cartSubtotal >= FREE_SHIPPING_THRESHOLD) {
-        panel.innerHTML = `<strong>Complimentary Tracked Delivery Unlocked —</strong> Your order to ${countryName} qualifies for <strong>Free Atelier Express Delivery</strong> (2–4 business days, carbon neutral).`;
+        panel.innerHTML = `<strong>Complimentary Tracked Delivery Unlocked —</strong> Your order to ${countryName} qualifies for <strong>Free Standard Delivery</strong> (2–4 business days, carbon neutral).`;
       } else {
         const diff = (FREE_SHIPPING_THRESHOLD - cartSubtotal).toFixed(2);
-        panel.innerHTML = `<strong>Shipping to ${countryName}.</strong> Add <strong>€ ${diff}</strong> more to unlock Free Atelier Express Delivery — or choose Priority Aerodynamic Courier for guaranteed next-day arrival.`;
+        panel.innerHTML = `<strong>Shipping to ${countryName}.</strong> Add <strong>€ ${diff}</strong> more to unlock Free Standard Delivery — or choose Express Next-Day Delivery for guaranteed next-day arrival.`;
       }
     }
 
@@ -1476,6 +1479,8 @@
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="../js/animations.js"></script>
+  <script src="../js/checkout-savings-engine.js?v=1"></script>
+  <script src="../js/checkout-savings-ui.js?v=1"></script>
   <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/ai-engine.js"></script>
