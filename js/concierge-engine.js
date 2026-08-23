@@ -273,7 +273,6 @@
               { label: 'Out for Express Courier Dispatch', time: 'Tomorrow, 09:30', pending: true }
             ]
           },
-          actionLink: { text: 'VIEW FULL ORDER DETAILS & INVOICE →', url: 'orders.html' },
           products: [],
           suggestedChips: ['Track my order', 'Delivery times', '14-Day return policy']
         };
