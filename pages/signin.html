@@ -743,11 +743,23 @@
       }
 
       // Check if user is already authenticated
+      const urlParams = new URLSearchParams(window.location.search);
+      let targetNext = urlParams.get('next') || '../index.html';
+      if (targetNext.startsWith('pages/')) {
+        targetNext = targetNext.replace(/^pages\//, '');
+      }
+
       if (typeof NexAuth !== 'undefined' && NexAuth.isLoggedIn()) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const nextUrl = urlParams.get('next') || '../index.html';
-        window.location.href = nextUrl;
+        window.location.href = targetNext;
         return;
+      }
+
+      // Contextual prompt if redirected from cart/shopping bag
+      if (targetNext && targetNext.toLowerCase().includes('cart')) {
+        const subHeading = document.querySelector('.auth-subheading');
+        if (subHeading) {
+          subHeading.textContent = 'Sign in to access your shopping bag and proceed to checkout.';
+        }
       }
 
       /* ─── 1. Field References ─────────────────────────────────────────── */
@@ -816,8 +828,11 @@
             curtain.style.opacity = '1';
             curtain.style.pointerEvents = 'all';
           }
-          const urlParams = new URLSearchParams(window.location.search);
-          const nextUrl = urlParams.get('next') || '../index.html';
+          const currentUrlParams = new URLSearchParams(window.location.search);
+          let nextUrl = currentUrlParams.get('next') || '../index.html';
+          if (nextUrl.startsWith('pages/')) {
+            nextUrl = nextUrl.replace(/^pages\//, '');
+          }
           setTimeout(() => {
             window.location.href = nextUrl;
           }, 220);

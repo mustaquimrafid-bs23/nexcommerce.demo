@@ -143,16 +143,19 @@
       </div>
     `;
 
-    // 3. Floating Luxury Pill
+    // 3. Floating Round Chat Button (FAB)
     const floatingPill = document.createElement('button');
     floatingPill.id = 'nexConciergeFloatingPill';
     floatingPill.type = 'button';
     floatingPill.className = 'concierge-floating-pill';
-    floatingPill.setAttribute('aria-label', 'Ask Stylist');
+    floatingPill.setAttribute('aria-label', 'Ask Stylist & AI Concierge');
+    floatingPill.setAttribute('title', 'Ask Stylist');
     floatingPill.setAttribute('data-action', 'open-concierge');
     floatingPill.innerHTML = `
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lucide-sparkles" style="color: #F13365;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-      <span>✦ Ask Stylist</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="concierge-chat-svg" aria-hidden="true">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+      </svg>
+      <span class="concierge-fab-sparkle" aria-hidden="true">✦</span>
     `;
 
     document.body.appendChild(overlay);
@@ -209,6 +212,16 @@
           runVoiceOrderDemo();
         } else if (text === 'Place an order (Text Demo)') {
           runTextOrderDemo();
+        } else if (text === 'Sign in with Demo Client') {
+          if (typeof window.NexAuth !== 'undefined') {
+            window.NexAuth.signIn({ email: 'demo@nexcommerce.ai', password: 'password123' });
+            if (typeof window.NexAuth.updateNavLinks === 'function') {
+              window.NexAuth.updateNavLinks();
+            }
+            handleUserMessage('I want to place an order');
+          } else {
+            window.location.href = resolveHref('signin.html?next=checkout.html');
+          }
         } else if (text) {
           handleUserMessage(text);
         }
@@ -314,11 +327,11 @@
 
   async function runVoiceOrderDemo() {
     handleUserMessage('I want to place an order for my bag', true);
-    await new Promise(r => setTimeout(r, 2800));
+    await new Promise(r => setTimeout(r, 2600));
     handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', true);
-    await new Promise(r => setTimeout(r, 2800));
-    handleUserMessage('Pay with Apple Pay', true);
-    await new Promise(r => setTimeout(r, 2800));
+    await new Promise(r => setTimeout(r, 2600));
+    handleUserMessage('Pay with Cash on Delivery', true);
+    await new Promise(r => setTimeout(r, 2600));
     if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
       try { window.nexCart.clear(); } catch (e) {}
     }
@@ -330,7 +343,7 @@
     await new Promise(r => setTimeout(r, 2200));
     handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', false);
     await new Promise(r => setTimeout(r, 2200));
-    handleUserMessage('Pay with Card •••• 4242', false);
+    handleUserMessage('Pay with Cash on Delivery', false);
     await new Promise(r => setTimeout(r, 2200));
     if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
       try { window.nexCart.clear(); } catch (e) {}
@@ -592,8 +605,10 @@
       `;
     }
 
-    // 0A. Order Flow Widgets (Step 1 to 4)
-    if (response.type === 'order_address' && response.widgetPayload) {
+    // 0A. Order Flow Widgets (Step 1 to 4 + Auth Gate)
+    if (response.type === 'order_auth_required' && response.widgetPayload) {
+      html += renderOrderAuthRequiredWidget(response.widgetPayload);
+    } else if (response.type === 'order_address' && response.widgetPayload) {
       html += renderOrderAddressWidget(response.widgetPayload);
     } else if (response.type === 'order_payment' && response.widgetPayload) {
       html += renderOrderPaymentWidget(response.widgetPayload);
@@ -657,6 +672,27 @@
     // Update suggested prompt chips
     renderChips(response.suggestedChips || []);
     scrollToBottom();
+  }
+
+  function renderOrderAuthRequiredWidget(payload) {
+    const signinUrl = resolveHref('signin.html?next=checkout.html');
+    return `
+      <div class="order-auth-required-box" data-widget="order-auth-required" style="background: rgba(8, 20, 48, 0.85); border: 1px solid rgba(61, 224, 255, 0.28); border-radius: 14px; padding: 18px; margin: 12px 0; backdrop-filter: blur(14px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(61, 224, 255, 0.12); border: 1px solid rgba(61, 224, 255, 0.3); display: flex; align-items: center; justify-content: center; color: #3de0ff; flex-shrink: 0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 13px; font-weight: 700; color: #ffffff; letter-spacing: 0.04em; text-transform: uppercase;">Atelier Member Order Gate</div>
+            <div style="font-size: 11.5px; color: rgba(255, 255, 255, 0.65); line-height: 1.35; margin-top: 2px;">${escapeHtml(payload.reason || 'Guest ordering is restricted.')}</div>
+          </div>
+        </div>
+        <a href="${signinUrl}" class="btn-step-action" style="background: linear-gradient(135deg, #3DE0FF 0%, #0088FF 100%); color: #000B1A; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; padding: 11px 16px; font-size: 12px; letter-spacing: 0.05em;">
+          <span>SIGN IN TO COMPLETE ORDER</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    `;
   }
 
   function renderOrderAddressWidget(payload) {
@@ -767,11 +803,65 @@
 
   function renderOrderConfirmedWidget(payload) {
     const orderCode = payload.orderCode || 'NX-4829-M';
+    const totalDue = (payload.totalDue || 256.50).toFixed(2);
     const steps = payload.trackingSteps || [
-      { label: 'Order Received & Encrypted', time: 'Just now · Verified', done: true },
+      { label: 'Order Received & Encrypted (COD)', time: 'Just now · Verified', done: true },
       { label: 'Quality Inspection in Munich Hub', time: 'In Progress · Expected 23:00', active: true },
       { label: 'Out for Express Courier Dispatch', time: 'Tomorrow, 09:30', pending: true }
     ];
+
+    // Persist order to localStorage nex_placed_orders
+    try {
+      const existing = JSON.parse(localStorage.getItem('nex_placed_orders') || '[]');
+      const filtered = existing.filter(o => (o.id || o.ref) !== orderCode);
+      const newOrder = {
+        id: orderCode,
+        ref: orderCode,
+        date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        placedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        status: 'in_transit',
+        statusLabel: 'Confirmed · Preparing for Dispatch',
+        expectedDate: 'Tomorrow · By 12:00 PM',
+        expectedRange: 'Tomorrow',
+        progress: 25,
+        total: parseFloat(totalDue),
+        subtotal: payload.subtotal || parseFloat(totalDue),
+        deliveryCost: 0,
+        paymentMethod: 'Cash on Delivery (Pay on Arrival)',
+        paymentStatus: 'pending_cod',
+        courier: 'DHL Express Priority Courier',
+        deliveryMethod: 'DHL Express Priority Courier',
+        customer: {
+          name: 'Julian Mercer',
+          address: payload.destination || 'Maximilianstraße 34, 80539 Munich, Germany'
+        },
+        items: (payload.items && payload.items.length > 0) ? payload.items.map(it => ({
+          name: it.title || it.name || 'Architectural Cashmere Sweater',
+          category: 'APPAREL',
+          tag: 'Apparel · Size M',
+          variant: 'Midnight / M',
+          size: it.size || 'M',
+          price: it.numericPrice || it.price || 185,
+          image: resolveImg(it.img || it.image || 'assets/images/products/hero_sweater.png'),
+          qty: 1,
+          quantity: 1
+        })) : [
+          {
+            name: 'Architectural Cashmere Sweater',
+            category: 'APPAREL',
+            tag: 'Apparel · Midnight · Size M',
+            variant: 'Midnight / M',
+            size: 'M',
+            price: 185,
+            image: resolveImg('assets/images/products/hero_sweater.png'),
+            qty: 1,
+            quantity: 1
+          }
+        ]
+      };
+      filtered.unshift(newOrder);
+      localStorage.setItem('nex_placed_orders', JSON.stringify(filtered));
+    } catch (e) {}
 
     const stepsHtml = steps.map(s => `
       <div class="track-step-row" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
@@ -784,23 +874,37 @@
     `).join('');
 
     const ordersUrl = resolveHref('orders.html');
+    const trackingPayUrl = resolveHref('tracking.html') + '?order=' + encodeURIComponent(orderCode) + '&pay=online';
     const trackingUrl = resolveHref('tracking.html') + '?order=' + encodeURIComponent(orderCode);
 
     return `
-      <div class="order-confirmed-box" data-widget="order-confirmed" style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
-        <div class="order-confirmed-banner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <div>Order <strong class="code">${escapeHtml(orderCode)}</strong> placed successfully! Preparing for courier dispatch.</div>
+      <div class="order-confirmed-box" data-widget="order-confirmed" style="display:flex;flex-direction:column;gap:12px;margin-top:6px;">
+        <div class="order-confirmed-banner" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 12px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div>
+            <div style="font-size: 13px; font-weight: 700; color: #ffffff;">Order <strong class="code" style="color: #3de0ff;">${escapeHtml(orderCode)}</strong> Placed!</div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 9999px; margin-top: 5px;">
+              <span>💵 Cash on Delivery (Pay on Arrival)</span>
+            </div>
+            <div style="font-size: 11.5px; color: rgba(255, 255, 255, 0.7); line-height: 1.4; margin-top: 6px;">
+              Total Due: <strong>€ ${totalDue}</strong>. Pay cash to courier upon arrival, or switch to Apple Pay / Card online now.
+            </div>
+          </div>
         </div>
 
-        <div style="background:rgba(4,18,42,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 10px;">
+        <div style="background:rgba(4,18,42,0.85);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 14px;">
+          <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Logistics Telemetry</div>
           ${stepsHtml}
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <a href="${ordersUrl}" class="btn-step-action" style="background:rgba(61,224,255,0.12);border:1px solid #3de0ff;color:#3de0ff;">
-            <span>View Full Order Details & Invoice</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="${trackingPayUrl}" class="btn-step-action" style="background: linear-gradient(135deg, #3DE0FF 0%, #0088FF 100%); color: #000B1A; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; padding: 12px 16px; font-size: 12.5px; letter-spacing: 0.04em; box-shadow: 0 4px 20px rgba(61, 224, 255, 0.25);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            <span>PAY ONLINE NOW (Apple Pay / Card →)</span>
+          </a>
+          <a href="${trackingUrl}" class="btn-step-action" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#ffffff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:10px 16px;font-size:11.5px;">
+            <span>Track Courier & View Details</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
       </div>

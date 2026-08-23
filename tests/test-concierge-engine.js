@@ -109,4 +109,39 @@ assert.ok(calcTop.confidence >= 90);
 const calcFoot = window.NexConciergeEngine.calculateSize('Shoes & Sneakers', 'EU 43', 'True to size');
 assert.strictEqual(calcFoot.recommendedSize, 'EU 43');
 
-console.log('✨ All 25+ comprehensive regression tests PASSED with 100% precision!');
+console.log('9. Testing AI Assistant DLP Security Guardrail for Financial Credentials...');
+const dlpCardResp = window.NexConciergeEngine.processMessage('My card is 4111 2222 3333 4444 and cvv is 123');
+assert.strictEqual(dlpCardResp.type, 'security_alert', 'Card number entry must trigger security_alert');
+assert.ok(dlpCardResp.text.includes('Never Share Card Details'), 'Security alert must explain guardrail');
+
+console.log('10. Testing AI Assistant Guest vs Authenticated Order Placement...');
+// Case A: Unauthenticated guest attempts to place an order
+global.window.NexAuth = { isLoggedIn: () => false };
+const guestOrderInit = window.NexConciergeEngine.processMessage('I want to place an order');
+assert.strictEqual(guestOrderInit.type, 'order_auth_required', 'Guest order attempt must return order_auth_required');
+assert.ok(guestOrderInit.widgetPayload && guestOrderInit.widgetPayload.reason, 'Must include auth reason');
+assert.strictEqual(guestOrderInit.actionLink.url, 'signin.html?next=checkout.html', 'Action link must point to signin');
+
+const guestOrderAuth = window.NexConciergeEngine.processMessage('Authorize & place order now');
+assert.strictEqual(guestOrderAuth.type, 'order_auth_required', 'Guest direct authorization must return order_auth_required');
+
+// Case B: Authenticated member places an order
+global.window.NexAuth = { isLoggedIn: () => true };
+const authOrderInit = window.NexConciergeEngine.processMessage('I want to place an order');
+assert.strictEqual(authOrderInit.type, 'order_address', 'Authenticated member order must proceed to order_address');
+
+const authOrderPay = window.NexConciergeEngine.processMessage('Confirm address: Maximilianstraße 34, Munich');
+assert.strictEqual(authOrderPay.type, 'order_payment', 'Address confirmation must proceed to order_payment');
+assert.ok(authOrderPay.widgetPayload.paymentMethods.some(m => m.id === 'cod' && m.selected), 'Default payment must be COD');
+
+const authOrderReview = window.NexConciergeEngine.processMessage('Pay with Cash on Delivery');
+assert.strictEqual(authOrderReview.type, 'order_review', 'Payment selection must proceed to order_review');
+
+const authOrderConfirm = window.NexConciergeEngine.processMessage('Authorize & place order now');
+assert.strictEqual(authOrderConfirm.type, 'order_confirmed', 'Final authorization must confirm order');
+assert.ok(authOrderConfirm.orderCode, 'Must generate order code');
+assert.strictEqual(authOrderConfirm.widgetPayload.paymentStatus, 'pending_cod', 'Order confirmed must be pending_cod');
+assert.ok(authOrderConfirm.actionLink.url.includes('pay=online'), 'Action link must link to tracking.html with pay=online');
+
+console.log('✨ All 35+ comprehensive regression tests PASSED with 100% precision!');
+

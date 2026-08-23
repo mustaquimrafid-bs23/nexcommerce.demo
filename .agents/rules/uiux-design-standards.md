@@ -61,6 +61,10 @@ When conducting or analyzing user research (interviews, usability testing, custo
 - **Observe Behavior over Opinion**: Watch for hesitation, backtracking, missed cues, and incorrect clicks rather than asking *"Do you like the design?"*.
 - **Funnel Measurement**: Track drop-offs across the funnel (Discovery → PLP → PDP → Add to Cart → Cart Review → Checkout Step 1 → Payment → Confirmation) to pinpoint friction points.
 
+### 1.4 Mandatory 3-Option UI Generation & Selection Protocol
+- **Proactive Exploration**: For every new UI screen, component, modal, drawer, or visual modification, I must explore and present **3 distinct design directions** (e.g. Modernist Swiss, Glassmorphic Cyber-Luxe, Minimalist Monolith) with visual previews and clear rationale.
+- **User Choice Gate**: I must present these 3 generated options to the user and await explicit selection before writing production code or modifying files.
+
 ### 🛡️ MANDATORY 3-TIER VERIFICATION PROTOCOL (Executed After EVERY Task)
 Never claim a task or feature is complete without executing all 3 verification tiers:
 1. **Tier 1 — Full Unit / Regression Test**: Run automated test suites (`node tests/...`) asserting state transitions, NLP matching, word boundaries, and calculations.

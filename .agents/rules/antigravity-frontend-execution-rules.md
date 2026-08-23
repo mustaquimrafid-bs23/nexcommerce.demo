@@ -82,10 +82,10 @@
 - **Full-Width Photography Priority**: Category, brand, and campaign hero banners must prioritize edge-to-edge, uninterrupted visual storytelling without forcing split 2-column cards, rotating capsule tabs, or shoppable overlay widgets unless explicitly requested.
 - **Responsive Wide Framing**: Use a dedicated responsive container (`.plp-pure-banner-frame` / `.plp-pure-banner-img`) with wide panoramic aspect ratios (`21:7` on desktop, `16:7` on tablet, `16:9` on mobile), `object-fit: cover`, centered focal alignment, and subtle glassmorphic borders (`rgba(255, 255, 255, 0.08)`).
 
-## 13. 3-Option Proactive Visual Exploration & Choice Protocol
-- **Proactive 3-Option Generation**: Whenever designing, updating, or generating hero banners, promotional visuals, campaign photography, or primary layout variants, ALWAYS generate 3 distinct, high-quality aesthetic directions rather than imposing a single option.
-- **Visual Evidence & Live Artifact Presentation**: Render and capture live browser screenshot previews for each option, documenting key stylistic traits, composition differences, and palette nuances.
-- **Interactive User Selection**: Present the 3 options directly to the user with `ask_question` or structured selection so they can easily choose their preferred direction.
+## 13. Universal 3-Option UI Generation & User Choice Invariant
+- **Mandatory 3-Option Exploration for All UI Work**: Whenever creating any new UI (page, component, section, card, modal, drawer, or widget) or modifying/redesigning an existing UI, ALWAYS generate and present 3 distinct UI design variations with different aesthetic directions, layouts, or visual treatments rather than imposing a single design.
+- **Visual Evidence & Structural Presentation**: Provide concrete visual previews or structural mockups for all 3 options (e.g. via image generation, Stitch MCP screen variants, or live interactive prototype mockups) detailing typography, composition, color treatment, and visual hierarchy.
+- **Interactive User Selection Before Implementation**: Explicitly prompt the user with structured choices (or `ask_question`) to choose their preferred design direction (or combine specific elements) and await confirmation before modifying or writing production code.
 
 ## 14. Panoramic Banner Full-Model Framing & Extreme Zoom-Out Invariant
 - **100% Full-Model Head-to-Toe Visibility**: Banners with human models must NEVER crop out heads, hair, feet, boots, shoes, trousers, or essential silhouette details. The full figure must be completely visible from head to toe.

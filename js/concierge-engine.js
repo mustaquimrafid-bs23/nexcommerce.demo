@@ -249,30 +249,82 @@
      */
     _evaluateQuery(rawText, text, catalog, ctx) {
 
+      // ── DLP & SENSITIVE FINANCIAL CREDENTIALS GUARD ─────────────────────
+      const isSensitiveCreditCard = /\b(?:\d[ -]*?){13,19}\b/.test(rawText) || /\b(cvv|cvc|card number|pin code|security code)\b/i.test(rawText);
+      if (isSensitiveCreditCard) {
+        return {
+          type: 'security_alert',
+          text: `**🔒 Security Guardrail: Never Share Card Details in Chat**\n\nFor your financial protection, our AI Assistant **never** requests or collects credit card numbers, CVVs, or bank PINs.\n\nAll assistant orders automatically default to **Cash on Delivery (Pay on Arrival)** with zero financial risk. You can also securely settle via Apple Pay or Card on the **Order Details** page anytime before dispatch.`,
+          spokenSummary: 'For your security, please do not enter card numbers in chat. Orders default to Pay on Delivery, or you can pay securely online from your order details page.',
+          products: catalog.slice(0, 2),
+          suggestedChips: ['I want to place an order', 'Track my order', 'Delivery times']
+        };
+      }
+
       // ── 0A. AGENTIC IN-DRAWER ORDER & CHECKOUT FLOW ──────────────────────
-      
-      // Step 4: Final Order Authorization
+      const isUserLoggedIn = (typeof window !== 'undefined' && window.NexAuth && typeof window.NexAuth.isLoggedIn === 'function')
+        ? window.NexAuth.isLoggedIn()
+        : (typeof localStorage !== 'undefined' && !!localStorage.getItem('nex_session'));
+
+      // Check if user is attempting any order flow step
+      const isOrderFlowQuery = /\b(place (an? )?order|order (my )?(bag|cart|items|now)|buy (this )?(outfit|look|now|cart|bag)|checkout( with voice| my bag)?|start order|ready to (pay|order|buy)|i want to (place an order|order|buy)|order flow|voice order demo|text order demo|authorize|confirm order|place order now|authorize & place order|pay now|finalize order|complete purchase|buy now|finish order|confirm and pay|confirm purchase|confirm and place order|place the order)\b/i.test(rawText);
+
+      // Gatekeeper: If unauthenticated guest attempts to order, enforce member sign-in
+      if (isOrderFlowQuery && !isUserLoggedIn) {
+        this.lastQueryType = 'order_auth_required';
+        return {
+          type: 'order_auth_required',
+          text: `**Authentication Required for Order Placement**\n\nTo secure your transaction, apply private member privileges, and enable real-time courier dispatch tracking, please sign in to your atelier account:`,
+          widgetPayload: {
+            reason: 'Guest ordering is restricted. Sign in with your account or use the 1-Click Demo Client to complete your purchase.'
+          },
+          actionLink: { text: 'SIGN IN TO COMPLETE ORDER →', url: 'signin.html?next=checkout.html' },
+          products: catalog.slice(0, 2),
+          suggestedChips: ['Sign in with Demo Client', 'Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
+        };
+      }
+
+      // Step 4: Final Order Authorization (Authenticated only)
       if (/\b(authorize|confirm order|place order now|authorize & place order|pay now|finalize order|complete purchase|buy now|finish order|confirm and pay|confirm purchase|confirm and place order|place the order)\b/i.test(rawText)) {
         this.lastQueryType = 'order_confirmed';
         const orderNum = Math.floor(1000 + Math.random() * 9000);
         const orderCode = `NX-${orderNum}-M`;
         const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
+        const cartItems = (typeof window !== 'undefined' && window.nexCart && window.nexCart.items && window.nexCart.items.length > 0)
+          ? window.nexCart.items
+          : [
+              { title: 'Architectural Cashmere Sweater', size: 'M', numericPrice: 185 },
+              { title: 'Minimalist Leather Runner', size: '42', numericPrice: 125 }
+            ];
+
+        const subtotal = cartItems.reduce((acc, item) => acc + (item.numericPrice || item.price || 0), 0);
+        const discount = Math.round(subtotal * 0.1);
+        const totalDue = subtotal - discount;
+
         return {
           type: 'order_confirmed',
-          text: `**Order Confirmed & Placed!** · Code **\`${orderCode}\`**\n\nYour order has been encrypted and received. We are preparing your package for express dispatch from our **Munich Hub**.`,
+          text: `**Order Confirmed & Placed!** · Code **\`${orderCode}\`**\n\nPlaced with **Cash on Delivery (Pay on Arrival)**. You can pay the courier upon delivery, or switch to Apple Pay / Card online anytime from your Order Details page before dispatch.`,
           orderCode: orderCode,
+          spokenSummary: `Order ${orderCode} placed as Cash on Delivery! You can pay cash on arrival, or switch to Apple Pay or Card online anytime from your Order Details page.`,
           widgetPayload: {
             orderCode: orderCode,
             date: dateStr,
             destination: 'Maximilianstraße 34, 80539 Munich, Germany',
             carrier: 'DHL Express Priority Courier',
+            paymentMethod: 'Cash on Delivery (Pay on Arrival)',
+            paymentStatus: 'pending_cod',
+            subtotal: subtotal,
+            discount: discount,
+            totalDue: totalDue,
+            items: cartItems,
             trackingSteps: [
-              { label: 'Order Received & Encrypted', time: 'Just now · Verified', done: true },
+              { label: 'Order Received & Encrypted (COD)', time: 'Just now · Verified', done: true },
               { label: 'Quality Inspection in Munich Hub', time: 'In Progress · Expected 23:00', active: true },
               { label: 'Out for Express Courier Dispatch', time: 'Tomorrow, 09:30', pending: true }
             ]
           },
+          actionLink: { text: 'PAY ONLINE NOW (Order Details →)', url: `tracking.html?order=${encodeURIComponent(orderCode)}&pay=online` },
           products: [],
           suggestedChips: ['Track my order', 'Delivery times', '14-Day return policy']
         };
@@ -281,11 +333,11 @@
       // Step 3: Payment Method Selected -> Order Review
       if (/\b(pay with (card|apple pay|google pay|klarna|cash)|pay by (card|apple pay|google pay|klarna|cash)|select payment|use (card|apple pay|klarna|cash on delivery)|card •••• 4242|proceed( with apple pay| with card| with klarna| to review)?|apple pay|google pay|klarna|credit card|debit card|cash on delivery)\b/i.test(rawText)) {
         this.lastQueryType = 'order_review';
-        let method = 'Card •••• 4242 (Visa)';
+        let method = 'Cash on Delivery (Pay on Arrival)';
         if (/apple pay/i.test(rawText)) method = 'Apple Pay (1-Touch Biometric)';
         else if (/google pay/i.test(rawText)) method = 'Google Pay';
         else if (/klarna/i.test(rawText)) method = 'Klarna Pay Later (30 Days)';
-        else if (/cash/i.test(rawText)) method = 'Cash on Delivery (Courier)';
+        else if (/card/i.test(rawText)) method = 'Card •••• 4242 (Visa)';
 
         const cartItems = (typeof window !== 'undefined' && window.nexCart && window.nexCart.items && window.nexCart.items.length > 0)
           ? window.nexCart.items
@@ -300,7 +352,7 @@
 
         return {
           type: 'order_review',
-          text: `**Order Summary & Final Authorization**\n\nReview your order details below. Everything is verified and ready for instant authorization.`,
+          text: `**Order Summary & Final Authorization**\n\nReview your order details below. Everything is verified and ready for instant authorization with **${method}**.`,
           widgetPayload: {
             items: cartItems,
             paymentMethod: method,
@@ -317,30 +369,31 @@
         };
       }
 
-      // Step 2: Address Confirmed -> Payment Method Selection
+      // Step 2: Address Confirmed -> Payment Method Selection (Defaults to COD / Pay on Arrival)
       if (/\b(confirm( my)? address|deliver to|use saved address|address:|ship to|delivery address|confirm munich address|confirm custom address|maximilianstra(ß|ss)e)\b/i.test(rawText)) {
         this.lastQueryType = 'order_payment';
         const address = 'Maximilianstraße 34, 80539 Munich, Germany';
 
         return {
           type: 'order_payment',
-          text: `**Select Preferred Payment Method**\n\nDelivery address set to **${address}**.\nPlease choose how you'd like to pay for your pieces:`,
+          text: `**Payment Method Selection (Default: Cash on Delivery)**\n\nDelivery address confirmed as **${address}**.\n\nAI Orders default to **Cash on Delivery (Pay on Arrival)** with zero financial risk. You can also settle digitally online anytime before courier dispatch:`,
+          spokenSummary: 'Address confirmed! AI orders default to Cash on Delivery with option to settle online before courier dispatch.',
           widgetPayload: {
             address: address,
             paymentMethods: [
-              { id: 'card', name: 'Credit / Debit Card', details: '•••• 4242 (Visa / MC)', badge: 'Default', selected: true },
+              { id: 'cod', name: 'Cash on Delivery (Default)', details: 'Pay upon courier arrival / Settle online', badge: 'Recommended', selected: true },
+              { id: 'card', name: 'Credit / Debit Card', details: '•••• 4242 (Visa / MC)', badge: 'Instant', selected: false },
               { id: 'apple_pay', name: 'Apple Pay / Google Pay', details: '1-Touch Biometric', badge: 'Instant', selected: false },
-              { id: 'klarna', name: 'Klarna Pay Later', details: 'Pay in 30 Days', badge: '0% APR', selected: false },
-              { id: 'cod', name: 'Cash on Delivery', details: 'Direct Courier Payment', badge: 'Courier', selected: false }
+              { id: 'klarna', name: 'Klarna Pay Later', details: 'Pay in 30 Days', badge: '0% APR', selected: false }
             ]
           },
           actionLink: { text: 'PROCEED TO CHECKOUT PAGE →', url: 'checkout.html' },
           products: [],
-          suggestedChips: ['Pay with Card •••• 4242', 'Pay with Apple Pay', 'Pay with Klarna', 'Pay with Cash']
+          suggestedChips: ['Pay with Cash on Delivery', 'Pay with Apple Pay', 'Pay with Card •••• 4242', 'Authorize & place order now']
         };
       }
 
-      // Step 1: Start Order Flow / Delivery Address Collection
+      // Step 1: Start Order Flow / Delivery Address Collection (Authenticated only)
       if (/\b(place (an? )?order|order (my )?(bag|cart|items|now)|buy (this )?(outfit|look|now|cart|bag)|checkout( with voice| my bag)?|start order|ready to (pay|order|buy)|i want to (place an order|order|buy)|order flow|voice order demo|text order demo)\b/i.test(rawText)) {
         this.lastQueryType = 'order_address';
         return {

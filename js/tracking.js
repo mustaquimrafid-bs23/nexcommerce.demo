@@ -399,34 +399,39 @@ function mapToStatusLabel(statusKey) {
 }
 
 function generateCustomMockOrder(refId, statusParam, reasonParam, scenarioParam, isPartial) {
+  const isNXConcierge = String(refId).toUpperCase().startsWith('NX-');
+  const isPayOnlineParam = typeof window !== 'undefined' && (new URLSearchParams(window.location.search).get('pay') === 'online');
+  const isCODOrder = isNXConcierge || isPayOnlineParam;
+
   return {
     id: refId,
     ref: refId,
-    date: 'August 16, 2026',
-    placedDate: 'August 16, 2026',
-    status: statusParam || 'transit',
-    statusLabel: statusParam ? mapToStatusLabel(mapToStatusKey(statusParam)) : 'Out for Delivery',
-    statusKey: mapToStatusKey(statusParam || 'transit'),
-    expectedDate: 'Today · By 6:00 PM',
-    expectedRange: 'August 16, 2026',
-    progress: 75,
-    total: 285,
-    subtotal: 285,
+    date: 'August 24, 2026',
+    placedDate: 'August 24, 2026',
+    status: statusParam || 'in_transit',
+    statusLabel: statusParam ? mapToStatusLabel(mapToStatusKey(statusParam)) : 'Confirmed · In Transit',
+    statusKey: mapToStatusKey(statusParam || 'in_transit'),
+    expectedDate: 'Tomorrow · By 12:00 PM',
+    expectedRange: 'Tomorrow',
+    progress: 30,
+    total: 256.50,
+    subtotal: 285.00,
     deliveryCost: 0,
-    paymentMethod: 'Paid with Klarna Pay Later',
-    courier: 'DHL Express On-Demand Delivery',
+    paymentMethod: isCODOrder ? 'Cash on Delivery (Pay on Arrival)' : 'Paid with Klarna Pay Later',
+    paymentStatus: isCODOrder ? 'pending_cod' : 'paid',
+    courier: 'DHL Express Priority Courier',
     customer: {
       name: 'Julian Mercer',
-      address: 'Leopoldstraße 42, 80802 Munich, Germany'
+      address: 'Maximilianstraße 34, 80539 Munich, Germany'
     },
     items: [
       {
-        name: 'Double-Breasted Wool Overcoat',
+        name: 'Architectural Cashmere Sweater',
         category: 'APPAREL',
-        variant: 'Charcoal / 48',
+        variant: 'Midnight / M',
         qty: 1,
-        price: 285,
-        image: '../assets/images/products/plp_overcoat.png'
+        price: 185,
+        image: '../assets/images/products/hero_sweater.png'
       }
     ],
     carrierReason: reasonParam,
@@ -440,6 +445,7 @@ function renderTrackingPage(order) {
   updateMeta(order);
   renderOrderSwitcher(order);
   renderStageSimulator(order);
+  renderPaymentGateway(order);
   renderETABanner(order);
   renderRouteMap(order);
   renderTelemetryBadges(order);
@@ -600,6 +606,214 @@ window.simulateStage = function(idx) {
   renderRouteMap(order);
   renderTelemetryBadges(order);
   renderServiceMessage(order);
+};
+
+/* ─── Helper Functions ───────────────────────────────────────── */
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/* ─── Modernist Glassmorphic Spotlight Payment Gateway (Option 1) ─── */
+function renderPaymentGateway(order) {
+  const el = document.getElementById('trackingPaymentGatewayMount');
+  if (!el) return;
+
+  const isCOD = (order.paymentStatus === 'pending_cod') || 
+                ((order.paymentMethod || '').toLowerCase().includes('cash on delivery') && order.paymentStatus !== 'paid');
+
+  if (order.paidOnline || (order.paymentStatus === 'paid' && order.previouslyCOD)) {
+    el.innerHTML = `
+      <div class="tracking-payment-success-card" id="trackingPaymentSuccessCard">
+        <div class="payment-success-left">
+          <div class="payment-success-icon-wrap">
+            <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div class="payment-success-text">
+            <h3>Payment Settled &amp; Verified</h3>
+            <p>Your order has been paid online via <strong id="paidMethodLabel">${escapeHtml(order.paymentMethod || 'Apple Pay / Visa 3DS')}</strong>. Priority contactless courier dispatch is active.</p>
+          </div>
+        </div>
+        <div class="payment-success-badge">PAID IN FULL</div>
+      </div>
+    `;
+    if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+    return;
+  }
+
+  if (!isCOD) {
+    el.innerHTML = '';
+    return;
+  }
+
+  const totalStr = Number(order.total || 256.5).toFixed(2);
+
+  el.innerHTML = `
+    <div class="tracking-payment-gateway" id="trackingPaymentGateway" data-lenis-prevent>
+      <div class="payment-gateway-header">
+        <div class="payment-gateway-badge">
+          <span class="pulse-beacon-amber"></span>
+          <span>PAYMENT MODE: CASH ON DELIVERY</span>
+        </div>
+        <div class="payment-gateway-amount">
+          <span class="amount-label">TOTAL DUE BEFORE DISPATCH</span>
+          <span class="amount-val tabular-nums">€ ${totalStr}</span>
+        </div>
+      </div>
+
+      <div class="payment-gateway-body">
+        <div class="payment-gateway-info">
+          <h2 class="payment-gateway-title">Pay Online Before Dispatch</h2>
+          <p class="payment-gateway-desc">
+            Enjoy 100% contact-free express courier delivery by completing your payment online now with 1-touch biometric authorization.
+          </p>
+        </div>
+
+        <div class="payment-methods-segmented">
+          <label class="pay-segmented-option active" data-method="apple_pay" onclick="selectGatewayMethod('apple_pay', this)">
+            <input type="radio" name="gateway_pay_method" value="apple_pay" checked />
+            <div class="pay-option-content">
+              <span class="pay-icon"><i data-lucide="smartphone" style="width: 18px; height: 18px;"></i></span>
+              <div class="pay-details">
+                <strong>Apple Pay / Google Pay</strong>
+                <small>1-Touch Biometric Authorization</small>
+              </div>
+            </div>
+            <span class="pay-instant-badge">INSTANT</span>
+          </label>
+
+          <label class="pay-segmented-option" data-method="card" onclick="selectGatewayMethod('card', this)">
+            <input type="radio" name="gateway_pay_method" value="card" />
+            <div class="pay-option-content">
+              <span class="pay-icon"><i data-lucide="credit-card" style="width: 18px; height: 18px;"></i></span>
+              <div class="pay-details">
+                <strong>Credit / Debit Card</strong>
+                <small>Visa / Mastercard •••• 4242</small>
+              </div>
+            </div>
+            <span class="pay-instant-badge">ENCRYPTED</span>
+          </label>
+
+          <label class="pay-segmented-option" data-method="klarna" onclick="selectGatewayMethod('klarna', this)">
+            <input type="radio" name="gateway_pay_method" value="klarna" />
+            <div class="pay-option-content">
+              <span class="pay-icon"><i data-lucide="clock" style="width: 18px; height: 18px;"></i></span>
+              <div class="pay-details">
+                <strong>Klarna Pay Later</strong>
+                <small>Pay in 30 Days · 0% APR</small>
+              </div>
+            </div>
+            <span class="pay-instant-badge">0% APR</span>
+          </label>
+        </div>
+
+        <button type="button" class="btn-authorize-online-pay" id="btnAuthorizeOnlinePay" onclick="handleAuthorizeOnlinePayment()">
+          <span class="btn-pay-content" id="btnPayContent">
+            <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+            <span id="btnPayLabel">AUTHORIZE PAYMENT NOW · € ${totalStr}</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+
+  // Auto-scroll if URL requested ?pay=online
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pay') === 'online' || params.get('pay') === '1') {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const card = document.getElementById('trackingPaymentGateway');
+      if (card) {
+        card.style.boxShadow = '0 0 35px rgba(61, 224, 255, 0.6)';
+        setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+      }
+    }, 400);
+  }
+}
+
+window.selectGatewayMethod = function(method, el) {
+  document.querySelectorAll('.pay-segmented-option').forEach(opt => opt.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const radio = el ? el.querySelector('input[type="radio"]') : null;
+  if (radio) radio.checked = true;
+};
+
+window.handleAuthorizeOnlinePayment = function() {
+  const order = window.__trackingOrder;
+  if (!order) return;
+
+  const btn = document.getElementById('btnAuthorizeOnlinePay');
+  const content = document.getElementById('btnPayContent');
+  if (!btn || btn.disabled) return;
+
+  const selectedOpt = document.querySelector('.pay-segmented-option.active') || document.querySelector('input[name="gateway_pay_method"]:checked')?.closest('.pay-segmented-option');
+  const methodVal = selectedOpt ? selectedOpt.getAttribute('data-method') : 'apple_pay';
+
+  let methodLabel = 'Apple Pay / Visa 3DS';
+  if (methodVal === 'card') methodLabel = 'Card •••• 4242 (Visa)';
+  else if (methodVal === 'klarna') methodLabel = 'Klarna Pay Later (30 Days)';
+
+  btn.disabled = true;
+  if (content) {
+    content.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+      <span>AUTHENTICATING BIOMETRIC GATEWAY...</span>
+    `;
+  }
+
+  setTimeout(() => {
+    if (content) {
+      content.innerHTML = `
+        <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+        <span>VERIFYING 3D SECURE TOKEN...</span>
+      `;
+      if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+    }
+
+    setTimeout(() => {
+      // 1. Mutate order
+      order.paymentStatus = 'paid';
+      order.paidOnline = true;
+      order.previouslyCOD = true;
+      order.paymentMethod = `Paid online via ${methodLabel}`;
+
+      // 2. Persist in localStorage
+      try {
+        const placedRaw = localStorage.getItem('nex_placed_orders');
+        if (placedRaw) {
+          const placed = JSON.parse(placedRaw);
+          if (Array.isArray(placed)) {
+            const match = placed.find(o => (o.id || o.ref) === (order.id || order.ref));
+            if (match) {
+              match.paymentStatus = 'paid';
+              match.paidOnline = true;
+              match.previouslyCOD = true;
+              match.paymentMethod = order.paymentMethod;
+              localStorage.setItem('nex_placed_orders', JSON.stringify(placed));
+            }
+          }
+        }
+      } catch (e) {}
+
+      // 3. Re-render UI
+      renderPaymentGateway(order);
+      renderOrderSummary(order);
+      renderTelemetryBadges(order);
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+
+      // 4. Notification
+      if (window.NexNotifications && typeof window.NexNotifications.show === 'function') {
+        window.NexNotifications.show('Payment Verified', `Order #${order.ref} successfully paid via ${methodLabel}. Priority dispatch active!`, 'success');
+      }
+    }, 700);
+  }, 700);
 };
 
 /* ─── ETA Banner ─────────────────────────────────────────────── */

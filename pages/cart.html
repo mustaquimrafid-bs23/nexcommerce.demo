@@ -13,6 +13,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=40">
 
+  <script>
+    // Instant pre-render auth guard for Shopping Bag
+    (function() {
+      try {
+        if (!localStorage.getItem('nex_session')) {
+          window.location.replace('signin.html?next=cart.html');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
   <style>
     /* ── Luxury Cart Item Rows ──────────────────────────────── */
     .cart-item-luxury-row {
@@ -1190,5 +1201,6 @@
 
   <script src="../js/delivery-gate-engine.js?v=1"></script>
   <script src="../js/delivery-gate-ui.js?v=1"></script>
+  <script>NexAuth.requireAuth();</script>
 </body>
 </html>

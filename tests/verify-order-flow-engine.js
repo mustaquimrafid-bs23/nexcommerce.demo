@@ -4,7 +4,11 @@ const path = require('path');
 const vm = require('vm');
 
 const engineCode = fs.readFileSync(path.join(__dirname, '../js/concierge-engine.js'), 'utf-8');
-const sandbox = { window: {}, location: { pathname: '/pages/discovery.html' } };
+const sandbox = { 
+  window: { NexAuth: { isLoggedIn: () => true } }, 
+  location: { pathname: '/pages/discovery.html' },
+  localStorage: { getItem: () => JSON.stringify({ token: 'test' }) }
+};
 vm.createContext(sandbox);
 vm.runInContext(engineCode, sandbox);
 

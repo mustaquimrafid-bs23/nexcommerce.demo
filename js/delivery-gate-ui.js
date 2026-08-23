@@ -68,7 +68,7 @@
       wrapper.innerHTML = `
         <button id="headerDeliveryHubPill" class="delivery-hub-pill" aria-label="Select delivery location and dark store hub" aria-haspopup="dialog">
           <i data-lucide="map-pin" class="delivery-pin-icon"></i>
-          <span class="delivery-location-label">${this.activeHub.city} · ${this.activeHub.postcodes[0] || 'Hub'}</span>
+          <span class="delivery-location-label">${this.activeHub.city}</span>
           <span class="delivery-express-badge">⚡ ${countdown.formattedCountdown}</span>
         </button>
         <div class="delivery-hub-tooltip" role="tooltip">
@@ -122,7 +122,7 @@
           </div>
           <div class="m-delivery-meta">
             <div class="m-delivery-heading">DELIVERY LOCATION</div>
-            <div class="m-delivery-city">${this.activeHub.city} · ${this.activeHub.postcodes[0] || 'Hub'} <span class="m-delivery-timer">⚡ ${countdown.formattedCountdown}</span></div>
+            <div class="m-delivery-city">${this.activeHub.city} <span class="m-delivery-timer">⚡ ${countdown.formattedCountdown}</span></div>
           </div>
         </div>
         <div class="m-delivery-change-btn">
