@@ -516,16 +516,32 @@
     }
   }
 
+  let cachedVoices = [];
+  function getConciergeVoice() {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
+    if (cachedVoices.length === 0) {
+      cachedVoices = window.speechSynthesis.getVoices() || [];
+    }
+    return cachedVoices.find(v => (v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George') || v.name.includes('Alex')) && v.lang.startsWith('en'))
+      || cachedVoices.find(v => v.lang && v.lang.startsWith('en') && !v.name.includes('Zira'))
+      || cachedVoices[0]
+      || null;
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = function() {
+      cachedVoices = window.speechSynthesis.getVoices() || [];
+    };
+  }
+
   function speakVoice(text, audioBarId) {
     if (!isVoiceEnabled || typeof window === 'undefined' || !('speechSynthesis' in window) || !text) return;
     stopVoice();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.0;
-    utterance.pitch = 1.05;
+    utterance.pitch = 1.0;
 
-    const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Natural') || (v.lang && v.lang.startsWith('en') && v.name.includes('Google')));
+    const preferredVoice = getConciergeVoice();
     if (preferredVoice) utterance.voice = preferredVoice;
 
     currentUtterance = utterance;

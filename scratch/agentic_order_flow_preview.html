@@ -711,8 +711,26 @@
       handleUserMessage(val, isVoiceModeActive);
     });
 
-    // High-performance speech synthesis for both User & AI with minimal delay
-    function speakSpokenText(text, role) {
+    let systemVoices = [];
+    function loadVoices() {
+      if ('speechSynthesis' in window) {
+        systemVoices = window.speechSynthesis.getVoices() || [];
+      }
+    }
+    loadVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function getClearMaleVoice() {
+      loadVoices();
+      return systemVoices.find(v => (v.name.includes('David') || v.name.includes('Mark') || v.name.includes('George') || v.name.includes('Alex')) && v.lang.startsWith('en'))
+        || systemVoices.find(v => v.lang && v.lang.startsWith('en') && !v.name.includes('Zira'))
+        || systemVoices[0];
+    }
+
+    // Single, crystal-clear voice (Microsoft David / clear English) for all speech
+    function speakSpokenText(text) {
       return new Promise((resolve) => {
         if (!('speechSynthesis' in window) || !text) {
           setTimeout(resolve, 350);
@@ -720,19 +738,11 @@
         }
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text);
-        const voices = window.speechSynthesis.getVoices();
+        utter.pitch = 1.0;
+        utter.rate = 1.0; // Clear, comfortable conversational pace
 
-        if (role === 'user') {
-          utter.pitch = 0.95;
-          utter.rate = 1.18;
-          const maleVoice = voices.find(v => (v.name.includes('David') || v.name.includes('George') || v.name.includes('Alex') || v.name.includes('Male')) && v.lang.startsWith('en'));
-          if (maleVoice) utter.voice = maleVoice;
-        } else {
-          utter.pitch = 1.08;
-          utter.rate = 1.12;
-          const femaleVoice = voices.find(v => (v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Google') || v.name.includes('Zira') || v.name.includes('Female')) && v.lang.startsWith('en'));
-          if (femaleVoice) utter.voice = femaleVoice;
-        }
+        const clearVoice = getClearMaleVoice();
+        if (clearVoice) utter.voice = clearVoice;
         
         let done = false;
         utter.onend = () => {
@@ -741,10 +751,10 @@
         utter.onerror = () => {
           if (!done) { done = true; resolve(); }
         };
-        // Safety timeout to prevent hanging
+        // Safety timeout
         setTimeout(() => {
           if (!done) { done = true; resolve(); }
-        }, 3200);
+        }, 4000);
 
         window.speechSynthesis.speak(utter);
       });
