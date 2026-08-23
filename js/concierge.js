@@ -16,8 +16,16 @@
   let chipsContainerEl = null;
   let inputEl = null;
   let formEl = null;
+  let micBtnEl = null;
+  let voiceCancelBtnEl = null;
+  let voiceWaveEl = null;
+  let voiceToggleBtnEl = null;
   let hasInitialized = false;
   let lastActiveTrigger = null;
+  let isVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('nex_stylist_voice_muted') !== 'true' : true);
+  let isListening = false;
+  let recognition = null;
+  let currentUtterance = null;
 
   function resolveHref(target) {
     if (!target) return '#';
@@ -53,6 +61,7 @@
       
       injectConciergeHTML();
       initConciergeLogic();
+      initVoiceAI();
     });
   }
 
@@ -80,9 +89,14 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles" style="color: #F13365;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
           Ask Stylist
         </div>
-        <button type="button" class="concierge-close" aria-label="Close" data-action="close-concierge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
+        <div class="concierge-header-actions" style="display:flex;align-items:center;gap:6px;">
+          <button type="button" id="conciergeVoiceToggleBtn" class="concierge-voice-toggle-btn ${isVoiceEnabled ? 'active' : ''}" aria-label="Toggle Stylist Voice Audio" title="${isVoiceEnabled ? 'Stylist Voice Active (Click to mute)' : 'Stylist Voice Muted (Click to enable)'}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          </button>
+          <button type="button" class="concierge-close" aria-label="Close" data-action="close-concierge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
       </div>
 
       <!-- Scrollable Stream -->
@@ -96,7 +110,21 @@
           <!-- Suggestion chips injected here -->
         </div>
         <form id="conciergeForm" class="concierge-input-bar">
-          <input type="text" id="conciergeInput" placeholder="Ask about style, size, occasion, or delivery..." autocomplete="off" />
+          <div id="conciergeListeningWave" class="listening-waveform" style="display:none;" aria-hidden="true">
+            <div class="voice-bar-anim"></div>
+            <div class="voice-bar-anim"></div>
+            <div class="voice-bar-anim"></div>
+            <div class="voice-bar-anim"></div>
+            <div class="voice-bar-anim"></div>
+            <div class="voice-bar-anim"></div>
+          </div>
+          <input type="text" id="conciergeInput" name="concierge_query" placeholder="Ask about style, size, or tap mic..." autocomplete="off" aria-label="Ask the AI concierge a question" />
+          <button type="button" id="conciergeVoiceCancelBtn" class="voice-cancel-btn" style="display:none;" aria-label="Cancel Voice Input" title="Cancel voice input">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          <button type="button" id="conciergeMicBtn" class="concierge-mic-btn" aria-label="Tap to speak" title="Tap to Speak with Stylist">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </button>
           <button type="submit" class="concierge-send-btn" aria-label="Send message">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
@@ -127,6 +155,10 @@
     chipsContainerEl = document.getElementById('conciergeChips');
     inputEl = document.getElementById('conciergeInput');
     formEl = document.getElementById('conciergeForm');
+    micBtnEl = document.getElementById('conciergeMicBtn');
+    voiceCancelBtnEl = document.getElementById('conciergeVoiceCancelBtn');
+    voiceWaveEl = document.getElementById('conciergeListeningWave');
+    voiceToggleBtnEl = document.getElementById('conciergeVoiceToggleBtn');
   }
 
   function initConciergeLogic() {
@@ -222,6 +254,9 @@
       const initResponse = window.NexConciergeEngine.initialize(context);
       renderConciergeResponse(initResponse);
       hasInitialized = true;
+    } else if (!hasInitialized) {
+      renderConciergeResponse({ text: 'Good to see you. What are you shopping for today?' });
+      hasInitialized = true;
     }
 
     setTimeout(function() {
@@ -243,9 +278,9 @@
     if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_closed' });
   }
 
-  function handleUserMessage(text) {
-    appendUserMessage(text);
-    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_message_sent', query: text });
+  function handleUserMessage(text, isVoice) {
+    appendUserMessage(text, isVoice);
+    if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_message_sent', query: text, is_voice: !!isVoice });
 
     // Typing simulation
     const typingId = appendTypingIndicator();
@@ -254,17 +289,24 @@
     setTimeout(function() {
       removeTypingIndicator(typingId);
       if (window.NexConciergeEngine) {
-        const response = window.NexConciergeEngine.processMessage(text);
-        renderConciergeResponse(response);
+        try {
+          const response = window.NexConciergeEngine.processMessage(text);
+          renderConciergeResponse(response);
+        } catch (err) {
+          renderConciergeResponse({ text: 'I ran into a hiccup with that request — could you rephrase it?' });
+        }
+      } else {
+        renderConciergeResponse({ text: 'I can help you explore our collection. What are you shopping for?' });
       }
     }, 450);
   }
 
-  function appendUserMessage(text) {
+  function appendUserMessage(text, isVoice) {
     if (!streamEl) return;
     const wrapper = document.createElement('div');
     wrapper.className = 'msg-user-wrapper';
-    wrapper.innerHTML = `<div class="msg-user">${escapeHtml(text)}</div>`;
+    const voiceTag = isVoice ? `<div class="voice-tag-line"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg> Spoken query</div>` : '';
+    wrapper.innerHTML = `<div class="msg-user ${isVoice ? 'spoken-query' : ''}">${voiceTag}${escapeHtml(text)}</div>`;
     streamEl.appendChild(wrapper);
     scrollToBottom();
   }
@@ -287,12 +329,192 @@
     if (el) el.remove();
   }
 
+  function initVoiceAI() {
+    // 1. Voice Audio Toggle Button in Header
+    if (voiceToggleBtnEl) {
+      voiceToggleBtnEl.addEventListener('click', function(e) {
+        e.preventDefault();
+        isVoiceEnabled = !isVoiceEnabled;
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('nex_stylist_voice_muted', isVoiceEnabled ? 'false' : 'true');
+        }
+        if (isVoiceEnabled) {
+          voiceToggleBtnEl.classList.add('active');
+          voiceToggleBtnEl.setAttribute('title', 'Stylist Voice Active (Click to mute)');
+        } else {
+          voiceToggleBtnEl.classList.remove('active');
+          voiceToggleBtnEl.setAttribute('title', 'Stylist Voice Muted (Click to enable)');
+          stopVoice();
+        }
+      });
+    }
+
+    // 2. Setup Web Speech Recognition
+    const SpeechRecognition = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
+    if (SpeechRecognition) {
+      try {
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = function() {
+          isListening = true;
+          setListeningUI(true);
+        };
+
+        recognition.onresult = function(event) {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            transcript += event.results[i][0].transcript;
+          }
+          if (inputEl) inputEl.value = transcript;
+          if (event.results[0] && event.results[0].isFinal) {
+            stopListening();
+            if (transcript.trim()) {
+              handleUserMessage(transcript.trim(), true /* isVoice */);
+            }
+          }
+        };
+
+        recognition.onerror = function(err) {
+          console.warn('[Voice AI] Speech recognition error:', err.error);
+          stopListening();
+        };
+
+        recognition.onend = function() {
+          stopListening();
+        };
+      } catch (e) {
+        console.warn('[Voice AI] SpeechRecognition init failed:', e);
+      }
+    }
+
+    // 3. Mic button click trigger
+    if (micBtnEl) {
+      micBtnEl.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!recognition) {
+          alert('Speech Recognition is not supported in this browser. Please use Chrome, Edge, or Safari.');
+          return;
+        }
+        if (isListening) {
+          stopListening();
+        } else {
+          try {
+            recognition.start();
+          } catch (err) {
+            stopListening();
+          }
+        }
+      });
+    }
+
+    // 4. Cancel Voice button
+    if (voiceCancelBtnEl) {
+      voiceCancelBtnEl.addEventListener('click', function(e) {
+        e.preventDefault();
+        stopListening();
+        if (inputEl) inputEl.value = '';
+      });
+    }
+  }
+
+  function setListeningUI(active) {
+    if (!formEl) return;
+    if (active) {
+      formEl.classList.add('listening');
+      if (voiceWaveEl) voiceWaveEl.style.display = 'flex';
+      if (voiceCancelBtnEl) voiceCancelBtnEl.style.display = 'flex';
+      if (micBtnEl) micBtnEl.style.display = 'none';
+      if (inputEl) inputEl.placeholder = 'Listening... Speak now';
+    } else {
+      formEl.classList.remove('listening');
+      if (voiceWaveEl) voiceWaveEl.style.display = 'none';
+      if (voiceCancelBtnEl) voiceCancelBtnEl.style.display = 'none';
+      if (micBtnEl) micBtnEl.style.display = 'flex';
+      if (inputEl) inputEl.placeholder = 'Ask about style, size, or tap mic...';
+    }
+  }
+
+  function stopListening() {
+    isListening = false;
+    if (recognition) {
+      try { recognition.stop(); } catch (e) {}
+    }
+    setListeningUI(false);
+  }
+
+  function stopVoice() {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  }
+
+  function speakVoice(text, audioBarId) {
+    if (!isVoiceEnabled || typeof window === 'undefined' || !('speechSynthesis' in window) || !text) return;
+    stopVoice();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.05;
+
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Natural') || (v.lang && v.lang.startsWith('en') && v.name.includes('Google')));
+    if (preferredVoice) utterance.voice = preferredVoice;
+
+    currentUtterance = utterance;
+
+    const audioBarEl = audioBarId ? document.getElementById(audioBarId) : null;
+    const playBtn = audioBarEl ? audioBarEl.querySelector('.audio-play-btn') : null;
+    const labelEl = audioBarEl ? audioBarEl.querySelector('.audio-time-label') : null;
+
+    utterance.onstart = function() {
+      if (labelEl) labelEl.textContent = 'Speaking...';
+      if (playBtn) playBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+    };
+
+    utterance.onend = function() {
+      if (labelEl) labelEl.textContent = 'Play Voice Summary';
+      if (playBtn) playBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    };
+
+    utterance.onerror = function() {
+      if (labelEl) labelEl.textContent = 'Voice Audio';
+      if (playBtn) playBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
   function renderConciergeResponse(response) {
     const wrapper = document.createElement('div');
     wrapper.className = 'msg-concierge-wrapper';
 
     const formattedText = formatMarkdownText(response.text || '');
     let html = `<div class="msg-concierge-text">${formattedText}</div>`;
+
+    const audioBarId = 'audioBar_' + Date.now();
+    if (response.spokenSummary) {
+      html += `
+        <div id="${audioBarId}" class="stylist-audio-bar" data-spoken="${escapeHtml(response.spokenSummary)}">
+          <button type="button" class="audio-play-btn" aria-label="Play or Pause Stylist Voice" title="Play Voice">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <div class="mini-waveform" aria-hidden="true">
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+            <div class="mini-wave-bar"></div>
+          </div>
+          <span class="audio-time-label">Speaking...</span>
+        </div>
+      `;
+    }
 
     // 1. Look Bundle Widget
     if (response.type === 'bundle_look' || (response.isBundleLook && response.products && response.products.length > 0)) {
@@ -323,6 +545,28 @@
 
     wrapper.innerHTML = html;
     streamEl.appendChild(wrapper);
+
+    // Audio Playback Attachment
+    if (response.spokenSummary) {
+      speakVoice(response.spokenSummary, audioBarId);
+      const barEl = document.getElementById(audioBarId);
+      if (barEl) {
+        const pBtn = barEl.querySelector('.audio-play-btn');
+        if (pBtn) {
+          pBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
+              stopVoice();
+              const label = barEl.querySelector('.audio-time-label');
+              if (label) label.textContent = 'Play Voice Summary';
+              pBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+            } else {
+              speakVoice(response.spokenSummary, audioBarId);
+            }
+          });
+        }
+      }
+    }
 
     // Update suggested prompt chips
     renderChips(response.suggestedChips || []);
@@ -701,7 +945,7 @@
   }
 
   function handleTrackOrderSubmit(btn) {
-    const trackerCard = btn.closest('.concierge-tracker-card');
+    const trackerCard = btn.closest('.concierge-tracker-stepper');
     if (!trackerCard) return;
     const input = trackerCard.querySelector('input');
     if (!input || !input.value.trim()) return;
