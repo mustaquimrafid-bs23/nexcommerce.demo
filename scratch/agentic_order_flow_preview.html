@@ -733,13 +733,13 @@
     function speakSpokenText(text) {
       return new Promise((resolve) => {
         if (!('speechSynthesis' in window) || !text) {
-          setTimeout(resolve, 350);
+          setTimeout(resolve, 600);
           return;
         }
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text);
         utter.pitch = 1.0;
-        utter.rate = 1.0; // Clear, comfortable conversational pace
+        utter.rate = 0.90; // Relaxed, crystal-clear conversational pace
 
         const clearVoice = getClearMaleVoice();
         if (clearVoice) utter.voice = clearVoice;
@@ -754,7 +754,7 @@
         // Safety timeout
         setTimeout(() => {
           if (!done) { done = true; resolve(); }
-        }, 4000);
+        }, 6000);
 
         window.speechSynthesis.speak(utter);
       });
@@ -794,17 +794,17 @@
       if (el) el.remove();
     }
 
-    // Interactive message router with minimum delay
+    // Interactive message router with natural timing
     async function handleUserMessage(text, isVoice) {
       appendUserMessage(text, isVoice);
       
       // If voice mode, speak the user utterance first
       if (isVoice) {
-        await speakSpokenText(text, 'user');
+        await speakSpokenText(text);
       }
 
       appendTyping();
-      await new Promise(r => setTimeout(r, 250)); // Snappy 250ms processing
+      await new Promise(r => setTimeout(r, 650)); // Natural thinking & typing pause
       removeTyping();
 
       const low = text.toLowerCase();
@@ -844,7 +844,7 @@
         modeBadge.textContent = '✅ Confirmed';
         modeBadge.style.color = '#10b981';
         if (isVoice) {
-          await speakSpokenText('Order NX-4829-M placed successfully! Preparing for express dispatch.', 'ai');
+          await speakSpokenText('Order NX-4829-M placed successfully! Preparing for express dispatch.');
         }
         return;
       }
@@ -888,7 +888,7 @@
         scrollBottom();
         setChips(['Authorize & place order now', 'Change address', 'Change payment']);
         if (isVoice) {
-          await speakSpokenText('Here is your order summary totaling € 279. Tap authorize to confirm your order.', 'ai');
+          await speakSpokenText('Here is your order summary totaling € 279. Tap authorize to confirm your order.');
         }
         return;
       }
@@ -926,7 +926,7 @@
         scrollBottom();
         setChips(['Pay with Apple Pay', 'Pay with Card •••• 4242', 'Pay with Klarna']);
         if (isVoice) {
-          await speakSpokenText('Address confirmed! Please choose how you would like to pay.', 'ai');
+          await speakSpokenText('Address confirmed! Please choose how you would like to pay.');
         }
         return;
       }
@@ -962,7 +962,7 @@
       scrollBottom();
       setChips(['Confirm Munich Address', 'Deliver to Berlin', 'Enter new address']);
       if (isVoice) {
-        await speakSpokenText('Where should we deliver your order today? You can use your saved address or dictate a new one.', 'ai');
+        await speakSpokenText('Where should we deliver your order today? You can use your saved address or dictate a new one.');
       }
     }
 
@@ -982,7 +982,7 @@
     });
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 1. FAST FULL-JOURNEY VOICE ORDER DEMO (Minimal Delay, Two-Way Spoken)
+    // 1. COMFORTABLE-PACED VOICE ORDER DEMO (Two-Way Spoken, Clear & Relaxed)
     // ═══════════════════════════════════════════════════════════════════════
     document.getElementById('btnRunVoiceDemo').onclick = async () => {
       resetStream();
@@ -990,30 +990,30 @@
       isVoiceModeActive = true;
       modeBadge.textContent = '🎙️ Voice Active';
       modeBadge.style.color = '#F13365';
-      statusText.textContent = 'Playing two-way spoken voice dialogue between User & AI Stylist...';
+      statusText.textContent = 'Playing two-way spoken voice conversation at a comfortable, natural pace...';
 
       // Turn 1: Order Initiation
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('I want to place an order for my bag', true);
 
-      // Turn 2: Address Confirmation (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 2: Address Confirmation (Comfortable 1800ms pause)
+      await new Promise(r => setTimeout(r, 1800));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Deliver to Maximilianstraße 34 in Munich', true);
 
-      // Turn 3: Payment Choice (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 3: Payment Choice (Comfortable 1800ms pause)
+      await new Promise(r => setTimeout(r, 1800));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Pay with Apple Pay', true);
 
-      // Turn 4: Final Confirmation (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 4: Final Confirmation (Comfortable 1800ms pause)
+      await new Promise(r => setTimeout(r, 1800));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Authorize and place my order now', true);
     };
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 2. FAST FULL-JOURNEY TEXT ORDER DEMO (Minimal Delay)
+    // 2. COMFORTABLE-PACED TEXT ORDER DEMO (Reading Paced)
     // ═══════════════════════════════════════════════════════════════════════
     document.getElementById('btnRunTextDemo').onclick = async () => {
       resetStream();
@@ -1021,24 +1021,24 @@
       isVoiceModeActive = false;
       modeBadge.textContent = '💬 Text Active';
       modeBadge.style.color = '#3de0ff';
-      statusText.textContent = 'Playing fast text conversation with live widget transitions...';
+      statusText.textContent = 'Playing text conversation at a comfortable reading pace...';
 
       // Turn 1
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('I want to place an order', false);
 
-      // Turn 2 (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 2 (Comfortable 2000ms pause)
+      await new Promise(r => setTimeout(r, 2000));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Confirm address: Maximilianstraße 34, Munich', false);
 
-      // Turn 3 (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 3 (Comfortable 2000ms pause)
+      await new Promise(r => setTimeout(r, 2000));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Pay with Card •••• 4242', false);
 
-      // Turn 4 (300ms minimal transition)
-      await new Promise(r => setTimeout(r, 300));
+      // Turn 4 (Comfortable 2000ms pause)
+      await new Promise(r => setTimeout(r, 2000));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Authorize & place order now', false);
     };

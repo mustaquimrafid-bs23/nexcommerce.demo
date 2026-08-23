@@ -319,11 +319,11 @@
 
   async function runVoiceOrderDemo() {
     handleUserMessage('I want to place an order for my bag', true);
-    await new Promise(r => setTimeout(r, 1400));
+    await new Promise(r => setTimeout(r, 2800));
     handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', true);
-    await new Promise(r => setTimeout(r, 1400));
+    await new Promise(r => setTimeout(r, 2800));
     handleUserMessage('Pay with Apple Pay', true);
-    await new Promise(r => setTimeout(r, 1400));
+    await new Promise(r => setTimeout(r, 2800));
     if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
       try { window.nexCart.clear(); } catch (e) {}
     }
@@ -332,11 +332,11 @@
 
   async function runTextOrderDemo() {
     handleUserMessage('I want to place an order', false);
-    await new Promise(r => setTimeout(r, 900));
+    await new Promise(r => setTimeout(r, 2200));
     handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', false);
-    await new Promise(r => setTimeout(r, 900));
+    await new Promise(r => setTimeout(r, 2200));
     handleUserMessage('Pay with Card •••• 4242', false);
-    await new Promise(r => setTimeout(r, 900));
+    await new Promise(r => setTimeout(r, 2200));
     if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
       try { window.nexCart.clear(); } catch (e) {}
     }
@@ -538,7 +538,7 @@
     stopVoice();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
+    utterance.rate = 0.90; // Relaxed, clear conversational speed
     utterance.pitch = 1.0;
 
     const preferredVoice = getConciergeVoice();
