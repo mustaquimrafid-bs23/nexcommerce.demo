@@ -39,7 +39,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
       min-height: 100vh;
     }
 
@@ -190,7 +190,7 @@
     /* Live Player Shell */
     .player-drawer-shell {
       width: 100%;
-      height: 650px;
+      height: 680px;
       background: var(--bg-drawer);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 14px;
@@ -243,23 +243,25 @@
       line-height: 1.4;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
       animation: msgPop 0.25s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .msg-user-row.spoken {
-      background: linear-gradient(135deg, #e11d48, #F13365);
+      background: linear-gradient(135deg, #d9144a, #F13365);
       border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 14px rgba(241, 51, 101, 0.3);
     }
 
     .voice-tag {
       font-size: 10px;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       gap: 4px;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.05em;
     }
 
     .msg-ai-row {
@@ -566,11 +568,11 @@
   <header class="page-header">
     <div class="status-pill">
       <span class="pulse-dot"></span>
-      Interactive Order Flow Simulator
+      Interactive Voice & Text Order Simulator
     </div>
-    <h1 class="page-title">Conversational In-Drawer <span>Order Flow</span></h1>
+    <h1 class="page-title">Voice AI <span>Order Journey</span></h1>
     <p class="page-subtitle">
-      Click either demo button below to watch the live conversation, or type and speak interactively to place an order.
+      Watch the full two-way voice conversation between customer and AI stylist with minimal delay, or try it interactively.
     </p>
   </header>
 
@@ -584,21 +586,21 @@
           ▶ Live Ordering Conversation Player
         </div>
         <div style="font-size: 12px; color: var(--text-soft);" id="demoPlayerStatus">
-          Select a mode below to simulate the end-to-end conversation:
+          Click below to start the fast full-journey voice demo:
         </div>
       </div>
 
       <div class="demo-buttons-group">
-        <!-- DEMO BUTTON 1: VOICE -->
+        <!-- DEMO BUTTON 1: FAST FULL-JOURNEY VOICE -->
         <button type="button" class="btn-demo-primary btn-demo-voice" id="btnRunVoiceDemo">
           <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
-          <span>1. Simulate Voice Order Demo</span>
+          <span>1. Play Full Voice Order Journey</span>
         </button>
 
-        <!-- DEMO BUTTON 2: TEXT -->
+        <!-- DEMO BUTTON 2: FAST FULL-JOURNEY TEXT -->
         <button type="button" class="btn-demo-primary btn-demo-text" id="btnRunTextDemo">
           <i data-lucide="message-square" style="width: 15px; height: 15px;"></i>
-          <span>2. Simulate Text Order Demo</span>
+          <span>2. Play Full Text Order Journey</span>
         </button>
 
         <!-- RESET -->
@@ -614,7 +616,7 @@
       <div class="player-header">
         <div class="player-title">
           <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-magenta);"></i>
-          <span>Ask Stylist &mdash; Ordering Agent</span>
+          <span>Ask Stylist &mdash; Voice Ordering Assistant</span>
         </div>
         <span style="font-size: 11px; color: var(--accent-cyan); font-weight: 600;" id="playerModeBadge">Ready</span>
       </div>
@@ -658,14 +660,14 @@
     const playerForm = document.getElementById('playerForm');
     const playerMicBtn = document.getElementById('playerMicBtn');
 
-    let currentOrderState = 'idle'; // idle | address | payment | review | confirmed
+    let currentOrderState = 'idle';
     let isVoiceModeActive = false;
     let cancelSimulationToken = 0;
 
     function scrollBottom() {
       setTimeout(() => {
         stream.scrollTop = stream.scrollHeight;
-      }, 50);
+      }, 30);
     }
 
     function resetStream() {
@@ -679,7 +681,7 @@
           <div>Good to see you. I can help curate looks, check sizing, or place your order directly. What are you shopping for today?</div>
         </div>
       `;
-      statusText.textContent = 'Select a mode below to simulate the end-to-end conversation:';
+      statusText.textContent = 'Click below to start the fast full-journey voice demo:';
       modeBadge.textContent = 'Ready';
       modeBadge.style.color = '#3de0ff';
       setChips(['I want to place an order', 'Deliver to Munich', 'Pay with Apple Pay', 'Authorize & place order now']);
@@ -709,20 +711,28 @@
       handleUserMessage(val, isVoiceModeActive);
     });
 
-    // Voice Synthesis with onend promise
-    function speakSpokenText(text) {
+    // High-performance speech synthesis for both User & AI with minimal delay
+    function speakSpokenText(text, role) {
       return new Promise((resolve) => {
         if (!('speechSynthesis' in window) || !text) {
-          setTimeout(resolve, 800);
+          setTimeout(resolve, 350);
           return;
         }
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = 1.0;
-        utter.pitch = 1.05;
         const voices = window.speechSynthesis.getVoices();
-        const pref = voices.find(v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Google') || v.lang.startsWith('en'));
-        if (pref) utter.voice = pref;
+
+        if (role === 'user') {
+          utter.pitch = 0.95;
+          utter.rate = 1.18;
+          const maleVoice = voices.find(v => (v.name.includes('David') || v.name.includes('George') || v.name.includes('Alex') || v.name.includes('Male')) && v.lang.startsWith('en'));
+          if (maleVoice) utter.voice = maleVoice;
+        } else {
+          utter.pitch = 1.08;
+          utter.rate = 1.12;
+          const femaleVoice = voices.find(v => (v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Google') || v.name.includes('Zira') || v.name.includes('Female')) && v.lang.startsWith('en'));
+          if (femaleVoice) utter.voice = femaleVoice;
+        }
         
         let done = false;
         utter.onend = () => {
@@ -731,9 +741,10 @@
         utter.onerror = () => {
           if (!done) { done = true; resolve(); }
         };
+        // Safety timeout to prevent hanging
         setTimeout(() => {
           if (!done) { done = true; resolve(); }
-        }, 5000);
+        }, 3200);
 
         window.speechSynthesis.speak(utter);
       });
@@ -745,7 +756,11 @@
       if (isSpoken) {
         el.innerHTML = `
           <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
-          <div>"${text}"</div>
+          <div style="font-weight:600;">"${text}"</div>
+          <div class="audio-player-bar" style="background:rgba(0,0,0,0.22);border-color:rgba(255,255,255,0.2);padding:4px 8px;">
+            <div class="mini-wave" style="filter:hue-rotate(300deg);"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:9.5px;color:#fff;opacity:0.9;">User Speaking...</span>
+          </div>
         `;
       } else {
         el.textContent = text;
@@ -769,11 +784,17 @@
       if (el) el.remove();
     }
 
-    // Interactive message router
+    // Interactive message router with minimum delay
     async function handleUserMessage(text, isVoice) {
       appendUserMessage(text, isVoice);
+      
+      // If voice mode, speak the user utterance first
+      if (isVoice) {
+        await speakSpokenText(text, 'user');
+      }
+
       appendTyping();
-      await new Promise(r => setTimeout(r, 600));
+      await new Promise(r => setTimeout(r, 250)); // Snappy 250ms processing
       removeTyping();
 
       const low = text.toLowerCase();
@@ -787,7 +808,7 @@
           ${isVoice ? `
             <div class="audio-player-bar">
               <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Confirmation...</span>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Stylist Speaking...</span>
             </div>
           ` : ''}
           <div class="confirmed-banner">
@@ -817,7 +838,7 @@
         modeBadge.textContent = '✅ Confirmed';
         modeBadge.style.color = '#10b981';
         if (isVoice) {
-          await speakSpokenText('Order NX-4829-M placed successfully! Preparing for express dispatch.');
+          await speakSpokenText('Order NX-4829-M placed successfully! Preparing for express dispatch.', 'ai');
         }
         return;
       }
@@ -836,7 +857,7 @@
           ${isVoice ? `
             <div class="audio-player-bar">
               <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Order Summary...</span>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Stylist Speaking...</span>
             </div>
           ` : ''}
           <div>Here is your verified order summary totaling <strong>€ 256.50</strong> with FREE Express Delivery:</div>
@@ -861,7 +882,7 @@
         scrollBottom();
         setChips(['Authorize & place order now', 'Change address', 'Change payment']);
         if (isVoice) {
-          await speakSpokenText('Here is your order summary totaling € 279. Tap authorize to confirm your order.');
+          await speakSpokenText('Here is your order summary totaling € 279. Tap authorize to confirm your order.', 'ai');
         }
         return;
       }
@@ -875,7 +896,7 @@
           ${isVoice ? `
             <div class="audio-player-bar">
               <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Payment Options...</span>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Stylist Speaking...</span>
             </div>
           ` : ''}
           <div>Address confirmed for <strong>Munich</strong>! Please choose how you would like to pay:</div>
@@ -899,7 +920,7 @@
         scrollBottom();
         setChips(['Pay with Apple Pay', 'Pay with Card •••• 4242', 'Pay with Klarna']);
         if (isVoice) {
-          await speakSpokenText('Address confirmed! Please choose how you would like to pay.');
+          await speakSpokenText('Address confirmed! Please choose how you would like to pay.', 'ai');
         }
         return;
       }
@@ -912,7 +933,7 @@
         ${isVoice ? `
           <div class="audio-player-bar">
             <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-            <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Delivery Address...</span>
+            <span style="font-size:11px;color:#3de0ff;font-weight:600;">Stylist Speaking...</span>
           </div>
         ` : ''}
         <div>Where should we deliver your order today? You can use your saved default address or dictate a new destination:</div>
@@ -935,7 +956,7 @@
       scrollBottom();
       setChips(['Confirm Munich Address', 'Deliver to Berlin', 'Enter new address']);
       if (isVoice) {
-        await speakSpokenText('Where should we deliver your order today? You can use your saved address or dictate a new one.');
+        await speakSpokenText('Where should we deliver your order today? You can use your saved address or dictate a new one.', 'ai');
       }
     }
 
@@ -955,7 +976,7 @@
     });
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 1. SIMULATE VOICE ORDER CONVERSATION DEMO (4 Automated Turns)
+    // 1. FAST FULL-JOURNEY VOICE ORDER DEMO (Minimal Delay, Two-Way Spoken)
     // ═══════════════════════════════════════════════════════════════════════
     document.getElementById('btnRunVoiceDemo').onclick = async () => {
       resetStream();
@@ -963,30 +984,30 @@
       isVoiceModeActive = true;
       modeBadge.textContent = '🎙️ Voice Active';
       modeBadge.style.color = '#F13365';
-      statusText.textContent = 'Playing multi-turn voice dialogue with live audio speech...';
+      statusText.textContent = 'Playing two-way spoken voice dialogue between User & AI Stylist...';
 
-      // Turn 1
+      // Turn 1: Order Initiation
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('I want to place an order for my bag', true);
 
-      // Turn 2
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 2: Address Confirmation (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
-      await handleUserMessage('Deliver to Maximilianstraße in Munich', true);
+      await handleUserMessage('Deliver to Maximilianstraße 34 in Munich', true);
 
-      // Turn 3
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 3: Payment Choice (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Pay with Apple Pay', true);
 
-      // Turn 4
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 4: Final Confirmation (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
-      await handleUserMessage('Authorize and place order now', true);
+      await handleUserMessage('Authorize and place my order now', true);
     };
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 2. SIMULATE TEXT ORDER CONVERSATION DEMO (4 Automated Turns)
+    // 2. FAST FULL-JOURNEY TEXT ORDER DEMO (Minimal Delay)
     // ═══════════════════════════════════════════════════════════════════════
     document.getElementById('btnRunTextDemo').onclick = async () => {
       resetStream();
@@ -994,24 +1015,24 @@
       isVoiceModeActive = false;
       modeBadge.textContent = '💬 Text Active';
       modeBadge.style.color = '#3de0ff';
-      statusText.textContent = 'Playing multi-turn text conversation with interactive widgets...';
+      statusText.textContent = 'Playing fast text conversation with live widget transitions...';
 
       // Turn 1
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('I want to place an order', false);
 
-      // Turn 2
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 2 (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Confirm address: Maximilianstraße 34, Munich', false);
 
-      // Turn 3
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 3 (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Pay with Card •••• 4242', false);
 
-      // Turn 4
-      await new Promise(r => setTimeout(r, 1400));
+      // Turn 4 (300ms minimal transition)
+      await new Promise(r => setTimeout(r, 300));
       if (myToken !== cancelSimulationToken) return;
       await handleUserMessage('Authorize & place order now', false);
     };
@@ -1023,7 +1044,7 @@
         setTimeout(() => {
           playerMicBtn.classList.remove('listening');
           handleUserMessage('Place an order for my cart', true);
-        }, 1200);
+        }, 1000);
         return;
       }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

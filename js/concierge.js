@@ -210,7 +210,13 @@
         closeDrawer();
       } else if (action === 'send-chip') {
         const text = actionEl.getAttribute('data-chip-text');
-        if (text) handleUserMessage(text);
+        if (text === 'Place an order (Voice Demo)') {
+          runVoiceOrderDemo();
+        } else if (text === 'Place an order (Text Demo)') {
+          runTextOrderDemo();
+        } else if (text) {
+          handleUserMessage(text);
+        }
       } else if (action === 'add-to-bag') {
         handleAddToCart(actionEl);
       } else if (action === 'add-look-bundle') {
@@ -309,6 +315,32 @@
       lastActiveTrigger.focus();
     }
     if (window.dataLayer) window.dataLayer.push({ event: 'nex_stylist_closed' });
+  }
+
+  async function runVoiceOrderDemo() {
+    handleUserMessage('I want to place an order for my bag', true);
+    await new Promise(r => setTimeout(r, 1400));
+    handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', true);
+    await new Promise(r => setTimeout(r, 1400));
+    handleUserMessage('Pay with Apple Pay', true);
+    await new Promise(r => setTimeout(r, 1400));
+    if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
+      try { window.nexCart.clear(); } catch (e) {}
+    }
+    handleUserMessage('Authorize & place order now', true);
+  }
+
+  async function runTextOrderDemo() {
+    handleUserMessage('I want to place an order', false);
+    await new Promise(r => setTimeout(r, 900));
+    handleUserMessage('Confirm address: Maximilianstraße 34, 80539 Munich', false);
+    await new Promise(r => setTimeout(r, 900));
+    handleUserMessage('Pay with Card •••• 4242', false);
+    await new Promise(r => setTimeout(r, 900));
+    if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
+      try { window.nexCart.clear(); } catch (e) {}
+    }
+    handleUserMessage('Authorize & place order now', false);
   }
 
   function handleUserMessage(text, isVoice) {
