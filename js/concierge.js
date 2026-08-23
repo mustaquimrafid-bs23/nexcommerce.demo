@@ -166,22 +166,10 @@
   }
 
   function initConciergeLogic() {
-    // 1. Floating Pill Scroll Detection
-    let lastScrollY = window.scrollY;
-    function handleScroll() {
-      if (window.scrollY > 200) {
-        if (floatingPillEl) floatingPillEl.classList.add('visible');
-      } else {
-        if (floatingPillEl) floatingPillEl.classList.remove('visible');
-      }
-      lastScrollY = window.scrollY;
+    // 1. Floating Pill Always Visible
+    if (floatingPillEl) {
+      floatingPillEl.classList.add('visible');
     }
-
-    if (window._nexLenis) {
-      window._nexLenis.on('scroll', handleScroll);
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
 
     // 2. Open Triggers (Global Header Button, Floating Pill, PDP Trigger)
     document.addEventListener('click', function(e) {
