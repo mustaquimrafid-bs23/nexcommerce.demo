@@ -167,6 +167,19 @@
       if (!payload) return 'I have updated your recommendations.';
       if (payload.spokenSummary) return payload.spokenSummary;
 
+      if (payload.type === 'order_address') {
+        return 'Where should we deliver your order? You can use your saved address or enter a new one.';
+      }
+      if (payload.type === 'order_payment') {
+        return 'Address confirmed! Please choose how you would like to pay.';
+      }
+      if (payload.type === 'order_review') {
+        const total = (payload.widgetPayload && payload.widgetPayload.totalDue) ? payload.widgetPayload.totalDue : 279;
+        return `Here is your order summary totaling € ${total}. Tap authorize to confirm your order.`;
+      }
+      if (payload.type === 'order_confirmed') {
+        return `Order ${payload.orderCode || 'NX-4829-M'} placed successfully! Your pieces are being prepared for express dispatch.`;
+      }
       if (payload.type === 'bundle_look' || payload.isBundleLook) {
         const total = (payload.products || []).reduce((acc, p) => acc + (p.numericPrice || 0), 0);
         return `I have curated a complete outfit for you totaling € ${total}. All pieces are ready to add to your bag.`;
@@ -213,7 +226,7 @@
       let rawText = text.toLowerCase().trim();
       const cleaned = this._cleanVoiceQuery(text).toLowerCase();
       // Match against cleaned query if cleaner stripped meaningful prefix
-      if (cleaned.length > 3 && !/\b(slip|compare|budget|promo|track|size|care)\b/.test(rawText) && /\b(slip|compare|budget|promo|track|size|care|outfit|look|jacket|blazer|shoe|sweater|watch|fit)\b/.test(cleaned)) {
+      if (cleaned.length > 3 && !/\b(slip|compare|budget|promo|track|size|care|order|checkout|pay|address|authorize)\b/.test(rawText) && /\b(slip|compare|budget|promo|track|size|care|outfit|look|jacket|blazer|shoe|sweater|watch|fit|order|checkout|pay|address|authorize)\b/.test(cleaned)) {
         rawText = cleaned;
       }
       const catalog = this._getCatalog();
@@ -235,6 +248,120 @@
      * Internal query evaluator.
      */
     _evaluateQuery(rawText, text, catalog, ctx) {
+
+      // ── 0A. AGENTIC IN-DRAWER ORDER & CHECKOUT FLOW ──────────────────────
+      
+      // Step 4: Final Order Authorization
+      if (/\b(authorize|confirm order|place order now|authorize & place order|pay now|finalize order)\b/i.test(rawText)) {
+        this.lastQueryType = 'order_confirmed';
+        const orderNum = Math.floor(1000 + Math.random() * 9000);
+        const orderCode = `NX-${orderNum}-M`;
+        const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+        return {
+          type: 'order_confirmed',
+          text: `**Order Confirmed & Placed!** · Code **\`${orderCode}\`**\n\nYour order has been encrypted and received. We are preparing your package for express dispatch from our **Munich Hub**.`,
+          orderCode: orderCode,
+          widgetPayload: {
+            orderCode: orderCode,
+            date: dateStr,
+            destination: 'Maximilianstraße 34, 80539 Munich, Germany',
+            carrier: 'DHL Express Priority Courier',
+            trackingSteps: [
+              { label: 'Order Received & Encrypted', time: 'Just now · Verified', done: true },
+              { label: 'Quality Inspection in Munich Hub', time: 'In Progress · Expected 23:00', active: true },
+              { label: 'Out for Express Courier Dispatch', time: 'Tomorrow, 09:30', pending: true }
+            ]
+          },
+          actionLink: { text: 'VIEW FULL ORDER DETAILS & INVOICE →', url: 'orders.html' },
+          products: [],
+          suggestedChips: ['Track my order', 'Delivery times', '14-Day return policy']
+        };
+      }
+
+      // Step 3: Payment Method Selected -> Order Review
+      if (/\b(pay with (card|apple pay|google pay|klarna|cash)|select payment|use (card|apple pay|klarna|cash on delivery)|card •••• 4242|proceed to review)\b/i.test(rawText)) {
+        this.lastQueryType = 'order_review';
+        let method = 'Card •••• 4242 (Visa)';
+        if (/apple pay/i.test(rawText)) method = 'Apple Pay (1-Touch Biometric)';
+        else if (/google pay/i.test(rawText)) method = 'Google Pay';
+        else if (/klarna/i.test(rawText)) method = 'Klarna Pay Later (30 Days)';
+        else if (/cash/i.test(rawText)) method = 'Cash on Delivery (Courier)';
+
+        const cartItems = (typeof window !== 'undefined' && window.nexCart && window.nexCart.items && window.nexCart.items.length > 0)
+          ? window.nexCart.items
+          : [
+              { title: 'Architectural Cashmere Sweater', size: 'M', numericPrice: 185 },
+              { title: 'Minimalist Leather Runner', size: '42', numericPrice: 125 }
+            ];
+
+        const subtotal = cartItems.reduce((acc, item) => acc + (item.numericPrice || item.price || 0), 0);
+        const discount = Math.round(subtotal * 0.1);
+        const totalDue = subtotal - discount;
+
+        return {
+          type: 'order_review',
+          text: `**Order Summary & Final Authorization**\n\nReview your order details below. Everything is verified and ready for instant authorization.`,
+          widgetPayload: {
+            items: cartItems,
+            paymentMethod: method,
+            address: 'Maximilianstraße 34, 80539 Munich, Germany',
+            subtotal: subtotal,
+            discountCode: 'WELCOME10 (-10%)',
+            discountAmount: discount,
+            shipping: 'FREE (DHL Express Courier)',
+            totalDue: totalDue
+          },
+          actionLink: { text: 'VIEW FULL CHECKOUT PAGE →', url: 'checkout.html' },
+          products: [],
+          suggestedChips: ['Authorize & place order now', 'Change address', 'Change payment method']
+        };
+      }
+
+      // Step 2: Address Confirmed -> Payment Method Selection
+      if (/\b(confirm address|deliver to|use saved address|address:|ship to|delivery address)\b/i.test(rawText)) {
+        this.lastQueryType = 'order_payment';
+        const address = 'Maximilianstraße 34, 80539 Munich, Germany';
+
+        return {
+          type: 'order_payment',
+          text: `**Select Preferred Payment Method**\n\nDelivery address set to **${address}**.\nPlease choose how you'd like to pay for your pieces:`,
+          widgetPayload: {
+            address: address,
+            paymentMethods: [
+              { id: 'card', name: 'Credit / Debit Card', details: '•••• 4242 (Visa / MC)', badge: 'Default', selected: true },
+              { id: 'apple_pay', name: 'Apple Pay / Google Pay', details: '1-Touch Biometric', badge: 'Instant', selected: false },
+              { id: 'klarna', name: 'Klarna Pay Later', details: 'Pay in 30 Days', badge: '0% APR', selected: false },
+              { id: 'cod', name: 'Cash on Delivery', details: 'Direct Courier Payment', badge: 'Courier', selected: false }
+            ]
+          },
+          actionLink: { text: 'PROCEED TO CHECKOUT PAGE →', url: 'checkout.html' },
+          products: [],
+          suggestedChips: ['Pay with Card •••• 4242', 'Pay with Apple Pay', 'Pay with Klarna', 'Pay with Cash']
+        };
+      }
+
+      // Step 1: Start Order Flow / Delivery Address Collection
+      if (/\b(place (an )?order|order (my )?(bag|cart|items|now)|buy (this )?(outfit|look|now|cart|bag)|checkout with voice|checkout my bag|start order|ready to (pay|order|buy)|i want to (place an order|order|buy))\b/i.test(rawText)) {
+        this.lastQueryType = 'order_address';
+        return {
+          type: 'order_address',
+          text: `**Delivery Address & Fulfillment**\n\nWhere should we deliver your order today? You can use your saved default address or enter a new destination:`,
+          widgetPayload: {
+            defaultAddress: {
+              name: 'Julian Wright',
+              street: 'Maximilianstraße 34',
+              city: 'Munich',
+              postcode: '80539',
+              country: 'Germany',
+              formatted: 'Maximilianstraße 34, 80539 Munich, Germany'
+            }
+          },
+          actionLink: { text: 'GO TO FULL CHECKOUT →', url: 'checkout.html' },
+          products: [],
+          suggestedChips: ['Confirm address: Maximilianstraße 34, Munich', 'Enter new address', 'View bag']
+        };
+      }
 
       // ── 0. SLIP TO CART / SHOPPING LIST AGENT WIDGET (Capability 4) ─────
       if (/\b(upload.*slip|shopping slip|slip to cart|scan.*list|grocery list|shopping list|paste.*list|upload.*list|grocery slip)\b/i.test(rawText)) {
