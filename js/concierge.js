@@ -28,19 +28,23 @@
   let currentUtterance = null;
 
   function resolveHref(target) {
-    if (!target) return '#';
+    if (!target || target === '#') return '#';
+    if (target.startsWith('http://') || target.startsWith('https://') || target.startsWith('mailto:') || target.startsWith('tel:')) return target;
+
     const isInPages = typeof window !== 'undefined' && (window.location.pathname.includes('/pages/') || window.location.pathname.includes('\\pages\\'));
-    if (target.startsWith('http://') || target.startsWith('https://') || target.startsWith('#')) return target;
-    if (target === 'product.html' || target.startsWith('product.html?')) {
-      return isInPages ? target : 'pages/' + target;
+
+    // Handle index.html or root
+    if (target === 'index.html' || target.startsWith('index.html?')) {
+      return isInPages ? '../' + target : target;
     }
-    if (target === 'tracking.html' || target.startsWith('tracking.html?')) {
-      return isInPages ? target : 'pages/' + target;
+
+    // If target already contains 'pages/', adjust if we are already in pages
+    if (target.startsWith('pages/')) {
+      return isInPages ? target.substring(6) : target;
     }
-    if (target === 'cart.html' || target.startsWith('cart.html?')) {
-      return isInPages ? target : 'pages/' + target;
-    }
-    return target;
+
+    // Target is a sibling page (e.g. 'orders.html', 'tracking.html', 'checkout.html', 'cart.html', 'product.html')
+    return isInPages ? target : 'pages/' + target;
   }
 
   function resolveImg(imgPath) {
