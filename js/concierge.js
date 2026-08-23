@@ -218,6 +218,35 @@
         handleSizeInteractiveSelect(actionEl, action);
       } else if (action === 'track-order-submit') {
         handleTrackOrderSubmit(actionEl);
+      } else if (action === 'confirm-order-address') {
+        const addr = actionEl.getAttribute('data-address') || 'Maximilianstraße 34, 80539 Munich, Germany';
+        handleUserMessage('Confirm address: ' + addr);
+      } else if (action === 'confirm-custom-address') {
+        const s = document.getElementById('quickAddrStreet') ? document.getElementById('quickAddrStreet').value : 'Maximilianstraße 34';
+        const c = document.getElementById('quickAddrCity') ? document.getElementById('quickAddrCity').value : 'Munich';
+        const p = document.getElementById('quickAddrPostcode') ? document.getElementById('quickAddrPostcode').value : '80539';
+        handleUserMessage(`Confirm address: ${s}, ${p} ${c}`);
+      } else if (action === 'select-payment-method') {
+        const grid = actionEl.closest('.payment-options-grid');
+        if (grid) {
+          grid.querySelectorAll('.payment-option-card').forEach(card => card.classList.remove('selected'));
+          actionEl.classList.add('selected');
+          const radio = actionEl.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
+        }
+      } else if (action === 'proceed-to-order-review') {
+        const selCard = document.querySelector('.payment-option-card.selected input[type="radio"]') || document.querySelector('input[name="order_payment_method"]:checked');
+        const val = selCard ? selCard.value : 'card';
+        let methodText = 'Card •••• 4242';
+        if (val === 'apple_pay') methodText = 'Apple Pay';
+        else if (val === 'klarna') methodText = 'Klarna Pay Later';
+        else if (val === 'cod') methodText = 'Cash on Delivery';
+        handleUserMessage('Pay with ' + methodText);
+      } else if (action === 'authorize-order') {
+        if (typeof window !== 'undefined' && window.nexCart && typeof window.nexCart.clear === 'function') {
+          try { window.nexCart.clear(); } catch (e) {}
+        }
+        handleUserMessage('Authorize & place order now');
       }
     });
 
@@ -516,8 +545,18 @@
       `;
     }
 
+    // 0A. Order Flow Widgets (Step 1 to 4)
+    if (response.type === 'order_address' && response.widgetPayload) {
+      html += renderOrderAddressWidget(response.widgetPayload);
+    } else if (response.type === 'order_payment' && response.widgetPayload) {
+      html += renderOrderPaymentWidget(response.widgetPayload);
+    } else if (response.type === 'order_review' && response.widgetPayload) {
+      html += renderOrderReviewWidget(response.widgetPayload);
+    } else if (response.type === 'order_confirmed' && response.widgetPayload) {
+      html += renderOrderConfirmedWidget(response.widgetPayload);
+    }
     // 1. Look Bundle Widget
-    if (response.type === 'bundle_look' || (response.isBundleLook && response.products && response.products.length > 0)) {
+    else if (response.type === 'bundle_look' || (response.isBundleLook && response.products && response.products.length > 0)) {
       html += renderBundleCard(response.products);
     } 
     // 2. Interactive Sizing Advisor Widget
@@ -571,6 +610,158 @@
     // Update suggested prompt chips
     renderChips(response.suggestedChips || []);
     scrollToBottom();
+  }
+
+  function renderOrderAddressWidget(payload) {
+    const addr = payload.defaultAddress || {
+      name: 'Julian Wright',
+      formatted: 'Maximilianstraße 34, 80539 Munich, Germany',
+      street: 'Maximilianstraße 34',
+      city: 'Munich',
+      postcode: '80539'
+    };
+
+    return `
+      <div class="order-address-box" data-widget="order-address">
+        <div class="saved-addr-pill selected" role="button" tabindex="0" data-action="confirm-order-address" data-address="${escapeHtml(addr.formatted)}">
+          <span class="addr-tag">Default</span>
+          <div class="addr-text">
+            <strong>${escapeHtml(addr.name)}</strong><br>
+            ${escapeHtml(addr.formatted)}
+          </div>
+        </div>
+
+        <div style="font-size: 10px; color: #64748b; text-align: center; text-transform: uppercase; letter-spacing: 0.05em;">
+          ── or enter a new address ──
+        </div>
+
+        <div class="quick-addr-inputs">
+          <input type="text" id="quickAddrStreet" class="quick-input" placeholder="Street Address & Apt" value="${escapeHtml(addr.street)}" />
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <input type="text" id="quickAddrCity" class="quick-input" placeholder="City" value="${escapeHtml(addr.city)}" />
+            <input type="text" id="quickAddrPostcode" class="quick-input" placeholder="Postcode" value="${escapeHtml(addr.postcode)}" />
+          </div>
+        </div>
+
+        <button type="button" class="btn-step-action" data-action="confirm-custom-address">
+          <span>Confirm Address</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    `;
+  }
+
+  function renderOrderPaymentWidget(payload) {
+    const methods = payload.paymentMethods || [
+      { id: 'card', name: 'Credit / Debit Card', details: '•••• 4242 (Visa / MC)', badge: 'Default', selected: true },
+      { id: 'apple_pay', name: 'Apple Pay / Google Pay', details: '1-Touch Biometric', badge: 'Instant', selected: false },
+      { id: 'klarna', name: 'Klarna Pay Later', details: 'Pay in 30 Days', badge: '0% APR', selected: false },
+      { id: 'cod', name: 'Cash on Delivery', details: 'Direct Courier Payment', badge: 'Courier', selected: false }
+    ];
+
+    const methodsHtml = methods.map((m) => `
+      <label class="payment-option-card ${m.selected ? 'selected' : ''}" data-pay-id="${m.id}" data-action="select-payment-method">
+        <div class="pay-left">
+          <input type="radio" name="order_payment_method" value="${m.id}" ${m.selected ? 'checked' : ''} class="pay-radio" />
+          <span>${escapeHtml(m.name)} <span style="font-size: 11px; color: #b0c4de; font-weight: 400;">(${escapeHtml(m.details)})</span></span>
+        </div>
+        <span class="pay-badge">${escapeHtml(m.badge)}</span>
+      </label>
+    `).join('');
+
+    return `
+      <div class="order-payment-box" data-widget="order-payment">
+        <div class="payment-options-grid">
+          ${methodsHtml}
+        </div>
+        <button type="button" class="btn-step-action" style="background: #F13365; color: #fff; margin-top: 8px;" data-action="proceed-to-order-review">
+          <span>Proceed to Review</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    `;
+  }
+
+  function renderOrderReviewWidget(payload) {
+    const items = payload.items || [];
+    const itemsRows = items.map(item => `
+      <div class="order-line-row">
+        <span>${escapeHtml(item.title || item.name || 'Atelier Item')}${item.size ? ` (${escapeHtml(item.size)})` : ''}</span>
+        <span>€ ${(item.numericPrice || item.price || 0).toFixed(2)}</span>
+      </div>
+    `).join('');
+
+    return `
+      <div class="order-summary-box" data-widget="order-review">
+        ${itemsRows}
+        <div class="order-line-row">
+          <span>Express Courier Dispatch</span>
+          <span style="color: #10b981; font-weight: 700;">FREE</span>
+        </div>
+        <div class="order-line-row">
+          <span>Promo Code (${escapeHtml(payload.discountCode || 'WELCOME10')})</span>
+          <span style="color: #F13365; font-weight: 700;">-€ ${(payload.discountAmount || 28.5).toFixed(2)}</span>
+        </div>
+        <div class="order-line-row total">
+          <span>TOTAL DUE</span>
+          <span style="color: #3de0ff;">€ ${(payload.totalDue || 256.5).toFixed(2)}</span>
+        </div>
+        <div style="font-size: 10.5px; color: #64748b; line-height: 1.4; margin-top: 4px;">
+          📍 Shipping to ${escapeHtml(payload.address || 'Maximilianstraße 34, Munich')}<br>
+          💳 Paid via ${escapeHtml(payload.paymentMethod || 'Card •••• 4242')}
+        </div>
+        <button type="button" class="btn-authorize-order" data-action="authorize-order">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>AUTHORIZE & PLACE ORDER NOW</span>
+        </button>
+      </div>
+    `;
+  }
+
+  function renderOrderConfirmedWidget(payload) {
+    const orderCode = payload.orderCode || 'NX-4829-M';
+    const steps = payload.trackingSteps || [
+      { label: 'Order Received & Encrypted', time: 'Just now · Verified', done: true },
+      { label: 'Quality Inspection in Munich Hub', time: 'In Progress · Expected 23:00', active: true },
+      { label: 'Out for Express Courier Dispatch', time: 'Tomorrow, 09:30', pending: true }
+    ];
+
+    const stepsHtml = steps.map(s => `
+      <div class="track-step-row" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+        <div class="step-dot ${s.done ? 'done' : (s.active ? 'active' : '')}" style="width:12px;height:12px;border-radius:50%;background:${s.done ? '#10b981' : (s.active ? '#3de0ff' : 'rgba(255,255,255,0.2)')};margin-top:2px;flex-shrink:0;"></div>
+        <div style="display:flex;flex-direction:column;gap:1px;">
+          <span style="font-size:11.5px;font-weight:600;color:#fff;">${escapeHtml(s.label)}</span>
+          <span style="font-size:10px;color:#64748b;">${escapeHtml(s.time)}</span>
+        </div>
+      </div>
+    `).join('');
+
+    const ordersUrl = resolveHref('orders.html');
+    const trackingUrl = resolveHref('tracking.html') + '?order=' + encodeURIComponent(orderCode);
+
+    return `
+      <div class="order-confirmed-box" data-widget="order-confirmed" style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+        <div class="order-confirmed-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div>Order <strong class="code">${escapeHtml(orderCode)}</strong> placed successfully! Preparing for courier dispatch.</div>
+        </div>
+
+        <div style="background:rgba(4,18,42,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 10px;">
+          ${stepsHtml}
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <a href="${ordersUrl}" class="btn-step-action" style="background:rgba(61,224,255,0.12);border:1px solid #3de0ff;color:#3de0ff;">
+            <span>View Full Order Details & Invoice</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </a>
+          <a href="${trackingUrl}" class="btn-step-action" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;">
+            <span>Open Live GPS Tracking Page</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
   }
 
   function renderBundleCard(products) {
