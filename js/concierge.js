@@ -59,14 +59,21 @@
     }
   }
 
-  if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
-    document.addEventListener('DOMContentLoaded', function() {
-      if (document.getElementById('nexConciergeDrawer')) return; // Already present
-      
-      injectConciergeHTML();
-      initConciergeLogic();
-      initVoiceAI();
-    });
+  function bootConcierge() {
+    if (typeof document === 'undefined' || !document.body) return;
+    if (document.getElementById('nexConciergeDrawer')) return; // Already present
+    
+    injectConciergeHTML();
+    initConciergeLogic();
+    initVoiceAI();
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootConcierge);
+    } else {
+      bootConcierge();
+    }
   }
 
   function injectConciergeHTML() {
