@@ -145,16 +145,96 @@
     }
 
     /**
+     * Cleans conversational voice filler phrases for accurate intent matching.
+     * @param {string} text 
+     * @returns {string} Cleaned query
+     */
+    _cleanVoiceQuery(text) {
+      if (!text) return '';
+      let cleaned = text.trim();
+      cleaned = cleaned.replace(/^(hey|hi|hello|bonjour|good (morning|afternoon|evening))\s*(stylist|assistant|nexcommerce|ai|bot)?[\s,]+/i, '');
+      cleaned = cleaned.replace(/^(can you|could you|please|i want to|i'd like to|help me|tell me|show me|find me|look for|give me|what is|what's|how does|how do)\s+/i, '');
+      cleaned = cleaned.replace(/\s*(please|thank you|thanks|right now)\.?$/i, '');
+      return cleaned.trim();
+    }
+
+    /**
+     * Generates a concise spoken summary string for text-to-speech audio feedback.
+     * @param {Object} payload 
+     * @returns {string}
+     */
+    _generateSpokenSummary(payload) {
+      if (!payload) return 'I have updated your recommendations.';
+      if (payload.spokenSummary) return payload.spokenSummary;
+
+      if (payload.type === 'bundle_look' || payload.isBundleLook) {
+        const total = (payload.products || []).reduce((acc, p) => acc + (p.numericPrice || 0), 0);
+        return `I have curated a complete outfit for you totaling € ${total}. All pieces are ready to add to your bag.`;
+      }
+      if (payload.type === 'sizing_advisor') {
+        return 'Here is your sizing guidance. Our apparel pieces fit true to standard European sizing with relaxed tailored cuts.';
+      }
+      if (payload.type === 'budget_cart') {
+        return 'I have launched the Budget Cart Optimizer matching your target budget.';
+      }
+      if (payload.type === 'comparison_advisor') {
+        return 'I have opened the side-by-side comparison matrix for our top pieces.';
+      }
+      if (payload.type === 'delivery') {
+        return 'We offer express and same-day delivery from our local dark store fulfillment hubs.';
+      }
+      if (payload.type === 'savings_advisor') {
+        return 'Here are our active promotional codes. The highest discount will auto-apply at checkout.';
+      }
+      if (payload.type === 'order_tracking') {
+        return `Order ${payload.orderCode || ''} is in transit with estimated delivery tomorrow.`;
+      }
+      if (payload.products && payload.products.length > 0) {
+        const names = payload.products.slice(0, 2).map(p => p.title).join(' and ');
+        return `Here are top recommendations including ${names}.`;
+      }
+      const plainText = (payload.text || '').replace(/\*\*/g, '').replace(/__/g, '').replace(/#/g, '').replace(/✨/g, '').split('\n')[0].trim();
+      return plainText || 'Here are the styling details you requested.';
+    }
+
+    /**
      * Processes natural language queries deterministically.
      * @param {string} text - The raw customer input
      * @param {Object} [ctx] - Optional contextual overrides
      * @returns {Object} Structured UI response payload
      */
     processMessage(text, ctx) {
-      if (!text || text.trim() === '') return this._fallbackResponse();
+      if (!text || text.trim() === '') {
+        const fallback = this._fallbackResponse();
+        fallback.spokenSummary = this._generateSpokenSummary(fallback);
+        return fallback;
+      }
 
-      const rawText = text.toLowerCase().trim();
+      let rawText = text.toLowerCase().trim();
+      const cleaned = this._cleanVoiceQuery(text).toLowerCase();
+      // Match against cleaned query if cleaner stripped meaningful prefix
+      if (cleaned.length > 3 && !/\b(slip|compare|budget|promo|track|size|care)\b/.test(rawText) && /\b(slip|compare|budget|promo|track|size|care|outfit|look|jacket|blazer|shoe|sweater|watch|fit)\b/.test(cleaned)) {
+        rawText = cleaned;
+      }
       const catalog = this._getCatalog();
+      const res = this._evaluateQuery(rawText, text, catalog, ctx);
+      if (res && !res.spokenSummary) {
+        res.spokenSummary = this._generateSpokenSummary(res);
+      }
+      return res;
+    }
+
+    /**
+     * Alias for processMessage.
+     */
+    parseQuery(text, ctx) {
+      return this.processMessage(text, ctx);
+    }
+
+    /**
+     * Internal query evaluator.
+     */
+    _evaluateQuery(rawText, text, catalog, ctx) {
 
       // ── 0. SLIP TO CART / SHOPPING LIST AGENT WIDGET (Capability 4) ─────
       if (/\b(upload.*slip|shopping slip|slip to cart|scan.*list|grocery list|shopping list|paste.*list|upload.*list|grocery slip)\b/i.test(rawText)) {
@@ -162,13 +242,13 @@
         if (typeof window !== 'undefined' && window.NexSlipUI && typeof window.NexSlipUI.openModal === 'function') {
           setTimeout(function() { window.NexSlipUI.openModal('capsule'); }, 300);
         }
-        return {
+        return wrapResponse({
           type: 'slip_to_cart',
           text: `**Shopping Slip to Cart Agent**\n\nI've opened the Slip Scanner for you. Drag & drop your receipt, choose a sample capsule, or paste your list to prepare your cart instantly.`,
           actionLink: { text: 'OPEN SLIP SCANNER →', url: '#' },
           products: catalog.slice(0, 3),
           suggestedChips: ['Under € 300', 'Complete an outfit', 'Track my order']
-        };
+        });
       }
 
       // ── 0B. COMPARISON / PRODUCT ADVISOR WIDGET (Capability 2) ──────────
@@ -484,6 +564,7 @@
     }
   }
 
+  window.ConciergeEngine = ConciergeEngine;
   window.NexConciergeEngine = new ConciergeEngine();
 
 })(typeof window !== 'undefined' ? window : global);
