@@ -17164,6 +17164,196 @@ input:checked + .toggle-slider:before {
   letter-spacing: 0.02em;
 }
 
+/* ── 5C. Agentic In-Drawer Order & Checkout Widgets ────────────── */
+.order-address-box {
+  background: rgba(4, 18, 42, 0.85);
+  border: 1px solid rgba(61, 224, 255, 0.25);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+.saved-addr-pill {
+  background: rgba(61, 224, 255, 0.08);
+  border: 1px solid rgba(61, 224, 255, 0.4);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+.saved-addr-pill:hover,
+.saved-addr-pill.selected {
+  background: rgba(61, 224, 255, 0.16);
+  border-color: #3de0ff;
+}
+.addr-tag {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #000c1e;
+  background: #3de0ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.addr-text {
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+.quick-addr-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.quick-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 7px 10px;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 150ms ease;
+}
+.quick-input:focus {
+  border-color: #3de0ff;
+}
+.btn-step-action {
+  background: #3de0ff;
+  color: #000c1e;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 150ms ease;
+  text-decoration: none;
+}
+.btn-step-action:hover {
+  background: #73ebff;
+  transform: translateY(-1px);
+}
+
+/* Payment Options */
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-top: 6px;
+}
+.payment-option-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+.payment-option-card:hover,
+.payment-option-card.selected {
+  background: rgba(241, 51, 101, 0.12);
+  border-color: #F13365;
+}
+.pay-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+.pay-radio {
+  accent-color: #F13365;
+}
+.pay-badge {
+  font-size: 9.5px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #b0c4de;
+}
+
+/* Order Summary & Review Box */
+.order-summary-box {
+  background: rgba(4, 18, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+.order-line-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #b0c4de;
+}
+.order-line-row.total {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 8px;
+  margin-top: 2px;
+}
+.btn-authorize-order {
+  background: #F13365;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 18px rgba(241, 51, 101, 0.4);
+  transition: all 180ms ease;
+  margin-top: 4px;
+}
+.btn-authorize-order:hover {
+  background: #ff4777;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(241, 51, 101, 0.6);
+}
+
+/* Order Confirmed Banner & Stepper */
+.order-confirmed-banner {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #fff;
+}
+.order-confirmed-banner .code {
+  font-family: monospace;
+  font-weight: 700;
+  color: #10b981;
+}
+
 /* ── 6. Floating Luxury Pill ──────────────────────────────── */
 .concierge-floating-pill {
   position: fixed;
