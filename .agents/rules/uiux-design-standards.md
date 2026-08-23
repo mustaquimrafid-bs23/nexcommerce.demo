@@ -443,6 +443,61 @@ All storefront interfaces must prioritize visual communication over prose:
 
 ---
 
-*Last updated: 2026-08-20 | My role: Senior UI/UX Designer / Product Designer*
+## 16. HUMAN-CENTRIC AI PERSONALIZATION & VISUAL ANCHOR INVARIANT
+
+1. **Strict Everyday Terminology Invariant**:
+   - AI styling tools, onboarding quizzes, and recommendation studios must NEVER use abstract sci-fi, RPG, or engineering tropes (e.g. "Nocturne Archetype", "Alpine Thermal Calibration", radar/spider charts with mismatched categorical axes).
+   - Use clear, plain-English wardrobe descriptions:
+     - `Minimalist & Clean` (Timeless monochrome staples & clean silhouettes)
+     - `Smart & Tailored` (Structured blazers, sharp wool trousers & dinner pieces)
+     - `Relaxed & Everyday` (Comfortable stretch pants, layers & casual sneakers)
+     - `Outdoor & Outerwear` (Technical waterproof jackets & insulated coats)
+
+2. **Mandatory Visual Photographic Anchors**:
+   - Style quizzes and aesthetic pickers MUST pair every selectable style card with an uncropped, high-resolution outfit/product photograph.
+   - Text-only style descriptions are forbidden in style-picker cards because fashion is visual-first. Customers must be able to visually recognize their aesthetic in < 1 second.
+
+---
+
+## 17. PLAIN-LANGUAGE COPYWRITING & SPOTLIGHT HERO STRUCTURAL INVARIANT
+
+1. **Plain-Language E-Commerce Copywriting Guardrail**:
+   - Strictly avoid pretentious, obscure, or pseudo-luxury jargon in generic UI labels.
+   - Do NOT use terms like `ATELIER`, `Curated`, or `DISPATCH` for standard UI elements.
+   - Enforce clean, natural e-commerce terminology:
+     - `YOUR SELECTION` instead of `ATELIER SELECTION`
+     - `Items Selected` / `Pieces Selected` instead of `Pieces Curated`
+     - `EXPRESS DELIVERY` / `SHIPPING` instead of `EXPRESS DISPATCH`
+     - `Saved Items` / `Wishlist` instead of `Vault`
+
+2. **Spotlight Hero & Integrated Action Toolbar Structure Invariant**:
+   - Page headers on major functional views (Cart, Wishlist, Smart List, Orders, Profile, Account) must NEVER be rendered as floating, uncontained text lines with raw hyperlink clusters on a blank dark canvas.
+   - Always encapsulate in a structured glassmorphic hero enclosure (`.cart-hero-header` / `.spotlight-hero-card`) with:
+     1. Live status eyebrow with pulsing beacon dot and item badge pill.
+     2. Bold typography headline (`Manrope` + italic `Instrument Serif`) and balanced subtitle.
+     3. Right-aligned real-time 3-stat metric cluster (`TOTAL ITEMS`, `ESTIMATED VALUE`, `EXPRESS DELIVERY`).
+     4. Dedicated action toolbar with styled glassmorphic button pills (`btn-action-back`, `btn-action-ai-cyan`, `btn-action-ai-magenta`, `btn-action-danger`) rather than unstyled text links.
+
+---
+
+## 18. AI MODALITY DEMO-READINESS & MULTIMODAL DROPZONE STANDARDS
+
+1. **Explicit In-Dropzone Action Clusters**:
+   - Multimodal upload zones (e.g. OCR receipt scanners, style reference uploaders, audio search inputs) must NEVER be passive, empty dashed boxes requiring hidden knowledge of click-anywhere mechanics.
+   - Every dropzone must provide visible, tactile button controls inside the container:
+     - Primary Action: Glowing gradient button (`[ ✨ Demo Sample Receipt / Image ]`) that triggers an instant simulated analysis pipeline.
+     - Secondary Action: Glass pill button (`[ 📁 Browse Image File ]`) that directly triggers the native device file chooser.
+
+2. **1-Click Sample Pre-Fill for Text & Input Panels**:
+   - Any collapsible or multi-line text input panel (e.g. `Paste Text List`, `Natural Language Query`, `JSON Payload Editor`) must include a prominent `[ 📋 Load Sample Text ]` button in the header bar.
+   - This allows users, stakeholders, and evaluators to test complex parsing and product extraction engines with 1 single click without manually crafting structured text strings.
+
+3. **Multi-Stage Visual Processing Feedback**:
+   - AI extraction routines must display visual feedback during simulated processing (e.g. pulsing OCR beacon and status title `Analyzing "sample_receipt.jpg" with OCR...`) before transitioning into the interactive split-pane match review.
+
+---
+
+*Last updated: 2026-08-23 | My role: Senior UI/UX Designer / Product Designer*
+
 
 

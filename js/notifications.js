@@ -24,7 +24,7 @@
       type: 'info',
       title: 'RETURN REQUEST RECEIVED',
       message: 'Return request RR-NX-48291 has been received and is currently under review by our team.',
-      actionUrl: 'account.html#orders',
+      actionUrl: 'orders.html',
       createdAt: '2 hours ago',
       read: false
     },

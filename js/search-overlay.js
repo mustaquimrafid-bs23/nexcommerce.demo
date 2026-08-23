@@ -391,110 +391,71 @@
     }
   }
 
-  /* ─── UI State Renderers ─────────────────────────────────────────────────────── */
+  /* ─── UI State Renderers: Option 3 Curated Editorial Atelier ───────────────── */
   function renderIdleState() {
     if (!resultsContainer) return;
     const recents = getRecentSearches();
 
     const recentsHtml = recents.length > 0 ? `
-      <div class="search-section-block">
-        <div class="search-section-header">
-          <span class="search-section-label">RECENT SEARCHES</span>
-          <button type="button" class="btn-clear-history" id="btnClearSearchHistory">CLEAR ALL</button>
+      <div class="atelier-recent-footer">
+        <div class="atelier-recent-label">
+          <i data-lucide="history" style="width:13px;height:13px;"></i>
+          <span>Recent:</span>
         </div>
-        <div class="search-recent-rail">
-          ${recents.map(r => `
-            <div class="recent-search-pill" data-query="${escapeHtml(r)}">
-              <span class="recent-pill-icon"><i data-lucide="clock" style="width:13px;height:13px;"></i></span>
+        <div class="atelier-recent-list">
+          ${recents.slice(0, 3).map(r => `
+            <span class="atelier-recent-pill" data-query="${escapeHtml(r)}">
               <span class="recent-pill-text">${escapeHtml(r)}</span>
               <button type="button" class="btn-delete-recent" data-del="${escapeHtml(r)}" aria-label="Remove search ${escapeHtml(r)}">&times;</button>
-            </div>
+            </span>
           `).join('')}
         </div>
       </div>
     ` : '';
 
-    const visualDeptHtml = `
-      <div class="search-section-block">
-        <div class="search-section-header">
-          <span class="search-section-label">EXPLORE BY DEPARTMENT</span>
-        </div>
-        <div class="search-visual-dept-grid">
-          ${VISUAL_DEPARTMENTS.map(d => `
-            <button type="button" class="search-visual-dept-card" data-dept="${escapeHtml(d.query)}">
-              <img src="${_resolveAsset(d.image)}" alt="${escapeHtml(d.label)}" class="visual-dept-bg" loading="lazy" />
-              <div class="visual-dept-scrim"></div>
-              <div class="visual-dept-content">
-                <span class="visual-dept-title">${escapeHtml(d.label)}</span>
-                <span class="visual-dept-sub">${escapeHtml(d.subtitle)}</span>
-                <span class="visual-dept-count">${escapeHtml(d.count)} &rarr;</span>
-              </div>
-            </button>
-          `).join('')}
-        </div>
-      </div>
-    `;
-
-    const trendingPieces = [
+    const seasonalPieces = [
       CATALOG_DB[0], // p1 Cashmere Turtleneck
-      CATALOG_DB[5], // p3 Minimalist Leather Runner
-      CATALOG_DB[4], // p6 Horizon Earbuds
+      CATALOG_DB[5], // p6 Minimalist Leather Runner
       CATALOG_DB[7]  // p8 Chronograph Watch
     ];
 
-    const trendingHtml = `
-      <div class="search-section-block">
-        <div class="search-section-header">
-          <span class="search-section-label">TRENDING THIS SEASON</span>
-        </div>
-        <div class="search-trending-grid">
-          ${trendingPieces.map(p => {
-            const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
-            return `
-            <div class="search-mini-prod-card" data-id="${p.id}">
-              <a href="${productHref}" class="search-mini-img-wrap" style="display:block; text-decoration:none;">
-                <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
-                <span class="search-mini-badge">${escapeHtml(p.matchBadge || 'TRENDING')}</span>
-              </a>
-              <div class="search-mini-meta">
-                <span class="search-mini-brand">${escapeHtml(p.brand)}</span>
-                <a href="${productHref}" class="search-mini-title">${escapeHtml(p.name)}</a>
-                <div class="search-mini-footer">
-                  <span class="search-mini-price tabular-nums">${p.formattedPrice}</span>
-                  <button type="button" class="btn-mini-quick-add" data-id="${p.id}" aria-label="Quick add ${escapeHtml(p.name)}">
-                    <i data-lucide="shopping-bag" style="width:11px;height:11px;margin-right:3px;"></i> ADD
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;}).join('')}
-        </div>
-      </div>
-    `;
-
-    const promptsHtml = `
-      <div class="search-section-block">
-        <div class="search-section-header">
-          <span class="search-section-label">POPULAR INTENT SEARCHES</span>
-        </div>
-        <div class="search-prompt-pills-rail">
-          ${IDLE_PROMPTS.map(p => `
-            <button type="button" class="search-prompt-pill" data-prompt="${escapeHtml(p.text)}">
-              <i data-lucide="${p.icon}" style="width:13px;height:13px;color:var(--accent-cyan,#3DE0FF);"></i>
-              <span>${escapeHtml(p.text)}</span>
-              <span class="prompt-pill-arrow">&rarr;</span>
-            </button>
-          `).join('')}
-        </div>
-      </div>
-    `;
-
     resultsContainer.innerHTML = `
-      <div class="search-idle-wrapper">
+      <div class="search-idle-wrapper atelier-idle-wrapper">
+        <!-- DEPARTMENTS NAV -->
+        <div class="atelier-dept-nav">
+          <span class="atelier-dept-label">DEPARTMENTS:</span>
+          <a href="${_resolvePage('category.html')}?cat=apparel" class="atelier-dept-link active" data-cat="apparel">Apparel</a>
+          <a href="${_resolvePage('category.html')}?cat=footwear" class="atelier-dept-link" data-cat="footwear">Footwear</a>
+          <a href="${_resolvePage('category.html')}?cat=audio" class="atelier-dept-link" data-cat="audio">Audio</a>
+          <a href="${_resolvePage('category.html')}?cat=accessories" class="atelier-dept-link" data-cat="accessories">Accessories</a>
+          <a href="${_resolvePage('category.html')}?cat=accessories" class="atelier-dept-link" data-cat="accessories">Objects</a>
+        </div>
+
+        <!-- SEASONAL HIGHLIGHTS -->
+        <div class="atelier-curation-section">
+          <div class="atelier-curation-header">
+            <span class="atelier-curation-label">SEASONAL HIGHLIGHTS</span>
+            ${recents.length > 0 ? `<button type="button" class="btn-clear-history" id="btnClearSearchHistory">CLEAR RECENT</button>` : ''}
+          </div>
+          <div class="atelier-products-grid">
+            ${seasonalPieces.map(p => {
+              const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
+              return `
+                <a href="${productHref}" class="atelier-product-item" data-id="${p.id}">
+                  <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" class="atelier-thumb" loading="lazy" />
+                  <div class="atelier-info">
+                    <span class="atelier-brand">${escapeHtml(p.brand)}</span>
+                    <h4 class="atelier-name">${escapeHtml(p.name)}</h4>
+                    <span class="atelier-price tabular-nums">${p.formattedPrice}</span>
+                  </div>
+                </a>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- COMPACT RECENT SEARCHES (IF ANY) -->
         ${recentsHtml}
-        ${visualDeptHtml}
-        ${trendingHtml}
-        ${promptsHtml}
       </div>
     `;
 
@@ -987,34 +948,19 @@
   function bindIdleEvents() {
     if (!resultsContainer) return;
 
-    // Visual Department Cards
-    resultsContainer.querySelectorAll('.search-visual-dept-card').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cat = btn.getAttribute('data-dept');
-        executeSearch(cat);
-      });
-    });
-
-    // Trending Mini Products Quick-Add
-    resultsContainer.querySelectorAll('.btn-mini-quick-add').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const pid = btn.getAttribute('data-id');
-        handleQuickAdd(pid, btn);
-      });
-    });
-
-    // Prompt pills
-    resultsContainer.querySelectorAll('.search-prompt-pill').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const p = btn.getAttribute('data-prompt');
-        executeSearch(p);
+    // Department Links (executeSearch or direct navigation)
+    resultsContainer.querySelectorAll('.atelier-dept-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const cat = link.getAttribute('data-cat');
+        if (cat && input) {
+          input.value = cat;
+          executeSearch(cat);
+        }
       });
     });
 
     // Recent search pills
-    resultsContainer.querySelectorAll('.recent-search-pill').forEach(pill => {
+    resultsContainer.querySelectorAll('.atelier-recent-pill, .recent-search-pill').forEach(pill => {
       pill.addEventListener('click', (e) => {
         if (e.target.closest('.btn-delete-recent')) return;
         const q = pill.getAttribute('data-query');
@@ -1026,6 +972,7 @@
     resultsContainer.querySelectorAll('.btn-delete-recent').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
+        e.preventDefault();
         const delQ = btn.getAttribute('data-del');
         deleteRecentSearch(delQ);
       });
@@ -1217,11 +1164,20 @@
     document.addEventListener('keydown', handleKeyDown);
 
     // Global trigger buttons
-    document.querySelectorAll('[data-open-search], #navSearchBtn, #searchTriggerBtn, .nav-search-trigger, .nav-search-trigger-mobile').forEach(trig => {
+    document.querySelectorAll('[data-open-search], #navSearchBtn, #searchTriggerBtn, #mobileSearchTriggerBtn, .search-trigger, .nav-search-trigger, .nav-search-trigger-mobile').forEach(trig => {
       trig.addEventListener('click', (e) => {
         e.preventDefault();
         openSearchOverlay();
       });
+    });
+
+    // Global event delegation for any dynamically rendered search trigger
+    document.addEventListener('click', (e) => {
+      const trig = e.target.closest('#searchTriggerBtn, #mobileSearchTriggerBtn, .search-trigger, [data-open-search]');
+      if (trig && !e.target.closest('.search-panel') && !e.target.closest('.search-close-btn')) {
+        e.preventDefault();
+        openSearchOverlay();
+      }
     });
 
     if (input) {

@@ -9,15 +9,15 @@
   const PROMO_CATALOG = [
     {
       code: 'VIP20',
-      label: 'Atelier VIP Prestige',
+      label: 'VIP Tier 20%',
       type: 'percent',
       value: 20,
       minSubtotal: 400,
-      description: '20% off high-tier atelier orders over €400'
+      description: '20% off orders over €400'
     },
     {
       code: 'ATELIER15',
-      label: 'Curated Season 15%',
+      label: 'Seasonal 15%',
       type: 'percent',
       value: 15,
       minSubtotal: 200,
@@ -25,7 +25,7 @@
     },
     {
       code: 'WELCOME10',
-      label: 'First Atelier Order',
+      label: 'Welcome 10%',
       type: 'percent',
       value: 10,
       minSubtotal: 0,

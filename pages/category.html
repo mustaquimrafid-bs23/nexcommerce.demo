@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design-system.css?v=40">
+  <link rel="stylesheet" href="../css/design-system.css?v=41">
   <style>
     /* ─── Tactile Circular Swatches for 3-Item Luxury Cards ────────── */
     .plp-card-bottom-row {
@@ -35,8 +35,13 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
       padding: 0;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s cubic-bezier(0.16, 1, 0.3, 1), fill 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+    }
+    .plp-swatch-dot::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
     }
 
     .plp-swatch-dot:hover {
@@ -81,10 +86,10 @@
     </div>
   </div>
 
-  <!-- TOP ANNOUNCEMENT BAR -->
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
-      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day statutory right of withdrawal</span>
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
       <span class="announcement-dot"></span>
       <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
       <span class="announcement-dot"></span>
@@ -105,26 +110,25 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link active" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
@@ -137,19 +141,15 @@
           <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
-        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <i data-lucide="search"></i>
-        </button>
-
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
           <i data-lucide="shopping-bag"></i>
           <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -160,9 +160,14 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -170,108 +175,55 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
+  <main class="container" style="padding-top: 24px;">
+    <!-- ACCESSIBLE CATEGORY TITLE (WCAG 2.1 AA / SEO) -->
+    <h1 class="sr-only" id="plpMainTitle">Apparel &amp; Collections &mdash; nexCommerce</h1>
+    <p class="sr-only" id="plpMainSubtitle">Pieces designed around natural comfort, architectural tailoring, and enduring quality.</p>
+    <span class="sr-only" id="plpHeroEyebrow">COLLECTIONS · AW26</span>
 
-  <!-- PART 3 CATEGORY / PLP MAIN SECTION -->
-  <main class="container plp-header-section">
-    <!-- Breadcrumb -->
-    <nav class="plp-breadcrumb" aria-label="Breadcrumb navigation">
-      <a href="../index.html" class="plp-breadcrumb-link">Home</a>
-      <span class="plp-breadcrumb-sep">/</span>
-      <span class="plp-breadcrumb-crumb">Collections</span>
-      <span class="plp-breadcrumb-sep">/</span>
-      <span id="plpBreadcrumbCurrent" class="plp-breadcrumb-current">All Products</span>
-    </nav>
-
-    <!-- Editorial Category Masthead -->
-    <div class="plp-hero-header">
-      <span class="plp-hero-eyebrow" id="plpHeroEyebrow">COLLECTIONS · AW26</span>
-      <h1 class="plp-title" id="plpMainTitle">All Products</h1>
-      <p class="plp-subtitle" id="plpMainSubtitle">Pieces designed around natural comfort, architectural tailoring, and enduring quality.</p>
-    </div>
-
-    <!-- CURATED CAPSULE SPOTLIGHT & 120FPS ANIMATION TRACK -->
-    <section class="plp-curation-spotlight" id="plpSpotlightSection" aria-label="Curated Look Spotlight">
-      <!-- 120fps GPU Progress Bar Track -->
-      <div class="spotlight-progress-track" aria-hidden="true">
-        <div class="spotlight-progress-bar" id="spotlightProgressBar"></div>
-      </div>
-
-      <!-- Spotlight Header: Live Whisper + Look Switcher Tabs -->
-      <div class="spotlight-header-row">
-        <div class="spotlight-eyebrow-tag">
-          <span class="spotlight-status-dot"></span>
-          <span id="spotlightLookEyebrow">CURATED CAPSULE &middot; 01 OF 03</span>
-          <button type="button" class="spotlight-pause-toggle-btn" id="spotlightPauseToggleBtn" aria-pressed="false" aria-label="Pause automatic capsule rotation">
-            <i data-lucide="pause" id="spotlightPauseIcon" style="width: 12px; height: 12px;"></i>
-          </button>
-        </div>
-        <div class="spotlight-capsule-tabs" id="spotlightTabs" role="tablist" aria-label="Curated Capsule Selection">
-          <button class="spotlight-tab-btn active" data-look="0" role="tab" aria-selected="true" aria-controls="spotlightBodyPanel" tabindex="0" id="spotlightTab0">
-            <span>01 TAILORING</span>
-          </button>
-          <button class="spotlight-tab-btn" data-look="1" role="tab" aria-selected="false" aria-controls="spotlightBodyPanel" tabindex="-1" id="spotlightTab1">
-            <span>02 ACOUSTICS</span>
-          </button>
-          <button class="spotlight-tab-btn" data-look="2" role="tab" aria-selected="false" aria-controls="spotlightBodyPanel" tabindex="-1" id="spotlightTab2">
-            <span>03 FOOTWEAR</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Spotlight Body Canvas (Split Layout) -->
-      <div class="spotlight-body-layout" id="spotlightBodyPanel" role="tabpanel" aria-labelledby="spotlightTab0">
-        <!-- Left: Capsule Story & Filter Sync -->
-        <div class="spotlight-story-pane">
-          <span class="spotlight-season-badge" id="spotlightSeasonBadge">SEASONAL EDIT &middot; AW26</span>
-          <h2 class="spotlight-capsule-title" id="spotlightCapsuleTitle">The Winter Tailoring Capsule</h2>
-          <p class="spotlight-capsule-desc" id="spotlightCapsuleDesc">Architectural double-faced wool blazers and structured cashmere layers designed for modern movement.</p>
-          <div class="spotlight-actions-group">
-            <button class="spotlight-sync-filter-btn" id="spotlightSyncFilterBtn" data-target-category="outerwear">
-              <span>View Capsule Pieces</span>
-              <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
-            </button>
-            <span class="spotlight-piece-counter" id="spotlightPieceCount">1 Matching Piece</span>
-          </div>
-        </div>
-
-        <!-- Right: Visual Frame & 3D Shoppable Piece Pill -->
-        <div class="spotlight-visual-pane">
-          <div class="spotlight-img-frame" id="spotlightImgFrame">
-            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Winter Tailoring Capsule" class="spotlight-featured-img" id="spotlightFeaturedImg" />
-            <div class="spotlight-vignette-overlay" aria-hidden="true"></div>
-          </div>
-            <!-- Floating 3D Shoppable Look Pill -->
-            <div class="spotlight-shoppable-pill" id="spotlightShoppablePill" data-id="p2" role="region" aria-label="Featured Look Piece">
-              <div class="spotlight-pill-thumb">
-                <img src="../assets/images/lifestyle/thumb_sweater.jpg" alt="Structured Wool Blazer" id="spotlightPillThumb" />
-              </div>
-              <div class="spotlight-pill-details">
-                <span class="spotlight-pill-tag" id="spotlightPillTag">FEATURED LOOK</span>
-                <h3 class="spotlight-pill-title" id="spotlightPillTitle">STRUCTURED WOOL BLAZER</h3>
-                <span class="spotlight-pill-price tabular-nums" id="spotlightPillPrice">€ 264.00</span>
-              </div>
-              <button class="spotlight-quick-add-btn btn-spotlight-quick-add" id="spotlightQuickAddBtn" data-id="p2" aria-label="Quick Add Structured Wool Blazer to Bag">
-                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                <span>BAG</span>
-              </button>
-            </div>
-          </div>
-        </div>
+    <!-- PURE FULL-WIDTH CATEGORY HERO BANNER -->
+    <section class="plp-pure-banner-section" id="plpPureBannerSection">
+      <div class="plp-pure-banner-frame">
+        <img src="../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2" alt="nexCommerce Autumn Winter 2026 Collection" class="plp-pure-banner-img" id="plpCategoryBannerImg" loading="eager" />
       </div>
     </section>
 
@@ -317,7 +269,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -333,7 +285,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <script src="../js/cart.js?v=2"></script>
-  <script src="../js/plp.js?v=5"></script>
+  <script src="../js/plp.js?v=6"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
   <script src="../js/catalog-engine.js"></script>
@@ -398,7 +350,7 @@
     <div class="minicart-title">Shopping Bag</div>
     <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
-  <div id="minicartBody" class="minicart-body">
+  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
     <!-- Populated by cart.js -->
   </div>
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -413,5 +365,9 @@
 <!-- Hardware-Accelerated GPU Page Transition Curtain -->
 <div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
 
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

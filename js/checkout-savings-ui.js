@@ -70,6 +70,24 @@
         }
       }
 
+      const activeCoupon = (typeof window.cartActiveCoupon !== 'undefined' ? window.cartActiveCoupon : null) || (window.nexActiveCoupon) || null;
+      if (activeCoupon && activeCoupon.code) {
+        card.innerHTML = `
+          <div class="savings-card-top">
+            <div class="savings-advisor-badge">
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#00F5A0;"></i>
+              <span>Optimal Savings Applied</span>
+            </div>
+            <div class="savings-applied-pill" style="background:rgba(0,245,160,0.12);color:#00F5A0;border:1px solid rgba(0,245,160,0.25);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ Code ${activeCoupon.code} Active</div>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;margin-top:6px;">
+            ✨ Highest possible savings rate activated. Your order ledger has been discounted automatically.
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+        return;
+      }
+
       const best = evalData.bestCoupon;
       const upgrade = evalData.upgradeOpportunity;
 
@@ -94,8 +112,8 @@
         ` : ''}
 
         <button id="btnAutoApplySavings" class="savings-apply-action-btn" data-apply-code="${best.code}">
-          <i data-lucide="check-circle" style="width:14px;height:14px;"></i>
-          <span>⚡ Apply Best Promo (${best.code} · -€${best.discountAmount.toFixed(2)})</span>
+          <i data-lucide="check-circle" style="width:14px;height:14px;flex-shrink:0;"></i>
+          <span>⚡ Apply Promo (${best.code} · Save €${best.discountAmount.toFixed(2)})</span>
         </button>
       `;
 
@@ -110,15 +128,17 @@
     }
 
     applyBestPromo(code, cardElement) {
-      const couponInput = document.getElementById('coupon-input') || document.getElementById('couponInput');
-      const applyBtn = document.querySelector('.coupon-apply-btn') || document.getElementById('btnCouponApply');
+      const couponInput = document.getElementById('coupon-input') || document.getElementById('couponInput') || document.getElementById('cart-coupon-input');
+      const applyBtn = document.querySelector('.coupon-apply-btn') || document.getElementById('btnCouponApply') || document.querySelector('.cart-coupon-apply-btn');
 
       if (couponInput) {
         couponInput.value = code;
       }
 
-      if (typeof window.applyCoupon === 'function') {
-        window.applyCoupon();
+      if (typeof window.cartApplyCoupon === 'function' && document.getElementById('cart-coupon-input')) {
+        window.cartApplyCoupon(code);
+      } else if (typeof window.applyCoupon === 'function') {
+        window.applyCoupon(code);
       } else if (applyBtn) {
         applyBtn.click();
       }

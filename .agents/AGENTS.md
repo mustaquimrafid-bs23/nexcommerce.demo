@@ -27,6 +27,7 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 > See `.agents/rules/tech-stack-and-engineering-standards.md` for the full canonical stack reference.
 > See `.agents/rules/workspace-organization-standards.md` for workspace directory layout and path standards.
 > See `.agents/rules/antigravity-frontend-execution-rules.md` for frontend design, typography, framework execution, and browser agent verification rules.
+> See `.agents/rules/single-page-audit-and-execution-protocol.md` for the mandatory 6-step single-page audit and execution protocol.
 
 - **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
 - **Backend**: Node.js / NestJS + TypeScript (primary), ASP.NET Core / C# (secondary)
@@ -64,6 +65,8 @@ After completing **every single task or feature change**, you MUST unconditional
    - Perform live browser interactions across both Desktop (`1440x900`) and Mobile (`375x812`) viewports.
    - Verify layout reflow, touch target sizing ($\ge 44\text{px}$), visual hierarchies, interactive animations, and capture visual screenshot evidence saved to workspace root.
    - **Adjacent Interactive Element Non-Overlap Assertion**: In any component featuring action clusters (e.g. card action buttons, swatch discs, badge groups, floating bars), visual testing MUST explicitly verify that adjacent interactive targets maintain clean separation ($\ge 6\text{–}8\text{px}$ gap) with zero element superposition, clipping, or z-index collisions in both idle and hover/active states.
+   - **7-Dimension Cross-Page Sweep Invariant**: For all full-site audits or multi-page releases, testing must unconditionally sweep across all 7 dimensions (Content & Copy, Visual/Layout, Interactions, Cross-page Consistency, E2E User Flows, Edge Cases, Accessibility) per `.agents/rules/sqa-engineering-standards.md` Section 13, eliminating single-dimension blind spots.
+
 
 ### DevOps
 - CI/CD: GitHub Actions (primary), Azure DevOps, GitLab CI.
@@ -236,6 +239,88 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
   3. Dynamic real-time price recalculation based on selected variant deltas.
   4. Direct 1-click **Add to Bag** carrying the exact configured variant payload.
 - **Semantic Asset Integrity**: Catalog databases and test harnesses must enforce strict semantic alignment between image paths and the product's actual category and ID prefix. Unit tests must validate semantic asset relevance, not just superficial array lengths.
+
+**11. Global Dynamic Chrome & Universal Script Invariant**:
+- When adding global header/footer features mounted dynamically via JavaScript (e.g. Delivery Location Hub pill, Search Overlay, Mini-cart, Style Concierge), the supporting engine and UI scripts MUST be added unconditionally to **all 29 storefront pages** (`index.html`, `404.html`, and `pages/*.html`).
+- Static AST audit suites (`tests/full-7dimension-audit.js`) must assert the presence of all global engine and UI script tags across every page file to prevent subpage fragmentation.
+
+**12. Modal Scroll Isolation & Smooth Scroll Invariant**:
+- Every modal, bottom sheet, or slide-over drawer with internal scrolling MUST declare `data-lenis-prevent`, pause/resume smooth scroll engines on open/close (`window._nexLenis.stop()` / `window._nexLenis.start()`), and enforce `touch-action: pan-y; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;`.
+- Never rely on static visibility checks (`display !== 'none'`); always verify gesture-driven scrolling with live `scrollTop` assertions.
+
+**13. Cross-Viewport Feature Parity & Single Placement Rule**:
+- Features hidden via `.desktop-only` must have an intentional, dedicated mobile counterpart (e.g. inside `#mobileNavDrawer`).
+- Avoid rendering duplicate floating triggers across both mobile header and drawer; maintain a single unified access point on mobile.
+- Limit default selection lists to the **Top 3 premier choices** to ensure zero-scroll visibility above the fold on all viewports.
+
+**14. Plain-Language E-Commerce Copywriting Guardrail**:
+- Strictly avoid pretentious, obscure, or pseudo-luxury jargon in generic UI labels.
+- Do NOT use terms like `ATELIER`, `Curated`, or `DISPATCH` for standard UI elements.
+- Use clean, intuitive, high-legibility terms:
+  - `YOUR SELECTION` instead of `ATELIER SELECTION`
+  - `Items Selected` / `Pieces Selected` instead of `Pieces Curated`
+  - `EXPRESS DELIVERY` / `SHIPPING` instead of `EXPRESS DISPATCH`
+  - `Saved Items` / `Wishlist` instead of `Vault`
+
+**15. Spotlight Hero & Integrated Action Toolbar Invariant**:
+- Page headers on major functional views (Cart, Wishlist, Smart List, Orders, Profile, Account) must NEVER be rendered as floating, uncontained text lines with raw hyperlink clusters on a blank dark canvas.
+- Always encapsulate in a structured glassmorphic hero enclosure (`.cart-hero-header` / `.spotlight-hero-card`) with:
+  1. Live status eyebrow with pulsing beacon dot and item badge pill.
+  2. Bold typography headline (`Manrope` + italic `Instrument Serif`) and balanced subtitle.
+  3. Right-aligned real-time 3-stat metric cluster (`TOTAL ITEMS`, `ESTIMATED VALUE`, `EXPRESS DELIVERY`).
+  4. Dedicated action toolbar with styled glassmorphic button pills (`btn-action-back`, `btn-action-ai-cyan`, `btn-action-ai-magenta`, `btn-action-danger`) rather than unstyled text links.
+
+**16. AI Modality Demo-Readiness & In-Dropzone Action Invariant**:
+- Modals and widgets with multimodal inputs (OCR slip parsers, photo search, audio transcription, bulk text list imports) must NEVER rely solely on passive drag-and-drop boxes or blank text inputs.
+- Always provide:
+  1. **Visible In-Dropzone Action Buttons**: Distinct primary `[ ✨ Demo Sample Image / Receipt ]` and secondary `[ 📁 Browse File ]` buttons inside the dropzone container.
+  2. **1-Click Sample Pre-Fill for Text Modes**: A dedicated `[ 📋 Load Sample Text ]` / `[ ⚡ Auto-Fill Demo ]` button that populates realistic sample items immediately.
+  3. **Self-Contained Demo Assets**: Built-in mock data generators and OCR simulation pipelines so features can be demonstrated end-to-end without requiring external file preparation.
+
+**17. Viewport-Constrained Flex Sidebar & Child Collapse Guardrail**:
+- When applying `max-height: calc(100vh - ...)` or fixed heights with `position: sticky` on a vertical flex container (e.g. Order Summary sidebars, filter drawers, cart side-panels), ALWAYS enforce `flex-shrink: 0` on direct children (`.sticky-panel > * { flex-shrink: 0; }`).
+- Internal scrollable lists within flex containers MUST declare an explicit `min-height` (e.g. `min-height: 140px;`) and `flex-shrink: 0` alongside `max-height` and `overflow-y: auto`.
+- Never allow default flexbox shrink rules (`flex-shrink: 1`) to crush internal product lists down to `0px` when viewport height is constrained. Let the parent container manage vertical overflow via `overflow-y: auto; overscroll-behavior: contain;`.
+
+**18. Multi-Part CTA Button Mobile Flex & Sizing Guardrail**:
+- Action buttons containing multi-part metadata (e.g. `[ Icon + Action Label + Price/Item Pill ]` such as `[ 🔒 COMPLETE SECURE PURCHASE | € 1035.00 ]`) MUST use a structured `display: flex; justify-content: space-between; align-items: center; white-space: nowrap; overflow: hidden;` layout.
+- Group the icon and action text in a left sub-container (`.btn-cta-left`) with fixed vector dimensions, and encapsulate price tags with `flex-shrink: 0; line-height: 1;`.
+- Include responsive typography scaling (`@media (max-width: 480px)` and down to `320px`) with adaptive font sizes (`11px–12.5px`) so multi-part CTA buttons NEVER wrap lines, split currency symbols vertically, or deform pill geometries on narrow mobile viewports.
+
+**19. Visual Asset Replacement & Cache Invalidation Invariant**:
+- When updating or replacing visual media assets (hero banners, product photos, lifestyle images), always assign a distinct filename or append explicit version strings (`?v=2`) to HTML `<img>` tags and JS path registries to prevent stale browser disk/memory caching. Bump script and CSS cache busters simultaneously.
+
+**20. Pure Editorial Hero Banner vs. Interactive Widget Discipline**:
+- Respect user intent for clean, full-width photography banners. Do NOT convert simple hero image sections into complex split-column widgets with floating product cards or rotating capsule tabs unless explicitly specified. Use wide panoramic responsive containers (`.plp-pure-banner-frame` with aspect ratio `21:7`) with edge-to-edge photography and zero widget clutter.
+
+**21. 3-Option Visual Exploration & User Choice Standard**:
+- When tasked with creating or refreshing hero banners, marketing imagery, or core visual concepts, always generate 3 distinct creative options and present them with live screenshot evidence for user selection before final code integration.
+
+**22. Panoramic Hero Banner Full-Model & Extreme Zoom-Out Invariant**:
+- Banners featuring human models must guarantee 100% full-body visibility (head to toe, complete footwear and headwear) without vertical clipping. Visual assets for panoramic frames must be generated with extreme wide-angle long-shot compositions with generous headroom and footroom. Banners on dark storefront themes must utilize dark architectural backgrounds that seamlessly merge with the canvas.
+
+**23. Search Overlay Minimalist Hierarchy & Zero-Clutter Invariant**:
+- **Strict Content Budget for Search Overlays**: The initial idle state of global search modals/overlays must remain strictly minimal and uncluttered, following the **Curated Editorial Atelier** standard:
+  1. **Primary Input**: High-focus search bar with clear placeholder, search icon, and keyboard shortcut hint (`ESC` / `Ctrl+K`).
+  2. **Single-Line Department Navigation**: Text-only category links (`Apparel · Footwear · Audio · Accessories · Objects`) — strictly **no** bulky photo banner grids on idle.
+  3. **Capped 3-Piece Seasonal Highlights**: Maximum 3 compact studio product items in a single horizontal row displaying uncropped studio thumbnail (`object-fit: contain !important;`), brand, name, and formatted price. Strictly **no** bulky "ADD" buttons or heavy promotional badges on idle cards.
+  4. **Compact Single-Line History**: Subtle, single-line recent searches footer with fast one-click removal and "Clear Recent" action.
+  5. Dynamic typeahead, NLP reasoning, and expanded product listings must appear *only* reactively once the user starts typing.
+
+**24. Multi-Source Parameter Alias Ingestion & Zero-Skeleton Fallback Invariant**:
+- **Query Parameter Alias Tolerance**: All detail, lookup, and search pages (`tracking.html`, `product.html`, `orders.html`, `confirmation.html`, `category.html`, `discovery.html`) MUST parse all canonical query parameter aliases:
+  - Orders: `params.get('order') || params.get('ref') || params.get('id') || params.get('orderId') || params.get('order_id')`
+  - Products: `params.get('id') || params.get('product') || params.get('slug') || params.get('sku')`
+  - Categories: `params.get('cat') || params.get('category') || params.get('c')`
+  - Search: `params.get('q') || params.get('query') || params.get('search')`
+- **Cross-Store Reconciliation**: Engines must search across all client storage tiers (`localStorage.getItem('nex_placed_orders')`, `sessionStorage.getItem('nex_confirmed_order')`, default catalog fixtures, and dynamic mock generators).
+- **Zero-Skeleton Invariant**: When no parameter is supplied or no record matches, renderers MUST NEVER terminate silently or leave raw skeleton placeholders in the DOM. Renderers must immediately display an interactive Lookup/Empty State with 1-click sample demo chips and search inputs targeting validated DOM container IDs.
+
+
+
+
+
+
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 

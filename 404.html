@@ -3,17 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery Not Found (404) &mdash; nexCommerce Luxury Digital Atelier</title>
-  <meta name="description" content="The requested atelier destination is unavailable. Explore our active ready-to-wear collections, Lookbook, or consult our Style Concierge.">
+  <title>Page Not Found — nexCommerce</title>
+  <meta name="description" content="The requested atelier destination is unavailable. Explore our active ready-to-wear collections, Smart List, or consult our Style Concierge.">
   <meta name="view-transition" content="same-origin" />
 
   <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@400;500;600;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
-  <link rel="stylesheet" href="css/design-system.css?v=6">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css?v=40">
+  <style>
+    .recovery-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(60px, 8vh, 100px) 24px;
+      text-align: center;
+      position: relative;
+    }
+    .recovery-watermark {
+      font-family: var(--font-display);
+      font-size: clamp(120px, 22vw, 280px);
+      font-weight: 700;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      user-select: none;
+    }
+    .recovery-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3.5vw, 44px);
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin: 0 0 20px;
+      letter-spacing: -0.02em;
+    }
+    .recovery-subhead {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+    .recovery-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 6px 8px 6px 16px;
+      max-width: 560px;
+      margin: 0 auto 28px;
+      transition: border-color 0.2s;
+    }
+    .recovery-search-wrap:focus-within { border-color: var(--accent-cyan); }
+    .recovery-search-input {
+      flex: 1; background: none; border: none; outline: none;
+      color: var(--text-primary); font-family: var(--font-body);
+      font-size: 14px; min-height: 36px;
+    }
+    .recovery-search-input::placeholder { color: var(--text-muted); }
+    .recovery-search-btn {
+      background: var(--accent-cyan); border: none; border-radius: 4px;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      color: #000B1A; cursor: pointer; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .recovery-search-btn:hover { background: #fff; }
+    .recovery-prompt-chips {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 8px; justify-content: center; margin-bottom: 48px;
+    }
+    .recovery-prompt-chip {
+      padding: 6px 14px; border-radius: 9999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-secondary); font-size: 12px;
+      text-decoration: none; letter-spacing: 0.02em;
+      transition: all 0.2s;
+    }
+    .recovery-prompt-chip:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+    .recovery-wings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      text-align: left;
+      margin-bottom: 0;
+    }
+    @media (max-width: 600px) { .recovery-wings-grid { grid-template-columns: 1fr; } }
+    .recovery-wing-card {
+      display: flex; flex-direction: column; justify-content: space-between;
+      gap: 16px; padding: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .recovery-wing-card:hover {
+      border-color: rgba(61,224,255,0.3);
+      background: rgba(61,224,255,0.04);
+    }
+    .recovery-wing-tag {
+      display: block; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent-cyan); margin-bottom: 8px;
+    }
+    .recovery-wing-title {
+      font-family: var(--font-display); font-size: 18px; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 8px;
+    }
+    .recovery-wing-desc {
+      font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;
+    }
+    .recovery-wing-cta {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-secondary);
+      margin-top: 8px;
+      transition: color 0.2s;
+    }
+    .recovery-wing-card:hover .recovery-wing-cta { color: var(--accent-cyan); }
+  </style>
 </head>
-<body class="tracking-page-bg">
+<body>
 
   <!-- LUXURY EDITORIAL BRAND PRELOADER -->
   <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
@@ -23,7 +142,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Page Not Found &middot; Return to the Atelier</span>
+        <span id="preloaderStatusText">Page Not Found</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -32,73 +151,88 @@
     </div>
   </div>
 
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
-        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" style="display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; align-items: center; justify-content: center;">
-          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
           <img src="assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="discovery.html" class="nav-item-link">Discover <span class="nav-badge-pink">NEW</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="pages/category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="pages/smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+        <a href="pages/wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <a data-auth-account href="pages/account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        <a href="pages/cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="tracking.html" class="nav-more-item" role="menuitem">
+            <a href="pages/tracking.html" class="nav-more-item" role="menuitem">
               <i data-lucide="truck"></i>
               <span>Track Order</span>
             </a>
-            <a href="profile.html" class="nav-more-item" role="menuitem">
+            <a href="pages/profile.html" class="nav-more-item" role="menuitem">
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <div class="nav-more-divider"></div>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="pages/orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="pages/contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -106,75 +240,83 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="pages/category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="pages/smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="pages/wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="pages/account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="pages/orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="pages/contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
-  <main>
-    <div class="recovery-section">
-      
-      <!-- Typographic 404 Monument -->
-      <div class="recovery-watermark">404</div>
+  <main id="mainContent">
+    <!-- 404 EDITORIAL RECOVERY SUITE -->
+    <section class="recovery-section">
+      <div class="recovery-watermark" aria-hidden="true">404</div>
+      <h1 class="recovery-title">Destination Unavailable</h1>
+      <p class="recovery-subhead">The atelier piece or runway destination you requested has been relocated or archived in our permanent vaults.</p>
 
-      <!-- Narrative Header -->
-      <span class="account-tier-badge" style="margin-bottom: 8px;">
-        <i data-lucide="sparkles" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
-        <span>ATELIER NAVIGATION PROTOCOL</span>
-      </span>
-      <h1 class="recovery-title">The piece you seek is beyond this gallery.</h1>
-      <p class="recovery-subhead">
-        The destination requested has been archived, relocated, or remains in development. Allow us to redirect your discovery through our active collection wings or conversational concierge.
-      </p>
-
-      <!-- Recovery Search Bar -->
-      <form class="recovery-search-wrap" onsubmit="event.preventDefault(); var q = document.getElementById('recoverySearchInput').value.trim(); if(q) window.location.href = 'discovery.html?q=' + encodeURIComponent(q);">
-        <input
-          type="text"
-          id="recoverySearchInput"
-          class="recovery-search-input"
-          placeholder="Search collections, pieces, or describe what you envision..."
-          aria-label="Search collections"
-        />
-        <button type="submit" class="recovery-search-btn" aria-label="Execute search">
-          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+      <!-- Instant Recovery Search Input -->
+      <div class="recovery-search-wrap">
+        <input type="text" id="recoverySearchInput" class="recovery-search-input" placeholder="Search the collection (e.g., 'Cashmere Turtleneck', 'Blazer')..." aria-label="Search collection" />
+        <button id="recoverySearchBtn" class="recovery-search-btn" aria-label="Submit search">
+          <i data-lucide="search" style="width: 16px; height: 16px;"></i>
         </button>
-      </form>
+      </div>
 
-      <!-- Quick Discovery Prompts -->
+      <!-- Discovery Query Chips -->
       <div class="recovery-prompt-chips">
-        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-right: 6px;">SUGGESTED INTENTS:</span>
-        <a href="discovery.html?q=winter%20overcoat" class="recovery-prompt-chip">✦ Winter Overcoats</a>
-        <a href="discovery.html?q=minimal%20sneakers" class="recovery-prompt-chip">✦ Minimal Footwear</a>
-        <a href="discovery.html?q=acoustic%20headphones" class="recovery-prompt-chip">✦ High Acoustics</a>
-        <a href="lookbook.html" class="recovery-prompt-chip">✦ The Winter Lookbook</a>
+        <a href="pages/category.html?cat=apparel" class="recovery-prompt-chip">✦ Tailored Cashmere</a>
+        <a href="pages/discovery.html?q=minimalist%20overcoat" class="recovery-prompt-chip">✦ Milan Winter Coats</a>
+        <a href="pages/discovery.html?q=acoustic%20headphones" class="recovery-prompt-chip">✦ High Acoustics</a>
+        <a href="pages/smart-list.html" class="recovery-prompt-chip">✦ AI Smart List</a>
       </div>
 
       <!-- Four Curated Gateway Wings -->
       <div class="recovery-wings-grid">
-        <a href="lookbook.html" class="recovery-wing-card">
+        <a href="pages/smart-list.html" class="recovery-wing-card">
           <div>
-            <span class="recovery-wing-tag">EDITORIAL CAMPAIGN</span>
-            <div class="recovery-wing-title">The Winter Edit 2026</div>
-            <p class="recovery-wing-desc">Explore six complete seasonal silhouettes curated by creative director Julian Mercer.</p>
+            <span class="recovery-wing-tag">AGENTIC COMMERCE</span>
+            <div class="recovery-wing-title">Smart List &amp; Vault</div>
+            <p class="recovery-wing-desc">AI-powered predictive wardrobe planning, budget caps, and dynamic auto-ordering.</p>
           </div>
           <div class="recovery-wing-cta">
-            <span>VIEW LOOKBOOK</span>
+            <span>EXPLORE SMART LIST</span>
             <i data-lucide="arrow-right" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
           </div>
         </a>
 
-        <a href="category.html?cat=apparel" class="recovery-wing-card">
+        <a href="pages/category.html?cat=apparel" class="recovery-wing-card">
           <div>
             <span class="recovery-wing-tag">READY-TO-WEAR</span>
             <div class="recovery-wing-title">Tailored Silhouettes</div>
@@ -186,7 +328,7 @@
           </div>
         </a>
 
-        <a href="category.html?cat=acoustics" class="recovery-wing-card">
+        <a href="pages/category.html?cat=acoustics" class="recovery-wing-card">
           <div>
             <span class="recovery-wing-tag">ACOUSTIC CRAFT</span>
             <div class="recovery-wing-title">High Acoustics &amp; Watches</div>
@@ -198,7 +340,7 @@
           </div>
         </a>
 
-        <a href="concierge.html" class="recovery-wing-card">
+        <a href="pages/concierge.html" class="recovery-wing-card">
           <div>
             <span class="recovery-wing-tag">PRIVATE STYLING</span>
             <div class="recovery-wing-title">Style Concierge</div>
@@ -217,13 +359,12 @@
           <i data-lucide="home" style="width: 15px; height: 15px;"></i>
           <span>RETURN TO MAISON HOMEPAGE</span>
         </a>
-        <a href="category.html?cat=all" class="btn-secondary-action" style="height: 48px; padding: 0 28px; display: inline-flex; align-items: center; gap: 8px;">
+        <a href="pages/category.html?cat=all" class="btn-secondary-action" style="height: 48px; padding: 0 28px; display: inline-flex; align-items: center; gap: 8px;">
           <span>EXPLORE ALL COLLECTIONS</span>
           <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
         </a>
       </div>
-
-    </div>
+    </section>
   </main>
 
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
@@ -232,14 +373,42 @@
   <!-- CDNs & Scripts -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://unpkg.com/split-type"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/footer.js"></script>
-  <script src="js/theme-switcher.js"></script>
   <script src="js/theme-switcher.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/header.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.lucide) window.lucide.createIcons();
+
+      var input = document.getElementById('recoverySearchInput');
+      var btn = document.getElementById('recoverySearchBtn');
+
+      function executeRecoverySearch() {
+        if (!input) return;
+        var q = (input.value || '').trim();
+        if (q) {
+          window.location.href = 'pages/discovery.html?q=' + encodeURIComponent(q);
+        }
+      }
+
+      if (btn) {
+        btn.addEventListener('click', executeRecoverySearch);
+      }
+      if (input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            executeRecoverySearch();
+          }
+        });
+      }
+    });
+  </script>
+
 <!-- ==========================================================================
      MINI CART (SIDE DRAWER)
      ========================================================================== -->
@@ -247,9 +416,9 @@
 <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
   <div class="minicart-header">
     <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag">&times;</button>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
-  <div id="minicartBody" class="minicart-body">
+  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
     <!-- Populated by cart.js -->
   </div>
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -270,7 +439,7 @@
         <div class="search-ai-icon">
           <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
         </div>
-        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
       </div>
       <button class="search-close-btn" aria-label="Close search">
         <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -286,5 +455,9 @@
 <script src="js/search-overlay.js?v=1"></script>
 <script src="js/cookie-consent.js"></script>
 
+  <script src="js/cart-recovery-engine.js?v=1"></script>
+  <script src="js/cart-recovery-ui.js?v=1"></script>
+  <script src="js/delivery-gate-engine.js?v=1"></script>
+  <script src="js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

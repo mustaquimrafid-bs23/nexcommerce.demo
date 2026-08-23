@@ -19,7 +19,8 @@
 
 ## 3. Antigravity Agent Verification
 - **Mandatory Browser Verification**: Before submitting an Artifact as complete, you MUST use the built-in Browser Subagent (`chrome-devtools` / `playwright`) to launch or connect to a localhost server.
-- **Visual Auditing**: Capture a screenshot of the viewport and verify there are no overlapping text layouts, layout shifts, or responsive design breaks across breakpoints.
+- **Visual Auditing**: Capture screenshots across Desktop (`1280px`/`1440px`), Tablet (`768px`), and Mobile (`375px`) viewports, verifying zero overlapping text, zero horizontal scrollbars, and zero cropped silhouettes.
+- **Multi-Dimension Cross-Page Sweep**: Full-site audits and release sign-offs must NEVER rely on single-dimension spot checks. Every audit MUST sweep all 7 dimensions (Content & Copy, Visual/Layout, Interactions, Cross-Page Consistency, E2E User Flows, Edge Cases, Accessibility) across all pages simultaneously per `sqa-engineering-standards.md` §13.
 
 ## 4. Canvas & Layout Scoping Invariants
 - **Global Canvas Palette Continuity**: Do NOT introduce isolated body background overrides. Maintain continuous brand canvas gradients across all routes.
@@ -66,3 +67,31 @@
 - **Zero Pseudo-Technical Pretension**: Never introduce confusing AI jargon (*"synthesize"*, *"cadence"*, *"replenishment"*, *"tonal DNA"*, *"telemetry"*, *"omnibar"*, *"silhouette constraints"*) into customer-facing UI.
 - **Natural Luxury Standard**: Use clear, conversational retail terms (*"Curate"*, *"Reorder Schedule"*, *"Color Palette"*, *"Add All to Bag"*, *"Clothing"*, *"Audio"*, *"Watches"*, *"Out of Stock"*, *"Chat with Stylist"*).
 - **Usability First**: If a term requires explanation or slows customer comprehension, replace it immediately with plain, clear English.
+
+## 10. Viewport-Constrained Flex Containers & Mobile Action Invariants
+- **Flex Child Anti-Shrink Isolation**: Whenever a vertical container has `max-height: calc(100vh - ...)` or `overflow-y: auto`, protect vital sub-panels and lists from flexbox compression by declaring `flex-shrink: 0` and minimum heights (`min-height: 140px`).
+- **Multi-Part CTA Button Layouts**: Never allow compound buttons (Icon + Text + Price Pill) to rely on implicit flex-centering without `justify-content: space-between` and `white-space: nowrap`. Mobile styles ($\le 375\text{px}$) must scale typography down to prevent multi-line breaks and pill distortion.
+- **Smooth Scroll Engine Coordination**: Always delegate programmatic in-page jumps or ribbon clicks through the active smooth scroll engine (`window._nexLenis.scrollTo(...)`) with explicit offsets, falling back to `scrollIntoView` only when the smooth scroll engine is absent.
+
+## 11. Visual Asset Replacement & Browser Cache Invalidation Invariant
+- **Dedicated Asset Naming**: When updating or replacing an existing lifestyle or product image asset, always create or reference a distinct, semantic filename rather than overwriting in place with stale cache implications.
+- **Explicit Version Query Parameters**: Unconditionally append cache-busting query parameters (e.g., `src="../assets/images/lifestyle/banner.jpg?v=2"`) to both HTML markup and dynamic JavaScript path maps (`bannerMap`).
+- **Synchronized Bundle Cache Busting**: When updating page-level scripts or stylesheets that reference updated assets, bump the corresponding `?v=N` query strings on `<link rel="stylesheet">` and `<script>` tags across affected storefront pages.
+
+## 12. Pure Editorial Hero Banner Standard
+- **Full-Width Photography Priority**: Category, brand, and campaign hero banners must prioritize edge-to-edge, uninterrupted visual storytelling without forcing split 2-column cards, rotating capsule tabs, or shoppable overlay widgets unless explicitly requested.
+- **Responsive Wide Framing**: Use a dedicated responsive container (`.plp-pure-banner-frame` / `.plp-pure-banner-img`) with wide panoramic aspect ratios (`21:7` on desktop, `16:7` on tablet, `16:9` on mobile), `object-fit: cover`, centered focal alignment, and subtle glassmorphic borders (`rgba(255, 255, 255, 0.08)`).
+
+## 13. 3-Option Proactive Visual Exploration & Choice Protocol
+- **Proactive 3-Option Generation**: Whenever designing, updating, or generating hero banners, promotional visuals, campaign photography, or primary layout variants, ALWAYS generate 3 distinct, high-quality aesthetic directions rather than imposing a single option.
+- **Visual Evidence & Live Artifact Presentation**: Render and capture live browser screenshot previews for each option, documenting key stylistic traits, composition differences, and palette nuances.
+- **Interactive User Selection**: Present the 3 options directly to the user with `ask_question` or structured selection so they can easily choose their preferred direction.
+
+## 14. Panoramic Banner Full-Model Framing & Extreme Zoom-Out Invariant
+- **100% Full-Model Head-to-Toe Visibility**: Banners with human models must NEVER crop out heads, hair, feet, boots, shoes, trousers, or essential silhouette details. The full figure must be completely visible from head to toe.
+- **Extreme Zoom-Out / Wide-Angle Long Shot**: For wide panoramic containers (`16:6.5`, `16:7`, `21:9`), visual prompts must specify an extreme wide-angle long shot with the camera pulled far back into the distance. Models must occupy the center 25–40% vertical band with generous dark headroom ($\ge 35\%$) and floor space ($\ge 25\%$) to prevent clipping.
+- **Dark Theme Background Harmony**: In dark-mode storefronts (`#030814` / `#000B1A`), banners must use deep dark palettes (obsidian concrete, dark smoked oak, midnight twilight) that seamlessly integrate with the surrounding dark canvas.
+- **Responsive CSS Framing**: Set responsive aspect ratios (`16 / 6.5` desktop down to `16 / 9` mobile) with calibrated `object-position` or `object-fit: contain` on seamless dark backgrounds.
+
+
+

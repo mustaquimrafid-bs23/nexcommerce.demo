@@ -35,3 +35,9 @@ When cards, overlays, or floating docks contain 2+ adjacent action buttons or in
 1. **Trigger Active/Hover State**: Trigger the container's `:hover` / active state during browser subagent inspection.
 2. **Assert Distinct Bounding Boxes**: Verify that button bounding boxes do not intersect (`rectA.right <= rectB.left - gap`), maintaining $\ge 6\text{–}8\text{px}$ clear separation.
 3. **Hit Target Independence**: Verify that each action button in the cluster can be clicked independently without triggering accidental sibling actions or mis-clicks.
+
+---
+
+## 7. Local Test Server URL Query Handling Invariant
+When creating ad-hoc Node.js HTTP servers to serve static workspace files for Playwright / browser testing, ALWAYS parse and strip URL query strings (`req.url.split('?')[0]` or `url.parse(req.url).pathname`) before resolving file paths with `fs.readFile`. This guarantees that cache-busted or parameterized static assets (`design-system.css?v=40`, `cart.js?v=6`, `products/p1.png?v=2`) resolve cleanly with HTTP 200 rather than throwing false 404 Not Found errors.
+

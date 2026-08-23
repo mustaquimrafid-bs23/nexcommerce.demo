@@ -7,8 +7,13 @@
   'use strict';
 
   const SAMPLE_PRESETS = {
+    receipt: {
+      name: 'Demo Receipt Image',
+      filename: 'sample_luxury_store_receipt.jpg',
+      text: "1x Pure Cashmere Sweater (Size M)\n1x Structured Wool Blazer (Size 48)\n1x Minimalist Leather Runner (EU 42)"
+    },
     capsule: {
-      name: 'Autumn Atelier Capsule',
+      name: 'Autumn Selection Slip',
       text: "1x Pure Cashmere Sweater (Size M)\n1x Structured Wool Blazer (Size 48)\n1x Minimalist Leather Runner (EU 42)"
     },
     essentials: {
@@ -85,7 +90,7 @@
             </button>
           </div>
 
-          <div class="slip-modal-body">
+          <div class="slip-modal-body" data-lenis-prevent>
             <!-- Upload Dropzone -->
             <div id="slipDropzone" class="slip-dropzone">
               <div class="slip-dropzone-icon">
@@ -93,6 +98,16 @@
               </div>
               <div class="slip-dropzone-title">Upload Shopping Slip or Receipt Image</div>
               <div class="slip-dropzone-sub">Drag and drop PNG, JPG, or receipt photos — AI will extract & match items instantly</div>
+              <div class="slip-dropzone-actions" onclick="event.stopPropagation()">
+                <button type="button" id="slipDemoReceiptBtn" class="btn-dropzone-action btn-dropzone-demo" title="Try instant OCR receipt scan demo">
+                  <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+                  <span>Demo Receipt Image</span>
+                </button>
+                <button type="button" id="slipBrowseFileBtn" class="btn-dropzone-action btn-dropzone-browse" title="Choose image file from your device">
+                  <i data-lucide="upload" style="width:13px;height:13px;"></i>
+                  <span>Browse Image File</span>
+                </button>
+              </div>
               <input type="file" id="slipFileInput" accept="image/*" style="display:none;" />
             </div>
 
@@ -100,7 +115,8 @@
             <div class="slip-options-row">
               <div class="slip-presets-cluster">
                 <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;">Test Presets:</span>
-                <button class="slip-preset-btn" data-preset="capsule">🍂 Autumn Atelier Slip</button>
+                <button class="slip-preset-btn" data-preset="receipt" style="border-color:rgba(61,224,255,0.4);background:rgba(61,224,255,0.08);color:#3DE0FF;">📸 Demo Receipt Image</button>
+                <button class="slip-preset-btn" data-preset="capsule">🍂 Autumn Selection</button>
                 <button class="slip-preset-btn" data-preset="essentials">⚡ Everyday Essentials</button>
                 <button class="slip-preset-btn" data-preset="ambiguous">🔍 Multi-Match Test</button>
               </div>
@@ -110,9 +126,16 @@
             </div>
 
             <!-- Text Paste Container (collapsible) -->
-            <div id="slipPasteContainer" style="display:none; flex-direction:column; gap:10px;">
-              <textarea id="slipTextInput" rows="4" style="width:100%; background:rgba(3,24,56,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:12px; color:#fff; font-family:var(--font-body); font-size:13px;" placeholder="e.g.&#10;2x Pure Cashmere Sweater Size M&#10;1x Structured Wool Blazer&#10;1x Minimalist Leather Runner"></textarea>
-              <button id="slipProcessTextBtn" class="slip-confirm-btn" style="align-self:flex-start; min-height:38px; padding:0 18px; font-size:12px;">Process Text List →</button>
+            <div id="slipPasteContainer" style="display:none; flex-direction:column; gap:12px; background:rgba(3,24,56,0.4); border:1px solid rgba(61,224,255,0.2); border-radius:12px; padding:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12px; font-weight:700; color:#3DE0FF; text-transform:uppercase; letter-spacing:0.08em;">Paste Shopping List</span>
+                <button type="button" id="slipLoadSampleTextBtn" class="slip-preset-btn" style="font-size:10.5px; padding:4px 10px;">📋 Load Sample Text</button>
+              </div>
+              <textarea id="slipTextInput" rows="4" style="width:100%; background:rgba(3,24,56,0.8); border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:12px; color:#fff; font-family:var(--font-body); font-size:13px; resize:vertical;" placeholder="e.g.&#10;2x Pure Cashmere Sweater Size M&#10;1x Structured Wool Blazer&#10;1x Minimalist Leather Runner"></textarea>
+              <div style="display:flex; gap:10px;">
+                <button id="slipProcessTextBtn" class="slip-confirm-btn" style="min-height:38px; padding:0 20px; font-size:12px;">Process Text List →</button>
+                <button id="slipClearTextBtn" class="slip-preset-btn" style="padding:0 14px;">Clear</button>
+              </div>
             </div>
 
             <!-- Split-pane Review Container -->
@@ -152,9 +175,13 @@
       const closeBtn = document.getElementById('slipModalCloseBtn');
       const dropzone = document.getElementById('slipDropzone');
       const fileInput = document.getElementById('slipFileInput');
+      const demoReceiptBtn = document.getElementById('slipDemoReceiptBtn');
+      const browseFileBtn = document.getElementById('slipBrowseFileBtn');
       const toggleTextBtn = document.getElementById('slipToggleTextBtn');
       const pasteContainer = document.getElementById('slipPasteContainer');
       const processTextBtn = document.getElementById('slipProcessTextBtn');
+      const loadSampleTextBtn = document.getElementById('slipLoadSampleTextBtn');
+      const clearTextBtn = document.getElementById('slipClearTextBtn');
       const textInput = document.getElementById('slipTextInput');
       const confirmBtn = document.getElementById('slipConfirmBtn');
 
@@ -171,9 +198,26 @@
         }
       });
 
-      // Dropzone
+      // Dropzone actions
+      if (demoReceiptBtn) {
+        demoReceiptBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.handleFileUpload({ name: 'sample_store_receipt.jpg' });
+        });
+      }
+      if (browseFileBtn && fileInput) {
+        browseFileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          fileInput.click();
+        });
+      }
+
+      // Dropzone container click & drag
       if (dropzone && fileInput) {
-        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('click', (e) => {
+          if (e.target.closest('.btn-dropzone-action')) return;
+          fileInput.click();
+        });
         dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('is-dragover'); });
         dropzone.addEventListener('dragleave', () => dropzone.classList.remove('is-dragover'));
         dropzone.addEventListener('drop', (e) => {
@@ -194,7 +238,9 @@
       document.querySelectorAll('.slip-preset-btn[data-preset]').forEach(btn => {
         btn.addEventListener('click', () => {
           const presetKey = btn.getAttribute('data-preset');
-          if (SAMPLE_PRESETS[presetKey]) {
+          if (presetKey === 'receipt') {
+            this.handleFileUpload({ name: 'sample_store_receipt.jpg' });
+          } else if (SAMPLE_PRESETS[presetKey]) {
             this.processText(SAMPLE_PRESETS[presetKey].text);
           }
         });
@@ -209,9 +255,27 @@
         });
       }
 
+      if (loadSampleTextBtn && textInput) {
+        loadSampleTextBtn.addEventListener('click', () => {
+          textInput.value = SAMPLE_PRESETS.capsule.text;
+        });
+      }
+
+      if (clearTextBtn && textInput) {
+        clearTextBtn.addEventListener('click', () => {
+          textInput.value = '';
+          textInput.focus();
+        });
+      }
+
       if (processTextBtn && textInput) {
         processTextBtn.addEventListener('click', () => {
-          this.processText(textInput.value);
+          if (textInput.value.trim()) {
+            this.processText(textInput.value);
+          } else {
+            textInput.value = SAMPLE_PRESETS.capsule.text;
+            this.processText(textInput.value);
+          }
         });
       }
 

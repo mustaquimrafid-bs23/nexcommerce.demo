@@ -56,14 +56,13 @@
       <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
         <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
         <a href="pages/category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
-        <a href="pages/category.html?cat=new" class="nav-item-link" data-nav="new-in">New In</a>
         <a href="pages/smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search"></i></span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
           <span class="search-pill-placeholder">Search, or describe what you need...</span>
           <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
@@ -71,9 +70,8 @@
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
         <a href="pages/wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
@@ -92,7 +90,7 @@
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
             <i data-lucide="more-horizontal"></i>
           </button>
@@ -105,7 +103,7 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <a href="pages/account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="pages/orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
             </a>
@@ -120,8 +118,8 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
     <div class="mobile-drawer-header">
       <a href="index.html" class="nav-logo" aria-label="nexCommerce Home">
         <img src="assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
@@ -135,34 +133,26 @@
         <span>Categories</span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
-      <a href="pages/category.html?cat=new" class="mobile-drawer-link" data-stagger="2">
-        <span>New In</span>
-        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
-      </a>
-      <a href="pages/smart-list.html" class="mobile-drawer-link" data-stagger="3">
+      <a href="pages/smart-list.html" class="mobile-drawer-link" data-stagger="2">
         <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
-      <div class="mobile-drawer-divider"></div>
-      <a href="pages/wishlist.html" class="mobile-drawer-link" data-stagger="4">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="heart" style="width: 16px; height: 16px;"></i> Saved Wishlist</span>
-        <span class="mobile-drawer-badge" id="mobileWishlistCount">0</span>
-      </a>
-      <a href="pages/tracking.html" class="mobile-drawer-link" data-stagger="5">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="truck" style="width: 16px; height: 16px;"></i> Track Order</span>
+      <a href="pages/wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
-      <a href="pages/profile.html" class="mobile-drawer-link" data-stagger="6">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="sparkles" style="width: 16px; height: 16px;"></i> AI Style Profile</span>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="pages/account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
-      <a data-auth-account href="pages/account.html" class="mobile-drawer-link" data-stagger="7">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="user" style="width: 16px; height: 16px;"></i> Account</span>
+      <a href="pages/orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
-      <a href="pages/cart.html" class="mobile-drawer-link" data-stagger="8">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i> Shopping Bag</span>
-        <span class="mobile-drawer-badge" id="mobileCartCount">0</span>
+      <a href="pages/contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
     </div>
   </div>
@@ -181,7 +171,7 @@
 
       <!-- Floating 3D Shoppable Look Capsule (SSENSE / NET-A-PORTER Standard) -->
       <div class="hero-3d-hotspot-wrap" id="heroHotspotWrap" role="region" aria-label="Featured Look Shoppable Piece">
-        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p2" role="button" tabindex="0" aria-label="View Featured Piece: Structured Leather Tote">
+        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p2">
           <div class="hero-hotspot-thumb">
             <img src="assets/images/lifestyle/thumb_tote.jpg?v=3" alt="Structured Leather Tote" id="heroDockThumbImg" />
           </div>
@@ -395,7 +385,7 @@
               <i data-lucide="sparkles" class="intent-badge-icon"></i>
               <span>AI Search</span>
             </div>
-            <h3 class="intent-text-heading">Tell us what you're dressing for.</h3>
+            <h2 class="intent-text-heading">Tell us what you're dressing for.</h2>
           </div>
 
           <form id="homeIntentForm" class="intent-input-wrap" data-parallax-depth="3">
@@ -588,140 +578,6 @@
       </div>
     </section>
 
-    <!-- AI FEATURES STRIP (MODERNIST TELEMETRY SHOWCASE) -->
-    <section class="trust-strip" id="trustStripSection" aria-label="AI-Powered Shopping Features">
-
-      <div class="container trust-strip-header">
-        <div class="trust-strip-eyebrow">SMART SHOPPING</div>
-        <h2 class="trust-strip-title">How nexCommerce Works</h2>
-      </div>
-
-      <!-- 5-Column Modernist AI Telemetry Grid -->
-      <div class="container trust-grid">
-
-        <!-- Card 1: Intent Discovery -->
-        <div class="trust-item-card" data-trust-index="0" data-parallax-depth="1.0" tabindex="0" role="article" aria-label="Curated Intent Discovery">
-          <div class="trust-card-specular" aria-hidden="true"></div>
-          <span class="trust-ripple" aria-hidden="true"></span>
-          <div class="trust-card-top">
-            <div class="trust-item-icon trust-icon-cyan">
-              <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-            </div>
-            <span class="trust-card-num">01</span>
-          </div>
-          <div class="telemetry-mini-visual">
-            <div class="telemetry-vector-nodes">
-              <span class="telemetry-vector-dot"></span>
-              <span class="telemetry-vector-line"></span>
-              <span class="telemetry-vector-dot" style="animation-delay: 0.5s;"></span>
-              <span class="telemetry-vector-line"></span>
-              <span class="telemetry-vector-dot" style="animation-delay: 1s;"></span>
-            </div>
-          </div>
-          <div class="trust-item-title">Smart Search</div>
-          <a href="pages/discovery.html" class="trust-item-tag trust-link" aria-label="Explore Intent Discovery">
-            <span>Find Similar</span>
-            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 2px;"></i>
-          </a>
-        </div>
-
-        <!-- Card 2: Style Concierge -->
-        <div class="trust-item-card" data-trust-index="1" data-parallax-depth="1.8" tabindex="0" role="article" aria-label="Style Concierge">
-          <div class="trust-card-specular" aria-hidden="true"></div>
-          <span class="trust-ripple" aria-hidden="true"></span>
-          <div class="trust-card-top">
-            <div class="trust-item-icon trust-icon-amber">
-              <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
-            </div>
-            <span class="trust-card-num">02</span>
-          </div>
-          <div class="telemetry-mini-visual">
-            <div class="telemetry-waveform">
-              <span class="telemetry-wave-bar"></span>
-              <span class="telemetry-wave-bar"></span>
-              <span class="telemetry-wave-bar"></span>
-              <span class="telemetry-wave-bar"></span>
-              <span class="telemetry-wave-bar"></span>
-            </div>
-          </div>
-          <div class="trust-item-title">AI Stylist</div>
-          <a href="pages/concierge.html" class="trust-item-tag trust-link" aria-label="Ask Stylist">
-            <span>Chat with Stylist</span>
-            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 2px;"></i>
-          </a>
-        </div>
-
-        <!-- Card 3: Smart List Reorder -->
-        <div class="trust-item-card" data-trust-index="2" data-parallax-depth="1.2" tabindex="0" role="article" aria-label="Smart List Predictive Reorder">
-          <div class="trust-card-specular" aria-hidden="true"></div>
-          <span class="trust-ripple" aria-hidden="true"></span>
-          <div class="trust-card-top">
-            <div class="trust-item-icon trust-icon-emerald">
-              <i data-lucide="refresh-cw" style="width: 18px; height: 18px;"></i>
-            </div>
-            <span class="trust-card-num">03</span>
-          </div>
-          <div class="telemetry-mini-visual">
-            <div class="telemetry-cadence-ring">
-              <span class="telemetry-cadence-dot"></span>
-              <span>Every 18 Days</span>
-            </div>
-          </div>
-          <div class="trust-item-title">Auto Reorder</div>
-          <a href="pages/smart-list.html" class="trust-item-tag trust-link" aria-label="Open Smart List">
-            <span>Smart Reorder</span>
-            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 2px;"></i>
-          </a>
-        </div>
-
-        <!-- Card 4: AI Style Profile -->
-        <div class="trust-item-card" data-trust-index="3" data-parallax-depth="2.0" tabindex="0" role="article" aria-label="AI Style Profile">
-          <div class="trust-card-specular" aria-hidden="true"></div>
-          <span class="trust-ripple" aria-hidden="true"></span>
-          <div class="trust-card-top">
-            <div class="trust-item-icon trust-icon-rose">
-              <i data-lucide="fingerprint" style="width: 18px; height: 18px;"></i>
-            </div>
-            <span class="trust-card-num">04</span>
-          </div>
-          <div class="telemetry-mini-visual">
-            <div class="telemetry-fingerprint-tags">
-              <span class="telemetry-mini-tag">Tailored</span>
-              <span class="telemetry-mini-tag">Obsidian</span>
-            </div>
-          </div>
-          <div class="trust-item-title">Your Style Profile</div>
-          <a href="pages/profile.html" class="trust-item-tag trust-link" aria-label="View your AI Style Profile">
-            <span>View Profile</span>
-            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 2px;"></i>
-          </a>
-        </div>
-
-        <!-- Card 5: Natural Language Search -->
-        <div class="trust-item-card" data-trust-index="4" data-parallax-depth="1.5" tabindex="0" role="article" aria-label="Natural Language Search">
-          <div class="trust-card-specular" aria-hidden="true"></div>
-          <span class="trust-ripple" aria-hidden="true"></span>
-          <div class="trust-card-top">
-            <div class="trust-item-icon trust-icon-purple">
-              <i data-lucide="search" style="width: 18px; height: 18px;"></i>
-            </div>
-            <span class="trust-card-num">05</span>
-          </div>
-          <div class="telemetry-mini-visual">
-            <div class="telemetry-nlp-tokens">
-              <span class="telemetry-token">Milan</span>
-              <span class="telemetry-token">Evening</span>
-            </div>
-          </div>
-          <div class="trust-item-title">Smart Search</div>
-          <button type="button" data-open-search class="trust-item-tag trust-link" aria-label="Try natural language search" style="cursor: pointer;">
-            <span>Try Search</span>
-            <i data-lucide="arrow-right" style="width: 10px; height: 10px; margin-left: 2px;"></i>
-          </button>
-        </div>
-
-      </div>
-    </section>
 
     <!-- EDITORIAL LIFESTYLE BANNER WITH AI VISION LOOKBOOK -->
     <section class="home-editorial-banner-section reveal-on-scroll" aria-label="Autumn Winter Editorial Lookbook">
@@ -781,7 +637,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -821,7 +677,7 @@
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
-  <script src="js/cart.js?v=5"></script>
+  <script src="js/cart.js?v=6"></script>
   <script src="js/comparison-engine.js?v=1"></script>
   <script src="js/comparison-ui.js?v=1"></script>
   <script src="js/slip-parser.js?v=1"></script>

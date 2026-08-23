@@ -218,8 +218,10 @@
         </div>
       `;
     }
-    document.getElementById('discoveryContextBar').style.display = 'none';
-    document.getElementById('discoveryRefinementBar').style.display = 'none';
+    const _ctxBar = document.getElementById('discoveryContextBar');
+    const _refBar = document.getElementById('discoveryRefinementBar');
+    if (_ctxBar) _ctxBar.style.display = 'none';
+    if (_refBar) _refBar.style.display = 'none';
   }
 
   function renderResults(query, ctx, products) {
@@ -254,7 +256,7 @@
     // ── Results header ──
     if (header) {
       header.innerHTML = products.length > 0 ? `
-        <span class="discovery-results-eyebrow">Results for your request</span>
+        <span class="discovery-results-eyebrow">Pieces curated for you</span>
         <div class="discovery-results-query">"${escHtml(query)}"</div>
         <div class="discovery-results-count">${products.length} item${products.length !== 1 ? 's' : ''} found</div>
       ` : '';
@@ -270,9 +272,9 @@
           <h2 class="discovery-no-results-title">Nothing found for that request</h2>
           <p class="discovery-no-results-body">Try a different description, or explore our categories below.</p>
           <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-            <a href="category.html" class="discovery-prompt-chip">Apparel</a>
-            <a href="category.html" class="discovery-prompt-chip">Footwear</a>
-            <a href="category.html" class="discovery-prompt-chip">Acoustics</a>
+            <a href="category.html?cat=apparel" class="discovery-prompt-chip">Apparel</a>
+            <a href="category.html?cat=footwear" class="discovery-prompt-chip">Footwear</a>
+            <a href="category.html?cat=audio" class="discovery-prompt-chip">Acoustics</a>
           </div>
         </div>
       `;
@@ -378,8 +380,8 @@
     const clearBtn = document.getElementById('discoveryClearBtn');
     if (clearBtn) clearBtn.style.display = 'flex';
 
-    // Collapse  section
-    const  = document.getElementById('discoveryHeroSection');
+    // Collapse hero section
+    const hero = document.getElementById('discoveryHeroSection');
     if (hero) hero.style.paddingBottom = '24px';
 
     // Hide example prompts when results are showing
@@ -423,7 +425,7 @@
     const section = document.getElementById('discoveryResultsSection');
     if (section) section.style.display = 'none';
 
-    const  = document.getElementById('discoveryHeroSection');
+    const hero = document.getElementById('discoveryHeroSection');
     if (hero) hero.style.paddingBottom = '64px';
 
     const prompts = document.getElementById('discoveryPrompts');

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -165,7 +165,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .about-hero-pill:hover {
@@ -251,7 +251,7 @@
       color: #94A3B8;
       text-align: left;
       cursor: pointer;
-      transition: all 0.22s ease;
+      transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
     }
 
     .material-swatch-btn:hover {
@@ -416,7 +416,7 @@
       justify-content: center;
       cursor: pointer;
       z-index: 10;
-      transition: all 0.25s ease;
+      transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
       box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
     }
 
@@ -453,7 +453,7 @@
       pointer-events: none;
       opacity: 0;
       transform: translateY(8px);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 20;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(16px);
@@ -508,7 +508,7 @@
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 4px;
       overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .discipline-card:hover {
@@ -628,7 +628,7 @@
       text-transform: uppercase;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .timeline-milestone-btn:hover {
@@ -719,7 +719,7 @@
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 4px;
-      transition: all 0.22s ease;
+      transition: transform 0.22s ease, opacity 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
     }
 
     .ledger-dial-card:hover {
@@ -987,7 +987,18 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER -->
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
@@ -1000,46 +1011,46 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -1050,56 +1061,93 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <div class="nav-more-divider"></div>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
             </a>
-
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
+    <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
-    <a href="lookbook.html" class="mobile-drawer-link">Lookbook</a>
-    <a href="about.html" class="mobile-drawer-link active">About</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Wishlist <span class="mobile-count-badge" id="mobileWishlistCount" style="display:none;">0</span></a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
-  <!-- MAIN ATELIER CONTENT -->
   <main class="about-page-wrap" id="mainContent">
 
-    <!-- 1. SPLIT EDITORIAL VISUAL HERO -->
-    <section class="about-hero-split" aria-labelledby="aboutHeroHeadline">
+    <!-- 1. SPLIT VISUAL HERO & MANIFESTO -->
+    <section class="about-hero-split" aria-label="Atelier Heritage & Manifesto">
       <div class="about-hero-content">
         <div class="about-hero-eyebrow">
           <span class="about-hero-eyebrow-dot"></span>
-          <span>The Maison Atelier &middot; Est. 2022</span>
+          <span>EST. 2026 &middot; MILAN &amp; PARIS</span>
         </div>
-        <h1 class="about-hero-headline" id="aboutHeroHeadline">
-          The Art of <em>Considered Living</em>.
+        <h1 class="about-hero-headline">
+          Ancestral craft.<br>
+          <em>Engineered for the modern world.</em>
         </h1>
         <p class="about-hero-subhead">
-          Ancestral European tailoring and acoustic beryllium precision, united by digital intelligence.
+          nexCommerce bridges centuries-old European tailoring traditions, Tuscan leather ateliers, and bespoke acoustic laboratories with real-time digital intelligence.
         </p>
         <div class="about-hero-nav-rail">
-          <a href="#materials" class="about-hero-pill">01 Materials</a>
-          <a href="#hotspots" class="about-hero-pill">02 Craftsmanship</a>
-          <a href="#disciplines" class="about-hero-pill">03 Disciplines</a>
-          <a href="#timeline" class="about-hero-pill">04 Timeline</a>
-          <a href="#provenance" class="about-hero-pill">05 Provenance</a>
+          <a href="#materials" class="about-hero-pill">
+            <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+            <span>Materials</span>
+          </a>
+          <a href="#hotspots" class="about-hero-pill">
+            <i data-lucide="layers" style="width: 12px; height: 12px;"></i>
+            <span>Anatomy</span>
+          </a>
+          <a href="#disciplines" class="about-hero-pill">
+            <i data-lucide="compass" style="width: 12px; height: 12px;"></i>
+            <span>Disciplines</span>
+          </a>
+          <a href="#timeline" class="about-hero-pill">
+            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+            <span>Chronology</span>
+          </a>
         </div>
       </div>
 
@@ -1353,7 +1401,7 @@
         <!-- Guardian 1 -->
         <article class="guardian-card">
           <div class="guardian-portrait-wrap">
-            <img src="../assets/images/lifestyle/hero_watch_hd.jpg" alt="Aurelia Vance" class="guardian-portrait-img" loading="lazy" />
+            <img src="../assets/images/lifestyle/auth_lifestyle.jpg" alt="Aurelia Vance — Creative Director" class="guardian-portrait-img" loading="lazy" />
           </div>
           <div class="guardian-body">
             <h3 class="guardian-name">Aurelia Vance</h3>
@@ -1365,7 +1413,7 @@
         <!-- Guardian 2 -->
         <article class="guardian-card">
           <div class="guardian-portrait-wrap">
-            <img src="../assets/images/lifestyle/hero_sweater_dark_hd.jpg" alt="Tariq Rahman" class="guardian-portrait-img" loading="lazy" />
+            <img src="../assets/images/lifestyle/sweater_lifestyle.png" alt="Tariq Rahman — Master Bespoke Tailor" class="guardian-portrait-img" loading="lazy" />
           </div>
           <div class="guardian-body">
             <h3 class="guardian-name">Tariq Rahman</h3>
@@ -1377,7 +1425,7 @@
         <!-- Guardian 3 -->
         <article class="guardian-card">
           <div class="guardian-portrait-wrap">
-            <img src="../assets/images/lifestyle/hero_headphone_hd.jpg" alt="Elena Rostova" class="guardian-portrait-img" loading="lazy" />
+            <img src="../assets/images/lifestyle/headphone_lifestyle.png" alt="Elena Rostova — Acoustic Engineering Lead" class="guardian-portrait-img" loading="lazy" />
           </div>
           <div class="guardian-body">
             <h3 class="guardian-name">Elena Rostova</h3>
@@ -1419,7 +1467,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -1436,7 +1484,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body">
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent>
       <!-- Populated by cart.js -->
     </div>
     <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -1495,28 +1543,33 @@
       }
 
       // 1. Material Vault Controller
+      // 1. Material Swatch Switcher Controller
       const materialData = {
-        'cashmere': {
-          title: 'Mongolian Grade-A Cashmere',
-          img: '../assets/images/lifestyle/sweater_lifestyle.png',
+        cashmere: {
+          title: 'Mongolian Raw Cashmere',
+          desc: 'Sourced from the high plateaus of the Gobi desert. Only 14-micron fibers are selected for our double-face cardigans and overcoats, preserving natural thermal memory without synthetic blends.',
+          img: '../assets/images/lifestyle/hero_sweater_landscape.jpg',
           link: 'category.html?cat=apparel',
-          pills: ['Weight: 420 GSM', 'Origin: Ulaanbaatar', 'Finish: Hand-Combed']
+          pills: ['Weight: 480 GSM', 'Fiber: 14.2 Micron', 'Origin: Inner Mongolia']
         },
-        'leather': {
-          title: 'Tuscan Full-Grain Calfskin',
-          img: '../assets/images/lifestyle/tote_lifestyle.png',
-          link: 'category.html?cat=footwear',
-          pills: ['Tannery: Santa Croce', 'Cure: Vegetable Bark', 'Longevity: Welted']
+        leather: {
+          title: 'Full-Grain Tuscan Calfskin',
+          desc: 'Vegetable-tanned along the Arno river basin using traditional chestnut bark extracts. Naturally ages to develop an individual patina unique to each client’s travels.',
+          img: '../assets/images/lifestyle/hero_tote_landscape.jpg',
+          link: 'category.html?cat=leather',
+          pills: ['Tannage: 100% Vegetable', 'Grade: Full Grain A+', 'Origin: Santa Croce, Italy']
         },
-        'beryllium': {
-          title: 'Acoustic Beryllium Alloy',
-          img: '../assets/images/lifestyle/headphone_lifestyle.png',
+        titanium: {
+          title: 'Grade 5 Aerospace Titanium',
+          desc: 'CNC-machined from solid billet blocks. Provides indestructible structural rigidity for headphone chassis and timepiece bezels with zero acoustic resonance coloration.',
+          img: '../assets/images/lifestyle/hero_headphone_landscape.jpg',
           link: 'category.html?cat=acoustics',
-          pills: ['Foil: 50mm Pure Foil', 'Chamber: 7075 Aluminum', 'Wood: American Walnut']
+          pills: ['Alloy: Ti-6Al-4V', 'Tolerance: ±0.005mm', 'Finish: Micro-Bead Blast']
         },
-        'silk': {
-          title: 'Japanese Selvedge Silk',
-          img: '../assets/images/lifestyle/hero_sweater_bright_hd.jpg',
+        silk: {
+          title: 'Como Jacquard Mulberry Silk',
+          desc: 'Woven on heritage narrow looms near Lake Como. Used exclusively for bespoke suit linings and foulard scarves, offering an ultra-smooth glide over undergarments.',
+          img: '../assets/images/lifestyle/runner_lifestyle.png',
           link: 'category.html?cat=apparel',
           pills: ['Loom: Shuttle Loom', 'Composition: 70/30 Silk-Wool', 'Drape: Fluid Structured']
         }
@@ -1545,6 +1598,7 @@
             materialImg.style.opacity = '0.3';
             setTimeout(() => {
               materialImg.src = data.img;
+              materialImg.alt = data.title;
               if (materialTitle) materialTitle.textContent = data.title;
               if (materialLink) materialLink.href = data.link;
               if (materialPills) {
@@ -1619,7 +1673,10 @@
             if (stageYear) stageYear.textContent = data.year;
             if (stageTitle) stageTitle.textContent = data.title;
             if (stageDesc) stageDesc.textContent = data.desc;
-            if (stageImg) stageImg.src = data.img;
+            if (stageImg) {
+              stageImg.src = data.img;
+              stageImg.alt = data.title + ' (' + data.year + ')';
+            }
             if (stageCard) stageCard.style.opacity = '1';
           }, 160);
         });
@@ -1658,5 +1715,9 @@
       });
     });
   </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

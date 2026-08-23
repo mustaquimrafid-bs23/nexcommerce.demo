@@ -15,7 +15,9 @@
       expressSupported: true,
       cutoffHour: 18, // 6:00 PM cutoff
       deliveryTimeMin: '45–60 mins',
-      courierPartner: 'DHL Express On-Demand'
+      courierPartner: 'DHL Express On-Demand',
+      lat: 52.5200,
+      lng: 13.4050
     },
     {
       id: 'paris-marais',
@@ -25,37 +27,21 @@
       expressSupported: true,
       cutoffHour: 19, // 7:00 PM cutoff
       deliveryTimeMin: '60–90 mins',
-      courierPartner: 'Chronopost Atelier'
+      courierPartner: 'Chronopost Atelier',
+      lat: 48.8566,
+      lng: 2.3522
     },
     {
       id: 'london-mayfair',
       city: 'London',
       region: 'Mayfair & West End (W1K)',
-      postcodes: ['W1K', 'W1J', 'SW1A', 'EC1A', 'WC2N'],
+      postcodes: ['W1K', 'W1J', 'SW1A', 'EC1A', 'WC2N', 'W1'],
       expressSupported: true,
       cutoffHour: 18,
       deliveryTimeMin: '45–60 mins',
-      courierPartner: 'Quiqup Concierge'
-    },
-    {
-      id: 'amsterdam-center',
-      city: 'Amsterdam',
-      region: 'Centrum & Grachtengordel (1016)',
-      postcodes: ['1012', '1016', '1017', '1071'],
-      expressSupported: true,
-      cutoffHour: 17,
-      deliveryTimeMin: '45–60 mins',
-      courierPartner: 'PostNL Express'
-    },
-    {
-      id: 'dhaka-gulshan',
-      city: 'Dhaka',
-      region: 'Gulshan 2 & Banani (1212)',
-      postcodes: ['1212', '1213', '1208'],
-      expressSupported: true,
-      cutoffHour: 20,
-      deliveryTimeMin: '30–45 mins',
-      courierPartner: 'Pathao Dark Store Express'
+      courierPartner: 'Quiqup Concierge',
+      lat: 51.5074,
+      lng: -0.1278
     }
   ];
 
@@ -67,7 +53,9 @@
     expressSupported: false,
     cutoffHour: 16,
     deliveryTimeMin: '2–3 business days',
-    courierPartner: 'DHL Carbon-Neutral'
+    courierPartner: 'DHL Carbon-Neutral',
+    lat: 50.1109,
+    lng: 8.6821
   };
 
   function getHubForPostal(postalCode) {
@@ -79,6 +67,42 @@
     );
 
     return matched || DEFAULT_FALLBACK_HUB;
+  }
+
+  function searchHubs(query) {
+    if (!query || !query.trim()) return DARK_STORE_HUBS;
+    const q = query.trim().toUpperCase();
+
+    return DARK_STORE_HUBS.filter(h => {
+      const matchCity = h.city.toUpperCase().includes(q);
+      const matchRegion = h.region.toUpperCase().includes(q);
+      const matchPostcode = h.postcodes.some(p => p.toUpperCase().startsWith(q) || q.startsWith(p.toUpperCase()));
+      return matchCity || matchRegion || matchPostcode;
+    });
+  }
+
+  function getNearestHub(lat, lng) {
+    if (typeof lat !== 'number' || typeof lng !== 'number') return DARK_STORE_HUBS[0];
+    
+    let closestHub = DARK_STORE_HUBS[0];
+    let minDistance = Infinity;
+
+    DARK_STORE_HUBS.forEach(hub => {
+      const dLat = (hub.lat - lat) * (Math.PI / 180);
+      const dLng = (hub.lng - lng) * (Math.PI / 180);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat * (Math.PI / 180)) * Math.cos(hub.lat * (Math.PI / 180)) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = 6371 * c; // Earth radius in km
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestHub = hub;
+      }
+    });
+
+    return closestHub;
   }
 
   function filterExpressAvailable(products, hubId) {
@@ -104,12 +128,13 @@
     cutoff.setHours(hub.cutoffHour, 0, 0, 0);
 
     let diffMs = cutoff - now;
-    if (diffMs < 0) {
+    if (diffMs <= 0) {
       // Past cutoff for today
       return {
         hoursRemaining: 0,
         minutesRemaining: 0,
-        formattedCountdown: 'Tomorrow Morning',
+        formattedCountdown: 'Next-day 10 AM',
+        humanUrgency: `Cutoff passed for today. Order now for dispatch tomorrow at 10:00 AM.`,
         isCutoffPassed: true
       };
     }
@@ -117,10 +142,22 @@
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
+    let formatted = '';
+    if (hours > 0) {
+      formatted = `${hours}h ${minutes}m left`;
+    } else {
+      formatted = `${minutes}m left`;
+    }
+
+    const humanUrgency = hours > 0
+      ? `Order within ${hours}h ${minutes}m for guaranteed same-day delivery by ${hub.cutoffHour}:00`
+      : `Order within ${minutes}m for guaranteed same-day delivery by ${hub.cutoffHour}:00`;
+
     return {
       hoursRemaining: hours,
       minutesRemaining: minutes,
-      formattedCountdown: `${hours}h ${minutes}m`,
+      formattedCountdown: formatted,
+      humanUrgency: humanUrgency,
       isCutoffPassed: false
     };
   }
@@ -143,6 +180,8 @@
     DARK_STORE_HUBS: DARK_STORE_HUBS,
     DEFAULT_FALLBACK_HUB: DEFAULT_FALLBACK_HUB,
     getHubForPostal: getHubForPostal,
+    searchHubs: searchHubs,
+    getNearestHub: getNearestHub,
     filterExpressAvailable: filterExpressAvailable,
     getCutoffCountdown: getCutoffCountdown,
     parseDeliveryIntent: parseDeliveryIntent

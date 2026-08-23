@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="view-transition" content="same-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Track Your Order &mdash; nexCommerce</title>
-  <meta name="description" content="Track your nexCommerce order. View real-time delivery status and estimated arrival date.">
+  <title>Live Shipment Journey &amp; Telemetry &mdash; nexCommerce</title>
+  <meta name="description" content="Track your nexCommerce order in real-time. View live GPS courier telemetry, climate control sensors, and AI logistics guidance.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,96 +13,510 @@
   <style>
     .tracking-page-bg { background: var(--bg-main); min-height: 100vh; }
 
-    .tracking-top-bar {
-      max-width: 1200px; margin: 0 auto; padding: 48px 40px 20px;
+    .tracking-layout-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 32px 80px;
     }
-    @media (max-width: 900px) { .tracking-top-bar { padding: 32px 16px 16px; } }
+    @media (max-width: 900px) { .tracking-layout-container { padding: 16px 16px 60px; } }
 
-    /* ── Stage Simulator Strip ── */
-    .stage-simulator-wrap {
-      max-width: 1200px; margin: 0 auto; padding: 0 40px 20px;
+    /* ── Breadcrumbs ── */
+    .tracking-breadcrumb-wrap {
+      margin-bottom: 20px;
     }
-    @media (max-width: 900px) { .stage-simulator-wrap { padding: 0 16px 16px; } }
+    .tracking-breadcrumb {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.45);
+    }
+    .tracking-breadcrumb a {
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s ease;
+    }
+    .tracking-breadcrumb a:hover { color: var(--accent-cyan); }
+    .crumb-sep { color: rgba(255, 255, 255, 0.25); }
+    .crumb-current { color: #FFFFFF; font-weight: 600; }
 
+    /* ── Luxury Spotlight Hero Header (Rule 15) ── */
+    .tracking-hero-header {
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(8, 24, 56, 0.8) 0%, rgba(3, 13, 34, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 18px;
+      padding: 28px 32px 22px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .tracking-hero-header::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(61, 224, 255, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tracking-hero-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 28px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tracking-hero-content {
+      flex: 1 1 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tracking-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+    }
+    .tracking-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+    .tracking-eyebrow-sep { color: rgba(255, 255, 255, 0.25); }
+    .tracking-badge-pill {
+      background: rgba(61, 224, 255, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(61, 224, 255, 0.28);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .tracking-hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(26px, 3.2vw, 38px);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px 0;
+    }
+    .tracking-hero-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--accent-cyan);
+      font-weight: 400;
+    }
+    .tracking-hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0;
+      max-width: 560px;
+      line-height: 1.5;
+    }
+
+    /* Hero Stats Cluster */
+    .tracking-hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 20px;
+      flex-shrink: 0;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    @media (max-width: 768px) {
+      .tracking-hero-stats { width: 100%; justify-content: space-between; }
+    }
+    .tracking-stat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .tracking-stat-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+    }
+    .tracking-stat-val {
+      font-family: var(--font-heading);
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+    .tracking-stat-val.status-cyan { color: var(--accent-cyan); }
+    .tracking-stat-val.status-green { color: #34D399; }
+    .tracking-stat-val.status-rose { color: #FB7185; }
+    .tracking-stat-divider {
+      width: 1px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Integrated Action Toolbar */
+    .tracking-toolbar-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+    .tracking-toolbar-left { display: flex; align-items: center; }
+    .tracking-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Action Buttons */
+    .tracking-action-btn {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 9px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .tracking-btn-back {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .tracking-btn-back:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+      transform: translateX(-2px);
+    }
+    .tracking-btn-cyan {
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      color: var(--accent-cyan);
+    }
+    .tracking-btn-cyan:hover {
+      background: var(--accent-cyan);
+      color: var(--bg-main);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.35);
+      transform: translateY(-1px);
+    }
+    .tracking-btn-subtle {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .tracking-btn-subtle:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+    }
+    .tracking-btn-danger {
+      background: rgba(251, 113, 133, 0.08);
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      color: #FB7185;
+    }
+    .tracking-btn-danger:hover {
+      background: rgba(251, 113, 133, 0.2);
+      color: #FFFFFF;
+      border-color: #FB7185;
+    }
+
+    /* ── Controls Wrap (Switcher + Simulator) ── */
+    .tracking-controls-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* Order Switcher Strip */
+    .order-switcher-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(10, 42, 84, 0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      flex-wrap: wrap;
+    }
+    .order-switcher-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .order-switcher-chips {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .order-chip {
+      font-family: var(--font-mono, monospace);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 5px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+    .order-chip:hover {
+      color: #FFFFFF;
+      border-color: var(--border-default);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .order-chip--active {
+      color: var(--bg-main);
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+      font-weight: 700;
+    }
+    .order-lookup-toggle-btn {
+      font-family: var(--font-body);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      background: rgba(61, 224, 255, 0.06);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: var(--radius-pill);
+      padding: 5px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.18s ease;
+    }
+    .order-lookup-toggle-btn:hover {
+      background: rgba(61, 224, 255, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    /* ── Stage Simulator Container ── */
+    .stage-simulator-container {
+      background: rgba(10, 42, 84, 0.5);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+    }
     .sim-pill {
-      font-family: var(--font-body); font-size: 11px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
-      padding: 6px 14px; cursor: pointer; transition: all 200ms ease;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .sim-pill:hover { color: var(--text-secondary); border-color: var(--border-default); background: rgba(255,255,255,0.07); }
+    .sim-pill:hover {
+      color: var(--text-secondary);
+      border-color: var(--border-default);
+      background: rgba(255, 255, 255, 0.08);
+    }
     .sim-pill--active {
-      color: var(--bg-main); background: var(--accent-cyan);
-      border-color: var(--accent-cyan); font-weight: 700;
+      color: var(--bg-main);
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(61, 224, 255, 0.35);
     }
 
     /* ── Main 2-col Layout ── */
     .tracking-layout {
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 40px 80px;
       display: grid;
       grid-template-columns: 1.45fr 1fr;
-      gap: 40px; align-items: start;
+      gap: 36px;
+      align-items: start;
     }
     @media (max-width: 960px) {
-      .tracking-layout { grid-template-columns: 1fr; padding: 0 16px 80px; gap: 28px; }
+      .tracking-layout { grid-template-columns: 1fr; gap: 28px; }
     }
 
     /* ── ETA Banner ── */
     .tracking-eta-banner {
-      background: rgba(61,224,255,0.05);
-      border: 1px solid rgba(61,224,255,0.18);
-      border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px;
+      background: rgba(61, 224, 255, 0.05);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.3);
     }
 
     /* ── Route Map ── */
     .route-map-wrap {
-      background: rgba(0,18,48,0.6);
+      background: rgba(0, 18, 48, 0.65);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg); overflow: hidden;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
       margin-bottom: 20px;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.4);
     }
 
     /* ── Telemetry Grid ── */
     .telemetry-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
-    @media (max-width: 540px) { .telemetry-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .telemetry-grid { grid-template-columns: 1fr; } }
 
     .telemetry-badge {
-      background: rgba(10,42,84,0.7);
+      background: rgba(10, 42, 84, 0.7);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md); padding: 14px 15px;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       backdrop-filter: blur(6px);
-      transition: border-color 200ms ease;
+      transition: all 0.2s ease;
     }
-    .telemetry-badge:hover { border-color: rgba(61,224,255,0.2); }
+    .telemetry-badge:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-1px);
+    }
     .telemetry-badge-icon { font-size: 18px; margin-bottom: 8px; display: block; }
 
     /* ── Order Summary Card ── */
     .tracking-summary-card {
-      background: rgba(10,42,84,0.8);
+      background: rgba(10, 42, 84, 0.85);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg); padding: 24px;
-      position: sticky; top: 100px;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      position: sticky;
+      top: 90px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5);
     }
 
     /* ── Beacon Animations ── */
     @keyframes beacon-pulse {
       0%, 100% { r: 5.5; opacity: 1; }
-      50%       { r: 7; opacity: 0.6; }
+      50%       { r: 7.5; opacity: 0.6; }
     }
     @keyframes glow-ring {
-      0%, 100% { opacity: 0.5; }
+      0%, 100% { opacity: 0.4; }
       50%       { opacity: 0.9; }
     }
     @keyframes pulse-dot {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.35; transform: scale(0.85); }
     }
     .beacon-pulse        { animation: beacon-pulse 2s ease-in-out infinite; }
     .beacon-glow-ring    { animation: glow-ring 2s ease-in-out infinite; }
+
+    /* ── Q&A Chips ── */
+    .tracking-qa-chip {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .tracking-qa-chip:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(61, 224, 255, 0.3);
+    }
+
+    /* ── Modal Backdrop ── */
+    .order-lookup-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 6, 18, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .order-lookup-card {
+      background: var(--bg-surface, #0A1C38);
+      border: 1px solid var(--border-strong, rgba(61, 224, 255, 0.25));
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    }
+    .lookup-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .lookup-close-btn:hover { color: #FFFFFF; }
   </style>
 </head>
 <body class="tracking-page-bg">
@@ -124,7 +538,7 @@
     </div>
   </div>
 
-  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <!-- TOP ANNOUNCEMENT BAR -->
   <div class="top-announcement-bar" id="topAnnouncementBar">
     <div class="container announcement-inner">
       <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
@@ -135,7 +549,7 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <!-- GLOBAL HEADER -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
@@ -148,47 +562,46 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>CONCIERGE</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
         <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="user"></i>
           <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -199,9 +612,14 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -210,41 +628,141 @@
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
+  <main class="tracking-layout-container" id="mainContent">
 
-  <main id="trackingMain">
+    <!-- BREADCRUMB -->
+    <div class="tracking-breadcrumb-wrap">
+      <nav class="tracking-breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html"><i data-lucide="home" style="width: 13px; height: 13px;"></i> Home</a>
+        <span class="crumb-sep">/</span>
+        <a href="orders.html">Orders &amp; Tracking</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current" id="trackingBreadcrumbRef">Order #ORD-9428-NX</span>
+      </nav>
+    </div>
 
-    <!-- ORDER HEADING -->
-    <div class="tracking-top-bar">
-      <div class="tracking-header-block">
-        <span id="trackingEyebrow" style="font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;"></span>
-        <h1 id="trackingTitle" style="font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.75rem);font-weight:500;color:var(--text-primary);margin:0 0 6px;">Track your order</h1>
-        <span id="trackingMeta" style="font-family:var(--font-body);font-size:13px;color:var(--text-muted);"></span>
+    <!-- SPOTLIGHT HERO HEADER (Rule 15) -->
+    <header class="tracking-hero-header" id="trackingHeroHeader">
+      <div class="tracking-hero-main">
+        <div class="tracking-hero-content">
+          <div class="tracking-hero-eyebrow">
+            <span class="tracking-live-dot"></span>
+            <span id="trackingEyebrow">LIVE SHIPMENT JOURNEY</span>
+            <span class="tracking-eyebrow-sep">·</span>
+            <span class="tracking-badge-pill" id="trackingStatusBadge">OUT FOR DELIVERY</span>
+          </div>
+          <h1 class="tracking-hero-title">
+            Track Shipment · <em id="trackingHeroId">#ORD-9428-NX</em>
+          </h1>
+          <p class="tracking-hero-subtitle" id="trackingHeroSubtitle">
+            Real-time courier telemetry, cold-chain climate monitor, and AI logistics assistant.
+          </p>
+        </div>
+        <div class="tracking-hero-stats" id="trackingHeroStats">
+          <div class="tracking-stat-box">
+            <span class="tracking-stat-label">DISPATCH STATUS</span>
+            <span class="tracking-stat-val status-cyan" id="trackingStatStatus">Out for Delivery</span>
+          </div>
+          <div class="tracking-stat-divider"></div>
+          <div class="tracking-stat-box">
+            <span class="tracking-stat-label">ESTIMATED ARRIVAL</span>
+            <span class="tracking-stat-val" id="trackingStatEta">Today · By 6:00 PM</span>
+          </div>
+          <div class="tracking-stat-divider"></div>
+          <div class="tracking-stat-box">
+            <span class="tracking-stat-label">COURIER NETWORK</span>
+            <span class="tracking-stat-val" id="trackingStatCourier">DHL Express On-Demand</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrated Action Toolbar -->
+      <div class="tracking-toolbar-bar">
+        <div class="tracking-toolbar-left">
+          <a href="orders.html" class="tracking-action-btn tracking-btn-back" id="trackingBackLink">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+            <span>ALL ORDERS</span>
+          </a>
+        </div>
+        <div class="tracking-toolbar-right">
+          <button type="button" class="tracking-action-btn tracking-btn-cyan" id="trackingRefreshBtn" onclick="handleRefreshTelemetry()" title="Refresh live telemetry">
+            <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+            <span>REFRESH TELEMETRY</span>
+          </button>
+          <button type="button" class="tracking-action-btn tracking-btn-subtle" onclick="window.print()" title="Print Dispatch Waybill / Invoice">
+            <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+            <span>DISPATCH INVOICE</span>
+          </button>
+          <button type="button" class="tracking-action-btn tracking-btn-danger" id="trackingCancelBtn" style="display: none;" onclick="handleTrackingOrderCancel()" title="Cancel Order">
+            <i data-lucide="x-circle" style="width: 14px; height: 14px;"></i>
+            <span>CANCEL ORDER</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- TRACKING CONTROLS (ORDER SWITCHER + STAGE SIMULATOR) -->
+    <div class="tracking-controls-wrap">
+      <!-- Order Quick Switcher Bar -->
+      <div class="order-switcher-strip">
+        <div class="order-switcher-label"><i data-lucide="layers" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i> ACTIVE ORDER:</div>
+        <div class="order-switcher-chips" id="orderSwitcherChips">
+          <!-- Populated dynamically -->
+        </div>
+        <button type="button" class="order-lookup-toggle-btn" onclick="toggleOrderLookupModal()">
+          <i data-lucide="search" style="width: 12px; height: 12px;"></i>
+          <span>CUSTOM LOOKUP</span>
+        </button>
+      </div>
+
+      <!-- Stage Simulator Bar -->
+      <div class="stage-simulator-container" id="stageSimulator">
+        <!-- Populated dynamically -->
       </div>
     </div>
 
-    <!-- STAGE SIMULATOR BAR -->
-    <div class="stage-simulator-wrap">
-      <div id="stageSimulator" style="background:rgba(10,42,84,0.5);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:16px 20px;"></div>
-    </div>
-
+    <!-- MAIN TRACKING LAYOUT -->
     <div class="tracking-layout">
 
-      <!-- LEFT COLUMN: Route Map + Telemetry + AI Assistant -->
+      <!-- LEFT COLUMN: ETA + Route Map + Telemetry + AI Assistant -->
       <div>
 
         <!-- ETA BANNER -->
@@ -277,11 +795,27 @@
     </div>
   </main>
 
+  <!-- ORDER LOOKUP MODAL -->
+  <div class="order-lookup-modal-backdrop" id="orderLookupModal" style="display: none;" onclick="if(event.target===this)toggleOrderLookupModal()">
+    <div class="order-lookup-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-family:var(--font-body);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);">LOOKUP ANY ORDER</div>
+        <button type="button" class="lookup-close-btn" onclick="toggleOrderLookupModal()" aria-label="Close lookup modal"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+      <p style="font-family:var(--font-body);font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.5;">Enter your order number or reference code (e.g. <code>ORD-9428-NX</code>, <code>ORD-8712-NX</code>, or <code>NX-M4KZ9</code>) to load its live GPS telemetry.</p>
+      <form onsubmit="submitOrderLookup(event)" style="display:flex;gap:10px;">
+        <input type="text" id="orderLookupModalInput" class="checkout-input" placeholder="e.g. ORD-9428-NX" style="flex:1;text-transform:uppercase;" />
+        <button type="submit" class="btn-primary-commerce" style="height:44px;padding:0 20px;font-size:11px;">TRACK</button>
+      </form>
+    </div>
+  </div>
+
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
   <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
   <script src="../js/cart.js"></script>
   <script src="../js/delivery-assistant.js"></script>
+  <script src="../js/order-cancellation.js"></script>
   <script src="../js/tracking.js"></script>
   <script src="../js/footer.js"></script>
   <script src="../js/theme-switcher.js?v=3"></script>
@@ -299,7 +833,6 @@
   <script src="../js/concierge.js?v=3"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
-  <script>NexAuth.requireAuth();</script>
 
 <!-- ==========================================================================
      MINI CART (SIDE DRAWER)
@@ -310,7 +843,7 @@
     <div class="minicart-title">Shopping Bag</div>
     <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
-  <div id="minicartBody" class="minicart-body">
+  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
     <!-- Populated by cart.js -->
   </div>
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -331,7 +864,7 @@
         <div class="search-ai-icon">
           <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
         </div>
-        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
       </div>
       <button class="search-close-btn" aria-label="Close search">
         <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -344,5 +877,9 @@
 <script src="../js/search-overlay.js?v=1"></script>
 <script src="../js/cookie-consent.js"></script>
 
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

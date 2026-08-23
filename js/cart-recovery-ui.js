@@ -79,7 +79,7 @@
 
       modal.innerHTML = `
         <div class="recovery-modal-card" role="dialog" aria-modal="true" aria-label="Cart Recovery Incentive">
-          <button id="closeRecoveryModalBtn" style="position:absolute;top:18px;right:18px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;">&times;</button>
+          <button id="closeRecoveryModalBtn" aria-label="Close" style="position:absolute;top:18px;right:18px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;">&times;</button>
           
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
             <div class="recovery-timer-badge">
@@ -135,6 +135,16 @@
         this.secondsRemaining--;
         if (this.secondsRemaining <= 0) {
           clearInterval(this.timerInterval);
+          const timerEl = document.getElementById('recoveryCountdownTimer');
+          if (timerEl) timerEl.textContent = 'Offer Expired';
+          const claimBtn = document.getElementById('btnClaimRecoveryOffer');
+          if (claimBtn) {
+            claimBtn.disabled = true;
+            claimBtn.style.opacity = '0.45';
+            claimBtn.style.cursor = 'not-allowed';
+            const label = claimBtn.querySelector('span');
+            if (label) label.textContent = 'Offer Expired';
+          }
           return;
         }
 

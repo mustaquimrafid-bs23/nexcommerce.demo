@@ -101,7 +101,7 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
       cursor: pointer;
       opacity: 0.65;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
     }
 
     .pdp-thumb-img:hover {
@@ -170,7 +170,7 @@
       text-transform: uppercase;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .pdp-perspective-btn:hover {
@@ -340,7 +340,7 @@
       padding: 2px;
       background: transparent;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -380,7 +380,7 @@
       font-size: 12px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .pdp-size-btn:hover {
@@ -409,7 +409,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .btn-fit-advisor:hover {
@@ -434,7 +434,7 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
       margin-top: 8px;
     }
 
@@ -591,7 +591,7 @@
       border: none;
       border-radius: 3px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .pdp-bundle-btn:hover {
@@ -880,7 +880,18 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER -->
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
       <!-- Left: Brand Logo & Core Nav -->
@@ -893,46 +904,46 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
-        <!-- 3-Dot Overflow Menu -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -943,31 +954,58 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <div class="nav-more-divider"></div>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
             </a>
-
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
+    <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
-    <a href="lookbook.html" class="mobile-drawer-link">Lookbook</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Wishlist <span class="mobile-count-badge" id="mobileWishlistCount" style="display:none;">0</span></a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
   <!-- PDP MAIN SECTION -->
@@ -992,7 +1030,7 @@
         </div>
 
         <div class="pdp-stage-box">
-          <img id="pdpMainImg" src="../assets/images/products/hero_sweater.png" alt="Product Image" class="pdp-stage-img" />
+          <img id="pdpMainImg" src="../assets/images/products/hero_sweater.png" alt="Cashmere Turtleneck Sweater — Atelier Collection" class="pdp-stage-img" />
 
           <!-- Perspective Switcher Bar -->
           <div class="pdp-perspective-bar" role="tablist" aria-label="Image perspective views">
@@ -1060,13 +1098,13 @@
         </button>
 
         <!-- Secondary Concierge Context CTA -->
-        <button type="button" class="btn-pdp-concierge-trigger" data-concierge-trigger data-pdp-context="true" style="margin-top: 8px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: #FFFFFF; font-family: var(--font-body); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 180ms ease;">
+        <button type="button" class="btn-pdp-concierge-trigger" data-concierge-trigger data-pdp-context="true" style="margin-top: 8px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: #FFFFFF; font-family: var(--font-body); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;">
           <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #F13365;"></i>
           <span>Ask Stylist About Sizing &amp; Outfits</span>
         </button>
 
         <!-- Side-by-Side Comparison CTA (Capability 2) -->
-        <button type="button" id="pdpCompareBtn" data-trigger="compare-modal" data-compare-ids="p1,p2" style="margin-top: 8px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; background: rgba(61, 224, 255, 0.05); border: 1px solid rgba(61, 224, 255, 0.25); border-radius: 6px; color: #3DE0FF; font-family: var(--font-body); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 180ms ease;">
+        <button type="button" id="pdpCompareBtn" data-trigger="compare-modal" data-compare-ids="p1,p2" style="margin-top: 8px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; background: rgba(61, 224, 255, 0.05); border: 1px solid rgba(61, 224, 255, 0.25); border-radius: 6px; color: #3DE0FF; font-family: var(--font-body); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;">
           <i data-lucide="columns-2" style="width: 14px; height: 14px;"></i>
           <span>Compare with Alternative Piece</span>
           <span style="font-size:9px; background:rgba(61,224,255,0.15); padding:2px 6px; border-radius:4px; margin-left:4px;">AI</span>
@@ -1168,20 +1206,20 @@
       <div class="fit-input-grid">
         <div class="fit-input-group">
           <label class="fit-label" for="fitInputHeight">Height (cm)</label>
-          <input type="number" id="fitInputHeight" class="fit-input" placeholder="180" min="140" max="220" value="180">
+          <input type="number" id="fitInputHeight" class="fit-input" placeholder="180" min="140" max="220" value="180" aria-label="Height in centimeters">
         </div>
         <div class="fit-input-group">
           <label class="fit-label" for="fitInputWeight">Weight (kg)</label>
-          <input type="number" id="fitInputWeight" class="fit-input" placeholder="74" min="40" max="150" value="74">
+          <input type="number" id="fitInputWeight" class="fit-input" placeholder="74" min="40" max="150" value="74" aria-label="Weight in kilograms">
         </div>
       </div>
 
       <div class="fit-input-group">
-        <label class="fit-label">How do you like it to fit?</label>
-        <div class="fit-pref-row" id="fitPrefRow">
-          <button type="button" class="fit-pref-btn" data-fit="Tailored">Tailored</button>
-          <button type="button" class="fit-pref-btn selected" data-fit="Regular">Regular</button>
-          <button type="button" class="fit-pref-btn" data-fit="Relaxed">Relaxed</button>
+        <label class="fit-label" id="fitPrefLabel">How do you like it to fit?</label>
+        <div class="fit-pref-row" id="fitPrefRow" role="radiogroup" aria-labelledby="fitPrefLabel">
+          <button type="button" class="fit-pref-btn" data-fit="Tailored" role="radio" aria-checked="false">Tailored</button>
+          <button type="button" class="fit-pref-btn selected" data-fit="Regular" role="radio" aria-checked="true">Regular</button>
+          <button type="button" class="fit-pref-btn" data-fit="Relaxed" role="radio" aria-checked="false">Relaxed</button>
         </div>
       </div>
 
@@ -1217,7 +1255,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Search cashmere overcoats, acoustics, or styling..." autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -1234,7 +1272,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag" style="display: flex; align-items: center; justify-content: center;"><i data-lucide="x" style="width: 20px; height: 20px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body">
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent>
       <!-- Populated by cart.js -->
     </div>
     <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -1297,5 +1335,7 @@
       }
     });
   </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
 </body>
 </html>

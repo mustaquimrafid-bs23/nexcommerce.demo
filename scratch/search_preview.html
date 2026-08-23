@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Modal Redesign — 3 Clean Versions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-midnight: #000c1e;
+      --bg-panel: #031738;
+      --bg-elevated: #06224c;
+      --border-subtle: rgba(255, 255, 255, 0.14);
+      --border-cyan: rgba(61, 224, 255, 0.35);
+      --text-white: #ffffff;
+      --text-soft: #b0c4de;
+      --text-muted: #64748b;
+      --accent-cyan: #3de0ff;
+      --accent-coral: #fb7185;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000612;
+      color: var(--text-white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .modal-frame-container {
+      width: 780px;
+      max-width: 100%;
+      background: #000e24;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .frame-badge-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .frame-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      color: #000c1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .badge-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .badge-tagline {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       OPTION 1: COMMAND SPOTLIGHT (APPLE / LINEAR STYLE)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .spotlight-card {
+      background: rgba(4, 24, 60, 0.95);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(3, 30, 74, 0.4);
+    }
+
+    .spotlight-input-row {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+      gap: 14px;
+    }
+
+    .spotlight-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #ffffff;
+      outline: none;
+    }
+    .spotlight-input::placeholder {
+      color: #7a92b3;
+    }
+
+    .shortcut-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .spotlight-body {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .spotlight-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7a92b3;
+    }
+
+    .clear-btn-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .spotlight-recent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .spotlight-recent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .spotlight-recent-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .spotlight-recent-clock {
+      color: #7a92b3;
+      display: flex;
+    }
+
+    .spotlight-del {
+      color: #64748b;
+      font-size: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .spotlight-chips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .spotlight-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(8, 36, 78, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: #d1ddf0;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .spotlight-chip span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       OPTION 2: MINIMAL AI FOCUS (PERPLEXITY / ARC STYLE)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .ai-card {
+      background: rgba(3, 20, 48, 0.96);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      border-radius: 22px;
+      padding: 26px 24px 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 32px rgba(61, 224, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .ai-input-pill {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(8, 34, 76, 0.9);
+      border: 1.5px solid rgba(61, 224, 255, 0.45);
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0, 14, 38, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      gap: 14px;
+    }
+
+    .ai-sparkle-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(61, 224, 255, 0.25), rgba(251, 113, 133, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+    }
+
+    .ai-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #ffffff;
+      outline: none;
+    }
+    .ai-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .ai-close-box {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #b0c4de;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .ai-prompts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ai-prompts-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7a92b3;
+    }
+
+    .ai-prompts-rail {
+      display: flex;
+      gap: 8px;
+      flex-wrap: nowrap;
+      overflow-x: hidden;
+    }
+
+    .ai-prompt-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: rgba(14, 48, 98, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      color: #e2e8f0;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .ai-prompt-chip i {
+      color: var(--accent-cyan);
+    }
+
+    .ai-recent-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #7a92b3;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .ai-recent-footer strong {
+      color: #b0c4de;
+    }
+    .ai-recent-tag {
+      color: #cbd5e1;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       OPTION 3: CURATED EDITORIAL ATELIER (BOUTIQUE / SSENSE STYLE)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .atelier-card {
+      background: rgba(2, 16, 40, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .atelier-input-bar {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(6, 28, 64, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      gap: 12px;
+    }
+
+    .atelier-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      color: #ffffff;
+      outline: none;
+    }
+    .atelier-input::placeholder {
+      color: #7a92b3;
+    }
+
+    .atelier-dept-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+
+    .atelier-dept-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .atelier-dept-link.active {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .atelier-curation-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7a92b3;
+      margin-bottom: 10px;
+    }
+
+    .atelier-products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .atelier-product-item {
+      background: rgba(6, 28, 64, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .atelier-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.3) 100%);
+      object-fit: contain;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .atelier-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .atelier-brand {
+      font-size: 10px;
+      font-weight: 600;
+      color: #7a92b3;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .atelier-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 1px 0;
+    }
+
+    .atelier-price {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- OPTION 1: COMMAND SPOTLIGHT -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="modal-frame-container" id="frameOption1">
+    <div class="frame-badge-bar">
+      <div class="frame-title-group">
+        <div class="badge-number">1</div>
+        <div>
+          <div class="badge-name">Option 1: Command Spotlight</div>
+          <div class="badge-tagline">Apple Spotlight & Linear style &mdash; Ultra-clean, keyboard-first, zero image clutter</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spotlight-card">
+      <div class="spotlight-input-row">
+        <i data-lucide="search" style="width:18px;height:18px;color:var(--accent-cyan);"></i>
+        <input type="text" class="spotlight-input" value="Something for a winter evening in Milan" readonly />
+        <div class="shortcut-pill">ESC</div>
+      </div>
+
+      <div class="spotlight-body">
+        <div>
+          <div class="spotlight-section-header">
+            <span class="section-eyebrow">Recent Searches</span>
+            <span class="clear-btn-link">Clear All</span>
+          </div>
+          <div class="spotlight-recent-list">
+            <div class="spotlight-recent-item">
+              <div class="spotlight-recent-left">
+                <span class="spotlight-recent-clock"><i data-lucide="clock" style="width:14px;height:14px;"></i></span>
+                <span>Winter evening in Milan</span>
+              </div>
+              <button class="spotlight-del">&times;</button>
+            </div>
+            <div class="spotlight-recent-item">
+              <div class="spotlight-recent-left">
+                <span class="spotlight-recent-clock"><i data-lucide="clock" style="width:14px;height:14px;"></i></span>
+                <span>Minimalist leather runner</span>
+              </div>
+              <button class="spotlight-del">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="spotlight-section-header">
+            <span class="section-eyebrow">Suggested Inquiries</span>
+          </div>
+          <div class="spotlight-chips-grid">
+            <div class="spotlight-chip">
+              <span>Cashmere Turtleneck Sweater</span>
+              <i data-lucide="arrow-up-right" style="width:13px;height:13px;color:#7a92b3;"></i>
+            </div>
+            <div class="spotlight-chip">
+              <span>Studio Acoustics Headphones</span>
+              <i data-lucide="arrow-up-right" style="width:13px;height:13px;color:#7a92b3;"></i>
+            </div>
+            <div class="spotlight-chip">
+              <span>Horology & Timepieces</span>
+              <i data-lucide="arrow-up-right" style="width:13px;height:13px;color:#7a92b3;"></i>
+            </div>
+            <div class="spotlight-chip">
+              <span>Luxury Gifts under €200</span>
+              <i data-lucide="arrow-up-right" style="width:13px;height:13px;color:#7a92b3;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- OPTION 2: MINIMAL AI FOCUS -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="modal-frame-container" id="frameOption2">
+    <div class="frame-badge-bar">
+      <div class="frame-title-group">
+        <div class="badge-number">2</div>
+        <div>
+          <div class="badge-name">Option 2: Minimal AI Focus</div>
+          <div class="badge-tagline">Perplexity & Arc style &mdash; Spacious breathing room, prominent glow bar, smart micro-prompts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-card">
+      <div class="ai-input-pill">
+        <div class="ai-sparkle-badge">
+          <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+        </div>
+        <input type="text" class="ai-input" value="Something for a winter evening in Milan" readonly />
+        <div class="ai-close-box"><i data-lucide="x" style="width:15px;height:15px;"></i></div>
+      </div>
+
+      <div class="ai-prompts-section">
+        <span class="ai-prompts-label">Try Asking</span>
+        <div class="ai-prompts-rail">
+          <div class="ai-prompt-chip">
+            <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
+            <span>Winter evening in Milan</span>
+          </div>
+          <div class="ai-prompt-chip">
+            <i data-lucide="plane" style="width:12px;height:12px;"></i>
+            <span>Long flight comfort</span>
+          </div>
+          <div class="ai-prompt-chip">
+            <i data-lucide="gift" style="width:12px;height:12px;"></i>
+            <span>Luxury gift under €200</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-recent-footer">
+        <i data-lucide="history" style="width:13px;height:13px;"></i>
+        <span>Recent:</span>
+        <span class="ai-recent-tag">Cashmere sweater</span>
+        <span>&middot;</span>
+        <span class="ai-recent-tag">Leather runners</span>
+        <span>&middot;</span>
+        <span class="ai-recent-tag">Studio headphones</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <!-- OPTION 3: CURATED EDITORIAL ATELIER -->
+  <!-- ═════════════════════════════════════════════════════════════════════ -->
+  <div class="modal-frame-container" id="frameOption3">
+    <div class="frame-badge-bar">
+      <div class="frame-title-group">
+        <div class="badge-number">3</div>
+        <div>
+          <div class="badge-name">Option 3: Curated Editorial Atelier</div>
+          <div class="badge-tagline">SSENSE & Aesop style &mdash; Elegant text department links with 3 subtle mini product highlights</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="atelier-card">
+      <div class="atelier-input-bar">
+        <i data-lucide="search" style="width:16px;height:16px;color:#7a92b3;"></i>
+        <input type="text" class="atelier-input" value="Something for a winter evening in Milan" readonly />
+        <i data-lucide="x" style="width:16px;height:16px;color:#7a92b3;cursor:pointer;"></i>
+      </div>
+
+      <div class="atelier-dept-nav">
+        <span style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#64748b;">DEPARTMENTS:</span>
+        <span class="atelier-dept-link active">Apparel</span>
+        <span class="atelier-dept-link">Footwear</span>
+        <span class="atelier-dept-link">Audio</span>
+        <span class="atelier-dept-link">Accessories</span>
+        <span class="atelier-dept-link">Objects</span>
+      </div>
+
+      <div>
+        <div class="atelier-curation-label">Seasonal Highlights</div>
+
+        <div class="atelier-products-grid">
+          <div class="atelier-product-item">
+            <img src="../assets/images/products/hero_sweater.png" alt="Sweater" class="atelier-thumb" />
+            <div class="atelier-info">
+              <div class="atelier-brand">Arc</div>
+              <div class="atelier-name">Cashmere Turtleneck</div>
+              <div class="atelier-price">€ 185.00</div>
+            </div>
+          </div>
+
+          <div class="atelier-product-item">
+            <img src="../assets/images/products/prod_runner.png" alt="Runner" class="atelier-thumb" />
+            <div class="atelier-info">
+              <div class="atelier-brand">Apex</div>
+              <div class="atelier-name">Minimalist Runner</div>
+              <div class="atelier-price">€ 198.00</div>
+            </div>
+          </div>
+
+          <div class="atelier-product-item">
+            <img src="../assets/images/products/search_watch.png" alt="Watch" class="atelier-thumb" />
+            <div class="atelier-info">
+              <div class="atelier-brand">Volta</div>
+              <div class="atelier-name">Chronograph Watch</div>
+              <div class="atelier-price">€ 342.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

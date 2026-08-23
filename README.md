@@ -71,7 +71,6 @@ All 22 storefront pages have been fully elevated to luxury atelier standards, in
 | **09** | [`orders.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/orders.html) | **Order History & Fulfillment Archive** | Dynamic status filters (`All`, `In Transit`, `Delivered`), timeline bars, digital invoice drawer, 1-click re-order to bag, and live courier tracking. |
 | **10** | [`wishlist.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/wishlist.html) | **Saved Pieces & Private Wishlist Atelier** | Real-time valuation bar in BDT, 3-column studio grid, bulk `MOVE ALL TO BAG`, private shareable link copy, and Concierge styling bridge. |
 | **11** | [`discovery.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/discovery.html) | **Intent Discovery & Natural Search Atelier** | Natural language search bar, prompt starter chips, Understood Context pill manager, and "Why it fits" editorial reasoning cards. |
-| **12** | [`lookbook.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/lookbook.html) | **Curated Seasonal Lookbook** | Editorial hero in Garamond (*The Winter Edit 2026*), creative director quote, 6 curated looks with BDT pricing, and instant `STYLE LOOK` Concierge trigger. |
 | **13** | [`size-guide.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/size-guide.html) | **Anatomical Size & Fit Calibrator** | Interactive sliders with CM/IN conversion, silhouette drape selectors (Fitted/Regular/Relaxed), category conversion matrices, and anatomical diagrams. |
 | **14** | [`foundation.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/foundation.html) | **Atelier Foundation & Craftsmanship Values** | Four core pillars of the Maison, interactive materiality and color swatches, trust safeguards, and direct wing navigation. |
 | **15** | [`security.html`](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/security.html) | **Authenticity, Trust & Provenance Architecture** | 4-pillar trust architecture, enterprise compliance badges (ISO 27001, SOC 2, PCI-DSS), and interactive provenance certificate verifier. |
@@ -129,7 +128,6 @@ nexcomarch/
 ├── 📄 orders.html                 # Order History & Fulfillment Archive
 ├── 📄 wishlist.html               # Saved Pieces & Private Wishlist Atelier
 ├── 📄 discovery.html              # Intent Discovery & Natural Search Atelier
-├── 📄 lookbook.html               # Curated Seasonal Lookbook
 ├── 📄 size-guide.html             # Anatomical Size & Fit Calibrator
 ├── 📄 foundation.html             # Atelier Foundation & Craftsmanship Values
 ├── 📄 security.html               # Authenticity, Trust & Provenance Architecture

@@ -5,11 +5,11 @@
 
   var ALLOWED_STYLES = ['minimal', 'classic', 'casual', 'formal', 'trendy', 'sporty',
     'quiet-luxury', 'alpine-thermal', 'nordic-minimal', 'nocturne', 'transit-ease', 'atelier-craft'];
-  var ALLOWED_FITS = ['fitted', 'regular', 'relaxed', 'oversized'];
+  var ALLOWED_FITS = ['fitted', 'regular', 'relaxed', 'oversized', 'slim'];
   var ALLOWED_COLORS = ['black', 'white', 'neutral', 'earth tones', 'blue', 'bright colors', 'pastels',
     'obsidian', 'charcoal', 'slate', 'pearl', 'ivory', 'oatmeal', 'tuscan clay', 'forest', 'navy',
     'cyan mist', 'lilac', 'rose'];
-  var ALLOWED_LIFESTYLES = ['office', 'everyday', 'travel', 'fitness', 'outdoor', 'social', 'formal events'];
+  var ALLOWED_LIFESTYLES = ['office', 'everyday', 'travel', 'fitness', 'outdoor', 'social', 'formal events', 'work', 'weekend', 'active'];
 
   function load() {
     try {
@@ -35,10 +35,11 @@
   function save(profileData) {
     var validated = {
       customerId: 'guest_or_auth_id',
-      stylePreferences: validateArray(profileData.stylePreferences, ALLOWED_STYLES),
-      fitPreference: validateSingle(profileData.fitPreference, ALLOWED_FITS),
-      colorPreferences: validateArray(profileData.colorPreferences, ALLOWED_COLORS),
-      lifestylePreferences: validateArray(profileData.lifestylePreferences, ALLOWED_LIFESTYLES),
+      stylePreferences: validateArray(profileData.stylePreferences || [profileData.activeArchetype || 'quiet-luxury'], ALLOWED_STYLES),
+      fitPreference: validateSingle(profileData.fitPreference || 'relaxed', ALLOWED_FITS),
+      colorPreferences: validateArray(profileData.colorPreferences || [], ALLOWED_COLORS),
+      lifestylePreferences: validateArray(profileData.lifestylePreferences || [], ALLOWED_LIFESTYLES),
+      lifestyleValues: profileData.lifestyleValues || {},
       personalizationEnabled: profileData.personalizationEnabled !== false,
       updatedAt: new Date().toISOString()
     };
@@ -90,15 +91,175 @@
 
     if (window.dataLayer) window.dataLayer.push({ event: 'ai_profile_opened' });
 
-    /* ── Data constants ──────────────────────────────────────────────── */
-    const ARCHETYPES = [
-      { id: 'quiet-luxury',   label: 'Quiet Luxury',   icon: '◆', axes: [9, 3, 7, 5, 2, 8] },
-      { id: 'alpine-thermal', label: 'Alpine Thermal',  icon: '❄', axes: [4, 8, 5, 9, 6, 3] },
-      { id: 'nordic-minimal', label: 'Nordic Minimal',  icon: '▲', axes: [10, 2, 8, 4, 3, 6] },
-      { id: 'nocturne',       label: 'Nocturne',        icon: '◉', axes: [6, 5, 4, 8, 9, 5] },
-      { id: 'transit-ease',   label: 'Transit Ease',    icon: '◈', axes: [5, 7, 6, 4, 7, 8] },
-      { id: 'atelier-craft',  label: 'Atelier Craft',   icon: '✦', axes: [8, 4, 9, 6, 2, 7] }
+    /* ── 4 Visual Clothing Styles with Everyday Terminology ─────────── */
+    const VISUAL_STYLES = [
+      {
+        id: 'minimalist',
+        label: 'Minimalist & Clean',
+        desc: 'Timeless monochrome staples, crisp white knits & clean silhouettes without loud logos.',
+        photo: '../assets/images/products/hero_sweater.png',
+        recommendedLooks: [
+          {
+            id: 'p3',
+            tag: 'MINIMAL ESSENTIAL',
+            category: 'Apparel',
+            title: 'Fine-Knit Cashmere Crew',
+            price: '€ 160.00',
+            numericPrice: 160,
+            image: '../assets/images/products/plp_crewneck.png',
+            reason: '✨ Pure pearl white tone with clean unadorned collar line',
+            href: 'pdp.html?id=p3'
+          },
+          {
+            id: 'p1',
+            tag: 'SIGNATURE KNIT',
+            category: 'Apparel',
+            title: 'Architectural Cashmere Sweater',
+            price: '€ 185.00',
+            numericPrice: 185,
+            image: '../assets/images/products/hero_sweater.png',
+            reason: '✨ Soft 2-ply neutral cashmere knit with seamless finish',
+            href: 'pdp.html?id=p1'
+          },
+          {
+            id: 'p7',
+            tag: 'LEATHER GOODS',
+            category: 'Accessories',
+            title: 'Minimal Leather Card Case',
+            price: '€ 65.00',
+            numericPrice: 65,
+            image: '../assets/images/products/p7.png',
+            reason: '✨ Ultra-flat full grain obsidian leather without bulk',
+            href: 'pdp.html?id=p7'
+          }
+        ]
+      },
+      {
+        id: 'tailored',
+        label: 'Smart & Tailored',
+        desc: 'Structured blazers, sharp wool trousers, and refined pieces for work meetings and dinners.',
+        photo: '../assets/images/products/plp_blazer.png',
+        recommendedLooks: [
+          {
+            id: 'p2',
+            tag: 'TAILORED EDIT',
+            category: 'Apparel',
+            title: 'Structured Wool Blazer',
+            price: '€ 245.00',
+            numericPrice: 245,
+            image: '../assets/images/products/plp_blazer.png',
+            reason: '✨ Refined merino weave with unstructured shoulders',
+            href: 'pdp.html?id=p2'
+          },
+          {
+            id: 'p5',
+            tag: 'ATELIER TIMEPIECE',
+            category: 'Accessories',
+            title: 'Monolith Chronograph Automatic',
+            price: '€ 490.00',
+            numericPrice: 490,
+            image: '../assets/images/products/search_watch.png',
+            reason: '✨ Minimal titanium chassis with matte obsidian dial',
+            href: 'pdp.html?id=p5'
+          },
+          {
+            id: 'p9',
+            tag: 'HANDMADE LEATHER',
+            category: 'Bags',
+            title: 'Minimalist Leather Tote',
+            price: '€ 142.00',
+            numericPrice: 142,
+            image: '../assets/images/products/prod_tote.png',
+            reason: '✨ Hand-stitched full-grain leather with artisanal patina',
+            href: 'pdp.html?id=p9'
+          }
+        ]
+      },
+      {
+        id: 'casual',
+        label: 'Relaxed & Everyday',
+        desc: 'Comfortable easy-fitting layers, stretch track pants, and all-day sneakers for casual routines.',
+        photo: '../assets/images/products/prod_runner.png',
+        recommendedLooks: [
+          {
+            id: 'p12',
+            tag: 'TRANSIT COMFORT',
+            category: 'Apparel',
+            title: 'Smart Track Pants',
+            price: '€ 135.00',
+            numericPrice: 135,
+            image: '../assets/images/products/plp_trousers.png',
+            reason: '✨ 4-way technical stretch that never wrinkles during wear',
+            href: 'pdp.html?id=p12'
+          },
+          {
+            id: 'p6',
+            tag: 'FOOTWEAR',
+            category: 'Footwear',
+            title: 'Performance Leather Runner',
+            price: '€ 220.00',
+            numericPrice: 220,
+            image: '../assets/images/products/prod_runner.png',
+            reason: '✨ Monochrome calfskin profile with stealth cushioning',
+            href: 'pdp.html?id=p6'
+          },
+          {
+            id: 'p11',
+            tag: 'HANDS-FREE CUSTODY',
+            category: 'Bags',
+            title: 'Minimal Canvas Crossbody Bag',
+            price: '€ 85.00',
+            numericPrice: 85,
+            image: '../assets/images/products/cat_accessories.jpg',
+            reason: '✨ Weather-resistant passport & tech custody sleeve',
+            href: 'pdp.html?id=p11'
+          }
+        ]
+      },
+      {
+        id: 'outerwear',
+        label: 'Outdoor & Outerwear',
+        desc: 'Technical waterproof jackets, insulated wool overshirts, and protective layers for cold and rain.',
+        photo: '../assets/images/products/plp_overcoat.png',
+        recommendedLooks: [
+          {
+            id: 'p10',
+            tag: 'WEATHERPROOF SHELL',
+            category: 'Outerwear',
+            title: 'Technical Waterproof Shell Jacket',
+            price: '€ 295.00',
+            numericPrice: 295,
+            image: '../assets/images/products/plp_overcoat.png',
+            reason: '✨ 3-layer breathable storm membrane with taped seams',
+            href: 'pdp.html?id=p10'
+          },
+          {
+            id: 'p8',
+            tag: 'THERMAL LAYER',
+            category: 'Apparel',
+            title: 'Merino Wool Overshirt',
+            price: '€ 195.00',
+            numericPrice: 195,
+            image: '../assets/images/products/plp_turtleneck.png',
+            reason: '✨ Heavyweight 380gsm merino wool natural insulation',
+            href: 'pdp.html?id=p8'
+          },
+          {
+            id: 'p6',
+            tag: 'RUGGED RUNNER',
+            category: 'Footwear',
+            title: 'Performance Leather Runner',
+            price: '€ 220.00',
+            numericPrice: 220,
+            image: '../assets/images/products/prod_runner.png',
+            reason: '✨ High-traction Vibram compound for cold conditions',
+            href: 'pdp.html?id=p6'
+          }
+        ]
+      }
     ];
+
+    const ARCHETYPES = VISUAL_STYLES;
 
     const RADAR_AXES = [
       { label: 'TAILORING', angle: -90 },
@@ -109,319 +270,382 @@
       { label: 'MINIMAL',   angle: 210 }
     ];
 
-    const COLOURS = [
-      { name: 'Obsidian',    hex: '#0D131F' },
-      { name: 'Charcoal',    hex: '#374151' },
-      { name: 'Slate',       hex: '#64748B' },
-      { name: 'Pearl',       hex: '#F1F5F9' },
-      { name: 'Ivory',       hex: '#FFFBEB' },
-      { name: 'Oatmeal',     hex: '#D6C7B2' },
-      { name: 'Tuscan Clay', hex: '#92400E' },
-      { name: 'Forest',      hex: '#14532D' },
-      { name: 'Navy',        hex: '#1E3A5F' },
-      { name: 'Cyan Mist',   hex: '#3DE0FF' },
-      { name: 'Lilac',       hex: '#A78BFA' },
-      { name: 'Rose',        hex: '#FB7185' }
-    ];
-
-    const LIFESTYLE_AXES = [
-      { id: 'travel',   label: 'Travel',   defaultVal: 7 },
-      { id: 'office',   label: 'Office',   defaultVal: 5 },
-      { id: 'fitness',  label: 'Fitness',  defaultVal: 4 },
-      { id: 'social',   label: 'Social',   defaultVal: 6 },
-      { id: 'outdoor',  label: 'Outdoor',  defaultVal: 3 },
-      { id: 'everyday', label: 'Everyday', defaultVal: 9 }
-    ];
-
-    const CURATED_LOOKS = [
+    const FIT_OPTIONS = [
       {
-        id: 'look-tailoring',
-        tag: 'FOR YOUR DNA',
-        title: 'The Tailoring Capsule',
-        price: 'From € 185.00',
-        image: '../assets/images/lifestyle/hero_sweater_landscape.jpg',
-        href: 'category.html?cat=outerwear'
+        id: 'relaxed',
+        name: 'Relaxed / Oversized',
+        desc: 'Contemporary generous drape with room for layering and easy casual movement.'
       },
       {
-        id: 'look-acoustics',
-        tag: 'ACOUSTIC EDIT',
-        title: 'Studio Acoustics Series',
-        price: 'From € 165.00',
-        image: '../assets/images/lifestyle/hero_headphone_landscape.jpg',
-        href: 'category.html?cat=acoustics'
+        id: 'regular',
+        name: 'Classic Regular',
+        desc: 'Balanced timeless cut with standard shoulder width and comfortable torso drape.'
       },
       {
-        id: 'look-footwear',
-        tag: 'YOUR ARCHETYPE',
-        title: 'The Architectural Runner',
-        price: 'From € 198.00',
-        image: '../assets/images/lifestyle/hero_runner_landscape.jpg',
-        href: 'category.html?cat=footwear'
+        id: 'slim',
+        name: 'Tailored Slim',
+        desc: 'Clean structured contours tailored closer to the body for sharp lines.'
       }
     ];
 
-    /* ── Mutable state ───────────────────────────────────────────────── */
-    let activeArchetypeId = 'quiet-luxury';
-    let activeColours = new Set();
+    const COLOURS = [
+      { name: 'Obsidian',    hex: '#0D131F', group: 'obsidian' },
+      { name: 'Charcoal',    hex: '#374151', group: 'obsidian' },
+      { name: 'Slate',       hex: '#64748B', group: 'obsidian' },
+      { name: 'Pearl',       hex: '#F1F5F9', group: 'neutral' },
+      { name: 'Ivory',       hex: '#FFFBEB', group: 'neutral' },
+      { name: 'Oatmeal',     hex: '#D6C7B2', group: 'neutral' },
+      { name: 'Tuscan Clay', hex: '#92400E', group: 'earth' },
+      { name: 'Forest',      hex: '#14532D', group: 'earth' },
+      { name: 'Navy',        hex: '#1E3A5F', group: 'earth' },
+      { name: 'Cyan Mist',   hex: '#3DE0FF', group: 'accent' },
+      { name: 'Lilac',       hex: '#A78BFA', group: 'accent' },
+      { name: 'Rose',        hex: '#FB7185', group: 'accent' }
+    ];
+
+    const LIFESTYLE_AXES = [
+      { id: 'everyday', label: 'Everyday & Weekend',  context: 'Casual daily routine, relaxed weekend wear', defaultVal: 9 },
+      { id: 'office',   label: 'Work & Professional', context: 'Office tailoring, meetings, smart-casual',   defaultVal: 6 },
+      { id: 'travel',   label: 'Travel & Commute',    context: 'Airport transit, packable wrinkle-free gear', defaultVal: 7 },
+      { id: 'social',   label: 'Social & Evening',    context: 'Dinners, exhibitions, evening gatherings',   defaultVal: 6 },
+      { id: 'outdoor',  label: 'Active & Outdoor',    context: 'Fitness, weather protection, movement',       defaultVal: 4 }
+    ];
+
+    /* ── Load Stored Preferences or Defaults ─────────────────────────── */
+    const saved = load();
+    let initialStyle = (saved && saved.stylePreferences && saved.stylePreferences[0]) || 'minimalist';
+    // Map legacy archetype IDs if present
+    const legacyStyleMap = {
+      'quiet-luxury': 'minimalist',
+      'nordic-minimal': 'minimalist',
+      'nocturne': 'tailored',
+      'transit-ease': 'casual',
+      'alpine-thermal': 'outerwear',
+      'atelier-craft': 'tailored'
+    };
+    let activeArchetypeId = legacyStyleMap[initialStyle] || initialStyle;
+    if (!VISUAL_STYLES.find(s => s.id === activeArchetypeId)) {
+      activeArchetypeId = 'minimalist';
+    }
+
+    let activeFitId = (saved && saved.fitPreference) || 'relaxed';
+    let activeColours = new Set((saved && saved.colorPreferences && saved.colorPreferences.length > 0) 
+      ? saved.colorPreferences 
+      : ['Obsidian', 'Pearl', 'Oatmeal', 'Navy']);
+    
     const lifestyleValues = {};
-    LIFESTYLE_AXES.forEach(a => { lifestyleValues[a.id] = a.defaultVal; });
+    LIFESTYLE_AXES.forEach(a => {
+      lifestyleValues[a.id] = (saved && saved.lifestyleValues && saved.lifestyleValues[a.id] !== undefined)
+        ? saved.lifestyleValues[a.id]
+        : a.defaultVal;
+    });
 
-    /* ── Radar engine ────────────────────────────────────────────────── */
-    function polarToXY(angleDeg, radius, cx, cy) {
-      const rad = (angleDeg - 90) * (Math.PI / 180);
-      return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
-    }
-
-    function renderRadarChart(axisValues) {
-      const svg = document.getElementById('radarSvgCanvas');
-      if (!svg) return;
-      const cx = 160, cy = 160, maxR = 120;
-      svg.innerHTML = '';
-
-      [0.33, 0.66, 1].forEach(scale => {
-        const pts = RADAR_AXES.map(a => {
-          const { x, y } = polarToXY(a.angle, maxR * scale, cx, cy);
-          return `${x},${y}`;
-        }).join(' ');
-        const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        poly.setAttribute('points', pts);
-        poly.setAttribute('fill', 'none');
-        poly.setAttribute('stroke', 'rgba(255,255,255,0.06)');
-        poly.setAttribute('stroke-width', '1');
-        svg.appendChild(poly);
-      });
-
-      RADAR_AXES.forEach(a => {
-        const { x, y } = polarToXY(a.angle, maxR, cx, cy);
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', cx); line.setAttribute('y1', cy);
-        line.setAttribute('x2', x);  line.setAttribute('y2', y);
-        line.setAttribute('stroke', 'rgba(255,255,255,0.08)');
-        line.setAttribute('stroke-width', '1');
-        svg.appendChild(line);
-      });
-
-      const dataPoints = axisValues.map((val, i) => {
-        const r = (val / 10) * maxR;
-        return polarToXY(RADAR_AXES[i].angle, r, cx, cy);
-      });
-      const dataPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-      dataPoly.setAttribute('points', dataPoints.map(p => `${p.x},${p.y}`).join(' '));
-      dataPoly.setAttribute('fill', 'rgba(61, 224, 255, 0.12)');
-      dataPoly.setAttribute('stroke', '#3DE0FF');
-      dataPoly.setAttribute('stroke-width', '1.5');
-      dataPoly.setAttribute('stroke-linejoin', 'round');
-      svg.appendChild(dataPoly);
-
-      dataPoints.forEach(pt => {
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', pt.x); circle.setAttribute('cy', pt.y);
-        circle.setAttribute('r', '4');
-        circle.setAttribute('fill', '#3DE0FF');
-        circle.setAttribute('stroke', '#020B18');
-        circle.setAttribute('stroke-width', '2');
-        svg.appendChild(circle);
-      });
-
-      /* Axis labels as foreignObject-free SVG text */
-      RADAR_AXES.forEach(a => {
-        const { x, y } = polarToXY(a.angle, maxR + 22, cx, cy);
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', x);
-        text.setAttribute('y', y);
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('dominant-baseline', 'middle');
-        text.setAttribute('fill', 'rgba(255,255,255,0.35)');
-        text.setAttribute('font-family', 'Inter, sans-serif');
-        text.setAttribute('font-size', '8');
-        text.setAttribute('font-weight', '600');
-        text.setAttribute('letter-spacing', '0.1em');
-        text.textContent = a.label;
-        svg.appendChild(text);
-      });
-    }
-
-    /* ── Archetype grid ──────────────────────────────────────────────── */
+    /* ── Render Step 1: Visual Style Cards ───────────────────────────── */
     function renderArchetypeGrid() {
-      const grid = document.getElementById('aestheticArchetypeGrid');
+      const grid = document.getElementById('visualStyleGrid') || document.getElementById('aestheticArchetypeGrid');
       if (!grid) return;
-      grid.innerHTML = ARCHETYPES.map(a => `
-        <button class="archetype-card${a.id === activeArchetypeId ? ' active' : ''}"
-          data-archetype="${a.id}" aria-pressed="${a.id === activeArchetypeId}"
-          type="button" title="${a.label}">
-          <span class="archetype-icon" aria-hidden="true">${a.icon}</span>
-          <span class="archetype-label">${a.label}</span>
-        </button>
-      `).join('');
-    }
 
-    /* ── Colour wheel ────────────────────────────────────────────────── */
-    function renderColourWheel() {
-      const wheel = document.getElementById('colourDnaWheel');
-      if (!wheel) return;
-      const lightSwatches = ['#F1F5F9', '#FFFBEB', '#D6C7B2'];
-      wheel.innerHTML = COLOURS.map(c => {
-        const isLight = lightSwatches.includes(c.hex);
-        const borderStyle = isLight ? 'border: 1px solid rgba(255,255,255,0.15);' : '';
-        const isActive = activeColours.has(c.name);
-        return `<button class="colour-dna-swatch${isActive ? ' active' : ''}"
-          data-colour="${c.name}"
-          style="background-color: ${c.hex}; ${borderStyle}"
-          title="${c.name}" aria-label="${c.name}" aria-pressed="${isActive}"
-          type="button"></button>`;
-      }).join('');
-    }
-
-    /* ── Lifestyle grid ──────────────────────────────────────────────── */
-    function renderLifestyleGrid() {
-      const grid = document.getElementById('lifestyleIntensityGrid');
-      if (!grid) return;
-      grid.innerHTML = LIFESTYLE_AXES.map(a => {
-        const pct = (lifestyleValues[a.id] / 10) * 100;
+      grid.innerHTML = VISUAL_STYLES.map(s => {
+        const isActive = s.id === activeArchetypeId;
         return `
-          <div class="lifestyle-row">
-            <span class="lifestyle-row-label">${a.label}</span>
-            <div class="lifestyle-intensity-track" data-axis="${a.id}" role="slider"
-              aria-label="${a.label} intensity" aria-valuenow="${lifestyleValues[a.id]}"
-              aria-valuemin="0" aria-valuemax="10" tabindex="0">
-              <div class="lifestyle-intensity-fill" style="width: ${pct}%;"></div>
-              <div class="lifestyle-intensity-thumb" style="left: calc(${pct}% - 7px);"></div>
+          <div class="visual-style-card ${isActive ? 'active' : ''}"
+               data-style-id="${s.id}"
+               onclick="selectStyleMood('${s.id}')"
+               role="radio"
+               aria-checked="${isActive}"
+               tabindex="0">
+            <div class="visual-style-photo-wrap">
+              <img src="${s.photo}" alt="${s.label}" class="visual-style-photo" loading="lazy">
+              <div class="visual-style-badge-check">
+                <i data-lucide="check"></i>
+              </div>
             </div>
-            <span class="lifestyle-intensity-value">${lifestyleValues[a.id]}</span>
-          </div>`;
+            <div class="visual-style-body">
+              <h3 class="visual-style-title">${s.label}</h3>
+              <p class="visual-style-desc">${s.desc}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    /* ── Render Step 2: Fit Options ──────────────────────────────────── */
+    function renderFitGrid() {
+      const grid = document.getElementById('fitOptionsGrid');
+      if (!grid) return;
+
+      grid.innerHTML = FIT_OPTIONS.map(f => {
+        const isActive = f.id === activeFitId;
+        return `
+          <div class="fit-choice-card ${isActive ? 'active' : ''}"
+               onclick="selectFit('${f.id}')"
+               role="radio"
+               aria-checked="${isActive}"
+               tabindex="0">
+            <div class="fit-header-row">
+              <h3 class="fit-name">${f.name}</h3>
+              <div class="archetype-active-indicator">
+                <i data-lucide="check"></i>
+              </div>
+            </div>
+            <p class="fit-desc">${f.desc}</p>
+          </div>
+        `;
       }).join('');
     }
 
-    /* ── AI Look Pinboard ────────────────────────────────────────────── */
-    function renderAiLookPinboard() {
-      const pinboard = document.getElementById('aiLookPinboard');
-      if (!pinboard) return;
-      pinboard.innerHTML = CURATED_LOOKS.map(look => `
-        <a href="${look.href}" class="look-pin-card" data-look="${look.id}" aria-label="Explore ${look.title}">
-          <img src="${look.image}" alt="${look.title}" class="look-pin-img" loading="lazy">
-          <div class="look-pin-meta">
-            <span class="look-pin-tag">${look.tag}</span>
-            <div class="look-pin-title">${look.title}</div>
-            <div class="look-pin-price">${look.price}</div>
+    /* ── Render Step 3: Named Color Swatches ─────────────────────────── */
+    function renderColourGrid() {
+      const grid = document.getElementById('colourDnaWheel');
+      if (!grid) return;
+
+      grid.innerHTML = COLOURS.map(c => {
+        const isSelected = activeColours.has(c.name);
+        const isLight = ['#F1F5F9', '#FFFBEB', '#D6C7B2'].includes(c.hex);
+        const borderStyle = isLight ? 'border-color: rgba(255,255,255,0.3);' : '';
+
+        return `
+          <div class="color-item-box ${isSelected ? 'active' : ''}"
+               onclick="toggleColor('${c.name}')"
+               title="${c.name}">
+            <div class="color-circle-dot" style="background-color: ${c.hex}; ${borderStyle}"></div>
+            <span class="color-item-name">${c.name}</span>
           </div>
-        </a>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    /* ── Event delegation ────────────────────────────────────────────── */
-    const archetypeGrid = document.getElementById('aestheticArchetypeGrid');
-    if (archetypeGrid) {
-      archetypeGrid.addEventListener('click', e => {
-        const card = e.target.closest('.archetype-card');
-        if (!card) return;
-        const id = card.getAttribute('data-archetype');
-        activeArchetypeId = id;
-        const archetype = ARCHETYPES.find(a => a.id === id);
-        if (archetype) {
-          renderRadarChart(archetype.axes);
-          renderArchetypeGrid();
-          const badge = document.getElementById('radarArchetypeBadge');
-          if (badge) badge.textContent = archetype.label.toUpperCase();
-        }
-      });
+    /* ── Render Step 4: Lifestyle Sliders ────────────────────────────── */
+    function renderLifestyleSliders() {
+      const container = document.getElementById('lifestyleIntensityGrid');
+      if (!container) return;
+
+      container.innerHTML = LIFESTYLE_AXES.map(axis => {
+        const val = lifestyleValues[axis.id];
+        return `
+          <div class="lifestyle-slider-card">
+            <div class="lifestyle-meta">
+              <h4 class="lifestyle-title">${axis.label}</h4>
+              <p class="lifestyle-context">${axis.context}</p>
+            </div>
+            <div class="lifestyle-track-wrap">
+              <input type="range" class="lifestyle-range-input"
+                     min="1" max="10" step="1"
+                     value="${val}"
+                     oninput="updateLifestyleVal('${axis.id}', this.value)"
+                     aria-label="${axis.label} Intensity Slider">
+            </div>
+            <div class="lifestyle-badge-val" id="val_${axis.id}">${val}/10</div>
+          </div>
+        `;
+      }).join('');
     }
 
-    const colourWheel = document.getElementById('colourDnaWheel');
-    if (colourWheel) {
-      colourWheel.addEventListener('click', e => {
-        const swatch = e.target.closest('.colour-dna-swatch');
-        if (!swatch) return;
-        const name = swatch.getAttribute('data-colour');
-        if (activeColours.has(name)) {
-          activeColours.delete(name);
-        } else {
-          activeColours.add(name);
-        }
-        renderColourWheel();
-      });
+    /* ── Render Step 5: Live Dynamic Curated Drops ───────────────────── */
+    function renderCuratedLookbook() {
+      const container = document.getElementById('aiLookPinboard');
+      const subtitle = document.getElementById('curatedSubtitle');
+      if (!container) return;
+
+      const current = ARCHETYPES.find(a => a.id === activeArchetypeId) || ARCHETYPES[0];
+      const fitObj = FIT_OPTIONS.find(f => f.id === activeFitId) || FIT_OPTIONS[0];
+
+      if (subtitle) {
+        subtitle.textContent = `Live drops calibrated for ${current.label} with ${fitObj.name} silhouette.`;
+      }
+
+      container.innerHTML = current.recommendedLooks.map(piece => {
+        return `
+          <article class="curated-piece-card" id="card_${piece.id}">
+            <div class="piece-img-container">
+              <img src="${piece.image}" alt="${piece.title}" class="piece-img-thumb" loading="lazy">
+            </div>
+            <div class="piece-content-pane">
+              <div class="piece-tag-row">
+                <span class="piece-category-tag">${piece.tag}</span>
+                <span class="piece-price-tag">${piece.price}</span>
+              </div>
+              <h3 class="piece-title-link">
+                <a href="${piece.href}" style="color: inherit; text-decoration: none;">${piece.title}</a>
+              </h3>
+              <div class="piece-reason-whisper">
+                <i data-lucide="sparkles" style="width: 12px; height: 12px; color: #3DE0FF; flex-shrink: 0;"></i>
+                <span>${piece.reason}</span>
+              </div>
+              <div class="piece-action-row">
+                <button type="button" class="btn-piece-add" onclick="quickAddPiece('${piece.id}', '${piece.title}', ${piece.numericPrice}, '${piece.image}')">
+                  <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
+                  <span>Quick Add</span>
+                </button>
+                <a href="${piece.href}" class="btn-piece-view" title="View Full Details">
+                  <i data-lucide="arrow-up-right" style="width: 16px; height: 16px;"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      if (window.lucide) window.lucide.createIcons();
     }
 
-    const lifestyleGrid = document.getElementById('lifestyleIntensityGrid');
-    if (lifestyleGrid) {
-      lifestyleGrid.addEventListener('click', e => {
-        const track = e.target.closest('.lifestyle-intensity-track');
-        if (!track) return;
-        const rect = track.getBoundingClientRect();
-        const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        const val = Math.round(ratio * 10);
-        const axis = track.getAttribute('data-axis');
-        lifestyleValues[axis] = val;
-        renderLifestyleGrid();
-      });
+    /* ── Update Header Calibration Status Bar ────────────────────────── */
+    function updateCalibrationScore() {
+      let score = 80;
+      if (activeArchetypeId) score += 5;
+      if (activeFitId) score += 5;
+      if (activeColours.size >= 3) score += 5;
+      if (score > 98) score = 98;
+
+      const scoreEl = document.getElementById('calibrationScoreVal');
+      const archChip = document.getElementById('activeArchetypeChip');
+      const fitChip = document.getElementById('activeFitChip');
+      const colChip = document.getElementById('activeColorsCountChip');
+
+      const arch = ARCHETYPES.find(a => a.id === activeArchetypeId);
+      const fit = FIT_OPTIONS.find(f => f.id === activeFitId);
+
+      if (scoreEl) scoreEl.textContent = score + '%';
+      if (archChip && arch) archChip.textContent = 'Style: ' + arch.label;
+      if (fitChip && fit) fitChip.textContent = 'Fit: ' + fit.name.split('/')[0].trim();
+      if (colChip) colChip.textContent = `Colors: ${activeColours.size} Selected`;
     }
 
+    /* ── Global Interactive Handlers ─────────────────────────────────── */
+    window.selectArchetype = function(id) {
+      activeArchetypeId = id;
+      renderArchetypeGrid();
+      renderCuratedLookbook();
+      updateCalibrationScore();
+    };
+    window.selectStyleMood = window.selectArchetype;
+
+    window.selectFit = function(id) {
+      activeFitId = id;
+      renderFitGrid();
+      renderCuratedLookbook();
+      updateCalibrationScore();
+    };
+
+    window.toggleColor = function(name) {
+      if (activeColours.has(name)) {
+        if (activeColours.size > 1) activeColours.delete(name);
+      } else {
+        activeColours.add(name);
+      }
+      renderColourGrid();
+      updateCalibrationScore();
+    };
+
+    window.applyColorPreset = function(preset) {
+      if (preset === 'all') {
+        activeColours = new Set(COLOURS.map(c => c.name));
+      } else if (preset === 'neutral') {
+        activeColours = new Set(['Pearl', 'Ivory', 'Oatmeal', 'Slate', 'Charcoal']);
+      } else if (preset === 'obsidian') {
+        activeColours = new Set(['Obsidian', 'Charcoal', 'Slate']);
+      } else if (preset === 'earth') {
+        activeColours = new Set(['Tuscan Clay', 'Forest', 'Navy', 'Oatmeal']);
+      }
+      renderColourGrid();
+      updateCalibrationScore();
+    };
+
+    window.updateLifestyleVal = function(id, val) {
+      lifestyleValues[id] = Number(val);
+      const badge = document.getElementById('val_' + id);
+      if (badge) badge.textContent = val + '/10';
+      updateCalibrationScore();
+    };
+
+    window.quickAddPiece = function(id, name, price, img) {
+      if (window.NexCart && typeof window.NexCart.addItem === 'function') {
+        window.NexCart.addItem({
+          id: id,
+          name: name,
+          price: price,
+          image: img,
+          quantity: 1,
+          size: activeFitId === 'slim' ? 'S' : (activeFitId === 'oversized' ? 'L' : 'M')
+        });
+      }
+      
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#020B18;border:1px solid #3DE0FF;color:#fff;font-family:Inter,sans-serif;font-size:13px;padding:12px 24px;border-radius:9999px;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 12px 36px rgba(0,0,0,0.6);';
+      toast.innerHTML = `<span style="color:#3DE0FF;font-weight:700;">✨ Added</span> "${name}" to your bag.`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    };
+
+    /* ── Save and Reset Actions ──────────────────────────────────────── */
     const saveBtn = document.getElementById('profileSaveBtn');
     if (saveBtn) {
-      saveBtn.addEventListener('click', () => {
-        const archetype = ARCHETYPES.find(a => a.id === activeArchetypeId);
-        const profileData = {
-          stylePreferences: archetype ? [archetype.id] : [],
-          fitPreference: 'regular',
+      saveBtn.addEventListener('click', function() {
+        const toggle = document.getElementById('togglePersonalization');
+        const payload = {
+          activeArchetype: activeArchetypeId,
+          stylePreferences: [activeArchetypeId],
+          fitPreference: activeFitId,
           colorPreferences: Array.from(activeColours),
-          lifestylePreferences: Object.entries(lifestyleValues)
-            .filter(([, v]) => v >= 6)
-            .map(([k]) => k),
-          personalizationEnabled: document.getElementById('togglePersonalization')?.checked !== false
+          lifestylePreferences: Object.keys(lifestyleValues).filter(k => lifestyleValues[k] >= 6),
+          lifestyleValues: lifestyleValues,
+          personalizationEnabled: toggle ? toggle.checked : true
         };
-        const ok = window.NexStyleProfile.save(profileData);
-        const msgBox = document.getElementById('profileMsg');
-        if (msgBox) {
-          msgBox.textContent = ok ? 'DNA profile saved.' : 'Could not save. Try again.';
-          msgBox.style.display = 'block';
-          msgBox.style.color = ok ? '#34D399' : '#FB7185';
-          setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+
+        const success = save(payload);
+        if (success) {
+          saveBtn.innerHTML = '<i data-lucide="check-check" style="width:15px;height:15px;margin-right:6px;color:#34D399;"></i> STYLE PROFILE SAVED!';
+          saveBtn.style.background = 'rgba(52, 211, 153, 0.15)';
+          saveBtn.style.borderColor = '#34D399';
+          saveBtn.style.color = '#FFFFFF';
+
+          const scoreEl = document.getElementById('calibrationScoreVal');
+          if (scoreEl) scoreEl.textContent = '100%';
+
+          setTimeout(() => {
+            saveBtn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;margin-right:6px;"></i> SAVE STYLE PROFILE';
+            saveBtn.style.background = '';
+            saveBtn.style.borderColor = '';
+            saveBtn.style.color = '';
+            if (window.lucide) window.lucide.createIcons();
+          }, 2500);
+
+          if (window.lucide) window.lucide.createIcons();
         }
       });
     }
 
     const resetBtn = document.getElementById('profileResetBtn');
     if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        activeArchetypeId = 'quiet-luxury';
-        activeColours.clear();
-        LIFESTYLE_AXES.forEach(a => { lifestyleValues[a.id] = a.defaultVal; });
-        const archetype = ARCHETYPES.find(a => a.id === 'quiet-luxury');
-        renderRadarChart(archetype.axes);
-        renderArchetypeGrid();
-        renderColourWheel();
-        renderLifestyleGrid();
-        const badge = document.getElementById('radarArchetypeBadge');
-        if (badge) badge.textContent = 'QUIET LUXURY';
+      resetBtn.addEventListener('click', function() {
+        if (confirm('Reset your Style DNA profile to standard atelier defaults?')) {
+          remove();
+          activeArchetypeId = 'quiet-luxury';
+          activeFitId = 'relaxed';
+          activeColours = new Set(['Obsidian', 'Pearl', 'Oatmeal', 'Navy']);
+          LIFESTYLE_AXES.forEach(a => { lifestyleValues[a.id] = a.defaultVal; });
+
+          renderArchetypeGrid();
+          renderFitGrid();
+          renderColourGrid();
+          renderLifestyleSliders();
+          renderCuratedLookbook();
+          updateCalibrationScore();
+        }
       });
     }
 
-    /* ── Populate from saved profile ─────────────────────────────────── */
-    const existingProfile = window.NexStyleProfile.load();
-    if (existingProfile) {
-      if (existingProfile.stylePreferences && existingProfile.stylePreferences[0]) {
-        const match = ARCHETYPES.find(a => a.id === existingProfile.stylePreferences[0]);
-        if (match) activeArchetypeId = match.id;
-      }
-      (existingProfile.colorPreferences || []).forEach(c => {
-        const match = COLOURS.find(col => col.name.toLowerCase() === c.toLowerCase());
-        if (match) activeColours.add(match.name);
-      });
-      (existingProfile.lifestylePreferences || []).forEach(id => {
-        if (lifestyleValues[id] !== undefined) lifestyleValues[id] = 8;
-      });
-      const toggle = document.getElementById('togglePersonalization');
-      if (toggle) toggle.checked = existingProfile.personalizationEnabled !== false;
-    }
-
-    /* ── Initial render ──────────────────────────────────────────────── */
-    const initialArchetype = ARCHETYPES.find(a => a.id === activeArchetypeId) || ARCHETYPES[0];
-    renderRadarChart(initialArchetype.axes);
+    /* Initial Render Sequence */
     renderArchetypeGrid();
-    renderColourWheel();
-    renderLifestyleGrid();
-    renderAiLookPinboard();
-    const initBadge = document.getElementById('radarArchetypeBadge');
-    if (initBadge) initBadge.textContent = initialArchetype.label.toUpperCase();
+    renderFitGrid();
+    renderColourGrid();
+    renderLifestyleSliders();
+    renderCuratedLookbook();
+    updateCalibrationScore();
+
+    if (window.lucide) window.lucide.createIcons();
   }
 
 })(window);

@@ -60,15 +60,15 @@
         <div class="budget-modal-dialog">
           <div class="budget-modal-header">
             <div>
-              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#00F5A0;">✨ Customer Commerce Agent · AI Capability 3</span>
-              <h2 class="budget-modal-title">Autonomous Target-Budget Cart Builder</h2>
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent-cyan,#3DE0FF);">AI · Budget Builder</span>
+              <h2 class="budget-modal-title">Build Your Perfect Basket</h2>
             </div>
             <button id="budgetModalCloseBtn" class="slip-modal-close-btn" aria-label="Close budget builder">
               <i data-lucide="x" style="width:20px;height:20px;"></i>
             </button>
           </div>
 
-          <div class="budget-modal-body" id="budgetModalBody">
+          <div class="budget-modal-body" id="budgetModalBody" data-lenis-prevent>
             <!-- Populated dynamically by renderBasket() -->
           </div>
 
@@ -122,7 +122,12 @@
     }
 
     openModal(targetBudget = 500, theme = 'autumn') {
-      if (!window.NexBudgetCartEngine) return;
+      if (!window.NexBudgetCartEngine) {
+        if (typeof window.showToast === 'function') {
+          window.showToast('Budget Builder is loading — try again in a moment.', 'info');
+        }
+        return;
+      }
       const catalog = this._getCatalog();
       this.currentBasket = window.NexBudgetCartEngine.buildBudgetCart(targetBudget, theme, catalog);
       this.renderBasket(this.currentBasket);
@@ -182,19 +187,39 @@
             <div class="budget-progress-fill" style="width: ${Math.min(100, basket.utilizationPercent)}%;"></div>
           </div>
           <div style="font-size:12px;color:rgba(255,255,255,0.6);">
-            🎯 <strong>${basket.utilizationPercent}% budget efficiency</strong> · Optimized for ${basket.items.length} synergistic pieces.
+            🎯 <strong>${basket.utilizationPercent}% of budget used</strong> · ${basket.items.length} curated pieces selected.
           </div>
         </div>
 
         <!-- Selected Item Slots -->
         <div>
-          <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);display:block;margin-bottom:10px;">Curated Slot Composition:</span>
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);display:block;margin-bottom:10px;">Your Selection:</span>
           <div class="budget-slots-grid">
-            ${basket.slots.map(slot => {
+            ${basket.slots.length === 0 ? `
+              <div style="grid-column:1/-1;text-align:center;padding:32px 16px;color:rgba(255,255,255,0.45);">
+                <p style="font-size:28px;margin:0 0 10px;">🎯</p>
+                <p style="font-size:13px;font-weight:600;margin:0 0 6px;color:rgba(255,255,255,0.7);">Budget too tight for a complete look</p>
+                <p style="font-size:12px;margin:0;">Try € 300 or above to build a curated basket.</p>
+              </div>` : ''}
+            ${basket.slots.map((slot, slotIdx) => {
               const item = slot.selectedItem;
               const img = this._resolveImg(item.image || item.img);
+              const alts = (slot.alternatives || []).slice(0, 2);
+              const altsHtml = alts.length ? `
+                <div class="budget-slot-alts">
+                  <span style="font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-right:6px;">Or:</span>
+                  ${alts.map((alt, ai) => `
+                    <button class="budget-alt-chip" data-slot-idx="${slotIdx}" data-alt-idx="${ai}"
+                      data-alt-name="${alt.name.replace(/"/g,'&quot;')}"
+                      data-alt-price="${alt.price}"
+                      data-alt-img="${this._resolveImg(alt.image || alt.img || '')}"
+                      title="${alt.name.replace(/"/g,'&quot;')}">
+                      ${alt.name.split(' ').slice(0, 2).join(' ')}
+                    </button>
+                  `).join('')}
+                </div>` : '';
               return `
-                <div class="budget-slot-card">
+                <div class="budget-slot-card" data-slot-idx="${slotIdx}">
                   <div class="budget-slot-header">
                     <span class="budget-slot-name">${slot.slotName}</span>
                     <span style="font-size:10px;color:rgba(255,255,255,0.4);">${item.category}</span>
@@ -206,6 +231,7 @@
                       <span class="budget-slot-item-price">€ ${item.price.toFixed(2)}</span>
                     </div>
                   </div>
+                  ${altsHtml}
                 </div>
               `;
             }).join('')}
@@ -214,8 +240,38 @@
       `;
 
       if (footerSummary) {
-        footerSummary.innerHTML = `Total: <strong style="color:#00F5A0;">€ ${basket.totalPrice.toFixed(2)}</strong> (${basket.items.length} pieces)`;
+        footerSummary.innerHTML = `Total: <strong style="color:var(--color-success,#34D399);">€ ${basket.totalPrice.toFixed(2)}</strong> (${basket.items.length} pieces)`;
       }
+
+      // Track per-slot active prices for total recalculation on swap
+      this._slotPrices = basket.slots.map(s => s.selectedItem.price);
+
+      // Bind slot swap chips
+      body.querySelectorAll('.budget-alt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const slotIdx = parseInt(chip.getAttribute('data-slot-idx'));
+          const newName  = chip.getAttribute('data-alt-name');
+          const newPrice = parseFloat(chip.getAttribute('data-alt-price'));
+          const newImg   = chip.getAttribute('data-alt-img');
+
+          const slotCard = body.querySelector(`.budget-slot-card[data-slot-idx="${slotIdx}"]`);
+          if (slotCard) {
+            const titleEl = slotCard.querySelector('.budget-slot-item-title');
+            const priceEl = slotCard.querySelector('.budget-slot-item-price');
+            const imgEl   = slotCard.querySelector('.budget-slot-thumb');
+            if (titleEl) titleEl.textContent = newName;
+            if (priceEl) priceEl.textContent = '€ ' + newPrice.toFixed(2);
+            if (imgEl && newImg)   imgEl.src = newImg;
+          }
+
+          if (this._slotPrices) {
+            this._slotPrices[slotIdx] = newPrice;
+            const newTotal = this._slotPrices.reduce((s, p) => s + p, 0);
+            const fs = document.getElementById('budgetFooterSummary');
+            if (fs) fs.innerHTML = `Total: <strong style="color:var(--color-success,#34D399);">€ ${newTotal.toFixed(2)}</strong> (${basket.items.length} pieces)`;
+          }
+        });
+      });
 
       if (window.lucide) window.lucide.createIcons();
 

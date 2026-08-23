@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -241,7 +241,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
     .sg-unit-btn.active {
@@ -361,7 +361,7 @@
       font-size: 11px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
     .sg-drape-chip.active {
@@ -394,7 +394,7 @@
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .btn-sg-primary:hover { opacity: 0.9; transform: translateY(-1px); }
@@ -438,7 +438,7 @@
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
-      transition: all 0.25s ease;
+      transition: transform 0.25s ease, opacity 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
     }
 
     .sg-measure-card:hover {
@@ -511,7 +511,7 @@
       text-transform: uppercase;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.18s ease;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
     .sg-matrix-tab.active {
@@ -545,7 +545,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     }
 
     .sg-size-card:hover {
@@ -556,6 +556,13 @@
     .sg-size-card.recommended {
       background: rgba(61, 224, 255, 0.06);
       border-color: rgba(61, 224, 255, 0.35);
+    }
+
+    .sg-size-card.selected,
+    .sg-shoe-card.selected {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.1);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.2);
     }
 
     .sg-size-card-num {
@@ -611,7 +618,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     }
 
     .sg-shoe-card:hover {
@@ -747,202 +754,216 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER -->
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
         <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
           <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
-          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
+
+      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist">
-          <i data-lucide="heart" style="width:18px;height:18px;"></i>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account">
-          <i data-lucide="user" style="width:18px;height:18px;"></i>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
-        <div class="nav-more-menu" id="headerMoreMenu">
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width:18px;height:18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
-            
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
+    <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
-    <a href="lookbook.html" class="mobile-drawer-link">Lookbook</a>
-    <a href="size-guide.html" class="mobile-drawer-link active">Size Guide</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Wishlist <span class="mobile-count-badge" id="mobileWishlistCount" style="display:none;">0</span></a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
   <main class="sg-wrap" id="mainContent">
 
     <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
     <section class="sg-hero">
-      <span class="sg-hero-tag">
-        <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
-        Bespoke Proportions &amp; Anatomical Fit
-      </span>
-      <h1 class="sg-hero-title">Size Guide</h1>
+      <div class="sg-hero-tag">
+        <span>✦ Sartorial Precision</span>
+        <span>Atelier Fit Engine</span>
+      </div>
+      <h1 class="sg-hero-title">Your Anatomical Size, Perfected</h1>
       <p class="sg-hero-sub">
-        Move the sliders. Watch your silhouette respond. Find your exact size in seconds.
+        Calibrate your measurements with our interactive 2D silhouette visualizer to discover your precise European atelier sizing.
       </p>
     </section>
 
-    <!-- ─── SECTION 1: 2D SILHOUETTE VISUALIZER ──────────────────────── -->
+    <!-- ─── SECTION 1: 2D SILHOUETTE VISUALIZER & CONTROLS ─────────────── -->
     <section class="sg-visualizer-section" aria-labelledby="vizSectionTitle">
-      <!-- Left: Sticky Silhouette Stage -->
+
+      <!-- Left: 2D Silhouette Canvas -->
       <div class="sg-silhouette-stage">
-        <div class="sg-silhouette-wrap" id="silhouetteWrap">
-          <!-- 2D SVG Body Silhouette with Annotated Measurement Lines -->
-          <svg id="silhouetteSVG" viewBox="0 0 220 460" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Interactive silhouette measurement diagram" role="img">
+        <div class="sg-silhouette-wrap">
+          <svg id="silhouetteSVG" viewBox="0 0 240 380" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="bodyGrad" x1="110" y1="0" x2="110" y2="460" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#1E3A5F"/>
-                <stop offset="100%" stop-color="#0D1F35"/>
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
+              <pattern id="sgGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" />
+              </pattern>
             </defs>
+            <rect width="240" height="380" fill="url(#sgGrid)" />
 
-            <!-- ── Body Silhouette Shape ─────────────────────────────── -->
-            <!-- Head -->
-            <ellipse cx="110" cy="38" rx="24" ry="28" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <!-- Stylized Human Tailoring Silhouette -->
+            <path d="M120 42 C128 42 134 48 134 56 C134 64 128 70 120 70 C112 70 106 64 106 56 C106 48 112 42 120 42 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
+            <path d="M114 70 L114 82 L126 82 L126 70 Z" fill="rgba(255,255,255,0.12)" />
+            <path d="M114 82 C100 86 66 94 62 108 C58 122 56 160 52 196 C50 210 56 216 64 214 C70 212 74 186 78 160 L84 210 L82 330 C82 340 88 344 94 344 C100 344 104 338 106 320 L116 230 L124 230 L134 320 C136 338 140 344 146 344 C152 344 158 340 158 330 L156 210 L162 160 C166 186 170 212 176 214 C184 216 190 210 188 196 C184 160 182 122 178 108 C174 94 140 86 126 82 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" />
 
-            <!-- Neck -->
-            <rect x="101" y="60" width="18" height="18" rx="3" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-
-            <!-- Shoulders + Torso -->
-            <path d="M52 86 Q60 76 101 74 L119 74 Q160 76 168 86 L172 130 Q168 138 160 140 L155 230 Q150 238 140 240 L80 240 Q70 238 65 230 L60 140 Q52 138 48 130 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-
-            <!-- Arms (Left) -->
-            <path d="M52 86 L40 90 Q28 95 24 140 L28 168 Q32 172 36 170 L44 140 Q48 118 56 110 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-            <!-- Arms (Right) -->
-            <path d="M168 86 L180 90 Q192 95 196 140 L192 168 Q188 172 184 170 L176 140 Q172 118 164 110 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-
-            <!-- Hands (Left) -->
-            <ellipse cx="29" cy="176" rx="8" ry="12" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <!-- Hands (Right) -->
-            <ellipse cx="191" cy="176" rx="8" ry="12" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-
-            <!-- Hip / Lower Torso -->
-            <path d="M80 240 L80 270 Q76 282 72 290 L88 290 L88 240 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-            <path d="M140 240 L140 270 Q144 282 148 290 L132 290 L132 240 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-
-            <!-- Hip bridge -->
-            <path d="M80 240 Q90 244 110 244 Q130 244 140 240 L140 270 Q130 278 110 280 Q90 278 80 270 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-
-            <!-- Legs (Left) -->
-            <path d="M72 290 L68 400 Q68 416 76 418 L88 418 Q92 416 92 400 L88 290 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <!-- Legs (Right) -->
-            <path d="M148 290 L152 400 Q152 416 144 418 L132 418 Q128 416 128 400 L132 290 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-
-            <!-- Feet (Left) -->
-            <ellipse cx="80" cy="422" rx="14" ry="8" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-            <!-- Feet (Right) -->
-            <ellipse cx="140" cy="422" rx="14" ry="8" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-
-            <!-- Height Line (always visible) -->
-            <line x1="208" y1="10" x2="208" y2="432" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4 4"/>
-            <line x1="203" y1="10" x2="213" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-            <line x1="203" y1="432" x2="213" y2="432" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-
-            <!-- ── SHOULDER measurement tape ──────────────────────────── -->
-            <g id="shoulderTapeGroup" class="meas-tape-line">
-              <line x1="54" y1="80" x2="166" y2="80" stroke="#A78BFA" stroke-width="2" stroke-dasharray="8 5"/>
-              <line x1="54" y1="74" x2="54" y2="86" stroke="#A78BFA" stroke-width="1.5"/>
-              <line x1="166" y1="74" x2="166" y2="86" stroke="#A78BFA" stroke-width="1.5"/>
-            </g>
-            <g id="shoulderChipGroup" class="meas-chip-group">
-              <rect x="76" y="66" width="68" height="18" rx="3" fill="#A78BFA"/>
-              <text x="110" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="shoulderChipText">SHOULDER 46 cm</text>
+            <!-- Height Ruler Guide -->
+            <g id="heightRulerGuide" stroke="rgba(255,255,255,0.15)" stroke-width="1">
+              <line x1="28" y1="40" x2="28" y2="344" stroke-dasharray="2 2" />
+              <line x1="22" y1="40" x2="34" y2="40" />
+              <line x1="22" y1="344" x2="34" y2="344" />
+              <text id="heightLabelText" x="18" y="195" fill="#94A3B8" font-size="9" font-family="'Inter',sans-serif" text-anchor="middle" transform="rotate(-90 18 195)">180 cm</text>
             </g>
 
-            <!-- ── CHEST measurement tape (animated) ─────────────────── -->
-            <g id="chestTapeGroup" class="meas-tape-line">
-              <!-- Left extension -->
-              <line x1="52" y1="112" x2="8" y2="112" stroke="#3DE0FF" stroke-width="1.5" stroke-dasharray="6 4"/>
-              <!-- Right extension -->
-              <line x1="168" y1="112" x2="212" y2="112" stroke="#3DE0FF" stroke-width="1.5" stroke-dasharray="6 4"/>
-              <!-- Horizontal span across body -->
-              <line x1="52" y1="112" x2="168" y2="112" stroke="#3DE0FF" stroke-width="2" stroke-dasharray="8 5"/>
-              <!-- End ticks -->
-              <line x1="52" y1="106" x2="52" y2="118" stroke="#3DE0FF" stroke-width="1.5"/>
-              <line x1="168" y1="106" x2="168" y2="118" stroke="#3DE0FF" stroke-width="1.5"/>
+            <!-- Shoulder Measurement Tape -->
+            <g id="shoulderTapeGroup" class="meas-tape-line visible">
+              <line x1="58" y1="98" x2="182" y2="98" stroke="#A78BFA" stroke-width="1.5" />
+              <circle cx="58" cy="98" r="2.5" fill="#A78BFA" />
+              <circle cx="182" cy="98" r="2.5" fill="#A78BFA" />
             </g>
-            <!-- Chest Chip -->
-            <g id="chestChipGroup" class="meas-chip-group">
-              <rect x="72" y="98" width="76" height="18" rx="3" fill="#3DE0FF"/>
-              <text x="110" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="chestChipText">CHEST 102 cm</text>
+            <g id="shoulderChipGroup" class="meas-chip-group visible">
+              <rect x="74" y="86" width="92" height="18" rx="4" fill="#0B1528" stroke="#A78BFA" stroke-width="1" />
+              <text id="shoulderChipText" x="120" y="99" fill="#A78BFA" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">SHOULDER 46.0 cm</text>
             </g>
 
-            <!-- ── WAIST measurement tape ─────────────────────────────── -->
-            <g id="waistTapeGroup" class="meas-tape-line">
-              <line x1="62" y1="172" x2="158" y2="172" stroke="#34D399" stroke-width="2" stroke-dasharray="8 5"/>
-              <line x1="62" y1="166" x2="62" y2="178" stroke="#34D399" stroke-width="1.5"/>
-              <line x1="158" y1="166" x2="158" y2="178" stroke="#34D399" stroke-width="1.5"/>
+            <!-- Chest Measurement Tape -->
+            <g id="chestTapeGroup" class="meas-tape-line visible">
+              <line x1="68" y1="136" x2="172" y2="136" stroke="#3DE0FF" stroke-width="1.5" />
+              <circle cx="68" cy="136" r="2.5" fill="#3DE0FF" />
+              <circle cx="172" cy="136" r="2.5" fill="#3DE0FF" />
             </g>
-            <g id="waistChipGroup" class="meas-chip-group">
-              <rect x="76" y="158" width="68" height="18" rx="3" fill="#34D399"/>
-              <text x="110" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" font-weight="700" fill="#020B18" id="waistChipText">WAIST 84 cm</text>
+            <g id="chestChipGroup" class="meas-chip-group visible">
+              <rect x="78" y="124" width="84" height="18" rx="4" fill="#0B1528" stroke="#3DE0FF" stroke-width="1" />
+              <text id="chestChipText" x="120" y="137" fill="#3DE0FF" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">CHEST 102 cm</text>
             </g>
 
-            <!-- ── HEIGHT Label ───────────────────────────────────────── -->
-            <text x="214" y="225" text-anchor="start" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="rgba(255,255,255,0.4)" id="heightLabelText" transform="rotate(90 214 225)">180 cm</text>
-
+            <!-- Waist Measurement Tape -->
+            <g id="waistTapeGroup" class="meas-tape-line visible">
+              <line x1="76" y1="172" x2="164" y2="172" stroke="#34D399" stroke-width="1.5" />
+              <circle cx="76" cy="172" r="2.5" fill="#34D399" />
+              <circle cx="164" cy="172" r="2.5" fill="#34D399" />
+            </g>
+            <g id="waistChipGroup" class="meas-chip-group visible">
+              <rect x="80" y="160" width="80" height="18" rx="4" fill="#0B1528" stroke="#34D399" stroke-width="1" />
+              <text id="waistChipText" x="120" y="173" fill="#34D399" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">WAIST 84 cm</text>
+            </g>
           </svg>
         </div>
 
-        <!-- Size Result Badge -->
-        <div class="sg-size-result-badge" id="sizeResultBadge">
-          <span class="sg-size-label">Your Atelier Size</span>
+        <!-- Result Card -->
+        <div class="sg-size-result-badge">
+          <span class="sg-size-label">Recommended Atelier Size</span>
           <span class="sg-size-number" id="recSizeMain">48 · M</span>
-          <span class="sg-size-sub" id="recDrapeLabel">Regular Tailored Fit</span>
-          <span class="sg-confidence-pill">
-            <i data-lucide="sparkles" style="width:10px;height:10px;"></i>
-            <span id="recConfidencePill">98% Anatomical Match</span>
-          </span>
+          <span class="sg-size-sub" id="recDrapeLabel">Regular Tailored · Balanced Drape</span>
+          <span class="sg-confidence-pill" id="recConfidencePill">98% Anatomical Match</span>
         </div>
       </div>
 
@@ -955,8 +976,8 @@
 
         <!-- Unit Toggle -->
         <div class="sg-unit-toggle">
-          <button type="button" class="sg-unit-btn active" id="btnUnitCm" data-unit="cm">CM</button>
-          <button type="button" class="sg-unit-btn" id="btnUnitIn" data-unit="in">IN</button>
+          <button type="button" class="sg-unit-btn active" id="btnUnitCm" data-unit="cm" aria-pressed="true">CM</button>
+          <button type="button" class="sg-unit-btn" id="btnUnitIn" data-unit="in" aria-pressed="false">IN</button>
         </div>
 
         <!-- HEIGHT Slider -->
@@ -996,7 +1017,7 @@
               <div class="sg-slider-icon" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.2);"><i data-lucide="circle" style="width:14px;height:14px;color:#34D399;"></i></div>
               <div>
                 <div class="sg-slider-name">Natural Waist</div>
-                <div class="sg-slider-desc">Narrowest point, ~2in above navel</div>
+                <div class="sg-slider-desc">Narrowest point at natural waistline</div>
               </div>
             </div>
             <span class="sg-slider-val" style="color:#34D399;" id="valWaistDisplay">84 cm</span>
@@ -1142,7 +1163,7 @@
       <div class="search-header-bar">
         <div class="search-input-wrapper">
           <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
       </div>
@@ -1157,7 +1178,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
     <div id="minicartFooter" class="minicart-footer" style="display:none;">
       <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
       <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
@@ -1168,6 +1189,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
   <!-- Scripts -->
+  <script src="../js/size-advisor.js"></script>
   <script src="../js/cart.js?v=5"></script>
   <script src="../js/ai-engine.js?v=3"></script>
   <script src="../js/intent-parser.js"></script>
@@ -1244,7 +1266,7 @@
         apparelGrid.innerHTML = APPAREL_SIZES.map(s => {
           const isRec = s.mai === recSize;
           const chestLabel = unit === 'cm' ? s.chest_cm + ' cm' : s.chest_in + ' in';
-          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" title="${s.mai} – ${s.intl}">
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Size ${s.mai} ${s.intl}" title="${s.mai} – ${s.intl}">
             <span class="sg-size-card-num">${s.mai}</span>
             <span class="sg-size-card-intl">${s.intl} · UK${s.uk}</span>
             <span class="sg-size-card-chest">Chest<br>${chestLabel}</span>
@@ -1258,7 +1280,7 @@
         trousersGrid.innerHTML = TROUSERS_SIZES.map(s => {
           const isRec = s.mai === recSize;
           const waistLabel = unit === 'cm' ? s.waist_cm + ' cm' : s.waist_in + ' in';
-          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}">
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Waist size ${s.mai}">
             <span class="sg-size-card-num">${s.mai}</span>
             <span class="sg-size-card-intl">Waist ${waistLabel}</span>
             <span class="sg-size-card-chest">Inseam ${s.inseam} cm</span>
@@ -1272,7 +1294,7 @@
         shoeGrid.innerHTML = FOOTWEAR_SIZES.map(s => {
           const isRec = s.eu === recShoeEU;
           const footLabel = unit === 'cm' ? s.cm + ' cm' : s.inches + ' in';
-          return `<div class="sg-shoe-card ${isRec ? 'recommended' : ''}">
+          return `<div class="sg-shoe-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Shoe size EU ${s.eu}">
             <span class="sg-shoe-eu">EU ${s.eu}</span>
             <span class="sg-shoe-uk-us">UK ${s.uk}<br>US ${s.us}</span>
             <span class="sg-shoe-cm">${footLabel}</span>
@@ -1280,6 +1302,27 @@
           </div>`;
         }).join('');
       }
+
+      // Add click selection listener to size cards
+      document.querySelectorAll('.sg-size-card, .sg-shoe-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const parentGrid = card.parentElement;
+          if (parentGrid) {
+            parentGrid.querySelectorAll('.sg-size-card, .sg-shoe-card').forEach(c => {
+              c.classList.remove('selected');
+              c.setAttribute('aria-selected', 'false');
+            });
+          }
+          card.classList.add('selected');
+          card.setAttribute('aria-selected', 'true');
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
     }
 
     // ── Calculate Size from Measurements ──────────────────────────────────
@@ -1388,8 +1431,12 @@
     document.querySelectorAll('.sg-unit-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         unit = btn.dataset.unit;
-        document.querySelectorAll('.sg-unit-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.sg-unit-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         updateAll();
       });
     });
@@ -1425,6 +1472,25 @@
     const saveBtn = document.getElementById('btnSaveToProfile');
     if (saveBtn) {
       saveBtn.addEventListener('click', () => {
+        const heightEl   = document.getElementById('sliderHeight');
+        const chestEl    = document.getElementById('sliderChest');
+        const waistEl    = document.getElementById('sliderWaist');
+        const shoulderEl = document.getElementById('sliderShoulder');
+        const activeUnit  = document.querySelector('.sg-unit-btn.active')?.dataset.unit || 'cm';
+        const activeDrape = document.querySelector('.sg-drape-chip.active')?.dataset.drape || 'regular';
+
+        const measurements = {
+          height:   heightEl   ? parseInt(heightEl.value)   : null,
+          chest:    chestEl    ? parseInt(chestEl.value)    : null,
+          waist:    waistEl    ? parseInt(waistEl.value)    : null,
+          shoulder: shoulderEl ? parseInt(shoulderEl.value) : null,
+          unit:     activeUnit,
+          fit:      activeDrape,
+          savedAt:  new Date().toISOString()
+        };
+
+        if (window.NexSizeAdvisor) window.NexSizeAdvisor.saveMeasurements(measurements);
+
         saveBtn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i><span>Saved!</span>';
         if (window.lucide) window.lucide.createIcons();
         setTimeout(() => {
@@ -1446,5 +1512,9 @@
 
   })();
   </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

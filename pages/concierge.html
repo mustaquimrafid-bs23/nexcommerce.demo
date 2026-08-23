@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,18 +11,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=40">
   <style>
+    /* Suppress duplicate floating pill & duplicate drawer & tour button on dedicated concierge studio page */
+    #nexConciergeFloatingPill,
+    #nexConciergeOverlay,
+    #nexConciergeDrawer,
+    #aiTourFloatingBtn,
+    #aiTourModal,
+    .ai-tour-btn {
+      display: none !important;
+    }
+
     /* ── Studio Layout ───────────────────────────── */
     .concierge-studio-canvas {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 24px 32px 48px;
+      padding: 20px 32px 36px;
       height: calc(100vh - 120px);
+      max-height: calc(100dvh - 120px);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
     @media (max-width: 900px) {
-      .concierge-studio-canvas { height: auto; min-height: calc(100vh - 120px); padding: 16px; }
+      .concierge-studio-canvas {
+        height: auto;
+        min-height: calc(100vh - 120px);
+        max-height: none;
+        padding: 16px 16px 40px;
+        overflow: visible;
+      }
     }
 
     /* Top Bar */
@@ -30,57 +47,66 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 16px;
+      padding-bottom: 14px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       flex-shrink: 0;
       gap: 12px;
     }
     .studio-agent-profile { display: flex; align-items: center; gap: 12px; }
     .agent-avatar-ring {
-      width: 38px; height: 38px;
+      width: 40px; height: 40px;
       border-radius: 50%;
-      background: rgba(61,224,255,0.1);
-      border: 1px solid rgba(61,224,255,0.3);
+      background: rgba(61,224,255,0.12);
+      border: 1px solid rgba(61,224,255,0.35);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(61,224,255,0.15);
     }
-    .agent-name { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #FFFFFF; }
-    .agent-status-whisper { font-size: 11px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 6px; }
+    .agent-name { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.01em; }
+    .agent-status-whisper { font-size: 11px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px; }
     .agent-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; animation: live-pulse 2s infinite; }
-    @keyframes live-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes live-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
 
     /* Mobile tabs */
-    .studio-mobile-tabs { display: none; gap: 4px; }
+    .studio-mobile-tabs { display: none; gap: 6px; }
     @media (max-width: 900px) { .studio-mobile-tabs { display: flex; } }
     .studio-tab-btn {
       display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 20px;
+      padding: 8px 16px; border-radius: 20px;
       background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.55); font-size: 11px; font-weight: 600;
-      cursor: pointer; white-space: nowrap; transition: all 0.15s;
-      letter-spacing: 0.03em; min-height: 36px;
+      color: rgba(255,255,255,0.65); font-size: 12px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
+      letter-spacing: 0.02em; min-height: 40px;
     }
-    .studio-tab-btn.active { background: rgba(61,224,255,0.12); border-color: rgba(61,224,255,0.35); color: #3DE0FF; }
+    .studio-tab-btn.active {
+      background: rgba(61,224,255,0.14);
+      border-color: rgba(61,224,255,0.4);
+      color: #3DE0FF;
+      box-shadow: 0 0 12px rgba(61,224,255,0.15);
+    }
 
     /* Ghost action */
     .btn-studio-ghost {
       display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 8px;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 600;
-      cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; min-height: 36px;
+      padding: 8px 16px; border-radius: 8px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7); font-size: 12px; font-weight: 600;
+      cursor: pointer; letter-spacing: 0.03em; transition: all 0.15s ease; min-height: 38px;
     }
-    .btn-studio-ghost:hover { color: #FFFFFF; border-color: rgba(255,255,255,0.2); }
+    .btn-studio-ghost:hover { color: #FFFFFF; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
 
     /* 2-column split grid */
     .studio-split-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
       flex: 1;
       overflow: hidden;
       min-height: 0;
+    }
+    @media (max-width: 1100px) {
+      .studio-split-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
     }
     @media (max-width: 900px) {
       .studio-split-grid { grid-template-columns: 1fr; overflow: visible; flex: none; }
@@ -90,72 +116,91 @@
 
     /* Left pane: dialogue */
     .studio-dialogue-pane {
-      background: rgba(8,14,30,0.7);
+      background: rgba(8,14,30,0.75);
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
       display: flex; flex-direction: column;
       overflow: hidden;
       min-height: 0;
     }
-    @media (max-width: 900px) { .studio-dialogue-pane { min-height: 60vh; } }
+    @media (max-width: 900px) { .studio-dialogue-pane { min-height: 65vh; } }
 
     .dialogue-messages-stream {
       flex: 1; overflow-y: auto;
-      padding: 24px;
+      padding: 20px;
       display: flex; flex-direction: column;
       gap: 16px;
     }
     .dialogue-messages-stream::-webkit-scrollbar { width: 4px; }
-    .dialogue-messages-stream::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .dialogue-messages-stream::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
 
     .chat-bubble {
-      max-width: 88%; padding: 13px 17px;
-      border-radius: 12px; font-size: 13.5px; line-height: 1.6;
+      max-width: 92%; padding: 14px 18px;
+      border-radius: 14px; font-size: 13.5px; line-height: 1.6;
       animation: fadeInUp 0.25s cubic-bezier(0.16,1,0.3,1);
+      display: flex; flex-direction: column; gap: 10px;
     }
     @keyframes fadeInUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
     .chat-bubble-ai {
       background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      color: #FFFFFF; align-self: flex-start;
+      color: #FFFFFF; align-self: flex-start; width: 100%;
     }
     .chat-bubble-user {
       background: #3DE0FF; color: #000B1A;
-      font-weight: 500; align-self: flex-end;
+      font-weight: 600; align-self: flex-end; width: auto;
+      border-radius: 14px 14px 2px 14px;
+      box-shadow: 0 4px 14px rgba(61,224,255,0.25);
     }
     .chat-bubble-ai .action-link {
-      display: inline-block; margin-top: 10px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      color: #3DE0FF; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 6px;
+      font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em;
+      color: #3DE0FF; text-decoration: none; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 6px; background: rgba(61,224,255,0.08);
+      border: 1px solid rgba(61,224,255,0.2); transition: all 0.15s ease; width: fit-content;
     }
-    .chat-bubble-ai .action-link:hover { text-decoration: underline; }
+    .chat-bubble-ai .action-link:hover { background: rgba(61,224,255,0.16); border-color: rgba(61,224,255,0.4); text-decoration: none; }
+
+    /* Welcome Card */
+    .studio-welcome-hero {
+      background: radial-gradient(circle at 10% 20%, rgba(61,224,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(61,224,255,0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .welcome-hero-title { font-family: 'Manrope', sans-serif; font-size: 13.5px; font-weight: 600; color: #FFFFFF; margin: 0; }
 
     /* Typing indicator */
-    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+    .typing-indicator { display: flex; gap: 5px; align-items: center; padding: 6px 0; }
     .typing-indicator span {
       width: 6px; height: 6px; border-radius: 50%;
-      background: rgba(255,255,255,0.3);
+      background: #3DE0FF;
       animation: typing-bounce 1.2s infinite;
     }
     .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
     .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typing-bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-5px); } }
+    @keyframes typing-bounce { 0%,80%,100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-5px); opacity: 1; } }
 
     /* Scenario chips */
     .studio-scenario-chips {
       display: flex; gap: 8px;
       padding: 10px 16px;
       overflow-x: auto; scrollbar-width: none;
-      border-top: 1px solid rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(255,255,255,0.06);
       flex-shrink: 0;
+      background: rgba(0,0,0,0.2);
     }
     .studio-scenario-chips::-webkit-scrollbar { display: none; }
     .scenario-chip {
-      padding: 7px 13px; border-radius: 20px; flex-shrink: 0;
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.65); font-size: 11px; white-space: nowrap;
-      cursor: pointer; transition: all 0.15s; min-height: 34px;
+      padding: 7px 14px; border-radius: 20px; flex-shrink: 0;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8); font-size: 11.5px; font-weight: 500; white-space: nowrap;
+      cursor: pointer; transition: all 0.15s ease; min-height: 36px;
     }
-    .scenario-chip:hover { border-color: rgba(61,224,255,0.3); color: #3DE0FF; }
+    .scenario-chip:hover { border-color: rgba(61,224,255,0.4); color: #3DE0FF; background: rgba(61,224,255,0.08); }
 
     /* Input dock */
     .studio-input-dock {
@@ -167,26 +212,30 @@
     .studio-input-wrapper {
       display: flex; align-items: center; gap: 8px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      padding: 6px 6px 6px 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 6px 8px 6px 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .studio-input-wrapper:focus-within { border-color: rgba(61,224,255,0.35); }
+    .studio-input-wrapper:focus-within {
+      border-color: rgba(61,224,255,0.45);
+      box-shadow: 0 0 14px rgba(61,224,255,0.15);
+    }
     .studio-prompt-input {
       flex: 1; background: none; border: none; outline: none;
       color: #FFFFFF; font-size: 13.5px; font-family: 'Inter', sans-serif;
-      min-height: 32px;
+      min-height: 36px;
     }
-    .studio-prompt-input::placeholder { color: rgba(255,255,255,0.3); }
+    .studio-prompt-input::placeholder { color: rgba(255,255,255,0.35); }
     .btn-voice-mic {
       background: none; border: none;
-      color: rgba(255,255,255,0.4); cursor: pointer;
+      color: rgba(255,255,255,0.45); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      padding: 6px; border-radius: 50%; min-width: 32px; min-height: 32px;
-      transition: color 0.15s;
+      padding: 8px; border-radius: 50%; min-width: 36px; min-height: 36px;
+      transition: color 0.15s, background-color 0.15s;
     }
-    .btn-voice-mic:hover { color: #3DE0FF; }
-    .btn-voice-mic.recording { color: #FB7185; }
+    .btn-voice-mic:hover { color: #3DE0FF; background: rgba(61,224,255,0.1); }
+    .btn-voice-mic.recording { color: #FB7185; background: rgba(251,113,133,0.15); }
     .voice-wave-bars { display: flex; align-items: center; gap: 2px; }
     .voice-wave-bars span {
       display: block; width: 2px; background: #FB7185;
@@ -198,78 +247,120 @@
     .voice-wave-bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
     .voice-wave-bars span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
     @keyframes wave-bar { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.4); } }
+    
     .btn-studio-send {
-      width: 36px; height: 36px; border-radius: 8px;
+      width: 38px; height: 38px; border-radius: 8px;
       background: #3DE0FF; border: none; color: #000B1A;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0; transition: opacity 0.15s;
+      cursor: pointer; flex-shrink: 0; transition: transform 0.15s, opacity 0.15s;
     }
-    .btn-studio-send:hover { opacity: 0.85; }
+    .btn-studio-send:hover { opacity: 0.9; transform: scale(1.03); }
 
     /* Right pane: visual canvas */
     .studio-visual-pane {
-      background: rgba(8,14,30,0.7);
+      background: rgba(8,14,30,0.75);
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
-      padding: 24px;
+      padding: 20px;
       display: flex; flex-direction: column;
       overflow: hidden; min-height: 0;
     }
-    @media (max-width: 900px) { .studio-visual-pane { min-height: 80vh; } }
+    @media (max-width: 900px) { .studio-visual-pane { min-height: 75vh; } }
 
     .visual-canvas-header {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 20px; flex-shrink: 0;
+      margin-bottom: 16px; flex-shrink: 0;
     }
     .canvas-eyebrow {
-      font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
       color: #3DE0FF; text-transform: uppercase; display: block;
     }
     .canvas-title {
-      font-family: 'Manrope', sans-serif; font-size: 19px; font-weight: 700;
+      font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 700;
       color: #FFFFFF; margin: 4px 0 0; line-height: 1.2;
     }
     .canvas-harmony-badge {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #34D399;
-      background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25);
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; color: #34D399;
+      background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3);
       padding: 4px 10px; border-radius: 4px; white-space: nowrap;
     }
 
     /* Product cards grid */
     .studio-look-grid {
-      flex: 1; overflow-y: auto;
+      flex: 1; overflow-y: auto; overflow-x: hidden;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 14px; padding-bottom: 4px; min-height: 0;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-auto-rows: max-content;
+      gap: 10px; padding: 2px 2px 14px; min-height: 0;
       align-content: start;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
     }
     .studio-look-grid::-webkit-scrollbar { width: 4px; }
-    .studio-look-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .studio-look-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
 
     .studio-product-card {
-      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
       border-radius: 12px; overflow: hidden;
-      cursor: pointer; transition: border-color 0.2s, transform 0.2s;
+      transition: all 0.25s ease;
       animation: cardIn 0.35s cubic-bezier(0.16,1,0.3,1) both;
+      display: flex; flex-direction: column;
+      height: auto; min-height: min-content;
     }
-    .studio-product-card:hover { border-color: rgba(61,224,255,0.25); transform: translateY(-2px); }
+    .studio-product-card:hover {
+      border-color: rgba(61,224,255,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
     @keyframes cardIn { from { opacity:0; transform: translateY(12px) scale(0.97); } to { opacity:1; transform: translateY(0) scale(1); } }
 
-    .studio-card-media { aspect-ratio: 3/4; overflow: hidden; background: rgba(255,255,255,0.03); }
-    .studio-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .studio-product-card:hover .studio-card-img { transform: scale(1.04); }
-    .studio-card-meta { padding: 12px; }
-    .studio-card-brand { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: #3DE0FF; text-transform: uppercase; }
-    .studio-card-title { font-size: 12px; font-weight: 600; color: #FFFFFF; margin: 4px 0; line-height: 1.35; }
-    .studio-card-price { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85); font-variant-numeric: tabular-nums; }
+    .studio-card-link {
+      display: flex; flex-direction: column; flex: 1; min-height: 0;
+      color: inherit; text-decoration: none;
+    }
+    .studio-card-media {
+      aspect-ratio: 1 / 1; max-height: 135px; overflow: hidden;
+      background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 8px; flex-shrink: 0;
+    }
+    .studio-card-img {
+      width: 100%; height: 100%; max-height: 120px; object-fit: contain !important; display: block;
+      transition: transform 0.4s ease;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+    }
+    .studio-product-card:hover .studio-card-img { transform: scale(1.06); }
+    .studio-card-meta { padding: 8px 10px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+    .studio-card-brand { font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; color: #3DE0FF; text-transform: uppercase; }
+    .studio-card-title { font-size: 11.5px; font-weight: 600; color: #FFFFFF; margin: 0; line-height: 1.3; }
+    .studio-card-price { font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,0.9); font-variant-numeric: tabular-nums; }
+    
+    .studio-card-actions {
+      padding: 0 10px 10px; margin-top: auto;
+    }
+    .btn-canvas-quick-add {
+      width: 100%; padding: 6px 8px; border-radius: 6px;
+      background: rgba(61,224,255,0.1); border: 1px solid rgba(61,224,255,0.3);
+      color: #3DE0FF; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
+      transition: all 0.15s ease; min-height: 32px;
+    }
+    .btn-canvas-quick-add:hover {
+      background: #3DE0FF; color: #000B1A;
+    }
+    .btn-canvas-quick-add.added {
+      background: #34D399; border-color: #34D399; color: #000B1A;
+    }
 
     /* Empty canvas state */
     .studio-canvas-empty {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      flex: 1; gap: 12px; color: rgba(255,255,255,0.2); text-align: center; padding: 24px;
+      flex: 1; gap: 12px; color: rgba(255,255,255,0.3); text-align: center; padding: 24px;
     }
-    .studio-canvas-empty svg { opacity: 0.3; }
-    .studio-canvas-empty p { font-size: 13px; line-height: 1.5; max-width: 220px; }
+    .studio-canvas-empty svg { opacity: 0.4; }
+    .studio-canvas-empty p { font-size: 13px; line-height: 1.5; max-width: 240px; margin: 0; }
 
     /* Bundle bar */
     .studio-bundle-bar {
@@ -279,18 +370,19 @@
       gap: 12px; flex-shrink: 0;
     }
     .bundle-meta { display: flex; flex-direction: column; gap: 2px; }
-    .bundle-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+    .bundle-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.45); text-transform: uppercase; }
     .bundle-total { font-size: 18px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums; }
     .btn-acquire-bundle {
       display: flex; align-items: center; gap: 8px;
-      padding: 12px 20px; border-radius: 8px;
+      padding: 12px 22px; border-radius: 8px;
       background: #3DE0FF; border: none; color: #000B1A;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-      cursor: pointer; white-space: nowrap; transition: background 0.2s, color 0.2s;
+      font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
       min-height: 44px;
+      box-shadow: 0 4px 16px rgba(61,224,255,0.25);
     }
-    .btn-acquire-bundle:hover { opacity: 0.9; }
-    .btn-acquire-bundle.success { background: #34D399; }
+    .btn-acquire-bundle:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-acquire-bundle.success { background: #34D399; box-shadow: 0 4px 16px rgba(52,211,153,0.3); }
 
     .studio-top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   </style>
@@ -338,47 +430,46 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
         <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="user"></i>
           <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="shopping-bag"></i>
           <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -389,9 +480,14 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -400,35 +496,58 @@
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces</a>
-    <a href="tracking.html" class="mobile-drawer-link">Track Order</a>
-    <a href="profile.html" class="mobile-drawer-link">AI Profile</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
+  <main class="concierge-studio-canvas" id="mainContent">
+    <h1 class="sr-only">nexCommerce AI Style Concierge &amp; Styling Studio</h1>
 
-  <main class="concierge-studio-canvas" id="conciergeStudio">
-
-    <!-- STUDIO TOP BAR -->
+    <!-- STUDIO TOP BAR: AGENT STATUS & ACTIONS -->
     <div class="studio-top-bar">
       <div class="studio-agent-profile">
         <div class="agent-avatar-ring">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3DE0FF" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <i data-lucide="sparkles" style="width:20px;height:20px;color:#3DE0FF;"></i>
         </div>
         <div>
-          <div class="agent-name">AI Stylist</div>
+          <div class="agent-name">AI Style Concierge</div>
           <div class="agent-status-whisper">
             <span class="agent-live-dot"></span>
-            <span>Online · AI styling advice</span>
+            <span>Active &middot; AI Wardrobe Stylist</span>
           </div>
         </div>
       </div>
@@ -441,7 +560,7 @@
         </button>
         <button type="button" class="studio-tab-btn" data-tab="visual" role="tab" aria-selected="false">
           <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-          <span>Look (<span id="mobileLookCount">0</span>)</span>
+          <span>Look (<span id="mobileLookCount">3</span>)</span>
         </button>
       </div>
 
@@ -458,28 +577,29 @@
 
       <!-- LEFT PANE: CONVERSATIONAL DIALOGUE -->
       <div class="studio-dialogue-pane" id="conciergeChatPane">
-        <div class="dialogue-messages-stream" id="dialogueMessagesStream" role="log" aria-live="polite"></div>
+        <div class="dialogue-messages-stream" id="dialogueMessagesStream" role="log" aria-live="polite" data-lenis-prevent></div>
 
         <!-- QUICK SCENARIO PROMPTS -->
-        <div class="studio-scenario-chips" id="studioScenarioChips">
-          <button type="button" class="scenario-chip" data-prompt="Curate a 3-day winter trip in St. Moritz">3-Day Winter Alpine Trip</button>
-          <button type="button" class="scenario-chip" data-prompt="Show me tailored knitwear and blazers">Knitwear &amp; Sweaters</button>
-          <button type="button" class="scenario-chip" data-prompt="What size should I get for cashmere sweaters?">Fit &amp; Sizing Advice</button>
-          <button type="button" class="scenario-chip" data-prompt="How fast is express delivery across the EU?">Delivery Timelines</button>
+        <div class="studio-scenario-chips" id="studioScenarioChips" data-lenis-prevent>
+          <button type="button" class="scenario-chip" data-prompt="Curate a 3-day winter trip in St. Moritz">✦ 3-Day Winter Alpine Trip</button>
+          <button type="button" class="scenario-chip" data-prompt="Show me tailored knitwear and blazers">✦ Knitwear &amp; Sweaters</button>
+          <button type="button" class="scenario-chip" data-prompt="What size should I get for cashmere sweaters?">✦ Fit &amp; Sizing Advice</button>
+          <button type="button" class="scenario-chip" data-prompt="How fast is express delivery across the EU?">✦ Delivery Timelines</button>
+          <button type="button" class="scenario-chip" data-prompt="Track order NX-8921-X">✦ Track Order NX-8921-X</button>
         </div>
 
         <!-- INPUT DOCK -->
         <div class="studio-input-dock">
           <div class="studio-input-wrapper">
             <button type="button" id="btnStudioVoice" class="btn-voice-mic" aria-label="Toggle Voice Input">
-              <i data-lucide="mic" style="width:16px;height:16px;" id="voiceMicIcon"></i>
+              <i data-lucide="mic" style="width:17px;height:17px;" id="voiceMicIcon"></i>
               <div class="voice-wave-bars" id="voiceWaveBars" style="display:none;"><span></span><span></span><span></span><span></span></div>
             </button>
             <input type="text" id="conciergePromptInput" class="studio-prompt-input"
                    placeholder="Ask your stylist for an outfit, fabric advice, or fit guidance..."
                    autocomplete="off" spellcheck="false" aria-label="Stylist prompt" />
             <button type="button" id="btnStudioSend" class="btn-studio-send" aria-label="Send message">
-              <i data-lucide="arrow-up" style="width:16px;height:16px;"></i>
+              <i data-lucide="arrow-up" style="width:18px;height:18px;"></i>
             </button>
           </div>
         </div>
@@ -490,7 +610,7 @@
         <div class="visual-canvas-header">
           <div>
             <span class="canvas-eyebrow">YOUR OUTFIT</span>
-            <h2 class="canvas-title" id="canvasLookTitle">AI Suggestion</h2>
+            <h2 class="canvas-title" id="canvasLookTitle">Featured Collection</h2>
           </div>
           <div>
             <span class="canvas-harmony-badge" id="canvasHarmonyBadge">Great Match</span>
@@ -498,10 +618,10 @@
         </div>
 
         <!-- CURATED PRODUCT CARDS -->
-        <div class="studio-look-grid" id="studioLookCanvas">
+        <div class="studio-look-grid" id="studioLookCanvas" data-lenis-prevent>
           <div class="studio-canvas-empty" id="studioCanvasEmpty">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            <p>Start chatting to get outfit suggestions</p>
+            <p>Start chatting or click a styling prompt to discover curated pieces.</p>
           </div>
         </div>
 
@@ -512,7 +632,7 @@
             <span class="bundle-total" id="bundleTotalPrice">€ 0.00</span>
           </div>
           <button type="button" id="btnAcquireCapsule" class="btn-acquire-bundle">
-            <i data-lucide="shopping-bag" style="width:14px;height:14px;"></i>
+            <i data-lucide="shopping-bag" style="width:15px;height:15px;"></i>
             <span>Add All to Bag</span>
           </button>
         </div>
@@ -533,7 +653,6 @@
   <script src="../js/style-profile.js?v=2"></script>
   <script src="../js/context-retention.js?v=2"></script>
   <script src="../js/concierge-engine.js?v=3"></script>
-  <script src="../js/concierge.js?v=3"></script>
   
   <script>
     lucide.createIcons();
@@ -541,10 +660,7 @@
     document.addEventListener('DOMContentLoaded', function () {
 
       // ── Engine & DOM refs ────────────────────────────────────────────────
-      var engine = window.NexConciergeEngine || {
-        initialize: function () { return { text: 'Good evening. I am your nexCommerce Style Concierge. What are you looking to discover today?', products: [] }; },
-        processMessage: function (t) { return { text: 'I can help you explore our collection, find your size, or complete a look. What are you shopping for?', products: (window.NexAI && window.NexAI.catalogArray) ? window.NexAI.catalogArray.slice(0, 3) : [] }; }
-      };
+      var engine = window.NexConciergeEngine;
       var stream = document.getElementById('dialogueMessagesStream');
       var input = document.getElementById('conciergePromptInput');
       var sendBtn = document.getElementById('btnStudioSend');
@@ -559,27 +675,50 @@
       var voiceTimeout = null;
 
       // ── Helpers ──────────────────────────────────────────────────────────
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
       function formatBubbleText(text) {
-        return text
+        return String(text || '')
           .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;font-size:12px;">$1</code>')
+          .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:12px;">$1</code>')
           .replace(/\n/g, '<br>');
       }
 
-      function appendMessage(sender, text, actionLink) {
+      function getProductImage(p) {
+        var src = p.img || p.image || '';
+        if (!src) return '../assets/images/products/hero_sweater.png';
+        if (src.startsWith('http')) return src;
+        if (src.startsWith('assets/')) return '../' + src;
+        return src;
+      }
+
+      function appendMessage(sender, text, actionLink, widgetHtml) {
         var bubble = document.createElement('div');
         bubble.className = 'chat-bubble ' + (sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai');
-        bubble.innerHTML = formatBubbleText(text);
+        
+        var contentHtml = formatBubbleText(text);
+        if (widgetHtml) {
+          contentHtml += '<div class="bubble-widget-wrap" style="width:100%;margin-top:6px;">' + widgetHtml + '</div>';
+        }
+        bubble.innerHTML = contentHtml;
+
         if (actionLink && sender === 'ai') {
           var link = document.createElement('a');
           link.href = actionLink.url;
           link.textContent = actionLink.text;
           link.className = 'action-link';
-          bubble.appendChild(document.createElement('br'));
           bubble.appendChild(link);
         }
         stream.appendChild(bubble);
         stream.scrollTop = stream.scrollHeight;
+        lucide.createIcons();
         return bubble;
       }
 
@@ -597,11 +736,67 @@
         if (el) el.remove();
       }
 
-      function getProductImage(p) {
-        var src = p.img || p.image || '';
-        if (!src) return 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=60&auto=format';
-        if (src.startsWith('http')) return src;
-        return '../' + src;
+      /* ── Widget Renderers ────────────────────────────────────────────── */
+      function renderSizingAdvisorWidget(payload) {
+        if (!payload) return '';
+        var catPills = (payload.categories || ['Tops & Sweaters', 'Footwear']).map(function (cat, idx) {
+          return '<button type="button" class="size-pill ' + (idx === 0 ? 'active' : '') + '" data-action="select-size-category" data-val="' + escapeHtml(cat) + '">' + escapeHtml(cat) + '</button>';
+        }).join('');
+
+        var sizePills = (payload.availableSizes || ['XS (36")', 'S (38")', 'M (40")', 'L (42")', 'XL (44")']).map(function (s, idx) {
+          return '<button type="button" class="size-pill ' + (idx === 2 ? 'active' : '') + '" data-action="select-size-measurement" data-val="' + escapeHtml(s) + '">' + escapeHtml(s) + '</button>';
+        }).join('');
+
+        var fitPills = (payload.fits || ['True to size (Clean silhouette)', 'Size up (Relaxed drape)']).map(function (f, idx) {
+          return '<button type="button" class="size-pill ' + (idx === 0 ? 'active' : '') + '" data-action="select-size-fit" data-val="' + escapeHtml(f) + '">' + escapeHtml(f) + '</button>';
+        }).join('');
+
+        return '<div class="concierge-size-advisor" data-size-widget>' +
+          '<div class="size-advisor-section">' +
+            '<div class="size-advisor-label">1. Garment Category</div>' +
+            '<div class="size-pills-row">' + catPills + '</div>' +
+          '</div>' +
+          '<div class="size-advisor-section">' +
+            '<div class="size-advisor-label">2. Body / Measurement</div>' +
+            '<div class="size-pills-row size-pills-measurements">' + sizePills + '</div>' +
+          '</div>' +
+          '<div class="size-advisor-section">' +
+            '<div class="size-advisor-label">3. Desired Silhouette Drape</div>' +
+            '<div class="size-pills-row">' + fitPills + '</div>' +
+          '</div>' +
+          '<div class="size-advisor-result">' +
+            '<div class="size-result-badge">' +
+              '<i data-lucide="check-circle-2" style="width:16px;height:16px;color:#34D399;"></i>' +
+              '<span class="size-result-text"><strong>Recommended Size: EU 48 / Medium</strong> &middot; 96% Match</span>' +
+            '</div>' +
+            '<div class="size-result-note">Fits true to standard European sizing with a refined, comfortable silhouette.</div>' +
+          '</div>' +
+        '</div>';
+      }
+
+      function renderOrderTrackerWidget(payload) {
+        if (!payload) return '';
+        var stepsHtml = (payload.steps || []).map(function (s, idx) {
+          var isDone = idx < payload.currentStep;
+          var isCurrent = idx === (payload.currentStep - 1);
+          var statusClass = isCurrent ? 'current' : (isDone ? 'done' : 'upcoming');
+          return '<div class="tracker-step ' + statusClass + '">' +
+            '<div class="tracker-node">' + (isDone ? '✓' : (idx + 1)) + '</div>' +
+            '<div class="tracker-info">' +
+              '<div class="tracker-label">' + escapeHtml(s.label) + '</div>' +
+              '<div class="tracker-date">' + escapeHtml(s.date) + '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+        return '<div class="concierge-tracker-stepper">' +
+          '<div class="tracker-card-header">' +
+            '<div class="tracker-order-id">Order Code: <strong>' + escapeHtml(payload.orderCode || 'NX-8921-X') + '</strong></div>' +
+            '<div class="tracker-carrier-badge">DHL Express Priority</div>' +
+          '</div>' +
+          '<div class="tracker-eta">Estimated Delivery: <strong>' + escapeHtml(payload.estimatedDelivery || 'Tomorrow, by 18:00') + '</strong></div>' +
+          '<div class="tracker-timeline">' + stepsHtml + '</div>' +
+        '</div>';
       }
 
       function updateVisualCanvas(products, title) {
@@ -617,14 +812,25 @@
           card.className = 'studio-product-card';
           card.style.animationDelay = (idx * 0.07) + 's';
           card.setAttribute('data-id', p.id);
+          var numPrice = p.numericPrice || Number(String(p.price || '0').replace(/[^\d.]/g, '')) || 185;
+          var imgUrl = getProductImage(p);
+          var prodHref = 'product.html?id=' + encodeURIComponent(p.id);
+
           card.innerHTML =
-            '<div class="studio-card-media">' +
-              '<img src="' + getProductImage(p) + '" alt="' + (p.title || p.name || '') + '" class="studio-card-img" loading="lazy" />' +
-            '</div>' +
-            '<div class="studio-card-meta">' +
-              '<span class="studio-card-brand">' + (p.brand || 'MAISON') + '</span>' +
-              '<h4 class="studio-card-title">' + (p.title || p.name || 'Product') + '</h4>' +
-              '<div class="studio-card-price">' + (p.price || '€ —') + '</div>' +
+            '<a href="' + prodHref + '" class="studio-card-link" title="View ' + escapeHtml(p.title || p.name || 'Product') + '">' +
+              '<div class="studio-card-media">' +
+                '<img src="' + imgUrl + '" alt="' + escapeHtml(p.title || p.name || '') + '" class="studio-card-img" loading="lazy" />' +
+              '</div>' +
+              '<div class="studio-card-meta">' +
+                '<span class="studio-card-brand">' + escapeHtml(p.brand || 'ARC') + '</span>' +
+                '<h4 class="studio-card-title">' + escapeHtml(p.title || p.name || 'Product') + '</h4>' +
+                '<div class="studio-card-price">€ ' + numPrice.toFixed(2) + '</div>' +
+              '</div>' +
+            '</a>' +
+            '<div class="studio-card-actions">' +
+              '<button type="button" class="btn-canvas-quick-add" data-action="quick-add" data-id="' + escapeHtml(p.id) + '" data-title="' + escapeHtml(p.title || p.name) + '" data-price="' + numPrice + '" data-img="' + imgUrl + '">' +
+                '<i data-lucide="plus" style="width:13px;height:13px;"></i><span>Add to Bag</span>' +
+              '</button>' +
             '</div>';
           lookCanvas.appendChild(card);
         });
@@ -645,22 +851,116 @@
 
         showTyping();
         setTimeout(function () {
-          var res = engine.processMessage(text);
-          hideTyping();
-          appendMessage('ai', res.text, res.actionLink || null);
-          if (res.products && res.products.length) {
-            var lookLabel = text.length > 40 ? text.slice(0, 40) + '…' : text;
-            updateVisualCanvas(res.products, lookLabel);
+          try {
+            var res = engine ? engine.processMessage(text) : { text: 'I am here to help find the perfect pieces for you.' };
+            hideTyping();
+            
+            var widgetHtml = '';
+            if (res.type === 'sizing_advisor' && res.widgetPayload) {
+              widgetHtml = renderSizingAdvisorWidget(res.widgetPayload);
+            } else if (res.type === 'order_tracking' && res.widgetPayload) {
+              widgetHtml = renderOrderTrackerWidget(res.widgetPayload);
+            }
+
+            appendMessage('ai', res.text, res.actionLink || null, widgetHtml);
+
+            if (res.products && res.products.length) {
+              var lookLabel = text.length > 32 ? text.slice(0, 32) + '…' : text;
+              updateVisualCanvas(res.products, lookLabel);
+            }
+          } catch (err) {
+            hideTyping();
+            appendMessage('ai', 'I encountered a brief hiccup — could you please rephrase your request?', null);
           }
-        }, 420);
+        }, 360);
       }
 
-      // ── Event Listeners ──────────────────────────────────────────────────
+      // ── Event Delegation ──────────────────────────────────────────────────
       sendBtn && sendBtn.addEventListener('click', function () { handleUserInput(input.value); });
       input && input.addEventListener('keydown', function (e) { if (e.key === 'Enter') handleUserInput(input.value); });
 
       document.querySelectorAll('.scenario-chip').forEach(function (chip) {
         chip.addEventListener('click', function () { handleUserInput(chip.getAttribute('data-prompt')); });
+      });
+
+      // Interactive Sizing Selector inside Stream
+      document.body.addEventListener('click', function (e) {
+        var actionBtn = e.target.closest('[data-action]');
+        if (!actionBtn) return;
+        var action = actionBtn.getAttribute('data-action');
+
+        // Quick add single piece from right canvas
+        if (action === 'quick-add') {
+          var id = actionBtn.getAttribute('data-id');
+          var title = actionBtn.getAttribute('data-title') || 'Item';
+          var price = parseFloat(actionBtn.getAttribute('data-price')) || 185;
+          var img = actionBtn.getAttribute('data-img') || '../assets/images/products/hero_sweater.png';
+
+          if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+            window.nexCart.addItem({ id: id, name: title, title: title, price: price, qty: 1, quantity: 1, image: img, img: img });
+          }
+
+          actionBtn.classList.add('added');
+          actionBtn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i><span>Added</span>';
+          lucide.createIcons();
+          setTimeout(function () {
+            actionBtn.classList.remove('added');
+            actionBtn.innerHTML = '<i data-lucide="plus" style="width:13px;height:13px;"></i><span>Add to Bag</span>';
+            lucide.createIcons();
+          }, 2000);
+          return;
+        }
+
+        // Sizing advisor selector clicks
+        if (action === 'select-size-category' || action === 'select-size-measurement' || action === 'select-size-fit') {
+          var sizeWidget = actionBtn.closest('[data-size-widget]');
+          if (!sizeWidget) return;
+
+          var row = actionBtn.closest('.size-pills-row');
+          if (row) {
+            row.querySelectorAll('.size-pill').forEach(function (p) { p.classList.remove('active'); });
+            actionBtn.classList.add('active');
+          }
+
+          if (action === 'select-size-category') {
+            var catVal = actionBtn.getAttribute('data-val') || '';
+            var measurementsRow = sizeWidget.querySelector('.size-pills-measurements');
+            if (measurementsRow) {
+              if (catVal.includes('Footwear') || catVal.includes('Shoes')) {
+                measurementsRow.innerHTML =
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 40">EU 40</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 41">EU 41</button>' +
+                  '<button type="button" class="size-pill active" data-action="select-size-measurement" data-val="EU 42">EU 42</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 43">EU 43</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 44">EU 44</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="EU 45">EU 45</button>';
+              } else {
+                measurementsRow.innerHTML =
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="XS (36&quot;)">XS (36")</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="S (38&quot;)">S (38")</button>' +
+                  '<button type="button" class="size-pill active" data-action="select-size-measurement" data-val="M (40&quot;)">M (40")</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="L (42&quot;)">L (42")</button>' +
+                  '<button type="button" class="size-pill" data-action="select-size-measurement" data-val="XL (44&quot;)">XL (44")</button>';
+              }
+            }
+          }
+
+          var activeCat = sizeWidget.querySelector('[data-action="select-size-category"].active')?.getAttribute('data-val') || 'Tops & Sweaters';
+          var activeSize = sizeWidget.querySelector('[data-action="select-size-measurement"].active')?.getAttribute('data-val') || 'M (40")';
+          var activeFit = sizeWidget.querySelector('[data-action="select-size-fit"].active')?.getAttribute('data-val') || 'True to size';
+
+          if (engine && typeof engine.calculateSize === 'function') {
+            var calc = engine.calculateSize(activeCat, activeSize, activeFit);
+            var textEl = sizeWidget.querySelector('.size-result-text');
+            var noteEl = sizeWidget.querySelector('.size-result-note');
+            if (textEl) {
+              textEl.innerHTML = '<strong>Recommended Size: ' + escapeHtml(calc.recommendedSize) + '</strong> &middot; ' + calc.confidence + '% Match';
+            }
+            if (noteEl) {
+              noteEl.textContent = calc.advice;
+            }
+          }
+        }
       });
 
       // Voice mic simulator
@@ -672,12 +972,14 @@
           voiceMicIcon && (voiceMicIcon.style.display = 'none');
           voiceWaveBars && (voiceWaveBars.style.display = 'flex');
           this.classList.add('recording');
+          this.setAttribute('aria-label', 'Stop recording');
           var self = this;
           voiceTimeout = setTimeout(function () {
             voiceActive = false;
             voiceMicIcon && (voiceMicIcon.style.display = '');
             voiceWaveBars && (voiceWaveBars.style.display = 'none');
             self.classList.remove('recording');
+            self.setAttribute('aria-label', 'Toggle Voice Input');
             handleUserInput('Show me cashmere knitwear for a winter evening');
           }, 2200);
         } else {
@@ -685,6 +987,7 @@
           voiceMicIcon && (voiceMicIcon.style.display = '');
           voiceWaveBars && (voiceWaveBars.style.display = 'none');
           this.classList.remove('recording');
+          this.setAttribute('aria-label', 'Toggle Voice Input');
         }
       });
 
@@ -696,9 +999,8 @@
         if (canvasEmpty) { lookCanvas.appendChild(canvasEmpty); }
         if (bundleTotalEl) bundleTotalEl.textContent = '€ 0.00';
         if (mobileLookCount) mobileLookCount.textContent = '0';
-        if (canvasTitle) canvasTitle.textContent = 'AI Suggestion';
-        var init = engine.initialize();
-        appendMessage('ai', init.text);
+        if (canvasTitle) canvasTitle.textContent = 'Featured Collection';
+        renderInitialWelcome();
       });
 
       // Mobile tab switching
@@ -726,33 +1028,69 @@
       // 1-Click ensemble add to bag
       acquireBtn && acquireBtn.addEventListener('click', function () {
         if (!currentCapsuleItems.length || !window.nexCart) return;
-        currentCapsuleItems.forEach(function (p) { window.nexCart.addItem(p); });
+        currentCapsuleItems.forEach(function (p) {
+          var numPrice = p.numericPrice || Number(String(p.price || '0').replace(/[^\d.]/g, '')) || 185;
+          window.nexCart.addItem({
+            id: p.id,
+            name: p.title || p.name,
+            title: p.title || p.name,
+            price: numPrice,
+            qty: 1,
+            quantity: 1,
+            image: getProductImage(p),
+            img: getProductImage(p)
+          });
+        });
         acquireBtn.classList.add('success');
-        acquireBtn.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;"></i><span>Added to Bag</span>';
+        acquireBtn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;"></i><span>Added to Bag</span>';
         lucide.createIcons();
         setTimeout(function () {
           acquireBtn.classList.remove('success');
-          acquireBtn.innerHTML = '<i data-lucide="shopping-bag" style="width:14px;height:14px;"></i><span>Add All to Bag</span>';
+          acquireBtn.innerHTML = '<i data-lucide="shopping-bag" style="width:15px;height:15px;"></i><span>Add All to Bag</span>';
           lucide.createIcons();
         }, 2200);
       });
 
-      // ── Initialize ───────────────────────────────────────────────────────
-      var initRes = engine.initialize();
-      appendMessage('ai', initRes.text);
+      // ── Initial Welcome Rendering ─────────────────────────────────────────
+      function renderInitialWelcome() {
+        var h = new Date().getHours();
+        var timeGreeting = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+        
+        var welcomeHtml =
+          '<div class="studio-welcome-hero">' +
+            '<i data-lucide="sparkles" style="width:16px;height:16px;color:#3DE0FF;flex-shrink:0;"></i>' +
+            '<span class="welcome-hero-title">' + timeGreeting + ' &mdash; What are you looking to discover or style today?</span>' +
+          '</div>';
 
-      if (window.NexAI && window.NexAI.catalogArray && window.NexAI.catalogArray.length) {
-        updateVisualCanvas(window.NexAI.catalogArray.slice(0, 3), 'Featured Collection');
+        appendMessage('ai', '', null, welcomeHtml);
+
+        if (window.NexAI && window.NexAI.catalogArray && window.NexAI.catalogArray.length) {
+          updateVisualCanvas(window.NexAI.catalogArray.slice(0, 3), 'Featured Collection');
+        } else if (engine && typeof engine.initialize === 'function') {
+          var initRes = engine.initialize();
+          if (initRes.products && initRes.products.length) {
+            updateVisualCanvas(initRes.products, 'Featured Collection');
+          }
+        }
       }
+
+      renderInitialWelcome();
 
       // URL-seeded state
       var urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('state') === 'look') {
-        setTimeout(function () { handleUserInput('Outfit for dinner'); }, 800);
+      if (urlParams.get('state') === 'look' || urlParams.get('q')) {
+        var initialQuery = urlParams.get('q') || 'Outfit for dinner';
+        setTimeout(function () { handleUserInput(initialQuery); }, 600);
       }
 
     });
   </script>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
 
@@ -765,7 +1103,7 @@
     <div class="minicart-title">Shopping Bag</div>
     <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
   </div>
-  <div id="minicartBody" class="minicart-body">
+  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
     <!-- Populated by cart.js -->
   </div>
   <div id="minicartFooter" class="minicart-footer" style="display: none;">
@@ -786,7 +1124,7 @@
         <div class="search-ai-icon">
           <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
         </div>
-        <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Vienna" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Vienna" autocomplete="off" spellcheck="false" aria-label="Search query" />
       </div>
       <button class="search-close-btn" aria-label="Close search">
         <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -799,5 +1137,9 @@
 <script src="../js/search-overlay.js?v=1"></script>
 <script src="../js/cookie-consent.js"></script>
 
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

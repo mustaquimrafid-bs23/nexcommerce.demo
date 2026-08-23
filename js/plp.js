@@ -131,7 +131,7 @@
       desc: 'Architectural double-faced wool blazers and structured cashmere layers designed for modern movement.',
       targetCategory: 'outerwear',
       pieceCount: '1 Matching Piece',
-      heroImage: '../assets/images/lifestyle/hero_sweater_landscape.jpg',
+      heroImage: '../assets/images/lifestyle/category_hero_banner.jpg',
       featuredProductId: 'p2',
       featuredProductTitle: 'STRUCTURED WOOL BLAZER',
       featuredProductPrice: '€ 264.00',
@@ -147,7 +147,7 @@
       desc: 'Precision titanium drivers and active acoustic isolation wrapped in Italian lambskin.',
       targetCategory: 'acoustics',
       pieceCount: '2 Matching Pieces',
-      heroImage: '../assets/images/lifestyle/hero_headphone_landscape.jpg',
+      heroImage: '../assets/images/lifestyle/category_hero_banner.jpg',
       featuredProductId: 'p4',
       featuredProductTitle: 'STUDIO ACOUSTICS HEADPHONE GT',
       featuredProductPrice: '€ 320.00',
@@ -163,7 +163,7 @@
       desc: 'Italian calfskin runners engineered with ergonomic Vibram soles and minimalist lines.',
       targetCategory: 'footwear',
       pieceCount: '2 Matching Pieces',
-      heroImage: '../assets/images/lifestyle/hero_runner_landscape.jpg',
+      heroImage: '../assets/images/lifestyle/category_hero_banner.jpg',
       featuredProductId: 'p6',
       featuredProductTitle: 'MINIMALIST LEATHER RUNNER',
       featuredProductPrice: '€ 198.00',
@@ -358,7 +358,10 @@
     if (pillTag) pillTag.textContent = look.featuredProductTag;
     if (pillTitle) pillTitle.textContent = look.featuredProductTitle;
     if (pillPrice) pillPrice.textContent = look.featuredProductPrice;
-    if (quickAddBtn) quickAddBtn.setAttribute('data-id', look.featuredProductId);
+    if (quickAddBtn) {
+      quickAddBtn.setAttribute('data-id', look.featuredProductId);
+      quickAddBtn.setAttribute('aria-label', `Quick Add ${look.featuredProductTitle} to Bag`);
+    }
 
     if (window.lucide) window.lucide.createIcons();
     startLookTimer();
@@ -396,6 +399,7 @@
 
   function startLookTimer() {
     if (lookTimerRaf) cancelAnimationFrame(lookTimerRaf);
+    if (document.querySelectorAll('.spotlight-tab-btn').length === 0) return;
     lookStartTime = null;
     lookElapsed = 0;
     updateProgressBar(0);
@@ -443,6 +447,28 @@
     if (titleEl) titleEl.textContent = titleText;
     if (subtitleEl) subtitleEl.textContent = subtitleText;
     if (breadcrumbEl) breadcrumbEl.textContent = titleText;
+
+    const bannerImgEl = document.getElementById('plpCategoryBannerImg');
+    if (bannerImgEl) {
+      const bannerMap = {
+        all: '../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2',
+        apparel: '../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2',
+        outerwear: '../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2',
+        acoustics: '../assets/images/lifestyle/hero_headphone_landscape.jpg',
+        accessories: '../assets/images/lifestyle/hero_tote_landscape.jpg',
+        footwear: '../assets/images/lifestyle/hero_runner_landscape.jpg',
+        new: '../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2'
+      };
+      const newSrc = bannerMap[cat] || bannerMap.all;
+      if (bannerImgEl.getAttribute('src') !== newSrc) {
+        bannerImgEl.style.opacity = '0.7';
+        setTimeout(() => {
+          bannerImgEl.src = newSrc;
+          bannerImgEl.alt = `${titleText} — nexCommerce Autumn Winter 2026`;
+          bannerImgEl.style.opacity = '1';
+        }, 120);
+      }
+    }
   }
 
   function applyCategoryFilter(newCategory) {
@@ -585,6 +611,8 @@
         <div class="plp-swatches-row" role="radiogroup" aria-label="Available colorways for ${escapeHtml(item.name)}">
           ${item.colors.map((c, ci) => `
             <button type="button" class="plp-swatch-dot ${ci === 0 ? 'active' : ''}" 
+              role="radio"
+              aria-checked="${ci === 0 ? 'true' : 'false'}"
               data-img="${c.img}" 
               data-color-name="${escapeHtml(c.name)}" 
               data-card-id="${item.id}"
@@ -655,9 +683,13 @@
     const newImg = swatchEl.getAttribute('data-img');
     const row = swatchEl.closest('.plp-swatches-row');
     if (row) {
-      row.querySelectorAll('.plp-swatch-dot').forEach(s => s.classList.remove('active'));
+      row.querySelectorAll('.plp-swatch-dot').forEach(s => {
+        s.classList.remove('active');
+        s.setAttribute('aria-checked', 'false');
+      });
     }
     swatchEl.classList.add('active');
+    swatchEl.setAttribute('aria-checked', 'true');
 
     const imgEl = document.getElementById(`cardImg_${cardId}`);
     if (imgEl && newImg && imgEl.src !== newImg) {
@@ -754,6 +786,12 @@
           headerCount.textContent = list.length;
           headerCount.style.display = list.length > 0 ? 'flex' : 'none';
         }
+        const mobileCount = document.getElementById('mobileWishlistCount');
+        if (mobileCount) {
+          mobileCount.textContent = list.length;
+          mobileCount.style.display = list.length > 0 ? 'inline' : 'none';
+        }
+        window.dispatchEvent(new CustomEvent('nex-wishlist-updated', { detail: { list } }));
         return;
       }
 

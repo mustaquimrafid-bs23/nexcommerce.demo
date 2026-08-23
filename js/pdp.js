@@ -382,11 +382,13 @@
     if (colorContainer && product.colors) {
       selectedColor = typeof product.colors[0] === 'object' ? product.colors[0].name : product.colors[0];
       if (colorLabel) colorLabel.textContent = selectedColor;
+      colorContainer.setAttribute('role', 'radiogroup');
+      colorContainer.setAttribute('aria-label', 'Available colorways');
 
       colorContainer.innerHTML = product.colors.map(function(col, i) {
         const colName = typeof col === 'object' ? col.name : col;
         const colHex = typeof col === 'object' ? col.hex : '#2C2E35';
-        return '<button class="pdp-color-swatch-circle' + (i === 0 ? ' selected' : '') + '" data-color="' + escapeHtml(colName) + '" style="--swatch-hex: ' + colHex + ';" title="' + escapeHtml(colName) + '" aria-label="Color ' + escapeHtml(colName) + '">'
+        return '<button type="button" class="pdp-color-swatch-circle' + (i === 0 ? ' selected' : '') + '" role="radio" aria-checked="' + (i === 0 ? 'true' : 'false') + '" data-color="' + escapeHtml(colName) + '" style="--swatch-hex: ' + colHex + ';" title="' + escapeHtml(colName) + '" aria-label="Color ' + escapeHtml(colName) + '">'
           + '<span class="swatch-color-fill"></span>'
           + '</button>';
       }).join('');
@@ -396,8 +398,10 @@
     const sizesContainer = document.querySelector('.pdp-sizes-row');
     const fitBtn = document.getElementById('btnFitAssistant');
     if (sizesContainer) {
+      sizesContainer.setAttribute('role', 'radiogroup');
+      sizesContainer.setAttribute('aria-label', 'Select size');
       sizesContainer.innerHTML = product.sizes.map(function(sz, i) {
-        return '<button class="pdp-size-btn' + (i === 0 ? ' selected' : '') + '" data-size="' + sz + '">' + escapeHtml(sz) + '</button>';
+        return '<button type="button" class="pdp-size-btn' + (i === 0 ? ' selected' : '') + '" role="radio" aria-checked="' + (i === 0 ? 'true' : 'false') + '" data-size="' + sz + '" aria-label="Size ' + escapeHtml(sz) + '">' + escapeHtml(sz) + '</button>';
       }).join('');
       selectedSize = product.sizes[0];
     } else {
@@ -496,8 +500,12 @@
       colorContainer.addEventListener('click', function(e) {
         const btn = e.target.closest('.pdp-color-swatch-circle');
         if (!btn) return;
-        colorContainer.querySelectorAll('.pdp-color-swatch-circle').forEach(b => b.classList.remove('selected'));
+        colorContainer.querySelectorAll('.pdp-color-swatch-circle').forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
         btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
         selectedColor = btn.dataset.color;
         if (colorLabel) colorLabel.textContent = selectedColor;
         updateStickyBarText();
@@ -510,8 +518,12 @@
       sizesContainer.addEventListener('click', function(e) {
         const btn = e.target.closest('.pdp-size-btn');
         if (!btn) return;
-        sizesContainer.querySelectorAll('.pdp-size-btn').forEach(b => b.classList.remove('selected'));
+        sizesContainer.querySelectorAll('.pdp-size-btn').forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
         btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
         selectedSize = btn.dataset.size;
         updateStickyBarText();
       });
@@ -578,8 +590,12 @@
       prefRow.addEventListener('click', (e) => {
         const btn = e.target.closest('.fit-pref-btn');
         if (!btn) return;
-        prefRow.querySelectorAll('.fit-pref-btn').forEach(b => b.classList.remove('selected'));
+        prefRow.querySelectorAll('.fit-pref-btn').forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
         btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
         fitPreference = btn.dataset.fit;
         calculateSize();
       });
@@ -669,10 +685,10 @@
     grid.innerHTML = pairedItems.map(item => `
       <div class="plp-card luxury-product-card" data-id="${item.id}">
         <div class="plp-card-media">
-          <a href="product.html?id=${item.id}" class="plp-card-img-anchor">
+          <a href="product.html?id=${item.id}" class="plp-card-img-anchor" tabindex="-1">
             <img src="${item.images[0]}" alt="${escapeHtml(item.name)}" class="plp-card-img" loading="lazy">
           </a>
-          <button class="plp-quick-add-btn btn-plp-add-to-bag" data-id="${item.id}">
+          <button type="button" class="plp-quick-add-btn btn-plp-add-to-bag" data-id="${item.id}" aria-label="Quick Add ${escapeHtml(item.name)} to Bag">
             <i data-lucide="shopping-bag" style="width: 13px; height: 13px; margin-right: 6px;"></i>
             <span>QUICK ADD</span>
           </button>
@@ -682,13 +698,14 @@
           <a href="product.html?id=${item.id}" class="plp-card-title-link">
             <h3 class="plp-card-name">${escapeHtml(item.name)}</h3>
           </a>
-          <div class="plp-card-price-tag">${item.formattedPrice}</div>
+          <div class="plp-card-price-tag tabular-nums">${item.formattedPrice}</div>
         </div>
       </div>
     `).join('');
 
-    if (bundleBtn) {
-      bundleBtn.onclick = function() {
+    if (bundleBtn && !bundleBtn.dataset.bound) {
+      bundleBtn.dataset.bound = 'true';
+      bundleBtn.addEventListener('click', function() {
         if (!window.nexCart) return;
         allLookItems.forEach(item => {
           window.nexCart.addItem({
@@ -702,7 +719,7 @@
         if (typeof window.nexCart.openDrawer === 'function') {
           window.nexCart.openDrawer();
         }
-      };
+      });
     }
   }
 

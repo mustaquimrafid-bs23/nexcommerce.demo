@@ -13,17 +13,20 @@ window._resolvePage = _resolvePage;
 
 // ─── Cart-page Coupon Engine ────────────────────────────────────────────────
 const CART_PROMO_CODES = {
-  'NEX10':    { label: 'NEX10 — 10% off',         type: 'percent',  value: 10 },
-  'LUXURY20': { label: 'LUXURY20 — 20% off',       type: 'percent',  value: 20 },
-  'FREESHIP': { label: 'FREESHIP — Free Shipping',  type: 'shipping', value: 0  }
+  'NEX10':     { label: 'NEX10 — 10% off',          type: 'percent',  value: 10 },
+  'LUXURY20':  { label: 'LUXURY20 — 20% off',        type: 'percent',  value: 20 },
+  'VIP20':     { label: 'VIP20 — 20% off (VIP)',     type: 'percent',  value: 20 },
+  'ATELIER15': { label: 'ATELIER15 — 15% off',       type: 'percent',  value: 15 },
+  'WELCOME10': { label: 'WELCOME10 — 10% off',       type: 'percent',  value: 10 },
+  'FREESHIP':  { label: 'FREESHIP — Free Shipping',  type: 'shipping', value: 0  }
 };
 let cartActiveCoupon = null;
 
-function cartApplyCoupon() {
+function cartApplyCoupon(optionalCode) {
   const input    = document.getElementById('cart-coupon-input');
   const feedback = document.getElementById('cart-coupon-feedback');
-  if (!input) return;
-  const code = (input.value || '').trim().toUpperCase();
+  const rawCode = (typeof optionalCode === 'string' && optionalCode.trim()) ? optionalCode : (input ? input.value : '');
+  const code = (rawCode || '').trim().toUpperCase();
   if (!code) return;
   const promo = CART_PROMO_CODES[code];
   if (!promo) {
@@ -32,12 +35,15 @@ function cartApplyCoupon() {
       feedback.style.display = 'block'; 
       feedback.style.color = '#FB7185'; 
     }
-    input.style.borderColor = '#FB7185';
+    if (input) input.style.borderColor = '#FB7185';
     return;
   }
   cartActiveCoupon = { code, ...promo };
-  input.value = '';
-  input.style.borderColor = '';
+  window.cartActiveCoupon = cartActiveCoupon;
+  if (input) {
+    input.value = '';
+    input.style.borderColor = '';
+  }
   if (feedback) feedback.style.display = 'none';
   nexCart.renderPage();
 }
@@ -45,6 +51,7 @@ window.cartApplyCoupon = cartApplyCoupon;
 
 function cartRemoveCoupon() {
   cartActiveCoupon = null;
+  window.cartActiveCoupon = null;
   nexCart.renderPage();
 }
 window.cartRemoveCoupon = cartRemoveCoupon;
@@ -241,6 +248,17 @@ const CartLookController = {
     if (pillTitle) pillTitle.textContent = look.productName;
     if (pillPrice) pillPrice.textContent = look.priceFormatted;
 
+    const exploreLink = document.querySelector('.cart-spotlight-explore-link');
+    if (exploreLink) {
+      const catMap = {
+        'Apparel': 'category.html?cat=apparel',
+        'Leather Goods': 'category.html?cat=leather-goods',
+        'High Acoustics': 'category.html?cat=acoustics',
+        'Horology': 'category.html?cat=accessories'
+      };
+      exploreLink.href = catMap[look.category] || 'category.html?cat=all';
+    }
+
     // Update active tab
     const tabs = document.querySelectorAll('.cart-spotlight-tab');
     tabs.forEach((tab, i) => {
@@ -333,21 +351,41 @@ const CartState = {
   },
 
   addItem(product, quantity = 1, variant = 'Standard') {
-    const existing = this.items.find(i => i.id === product.id && i.variant === variant);
+    let itemObj = typeof product === 'string' ? { id: product, name: 'Curated Atelier Piece', price: 0, image: '../assets/images/products/suit_mens_dark_hd.png' } : { ...product };
+    if (!itemObj.id && typeof product === 'object') itemObj.id = product.id || 'item_' + Date.now();
+    const selectedVariant = variant || itemObj.variant || itemObj.size || 'Standard';
+    const existing = this.items.find(i => i.id === itemObj.id && i.variant === selectedVariant);
     if (existing) {
       existing.quantity += quantity;
     } else {
       this.items.push({
-        id: product.id,
-        name: product.name || product.title,
-        price: Number(product.price) || (typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, ''), 10) : 0),
-        image: product.image || product.img,
-        category: product.category || 'Apparel',
-        variant: variant,
+        id: itemObj.id,
+        name: itemObj.name || itemObj.title || 'Curated Atelier Piece',
+        price: Number(itemObj.price) || (typeof itemObj.price === 'string' ? parseInt(itemObj.price.replace(/[^\d]/g, ''), 10) : 0),
+        image: itemObj.image || itemObj.img || '../assets/images/products/suit_mens_dark_hd.png',
+        category: itemObj.category || 'Apparel',
+        variant: selectedVariant,
         quantity: quantity
       });
     }
     this.save();
+    window.dispatchEvent(new CustomEvent('cart-updated', { detail: { count: this.getTotalCount() } }));
+  },
+
+  openDrawer() {
+    this.openMiniCart();
+  },
+
+  closeDrawer() {
+    this.closeMiniCart();
+  },
+
+  openBag() {
+    this.openMiniCart();
+  },
+
+  closeBag() {
+    this.closeMiniCart();
   },
 
   updateQuantity(id, variant, delta) {
@@ -407,6 +445,17 @@ const CartState = {
     return this.items.reduce((sum, i) => sum + (parseInt(i.quantity || i.qty, 10) || 1), 0);
   },
 
+  clearCart() {
+    this.items = [];
+    try {
+      localStorage.setItem('nex_cart', JSON.stringify([]));
+    } catch (e) {
+      console.warn('Failed to clear cart storage', e);
+    }
+    this.save();
+    window.dispatchEvent(new CustomEvent('cart-updated', { detail: { count: 0 } }));
+  },
+
   bindEvents() {
     // Mini cart triggers
     document.addEventListener('click', (e) => {
@@ -420,6 +469,33 @@ const CartState = {
     document.addEventListener('click', (e) => {
       if (e.target.closest('#minicartCloseBtn') || e.target.closest('#nexMiniCartOverlay')) {
         this.closeMiniCart();
+      }
+    });
+
+    // Cart Page Toolbar Actions
+    document.addEventListener('click', e => {
+      const clearBtn = e.target.closest('[data-action="clear-cart"]');
+      if (clearBtn) {
+        e.preventDefault();
+        CartState.clearCart();
+        return;
+      }
+      const budgetBtn = e.target.closest('[data-action="open-budget-cart"]');
+      if (budgetBtn) {
+        e.preventDefault();
+        if (window.NexBudgetCartUI && typeof window.NexBudgetCartUI.openModal === 'function') {
+          window.NexBudgetCartUI.openModal();
+        }
+        return;
+      }
+      const slipBtn = e.target.closest('[data-action="open-slip-to-cart"]');
+      if (slipBtn) {
+        e.preventDefault();
+        const slipUi = window.NexSlipUI || window.NexSlipToCartUI;
+        if (slipUi && typeof slipUi.openModal === 'function') {
+          slipUi.openModal();
+        }
+        return;
       }
     });
 
@@ -538,15 +614,28 @@ const CartState = {
     const count = this.getTotalCount();
     const total = this.getTotal();
 
+    const heroPieceCount = document.getElementById('heroPieceCount');
+    const heroSubtotalVal = document.getElementById('heroSubtotalVal');
+    const heroShippingStatus = document.getElementById('heroShippingStatus');
+
     if (itemCountEl) {
-      itemCountEl.textContent = count === 1 ? '1 piece selected' : `${count} pieces selected`;
+      itemCountEl.textContent = count === 1 ? '1 Item Selected' : `${count} Items Selected`;
     }
+    if (heroPieceCount) heroPieceCount.textContent = count;
+    if (heroSubtotalVal) heroSubtotalVal.textContent = `€ ${total.toFixed(2)}`;
 
     // If empty
     if (this.items.length === 0) {
       cartGrid.style.display  = 'none';
       if (capsuleEl) capsuleEl.style.display = 'none';
       if (emptyArea) emptyArea.style.display = 'flex';
+      if (itemCountEl) itemCountEl.textContent = '0 Items Selected';
+      if (heroPieceCount) heroPieceCount.textContent = '0';
+      if (heroSubtotalVal) heroSubtotalVal.textContent = '€ 0.00';
+      if (heroShippingStatus) {
+        heroShippingStatus.textContent = '€ 15.00 Standard';
+        heroShippingStatus.className = 'cart-stat-val';
+      }
       
       const stickyBar = document.getElementById('mobileCartStickyBar');
       if (stickyBar) stickyBar.classList.remove('visible');
@@ -562,18 +651,41 @@ const CartState = {
     const diff = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
     const progress = Math.min(1, total / FREE_SHIPPING_THRESHOLD);
 
+    if (heroShippingStatus) {
+      if (diff <= 0) {
+        heroShippingStatus.textContent = 'Complimentary';
+        heroShippingStatus.className = 'cart-stat-val status-green';
+      } else {
+        heroShippingStatus.textContent = `Add €${diff.toFixed(2)}`;
+        heroShippingStatus.className = 'cart-stat-val';
+      }
+    }
+
     const progressBar = document.getElementById('cartDeliveryProgressBar');
     const statusText  = document.getElementById('deliveryStatusText');
     const capsuleBox  = document.getElementById('cartDeliveryCapsule');
+    const thresholdBadge = document.getElementById('deliveryThresholdBadge');
 
     if (progressBar) progressBar.style.transform = `scaleX(${progress.toFixed(4)})`;
 
     if (diff <= 0) {
-      if (statusText) statusText.innerHTML = '<span style="color:var(--accent-pink, #F13365);font-weight:600;letter-spacing:0.02em;">✓ Complimentary Express Delivery Unlocked</span>';
+      if (statusText) statusText.innerHTML = '<span style="color:var(--accent-cyan, #3DE0FF);font-weight:600;letter-spacing:0.02em;">✓ Complimentary Express Delivery Unlocked</span>';
       if (capsuleBox) capsuleBox.classList.add('unlocked');
+      if (thresholdBadge) {
+        thresholdBadge.textContent = '✓ Express Delivery Unlocked';
+        thresholdBadge.style.background = 'rgba(61, 224, 255, 0.15)';
+        thresholdBadge.style.color = '#3DE0FF';
+        thresholdBadge.style.borderColor = 'rgba(61, 224, 255, 0.35)';
+      }
     } else {
       if (statusText) statusText.innerHTML = `Add <strong style="color:var(--accent-pink, #F13365);">€ ${diff.toFixed(2)}</strong> more for Complimentary Express Delivery`;
       if (capsuleBox) capsuleBox.classList.remove('unlocked');
+      if (thresholdBadge) {
+        thresholdBadge.textContent = `Spend €${FREE_SHIPPING_THRESHOLD} for free delivery`;
+        thresholdBadge.style.background = '';
+        thresholdBadge.style.color = '';
+        thresholdBadge.style.borderColor = '';
+      }
     }
 
     // 2. Render Cart Item Rows
@@ -590,7 +702,7 @@ const CartState = {
     const grandTotal      = discountedTotal + deliveryCost;
 
     const deliveryHtml = deliveryCost === 0
-      ? '<span style="color:var(--accent-pink, #F13365);font-weight:700;">FREE</span>'
+      ? '<span style="color:var(--accent-cyan, #3DE0FF);font-weight:700;">FREE</span>'
       : `€ ${deliveryCost.toFixed(2)}`;
 
     const pillDisplay    = cartActiveCoupon ? 'flex' : 'none';
@@ -605,9 +717,12 @@ const CartState = {
       <div class="cart-summary-card">
         <h2 class="cart-summary-title">Order Summary</h2>
 
+        <!-- Proactive AI Savings Advisor Mount -->
+        <div id="checkoutSavingsMount" class="cart-savings-mount"></div>
+
         <div class="cart-coupon-box">
           <div class="coupon-input-group" id="cart-coupon-input-row" style="display: ${inputDisplay};">
-            <input type="text" id="cart-coupon-input" class="cart-coupon-input" placeholder="Promo or gift code" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter') cartApplyCoupon()">
+            <input type="text" id="cart-coupon-input" class="cart-coupon-input" placeholder="Promo or gift code" maxlength="20" autocomplete="off" aria-label="Promo or gift code" onkeydown="if(event.key==='Enter') cartApplyCoupon()">
             <button class="cart-coupon-apply-btn" onclick="cartApplyCoupon()">Apply</button>
           </div>
           <div id="cart-coupon-feedback" class="cart-coupon-feedback"></div>
@@ -668,6 +783,11 @@ const CartState = {
     if (mobileStickyBar) {
       mobileStickyBar.classList.add('visible');
       if (mobileStickyTotal) mobileStickyTotal.textContent = `€ ${grandTotal.toFixed(2)}`;
+    }
+
+    // 5. Mount AI Savings Advisor if available
+    if (window.NexSavingsUI && typeof window.NexSavingsUI.mountAdvisor === 'function') {
+      setTimeout(() => window.NexSavingsUI.mountAdvisor(), 50);
     }
 
     if (window.lucide) window.lucide.createIcons();
@@ -818,6 +938,8 @@ const CartState = {
 };
 
 window.nexCart = CartState;
+window.NexCart = CartState;
+window.Cart = CartState;
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => { CartState.init(); });

@@ -104,7 +104,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 9999px;
       padding: 6px 8px 6px 20px;
-      transition: all 0.25s ease;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
@@ -144,7 +144,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .disc-search-btn:hover {
@@ -186,7 +186,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 9999px;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .disc-sphere-orb {
@@ -268,7 +268,7 @@
       overflow: hidden;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .disc-card:hover {
@@ -447,7 +447,7 @@
       justify-content: center;
       gap: 6px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .btn-disc-primary:hover { opacity: 0.9; }
@@ -463,7 +463,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .btn-disc-quick-add:hover {
@@ -488,7 +488,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.3s ease;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     }
 
     .disc-drop-card:hover {
@@ -635,7 +635,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
 
     .btn-disc-bundle:hover {
@@ -711,96 +711,152 @@
     </div>
   </div>
 
-  <!-- GLOBAL HEADER -->
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
       <div class="nav-brand-group">
         <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
           <i data-lucide="menu" class="menu-icon-bars"></i>
         </button>
         <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
-          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="site-logo-img" />
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
         </a>
       </div>
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
+
+      <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
-          <span class="search-pill-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist">
-          <i data-lucide="heart" style="width:18px;height:18px;"></i>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account">
-          <i data-lucide="user" style="width:18px;height:18px;"></i>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width:18px;height:18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display:none;">0</span>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
-        <div class="nav-more-menu" id="headerMoreMenu">
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width:18px;height:18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
-            <a href="size-guide.html" class="nav-more-item" role="menuitem"><i data-lucide="ruler"></i><span>Size Guide</span></a>
-            <a href="tracking.html" class="nav-more-item" role="menuitem"><i data-lucide="truck"></i><span>Track Order</span></a>
-            
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
+    <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link active">Discover</a>
-    <a href="lookbook.html" class="mobile-drawer-link">Lookbook</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag <span class="mobile-count-badge" id="mobileCartCount" style="display:none;">0</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Wishlist <span class="mobile-count-badge" id="mobileWishlistCount" style="display:none;">0</span></a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
   <main class="disc-container" id="mainContent">
 
     <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
-    <section class="disc-hero">
-      <span class="disc-hero-eyebrow">
-        <i data-lucide="sparkles" style="width:12px;height:12px;"></i>
-        Intelligent Visual Discovery
-      </span>
-      <h1 class="disc-hero-title">
-        Discover by <em>Aesthetic &amp; Intent</em>
-      </h1>
-      <p class="disc-hero-sub">
-        Describe a mood, weather, or destination &mdash; or tap an aesthetic sphere to immerse in tailored visual moodboards.
-      </p>
+    <section class="disc-hero" aria-label="Visual Discovery & Search">
+      <div class="disc-hero-eyebrow">
+        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+        <span>Visual Discovery &amp; Curation</span>
+      </div>
+      <h1 class="disc-hero-title">Visual Discovery <em>&amp; Moodboards</em></h1>
+      <p class="disc-hero-sub">Explore luxury pieces through tactile moodboards, styled outfit drops, and aesthetic realm lenses.</p>
 
-      <!-- Semantic Intent Search Bar -->
       <div class="disc-search-wrap">
         <div class="disc-search-box">
-          <i data-lucide="sparkles" style="width:18px;height:18px;color:var(--accent-cyan,#3DE0FF);"></i>
-          <input type="text" id="discoveryMainInput" class="disc-search-input" placeholder="e.g. Something warm for a Milan evening, minimal everyday sneakers..." autocomplete="off">
-          <button type="button" class="disc-search-btn" id="discoverySubmitBtn">
+          <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-cyan);"></i>
+          <input type="text" id="discoveryMainInput" class="disc-search-input" placeholder="Search aesthetics, occasions, or materials..." autocomplete="off" aria-label="Search Discovery Catalog" />
+          <button type="button" class="disc-search-btn" id="discoverySubmitBtn" aria-label="Explore Catalog">
             <span>Explore</span>
-            <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+            <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
           </button>
         </div>
       </div>
@@ -855,10 +911,10 @@
             <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Thermal Cashmere Runway" class="disc-card-img">
             <div class="disc-card-scrim"></div>
             <!-- Hotspot -->
-            <div class="disc-hotspot-pin" style="top:42%;left:48%;" onclick="window.location.href='product.html?id=p1'" title="Cashmere Sweater — € 220.00">
-              <div class="disc-hotspot-core"></div>
-              <div class="disc-hotspot-ring"></div>
-            </div>
+            <button type="button" class="disc-hotspot-pin" style="top:42%;left:48%;" data-href="product.html?id=p1" aria-label="View Cashmere Sweater — € 220.00" title="Cashmere Sweater — € 220.00">
+              <span class="disc-hotspot-core" aria-hidden="true"></span>
+              <span class="disc-hotspot-ring" aria-hidden="true"></span>
+            </button>
             <div class="disc-card-footer-info">
               <div>
                 <div class="disc-card-tag">Alpine Thermal</div>
@@ -882,7 +938,7 @@
             </div>
             <div class="disc-product-cta-row">
               <a href="product.html?id=p2" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p2', 'Structured Wool Blazer', 264, '../assets/images/products/p2.png')" aria-label="Quick add">
+              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p2" data-quick-add-name="Structured Wool Blazer" data-quick-add-price="264" data-quick-add-img="../assets/images/products/p2.png" aria-label="Quick add Structured Wool Blazer">
                 <i data-lucide="plus" style="width:14px;height:14px;"></i>
               </button>
             </div>
@@ -905,7 +961,7 @@
             </div>
             <div class="disc-product-cta-row">
               <a href="product.html?id=p6" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p6', 'Minimalist Leather Runner', 198, '../assets/images/products/p6.png')" aria-label="Quick add">
+              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p6" data-quick-add-name="Minimalist Leather Runner" data-quick-add-price="198" data-quick-add-img="../assets/images/products/p6.png" aria-label="Quick add Minimalist Leather Runner">
                 <i data-lucide="plus" style="width:14px;height:14px;"></i>
               </button>
             </div>
@@ -916,10 +972,10 @@
             <img src="../assets/images/lifestyle/hero_headphone_landscape.jpg" alt="Acoustic Isolation Edit" class="disc-card-img">
             <div class="disc-card-scrim"></div>
             <!-- Hotspot -->
-            <div class="disc-hotspot-pin" style="top:36%;left:54%;" onclick="window.location.href='product.html?id=p4'" title="Studio Headphones — € 320.00">
-              <div class="disc-hotspot-core"></div>
-              <div class="disc-hotspot-ring"></div>
-            </div>
+            <button type="button" class="disc-hotspot-pin" style="top:36%;left:54%;" data-href="product.html?id=p4" aria-label="View Studio Headphones — € 320.00" title="Studio Headphones — € 320.00">
+              <span class="disc-hotspot-core" aria-hidden="true"></span>
+              <span class="disc-hotspot-ring" aria-hidden="true"></span>
+            </button>
             <div class="disc-card-footer-info">
               <div>
                 <div class="disc-card-tag">Nocturne Acoustic</div>
@@ -937,10 +993,10 @@
             <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Transit Leather Tote" class="disc-card-img">
             <div class="disc-card-scrim"></div>
             <!-- Hotspot -->
-            <div class="disc-hotspot-pin" style="top:58%;left:44%;" onclick="window.location.href='product.html?id=p7'" title="Leather Tote — € 285.00">
-              <div class="disc-hotspot-core"></div>
-              <div class="disc-hotspot-ring"></div>
-            </div>
+            <button type="button" class="disc-hotspot-pin" style="top:58%;left:44%;" data-href="product.html?id=p7" aria-label="View Leather Tote — € 285.00" title="Leather Tote — € 285.00">
+              <span class="disc-hotspot-core" aria-hidden="true"></span>
+              <span class="disc-hotspot-ring" aria-hidden="true"></span>
+            </button>
             <div class="disc-card-footer-info">
               <div>
                 <div class="disc-card-tag">Transit Leisure</div>
@@ -964,7 +1020,7 @@
             </div>
             <div class="disc-product-cta-row">
               <a href="product.html?id=p1" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" onclick="quickAdd('p1', 'Cashmere Knit Sweater', 220, '../assets/images/products/p1.png')" aria-label="Quick add">
+              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p1" data-quick-add-name="Cashmere Knit Sweater" data-quick-add-price="220" data-quick-add-img="../assets/images/products/p1.png" aria-label="Quick add Cashmere Knit Sweater">
                 <i data-lucide="plus" style="width:14px;height:14px;"></i>
               </button>
             </div>
@@ -1014,7 +1070,7 @@
                 <span class="disc-drop-total-label">Capsule Total (3 Pieces)</span>
                 <span class="disc-drop-total-val">€ 825.00</span>
               </div>
-              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p1', 'p4', 'p7'])">
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p1,p4,p7">
                 <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
                 <span>Add Capsule</span>
               </button>
@@ -1047,7 +1103,7 @@
                 <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
                 <span class="disc-drop-total-val">€ 462.00</span>
               </div>
-              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p2', 'p6'])">
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p2,p6">
                 <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
                 <span>Add Capsule</span>
               </button>
@@ -1080,7 +1136,7 @@
                 <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
                 <span class="disc-drop-total-val">€ 505.00</span>
               </div>
-              <button type="button" class="btn-disc-bundle" onclick="addBundle(['p1', 'p7'])">
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p1,p7">
                 <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
                 <span>Add Capsule</span>
               </button>
@@ -1103,7 +1159,7 @@
       <div class="search-header-bar">
         <div class="search-input-wrapper">
           <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off">
+          <input type="text" id="aiSearchModalInput" class="search-ai-input" name="q" placeholder="Something for a winter evening in Berlin..." autocomplete="off" aria-label="Search query" spellcheck="false">
         </div>
         <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
       </div>
@@ -1118,7 +1174,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
     <div id="minicartFooter" class="minicart-footer" style="display:none;">
       <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
       <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
@@ -1203,6 +1259,35 @@
       }
     }
 
+    // ── Centralized Event Delegation ───────────────────────────────────────
+    document.addEventListener('click', (e) => {
+      // Hotspot pin navigation
+      const pin = e.target.closest('.disc-hotspot-pin[data-href]');
+      if (pin) {
+        window.location.href = pin.getAttribute('data-href');
+        return;
+      }
+
+      // Quick add button
+      const quickAddBtn = e.target.closest('.btn-disc-quick-add[data-quick-add-id]');
+      if (quickAddBtn) {
+        const id = quickAddBtn.getAttribute('data-quick-add-id');
+        const name = quickAddBtn.getAttribute('data-quick-add-name');
+        const price = parseFloat(quickAddBtn.getAttribute('data-quick-add-price')) || 0;
+        const img = quickAddBtn.getAttribute('data-quick-add-img');
+        quickAdd(id, name, price, img);
+        return;
+      }
+
+      // Bundle button
+      const bundleBtn = e.target.closest('.btn-disc-bundle[data-bundle-ids]');
+      if (bundleBtn) {
+        const ids = bundleBtn.getAttribute('data-bundle-ids').split(',');
+        addBundle(ids);
+        return;
+      }
+    });
+
     // ── Aesthetic Spheres Filter ───────────────────────────────────────────
     document.querySelectorAll('.disc-sphere-pill').forEach(pill => {
       pill.addEventListener('click', () => {
@@ -1227,15 +1312,16 @@
     const input = document.getElementById('discoveryMainInput');
     const submitBtn = document.getElementById('discoverySubmitBtn');
     if (submitBtn && input) {
-      submitBtn.addEventListener('click', () => {
+      function triggerDiscoverySearch() {
         const q = input.value.trim();
-        if (q) window.location.href = `category.html?q=${encodeURIComponent(q)}`;
-      });
+        if (!q) return;
+        const overlayInput = document.querySelector('#aiSearchModal .search-ai-input');
+        if (overlayInput) overlayInput.value = q;
+        if (window.NexSearchOverlay) window.NexSearchOverlay.open();
+      }
+      submitBtn.addEventListener('click', triggerDiscoverySearch);
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const q = input.value.trim();
-          if (q) window.location.href = `category.html?q=${encodeURIComponent(q)}`;
-        }
+        if (e.key === 'Enter') triggerDiscoverySearch();
       });
     }
 
@@ -1243,5 +1329,7 @@
       if (window.lucide) window.lucide.createIcons();
     });
   </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
 </body>
 </html>

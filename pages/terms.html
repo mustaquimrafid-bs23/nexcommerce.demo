@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -32,6 +32,17 @@
     </div>
   </div>
 
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
   <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
   <header class="site-header" id="siteHeader">
     <div class="nav-inner container">
@@ -45,64 +56,64 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan);"></i>
-          <span>Ask Stylist</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
-        <a href="wishlist.html" class="nav-icon-btn" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
-          <span class="wishlist-count-badge" id="headerWishlistCount">0</span>
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
-        <a data-auth-account href="account.html" class="nav-icon-btn" aria-label="My Account" title="Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
-        <a href="cart.html" class="nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
               <i data-lucide="truck"></i>
               <span>Track Order</span>
             </a>
-            <a href="terms.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="scroll"></i>
-              <span>Terms &amp; Right of Withdrawal</span>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>AI Style Profile</span>
             </a>
-            <a href="impressum.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="scale"></i>
-              <span>Legal Notice / Impressum</span>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
             </a>
             <div class="nav-more-divider"></div>
-            <a href="about.html" class="nav-more-item" role="menuitem">
-              <i data-lucide="landmark"></i>
-              <span>The Atelier Story</span>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -110,164 +121,127 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></a>
-    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">0</span>)</a>
-    <a href="orders.html" class="mobile-drawer-link">Order Journey</a>
-    <a href="terms.html" class="mobile-drawer-link">Terms &amp; Withdrawal</a>
-    <a href="impressum.html" class="mobile-drawer-link">Legal Notice (Impressum)</a>
-    <a href="about.html" class="mobile-drawer-link">The Maison</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
-  <main>
-    <div class="terms-page-wrap">
+  <!-- MAIN TERMS CONTAINER -->
+  <main class="terms-page-wrap" id="mainContent" style="max-width: 1280px; margin: 0 auto; padding: 56px 32px 100px;">
 
-      <!-- HERO / HEADER -->
-      <div class="terms-header-wrap">
-        <span class="account-tier-badge" style="margin-bottom: 8px;">
-          <i data-lucide="scroll" style="width: 12px; height: 12px; color: var(--accent-cyan);"></i>
-          <span>MAISON COVENANT &middot; EU CONSUMER RIGHTS DIRECTIVE 2011/83/EU</span>
-        </span>
-        <h1 class="profile-headline" style="font-size: 54px; margin-top: 14px;">Terms of Engagement &amp; Consumer Rights</h1>
-        <p class="profile-subhead" style="max-width: 760px;">
-          The legal covenant governing private client commissions, European consumer rights, statutory 14-day right of withdrawal, white-glove logistics, and cryptographic provenance verification.
-        </p>
+    <header class="terms-header-wrap" style="max-width: 780px; margin: 0 auto 48px; text-align: center;">
+      <span class="eyebrow-accent" style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-cyan);">
+        COMMERCIAL PROTOCOLS
+      </span>
+      <h1 class="page-title" style="font-family: var(--font-serif); font-size: clamp(32px, 4vw, 54px); font-weight: 400; color: #FFFFFF; line-height: 1.1; margin: 12px 0 16px;">Terms &amp; Conditions of Service</h1>
+      <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+        Official Terms of Engagement, European consumer rights, statutory 14-day right of withdrawal (Widerrufsbelehrung), model withdrawal form, and white-glove fulfillment charter for nexCommerce Atelier.
+      </p>
+      <div style="display: inline-flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-secondary); background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.08);">
+        <span>Effective Date: 1 January 2026</span>
+        <span>·</span>
+        <span>Version 4.2 (EU Harmonized)</span>
       </div>
+    </header>
 
-      <!-- TWO-COLUMN LAYOUT (TOC SIDEBAR + ARTICLES) -->
-      <div class="terms-layout-grid">
-        
-        <!-- STICKY TABLE OF CONTENTS -->
-        <aside class="terms-toc-sidebar" aria-label="Table of Contents">
-          <span class="terms-toc-title">CHARTER INDEX</span>
-          <nav>
-            <a href="#art1" class="terms-toc-link active" onclick="setActiveToc(this)">01. Orders</a>
-            <a href="#art2" class="terms-toc-link" onclick="setActiveToc(this)">02. Prices &amp; VAT</a>
-            <a href="#art3" class="terms-toc-link" onclick="setActiveToc(this)">03. Shipping &amp; Delivery</a>
-            <a href="#art4" class="terms-toc-link" onclick="setActiveToc(this)">04. Returns &amp; Cancellations</a>
-            <a href="#art5" class="terms-toc-link" onclick="setActiveToc(this)">05. Intellectual Property</a>
-            <a href="#art6" class="terms-toc-link" onclick="setActiveToc(this)">06. Applicable Law &amp; ODR</a>
-          </nav>
-        </aside>
+    <div class="terms-layout-grid" style="display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: flex-start; max-width: 1140px; margin: 0 auto;">
 
-        <!-- MAIN ARTICLES COLUMN -->
-        <div class="terms-content-col">
-          
-          <!-- Article 01 -->
-          <article class="terms-article" id="art1">
-            <span class="terms-article-num">Article 01</span>
-            <h2 class="terms-article-title">Orders</h2>
-            <p>
-              Every garment, acoustic instrument, and artisanal leather creation offered by nexCommerce is produced under strict small-batch craftsmanship standards. When a client places an order, the commission is recorded and scheduled across our partner ateliers in Milan, Paris, and Copenhagen.
-            </p>
-            <div class="terms-callout-box">
-              "Because each piece is crafted with natural fibers, hand-finished edges, and tailored structural elements, minor nuances in grain, drape, and texture are hallmarks of genuine artisanal fabrication."
-            </div>
-            <p>
-              Bespoke commissions requiring individual proportion adaptations will be reviewed by our digital tailoring team prior to cutting. In the rare event of raw textile scarcity, clients will be notified within 24 hours with alternative artisan fabrics or immediate settlement refund.
-            </p>
-          </article>
+      <!-- Left Sticky Table of Contents Navigation Rail -->
+      <aside class="terms-nav-rail desktop-only" style="position: sticky; top: 100px; display: flex; flex-direction: column; gap: 6px; padding: 20px; background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg);" aria-label="Terms Table of Contents">
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 8px;">TABLE OF CONTENTS</span>
+        <a href="#art1" class="terms-toc-link active" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">01. Scope &amp; Craft</a>
+        <a href="#art2" class="terms-toc-link" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">02. Ordering &amp; Contracts</a>
+        <a href="#art3" class="terms-toc-link" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">03. Pricing &amp; VAT</a>
+        <a href="#art4" class="terms-toc-link" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">04. 14-Day Withdrawal</a>
+        <a href="#art5" class="terms-toc-link" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">05. Authenticity &amp; IP</a>
+        <a href="#art6" class="terms-toc-link" onclick="setActiveToc(this)" style="font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: color 0.18s, background 0.18s;">06. Dispute Resolution</a>
+      </aside>
 
-          <!-- Article 02 -->
-          <article class="terms-article" id="art2">
-            <span class="terms-article-num">Article 02</span>
-            <h2 class="terms-article-title">Prices &amp; VAT</h2>
-            <p>
-              All transactions executed on this digital atelier are billed in Euros (EUR / &euro;) inclusive of all statutory Value Added Tax (standard 19% German VAT or destination member state VAT rate) and European customs duties in accordance with the EU Price Indication Directive (Directive 98/6/EC &amp; Directive (EU) 2019/2161). We offer real-time settlement tokenization through Klarna (Pay in 30 Days &amp; Financing), iDEAL, Bancontact, Apple Pay, PayPal, SEPA Direct Debit, and Visa / Mastercard with mandatory 3D Secure 2 (3DS2) biometric verification conforming to EU PSD2 Regulatory Technical Standards (RTS).
-            </p>
-            <p>
-              Payment credentials are encrypted using bank-grade 256-bit AES encryption conforming to PCI-DSS Level 1 standards. At no point does nexCommerce store raw card numbers, CVCs, or bank authentication tokens on non-isolated infrastructure.
-            </p>
-          </article>
+      <!-- Main Articles Column -->
+      <div class="terms-content-col" style="margin: 0;">
 
-          <!-- Article 03 -->
-          <article class="terms-article" id="art3">
-            <span class="terms-article-num">Article 03</span>
-            <h2 class="terms-article-title">Shipping &amp; Delivery</h2>
-            <p>
-              From the moment an item clears final atelier inspection, it enters our secure handling process. Across the European Union, deliveries are executed exclusively via tracked DHL Express Carbon-Neutral and DPD European Ground services in tamper-evident FSC-certified sealed packaging.
-            </p>
-            <div class="terms-callout-box">
-              "Clients receive real-time predictive GPS tracking and interactive delivery management via DHL On-Demand Delivery upon atelier dispatch."
-            </div>
-            <p>
-              Risk of loss transfers to the client only upon physical handover and signature confirmation. All shipments are 100% insured against loss or damage during transit at no additional cost to the client.
-            </p>
-          </article>
+        <!-- Article 01 -->
+        <article class="terms-article" id="art1">
+          <span class="terms-article-num">Article 01</span>
+          <h2 class="terms-article-title">Scope of Agreement &amp; Atelier Craftsmanship</h2>
+          <p>
+            These General Terms and Conditions govern all sales and commissions executed through the nexCommerce digital atelier. By confirming an acquisition, the client enters into a binding contractual agreement with nexCommerce SE, ensuring compliance with European Union e-commerce standards and high-precision artisanal execution.
+          </p>
+        </article>
 
-          <!-- Article 04 -->
-          <article class="terms-article" id="art4">
-            <span class="terms-article-num">Article 04</span>
-            <h2 class="terms-article-title">14-Day Returns &amp; Cancellations</h2>
-            <p>
-              In accordance with Directive 2011/83/EU of the European Parliament and of the Council on Consumer Rights, you have the right to withdraw from this contract within fourteen (14) calendar days without giving any reason.
-            </p>
-            <div class="terms-callout-box" style="margin: 20px 0;">
-              <strong style="color: #FFFFFF; font-size: 15px; display: block; margin-bottom: 8px;">Withdrawal Period (Widerrufsfrist):</strong>
-              <p style="color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; margin: 0;">
-                The withdrawal period will expire after 14 days from the day on which you acquire, or a third party other than the carrier and indicated by you acquires, physical possession of the goods.
-              </p>
-            </div>
-            <p>
-              To exercise the right of withdrawal, you must inform us (<strong>nexCommerce Atelier S.&agrave; r.l. &amp; Co. KGaA</strong>, Friedrichstra&szlig;e 43, 10117 Berlin, Germany, Phone: +49 (0) 30 8920 4100, E-Mail: <a href="mailto:concierge@nexcommerce.eu" style="color: var(--accent-cyan);">concierge@nexcommerce.eu</a>) of your decision to withdraw from this contract by an unequivocal statement (e.g. a letter sent by post, or an email). You may use the attached model withdrawal form, but it is not obligatory.
-            </p>
-            
-            <h3 style="color: #FFFFFF; font-family: var(--font-serif); font-size: 22px; font-weight: 400; margin: 28px 0 12px 0;">Effects of Withdrawal (Folgen des Widerrufs)</h3>
-            <p>
-              If you withdraw from this contract, we shall reimburse to you all payments received from you, including the costs of delivery (with the exception of supplementary costs resulting from your choice of a type of delivery other than the least expensive standard delivery offered by us), without undue delay and in any event not later than 14 days from the day on which we are informed about your decision to withdraw.
-            </p>
-            <p>
-              We will carry out such reimbursement using the same means of payment as you used for the initial transaction (e.g. direct refund to your original credit card, Klarna balance, or PayPal account). We may withhold reimbursement until we have received the goods back or you have supplied evidence of having sent back the goods.
-            </p>
-            <p>
-              We collect the goods complimentary from your residence via our prepaid DHL Express return courier. You are only liable for any diminished value of the goods resulting from handling other than what is necessary to establish the nature, characteristics, and functioning of the goods.
-            </p>
+        <!-- Article 02 -->
+        <article class="terms-article" id="art2">
+          <span class="terms-article-num">Article 02</span>
+          <h2 class="terms-article-title">Ordering, Contract Formation &amp; Commissioning</h2>
+          <p>
+            The presentation of garments and bespoke luxury articles in our digital catalog represents an invitation to treat (invitatio ad offerendum). A binding sales contract is formed exclusively upon receipt of our formal Dispatch Confirmation and allocation of an authenticated European parcel tracking reference.
+          </p>
+          <div class="terms-callout-box">
+            "Each ordered piece undergoes conditioning and quality certification before departure from our European distribution facilities."
+          </div>
+        </article>
 
-            <!-- STATUTORY MODEL WITHDRAWAL FORM (MUSTER-WIDERRUFSFORMULAR) -->
-            <div style="background: rgba(0, 210, 255, 0.03); border: 1px solid rgba(0, 210, 255, 0.2); border-radius: var(--radius-md); padding: 24px; margin: 28px 0;">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                <span class="preference-label" style="color: var(--accent-cyan); font-size: 11px;">STATUTORY FORM TEMPLATE &middot; ANNEX I (B) DIRECTIVE 2011/83/EU</span>
-                <button type="button" class="btn-primary-commerce" style="height: 32px; padding: 0 14px; font-size: 10.5px; display: inline-flex; align-items: center; gap: 6px;" onclick="window.print()">
-                  <i data-lucide="printer" style="width: 13px; height: 13px;"></i>
-                  <span>PRINT FORM</span>
-                </button>
-              </div>
-              <h4 style="font-family: var(--font-serif); font-size: 20px; color: #FFFFFF; font-weight: 400; margin-bottom: 12px;">Model Withdrawal Form (Muster-Widerrufsformular)</h4>
-              <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 16px;">
-                (Complete and return this form only if you wish to withdraw from the contract)
-              </p>
-              <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 18px; font-family: monospace; font-size: 12.5px; line-height: 1.8; color: #E2E8F0;">
-                To: <strong>nexCommerce Atelier S.&agrave; r.l. &amp; Co. KGaA</strong><br>
-                Friedrichstra&szlig;e 43, 10117 Berlin, Federal Republic of Germany<br>
-                Electronic Mail: <span style="color: var(--accent-cyan);">concierge@nexcommerce.eu</span><br><br>
-                I/We (*) hereby give notice that I/We (*) withdraw from my/our (*) contract of sale of the following goods (*):<br>
-                ____________________________________________________________________<br><br>
-                Ordered on (*) / Received on (*): ____________________________________<br>
-                Name of consumer(s): ______________________________________________<br>
-                Address of consumer(s): ____________________________________________<br><br>
-                Signature of consumer(s) (only if this form is notified on paper):<br>
-                ____________________________________________________________________<br><br>
-                Date: ________________________<br>
-                <span style="font-size: 11px; color: #94A3B8;">(*) Delete as appropriate.</span>
-              </div>
-            </div>
-          </article>
+        <!-- Article 03 -->
+        <article class="terms-article" id="art3">
+          <span class="terms-article-num">Article 03</span>
+          <h2 class="terms-article-title">Pricing, Currencies &amp; Value-Added Tax (VAT)</h2>
+          <p>
+            All listed prices are final and denominated in Euros (€ / EUR), British Pounds (£ / GBP), or US Dollars ($ / USD) including applicable statutory Value-Added Tax (VAT / MwSt.) pursuant to European Union destination-principle tax directives. Complimentary white-glove express delivery is applied to all qualifying acquisitions over € 150.00.
+          </p>
+        </article>
 
-          <!-- Article 05 -->
+        <!-- Article 04 -->
+        <article class="terms-article" id="art4">
+          <span class="terms-article-num">Article 04</span>
+          <h2 class="terms-article-title">European Statutory 14-Day Right of Withdrawal (Widerrufsbelehrung)</h2>
+          <p>
+            Clients within the European Economic Area possess the statutory right to withdraw from this contract within fourteen (14) calendar days without stating any reason. The withdrawal period commences on the calendar day the client or an appointed third party acquires physical possession of the goods.
+          </p>
+          <p style="margin-top: 12px;">
+            To exercise your right of withdrawal, you may inform us via an unequivocal statement through our <a href="contact.html" style="color: var(--accent-cyan); text-decoration: underline;">Client Concierge Desk</a> or submit a formal declaration to our European Returns Center.
+          </p>
+        </article>
+
+        <!-- Article 05 -->
           <article class="terms-article" id="art5">
             <span class="terms-article-num">Article 05</span>
             <h2 class="terms-article-title">Intellectual Property &amp; Product Authenticity</h2>
             <p>
-              All silhouettes, acoustic acoustic driver geometries, typography, photographic lookbooks, and software architectures displayed on nexCommerce are the exclusive intellectual property of nexCommerce Atelier and protected by international and European copyright laws.
+              All silhouettes, acoustic driver geometries, typography, photographic lookbooks, and software architectures displayed on nexCommerce are the exclusive intellectual property of nexCommerce Atelier and protected by international and European copyright laws.
             </p>
             <p>
               Each bespoke garment is embedded with a verifiable cryptographic NFC chip linked to a tamper-proof digital passport certifying authentic origin, certified European fabric suppliers, and single-owner provenance.
@@ -315,7 +289,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
     <div id="minicartFooter" class="minicart-footer" style="display: none;">
       <div class="minicart-subtotal">
         <span>Subtotal</span>
@@ -334,7 +308,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Munich" autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Munich" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -395,5 +369,9 @@
     });
   </script>
 
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -400,7 +400,7 @@
       text-transform: uppercase;
       color: var(--text-secondary, #94A3B8);
       cursor: pointer;
-      transition: all 180ms ease;
+      transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
     }
 
     .contact-spotlight-tab:hover {
@@ -757,7 +757,7 @@
       font-weight: 500;
       color: var(--text-secondary, #94A3B8);
       cursor: pointer;
-      transition: all 180ms ease;
+      transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
     }
 
     .domain-pill:hover {
@@ -1144,48 +1144,46 @@
         </a>
       </div>
 
-      <nav class="nav-menu-links desktop-only" aria-label="Primary Navigation">
-        <a href="category.html?cat=all" class="nav-item-link">Categories</a>
-        <a href="category.html?cat=new" class="nav-item-link">New In</a>
-        <a href="smart-list.html" class="nav-item-link">Smart List <span class="nav-badge-pink">AI</span></a>
-        
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
-          <span class="search-pill-placeholder">What are you looking for?</span>
-          <span class="search-kbd">Ctrl + K</span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
         </button>
       </div>
 
       <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
       <div class="nav-right-actions">
-        <button id="conciergeNavTrigger" class="concierge-nav-btn desktop-only" aria-label="Ask Stylist">
-          <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-cyan, #3DE0FF);"></i>
-          <span>CONCIERGE</span>
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
         </button>
 
         <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
-          <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+          <i data-lucide="heart"></i>
           <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
         </a>
 
         <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
-          <i data-lucide="user" style="width: 18px; height: 18px;"></i>
-          <span data-auth-name style="display: none;">Account</span>
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
         </a>
 
         <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
-          <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-          <span class="bag-count-badge" id="headerCartCount" style="display: none;">0</span>
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
         </a>
 
         <!-- 3-Dot Overflow Menu for Secondary Utilities -->
-        <div class="nav-more-menu" id="headerMoreMenu">
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
           <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
-            <i data-lucide="more-horizontal" style="width: 18px; height: 18px;"></i>
+            <i data-lucide="more-horizontal"></i>
           </button>
           <div class="nav-more-dropdown" data-state="closed" role="menu">
             <a href="tracking.html" class="nav-more-item" role="menuitem">
@@ -1196,10 +1194,14 @@
               <i data-lucide="sparkles"></i>
               <span>AI Style Profile</span>
             </a>
-            <div class="nav-more-divider"></div>
-            <a href="account.html#orders" class="nav-more-item" role="menuitem">
+            <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
               <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
             </a>
           </div>
         </div>
@@ -1207,108 +1209,127 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION DRAWER -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home"><img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" /></a>
-      <button id="closeMobileDrawerBtn" style="background: none; border: none; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;" aria-label="Close mobile menu"><i data-lucide="x" style="width: 22px; height: 22px;"></i></button>
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
     </div>
-    <a href="category.html?cat=all" class="mobile-drawer-link">Categories</a>
-    <a href="category.html?cat=new" class="mobile-drawer-link">New In</a>
-    <a href="smart-list.html" class="mobile-drawer-link">Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></a>
-    <a href="discovery.html" class="mobile-drawer-link">Discover</a>
-    <a href="wishlist.html" class="mobile-drawer-link">Saved Pieces (<span id="mobileWishlistCount">0</span>)</a>
-    <a href="orders.html" class="mobile-drawer-link">Order Journey</a>
-    <a href="contact.html" class="mobile-drawer-link" style="color: var(--accent-cyan, #3DE0FF);">Client Services</a>
-    <a href="about.html" class="mobile-drawer-link">The Maison</a>
-    <a data-auth-account href="account.html" class="mobile-drawer-link">Account</a>
-    <a href="cart.html" class="mobile-drawer-link">Bag (<span id="mobileCartCount">0</span>)</a>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; AI Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
   </div>
 
-  <!-- MAIN CANVAS -->
-  <main>
-    <div class="contact-page-wrap">
+  <main class="contact-page-wrap" id="mainContent">
 
-      <!-- HERO / HEADER BLOCK -->
-      <div class="contact-header-wrap" data-parallax-depth="0.02">
-        <div class="contact-status-whisper">
-          <span class="contact-status-dot"></span>
-          <span>DIRECT ATELIER LINK &middot; 24/7 CONCIERGE</span>
-        </div>
-        <h1 class="contact-headline">Contact Us</h1>
-        <p class="contact-subhead">
-          Direct access to our master tailors, white-glove logistics dispatchers, and digital style advisors for bespoke commissions and scheduling.
-        </p>
+    <!-- HERO / HEADER BLOCK -->
+    <header class="contact-header-wrap">
+      <div class="contact-status-whisper">
+        <span class="contact-status-dot"></span>
+        <span>ATELIER CLIENT DESK &middot; ONLINE</span>
       </div>
+      <h1 class="contact-headline">Private Concierge &amp; Advisory</h1>
+      <p class="contact-subhead">
+        Direct private line to nexCommerce master ateliers, bespoke stylists, and logistics concierges. Select a dedicated service channel below or dispatch an inquiry.
+      </p>
+    </header>
 
-      <!-- 3 DEDICATED SERVICE CHANNEL CARDS (Motion Standard 2) -->
-      <div class="contact-channels-grid" data-parallax-depth="0.04">
-        <!-- Channel 1: Bespoke Styling -->
-        <div class="contact-channel-card" data-channel="styling">
-          <div class="contact-card-glare"></div>
-          <div>
-            <div class="contact-channel-top">
-              <div class="contact-channel-icon-wrap icon-cyan">
-                <i data-lucide="sparkles" style="width: 22px; height: 22px;"></i>
-              </div>
-              <span class="contact-channel-badge badge-live">LIVE &middot; 24/7</span>
+    <!-- 3 DEDICATED SERVICE CHANNELS -->
+    <section class="contact-channels-grid" aria-label="Dedicated Service Channels">
+      <!-- Channel 1: WhatsApp / Live Stylist -->
+      <article class="contact-channel-card" data-parallax-depth="0.04">
+        <div class="contact-card-glare"></div>
+        <div>
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon-wrap icon-cyan">
+              <i data-lucide="message-circle" style="width: 22px; height: 22px;"></i>
             </div>
-            <h3 class="contact-channel-title">Styling Help</h3>
-            <p class="contact-channel-desc">
-              Virtual appointments, proportion analysis, silhouette pairing, and made-to-measure tailoring consultations.
-            </p>
+            <span class="contact-channel-badge badge-live">&bull; Instant Access</span>
           </div>
-          <a href="concierge.html" class="contact-channel-btn primary-btn">
-            <span>LAUNCH STYLING CHAT</span>
-            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-          </a>
+          <h2 class="contact-channel-title">Direct Atelier WhatsApp</h2>
+          <p class="contact-channel-desc">
+            Immediate 1-on-1 private messaging with our Milan and Paris studio liaisons for real-time sizing, fabric swatches, and styling inquiries.
+          </p>
         </div>
+        <a href="https://wa.me/390288421190" target="_blank" rel="noopener" class="btn-secondary-action contact-channel-btn" style="text-decoration: none;">
+          <i data-lucide="message-circle" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          <span>OPEN WHATSAPP DESK</span>
+        </a>
+      </article>
 
-        <!-- Channel 2: White-Glove Logistics -->
-        <div class="contact-channel-card" data-channel="logistics">
-          <div class="contact-card-glare"></div>
-          <div>
-            <div class="contact-channel-top">
-              <div class="contact-channel-icon-wrap icon-emerald">
-                <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
-              </div>
-              <span class="contact-channel-badge badge-sla">&lt; 15 MIN SLA</span>
+      <!-- Channel 2: Private Styling Appointment -->
+      <article class="contact-channel-card" data-parallax-depth="0.04">
+        <div class="contact-card-glare"></div>
+        <div>
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon-wrap icon-emerald">
+              <i data-lucide="sparkles" style="width: 22px; height: 22px;"></i>
             </div>
-            <h3 class="contact-channel-title">Delivery &amp; Orders</h3>
-            <p class="contact-channel-desc">
-              Delivery rescheduling, residential gate access coordination, and tamper-evident packaging inquiries.
-            </p>
+            <span class="contact-channel-badge badge-sla">&bull; 15-Min Response</span>
           </div>
-          <a href="tracking.html" class="contact-channel-btn secondary-btn">
-            <span>TRACK COURIER LIVE</span>
-            <i data-lucide="navigation" style="width: 14px; height: 14px;"></i>
-          </a>
+          <h2 class="contact-channel-title">Bespoke Styling Session</h2>
+          <p class="contact-channel-desc">
+            Schedule a virtual or in-atelier consultation with our Senior Wardrobe Curators to build bespoke seasonal capsules tailored to your style profile.
+          </p>
         </div>
+        <a href="#contactFormCard" class="btn-secondary-action contact-channel-btn" style="text-decoration: none;">
+          <i data-lucide="calendar" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          <span>SCHEDULE CONSULTATION</span>
+        </a>
+      </article>
 
-        <!-- Channel 3: Trust & Legal -->
-        <div class="contact-channel-card" data-channel="security">
-          <div class="contact-card-glare"></div>
-          <div>
-            <div class="contact-channel-top">
-              <div class="contact-channel-icon-wrap icon-amber">
-                <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
-              </div>
-              <span class="contact-channel-badge badge-trust">TRUST &amp; LEGAL</span>
+      <!-- Channel 3: White-Glove Order Logistics -->
+      <article class="contact-channel-card" data-parallax-depth="0.04">
+        <div class="contact-card-glare"></div>
+        <div>
+          <div class="contact-channel-top">
+            <div class="contact-channel-icon-wrap icon-amber">
+              <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
             </div>
-            <h3 class="contact-channel-title">Legal &amp; Trust</h3>
-            <p class="contact-channel-desc">
-              Cryptographic ledger verification, VAT refund statements, alteration covenants, and enterprise compliance.
-            </p>
+            <span class="contact-channel-badge badge-trust">&bull; Dedicated Concierge</span>
           </div>
-          <a href="security.html" class="contact-channel-btn secondary-btn">
-            <span>INSPECT PROVENANCE</span>
-            <i data-lucide="fingerprint" style="width: 14px; height: 14px;"></i>
-          </a>
+          <h2 class="contact-channel-title">White-Glove Order Support</h2>
+          <p class="contact-channel-desc">
+            Priority resolution for global courier rerouting, climate-controlled vault shipments, customs clearance, and complimentary 14-day returns.
+          </p>
         </div>
-      </div>
+        <a href="tracking.html" class="btn-secondary-action contact-channel-btn" style="text-decoration: none;">
+          <i data-lucide="truck" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+          <span>TRACK ACTIVE DISPATCH</span>
+        </a>
+      </article>
+    </section>
 
-      <!-- CURATED LOOK SWITCHER & 120FPS ANIMATION TRACK (Motion Standard 1) -->
-      <div class="contact-look-spotlight-wrap" id="contactLookSwitcherWrap" data-parallax-depth="0.06">
+    <!-- CURATED LOOK SWITCHER & 120FPS ANIMATION TRACK (Motion Standard 1) -->
+    <div class="contact-look-spotlight-wrap" id="contactLookSwitcherWrap" data-parallax-depth="0.06">
         <section class="contact-curation-spotlight" id="contactSpotlightSection" aria-label="Private Atelier Bespoke Commissions">
           <!-- 120fps GPU Progress Bar Track -->
           <div class="contact-spotlight-progress-track" aria-hidden="true">
@@ -1541,7 +1562,7 @@
       <div class="minicart-title">Shopping Bag</div>
       <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
     </div>
-    <div id="minicartBody" class="minicart-body"></div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
     <div id="minicartFooter" class="minicart-footer" style="display: none;">
       <div class="minicart-subtotal">
         <span>Subtotal</span>
@@ -1560,7 +1581,7 @@
           <div class="search-ai-icon">
             <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
           </div>
-          <input type="text" class="search-ai-input" placeholder="Something for a winter evening in Paris" autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Paris" autocomplete="off" spellcheck="false" aria-label="Search query" />
         </div>
         <button class="search-close-btn" aria-label="Close search">
           <i data-lucide="x" style="width: 16px; height: 16px;"></i>
@@ -1930,5 +1951,9 @@
 
     })();
   </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
 </body>
 </html>

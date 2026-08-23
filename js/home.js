@@ -454,7 +454,7 @@ function initDealsCountdown() {
   // Flip digit: slide up and out, replace content, slide in
   function flipUnit(el, newVal) {
     if (!el || el.textContent === newVal) return;
-    el.style.transition = 'transform 120ms ease-in, opacity 120ms ease-in';
+    el.style.transition = 'transform 120ms cubic-bezier(0.4, 0, 1, 1), opacity 120ms cubic-bezier(0.4, 0, 1, 1)';
     el.style.transform  = 'translateY(-4px)';
     el.style.opacity    = '0';
     setTimeout(() => {
@@ -641,7 +641,7 @@ function initIntentSuggestions() {
       const curtain = document.getElementById('pageTransitionOverlay');
       const targetUrl = `pages/discovery.html?q=${encodeURIComponent(text)}`;
       if (curtain) {
-        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
         curtain.style.opacity = '1';
         curtain.style.pointerEvents = 'all';
         setTimeout(() => { window.location.href = targetUrl; }, 210);
@@ -662,7 +662,7 @@ function initIntentSuggestions() {
         const curtain = document.getElementById('pageTransitionOverlay');
         const targetUrl = `pages/discovery.html?q=${encodeURIComponent(val)}`;
         if (curtain) {
-          curtain.style.transition = 'opacity 200ms ease';
+          curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
           curtain.style.opacity = '1';
           curtain.style.pointerEvents = 'all';
           setTimeout(() => { window.location.href = targetUrl; }, 210);
@@ -815,7 +815,7 @@ function renderFeaturedCollection() {
       const targetUrl = `pages/product.html?id=${encodeURIComponent(targetId)}`;
       const curtain = document.getElementById('pageTransitionOverlay');
       if (curtain) {
-        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
         curtain.style.opacity = '1';
         curtain.style.pointerEvents = 'all';
         setTimeout(() => { window.location.href = targetUrl; }, 210);
@@ -896,7 +896,7 @@ function initMicroMerchandising() {
       const targetUrl = `pages/product.html?id=${encodeURIComponent(id)}`;
       const curtain = document.getElementById('pageTransitionOverlay');
       if (curtain) {
-        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
         curtain.style.opacity = '1';
         curtain.style.pointerEvents = 'all';
         setTimeout(() => { window.location.href = targetUrl; }, 210);

@@ -271,7 +271,7 @@ function renderAccountPage() {
   main.innerHTML = `
     <div class="dev-state-harness">
       <span>⚙ DEV STATE SWITCHER:</span>
-      <select onchange="changeDevAuthState(this.value)">
+      <select id="devAuthStateSelect" name="dev_auth_state" aria-label="Developer Auth State Switcher" onchange="changeDevAuthState(this.value)">
         <option value="signed_in" ${currentAuthState === 'signed_in' ? 'selected' : ''}>Signed In (With Orders &amp; Profile)</option>
         <option value="empty_account" ${currentAuthState === 'empty_account' ? 'selected' : ''}>Signed In (Empty State &mdash; No Orders)</option>
         <option value="signed_out" ${currentAuthState === 'signed_out' ? 'selected' : ''}>Signed Out (Sign-In Screen)</option>
@@ -311,9 +311,9 @@ function renderAccountHeader(user, orders) {
         <div class="vip-client-identity">
           <span class="vip-tier-badge">
             <span class="vip-live-dot"></span>
-            TIER I &middot; PRIVATE ATELIER CLIENT
+            TIER I &middot; VIP MEMBER
           </span>
-          <h1 class="vip-client-name">${escapeHtml(user.name || 'Valued Client')}</h1>
+          <h2 class="vip-client-name">${escapeHtml(user.name || 'Valued Client')}</h2>
           <p class="vip-client-email">${escapeHtml(user.email)} &middot; Member since 2024</p>
         </div>
         <div class="vip-concierge-quicklink">
@@ -321,12 +321,16 @@ function renderAccountHeader(user, orders) {
             <i data-lucide="sparkles" style="width: 14px; height: 14px; color: #3DE0FF;"></i>
             <span>Direct Concierge Line</span>
           </a>
+          <button type="button" class="btn-account-signout" onclick="handleAccountSignOut()" aria-label="Sign out of account" title="Sign Out">
+            <i data-lucide="log-out" style="width: 13px; height: 13px;"></i>
+            <span>Sign Out</span>
+          </button>
         </div>
       </div>
 
       <div class="account-stats-telemetry">
         <div class="account-stat-card">
-          <span class="stat-card-label">TOTAL ACQUISITIONS</span>
+          <span class="stat-card-label">TOTAL ORDERS</span>
           <div class="stat-card-val tabular-nums">${orders.length} Pieces</div>
         </div>
         <div class="stat-card-divider"></div>
@@ -362,21 +366,22 @@ function renderNavigationTabs() {
     </button>
   `).join('');
 
-  const signOutBtn = `
-    <button class="account-tab-item account-tab-signout"
-            onclick="changeDevAuthState('signed_out')"
-            style="margin-left: auto; color: #FB7185;">
-      Sign Out
-    </button>
-  `;
-
   return `
     <div class="account-tab-strip" id="accountTabStrip" role="tablist">
-      ${items}
-      ${signOutBtn}
+      <div class="account-tab-items-scroll">
+        ${items}
+      </div>
     </div>
   `;
 }
+
+window.handleAccountSignOut = function() {
+  if (window.NexAuth && typeof window.NexAuth.signOut === 'function') {
+    window.NexAuth.signOut('signin.html');
+  } else {
+    changeDevAuthState('signed_out');
+  }
+};
 
 /* ─── Render Tab Router ──────────────────────────────────────── */
 function renderTabPanel(tab) {
@@ -393,6 +398,7 @@ function renderTabPanel(tab) {
 function renderOrderCard(order) {
   const isPreparing = order.status === 'preparing';
   const isDelivered = order.status === 'delivered';
+  const isCancelled = order.status === 'cancelled';
   const trackUrl = `tracking.html?ref=${encodeURIComponent(order.ref)}`;
 
   const itemsHtml = order.items.map(item => `
@@ -412,15 +418,15 @@ function renderOrderCard(order) {
   `).join('');
 
   return `
-    <div class="account-order-luxury-card" data-ref="${escapeHtml(order.ref)}">
+    <div class="account-order-luxury-card ${isCancelled ? 'order-card-cancelled' : ''}" data-ref="${escapeHtml(order.ref)}">
       <div class="order-card-top-bar">
         <div class="order-card-identity">
           <span class="order-ref-code">${escapeHtml(order.ref)}</span>
-          <span class="order-date-whisper">Acquired on ${escapeHtml(order.date)}</span>
+          <span class="order-date-whisper">Ordered on ${escapeHtml(order.date)}</span>
         </div>
-        <div class="order-card-status-badge ${isPreparing ? 'status-active' : 'status-complete'}">
+        <div class="order-card-status-badge ${isCancelled ? 'status-cancelled' : (isPreparing ? 'status-active' : 'status-complete')}">
           <span class="status-indicator-dot"></span>
-          <span>${escapeHtml(order.statusLabel || 'In Transit')}</span>
+          <span>${escapeHtml(order.statusLabel || (isCancelled ? 'Cancelled' : 'In Transit'))}</span>
         </div>
       </div>
 
@@ -432,10 +438,20 @@ function renderOrderCard(order) {
           <div class="route-meta-row">
             <span class="route-status-msg">
               <i data-lucide="truck" style="width:12px;height:12px;color:#3DE0FF;"></i>
-              Atelier Conditioning &middot; Handover Imminent
+              Order Processing &middot; Handover Imminent
             </span>
             <span class="route-eta-msg">ETA: ${escapeHtml(order.expectedDate)}</span>
           </div>
+        </div>
+      ` : ''}
+
+      ${isCancelled ? `
+        <div class="order-cancelled-callout">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="shield-alert" style="width: 14px; height: 14px; color: #FB7185; flex-shrink: 0;"></i>
+            <span><strong>Cancelled</strong> &middot; ${escapeHtml(order.cancellationReason || 'Client requested cancellation')}</span>
+          </div>
+          <span style="color: #3DE0FF; font-weight: 600; white-space: nowrap;">100% Refund Credited</span>
         </div>
       ` : ''}
 
@@ -445,23 +461,60 @@ function renderOrderCard(order) {
 
       <div class="order-card-footer">
         <div class="order-footer-actions">
-          <a href="${trackUrl}" class="btn-order-action btn-order-track">
-            <i data-lucide="compass" style="width: 13px; height: 13px;"></i>
-            <span>Live Route Map</span>
-          </a>
+          ${!isCancelled ? `
+            <a href="${trackUrl}" class="btn-order-action btn-order-track">
+              <i data-lucide="compass" style="width: 13px; height: 13px;"></i>
+              <span>Live Route Map</span>
+            </a>
+          ` : ''}
           <button type="button" class="btn-order-action btn-reorder-piece" data-ref="${escapeHtml(order.ref)}">
             <i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i>
-            <span>Acquire Again</span>
+            <span>Buy Again</span>
           </button>
+          ${isPreparing ? `
+            <button type="button" class="btn-order-cancel-trigger" onclick="handleAccountOrderCancel('${escapeHtml(order.ref)}')">
+              <i data-lucide="x-circle" style="width: 13px; height: 13px;"></i>
+              <span>Cancel Order</span>
+            </button>
+          ` : ''}
         </div>
         <div class="order-card-total-group">
-          <span class="order-total-label">Total Paid</span>
-          <span class="order-total-val tabular-nums">&euro; ${Number(order.total).toFixed(2)}</span>
+          <span class="order-total-label">${isCancelled ? 'Refund Credited' : 'Total Paid'}</span>
+          <span class="order-total-val tabular-nums" style="${isCancelled ? 'color: #FB7185;' : ''}">&euro; ${Number(order.total).toFixed(2)}</span>
         </div>
       </div>
     </div>
   `;
 }
+
+window.handleAccountOrderCancel = function(ref) {
+  if (window.NexOrderCancellation && typeof window.NexOrderCancellation.openModal === 'function') {
+    window.NexOrderCancellation.openModal(ref, function(res) {
+      const target = ACCOUNT_DATA.orders.find(o => o.ref === ref);
+      if (target) {
+        target.status = 'cancelled';
+        target.statusLabel = 'Cancelled';
+        target.cancellationReason = (res.order && res.order.cancellationReason) ? res.order.cancellationReason : 'Client requested cancellation';
+        target.cancelledAt = (res.order && res.order.cancelledAt) ? res.order.cancelledAt : new Date().toISOString();
+      }
+      renderAccountPage();
+    });
+  }
+};
+
+window.addEventListener('nex:order-cancelled', function(e) {
+  const orderId = e.detail && e.detail.orderId;
+  if (orderId) {
+    const target = ACCOUNT_DATA.orders.find(o => o.ref === orderId || o.id === orderId);
+    if (target) {
+      target.status = 'cancelled';
+      target.statusLabel = 'Cancelled';
+      target.cancellationReason = e.detail.reason || 'Client requested cancellation';
+      target.cancelledAt = e.detail.cancelledAt || new Date().toISOString();
+      renderAccountPage();
+    }
+  }
+});
 
 /* ─── 1. Overview Panel ──────────────────────────────────────── */
 function renderOverviewPanel() {
@@ -475,7 +528,7 @@ function renderOverviewPanel() {
     ` : ''}
 
     ${recentOrders.length > 0 ? `
-      <div class="account-panel-section-label" style="margin-top: 32px;">RECENT ACQUISITIONS</div>
+      <div class="account-panel-section-label" style="margin-top: 32px;">RECENT ORDERS</div>
       ${recentOrders.map(o => renderOrderCard(o)).join('')}
     ` : ''}
 
@@ -510,7 +563,7 @@ function renderOrdersPanel() {
     <div class="orders-panel-header">
       <div>
         <div class="account-panel-section-label">ORDER PORTFOLIO</div>
-        <p style="font-size: 13px; color: var(--text-secondary); margin: 4px 0 0;">All acquisitions and fulfillment records.</p>
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 4px 0 0;">All purchases and fulfillment records.</p>
       </div>
       <div class="preference-chips">${filterChipsHtml}</div>
     </div>
@@ -633,26 +686,18 @@ window.submitNewAddress = function(e) {
   renderAccountPage();
 };
 
-/* ─── Task 3: Style DNA Radar Widget ────────────────────────── */
+/* ─── Task 3: Style DNA Profile Widget ───────────────────────── */
 function renderStyleSignalsWidget() {
   return `
     <div class="account-style-dna-card">
       <div class="dna-card-info">
         <span class="dna-eyebrow">ACTIVE STYLE PROFILE</span>
         <h3 class="dna-title">Quiet Luxury &amp; Nordic Minimal</h3>
-        <p class="dna-desc">Your 6-axis aesthetic radar is actively personalising catalog recommendations across tailoring, knitwear, and high acoustics.</p>
+        <p class="dna-desc">Your style preferences are actively personalizing catalog recommendations across tailoring, knitwear, and everyday essentials.</p>
         <a href="profile.html" class="btn-primary-commerce btn-dna-adjust">
           <i data-lucide="sliders" style="width: 13px; height: 13px;"></i>
-          <span>CALIBRATE STYLE RADAR</span>
+          <span>CUSTOMIZE STYLE PROFILE</span>
         </a>
-      </div>
-      <div class="dna-card-visual">
-        <div class="mini-radar-avatar">
-          <svg width="90" height="90" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="50,15 80,35 75,75 50,90 25,75 20,35" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-            <polygon points="50,22 74,40 70,70 50,82 30,70 28,40" fill="rgba(61,224,255,0.15)" stroke="#3DE0FF" stroke-width="1.5"/>
-          </svg>
-        </div>
       </div>
     </div>
   `;
@@ -753,7 +798,7 @@ function renderSignedOutState(container) {
   container.innerHTML = `
     <div class="dev-state-harness">
       <span>⚙ DEV STATE SWITCHER:</span>
-      <select onchange="changeDevAuthState(this.value)">
+      <select id="devAuthStateSelectSignedOut" name="dev_auth_state" aria-label="Developer Auth State Switcher" onchange="changeDevAuthState(this.value)">
         <option value="signed_out" selected>Signed Out (Sign-In Screen)</option>
         <option value="signed_in">Signed In (With Orders &amp; Profile)</option>
         <option value="empty_account">Signed In (Empty State &mdash; No Orders)</option>
@@ -767,12 +812,12 @@ function renderSignedOutState(container) {
 
       <form onsubmit="handleSignInSubmit(event)" style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
         <div>
-          <label style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; text-align: left; margin-bottom: 6px;">EMAIL ADDRESS</label>
-          <input type="email" class="checkout-input" placeholder="julian@atelier-client.de" required style="width: 100%; text-align: left;" />
+          <label for="accountSignInEmail" style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; text-align: left; margin-bottom: 6px;">EMAIL ADDRESS</label>
+          <input type="email" id="accountSignInEmail" name="email" class="checkout-input" placeholder="julian@atelier-client.de" required style="width: 100%; text-align: left;" />
         </div>
         <div>
-          <label style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; text-align: left; margin-bottom: 6px;">PASSWORD</label>
-          <input type="password" class="checkout-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required style="width: 100%; text-align: left;" />
+          <label for="accountSignInPassword" style="font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); display: block; text-align: left; margin-bottom: 6px;">PASSWORD</label>
+          <input type="password" id="accountSignInPassword" name="password" class="checkout-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required style="width: 100%; text-align: left;" />
         </div>
         <button type="submit" class="btn-primary-commerce" style="height: 52px; margin-top: 8px;">SIGN IN</button>
       </form>
@@ -793,7 +838,7 @@ function renderEmptyAccountState(container) {
   container.innerHTML = `
     <div class="dev-state-harness">
       <span>⚙ DEV STATE SWITCHER:</span>
-      <select onchange="changeDevAuthState(this.value)">
+      <select id="devAuthStateSelectEmpty" name="dev_auth_state" aria-label="Developer Auth State Switcher" onchange="changeDevAuthState(this.value)">
         <option value="empty_account" selected>Signed In (Empty State &mdash; No Orders)</option>
         <option value="signed_in">Signed In (With Orders &amp; Profile)</option>
         <option value="signed_out">Signed Out (Sign-In Screen)</option>

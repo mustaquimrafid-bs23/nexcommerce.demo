@@ -2045,6 +2045,66 @@ function initFilterBar() {
   });
 }
 
+/* ─── Recommend Bar (NL prompt + 4 presets) ─────────────────────────────── */
+function initRecommendBar() {
+  const promptInput  = document.getElementById('capsulePromptInput');
+  const recommendBtn = document.getElementById('btnSynthesizeCapsule');
+  const neuralStatus = document.getElementById('capsuleNeuralStatus');
+  const presetBtns   = document.querySelectorAll('.preset-pill-btn[data-preset]');
+
+  if (!promptInput || !recommendBtn) return;
+
+  const PRESET_QUERIES = {
+    alpine:     'cashmere sweater knit layer winter warm',
+    monochrome: 'minimal neutral clean simple white black grey',
+    transit:    'bag travel carry backpack tote commute',
+    gala:       'evening formal blazer shirt tailored',
+  };
+
+  function applyFilter(query) {
+    const grid = document.getElementById('slGrid');
+    if (!grid) return;
+
+    const q = query.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+    const scored = SL_PRODUCTS.map(p => {
+      const haystack = [p.name, p.brand, p.category, p.reason || '', p.materials || ''].join(' ').toLowerCase();
+      const hits = q.filter(w => haystack.includes(w)).length;
+      return { p, hits };
+    }).filter(r => r.hits > 0).sort((a, b) => b.hits - a.hits);
+
+    const results = scored.length ? scored.map(r => r.p) : SL_PRODUCTS;
+    grid.innerHTML = results.map((p, idx) => buildCardHTML(p, idx, false)).join('');
+    bindCardEvents(grid);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (!scored.length) showToast('No exact matches — showing all recommendations', 'info');
+  }
+
+  function runRecommend(query) {
+    if (!query.trim()) return;
+    if (neuralStatus) {
+      neuralStatus.style.display = 'flex';
+      const txt = document.getElementById('neuralStatusText');
+      if (txt) txt.textContent = 'Finding matching pieces for your style…';
+    }
+    setTimeout(() => {
+      if (neuralStatus) neuralStatus.style.display = 'none';
+      applyFilter(query);
+    }, 600);
+  }
+
+  recommendBtn.addEventListener('click', () => runRecommend(promptInput.value));
+  promptInput.addEventListener('keydown', e => { if (e.key === 'Enter') runRecommend(promptInput.value); });
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      promptInput.value = '';
+      runRecommend(PRESET_QUERIES[btn.dataset.preset] || '');
+    });
+  });
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    SURFACE RENDERER 1: Smart List Full Page (smart-list.html)
    ══════════════════════════════════════════════════════════════════════════ */
@@ -2083,6 +2143,9 @@ function renderSmartListPage() {
 
   // Initialize filter bar
   initFilterBar();
+
+  // Initialize NL recommend bar + preset pills
+  initRecommendBar();
 
   // Initialize Select All toolbar toggle
   initSelectAllBtn();
@@ -2196,20 +2259,6 @@ function initScrollSuite() {
       }
     }
 
-    // 4. Subtle Differential Parallax on Product Cards
-    const cards = document.querySelectorAll('.sl-card');
-    cards.forEach(card => {
-      const depth = parseFloat(card.dataset.parallaxDepth || '0.04');
-      const rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        const offset = (rect.top - window.innerHeight / 2) * depth;
-        card._parallaxY = offset;
-        if (!card._isHovered) {
-          card.style.transform = `translateY(${offset.toFixed(1)}px)`;
-        }
-      }
-    });
-
     lastScrollY = Math.max(0, scrollY);
     ticking = false;
   }
@@ -2264,7 +2313,7 @@ function initScrollReveals() {
     threshold: 0.05
   });
 
-  const targets = document.querySelectorAll('#slSpotlightWrap, #slToolbar, #slCategoryBar, .sl-card, .sl-concierge-bridge');
+  const targets = document.querySelectorAll('#slSpotlightWrap, #slToolbar, #slFilterBar, .sl-concierge-bridge');
   targets.forEach(t => {
     t.classList.add('sl-scroll-reveal');
     observer.observe(t);

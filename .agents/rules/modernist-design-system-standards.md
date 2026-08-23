@@ -1624,4 +1624,40 @@ All copy across every screen, component, badge, modal, tooltip, empty state, and
 - Product recommendation reasons must highlight tangible customer value and seasonal context (e.g. *"Purchased 4× · Recommended for winter"*, *"Everyday essential"*), never raw algorithm math (*"Interval 60 days delta 2"*).
 - Omnibus prior price disclosures must be conversational and compliant (e.g. *"Lowest price in last 30 days: € 215.00"*).
 
+---
+
+# 53. VISUAL-FIRST STYLE STUDIO & CURATED CARD ARCHITECTURE
+
+1. **Visual Style Card Grid**:
+   - 4-column responsive grid on desktop (`grid-template-columns: repeat(4, 1fr)`), 2-column on tablet (`repeat(2, 1fr)`), and 1-column on mobile (`1fr`).
+   - Each card must feature:
+     - Dedicated radial studio photograph container (`background: radial-gradient(...)`) with `object-fit: contain`.
+     - Active state checkmark badge in top-right corner (`background: #3DE0FF; color: #020B18`).
+     - Plain-English bold title + 1–2 line functional wardrobe description.
+     - Hover elevate animation (`transform: translateY(-3px)`) and active cyan glow (`box-shadow: 0 0 20px rgba(61, 224, 255, 0.2)`).
+
+2. **Strict Elimination of Fantasy RPG / Polygon Jargon**:
+   - Never use sci-fi tropes or radar polygons with mixed axes (e.g. "Nocturne Archetype", "Alpine Thermal Calibration", spider polygons).
+   - Use clear everyday styles: `Minimalist & Clean`, `Smart & Tailored`, `Relaxed & Everyday`, `Outdoor & Outerwear`.
+
+---
+
+# 54. SEARCH MODAL & OVERLAY ARCHITECTURE (CURATED EDITORIAL ATELIER)
+
+1. **Idle State Information Architecture**:
+   - Modal container width capped at `780px` on desktop with dark midnight glassmorphic backdrop.
+   - High-focus top search input with search icon, subtle shortcut badge (`ESC`), and clear trigger.
+   - Text-only department navigation (`.atelier-dept-nav`) styled with `13px` Inter, `var(--text-soft)`, hover `var(--accent-cyan)` with zero photo banner backgrounds.
+   - Capped 3-card seasonal highlights grid using `.atelier-products-grid` (`grid-template-columns: repeat(3, 1fr)` on desktop, `1fr` on mobile).
+   - `.atelier-thumb` using `width: 48px; height: 48px; object-fit: contain !important;` with radial studio backdrop.
+   - Clean recent searches footer row with one-click individual deletion and "Clear Recent" button.
+
+2. **Prohibited Idle Anti-Patterns**:
+   - ❌ Stacking 4+ separate dense sections (Recents + Dept Photos + Full Product Cards with ADD buttons + Prompt Rails) simultaneously on idle.
+   - ❌ Bulky CTA action buttons or badge tags inside idle highlight cards.
+   - ❌ Multi-row photo grids exceeding 3 items before the user enters a search query.
+   - ❌ Conversational text essays or terminal placeholders.
+
+
+
 

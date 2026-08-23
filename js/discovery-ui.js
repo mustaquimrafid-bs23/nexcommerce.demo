@@ -406,7 +406,8 @@
         if (catalog[i].id === productId) { product = catalog[i]; break; }
       }
 
-      if (product && window.nexCart && typeof window.nexCart.addItem === 'function') {
+      var didAdd = !!(product && window.nexCart && typeof window.nexCart.addItem === 'function');
+      if (didAdd) {
         window.nexCart.addItem({
           id: product.id,
           name: product.title || product.name,
@@ -418,21 +419,26 @@
 
       if (buttonEl) {
         buttonEl.classList.remove('loading');
-        buttonEl.classList.add('added');
-        // Icon-only checkmark swap (no text label) — this button is a fixed
-        // 44px square, so injecting an "ADDED" label overflowed the card's
-        // action row. Matches the checkmark-swap pattern used elsewhere
-        // (e.g. .recent-card-quick-add in home.js).
-        buttonEl.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i>';
-        if (window.lucide) window.lucide.createIcons();
-        setTimeout(function() {
-          buttonEl.classList.remove('added');
+        if (didAdd) {
+          buttonEl.classList.add('added');
+          // Icon-only checkmark swap (no text label) — this button is a fixed
+          // 44px square, so injecting an "ADDED" label overflowed the card's
+          // action row. Matches the checkmark-swap pattern used elsewhere
+          // (e.g. .recent-card-quick-add in home.js).
+          buttonEl.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i>';
+          if (window.lucide) window.lucide.createIcons();
+          setTimeout(function() {
+            buttonEl.classList.remove('added');
+            if (origHtml !== null) buttonEl.innerHTML = origHtml;
+            if (window.lucide) window.lucide.createIcons();
+          }, 1600);
+        } else {
           if (origHtml !== null) buttonEl.innerHTML = origHtml;
           if (window.lucide) window.lucide.createIcons();
-        }, 1600);
+        }
       }
 
-      if (window.showToast) {
+      if (didAdd && window.showToast) {
         showToast('Added to your shopping bag.', 'success');
       }
     }, 280);
@@ -460,7 +466,7 @@
     var chipHtml = '';
     if (chips.length > 0) {
       chipHtml = '<div style="margin-top:24px;text-align:center;">'
-        + '<div style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:12px;">EXTRACTING SEMANTIC INTENT...</div>'
+        + '<div style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:12px;">Understanding your style…</div>'
         + '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">'
         + chips.map(function(c) { return '<span class="intent-chip discovery-parsing-chip">' + escHtml(c.label) + '</span>'; }).join('')
         + '</div></div>';
@@ -469,7 +475,7 @@
     if (grid) {
       grid.innerHTML = '<div class="discovery-processing" style="grid-column:1/-1;padding:60px 0;text-align:center;">'
         + '<div class="discovery-processing-dots"><div class="discovery-processing-dot"></div><div class="discovery-processing-dot"></div><div class="discovery-processing-dot"></div></div>'
-        + '<span class="discovery-processing-text">Synthesizing Catalog Intent…</span>'
+        + '<span class="discovery-processing-text">Finding your pieces…</span>'
         + chipHtml + '</div>';
     }
   }
@@ -589,6 +595,18 @@
       if (qId) addQuickProductToBag(qId, cardQuickAdd);
       return;
     }
+    var relaxChip = e.target.closest('.discovery-relax-chip');
+    if (relaxChip) {
+      var relaxKey = relaxChip.getAttribute('data-remove-key');
+      if (relaxKey) removeContextKey(relaxKey);
+      return;
+    }
+    var chipRemove = e.target.closest('.discovery-chip-remove');
+    if (chipRemove) {
+      var removeKey = chipRemove.getAttribute('data-remove-key');
+      if (removeKey) removeContextKey(removeKey);
+      return;
+    }
     var modal = el('whyMatchesModal');
     if (modal && modal.style.display !== 'none' && (e.target === modal || e.target.closest('[data-close-why]'))) {
       closeWhyMatchesModal();
@@ -618,7 +636,7 @@
     if (grid) {
       grid.innerHTML = '<div class="discovery-ai-error" style="grid-column:1/-1;">'
         + '<div class="discovery-ai-error-label">Search temporarily unavailable</div>'
-        + '<div class="discovery-ai-error-message">Our intelligent search engine is calibrating. Continue with catalog search below.</div>'
+        + '<div class="discovery-ai-error-message">Search is temporarily unavailable — try again in a moment.</div>'
         + '<button class="btn-secondary-action btn-ripple" onclick="window.NexDiscoveryUI.enableFallbackMode()">Continue with standard search</button>'
         + '</div>';
     }
@@ -628,8 +646,8 @@
     var grid = el('discoveryResultsGrid');
     if (grid) {
       grid.innerHTML = '<div class="discovery-timeout-message" style="grid-column:1/-1;">'
-        + 'Request timed out. Please try a simpler search phrase.<br><br>'
-        + '<button class="btn-secondary-action btn-ripple" onclick="window.NexDiscoveryUI.enableFallbackMode()">Continue with standard search</button>'
+        + 'That took too long — please try a different description.'
+        + '<br><br><button class="btn-secondary-action btn-ripple" onclick="window.NexDiscoveryUI.enableFallbackMode()">Continue with standard search</button>'
         + '</div>';
     }
   }

@@ -63,10 +63,11 @@
     var isSelected = selectedIds.has(item.id);
     var swatchesHtml = '';
     if (item.variants && item.variants.finishes && item.variants.finishes.length > 1) {
-      swatchesHtml = '<div class="card-swatch-list" aria-label="Available Finishes">';
+      swatchesHtml = '<div class="card-swatch-list" role="radiogroup" aria-label="Available Finishes">';
       item.variants.finishes.forEach(function(f) {
         var activeClass = f.id === state.finish ? ' active' : '';
-        swatchesHtml += '<button type="button" class="card-swatch-disc' + activeClass + '" data-action="set-finish" data-id="' + item.id + '" data-finish="' + f.id + '" style="background: ' + f.color + '" title="' + escapeStr(f.name) + '" aria-label="' + escapeStr(f.name) + '"></button>';
+        var isChecked = f.id === state.finish ? 'true' : 'false';
+        swatchesHtml += '<button type="button" class="card-swatch-disc' + activeClass + '" role="radio" aria-checked="' + isChecked + '" data-action="set-finish" data-id="' + item.id + '" data-finish="' + f.id + '" style="background: ' + f.color + '" title="' + escapeStr(f.name) + '" aria-label="' + escapeStr(f.name) + '"></button>';
       });
       swatchesHtml += '</div>';
     }
@@ -82,7 +83,7 @@
         <div class="wishlist-card-specular" aria-hidden="true"></div>
 
         <!-- Top-Left Ambient Select Ring -->
-        <button type="button" class="card-select-ring" data-action="toggle-select" data-id="${item.id}" aria-label="Select ${escapeStr(item.title)}">
+        <button type="button" class="card-select-ring" data-action="toggle-select" data-id="${item.id}" role="checkbox" aria-checked="${isSelected}" aria-label="Select ${escapeStr(item.title)} for batch actions">
           <i data-lucide="check" style="width: 13px; height: 13px; stroke-width: 3;"></i>
         </button>
 
@@ -690,7 +691,9 @@
       var card = document.getElementById('wishCard_' + pId);
       if (card) {
         card.querySelectorAll('.card-swatch-disc').forEach(function(s) {
-          s.classList.toggle('active', s.getAttribute('data-finish') === finishId);
+          var isMatch = s.getAttribute('data-finish') === finishId;
+          s.classList.toggle('active', isMatch);
+          s.setAttribute('aria-checked', isMatch ? 'true' : 'false');
         });
       }
       return;

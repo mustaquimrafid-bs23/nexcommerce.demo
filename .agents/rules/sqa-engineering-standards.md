@@ -36,6 +36,7 @@ I must convert requirements into **comprehensive test coverage** — not just ha
 - Edge cases and boundary conditions
 - Complete list depletion / 0-item boundary transitions (e.g. clearing entire cart/wishlist and verifying all peripheral metrics reset cleanly to zero)
 - Direct bulk clear affordance availability and empty-state recovery testing
+- Multi-source parameter alias tolerance and zero-skeleton fallback verification on all detail/lookup routes (e.g. testing `?order=`, `?ref=`, `?id=`, omitted params, and invalid IDs with verified DOM container resolution)
 - Invalid inputs
 - Missing or incomplete data
 - Duplicate data
@@ -278,4 +279,61 @@ I never approve a release with: open blockers, untested payment failure scenario
 
 ---
 
-*Last updated: 2026-08-14 | My role: Senior SQA / Manual QA Engineer*
+## 13. The 7-Dimension Full-Site Audit Protocol (Multi-Dimension Cross-Page Sweep)
+
+### Why Single-Dimension / Single-Page Checks Fail (The Fragmentation Antipattern)
+Bugs cluster at the intersections of dimensions (e.g., an unescaped string inside a mobile drawer during an empty-state transition). Testing mobile scroll on Page A, navigation on Page B, and empty states on Page C creates false confidence while leaving catastrophic coverage blind spots. A proper audit must execute a multi-dimension cross-page sweep across all pages simultaneously.
+
+### The Complete 7-Dimension Checklist (Mandatory For Every Page)
+
+### 1. Content & Copy
+- **First-Time User Read**: Read every visible heading, button, label, and description as a first-time visitor.
+- **Anti-Jargon & Clarity**: Flag anything confusing, jargon-heavy, pseudo-technical, or non-standard.
+- **State Copy**: Rigorously inspect empty states, error messages, form validation hints, and success confirmations.
+
+### 2. Visual / Layout
+- **Multi-Viewport Screenshots**: Screenshot every page at Desktop (`1280px` / `1440px`), Tablet (`768px`), and Mobile (`375px`), plus scaled laptop height (`1080p @ 125%` / `600px`).
+- **Defect Detection**: Inspect for overlapping elements, clipped text, broken images, misaligned grid items, and horizontal page overflow (`overflow-x`).
+- **Silhouette Geometry**: Enforce `object-fit: contain` for all studio product photography with zero cropped soles, dials, or edges.
+
+### 3. Interactions
+- **Action Coverage**: Click every button and link — confirm every single one executes an intentional action or valid navigation.
+- **Drawer / Modal Lifecycles**: Open every drawer, modal, and dropdown; verify opening, backdrop blur, keyboard ESC dismissal, and close button.
+- **Modal Overlay Scroll Isolation & Smooth Scroll Invariant**: Every modal, bottom sheet, slide-over drawer, and dropdown with internal scrolling MUST:
+  1. Include `data-lenis-prevent` on the overlay wrapper, modal card, and all internal scrollable grids.
+  2. Call `window._nexLenis.stop()` when opening and `window._nexLenis.start()` when closing.
+  3. Explicitly declare `-webkit-overflow-scrolling: touch; touch-action: pan-y; overscroll-behavior: contain; overflow-y: auto;` in CSS.
+  4. Define custom slim scrollbars (`scrollbar-width: thin;` and `::-webkit-scrollbar`) with distinct contrast.
+  - QA verification MUST programmatically simulate scroll gestures and assert `scrollTop > 0`.
+- **Forms & Inputs**: Fill and submit every form, swatch selector, quantity stepper, and filter capsule.
+
+### 4. Cross-Page Consistency & Feature Parity
+- **Navigation & Badges**: Nav items, active route indicators, and live badge counters (Cart, Wishlist, Notifications) must be identical and synchronized across root and `pages/*.html`.
+- **Universal Script & Dynamic Feature Inclusion**: Global navigation and chrome dependencies (e.g., `delivery-gate-engine.js`, `delivery-gate-ui.js`, `cart-recovery-ui.js`, `cookie-consent.js`) must be present in every single HTML file (`index.html`, `404.html`, and `pages/*.html`). Automated 7-dimension scanners must verify script inclusion across all 29 HTML pages, ensuring dynamically mounted header/footer elements render identically everywhere.
+- **Cross-Viewport Feature Parity & Single Unified Placement**: Any interactive business capability available on Desktop MUST have an intentional, accessible equivalent on Mobile ($\le 768\text{px}$, $375\text{px}$). Hiding an element with `.desktop-only` is strictly forbidden unless a dedicated mobile component is mounted (e.g. inside `#mobileNavDrawer`). Mobile placement must adhere to the **Single Unified Location Rule**: avoid duplicate interactive triggers in both the header bar and the mobile drawer to prevent viewport crowding and dual-location confusion.
+- **Footer & Chrome**: Footer links, copyright, legal notices, currency selectors, and announcement bars must behave identically everywhere.
+- **Shared Components**: Ensure shared UI modules (preloader, announcement bar, mini-cart, quick-look drawer) retain identical styling and functional behavior site-wide.
+- **Dynamic Path Resolution**: Dynamic helpers (`resolveHref`, `resolveImg`) must guarantee zero 404s or broken relative links across directory levels.
+
+### 5. User Flows (End-to-End)
+- **Commerce Flow**: Homepage → Category / Discovery → Product Detail (PDP) → Add to Bag → Cart Drawer/Page → Checkout → Order Confirmation.
+- **Auth & Account Flow**: Sign Up → Sign In → Account Profile → Order History → Order Tracking.
+- **Curation Flow**: Wishlist / Smart List → Quick Look Modal → Variant Delta Selection → Add to Bag.
+- **Agentic Concierge Flow**: Concierge Chat → Outfit Bundle / Sizing Advisor Recommendation → Add Entire Look to Bag.
+
+### 6. Edge Cases & Boundary Conditions
+- **Cognitive Load & Viewport Budgeting**: Selection modals and picker drawers must limit default displayed options to the **Top 3 premier choices** so that all options fit comfortably above the fold with zero default scroll friction, using live search to access deeper catalog items.
+- **List Depletion & 0-Item Boundary**: Empty cart, empty wishlist, empty smart list, and empty order history — verify that peripheral counters, hero badges, and summaries reset cleanly to 0 with zero stale values.
+- **Zero Search Results**: Submit 0-match and nonsense queries; verify polite empty states with suggested search chips.
+- **Invalid Promo & Input Validation**: Test expired/invalid promo codes, malformed emails, short passwords, and omitted required form fields.
+
+### 7. Accessibility (WCAG 2.1 AA)
+- **Keyboard Traversal**: Tab through every interactive element in logical order with visible focus rings.
+- **Alt Text**: Verify all product and editorial images have descriptive, meaningful `alt` attributes.
+- **ARIA Semantics**: Ensure buttons have descriptive `aria-label`, modals have `role="dialog"` + `aria-modal="true"`, and dropdowns have `aria-expanded`.
+- **Contrast Ratios**: Check contrast ratios ($\ge 4.5:1$ for normal text, $\ge 3:1$ for large headings).
+
+---
+
+*Last updated: 2026-08-21 | My role: Senior SQA / Manual QA Engineer*
+

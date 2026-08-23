@@ -270,12 +270,23 @@ function initSmoothScroll() {
       smoothTouch: false, // touch devices usually handle this well natively
       touchMultiplier: 2,
       infinite: false,
-      // Prevent Lenis from hijacking scroll inside modals and drawers
+      // Prevent Lenis from hijacking scroll inside modals, drawers, and internal lists
       prevent: (node) => {
-        return node.closest('#nexMiniCartDrawer') !== null || 
-               node.closest('.search-panel') !== null ||
-               node.hasAttribute('data-lenis-prevent') ||
-               node.closest('[data-lenis-prevent]') !== null;
+        if (!node) return false;
+        try {
+          return (
+            (typeof node.hasAttribute === 'function' && node.hasAttribute('data-lenis-prevent')) ||
+            (typeof node.closest === 'function' && (
+              node.closest('[data-lenis-prevent]') !== null ||
+              node.closest('.summary-items-list') !== null ||
+              node.closest('#nexMiniCartDrawer') !== null ||
+              node.closest('.search-panel') !== null ||
+              node.closest('.modal-overlay') !== null
+            ))
+          );
+        } catch (e) {
+          return false;
+        }
       },
     });
 
@@ -492,13 +503,6 @@ function initCuratedDepartmentsMotion() {
       });
     }
     ticking = false;
-  }
-
-  function requestParallaxTick() {
-    if (!ticking) {
-      requestAnimationFrame(updateBidirectionalParallax);
-      ticking = true;
-    }
   }
 
   window._nexParallaxUpdaters.push(updateBidirectionalParallax);
@@ -767,7 +771,7 @@ function initDealsSectionMotion() {
 
   function triggerPageTransition(href) {
     if (!curtain || !href) return;
-    curtain.style.transition    = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity       = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => { window.location.href = href; }, 210);
@@ -821,13 +825,6 @@ function initDealsSectionMotion() {
       });
     }
     pxTicking = false;
-  }
-
-  function requestParallaxFrame() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateDealsParallax);
-      pxTicking = true;
-    }
   }
 
   window._nexParallaxUpdaters.push(updateDealsParallax);
@@ -983,13 +980,6 @@ function initIntentCardMotion() {
     pxTicking = false;
   }
 
-  function requestParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateIntentParallax);
-      pxTicking = true;
-    }
-  }
-
   window._nexParallaxUpdaters.push(updateIntentParallax);
 }
 
@@ -1032,7 +1022,7 @@ function initCuratedGridMotion() {
       const curtain = document.getElementById('pageTransitionOverlay');
       const targetUrl = seeAllLink.getAttribute('href');
       if (curtain) {
-        curtain.style.transition = 'opacity 200ms ease';
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
         curtain.style.opacity = '1';
         curtain.style.pointerEvents = 'all';
         setTimeout(() => { window.location.href = targetUrl; }, 210);
@@ -1146,13 +1136,6 @@ function initCuratedGridMotion() {
     pxTicking = false;
   }
 
-  function requestParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateCuratedParallax);
-      pxTicking = true;
-    }
-  }
-
   window._nexParallaxUpdaters.push(updateCuratedParallax);
 }
 
@@ -1194,7 +1177,7 @@ function initMicroMerchClusterMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => { window.location.href = href; }, 210);
@@ -1307,13 +1290,6 @@ function initMicroMerchClusterMotion() {
       });
     }
     pxTicking = false;
-  }
-
-  function requestParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateMicroParallax);
-      pxTicking = true;
-    }
   }
 
   window._nexParallaxUpdaters.push(updateMicroParallax);
@@ -1537,7 +1513,7 @@ function initTrustStripMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition    = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity       = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(function() { window.location.href = href; }, 210);
@@ -1715,7 +1691,7 @@ function initRecentlyViewedMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => { window.location.href = href; }, 210);
@@ -1913,7 +1889,6 @@ function initGlobalHeaderMotion() {
   });
 
   // 4. SCROLL PARALLAX & INTELLIGENT HEADER COMPACTION
-  let pxTicking = false;
   function updateHeaderParallax() {
     const scrollY = window.scrollY;
     if (scrollY > 20) {
@@ -1923,20 +1898,10 @@ function initGlobalHeaderMotion() {
       header.classList.remove('scrolled');
       if (announcementBar) announcementBar.classList.remove('collapsed');
     }
-    pxTicking = false;
   }
 
-  function requestHeaderTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateHeaderParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestHeaderTick);
-  }
-  window.addEventListener('scroll', requestHeaderTick, { passive: true });
+  window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+  window._nexParallaxUpdaters.push(updateHeaderParallax);
 }
 
 window.initGlobalHeaderMotion = initGlobalHeaderMotion;
@@ -2074,17 +2039,8 @@ function initCategoryPageMotion() {
     pxTicking = false;
   }
 
-  function requestPLPParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updatePLPParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestPLPParallaxTick);
-  }
-  window.addEventListener('scroll', requestPLPParallaxTick, { passive: true });
+  window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+  window._nexParallaxUpdaters.push(updatePLPParallax);
 }
 
 /**
@@ -2187,7 +2143,7 @@ function initCategoryCardsMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -2272,17 +2228,8 @@ function initWishlistPageMotion() {
     pxTicking = false;
   }
 
-  function requestWishlistParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateWishlistParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestWishlistParallaxTick);
-  }
-  window.addEventListener('scroll', requestWishlistParallaxTick, { passive: true });
+  window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+  window._nexParallaxUpdaters.push(updateWishlistParallax);
 }
 
 /**
@@ -2377,7 +2324,7 @@ function initWishlistCardsMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -2454,15 +2401,8 @@ function initDiscoverySearchPageMotion() {
     pxTicking = false;
   }
 
-  function requestDiscoveryParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateDiscoveryParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) { window._nexLenis.on('scroll', requestDiscoveryParallaxTick); }
-  window.addEventListener('scroll', requestDiscoveryParallaxTick, { passive: true });
+  window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+  window._nexParallaxUpdaters.push(updateDiscoveryParallax);
 }
 
 /**
@@ -2562,7 +2502,7 @@ function initDiscoveryCardsMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -2606,75 +2546,18 @@ window.initDiscoveryCardsMotion = initDiscoveryCardsMotion;
 /**
  * initSmartListPageMotion
  * Motion Standards for the Smart Reorder (Smart List) page:
- * 1. Micro-interactions: Staggered header entrance cascade & 120fps progress sync.
- * 2. 3D Hover Effects:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare (delegated to initSmartListCardsMotion).
- * 3. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on card navigation (delegated to initSmartListCardsMotion).
- * 4. Scroll Parallax:    Differential column depth on the smart list grid (Lenis + rAF).
+ * 1. 3D Hover Physics:   Spring LERP mouse tilt physics + dynamic cursor-following specular glare.
+ * 2. Page Transitions:   GPU cross-dissolve curtain (#pageTransitionOverlay) on card navigation.
  */
 function initSmartListPageMotion() {
   const gridWrap = document.querySelector('.sl-grid-wrap');
   if (!gridWrap) return;
-
   initSmartListCardsMotion();
-
-  // renderSmartListPage() calls this again on every dismiss/undo/cadence-save;
-  // guard so re-renders don't stack duplicate scroll listeners on window.
-  if (gridWrap._slParallaxBound) return;
-  gridWrap._slParallaxBound = true;
-
-  // 4. SCROLL PARALLAX: Differential Column Depth (Lenis + rAF)
-  let pxTicking = false;
-
-  function updateSmartListParallax() {
-    const grid = document.getElementById('slGrid');
-    if (!grid) { pxTicking = false; return; }
-
-    const rect = grid.getBoundingClientRect();
-    const winH = window.innerHeight;
-
-    if (rect.bottom > 0 && rect.top < winH) {
-      const span = winH + rect.height;
-      const prog = (winH - rect.top) / span; // 0 → 1
-      const centered = (prog - 0.5) * 2;     // -1 → +1
-
-      const cards = grid.querySelectorAll('.sl-card');
-      cards.forEach(card => {
-        const depth = parseFloat(card.getAttribute('data-parallax-depth') || '1');
-        const travel = depth * 7.5; // px differential travel
-        const yCard = parseFloat((centered * travel).toFixed(2));
-        card._parallaxY = yCard;
-
-        if (!card._isHovered) {
-          card.style.transform = `translateY(${yCard}px)`;
-        }
-
-        // Sub-pixel image internal float glide
-        const img = card.querySelector('.sl-card-img');
-        if (img) {
-          const yImg = (centered * depth * 3.5).toFixed(2);
-          card.style.setProperty('--sl-img-y', `${yImg}px`);
-        }
-      });
-    }
-    pxTicking = false;
-  }
-
-  function requestSmartListParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateSmartListParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestSmartListParallaxTick);
-  }
-  window.addEventListener('scroll', requestSmartListParallaxTick, { passive: true });
 }
 
 /**
  * initSmartListCardsMotion
- * Binds 3D Hover physics, Specular Glare, and GPU Page Transitions to rendered smart list cards.
+ * Binds Specular Glare sheen and GPU Page Transitions to rendered smart list cards.
  */
 function initSmartListCardsMotion() {
   const grid = document.getElementById('slGrid') || document.getElementById('slHomeStrip') || document.getElementById('slConfirmStrip');
@@ -2687,57 +2570,19 @@ function initSmartListCardsMotion() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(max-width: 767px)').matches || ('ontouchstart' in window);
 
-  // 1. MICRO-INTERACTIONS: Staggered entrance if not yet animated
-  if (!prefersReduced && window.animate && window.stagger) {
-    const unrevealed = cards.filter(c => !c._hasEntranceRun);
-    if (unrevealed.length > 0) {
-      unrevealed.forEach(c => { c._hasEntranceRun = true; });
-      animate(unrevealed,
-        { opacity: [0, 1], y: [16, 0], scale: [0.98, 1] },
-        { delay: stagger(0.05, { startDelay: 0.04 }), duration: 0.65, easing: [0.16, 1, 0.3, 1] }
-      );
-    }
-  }
-
-  // 2. 3D HOVER PHYSICS: Spring LERP Tilt & Dynamic Cursor Specular Glare
+  // 1. SPECULAR GLARE LIGHTING (Static Card, Zero Displacement)
   if (!prefersReduced && !isTouch) {
-    const MAX_TILT = 6.5; // degrees
-    const lerp = (a, b, t) => a + (b - a) * t;
-
     cards.forEach(card => {
       if (card._hasMotionBound) return;
       card._hasMotionBound = true;
 
+      // Ensure card transform is strictly clean and static
+      card.style.transform = '';
+
       const glare = card.querySelector('.sl-glare');
-      let curTX = 0, curTY = 0;
-      let tgtTX = 0, tgtTY = 0;
-      let rafId = null;
-      card._isHovered = false;
-      card._parallaxY = 0;
-
-      function applyTilt() {
-        curTX = lerp(curTX, tgtTX, 0.12);
-        curTY = lerp(curTY, tgtTY, 0.12);
-        const py = card._parallaxY || 0;
-        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(10px) translateY(${py}px)`;
-        if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
-          rafId = requestAnimationFrame(applyTilt);
-        } else {
-          rafId = null;
-        }
-      }
-
-      card.addEventListener('mouseenter', () => {
-        card._isHovered = true;
-      });
 
       card.addEventListener('mousemove', (e) => {
         const r = card.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
-        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
-        tgtTX = -(dy * MAX_TILT);
-        tgtTY = (dx * MAX_TILT);
-
         const gx = ((e.clientX - r.left) / r.width * 100).toFixed(1);
         const gy = ((e.clientY - r.top) / r.height * 100).toFixed(1);
         if (glare) {
@@ -2745,40 +2590,21 @@ function initSmartListCardsMotion() {
           glare.style.setProperty('--gy', `${gy}%`);
           glare.style.opacity = '1';
         }
-
-        if (!rafId) rafId = requestAnimationFrame(applyTilt);
       });
 
       card.addEventListener('mouseleave', () => {
-        card._isHovered = false;
-        tgtTX = 0; tgtTY = 0;
         if (glare) glare.style.opacity = '0';
-
-        function springBack() {
-          curTX = lerp(curTX, 0, 0.16);
-          curTY = lerp(curTY, 0, 0.16);
-          const py = card._parallaxY || 0;
-          card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px) translateY(${py}px)`;
-          if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
-            rafId = requestAnimationFrame(springBack);
-          } else {
-            card.style.transform = `translateY(${py}px)`;
-            rafId = null;
-          }
-        }
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(springBack);
       });
     });
   }
 
-  // 3. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Card Navigation
+  // 2. GPU PAGE TRANSITIONS: Smooth Curtain Cross-Dissolve on Card Navigation
   function triggerPageTransition(href) {
     if (!curtain || !href) {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms ease';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -3052,17 +2878,8 @@ function initCartPageMotion() {
     pxTicking = false;
   }
 
-  function requestCartParallaxTick() {
-    if (!pxTicking) {
-      requestAnimationFrame(updateCartParallax);
-      pxTicking = true;
-    }
-  }
-
-  if (window._nexLenis) {
-    window._nexLenis.on('scroll', requestCartParallaxTick);
-  }
-  window.addEventListener('scroll', requestCartParallaxTick, { passive: true });
+  window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+  window._nexParallaxUpdaters.push(updateCartParallax);
 }
 
 /**
@@ -3164,7 +2981,7 @@ function initCartCardsMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -3252,7 +3069,7 @@ function initContactPageMotion() {
 
   // 4. SCROLL PARALLAX: Differential Column & Container Depth
   if (!prefersReduced) {
-    const parallaxLayers = document.querySelectorAll('[data-parallax-depth]');
+    const parallaxLayers = contactWrap.querySelectorAll('[data-parallax-depth]');
     let pxTicking = false;
 
     function updateContactParallax() {
@@ -3272,17 +3089,8 @@ function initContactPageMotion() {
       pxTicking = false;
     }
 
-    function requestContactParallaxTick() {
-      if (!pxTicking) {
-        requestAnimationFrame(updateContactParallax);
-        pxTicking = true;
-      }
-    }
-
-    if (window._nexLenis) {
-      window._nexLenis.on('scroll', requestContactParallaxTick);
-    }
-    window.addEventListener('scroll', requestContactParallaxTick, { passive: true });
+    window._nexParallaxUpdaters = window._nexParallaxUpdaters || [];
+    window._nexParallaxUpdaters.push(updateContactParallax);
   }
 }
 
@@ -3370,7 +3178,7 @@ function initContactCardsMotion() {
       if (href) window.location.href = href;
       return;
     }
-    curtain.style.transition = 'opacity 200ms cubic-bezier(0.16, 1, 0.3, 1)';
+    curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
     curtain.style.opacity = '1';
     curtain.style.pointerEvents = 'all';
     setTimeout(() => {
@@ -3437,27 +3245,56 @@ function initAboutPageMotion() {
   }
 
   // 3D Spring tilt & specular glare tracking on pillar, artisan, and ledger cards
+  const MAX_TILT = 5.5;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
   const cards = document.querySelectorAll('.about-pillar-card, .artisan-card, .ledger-stat-card');
   cards.forEach(card => {
     if (card._hasTiltBound) return;
     card._hasTiltBound = true;
 
+    let curTX = 0, curTY = 0, tgtTX = 0, tgtTY = 0, rafId = null;
+
+    function applyTilt() {
+      curTX = lerp(curTX, tgtTX, 0.12);
+      curTY = lerp(curTY, tgtTY, 0.12);
+      card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(8px)`;
+      if (Math.abs(curTX - tgtTX) > 0.01 || Math.abs(curTY - tgtTY) > 0.01) {
+        rafId = requestAnimationFrame(applyTilt);
+      } else {
+        rafId = null;
+      }
+    }
+
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -5.5;
-      const rotateY = ((x - centerX) / centerX) * 5.5;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+      const dx = (x - rect.width  / 2) / (rect.width  / 2);
+      const dy = (y - rect.height / 2) / (rect.height / 2);
+      tgtTX = -(dy * MAX_TILT);
+      tgtTY =  (dx * MAX_TILT);
       card.style.setProperty('--about-glare-x', `${x}px`);
       card.style.setProperty('--about-glare-y', `${y}px`);
+      if (!rafId) rafId = requestAnimationFrame(applyTilt);
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      tgtTX = 0; tgtTY = 0;
+
+      function springBack() {
+        curTX = lerp(curTX, 0, 0.16);
+        curTY = lerp(curTY, 0, 0.16);
+        card.style.transform = `perspective(1000px) rotateX(${curTX.toFixed(2)}deg) rotateY(${curTY.toFixed(2)}deg) translateZ(0px)`;
+        if (Math.abs(curTX) > 0.02 || Math.abs(curTY) > 0.02) {
+          rafId = requestAnimationFrame(springBack);
+        } else {
+          card.style.transform = '';
+          rafId = null;
+        }
+      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(springBack);
     });
   });
 }

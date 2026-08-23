@@ -7,7 +7,7 @@ require('../js/delivery-gate-engine.js');
 const engine = global.window.NexDeliveryEngine;
 assert(engine, 'NexDeliveryEngine should be attached to window');
 
-console.log('🧪 Running NexDeliveryEngine Unit Tests...');
+console.log('🧪 Running NexDeliveryEngine Extended Unit Tests...');
 
 // Test 1: Postal code to dark store hub resolution
 const hub1 = engine.getHubForPostal('10115');
@@ -38,13 +38,41 @@ assert.strictEqual(parisExpress.length, 2, 'Paris hub should have 2 items availa
 assert.strictEqual(parisExpress[0].id, 'p2');
 assert.strictEqual(parisExpress[1].id, 'p3');
 
-// Test 3: Cutoff countdown timer
+// Test 3: Cutoff countdown timer formatting
 const countdown = engine.getCutoffCountdown('berlin-mitte');
 assert(typeof countdown.hoursRemaining === 'number');
 assert(typeof countdown.minutesRemaining === 'number');
+assert(typeof countdown.formattedCountdown === 'string');
 assert(countdown.formattedCountdown.length > 0);
+assert(typeof countdown.humanUrgency === 'string');
 
-// Test 4: NLP delivery intent parser
+// Test 4: Postal & City search query filtering
+const searchBerlin = engine.searchHubs('Berlin');
+assert(searchBerlin.length >= 1, 'Search for "Berlin" should return Berlin hub');
+assert.strictEqual(searchBerlin[0].id, 'berlin-mitte');
+
+const searchPostal = engine.searchHubs('75003');
+assert(searchPostal.length >= 1, 'Search for "75003" should return Paris hub');
+assert.strictEqual(searchPostal[0].id, 'paris-marais');
+
+const searchPrefix = engine.searchHubs('W1');
+assert(searchPrefix.length >= 1, 'Search for "W1" should return London hub');
+assert.strictEqual(searchPrefix[0].id, 'london-mayfair');
+
+const searchEmpty = engine.searchHubs('');
+assert.strictEqual(searchEmpty.length, engine.DARK_STORE_HUBS.length, 'Empty search should return all hubs');
+
+const searchUnknown = engine.searchHubs('Tokyo');
+assert.strictEqual(searchUnknown.length, 0, 'Unknown query should return 0 express hubs');
+
+// Test 5: Geolocation coordinate mapping
+const nearestBerlin = engine.getNearestHub(52.5200, 13.4050); // Berlin coordinates
+assert.strictEqual(nearestBerlin.id, 'berlin-mitte');
+
+const nearestParis = engine.getNearestHub(48.8566, 2.3522); // Paris coordinates
+assert.strictEqual(nearestParis.id, 'paris-marais');
+
+// Test 6: NLP delivery intent parser
 const intent1 = engine.parseDeliveryIntent('Can I get shoes delivered today in Berlin?');
 assert(intent1.isDeliveryIntent, 'Should detect same-day delivery inquiry');
 
@@ -52,4 +80,4 @@ const intent2 = engine.parseDeliveryIntent('Do you have express 2-hour shipping 
 assert(intent2.isDeliveryIntent);
 assert.strictEqual(intent2.extractedPostal, '10115');
 
-console.log('✅ All NexDeliveryEngine unit tests passed successfully!');
+console.log('✅ All NexDeliveryEngine extended unit tests passed successfully!');
