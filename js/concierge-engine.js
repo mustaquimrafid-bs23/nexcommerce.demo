@@ -252,7 +252,7 @@
       // ── 0A. AGENTIC IN-DRAWER ORDER & CHECKOUT FLOW ──────────────────────
       
       // Step 4: Final Order Authorization
-      if (/\b(authorize|confirm order|place order now|authorize & place order|pay now|finalize order)\b/i.test(rawText)) {
+      if (/\b(authorize|confirm order|place order now|authorize & place order|pay now|finalize order|complete purchase|buy now|finish order|confirm and pay|confirm purchase|confirm and place order|place the order)\b/i.test(rawText)) {
         this.lastQueryType = 'order_confirmed';
         const orderNum = Math.floor(1000 + Math.random() * 9000);
         const orderCode = `NX-${orderNum}-M`;
@@ -280,7 +280,7 @@
       }
 
       // Step 3: Payment Method Selected -> Order Review
-      if (/\b(pay with (card|apple pay|google pay|klarna|cash)|select payment|use (card|apple pay|klarna|cash on delivery)|card •••• 4242|proceed to review)\b/i.test(rawText)) {
+      if (/\b(pay with (card|apple pay|google pay|klarna|cash)|pay by (card|apple pay|google pay|klarna|cash)|select payment|use (card|apple pay|klarna|cash on delivery)|card •••• 4242|proceed( with apple pay| with card| with klarna| to review)?|apple pay|google pay|klarna|credit card|debit card|cash on delivery)\b/i.test(rawText)) {
         this.lastQueryType = 'order_review';
         let method = 'Card •••• 4242 (Visa)';
         if (/apple pay/i.test(rawText)) method = 'Apple Pay (1-Touch Biometric)';
@@ -319,7 +319,7 @@
       }
 
       // Step 2: Address Confirmed -> Payment Method Selection
-      if (/\b(confirm address|deliver to|use saved address|address:|ship to|delivery address)\b/i.test(rawText)) {
+      if (/\b(confirm( my)? address|deliver to|use saved address|address:|ship to|delivery address|confirm munich address|confirm custom address|maximilianstra(ß|ss)e)\b/i.test(rawText)) {
         this.lastQueryType = 'order_payment';
         const address = 'Maximilianstraße 34, 80539 Munich, Germany';
 
@@ -342,7 +342,7 @@
       }
 
       // Step 1: Start Order Flow / Delivery Address Collection
-      if (/\b(place (an )?order|order (my )?(bag|cart|items|now)|buy (this )?(outfit|look|now|cart|bag)|checkout with voice|checkout my bag|start order|ready to (pay|order|buy)|i want to (place an order|order|buy))\b/i.test(rawText)) {
+      if (/\b(place (an? )?order|order (my )?(bag|cart|items|now)|buy (this )?(outfit|look|now|cart|bag)|checkout( with voice| my bag)?|start order|ready to (pay|order|buy)|i want to (place an order|order|buy)|order flow|voice order demo|text order demo)\b/i.test(rawText)) {
         this.lastQueryType = 'order_address';
         return {
           type: 'order_address',

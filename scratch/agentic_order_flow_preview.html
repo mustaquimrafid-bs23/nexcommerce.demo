@@ -13,8 +13,7 @@
       --bg-midnight: #020712;
       --bg-drawer: #040e1f;
       --bg-card: rgba(8, 22, 48, 0.7);
-      --bg-card-active: rgba(14, 42, 86, 0.9);
-      --bg-bubble-ai: rgba(14, 28, 54, 0.85);
+      --bg-bubble-ai: rgba(14, 28, 54, 0.9);
       --border-subtle: rgba(255, 255, 255, 0.1);
       --border-glow-magenta: rgba(241, 51, 101, 0.4);
       --border-glow-cyan: rgba(61, 224, 255, 0.4);
@@ -24,10 +23,6 @@
       --accent-magenta: #F13365;
       --accent-cyan: #3de0ff;
       --accent-emerald: #10b981;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 20px;
     }
 
     * {
@@ -40,33 +35,33 @@
       background-color: var(--bg-midnight);
       color: var(--text-white);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 30px 24px 80px;
+      padding: 24px 20px 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
       min-height: 100vh;
     }
 
     /* Page Header */
     .page-header {
       text-align: center;
-      max-width: 920px;
+      max-width: 900px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 999px;
       background: rgba(61, 224, 255, 0.12);
       border: 1px solid var(--border-glow-cyan);
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--accent-cyan);
       letter-spacing: 0.06em;
@@ -89,7 +84,7 @@
 
     .page-title {
       font-family: 'Manrope', sans-serif;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -102,7 +97,7 @@
     }
 
     .page-subtitle {
-      font-size: 14.5px;
+      font-size: 14px;
       color: var(--text-soft);
       line-height: 1.5;
     }
@@ -110,15 +105,15 @@
     /* ── LIVE INTERACTIVE CONVERSATION PLAYER ── */
     .live-demo-section {
       width: 100%;
-      max-width: 1000px;
+      max-width: 920px;
       background: #000c1e;
       border: 1px solid rgba(61, 224, 255, 0.35);
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(61, 224, 255, 0.1);
-      border-radius: 24px;
-      padding: 24px;
+      border-radius: 20px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .demo-bar-header {
@@ -126,23 +121,23 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      padding-bottom: 16px;
+      gap: 12px;
+      padding-bottom: 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .demo-buttons-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .btn-demo-primary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 20px;
-      border-radius: 12px;
+      padding: 11px 18px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
@@ -153,12 +148,12 @@
     .btn-demo-voice {
       background: linear-gradient(135deg, #F13365, #ff5c8a);
       color: #ffffff;
-      box-shadow: 0 4px 20px rgba(241, 51, 101, 0.4);
+      box-shadow: 0 4px 18px rgba(241, 51, 101, 0.4);
     }
 
     .btn-demo-voice:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 26px rgba(241, 51, 101, 0.6);
+      box-shadow: 0 6px 24px rgba(241, 51, 101, 0.6);
     }
 
     .btn-demo-text {
@@ -177,8 +172,8 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text-soft);
-      padding: 12px 16px;
-      border-radius: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
@@ -195,10 +190,10 @@
     /* Live Player Shell */
     .player-drawer-shell {
       width: 100%;
-      height: 640px;
+      height: 650px;
       background: var(--bg-drawer);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -206,13 +201,13 @@
     }
 
     .player-header {
-      padding: 14px 18px;
+      padding: 12px 16px;
       background: rgba(3, 15, 34, 0.95);
-      backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
     }
 
     .player-title {
@@ -220,7 +215,7 @@
       align-items: center;
       gap: 8px;
       font-family: 'Manrope', sans-serif;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
     }
 
@@ -253,12 +248,13 @@
     }
 
     .msg-user-row.spoken {
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, #e11d48, #F13365);
+      border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
     .voice-tag {
       font-size: 10px;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.85);
       display: flex;
       align-items: center;
       gap: 4px;
@@ -292,8 +288,8 @@
     .audio-player-bar {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 7px 12px;
+      gap: 8px;
+      padding: 6px 10px;
       background: rgba(61, 224, 255, 0.08);
       border: 1px solid rgba(61, 224, 255, 0.3);
       border-radius: 8px;
@@ -303,7 +299,7 @@
       display: flex;
       align-items: center;
       gap: 3px;
-      height: 16px;
+      height: 14px;
       flex: 1;
     }
 
@@ -314,12 +310,12 @@
       animation: wavePulse 0.9s infinite ease-in-out alternate;
     }
 
-    .mini-wave span:nth-child(1) { height: 6px; animation-delay: 0.1s; }
-    .mini-wave span:nth-child(2) { height: 14px; animation-delay: 0.3s; }
-    .mini-wave span:nth-child(3) { height: 9px; animation-delay: 0.15s; }
-    .mini-wave span:nth-child(4) { height: 16px; animation-delay: 0.4s; }
-    .mini-wave span:nth-child(5) { height: 11px; animation-delay: 0.2s; }
-    .mini-wave span:nth-child(6) { height: 13px; animation-delay: 0.35s; }
+    .mini-wave span:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+    .mini-wave span:nth-child(2) { height: 13px; animation-delay: 0.3s; }
+    .mini-wave span:nth-child(3) { height: 8px; animation-delay: 0.15s; }
+    .mini-wave span:nth-child(4) { height: 14px; animation-delay: 0.4s; }
+    .mini-wave span:nth-child(5) { height: 9px; animation-delay: 0.2s; }
+    .mini-wave span:nth-child(6) { height: 12px; animation-delay: 0.35s; }
 
     @keyframes wavePulse {
       0% { transform: scaleY(0.4); opacity: 0.6; }
@@ -374,6 +370,7 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      cursor: pointer;
     }
 
     .btn-step-action {
@@ -382,7 +379,7 @@
       border: none;
       border-radius: 8px;
       padding: 10px 14px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -406,6 +403,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
     }
 
     .payment-option-pill.active {
@@ -421,7 +419,7 @@
     }
 
     .order-line.total {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
       color: #fff;
       border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -434,7 +432,7 @@
       border: none;
       border-radius: 8px;
       padding: 11px 16px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -457,84 +455,108 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 12.5px;
+      font-size: 12px;
       color: #fff;
     }
 
-    /* 4-Step Showcase Grid */
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-      width: 100%;
-      max-width: 1440px;
-    }
-
-    @media (max-width: 1300px) {
-      .showcase-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 760px) {
-      .showcase-grid { grid-template-columns: 1fr; }
-    }
-
-    .state-card {
-      background: #000c1e;
-      border: 1px solid var(--border-subtle);
-      border-radius: 20px;
-      padding: 14px;
+    /* Bottom Input Bar & Chips */
+    .player-footer {
+      padding: 10px 14px 14px;
+      background: rgba(3, 15, 34, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
-    .state-card-header {
+    .chips-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .state-badge {
-      display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
+      overflow-x: auto;
+      padding-bottom: 2px;
     }
 
-    .badge-cyan { color: var(--accent-cyan); }
-    .badge-magenta { color: var(--accent-magenta); }
-    .badge-emerald { color: var(--accent-emerald); }
+    .chips-row::-webkit-scrollbar { display: none; }
 
-    .drawer-mockup {
-      width: 100%;
-      height: 720px;
-      background: var(--bg-drawer);
+    .demo-chip {
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
 
-    .drawer-header {
-      padding: 12px 14px;
-      background: rgba(3, 15, 34, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    .demo-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--accent-cyan);
+    }
+
+    .input-form-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 4px 6px 4px 12px;
     }
 
-    .drawer-stream {
+    .input-form-row:focus-within {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.2);
+    }
+
+    .demo-input {
       flex: 1;
-      padding: 14px 12px;
-      overflow-y: auto;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 12.5px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .demo-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn-icon-action {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-mic-action {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-soft);
+    }
+
+    .btn-mic-action.listening {
+      background: #F13365;
+      color: #fff;
+      animation: pulse-dot-anim 1s infinite;
+    }
+
+    .btn-send-action {
+      background: #F13365;
+      color: #fff;
+    }
+
+    .btn-send-action:hover {
+      background: #ff4777;
     }
   </style>
 </head>
@@ -548,7 +570,7 @@
     </div>
     <h1 class="page-title">Conversational In-Drawer <span>Order Flow</span></h1>
     <p class="page-subtitle">
-      Experience the complete ordering lifecycle through Voice or Text simulation to place an order successfully.
+      Click either demo button below to watch the live conversation, or type and speak interactively to place an order.
     </p>
   </header>
 
@@ -569,13 +591,13 @@
       <div class="demo-buttons-group">
         <!-- DEMO BUTTON 1: VOICE -->
         <button type="button" class="btn-demo-primary btn-demo-voice" id="btnRunVoiceDemo">
-          <i data-lucide="mic" style="width: 16px; height: 16px;"></i>
+          <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
           <span>1. Simulate Voice Order Demo</span>
         </button>
 
         <!-- DEMO BUTTON 2: TEXT -->
         <button type="button" class="btn-demo-primary btn-demo-text" id="btnRunTextDemo">
-          <i data-lucide="message-square" style="width: 16px; height: 16px;"></i>
+          <i data-lucide="message-square" style="width: 15px; height: 15px;"></i>
           <span>2. Simulate Text Order Demo</span>
         </button>
 
@@ -602,144 +624,27 @@
           <div>Good to see you. I can help curate looks, check sizing, or place your order directly. What are you shopping for today?</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       4-STEP REFERENCE ARCHITECTURE
-       ═══════════════════════════════════════════════════════════════════════ -->
-  <header class="page-header" style="margin-top: 20px;">
-    <div style="font-size: 12px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.05em;">
-      4 Static Lifecycle Reference Steps
-    </div>
-  </header>
+      <!-- Live Input Form & Dynamic Chips -->
+      <div class="player-footer">
+        <div class="chips-row" id="playerChips">
+          <button type="button" class="demo-chip" data-query="I want to place an order">I want to place an order</button>
+          <button type="button" class="demo-chip" data-query="Deliver to Munich">Deliver to Munich</button>
+          <button type="button" class="demo-chip" data-query="Pay with Apple Pay">Pay with Apple Pay</button>
+          <button type="button" class="demo-chip" data-query="Authorize & place order now">Authorize & place order now</button>
+        </div>
 
-  <section class="showcase-grid">
-
-    <!-- Step 1 Reference -->
-    <div class="state-card">
-      <div class="state-card-header">
-        <div class="state-badge badge-cyan">
-          <i data-lucide="map-pin" style="width: 13px; height: 13px;"></i>
-          Step 1: Address
-        </div>
-        <span style="font-size: 11px; color: var(--text-muted);">Saved / Spoken</span>
-      </div>
-      <div class="drawer-mockup">
-        <div class="drawer-header">
-          <span style="font-size: 12px; font-weight: 700;">Ask Stylist</span>
-          <span style="font-size: 10px; color: var(--accent-cyan);">Step 1</span>
-        </div>
-        <div class="drawer-stream">
-          <div class="msg-ai-row">
-            <div>Where should we deliver your order today?</div>
-            <div class="order-widget-box">
-              <div class="saved-addr-card">
-                <span style="font-size: 9.5px; background: var(--accent-cyan); color: #000; padding: 2px 5px; border-radius: 4px; font-weight: 800;">DEFAULT</span>
-                <div style="font-size: 11.5px; color: #fff; line-height: 1.35;">
-                  <strong>Julian Wright</strong><br>
-                  Maximilianstraße 34, Munich
-                </div>
-              </div>
-              <button class="btn-step-action"><span>Confirm Address</span></button>
-            </div>
-          </div>
-        </div>
+        <form class="input-form-row" id="playerForm" onsubmit="return false;">
+          <input type="text" id="playerInput" class="demo-input" placeholder="Type or click any action above..." />
+          <button type="button" class="btn-icon-action btn-mic-action" id="playerMicBtn" title="Voice Dictation">
+            <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
+          </button>
+          <button type="submit" class="btn-icon-action btn-send-action" id="playerSendBtn" title="Send Message">
+            <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+          </button>
+        </form>
       </div>
     </div>
-
-    <!-- Step 2 Reference -->
-    <div class="state-card">
-      <div class="state-card-header">
-        <div class="state-badge badge-magenta">
-          <i data-lucide="credit-card" style="width: 13px; height: 13px;"></i>
-          Step 2: Payment
-        </div>
-        <span style="font-size: 11px; color: var(--text-muted);">4 Methods</span>
-      </div>
-      <div class="drawer-mockup">
-        <div class="drawer-header">
-          <span style="font-size: 12px; font-weight: 700;">Ask Stylist</span>
-          <span style="font-size: 10px; color: var(--accent-magenta);">Step 2</span>
-        </div>
-        <div class="drawer-stream">
-          <div class="msg-ai-row">
-            <div>Address confirmed for Munich! Please choose your payment method:</div>
-            <div class="order-widget-box">
-              <div class="payment-option-pill active">
-                <span style="font-size: 11.5px; font-weight: 600;">💳 Card •••• 4242</span>
-                <span style="font-size: 9.5px; color: #b0c4de;">Default</span>
-              </div>
-              <div class="payment-option-pill">
-                <span style="font-size: 11.5px;">🍎 Apple Pay</span>
-                <span style="font-size: 9.5px; color: #b0c4de;">1-Touch</span>
-              </div>
-              <button class="btn-step-action" style="background: var(--accent-magenta); color: #fff;"><span>Proceed to Review</span></button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3 Reference -->
-    <div class="state-card">
-      <div class="state-card-header">
-        <div class="state-badge badge-magenta">
-          <i data-lucide="check-circle" style="width: 13px; height: 13px;"></i>
-          Step 3: Review
-        </div>
-        <span style="font-size: 11px; color: var(--text-muted);">1-Click CTA</span>
-      </div>
-      <div class="drawer-mockup">
-        <div class="drawer-header">
-          <span style="font-size: 12px; font-weight: 700;">Ask Stylist</span>
-          <span style="font-size: 10px; color: var(--accent-cyan);">Step 3</span>
-        </div>
-        <div class="drawer-stream">
-          <div class="msg-ai-row">
-            <div>Here is your order summary. Ready to place this order?</div>
-            <div class="order-widget-box">
-              <div class="order-line"><span>Cashmere Sweater</span><span>€ 185.00</span></div>
-              <div class="order-line"><span>Leather Runner</span><span>€ 125.00</span></div>
-              <div class="order-line"><span>Promo (WELCOME10)</span><span style="color: var(--accent-magenta);">-€ 31.00</span></div>
-              <div class="order-line total"><span>TOTAL DUE</span><span style="color: var(--accent-cyan);">€ 279.00</span></div>
-              <button class="btn-authorize"><span>AUTHORIZE & PLACE ORDER NOW</span></button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 4 Reference -->
-    <div class="state-card">
-      <div class="state-card-header">
-        <div class="state-badge badge-emerald">
-          <i data-lucide="truck" style="width: 13px; height: 13px;"></i>
-          Step 4: Confirmed
-        </div>
-        <span style="font-size: 11px; color: var(--text-muted);">Live Stepper</span>
-      </div>
-      <div class="drawer-mockup">
-        <div class="drawer-header">
-          <span style="font-size: 12px; font-weight: 700;">Ask Stylist</span>
-          <span style="font-size: 10px; color: var(--accent-emerald);">Step 4</span>
-        </div>
-        <div class="drawer-stream">
-          <div class="msg-ai-row">
-            <div class="confirmed-banner">
-              <span>Order <strong>NX-4829-M</strong> placed successfully!</span>
-            </div>
-            <a href="orders.html" class="btn-step-action" style="background: rgba(61,224,255,0.12); border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">
-              <span>View Full Order Details & Invoice</span>
-            </a>
-            <a href="tracking.html" class="btn-step-action" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #fff;">
-              <span>Open Live GPS Tracking Page</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </section>
 
   <script>
@@ -748,10 +653,27 @@
     const stream = document.getElementById('interactiveStream');
     const statusText = document.getElementById('demoPlayerStatus');
     const modeBadge = document.getElementById('playerModeBadge');
-    let isRunning = false;
+    const chipsContainer = document.getElementById('playerChips');
+    const playerInput = document.getElementById('playerInput');
+    const playerForm = document.getElementById('playerForm');
+    const playerMicBtn = document.getElementById('playerMicBtn');
+
+    let currentOrderState = 'idle'; // idle | address | payment | review | confirmed
+    let isVoiceModeActive = false;
+    let cancelSimulationToken = 0;
+
+    function scrollBottom() {
+      setTimeout(() => {
+        stream.scrollTop = stream.scrollHeight;
+      }, 50);
+    }
 
     function resetStream() {
-      isRunning = false;
+      cancelSimulationToken++;
+      currentOrderState = 'idle';
+      isVoiceModeActive = false;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
       stream.innerHTML = `
         <div class="msg-ai-row">
           <div>Good to see you. I can help curate looks, check sizing, or place your order directly. What are you shopping for today?</div>
@@ -760,389 +682,364 @@
       statusText.textContent = 'Select a mode below to simulate the end-to-end conversation:';
       modeBadge.textContent = 'Ready';
       modeBadge.style.color = '#3de0ff';
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      setChips(['I want to place an order', 'Deliver to Munich', 'Pay with Apple Pay', 'Authorize & place order now']);
+      scrollBottom();
     }
 
     document.getElementById('btnResetDemo').onclick = resetStream;
 
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
+    function setChips(chipList) {
+      chipsContainer.innerHTML = chipList.map(c => `
+        <button type="button" class="demo-chip" data-query="${c}">${c}</button>
+      `).join('');
     }
 
-    function scrollBottom() {
-      stream.scrollTop = stream.scrollHeight;
+    chipsContainer.addEventListener('click', (e) => {
+      const chip = e.target.closest('.demo-chip');
+      if (chip && chip.dataset.query) {
+        handleUserMessage(chip.dataset.query, isVoiceModeActive);
+      }
+    });
+
+    playerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = playerInput.value.trim();
+      if (!val) return;
+      playerInput.value = '';
+      handleUserMessage(val, isVoiceModeActive);
+    });
+
+    // Voice Synthesis with onend promise
+    function speakSpokenText(text) {
+      return new Promise((resolve) => {
+        if (!('speechSynthesis' in window) || !text) {
+          setTimeout(resolve, 800);
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 1.0;
+        utter.pitch = 1.05;
+        const voices = window.speechSynthesis.getVoices();
+        const pref = voices.find(v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Google') || v.lang.startsWith('en'));
+        if (pref) utter.voice = pref;
+        
+        let done = false;
+        utter.onend = () => {
+          if (!done) { done = true; resolve(); }
+        };
+        utter.onerror = () => {
+          if (!done) { done = true; resolve(); }
+        };
+        setTimeout(() => {
+          if (!done) { done = true; resolve(); }
+        }, 5000);
+
+        window.speechSynthesis.speak(utter);
+      });
     }
 
-    function speakAudio(text) {
-      if (!('speechSynthesis' in window) || !text) return;
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 1.0;
-      utter.pitch = 1.05;
-      const voices = window.speechSynthesis.getVoices();
-      const pref = voices.find(v => v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Google') || v.lang.startsWith('en'));
-      if (pref) utter.voice = pref;
-      window.speechSynthesis.speak(utter);
+    function appendUserMessage(text, isSpoken) {
+      const el = document.createElement('div');
+      el.className = 'msg-user-row' + (isSpoken ? ' spoken' : '');
+      if (isSpoken) {
+        el.innerHTML = `
+          <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
+          <div>"${text}"</div>
+        `;
+      } else {
+        el.textContent = text;
+      }
+      stream.appendChild(el);
+      lucide.createIcons();
+      scrollBottom();
     }
 
     function appendTyping() {
       const el = document.createElement('div');
       el.className = 'typing-bubble';
-      el.id = 'demoTyping';
+      el.id = 'playerTyping';
       el.innerHTML = '<span></span><span></span><span></span>';
       stream.appendChild(el);
       scrollBottom();
     }
 
     function removeTyping() {
-      const el = document.getElementById('demoTyping');
+      const el = document.getElementById('playerTyping');
       if (el) el.remove();
     }
 
-    // ═══════════════════════════════════════════════════════════════════════
-    // 1. SIMULATE VOICE ORDER CONVERSATION DEMO
-    // ═══════════════════════════════════════════════════════════════════════
-    document.getElementById('btnRunVoiceDemo').onclick = async () => {
-      if (isRunning) return;
-      isRunning = true;
-      resetStream();
-      modeBadge.textContent = '🎙️ Voice Conversation Active';
-      modeBadge.style.color = '#F13365';
-      statusText.textContent = 'Playing spoken dialogue between User & AI Stylist...';
-
-      // ── TURN 1: User Speaks "I want to place an order for my bag" ──
-      await sleep(600);
-      const userMsg1 = document.createElement('div');
-      userMsg1.className = 'msg-user-row spoken';
-      userMsg1.innerHTML = `
-        <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
-        <div>"I want to place an order for my bag"</div>
-      `;
-      stream.appendChild(userMsg1);
-      lucide.createIcons();
-      scrollBottom();
-
-      // AI Response with audio waveform
+    // Interactive message router
+    async function handleUserMessage(text, isVoice) {
+      appendUserMessage(text, isVoice);
       appendTyping();
-      await sleep(1000);
+      await new Promise(r => setTimeout(r, 600));
       removeTyping();
 
-      const aiMsg1 = document.createElement('div');
-      aiMsg1.className = 'msg-ai-row';
-      aiMsg1.innerHTML = `
-        <div class="audio-player-bar">
-          <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Delivery Address...</span>
-        </div>
+      const low = text.toLowerCase();
+
+      // Step 4: Final Authorize
+      if (/authorize|place order now|confirm order|pay now|finish order/i.test(low) || currentOrderState === 'review') {
+        currentOrderState = 'confirmed';
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg-ai-row';
+        aiMsg.innerHTML = `
+          ${isVoice ? `
+            <div class="audio-player-bar">
+              <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Confirmation...</span>
+            </div>
+          ` : ''}
+          <div class="confirmed-banner">
+            <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#10b981;flex-shrink:0;"></i>
+            <div>Order <strong style="color:#10b981;font-family:monospace;">NX-4829-M</strong> placed successfully! Preparing for courier dispatch.</div>
+          </div>
+          <div style="background:rgba(4,18,42,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;">
+            <div style="font-size:11.5px;color:#fff;font-weight:600;margin-bottom:4px;">🚚 Live DHL Express Status:</div>
+            <div style="font-size:10.5px;color:#3de0ff;">● Quality Inspection in Munich Hub (Expected Dispatch: 23:00)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <a href="../pages/orders.html" class="btn-step-action" style="background:rgba(61,224,255,0.12);border:1px solid #3de0ff;color:#3de0ff;">
+              <span>View Full Order Details & Invoice</span>
+              <i data-lucide="file-text" style="width:13px;height:13px;"></i>
+            </a>
+            <a href="../pages/tracking.html?order=NX-4829-M" class="btn-step-action" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;">
+              <span>Open Live GPS Tracking Page</span>
+              <i data-lucide="external-link" style="width:13px;height:13px;"></i>
+            </a>
+          </div>
+        `;
+        stream.appendChild(aiMsg);
+        lucide.createIcons();
+        scrollBottom();
+        setChips(['Track my order', 'Delivery times', 'Place another order']);
+        statusText.textContent = '✅ Order NX-4829-M Confirmed & Placed Successfully!';
+        modeBadge.textContent = '✅ Confirmed';
+        modeBadge.style.color = '#10b981';
+        if (isVoice) {
+          await speakSpokenText('Order NX-4829-M placed successfully! Preparing for express dispatch.');
+        }
+        return;
+      }
+
+      // Step 3: Payment Method Selected -> Order Review
+      if (/pay with|apple pay|card|klarna|cash|proceed to review|review/i.test(low) || currentOrderState === 'payment') {
+        currentOrderState = 'review';
+        let method = 'Card •••• 4242 (Visa)';
+        if (/apple/i.test(low)) method = 'Apple Pay (1-Touch Biometric)';
+        else if (/klarna/i.test(low)) method = 'Klarna Pay Later (30 Days)';
+        else if (/cash/i.test(low)) method = 'Cash on Delivery (Courier)';
+
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg-ai-row';
+        aiMsg.innerHTML = `
+          ${isVoice ? `
+            <div class="audio-player-bar">
+              <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Order Summary...</span>
+            </div>
+          ` : ''}
+          <div>Here is your verified order summary totaling <strong>€ 256.50</strong> with FREE Express Delivery:</div>
+          <div class="order-widget-box">
+            <div class="order-line"><span>Architectural Cashmere Sweater (M)</span><span>€ 185.00</span></div>
+            <div class="order-line"><span>Minimalist Leather Runner (42)</span><span>€ 125.00</span></div>
+            <div class="order-line"><span>DHL Express Courier</span><span style="color:#10b981;font-weight:700;">FREE</span></div>
+            <div class="order-line"><span>Promo Code (WELCOME10)</span><span style="color:#F13365;font-weight:700;">-€ 31.00</span></div>
+            <div class="order-line total"><span>TOTAL DUE</span><span style="color:#3de0ff;">€ 279.00</span></div>
+            <div style="font-size:10.5px;color:#64748b;">
+              📍 Shipping to Maximilianstraße 34, Munich<br>
+              💳 Paid via ${method}
+            </div>
+            <button type="button" class="btn-authorize" data-action="authorize-now">
+              <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+              <span>AUTHORIZE & PLACE ORDER NOW</span>
+            </button>
+          </div>
+        `;
+        stream.appendChild(aiMsg);
+        lucide.createIcons();
+        scrollBottom();
+        setChips(['Authorize & place order now', 'Change address', 'Change payment']);
+        if (isVoice) {
+          await speakSpokenText('Here is your order summary totaling € 279. Tap authorize to confirm your order.');
+        }
+        return;
+      }
+
+      // Step 2: Address Confirmed -> Payment Selection
+      if (/confirm address|deliver to|maximilianstra|munich|address/i.test(low) || currentOrderState === 'address') {
+        currentOrderState = 'payment';
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg-ai-row';
+        aiMsg.innerHTML = `
+          ${isVoice ? `
+            <div class="audio-player-bar">
+              <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Payment Options...</span>
+            </div>
+          ` : ''}
+          <div>Address confirmed for <strong>Munich</strong>! Please choose how you would like to pay:</div>
+          <div class="order-widget-box">
+            <div class="payment-option-pill active" data-action="select-pay" data-method="Apple Pay">
+              <span style="font-size:12px;font-weight:600;">🍎 Apple Pay / Google Pay (1-Touch)</span>
+              <span style="font-size:9.5px;color:#b0c4de;">Instant</span>
+            </div>
+            <div class="payment-option-pill" data-action="select-pay" data-method="Card •••• 4242">
+              <span style="font-size:12px;">💳 Credit Card •••• 4242</span>
+              <span style="font-size:9.5px;color:#b0c4de;">Visa/MC</span>
+            </div>
+            <button type="button" class="btn-step-action" style="background:var(--accent-magenta);color:#fff;" data-action="proceed-payment">
+              <span>Proceed to Review</span>
+              <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+            </button>
+          </div>
+        `;
+        stream.appendChild(aiMsg);
+        lucide.createIcons();
+        scrollBottom();
+        setChips(['Pay with Apple Pay', 'Pay with Card •••• 4242', 'Pay with Klarna']);
+        if (isVoice) {
+          await speakSpokenText('Address confirmed! Please choose how you would like to pay.');
+        }
+        return;
+      }
+
+      // Step 1: Start Order Flow
+      currentOrderState = 'address';
+      const aiMsg = document.createElement('div');
+      aiMsg.className = 'msg-ai-row';
+      aiMsg.innerHTML = `
+        ${isVoice ? `
+          <div class="audio-player-bar">
+            <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Delivery Address...</span>
+          </div>
+        ` : ''}
         <div>Where should we deliver your order today? You can use your saved default address or dictate a new destination:</div>
         <div class="order-widget-box">
-          <div class="saved-addr-card">
+          <div class="saved-addr-card" data-action="confirm-address-btn">
             <span style="font-size: 9.5px; background: var(--accent-cyan); color: #000; padding: 2px 5px; border-radius: 4px; font-weight: 800;">DEFAULT</span>
             <div style="font-size: 11.5px; color: #fff; line-height: 1.35;">
               <strong>Julian Wright</strong><br>
               Maximilianstraße 34, 80539 Munich, Germany
             </div>
           </div>
-          <button class="btn-step-action">
+          <button type="button" class="btn-step-action" data-action="confirm-address-btn">
             <span>Confirm Munich Address</span>
             <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
           </button>
         </div>
       `;
-      stream.appendChild(aiMsg1);
+      stream.appendChild(aiMsg);
       lucide.createIcons();
       scrollBottom();
-      speakAudio('Where should we deliver your order today? You can use your saved address or enter a new one.');
+      setChips(['Confirm Munich Address', 'Deliver to Berlin', 'Enter new address']);
+      if (isVoice) {
+        await speakSpokenText('Where should we deliver your order today? You can use your saved address or dictate a new one.');
+      }
+    }
 
-      // ── TURN 2: User Speaks "Deliver to Maximilianstraße in Munich" ──
-      await sleep(3400);
-      const userMsg2 = document.createElement('div');
-      userMsg2.className = 'msg-user-row spoken';
-      userMsg2.innerHTML = `
-        <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
-        <div>"Deliver to Maximilianstraße in Munich"</div>
-      `;
-      stream.appendChild(userMsg2);
-      lucide.createIcons();
-      scrollBottom();
+    // Stream live click delegation
+    stream.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      if (action === 'confirm-address-btn') {
+        handleUserMessage('Confirm address: Maximilianstraße 34, Munich', isVoiceModeActive);
+      } else if (action === 'select-pay' || action === 'proceed-payment') {
+        const method = btn.dataset.method || 'Apple Pay';
+        handleUserMessage(`Pay with ${method}`, isVoiceModeActive);
+      } else if (action === 'authorize-now') {
+        handleUserMessage('Authorize & place order now', isVoiceModeActive);
+      }
+    });
 
-      appendTyping();
-      await sleep(1000);
-      removeTyping();
+    // ═══════════════════════════════════════════════════════════════════════
+    // 1. SIMULATE VOICE ORDER CONVERSATION DEMO (4 Automated Turns)
+    // ═══════════════════════════════════════════════════════════════════════
+    document.getElementById('btnRunVoiceDemo').onclick = async () => {
+      resetStream();
+      const myToken = cancelSimulationToken;
+      isVoiceModeActive = true;
+      modeBadge.textContent = '🎙️ Voice Active';
+      modeBadge.style.color = '#F13365';
+      statusText.textContent = 'Playing multi-turn voice dialogue with live audio speech...';
 
-      const aiMsg2 = document.createElement('div');
-      aiMsg2.className = 'msg-ai-row';
-      aiMsg2.innerHTML = `
-        <div class="audio-player-bar">
-          <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Payment Options...</span>
-        </div>
-        <div>Address confirmed for <strong>Munich</strong>! Please choose how you would like to pay:</div>
-        <div class="order-widget-box">
-          <div class="payment-option-pill active">
-            <span style="font-size:12px;font-weight:600;">🍎 Apple Pay / Google Pay (1-Touch)</span>
-            <span style="font-size:9.5px;color:#b0c4de;">Instant</span>
-          </div>
-          <div class="payment-option-pill">
-            <span style="font-size:12px;">💳 Credit Card •••• 4242</span>
-            <span style="font-size:9.5px;color:#b0c4de;">Visa/MC</span>
-          </div>
-          <button class="btn-step-action" style="background:var(--accent-magenta);color:#fff;">
-            <span>Proceed with Apple Pay</span>
-            <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-          </button>
-        </div>
-      `;
-      stream.appendChild(aiMsg2);
-      lucide.createIcons();
-      scrollBottom();
-      speakAudio('Address confirmed! Please choose how you would like to pay.');
+      // Turn 1
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('I want to place an order for my bag', true);
 
-      // ── TURN 3: User Speaks "Pay with Apple Pay" ──
-      await sleep(3200);
-      const userMsg3 = document.createElement('div');
-      userMsg3.className = 'msg-user-row spoken';
-      userMsg3.innerHTML = `
-        <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
-        <div>"Pay with Apple Pay"</div>
-      `;
-      stream.appendChild(userMsg3);
-      lucide.createIcons();
-      scrollBottom();
+      // Turn 2
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Deliver to Maximilianstraße in Munich', true);
 
-      appendTyping();
-      await sleep(1000);
-      removeTyping();
+      // Turn 3
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Pay with Apple Pay', true);
 
-      const aiMsg3 = document.createElement('div');
-      aiMsg3.className = 'msg-ai-row';
-      aiMsg3.innerHTML = `
-        <div class="audio-player-bar">
-          <div class="mini-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          <span style="font-size:11px;color:#3de0ff;font-weight:600;">Speaking Order Summary...</span>
-        </div>
-        <div>Here is your verified order summary totaling <strong>€ 256.50</strong> with FREE Express Delivery:</div>
-        <div class="order-widget-box">
-          <div class="order-line"><span>Architectural Cashmere (M)</span><span>€ 185.00</span></div>
-          <div class="order-line"><span>Minimalist Leather Runner (42)</span><span>€ 125.00</span></div>
-          <div class="order-line"><span>DHL Express Courier</span><span style="color:#10b981;font-weight:700;">FREE</span></div>
-          <div class="order-line"><span>Promo Code (WELCOME10)</span><span style="color:#F13365;font-weight:700;">-€ 31.00</span></div>
-          <div class="order-line total"><span>TOTAL DUE</span><span style="color:#3de0ff;">€ 279.00</span></div>
-          <button class="btn-authorize">
-            <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
-            <span>AUTHORIZE & PLACE ORDER NOW</span>
-          </button>
-        </div>
-      `;
-      stream.appendChild(aiMsg3);
-      lucide.createIcons();
-      scrollBottom();
-      speakAudio('Here is your order summary totaling € 279. Tap authorize to confirm your order.');
-
-      // ── TURN 4: User Speaks "Authorize and place order now" ──
-      await sleep(3500);
-      const userMsg4 = document.createElement('div');
-      userMsg4.className = 'msg-user-row spoken';
-      userMsg4.innerHTML = `
-        <div class="voice-tag"><i data-lucide="mic" style="width:11px;height:11px;"></i> Spoken Query</div>
-        <div>"Authorize and place order now"</div>
-      `;
-      stream.appendChild(userMsg4);
-      lucide.createIcons();
-      scrollBottom();
-
-      appendTyping();
-      await sleep(1200);
-      removeTyping();
-
-      const aiMsg4 = document.createElement('div');
-      aiMsg4.className = 'msg-ai-row';
-      aiMsg4.innerHTML = `
-        <div class="confirmed-banner">
-          <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#10b981;flex-shrink:0;"></i>
-          <div>Order <strong style="color:#10b981;font-family:monospace;">NX-4829-M</strong> placed successfully! Preparing for courier dispatch.</div>
-        </div>
-        <div style="background:rgba(4,18,42,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;">
-          <div style="font-size:11.5px;color:#fff;font-weight:600;margin-bottom:4px;">🚚 Live DHL Express Status:</div>
-          <div style="font-size:10.5px;color:#3de0ff;">● Quality Inspection in Munich Hub (Expected Dispatch: 23:00)</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <a href="orders.html" class="btn-step-action" style="background:rgba(61,224,255,0.12);border:1px solid #3de0ff;color:#3de0ff;">
-            <span>View Full Order Details & Invoice</span>
-            <i data-lucide="file-text" style="width:13px;height:13px;"></i>
-          </a>
-          <a href="tracking.html" class="btn-step-action" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;">
-            <span>Open Live GPS Tracking Page</span>
-            <i data-lucide="external-link" style="width:13px;height:13px;"></i>
-          </a>
-        </div>
-      `;
-      stream.appendChild(aiMsg4);
-      lucide.createIcons();
-      scrollBottom();
-      speakAudio('Order NX-4829-M placed successfully! Your pieces are being prepared for express dispatch.');
-
-      statusText.textContent = '✨ Voice Order Demo Completed Successfully!';
-      modeBadge.textContent = '✅ Order Confirmed';
-      modeBadge.style.color = '#10b981';
-      isRunning = false;
+      // Turn 4
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Authorize and place order now', true);
     };
 
     // ═══════════════════════════════════════════════════════════════════════
-    // 2. SIMULATE TEXT ORDER CONVERSATION DEMO
+    // 2. SIMULATE TEXT ORDER CONVERSATION DEMO (4 Automated Turns)
     // ═══════════════════════════════════════════════════════════════════════
     document.getElementById('btnRunTextDemo').onclick = async () => {
-      if (isRunning) return;
-      isRunning = true;
       resetStream();
-      modeBadge.textContent = '💬 Text Conversation Active';
+      const myToken = cancelSimulationToken;
+      isVoiceModeActive = false;
+      modeBadge.textContent = '💬 Text Active';
       modeBadge.style.color = '#3de0ff';
-      statusText.textContent = 'Playing text conversation between User & AI Stylist...';
+      statusText.textContent = 'Playing multi-turn text conversation with interactive widgets...';
 
-      // ── TURN 1: User Types "Place an order" ──
-      await sleep(500);
-      const userMsg1 = document.createElement('div');
-      userMsg1.className = 'msg-user-row';
-      userMsg1.textContent = 'I want to place an order';
-      stream.appendChild(userMsg1);
-      scrollBottom();
+      // Turn 1
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('I want to place an order', false);
 
-      appendTyping();
-      await sleep(800);
-      removeTyping();
+      // Turn 2
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Confirm address: Maximilianstraße 34, Munich', false);
 
-      const aiMsg1 = document.createElement('div');
-      aiMsg1.className = 'msg-ai-row';
-      aiMsg1.innerHTML = `
-        <div>Where should we deliver your order today? You can select your saved default address or enter a new address:</div>
-        <div class="order-widget-box">
-          <div class="saved-addr-card">
-            <span style="font-size: 9.5px; background: var(--accent-cyan); color: #000; padding: 2px 5px; border-radius: 4px; font-weight: 800;">DEFAULT</span>
-            <div style="font-size: 11.5px; color: #fff; line-height: 1.35;">
-              <strong>Julian Wright</strong><br>
-              Maximilianstraße 34, 80539 Munich, Germany
-            </div>
-          </div>
-          <button class="btn-step-action">
-            <span>Confirm Address</span>
-            <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-          </button>
-        </div>
-      `;
-      stream.appendChild(aiMsg1);
-      lucide.createIcons();
-      scrollBottom();
+      // Turn 3
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Pay with Card •••• 4242', false);
 
-      // ── TURN 2: User Types "Confirm address: Maximilianstraße 34, Munich" ──
-      await sleep(1500);
-      const userMsg2 = document.createElement('div');
-      userMsg2.className = 'msg-user-row';
-      userMsg2.textContent = 'Confirm address: Maximilianstraße 34, Munich';
-      stream.appendChild(userMsg2);
-      scrollBottom();
-
-      appendTyping();
-      await sleep(800);
-      removeTyping();
-
-      const aiMsg2 = document.createElement('div');
-      aiMsg2.className = 'msg-ai-row';
-      aiMsg2.innerHTML = `
-        <div>Delivery address set to <strong>Maximilianstraße 34, Munich</strong>. Please choose your payment method:</div>
-        <div class="order-widget-box">
-          <div class="payment-option-pill active">
-            <span style="font-size:12px;font-weight:600;">💳 Card •••• 4242 (Visa / MC)</span>
-            <span style="font-size:9.5px;color:#b0c4de;">Default</span>
-          </div>
-          <div class="payment-option-pill">
-            <span style="font-size:12px;">🍎 Apple Pay / Google Pay</span>
-            <span style="font-size:9.5px;color:#b0c4de;">Instant</span>
-          </div>
-          <button class="btn-step-action" style="background:var(--accent-magenta);color:#fff;">
-            <span>Proceed to Review</span>
-            <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-          </button>
-        </div>
-      `;
-      stream.appendChild(aiMsg2);
-      lucide.createIcons();
-      scrollBottom();
-
-      // ── TURN 3: User Types "Pay with Card •••• 4242" ──
-      await sleep(1500);
-      const userMsg3 = document.createElement('div');
-      userMsg3.className = 'msg-user-row';
-      userMsg3.textContent = 'Pay with Card •••• 4242';
-      stream.appendChild(userMsg3);
-      scrollBottom();
-
-      appendTyping();
-      await sleep(800);
-      removeTyping();
-
-      const aiMsg3 = document.createElement('div');
-      aiMsg3.className = 'msg-ai-row';
-      aiMsg3.innerHTML = `
-        <div>Review your order details below. Everything is verified and ready for instant authorization:</div>
-        <div class="order-widget-box">
-          <div class="order-line"><span>Architectural Cashmere Sweater (M)</span><span>€ 185.00</span></div>
-          <div class="order-line"><span>Minimalist Leather Runner (42)</span><span>€ 125.00</span></div>
-          <div class="order-line"><span>DHL Express Courier</span><span style="color:#10b981;font-weight:700;">FREE</span></div>
-          <div class="order-line"><span>Promo Code (WELCOME10)</span><span style="color:#F13365;font-weight:700;">-€ 31.00</span></div>
-          <div class="order-line total"><span>TOTAL DUE</span><span style="color:#3de0ff;">€ 279.00</span></div>
-          <button class="btn-authorize">
-            <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
-            <span>AUTHORIZE & PLACE ORDER NOW</span>
-          </button>
-        </div>
-      `;
-      stream.appendChild(aiMsg3);
-      lucide.createIcons();
-      scrollBottom();
-
-      // ── TURN 4: User Types "Authorize & place order now" ──
-      await sleep(1600);
-      const userMsg4 = document.createElement('div');
-      userMsg4.className = 'msg-user-row';
-      userMsg4.textContent = 'Authorize & place order now';
-      stream.appendChild(userMsg4);
-      scrollBottom();
-
-      appendTyping();
-      await sleep(900);
-      removeTyping();
-
-      const aiMsg4 = document.createElement('div');
-      aiMsg4.className = 'msg-ai-row';
-      aiMsg4.innerHTML = `
-        <div class="confirmed-banner">
-          <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#10b981;flex-shrink:0;"></i>
-          <div>Order <strong style="color:#10b981;font-family:monospace;">NX-4829-M</strong> placed successfully! Preparing for courier dispatch.</div>
-        </div>
-        <div style="background:rgba(4,18,42,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;">
-          <div style="font-size:11.5px;color:#fff;font-weight:600;margin-bottom:4px;">🚚 Live DHL Express Status:</div>
-          <div style="font-size:10.5px;color:#3de0ff;">● Quality Inspection in Munich Hub (Expected Dispatch: 23:00)</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <a href="orders.html" class="btn-step-action" style="background:rgba(61,224,255,0.12);border:1px solid #3de0ff;color:#3de0ff;">
-            <span>View Full Order Details & Invoice</span>
-            <i data-lucide="file-text" style="width:13px;height:13px;"></i>
-          </a>
-          <a href="tracking.html" class="btn-step-action" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;">
-            <span>Open Live GPS Tracking Page</span>
-            <i data-lucide="external-link" style="width:13px;height:13px;"></i>
-          </a>
-        </div>
-      `;
-      stream.appendChild(aiMsg4);
-      lucide.createIcons();
-      scrollBottom();
-
-      statusText.textContent = '✨ Text Order Demo Completed Successfully!';
-      modeBadge.textContent = '✅ Order Confirmed';
-      modeBadge.style.color = '#10b981';
-      isRunning = false;
+      // Turn 4
+      await new Promise(r => setTimeout(r, 1400));
+      if (myToken !== cancelSimulationToken) return;
+      await handleUserMessage('Authorize & place order now', false);
     };
+
+    // Live Mic Toggle
+    playerMicBtn.addEventListener('click', () => {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        playerMicBtn.classList.add('listening');
+        setTimeout(() => {
+          playerMicBtn.classList.remove('listening');
+          handleUserMessage('Place an order for my cart', true);
+        }, 1200);
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recog = new SpeechRecognition();
+      recog.lang = 'en-US';
+      recog.start();
+      playerMicBtn.classList.add('listening');
+      recog.onresult = (evt) => {
+        playerMicBtn.classList.remove('listening');
+        const transcript = evt.results[0][0].transcript;
+        handleUserMessage(transcript, true);
+      };
+      recog.onerror = () => {
+        playerMicBtn.classList.remove('listening');
+      };
+    });
   </script>
 </body>
 </html>
