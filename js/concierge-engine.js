@@ -134,11 +134,11 @@
         type: 'product_grid',
         text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
+          'Place an order (Voice Demo)',
+          'Place an order (Text Demo)',
           'Build cart by budget',
           'Compare top pieces',
-          'Upload shopping slip',
-          'Complete an office outfit',
-          'Size & fit guide'
+          'Upload shopping slip'
         ],
         products: catalog.slice(0, 3)
       };
