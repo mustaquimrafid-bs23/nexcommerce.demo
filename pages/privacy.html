@@ -3,17 +3,766 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Data Sovereignty &amp; Privacy Architecture — nexCommerce</title>
+  <title>Client Data Sovereignty &amp; Privacy Charter &mdash; nexCommerce</title>
   <meta name="description" content="Explore the zero-knowledge privacy architecture, local storage data governance, and client data export/purge tools of nexCommerce.">
   <meta name="view-transition" content="same-origin" />
 
-  <!-- Google Fonts: Cormorant Garamond, Inter, Outfit, Work Sans -->
+  <!-- Google Fonts: Instrument Serif, Inter, Manrope -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/design-system.css?v=40">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ─── Hardware-Accelerated View Transitions ───────────────────────── */
+    @keyframes privacy-vt-fade-in  { from { opacity: 0; transform: scale(0.995); } to { opacity: 1; transform: scale(1); } }
+    @keyframes privacy-vt-fade-out { from { opacity: 1; transform: scale(1); }     to { opacity: 0; transform: scale(1.005); } }
+
+    ::view-transition-new(root)  { animation: privacy-vt-fade-in  280ms cubic-bezier(0.16,1,0.3,1) both; }
+    ::view-transition-old(root)  { animation: privacy-vt-fade-out 200ms ease both; }
+
+    /* ─── GPU Cross-Dissolve Overlay Curtain (Motion Standard 3) ──────── */
+    .page-transition-curtain {
+      position: fixed;
+      inset: 0;
+      background: #020B18;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 99999;
+      transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    body.privacy-page-bg {
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+      color: var(--text-primary, #FFFFFF);
+      font-family: var(--font-body, 'Inter', sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ─── Layout Wrapper ──────────────────────────────────────────────── */
+    .privacy-page-wrap {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      padding: clamp(36px, 4.5vw, 64px) 24px clamp(64px, 7vw, 104px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(48px, 6vw, 76px);
+    }
+
+    /* ─── Section Header Utilities ────────────────────────────────────── */
+    .privacy-sec-header {
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .privacy-sec-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .privacy-sec-eyebrow::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--accent-cyan, #3DE0FF);
+      opacity: 0.7;
+    }
+
+    .privacy-sec-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(28px, 3.2vw, 38px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ─── Hero / Header Block ─────────────────────────────────────────── */
+    .privacy-hero-wrap {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 840px;
+      margin: 0 auto;
+      padding-top: clamp(8px, 1.5vh, 20px);
+    }
+
+    .privacy-status-whisper {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(8, 14, 30, 0.85);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 18px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .privacy-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00E096;
+      box-shadow: 0 0 8px #00E096;
+      animation: pulseLiveDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseLiveDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.75; }
+    }
+
+    .privacy-headline {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(36px, 4.4vw, 54px);
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 0 0 16px;
+    }
+
+    .privacy-headline em {
+      font-family: var(--font-accent, 'Instrument Serif', Georgia, serif);
+      font-style: italic;
+      font-weight: 400;
+      color: #FFFFFF;
+    }
+
+    .privacy-subhead {
+      font-size: clamp(14px, 1.1vw, 16px);
+      line-height: 1.65;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0 auto 20px;
+      max-width: 700px;
+    }
+
+    /* ─── Data Sovereignty Controller Card ────────────────────────────── */
+    .privacy-vault-card {
+      background: rgba(8, 14, 30, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: clamp(24px, 3.5vw, 40px);
+      position: relative;
+      box-shadow: 0 16px 44px -8px rgba(0, 0, 0, 0.6);
+    }
+
+    .privacy-vault-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 20px;
+    }
+
+    .privacy-vault-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .privacy-vault-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: clamp(22px, 2.4vw, 28px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .privacy-vault-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .vault-action-btn {
+      height: 38px;
+      padding: 0 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .vault-btn-inspect {
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.28);
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .vault-btn-inspect:hover {
+      background: rgba(61, 224, 255, 0.18);
+      border-color: rgba(61, 224, 255, 0.5);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .vault-btn-export {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+    }
+
+    .vault-btn-export:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .vault-btn-purge {
+      background: rgba(241, 51, 101, 0.08);
+      border: 1px solid rgba(241, 51, 101, 0.28);
+      color: #FB7185;
+    }
+
+    .vault-btn-purge:hover {
+      background: rgba(241, 51, 101, 0.18);
+      border-color: rgba(241, 51, 101, 0.5);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* Vault Row Items */
+    .privacy-vault-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .privacy-vault-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(3, 8, 20, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      gap: 16px;
+      flex-wrap: wrap;
+      transition: border-color 180ms ease, background 180ms ease;
+    }
+
+    .privacy-vault-row:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(3, 8, 20, 0.85);
+    }
+
+    .vault-row-info {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .vault-row-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vault-row-desc {
+      font-size: 12px;
+      color: var(--text-secondary, #94A3B8);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .vault-row-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .vault-count-pill {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan, #3DE0FF);
+      background: rgba(61, 224, 255, 0.1);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .vault-key-tag {
+      font-family: var(--font-mono, monospace);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .vault-row-clear-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary, #94A3B8);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .vault-row-clear-btn:hover {
+      color: #FB7185;
+      border-color: rgba(241, 51, 101, 0.35);
+      background: rgba(241, 51, 101, 0.08);
+    }
+
+    /* ─── Five Pillars Directive Grid ─────────────────────────────────── */
+    .privacy-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .privacy-pillar-card {
+      background: rgba(8, 14, 30, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5);
+      transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+    }
+
+    .privacy-pillar-card:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65);
+      transform: translateY(-2px);
+    }
+
+    .pillar-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .pillar-number-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      background: rgba(61, 224, 255, 0.1);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .pillar-trust-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #00E096;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: 20px;
+      color: #FFFFFF;
+      font-weight: 600;
+      margin: 0 0 10px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .pillar-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-secondary, #94A3B8);
+      margin: 0 0 16px;
+    }
+
+    .pillar-quote-box {
+      padding: 12px 16px;
+      background: rgba(61, 224, 255, 0.04);
+      border-left: 2px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      font-style: italic;
+      color: #E2E8F0;
+      line-height: 1.5;
+    }
+
+    /* ─── Interactive GDPR & CCPA Rights Hub ─────────────────────────── */
+    .privacy-rights-section {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: clamp(36px, 5vw, 56px);
+    }
+
+    .privacy-rights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .rights-accordion-item {
+      background: rgba(8, 14, 30, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 200ms ease, background 200ms ease;
+    }
+
+    .rights-accordion-item:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .rights-accordion-item.active {
+      border-color: rgba(61, 224, 255, 0.35);
+      background: rgba(8, 14, 30, 0.85);
+    }
+
+    .rights-accordion-trigger {
+      width: 100%;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: color 180ms ease;
+    }
+
+    .rights-accordion-trigger:hover {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .rights-icon-chevron {
+      transition: transform 220ms ease;
+      color: var(--text-secondary, #94A3B8);
+      flex-shrink: 0;
+    }
+
+    .rights-accordion-item.active .rights-icon-chevron {
+      transform: rotate(180deg);
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .rights-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 280ms cubic-bezier(0.16, 1, 0.3, 1), padding 280ms ease;
+      padding: 0 20px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary, #94A3B8);
+    }
+
+    .rights-accordion-item.active .rights-accordion-content {
+      max-height: 220px;
+      padding-bottom: 18px;
+    }
+
+    /* ─── DPO Bridge Card ─────────────────────────────────────────────── */
+    .privacy-dpo-card {
+      background: rgba(8, 14, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: clamp(24px, 3.5vw, 36px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5);
+    }
+
+    .dpo-card-content {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .dpo-card-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .dpo-card-title {
+      font-family: var(--font-display, 'Neue Haas Grotesk', 'Manrope', sans-serif);
+      font-size: 22px;
+      color: #FFFFFF;
+      font-weight: 600;
+      margin: 0 0 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .dpo-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary, #94A3B8);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .dpo-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .dpo-primary-btn {
+      height: 44px;
+      padding: 0 22px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .dpo-primary-btn:hover {
+      background: #E2E8F0;
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .dpo-secondary-btn {
+      height: 44px;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .dpo-secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* ─── JSON Inspection Modal ───────────────────────────────────────── */
+    .privacy-json-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 11, 24, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .privacy-json-modal.open {
+      display: flex;
+    }
+
+    .json-modal-panel {
+      background: #071B2E;
+      border: 1px solid rgba(61, 224, 255, 0.35);
+      border-radius: 12px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      animation: modalSlideUp 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .json-modal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .json-modal-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .json-modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary, #94A3B8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 160ms ease;
+    }
+
+    .json-modal-close-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .json-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      font-family: var(--font-mono, monospace);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #3DE0FF;
+      background: #020B18;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .json-modal-footer {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #051424;
+    }
+
+    /* ─── Responsive Breakpoints ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .privacy-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      .privacy-rights-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .privacy-page-wrap {
+        padding: 24px 16px 48px;
+        gap: 36px;
+      }
+      .privacy-vault-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .privacy-vault-actions {
+        width: 100%;
+      }
+      .vault-action-btn {
+        flex: 1;
+        justify-content: center;
+      }
+      .privacy-vault-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .vault-row-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .privacy-dpo-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .dpo-actions-group {
+        width: 100%;
+      }
+      .dpo-primary-btn,
+      .dpo-secondary-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="privacy-page-bg">
+
+  <!-- GPU CROSS-DISSOLVE ROUTE TRANSITION CURTAIN (Motion Standard 3) -->
+  <div id="pageTransitionOverlay" class="page-transition-curtain" aria-hidden="true"></div>
 
   <!-- LUXURY EDITORIAL BRAND PRELOADER -->
   <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
@@ -23,7 +772,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Client Privacy, Governance &amp; Trust</span>
+        <span id="preloaderStatusText">Client Privacy &amp; Governance</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -121,7 +870,7 @@
     </div>
   </header>
 
-    <!-- MOBILE NAVIGATION DRAWER -->
+  <!-- MOBILE NAVIGATION DRAWER -->
   <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
     <div class="mobile-drawer-header">
       <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
@@ -160,253 +909,563 @@
     </div>
   </div>
 
-  <!-- MAIN DATA SOVEREIGNTY CONTAINER -->
   <main class="privacy-page-wrap" id="mainContent">
 
-    <header class="privacy-header-wrap">
-      <span class="eyebrow-accent">
-        <span class="live-status-dot" style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#34D399; margin-right:6px;"></span>
-        CLIENT DATA SOVEREIGNTY
-      </span>
-      <h1 class="page-title" style="font-family: var(--font-serif); font-size: clamp(32px, 4vw, 54px); font-weight: 400; color: #FFFFFF; line-height: 1.1; margin: 12px 0 16px;">Privacy &amp; Data Governance Policy</h1>
-      <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;">
-        nexCommerce operates on a Zero-Knowledge client sovereignty architecture. We believe privacy is an uncompromising luxury. All telemetry, style profiles, and cart signals remain encrypted in your local browser vault.
+    <!-- HERO / HEADER BLOCK -->
+    <header class="privacy-hero-wrap">
+      <div class="privacy-status-whisper">
+        <span class="privacy-status-dot"></span>
+        <span>CLIENT DATA SOVEREIGNTY &middot; ZERO-KNOWLEDGE ARCHITECTURE</span>
+      </div>
+      <h1 class="privacy-headline">Client Data Sovereignty &amp; <em>Privacy Charter</em></h1>
+      <p class="privacy-subhead">
+        nexCommerce operates on a strict zero-knowledge client sovereignty architecture. All sizing profiles, telemetry, saved wardrobe pieces, and checkout sessions remain securely stored in your local browser vault.
       </p>
     </header>
 
-    <!-- LOCAL DATA SOVEREIGNTY CONTROLLER -->
-    <div class="privacy-dashboard-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+    <!-- LIVE DATA SOVEREIGNTY CONTROLLER -->
+    <section class="privacy-vault-card" aria-label="Local Browser Data Vault">
+      <div class="privacy-vault-header">
         <div>
-          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan);">LOCAL BROWSER STORAGE VAULT</span>
-          <h2 style="font-family: var(--font-serif); font-size: 24px; color: #FFFFFF; font-weight: 400; margin-top: 4px;">Data Sovereignty Controller</h2>
+          <span class="privacy-vault-tag">LOCAL BROWSER STORAGE VAULT</span>
+          <h2 class="privacy-vault-title">Data Sovereignty Controller</h2>
         </div>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary-action" onclick="exportClientData()" style="height: 40px; font-size: 11px; display: inline-flex; align-items: center; gap: 8px;">
-            <i data-lucide="download" style="width: 14px; height: 14px;"></i>
-            <span>EXPORT VAULT (JSON)</span>
+        <div class="privacy-vault-actions">
+          <button type="button" class="vault-action-btn vault-btn-inspect" id="inspectVaultJsonBtn">
+            <i data-lucide="code" style="width: 13px; height: 13px;"></i>
+            <span>Inspect JSON</span>
           </button>
-          <button type="button" class="privacy-action-btn-danger" onclick="purgeAllData()" style="height: 40px; font-size: 11px; display: inline-flex; align-items: center; gap: 8px;">
-            <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
-            <span>PURGE ALL LOCAL DATA</span>
+          <button type="button" class="vault-action-btn vault-btn-export" id="exportVaultJsonBtn">
+            <i data-lucide="download" style="width: 13px; height: 13px;"></i>
+            <span>Export Vault</span>
+          </button>
+          <button type="button" class="vault-action-btn vault-btn-purge" id="purgeAllVaultBtn">
+            <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+            <span>Purge All</span>
           </button>
         </div>
       </div>
 
-      <div class="privacy-dashboard-rows-wrap">
-        <div class="privacy-dashboard-row">
-          <div>
-            <strong style="color: #FFFFFF; font-size: 14px; display: block;">Anatomical Sizing &amp; Style Aesthetics</strong>
-            <span style="font-size: 12px; color: var(--text-secondary);">Chest, shoulder, waist measurements, and color preferences.</span>
+      <div class="privacy-vault-rows" id="privacyVaultRows">
+        <!-- Row 1: Sizing & Style Profile -->
+        <div class="privacy-vault-row">
+          <div class="vault-row-info">
+            <div class="vault-row-title">
+              <i data-lucide="user-check" style="width: 16px; height: 16px; color: var(--accent-cyan, #3DE0FF);"></i>
+              <span>Anatomical Sizing &amp; Style Profile</span>
+            </div>
+            <p class="vault-row-desc">Chest, shoulder, waist measurements, color preferences, and curated silhouette tags.</p>
           </div>
-          <span class="privacy-key-tag">nex_client_profile</span>
+          <div class="vault-row-meta">
+            <span class="vault-count-pill" id="vaultCountProfile">0 Attributes</span>
+            <span class="vault-key-tag">nex_client_profile</span>
+            <button type="button" class="vault-row-clear-btn" data-vault-key="nex_client_profile" title="Clear style profile">Clear</button>
+          </div>
         </div>
 
-        <div class="privacy-dashboard-row">
-          <div>
-            <strong style="color: #FFFFFF; font-size: 14px; display: block;">Private Wishlist &amp; Saved Curation</strong>
-            <span style="font-size: 12px; color: var(--text-secondary);">Active saved product references and reserved atelier pieces.</span>
+        <!-- Row 2: Curated Wishlist -->
+        <div class="privacy-vault-row">
+          <div class="vault-row-info">
+            <div class="vault-row-title">
+              <i data-lucide="heart" style="width: 16px; height: 16px; color: var(--accent-pink, #FB7185);"></i>
+              <span>Wardrobe Vault &amp; Saved Pieces</span>
+            </div>
+            <p class="vault-row-desc">Active saved product references, bespoke look items, and reserved atelier pieces.</p>
           </div>
-          <span class="privacy-key-tag">nex_curated_wishlist_ids</span>
+          <div class="vault-row-meta">
+            <span class="vault-count-pill" id="vaultCountWishlist">0 Items</span>
+            <span class="vault-key-tag">nex_curated_wishlist_ids</span>
+            <button type="button" class="vault-row-clear-btn" data-vault-key="wishlist" title="Clear saved wishlist">Clear</button>
+          </div>
         </div>
 
-        <div class="privacy-dashboard-row">
-          <div>
-            <strong style="color: #FFFFFF; font-size: 14px; display: block;">Your Orders</strong>
-            <span style="font-size: 12px; color: var(--text-secondary);">Fulfillment timestamps, invoice numbers, and courier tracking refs.</span>
+        <!-- Row 3: Order History -->
+        <div class="privacy-vault-row">
+          <div class="vault-row-info">
+            <div class="vault-row-title">
+              <i data-lucide="receipt" style="width: 16px; height: 16px; color: #00E096;"></i>
+              <span>Order History &amp; Tracking Cache</span>
+            </div>
+            <p class="vault-row-desc">Fulfillment timestamps, invoice numbers, parcel tracking IDs, and receipt metadata.</p>
           </div>
-          <span class="privacy-key-tag">nex_placed_orders</span>
+          <div class="vault-row-meta">
+            <span class="vault-count-pill" id="vaultCountOrders">0 Orders</span>
+            <span class="vault-key-tag">nex_placed_orders</span>
+            <button type="button" class="vault-row-clear-btn" data-vault-key="orders" title="Clear order history cache">Clear</button>
+          </div>
         </div>
 
-        <div class="privacy-dashboard-row" style="border-bottom: none;">
-          <div>
-            <strong style="color: #FFFFFF; font-size: 14px; display: block;">Shopping Bag &amp; Ephemeral Checkout Session</strong>
-            <span style="font-size: 12px; color: var(--text-secondary);">Active cart bag items, selected size, and quantities.</span>
+        <!-- Row 4: Shopping Bag -->
+        <div class="privacy-vault-row">
+          <div class="vault-row-info">
+            <div class="vault-row-title">
+              <i data-lucide="shopping-bag" style="width: 16px; height: 16px; color: #FFAA00;"></i>
+              <span>Shopping Bag &amp; Ephemeral Checkout Session</span>
+            </div>
+            <p class="vault-row-desc">Active bag merchandise, configured sizes, variant finishes, and quantities.</p>
           </div>
-          <span class="privacy-key-tag">nex_cart_items</span>
+          <div class="vault-row-meta">
+            <span class="vault-count-pill" id="vaultCountCart">0 Items</span>
+            <span class="vault-key-tag">nex_cart_items</span>
+            <button type="button" class="vault-row-clear-btn" data-vault-key="cart" title="Clear shopping bag">Clear</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-      <!-- FIVE DATA SOVEREIGNTY DIRECTIVES -->
-      <div style="text-align: center; margin-bottom: 36px;">
-        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-cyan);">THE DIRECTIVES</span>
-        <h2 style="font-family: var(--font-serif); font-size: 36px; color: #FFFFFF; font-weight: 400; margin-top: 6px;">Five Pillars of Data Sovereignty</h2>
+    <!-- FIVE DATA SOVEREIGNTY DIRECTIVES -->
+    <section aria-label="Five Pillars of Data Sovereignty">
+      <div class="privacy-sec-header" style="text-align: center; align-items: center;">
+        <span class="privacy-sec-eyebrow">THE DIRECTIVES</span>
+        <h2 class="privacy-sec-title">Five Pillars of Data Sovereignty</h2>
       </div>
 
-      <div class="terms-content-col" style="margin-bottom: 60px;">
+      <div class="privacy-pillars-grid">
         <!-- Directive 01 -->
-        <article class="terms-article">
-          <span class="terms-article-num">Directive 01</span>
-          <h3 class="terms-article-title">Zero Data Brokerage Covenant</h3>
-          <p>
-            nexCommerce will never monetize, sell, lease, or broker client data to third-party ad networks, data brokers, or marketing syndicates. Your browsing intent, purchase history, and aesthetic affinities exist solely to power your private atelier experience.
+        <article class="privacy-pillar-card">
+          <div class="pillar-card-header">
+            <span class="pillar-number-badge">DIRECTIVE 01</span>
+            <span class="pillar-trust-seal"><i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Verified Covenant</span>
+          </div>
+          <h3 class="pillar-title">Zero Data Brokerage Covenant</h3>
+          <p class="pillar-desc">
+            nexCommerce will never monetize, sell, lease, or broker client data to third-party ad networks, data brokers, or marketing syndicates. Your browsing intent, purchase history, and aesthetic affinities exist solely to power your private shopping experience.
           </p>
-          <div class="terms-callout-box">
-            "We reject surveillance advertising models. Our commercial viability is derived purely from the craftsmanship of our products, not the exploitation of client behavioral metrics."
+          <div class="pillar-quote-box">
+            &ldquo;We reject surveillance advertising. Our commercial model is built entirely on the craftsmanship of our garments, timepieces, and acoustics.&rdquo;
           </div>
         </article>
 
         <!-- Directive 02 -->
-        <article class="terms-article">
-          <span class="terms-article-num">Directive 02</span>
-          <h3 class="terms-article-title">Client-Controlled Sizing &amp; Biometric Encryption</h3>
-          <p>
+        <article class="privacy-pillar-card">
+          <div class="pillar-card-header">
+            <span class="pillar-number-badge">DIRECTIVE 02</span>
+            <span class="pillar-trust-seal"><i data-lucide="lock" style="width: 14px; height: 14px;"></i> Client-Side Vault</span>
+          </div>
+          <h3 class="pillar-title">Biometric Sizing &amp; Client Encryption</h3>
+          <p class="pillar-desc">
             Anatomical sizing data collected via our Size &amp; Fit Advisor or Style Profile is stored strictly within encrypted local browser vaults. When communicating sizing requirements to our master tailors, measurements are anonymized and associated only with a temporary commission token.
           </p>
         </article>
 
         <!-- Directive 03 -->
-        <article class="terms-article">
-          <span class="terms-article-num">Directive 03</span>
-          <h3 class="terms-article-title">Financial Tokenization &amp; Ephemeral Sessions</h3>
-          <p>
-            All payment transactions through Klarna, iDEAL, Apple Pay, PayPal, Bancontact, SEPA, Visa, and Mastercard utilize direct cryptographic tokenization. Sensitive credentials bypass our web servers entirely and are routed through PCI-DSS Level 1 compliant secure banking enclaves and PSD2 SCA (Strong Customer Authentication) protocols.
+        <article class="privacy-pillar-card">
+          <div class="pillar-card-header">
+            <span class="pillar-number-badge">DIRECTIVE 03</span>
+            <span class="pillar-trust-seal"><i data-lucide="credit-card" style="width: 14px; height: 14px;"></i> PCI-DSS Level 1</span>
+          </div>
+          <h3 class="pillar-title">Financial Tokenization &amp; Ephemeral Sessions</h3>
+          <p class="pillar-desc">
+            All payment transactions through Klarna, iDEAL, Apple Pay, PayPal, Bancontact, SEPA, Visa, and Mastercard utilize direct cryptographic tokenization. Sensitive credentials bypass our web servers entirely and are routed through PCI-DSS Level 1 compliant banking enclaves and PSD2 SCA protocols.
           </p>
         </article>
 
         <!-- Directive 04 -->
-        <article class="terms-article">
-          <span class="terms-article-num">Directive 04</span>
-          <h3 class="terms-article-title">Telemetry Transparency &amp; Local Storage Isolation</h3>
-          <p>
+        <article class="privacy-pillar-card">
+          <div class="pillar-card-header">
+            <span class="pillar-number-badge">DIRECTIVE 04</span>
+            <span class="pillar-trust-seal"><i data-lucide="eye-off" style="width: 14px; height: 14px;"></i> Zero Fingerprinting</span>
+          </div>
+          <h3 class="pillar-title">Telemetry Transparency &amp; Local Storage Isolation</h3>
+          <p class="pillar-desc">
             Every piece of stateful client data is inspectable in clear JSON format through the Local Data Sovereignty Controller above. We do not maintain hidden tracking cookies or cross-domain canvas fingerprints.
           </p>
         </article>
 
-        <!-- Directive 05 -->
-        <article class="terms-article">
-          <span class="terms-article-num">Directive 05</span>
-          <h3 class="terms-article-title">Right to Complete Erasure &amp; Portability</h3>
-          <p>
+        <!-- Directive 05 (Full Width on 2-Col Grid) -->
+        <article class="privacy-pillar-card" style="grid-column: 1 / -1;">
+          <div class="pillar-card-header">
+            <span class="pillar-number-badge">DIRECTIVE 05</span>
+            <span class="pillar-trust-seal"><i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i> 100% Portability</span>
+          </div>
+          <h3 class="pillar-title">Right to Complete Erasure &amp; Portability</h3>
+          <p class="pillar-desc">
             Clients maintain unconditional sovereignty to export their complete digital profile or execute an immediate 1-click purge of all local and server-side records at any time with zero retention latency.
           </p>
         </article>
       </div>
+    </section>
 
-      <!-- CONCIERGE INTEGRATION BRIDGE -->
-      <div class="profile-concierge-card">
-        <div>
-          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 4px;">DATA PRIVACY OFFICER</div>
-          <div style="font-family: var(--font-serif); font-size: 22px; color: #FFFFFF; margin-bottom: 6px;">Questions Regarding Your Data Rights?</div>
-          <p style="font-size: 13px; color: var(--text-secondary); margin: 0; max-width: 520px;">Contact our Data Privacy Officer for GDPR compliance requests, cryptographic key revocations, or custom audit certifications.</p>
+    <!-- INTERACTIVE GDPR / CCPA CLIENT RIGHTS ACCORDION -->
+    <section class="privacy-rights-section" aria-label="Statutory Privacy Rights">
+      <div class="privacy-sec-header">
+        <span class="privacy-sec-eyebrow">STATUTORY SOVEREIGNTY</span>
+        <h2 class="privacy-sec-title">Your Rights Under GDPR &amp; CCPA</h2>
+      </div>
+
+      <div class="privacy-rights-grid">
+        <!-- Right 1: Portability -->
+        <div class="rights-accordion-item">
+          <button class="rights-accordion-trigger" aria-expanded="false">
+            <span>Right to Data Portability (Article 20 GDPR)</span>
+            <i data-lucide="chevron-down" class="rights-icon-chevron" style="width: 16px; height: 16px;"></i>
+          </button>
+          <div class="rights-accordion-content">
+            You have the right to receive all personal data you have provided to us in a structured, commonly used, and machine-readable JSON format. You can execute this immediately via the "Export Vault" button above.
+          </div>
         </div>
-        <a href="concierge.html" class="btn-primary-commerce" style="white-space: nowrap; height: 44px; display: inline-flex; align-items: center; gap: 8px;">
+
+        <!-- Right 2: Erasure -->
+        <div class="rights-accordion-item">
+          <button class="rights-accordion-trigger" aria-expanded="false">
+            <span>Right to Erasure &ldquo;Right to be Forgotten&rdquo; (Article 17 GDPR)</span>
+            <i data-lucide="chevron-down" class="rights-icon-chevron" style="width: 16px; height: 16px;"></i>
+          </button>
+          <div class="rights-accordion-content">
+            You may erase all profile attributes, browsing cache, and stored preferences with one click. Triggering "Purge All" instantly clears your client records with zero retention latency.
+          </div>
+        </div>
+
+        <!-- Right 3: AI Profiling -->
+        <div class="rights-accordion-item">
+          <button class="rights-accordion-trigger" aria-expanded="false">
+            <span>Right to Object to Automated Styling Profiling (Article 21 GDPR)</span>
+            <i data-lucide="chevron-down" class="rights-icon-chevron" style="width: 16px; height: 16px;"></i>
+          </button>
+          <div class="rights-accordion-content">
+            nexCommerce allows you to freely disable or reset AI silhouette recommendations at any time without degrading standard e-commerce catalog browsing or checkout capabilities.
+          </div>
+        </div>
+
+        <!-- Right 4: Cookies & Telemetry -->
+        <div class="rights-accordion-item">
+          <button class="rights-accordion-trigger" aria-expanded="false">
+            <span>Right to Revoke Cookie &amp; Telemetry Consent (ePrivacy Directive)</span>
+            <i data-lucide="chevron-down" class="rights-icon-chevron" style="width: 16px; height: 16px;"></i>
+          </button>
+          <div class="rights-accordion-content">
+            You can modify your cookie categories, disable analytical telemetry, and clear saved cookie tokens at any time using the global Cookie Settings modal below.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DPO & COOKIE BRIDGE CARD -->
+    <section class="privacy-dpo-card" aria-label="Data Privacy Officer Contact">
+      <div class="dpo-card-content">
+        <span class="dpo-card-tag">DATA PRIVACY OFFICER &middot; DESK</span>
+        <h3 class="dpo-card-title">Questions Regarding Your Data Rights?</h3>
+        <p class="dpo-card-desc">
+          Contact our Data Privacy Officer for GDPR compliance documentation, cryptographic key revocations, or custom audit certifications.
+        </p>
+      </div>
+      <div class="dpo-actions-group">
+        <button type="button" class="dpo-secondary-btn" id="openCookieSettingsBtn">
+          <i data-lucide="cookie" style="width: 14px; height: 14px;"></i>
+          <span>COOKIE SETTINGS</span>
+        </button>
+        <a href="concierge.html" class="dpo-primary-btn">
           <span>CONTACT PRIVACY OFFICER</span>
           <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
         </a>
       </div>
+    </section>
+
   </main>
+
+  <!-- LIVE JSON INSPECTION MODAL -->
+  <div class="privacy-json-modal" id="privacyJsonModal" role="dialog" aria-modal="true" aria-label="Inspect Local Vault JSON" data-lenis-prevent>
+    <div class="json-modal-panel">
+      <div class="json-modal-header">
+        <div class="json-modal-title">
+          <i data-lucide="code" style="width: 16px; height: 16px; color: var(--accent-cyan, #3DE0FF);"></i>
+          <span>Client Storage Vault &middot; Live JSON</span>
+        </div>
+        <button type="button" class="json-modal-close-btn" id="closeJsonModalBtn" aria-label="Close JSON inspector">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+      <div class="json-modal-body" id="jsonModalBody"></div>
+      <div class="json-modal-footer">
+        <button type="button" class="vault-action-btn vault-btn-export" id="copyJsonModalBtn">
+          <i data-lucide="copy" style="width: 12px; height: 12px;"></i>
+          <span id="copyJsonBtnText">Copy JSON</span>
+        </button>
+        <button type="button" class="vault-action-btn vault-btn-inspect" id="downloadJsonModalBtn">
+          <i data-lucide="download" style="width: 12px; height: 12px;"></i>
+          <span>Download File</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
   <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
 
-  <!-- CDNs & Scripts -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- MINI CART (SIDE DRAWER) -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
+    <div id="minicartFooter" class="minicart-footer" style="display: none;">
+      <div class="minicart-subtotal">
+        <span>Subtotal</span>
+        <span id="minicartSubtotalValue">€ 0.00</span>
+      </div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- SEARCH OVERLAY (GLOBAL CMD+K) -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Paris" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- CDNs & Universal Scripts -->
   <script src="https://unpkg.com/split-type"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="../js/animations.js"></script>
   <script src="../js/footer.js"></script>
+  <script src="../js/visual-search-ui.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/cart.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/header.js"></script>
-  <script>
-    function exportClientData() {
-      var exportPayload = {
-        exportedAt: new Date().toISOString(),
-        clientVault: {
-          profile: JSON.parse(localStorage.getItem('nex_client_profile') || '{}'),
-          wishlist: JSON.parse(localStorage.getItem('nex_curated_wishlist_ids') || '[]'),
-          orders: JSON.parse(localStorage.getItem('nex_placed_orders') || '[]'),
-          cart: JSON.parse(localStorage.getItem('nex_cart') || localStorage.getItem('nexcommerce_cart') || '[]')
-        }
-      };
-
-      var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
-      var downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "nexcommerce_client_vault_export.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      function showPrivacyToast(msg) {
-        var toast = document.createElement('div');
-        toast.setAttribute('role', 'status');
-        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0B2147;border:1px solid rgba(61,224,255,0.35);color:#F5F7FA;font-family:Inter,sans-serif;font-size:12px;padding:12px 24px;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9999;letter-spacing:0.04em;pointer-events:none;';
-        toast.textContent = msg;
-        document.body.appendChild(toast);
-        setTimeout(function() { toast.remove(); }, 3500);
-      }
-
-      showPrivacyToast('Client Data Vault exported successfully in sovereign JSON format.');
-    }
-
-    function purgeAllData() {
-      if (confirm('Are you certain you wish to purge all local client data? This action will reset your saved style profile, wishlist, and order cache.')) {
-        localStorage.removeItem('nex_client_profile');
-        localStorage.removeItem('nex_curated_wishlist_ids');
-        localStorage.removeItem('nex_placed_orders');
-        localStorage.removeItem('nex_cart');
-        localStorage.removeItem('nexcommerce_cart');
-        window.location.reload();
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      if (window.lucide) window.lucide.createIcons();
-    });
-  </script>
-
-<!-- ==========================================================================
-     MINI CART (SIDE DRAWER)
-     ========================================================================== -->
-<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
-<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
-  <div class="minicart-header">
-    <div class="minicart-title">Shopping Bag</div>
-    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
-  </div>
-  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
-    <!-- Populated by cart.js -->
-  </div>
-  <div id="minicartFooter" class="minicart-footer" style="display: none;">
-    <div class="minicart-subtotal">
-      <span>Subtotal</span>
-      <span id="minicartSubtotalValue">€ 0.00</span>
-    </div>
-    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
-  </div>
-</aside>
-
-<!-- SEARCH OVERLAY (global CMD+K) -->
-<div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
-  <div class="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-header-bar">
-      <div class="search-input-wrapper">
-        <div class="search-ai-icon">
-          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
-        </div>
-        <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
-      </div>
-      <button class="search-close-btn" aria-label="Close search">
-        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-      </button>
-    </div>
-    <div id="aiSearchResultsModal" class="search-body"></div>
-  </div>
-</div>
-
-<script src="../js/ai-engine.js?v=3"></script>
-<script src="../js/intent-parser.js"></script>
-<script src="../js/catalog-engine.js"></script>
-<script src="../js/session-context.js"></script>
-<script src="../js/search-overlay.js?v=1"></script>
-<script src="../js/cookie-consent.js"></script>
-
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=1"></script>
+  <script src="../js/cookie-consent.js"></script>
   <script src="../js/cart-recovery-engine.js?v=1"></script>
   <script src="../js/cart-recovery-ui.js?v=1"></script>
   <script src="../js/delivery-gate-engine.js?v=1"></script>
   <script src="../js/delivery-gate-ui.js?v=1"></script>
+
+  <!-- PAGE-SPECIFIC ENGINE: SOVEREIGNTY VAULT CONTROLLER & MODAL INSPECTOR -->
+  <script>
+    (function() {
+      'use strict';
+
+      /* ─── 1. Build Client Storage Payload ────────────────────────────── */
+      function getVaultPayload() {
+        var profile = {};
+        var wishlist = [];
+        var orders = [];
+        var cart = [];
+
+        try {
+          profile = JSON.parse(localStorage.getItem('nex_client_profile') || '{}');
+        } catch(e) {}
+
+        try {
+          wishlist = JSON.parse(localStorage.getItem('nex_curated_wishlist_ids') || localStorage.getItem('nexcommerce_wishlist') || '[]');
+        } catch(e) {}
+
+        try {
+          orders = JSON.parse(localStorage.getItem('nex_placed_orders') || localStorage.getItem('nexcommerce_orders') || '[]');
+        } catch(e) {}
+
+        try {
+          cart = JSON.parse(localStorage.getItem('nex_cart') || localStorage.getItem('nexcommerce_cart') || '[]');
+        } catch(e) {}
+
+        return {
+          vaultSchema: "nexCommerce-Client-Sovereignty-v1.0",
+          exportedAt: new Date().toISOString(),
+          clientVault: {
+            profile: profile,
+            wishlist: wishlist,
+            orders: orders,
+            cart: cart
+          }
+        };
+      }
+
+      /* ─── 2. Update Live Counters ────────────────────────────────────── */
+      function updateVaultMetrics() {
+        var payload = getVaultPayload();
+        var p = payload.clientVault;
+
+        var profileKeys = Object.keys(p.profile).length;
+        var wishlistCount = Array.isArray(p.wishlist) ? p.wishlist.length : 0;
+        var ordersCount = Array.isArray(p.orders) ? p.orders.length : 0;
+        var cartCount = Array.isArray(p.cart) ? p.cart.length : 0;
+
+        var elProfile = document.getElementById('vaultCountProfile');
+        var elWishlist = document.getElementById('vaultCountWishlist');
+        var elOrders = document.getElementById('vaultCountOrders');
+        var elCart = document.getElementById('vaultCountCart');
+
+        if (elProfile) elProfile.textContent = profileKeys + (profileKeys === 1 ? ' Attribute' : ' Attributes');
+        if (elWishlist) elWishlist.textContent = wishlistCount + (wishlistCount === 1 ? ' Item' : ' Items');
+        if (elOrders) elOrders.textContent = ordersCount + (ordersCount === 1 ? ' Order' : ' Orders');
+        if (elCart) elCart.textContent = cartCount + (cartCount === 1 ? ' Item' : ' Items');
+      }
+
+      /* ─── 3. Sovereign Toast Notification ────────────────────────────── */
+      function showPrivacyToast(msg) {
+        var existing = document.getElementById('privacyToast');
+        if (existing) existing.remove();
+
+        var toast = document.createElement('div');
+        toast.id = 'privacyToast';
+        toast.setAttribute('role', 'status');
+        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#071B2E;border:1px solid rgba(61,224,255,0.4);color:#FFFFFF;font-family:Inter,sans-serif;font-size:12px;font-weight:600;padding:12px 24px;border-radius:8px;box-shadow:0 12px 36px rgba(0,0,0,0.6);z-index:99999;letter-spacing:0.02em;display:flex;align-items:center;gap:8px;animation:ticketSlideDown 240ms ease both;';
+        toast.innerHTML = '<i data-lucide="check-circle" style="width:14px;height:14px;color:#00E096;"></i><span>' + msg + '</span>';
+        document.body.appendChild(toast);
+        if (window.lucide) window.lucide.createIcons();
+
+        setTimeout(function() {
+          if (toast && toast.parentNode) toast.remove();
+        }, 3200);
+      }
+
+      /* ─── 4. Export Vault File ───────────────────────────────────────── */
+      function downloadVaultFile() {
+        var payload = getVaultPayload();
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+        var downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "nexcommerce_client_vault_export.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showPrivacyToast('Client Data Vault exported successfully in sovereign JSON format.');
+      }
+
+      /* ─── 5. JSON Modal Inspector ────────────────────────────────────── */
+      var jsonModal = document.getElementById('privacyJsonModal');
+      var jsonBody = document.getElementById('jsonModalBody');
+      var inspectBtn = document.getElementById('inspectVaultJsonBtn');
+      var closeJsonBtn = document.getElementById('closeJsonModalBtn');
+      var copyJsonBtn = document.getElementById('copyJsonModalBtn');
+      var copyJsonText = document.getElementById('copyJsonBtnText');
+      var downloadJsonBtn = document.getElementById('downloadJsonModalBtn');
+
+      function openJsonModal() {
+        var payload = getVaultPayload();
+        if (jsonBody) jsonBody.textContent = JSON.stringify(payload, null, 2);
+        if (jsonModal) jsonModal.classList.add('open');
+      }
+
+      function closeJsonModal() {
+        if (jsonModal) jsonModal.classList.remove('open');
+      }
+
+      if (inspectBtn) inspectBtn.addEventListener('click', openJsonModal);
+      if (closeJsonBtn) closeJsonBtn.addEventListener('click', closeJsonModal);
+      if (jsonModal) {
+        jsonModal.addEventListener('click', function(e) {
+          if (e.target === jsonModal) closeJsonModal();
+        });
+      }
+
+      if (copyJsonBtn) {
+        copyJsonBtn.addEventListener('click', function() {
+          var payload = getVaultPayload();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(JSON.stringify(payload, null, 2)).then(function() {
+              if (copyJsonText) copyJsonText.textContent = 'Copied!';
+              setTimeout(function() {
+                if (copyJsonText) copyJsonText.textContent = 'Copy JSON';
+              }, 1800);
+            });
+          }
+        });
+      }
+
+      if (downloadJsonBtn) downloadJsonBtn.addEventListener('click', downloadVaultFile);
+      var exportBtn = document.getElementById('exportVaultJsonBtn');
+      if (exportBtn) exportBtn.addEventListener('click', downloadVaultFile);
+
+      /* ─── 6. Purge Operations (Global & Granular) ────────────────────── */
+      var purgeAllBtn = document.getElementById('purgeAllVaultBtn');
+      if (purgeAllBtn) {
+        purgeAllBtn.addEventListener('click', function() {
+          if (confirm('Are you certain you wish to purge all local client data? This action will reset your saved style profile, wishlist, cart, and order cache.')) {
+            localStorage.removeItem('nex_client_profile');
+            localStorage.removeItem('nex_curated_wishlist_ids');
+            localStorage.removeItem('nexcommerce_wishlist');
+            localStorage.removeItem('nex_placed_orders');
+            localStorage.removeItem('nexcommerce_orders');
+            localStorage.removeItem('nex_cart');
+            localStorage.removeItem('nexcommerce_cart');
+            updateVaultMetrics();
+            showPrivacyToast('All local storage vaults purged successfully.');
+          }
+        });
+      }
+
+      var rowClearBtns = document.querySelectorAll('.vault-row-clear-btn');
+      rowClearBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var key = btn.getAttribute('data-vault-key');
+          if (key === 'nex_client_profile') {
+            localStorage.removeItem('nex_client_profile');
+          } else if (key === 'wishlist') {
+            localStorage.setItem('nex_curated_wishlist_ids', '[]');
+            localStorage.setItem('nexcommerce_wishlist', '[]');
+          } else if (key === 'orders') {
+            localStorage.setItem('nex_placed_orders', '[]');
+            localStorage.setItem('nexcommerce_orders', '[]');
+          } else if (key === 'cart') {
+            localStorage.setItem('nex_cart', '[]');
+            localStorage.setItem('nexcommerce_cart', '[]');
+            window.dispatchEvent(new CustomEvent('cart-updated', { detail: { cart: [] } }));
+          }
+          updateVaultMetrics();
+          showPrivacyToast('Selected vault section cleared.');
+        });
+      });
+
+      /* ─── 7. Interactive Statutory Rights Accordion ──────────────────── */
+      var rightsItems = document.querySelectorAll('.rights-accordion-item');
+      rightsItems.forEach(function(item) {
+        var trigger = item.querySelector('.rights-accordion-trigger');
+        if (!trigger) return;
+        trigger.addEventListener('click', function() {
+          var isOpen = item.classList.contains('active');
+          rightsItems.forEach(function(other) {
+            other.classList.remove('active');
+            var otherTrig = other.querySelector('.rights-accordion-trigger');
+            if (otherTrig) otherTrig.setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('active');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      /* ─── 8. Cookie Settings Modal Trigger ───────────────────────────── */
+      var cookieBtn = document.getElementById('openCookieSettingsBtn');
+      if (cookieBtn) {
+        cookieBtn.addEventListener('click', function() {
+          var cookieModal = document.getElementById('cookiePreferencesModal') || document.getElementById('cookieConsentModal');
+          if (cookieModal) {
+            cookieModal.classList.add('open');
+            cookieModal.style.display = 'flex';
+          } else {
+            showPrivacyToast('Analytical & telemetry preferences are locked to zero-tracking by default.');
+          }
+        });
+      }
+
+      /* ─── 9. Initialize on Load ─────────────────────────────────────── */
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.lucide) window.lucide.createIcons();
+        updateVaultMetrics();
+      });
+
+    })();
+  </script>
 </body>
 </html>

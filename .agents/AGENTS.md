@@ -257,14 +257,22 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - Avoid rendering duplicate floating triggers across both mobile header and drawer; maintain a single unified access point on mobile.
 - Limit default selection lists to the **Top 3 premier choices** to ensure zero-scroll visibility above the fold on all viewports.
 
-**14. Plain-Language E-Commerce Copywriting Guardrail**:
-- Strictly avoid pretentious, obscure, or pseudo-luxury jargon in generic UI labels.
-- Do NOT use terms like `ATELIER`, `Curated`, or `DISPATCH` for standard UI elements.
-- Use clean, intuitive, high-legibility terms:
-  - `YOUR SELECTION` instead of `ATELIER SELECTION`
-  - `Items Selected` / `Pieces Selected` instead of `Pieces Curated`
-  - `EXPRESS DELIVERY` / `SHIPPING` instead of `EXPRESS DISPATCH`
-  - `Saved Items` / `Wishlist` instead of `Vault`
+**14. Plain-Language E-Commerce Copywriting & AI Feature Explanation Invariant**:
+- Strictly avoid pretentious, obscure, pseudo-luxury, or technical jargon in UI labels, feature cards, tour modals, and user-facing overviews.
+- **Mandatory 2-Line Feature Card Structure**: In all feature popups, tour modals, and user-facing overviews, every AI feature entry MUST explicitly provide:
+  1. `What it does:` 1 concise sentence in simple, everyday English explaining the direct shopper benefit (never mention internal algorithms, embeddings, or state machines).
+  2. `Example:` 1 concrete, relatable real-world example query or 1-click action (e.g. `Type: "Warm jacket for a winter dinner date under $250"`).
+- **Prohibited Jargon Replacement Matrix**:
+  - `Curated` → `Ready-to-wear / Matching / Hand-picked`
+  - `Pieces` → `Clothes and shoes / Items`
+  - `Capabilities` → `Smart Features / Tools`
+  - `Cap` → `Budget / Limit`
+  - `Cutoff hours` → `Delivery today`
+  - `Essentials` → `Everyday items / Basics`
+  - `Atelier Selection` → `Your selection / Your bag`
+  - `Dispatch` → `Shipping / Delivery`
+  - `Vault` → `Saved Items / Wishlist`
+  - `Telemetry / Human updates` → `Simple, clear messages / Real-time updates`
 
 **15. Spotlight Hero & Integrated Action Toolbar Invariant**:
 - Page headers on major functional views (Cart, Wishlist, Smart List, Orders, Profile, Account) must NEVER be rendered as floating, uncontained text lines with raw hyperlink clusters on a blank dark canvas.
@@ -320,11 +328,12 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Cross-Store Reconciliation**: Engines must search across all client storage tiers (`localStorage.getItem('nex_placed_orders')`, `sessionStorage.getItem('nex_confirmed_order')`, default catalog fixtures, and dynamic mock generators).
 - **Zero-Skeleton Invariant**: When no parameter is supplied or no record matches, renderers MUST NEVER terminate silently or leave raw skeleton placeholders in the DOM. Renderers must immediately display an interactive Lookup/Empty State with 1-click sample demo chips and search inputs targeting validated DOM container IDs.
 
-
-
-
-
-
+**25. Visual Search, File Upload & Interactive Dropzone Invariant**:
+- **Clean Unprompted Initial State**: File upload, visual vector search, and AI discovery modals must open in a clean, unprompted initial state without pre-populating fake default images or products before the user takes action.
+- **Single Unified Upload Target**: The initial view must present only ONE clear upload target (the central dropzone). Never render duplicate upload buttons/bars on the same view.
+- **Interactive & Accessible Dropzone**: Dropzones must be 100% interactive (1-click anywhere inside to browse native files, full drag-and-drop with hover visual cues, and keyboard accessibility via `Enter`/`Space`).
+- **Instant 1-Click Demo Action**: Always provide a dedicated, prominent `✨ Try Demo` action for zero-friction testing with a curated sample asset without requiring a local file.
+- **Clean 2-Phase State Transition**: Seamlessly transition from the initial dropzone to the active matching product grid + top active photo bar upon upload or demo click.
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 

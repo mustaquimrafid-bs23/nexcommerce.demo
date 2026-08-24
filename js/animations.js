@@ -281,7 +281,9 @@ function initSmoothScroll() {
               node.closest('.summary-items-list') !== null ||
               node.closest('#nexMiniCartDrawer') !== null ||
               node.closest('.search-panel') !== null ||
-              node.closest('.modal-overlay') !== null
+              node.closest('.modal-overlay') !== null ||
+              node.closest('#aiTourModal') !== null ||
+              node.closest('.ai-tour-panel') !== null
             ))
           );
         } catch (e) {

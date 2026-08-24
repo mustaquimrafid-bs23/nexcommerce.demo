@@ -465,14 +465,23 @@ All storefront interfaces must prioritize visual communication over prose:
 
 ## 17. PLAIN-LANGUAGE COPYWRITING & SPOTLIGHT HERO STRUCTURAL INVARIANT
 
-1. **Plain-Language E-Commerce Copywriting Guardrail**:
-   - Strictly avoid pretentious, obscure, or pseudo-luxury jargon in generic UI labels.
-   - Do NOT use terms like `ATELIER`, `Curated`, or `DISPATCH` for standard UI elements.
+1. **Plain-Language E-Commerce Copywriting & AI Feature Explanation Invariant**:
+   - Strictly avoid pretentious, obscure, pseudo-luxury, or technical engineering jargon in generic UI labels, feature cards, and tour modals.
+   - **Mandatory 2-Line Feature Card Structure**: In all feature popups, tour modals, and user-facing overviews, every AI feature entry MUST explicitly provide:
+     1. `What it does:` 1 concise sentence in simple, everyday English explaining the direct shopper benefit (never mention internal algorithms, embeddings, or state machines).
+     2. `Example:` 1 concrete, relatable real-world example query or 1-click action (e.g. `Type: "Warm jacket for a winter dinner date under $250"`).
    - Enforce clean, natural e-commerce terminology:
+     - `Curated` → `Ready-to-wear / Matching / Hand-picked`
+     - `Pieces` → `Clothes and shoes / Items`
+     - `Capabilities` → `Smart Features / Tools`
+     - `Cap` → `Budget / Limit`
+     - `Cutoff hours` → `Delivery today`
+     - `Essentials` → `Everyday items / Basics`
      - `YOUR SELECTION` instead of `ATELIER SELECTION`
      - `Items Selected` / `Pieces Selected` instead of `Pieces Curated`
      - `EXPRESS DELIVERY` / `SHIPPING` instead of `EXPRESS DISPATCH`
      - `Saved Items` / `Wishlist` instead of `Vault`
+     - `Telemetry / Human updates` → `Simple, clear messages / Real-time updates`
 
 2. **Spotlight Hero & Integrated Action Toolbar Structure Invariant**:
    - Page headers on major functional views (Cart, Wishlist, Smart List, Orders, Profile, Account) must NEVER be rendered as floating, uncontained text lines with raw hyperlink clusters on a blank dark canvas.

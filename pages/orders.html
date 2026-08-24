@@ -161,37 +161,90 @@
   </div>
 
   <main class="orders-page-wrap">
-    <div class="orders-header-wrap">
-      <h1 class="orders-title" style="font-family:var(--font-display);font-size:32px;font-weight:600;margin-bottom:8px;color:#FFFFFF;">Order Journey</h1>
-      <p style="font-size:14px;color:var(--text-secondary,#94A3B8);">Real-time tracking, authentication proofs, and delivery archives.</p>
+    <!-- LUXURY GLASSMORPHIC SPOTLIGHT HERO -->
+    <div class="orders-hero-header">
+      <div class="orders-hero-main">
+        <div class="orders-hero-content">
+          <div class="orders-hero-eyebrow">
+            <span class="orders-live-dot"></span>
+            <span>CLIENT ARCHIVE &amp; LIVE RADAR</span>
+            <span class="orders-eyebrow-sep">·</span>
+            <span class="orders-badge-pill" id="heroBadgeCount">3 ORDERS</span>
+          </div>
+          <h1 class="orders-hero-title">
+            Order <em class="serif-accent">Journey</em>
+          </h1>
+          <p class="orders-hero-subtitle">
+            Real-time courier telemetry, authentication certificates, and complete client purchase archives.
+          </p>
+        </div>
+
+        <div class="orders-hero-stats" id="ordersHeroStats">
+          <div class="orders-stat-box">
+            <span class="orders-stat-label">TOTAL PLACED</span>
+            <span class="orders-stat-val" id="heroTotalOrders">3</span>
+          </div>
+          <div class="orders-stat-divider"></div>
+          <div class="orders-stat-box">
+            <span class="orders-stat-label">IN TRANSIT</span>
+            <span class="orders-stat-val" id="heroInTransit" style="color: var(--accent-cyan, #3DE0FF);">1</span>
+          </div>
+          <div class="orders-stat-divider"></div>
+          <div class="orders-stat-box">
+            <span class="orders-stat-label">DELIVERED</span>
+            <span class="orders-stat-val" id="heroDelivered" style="color: #34D399;">2</span>
+          </div>
+          <div class="orders-stat-divider"></div>
+          <div class="orders-stat-box">
+            <span class="orders-stat-label">TOTAL VALUE</span>
+            <span class="orders-stat-val tabular-nums" id="heroTotalSpent">€ 790.00</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Filter Bar -->
-    <div class="orders-filter-bar" role="tablist" aria-label="Filter Orders">
-      <button class="orders-filter-pill active" data-filter="all" onclick="filterOrders('all', this)" role="tab" aria-selected="true">
-        All Orders <span class="orders-filter-count" id="countAll">0</span>
-      </button>
-      <button class="orders-filter-pill" data-filter="transit" onclick="filterOrders('transit', this)" role="tab" aria-selected="false">
-        In Transit <span class="orders-filter-count" id="countTransit">0</span>
-      </button>
-      <button class="orders-filter-pill" data-filter="delivered" onclick="filterOrders('delivered', this)" role="tab" aria-selected="false">
-        Delivered <span class="orders-filter-count" id="countDelivered">0</span>
-      </button>
-      <button class="orders-filter-pill" data-filter="cancelled" onclick="filterOrders('cancelled', this)" role="tab" aria-selected="false">
-        Cancelled <span class="orders-filter-count" id="countCancelled">0</span>
-      </button>
+    <!-- Controls Bar (Status Filters + Instant Search) -->
+    <div class="orders-controls-bar">
+      <div class="orders-filter-bar" role="tablist" aria-label="Filter Orders">
+        <button class="orders-filter-pill active" data-filter="all" onclick="filterOrders('all', this)" role="tab" aria-selected="true">
+          All Orders <span class="orders-filter-count" id="countAll">0</span>
+        </button>
+        <button class="orders-filter-pill" data-filter="transit" onclick="filterOrders('transit', this)" role="tab" aria-selected="false">
+          In Transit <span class="orders-filter-count" id="countTransit">0</span>
+        </button>
+        <button class="orders-filter-pill" data-filter="delivered" onclick="filterOrders('delivered', this)" role="tab" aria-selected="false">
+          Delivered <span class="orders-filter-count" id="countDelivered">0</span>
+        </button>
+        <button class="orders-filter-pill" data-filter="cancelled" onclick="filterOrders('cancelled', this)" role="tab" aria-selected="false">
+          Cancelled <span class="orders-filter-count" id="countCancelled">0</span>
+        </button>
+      </div>
+
+      <div class="orders-search-wrapper">
+        <i data-lucide="search" class="orders-search-icon"></i>
+        <input type="text" id="ordersSearchInput" class="orders-search-input" placeholder="Search by order #, item, or city..." autocomplete="off" spellcheck="false" aria-label="Search orders" />
+        <button type="button" id="ordersSearchClear" class="orders-search-clear" aria-label="Clear search" style="display: none;" onclick="clearOrdersSearch()">
+          <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- Empty Filter State -->
+    <!-- Empty Filter / Search State -->
     <div id="ordersEmptyFilter" class="orders-empty-state" style="display: none;">
       <div style="width: 56px; height: 56px; margin: 0 auto 16px; border-radius: 50%; background: rgba(61, 224, 255, 0.08); border: 1px solid rgba(61, 224, 255, 0.2); display: flex; align-items: center; justify-content: center;">
         <i data-lucide="package-search" style="width: 26px; height: 26px; color: var(--accent-cyan);"></i>
       </div>
-      <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 600; color: #FFFFFF; margin: 0 0 6px;">No orders found</h2>
-      <p style="font-size: 13px; color: var(--text-secondary); max-width: 380px; margin: 0 auto 18px;">There are no active orders matching this filter.</p>
-      <button type="button" class="btn-secondary-action" onclick="filterOrders('all', document.querySelector('[data-filter=\'all\']'))" style="height: 38px; padding: 0 18px; font-size: 11px;">
-        <span>VIEW ALL ORDERS</span>
-      </button>
+      <h2 style="font-family: var(--font-display, 'Manrope', sans-serif); font-size: 20px; font-weight: 600; color: #FFFFFF; margin: 0 0 6px;" id="ordersEmptyTitle">No orders found</h2>
+      <p style="font-size: 13px; color: var(--text-secondary); max-width: 380px; margin: 0 auto 18px;" id="ordersEmptyDesc">There are no active orders matching this filter or search query.</p>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button type="button" class="btn-secondary-action" onclick="resetOrdersFilter()" style="height: 38px; padding: 0 18px; font-size: 11px;">
+          <span>RESET ALL FILTERS</span>
+        </button>
+        <a href="discovery.html" class="btn-primary-commerce" style="height: 38px; padding: 0 18px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px;">
+          <i data-lucide="compass" style="width: 13px; height: 13px;"></i>
+          <span>EXPLORE ATELIER</span>
+        </a>
+      </div>
     </div>
 
     <!-- Orders List -->
@@ -209,6 +262,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="../js/animations.js"></script>
   <script src="../js/footer.js"></script>
+  <script src="../js/visual-search-ui.js"></script>
   <script src="../js/theme-switcher.js"></script>
   <script src="../js/cart.js"></script>
   <script src="../js/auth.js"></script>
@@ -286,28 +340,51 @@
     function getOrders() {
       try {
         var raw = localStorage.getItem(ORDERS_KEY);
-        if (!raw) {
+        if (raw === null) {
           localStorage.setItem(ORDERS_KEY, JSON.stringify(DEFAULT_ORDERS));
           return DEFAULT_ORDERS;
         }
         var parsed = JSON.parse(raw);
-        return parsed && parsed.length > 0 ? parsed : DEFAULT_ORDERS;
+        return Array.isArray(parsed) ? parsed : DEFAULT_ORDERS;
       } catch (e) {
         return DEFAULT_ORDERS;
       }
     }
 
     var currentFilter = 'all';
+    var searchQuery = '';
 
     function renderOrdersList() {
       var orders = getOrders();
       var listEl = document.getElementById('ordersList');
       var emptyEl = document.getElementById('ordersEmptyFilter');
+      var emptyTitle = document.getElementById('ordersEmptyTitle');
+      var emptyDesc = document.getElementById('ordersEmptyDesc');
 
       var transitCount = orders.filter(function(o) { return o.status === 'transit'; }).length;
       var deliveredCount = orders.filter(function(o) { return o.status === 'delivered'; }).length;
       var cancelledCount = orders.filter(function(o) { return o.status === 'cancelled'; }).length;
+      var totalSpent = orders.reduce(function(acc, o) {
+        if (o.status !== 'cancelled') {
+          return acc + Number(o.total || 0);
+        }
+        return acc;
+      }, 0);
 
+      // Hero KPIs & Badges
+      var heroBadge = document.getElementById('heroBadgeCount');
+      var heroTotal = document.getElementById('heroTotalOrders');
+      var heroTr = document.getElementById('heroInTransit');
+      var heroDel = document.getElementById('heroDelivered');
+      var heroSpent = document.getElementById('heroTotalSpent');
+
+      if (heroBadge) heroBadge.textContent = orders.length + (orders.length === 1 ? ' ORDER' : ' ORDERS');
+      if (heroTotal) heroTotal.textContent = orders.length;
+      if (heroTr) heroTr.textContent = transitCount;
+      if (heroDel) heroDel.textContent = deliveredCount;
+      if (heroSpent) heroSpent.textContent = '€ ' + totalSpent.toFixed(2);
+
+      // Filter Bar Counts
       var cAll = document.getElementById('countAll');
       var cTr = document.getElementById('countTransit');
       var cDel = document.getElementById('countDelivered');
@@ -317,14 +394,40 @@
       if (cDel) cDel.textContent = deliveredCount;
       if (cCan) cCan.textContent = cancelledCount;
 
+      // Filter & Search Logic
+      var cleanQuery = searchQuery.trim().toLowerCase();
       var filtered = orders.filter(function(order) {
-        if (currentFilter === 'all') return true;
-        return order.status === currentFilter;
+        if (currentFilter !== 'all' && order.status !== currentFilter) {
+          return false;
+        }
+        if (cleanQuery) {
+          var idMatch = (order.id || '').toLowerCase().includes(cleanQuery);
+          var destMatch = (order.destination || '').toLowerCase().includes(cleanQuery);
+          var courierMatch = (order.courier || '').toLowerCase().includes(cleanQuery);
+          var itemMatch = (order.items || []).some(function(item) {
+            return (item.name || '').toLowerCase().includes(cleanQuery) ||
+                   (item.tag || '').toLowerCase().includes(cleanQuery);
+          });
+          return idMatch || destMatch || courierMatch || itemMatch;
+        }
+        return true;
       });
 
       if (!filtered || filtered.length === 0) {
         if (listEl) listEl.innerHTML = '';
-        if (emptyEl) emptyEl.style.display = 'block';
+        if (emptyEl) {
+          emptyEl.style.display = 'block';
+          if (orders.length === 0) {
+            if (emptyTitle) emptyTitle.textContent = 'Your order archive is empty';
+            if (emptyDesc) emptyDesc.textContent = 'You have not placed any orders yet. Discover our latest ready-to-wear pieces and atelier drops.';
+          } else if (cleanQuery) {
+            if (emptyTitle) emptyTitle.textContent = 'No matching orders found';
+            if (emptyDesc) emptyDesc.textContent = 'No orders matched your search query "' + cleanQuery + '". Try searching by product name or order number.';
+          } else {
+            if (emptyTitle) emptyTitle.textContent = 'No orders in this status';
+            if (emptyDesc) emptyDesc.textContent = 'There are no orders matching the selected status filter.';
+          }
+        }
         return;
       }
 
@@ -338,7 +441,7 @@
         var statusIcon = isCancelled ? 'x-circle' : (order.status === 'transit' ? 'truck' : 'check-circle-2');
 
         var itemsHtml = '';
-        order.items.forEach(function(item) {
+        (order.items || []).forEach(function(item) {
           var safeName = (item.name || '').replace(/'/g, "\\'");
           itemsHtml += `
             <div class="order-item-row">
@@ -348,7 +451,7 @@
                 <h3 class="order-item-name">${item.name}</h3>
                 <div class="order-item-meta">Qty: ${item.quantity || 1} &middot; <strong class="tabular-nums">€ ${(item.price * (item.quantity || 1)).toFixed(2)}</strong></div>
               </div>
-              <button type="button" class="btn-secondary-action order-item-reorder-btn" onclick="reorderItem('${safeName}', ${item.price}, '${item.image}')">
+              <button type="button" class="btn-secondary-action order-item-reorder-btn" onclick="reorderItem('${safeName}', ${item.price}, '${item.image}', this)">
                 RE-ORDER
               </button>
             </div>
@@ -384,13 +487,42 @@
               </div>
 
               ${order.status === 'transit' ? `
-                <div class="order-progress-track">
-                  <div class="order-progress-fill" style="width: ${order.progress}%;"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
-                  <span>Shipped</span>
-                  <span style="color: var(--accent-cyan); font-weight: 600;">Out for Delivery</span>
-                  <span>Estimated by 6:00 PM</span>
+                <div class="order-milestone-stepper" role="region" aria-label="Courier delivery milestones">
+                  <div class="milestone-step done">
+                    <div class="milestone-dot"><i data-lucide="check" style="width: 12px; height: 12px;"></i></div>
+                    <div class="milestone-info">
+                      <span class="milestone-title">Confirmed</span>
+                      <span class="milestone-sub">Payment Verified</span>
+                    </div>
+                  </div>
+                  <div class="milestone-connector done"></div>
+                  <div class="milestone-step done">
+                    <div class="milestone-dot"><i data-lucide="check" style="width: 12px; height: 12px;"></i></div>
+                    <div class="milestone-info">
+                      <span class="milestone-title">Atelier Dispatch</span>
+                      <span class="milestone-sub">Handover Complete</span>
+                    </div>
+                  </div>
+                  <div class="milestone-connector done"></div>
+                  <div class="milestone-step active">
+                    <div class="milestone-dot milestone-pulse-dot">
+                      <i data-lucide="truck" style="width: 12px; height: 12px;"></i>
+                    </div>
+                    <div class="milestone-info">
+                      <span class="milestone-title" style="color: var(--accent-cyan);">Out for Delivery</span>
+                      <span class="milestone-sub">${order.eta || 'Today by 6:00 PM'}</span>
+                    </div>
+                  </div>
+                  <div class="milestone-connector"></div>
+                  <div class="milestone-step upcoming">
+                    <div class="milestone-dot">
+                      <i data-lucide="map-pin" style="width: 12px; height: 12px;"></i>
+                    </div>
+                    <div class="milestone-info">
+                      <span class="milestone-title" style="color: var(--text-secondary);">Delivered</span>
+                      <span class="milestone-sub">Signature Handover</span>
+                    </div>
+                  </div>
                 </div>
               ` : ''}
 
@@ -439,15 +571,43 @@
       renderOrdersList();
     });
 
-    function filterOrders(status) {
+    function filterOrders(status, el) {
       currentFilter = status;
       document.querySelectorAll('.orders-filter-pill').forEach(function(pill) {
-        pill.classList.toggle('active', pill.getAttribute('data-filter') === status);
+        pill.classList.toggle('active', pill === el || pill.getAttribute('data-filter') === status);
+        pill.setAttribute('aria-selected', pill === el || pill.getAttribute('data-filter') === status ? 'true' : 'false');
       });
       renderOrdersList();
     }
 
-    function reorderItem(name, price, image) {
+    function clearOrdersSearch() {
+      var input = document.getElementById('ordersSearchInput');
+      var clearBtn = document.getElementById('ordersSearchClear');
+      if (input) input.value = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      searchQuery = '';
+      renderOrdersList();
+    }
+
+    function resetOrdersFilter() {
+      clearOrdersSearch();
+      var allPill = document.querySelector('.orders-filter-pill[data-filter="all"]');
+      if (allPill) {
+        filterOrders('all', allPill);
+      }
+    }
+
+    function reorderItem(name, price, image, btn) {
+      if (btn) {
+        btn.classList.add('added-success');
+        var originalText = btn.textContent;
+        btn.textContent = 'ADDED ✓';
+        setTimeout(function() {
+          btn.textContent = originalText;
+          btn.classList.remove('added-success');
+        }, 1800);
+      }
+
       var cartEngine = window.NexCart || window.nexCart;
       if (cartEngine && typeof cartEngine.addItem === 'function') {
         cartEngine.addItem({
@@ -474,7 +634,7 @@
       var modal = document.getElementById('invoiceModal');
       var content = document.getElementById('invoiceModalContent');
 
-      var itemsRows = order.items.map(function(item) {
+      var itemsRows = (order.items || []).map(function(item) {
         return `
           <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px;">
             <div>
@@ -550,6 +710,19 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+      var searchInput = document.getElementById('ordersSearchInput');
+      var searchClear = document.getElementById('ordersSearchClear');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+          searchQuery = e.target.value;
+          if (searchClear) {
+            searchClear.style.display = searchQuery ? 'flex' : 'none';
+          }
+          renderOrdersList();
+        });
+      }
+
       renderOrdersList();
     });
   </script>

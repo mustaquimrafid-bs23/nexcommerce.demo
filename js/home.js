@@ -752,7 +752,7 @@ function initIntentSuggestions() {
 }
 
 /**
- * 3. Curated "Pieces Matched to Your Taste" AI Recommendation Interactions
+ * 3. "Recommended for You" AI Recommendation & Personalized Style Grid Interactions
  */
 function renderFeaturedCollection() {
   // Sync AI Style Profile context if user has a profile saved

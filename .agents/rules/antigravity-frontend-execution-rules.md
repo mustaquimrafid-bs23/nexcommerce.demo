@@ -93,5 +93,27 @@
 - **Dark Theme Background Harmony**: In dark-mode storefronts (`#030814` / `#000B1A`), banners must use deep dark palettes (obsidian concrete, dark smoked oak, midnight twilight) that seamlessly integrate with the surrounding dark canvas.
 - **Responsive CSS Framing**: Set responsive aspect ratios (`16 / 6.5` desktop down to `16 / 9` mobile) with calibrated `object-position` or `object-fit: contain` on seamless dark backgrounds.
 
+## 15. Visual Search, File Upload & Interactive Dropzone Standards
+- **Clean Unprompted Initial State (No Fake Preloaded Defaults)**:
+  - File upload, visual vector search, and AI discovery modals must open in a **clean, unprompted initial state**.
+  - NEVER pre-populate arbitrary sample images or fake product matches by default on modal open unless explicitly passed a deep-link URL parameter. The initial screen must invite user interaction.
+- **Single Unified Upload Zone (Zero Redundancy Invariant)**:
+  - The initial view must present **only ONE clear upload target** (the primary center dropzone).
+  - NEVER render redundant upload inputs or dual upload buttons (e.g. a top search bar upload button AND a center dropzone upload button simultaneously) on the same screen.
+- **Interactive & Accessible Dropzone Standard**:
+  - Any upload dropzone or placeholder frame MUST be **fully interactive**:
+    - 1-click anywhere inside the container triggers the native file picker (`fileInput.click()`).
+    - Drag-and-drop (`dragenter`, `dragover`, `dragleave`, `drop`) on the entire surface with real-time visual feedback (`.dragover` glow / border pulse).
+    - Full keyboard accessibility (`role="button"`, `tabindex="0"`, `keydown` on `Enter` / `Space`).
+- **Instant 1-Click Demo Action (`✨ Try Demo`)**:
+  - Always provide a dedicated, prominent **`✨ Try Demo`** button alongside `Browse Photos` inside file upload / AI feature components.
+  - Allows stakeholders, shoppers, or automated test harnesses without a local image file to immediately test the end-to-end matching pipeline in 1 click using a curated sample asset.
+- **Clean 2-Phase State Transition Architecture**:
+  - **Phase 1 (Initial / Empty)**: Single central dropzone + `Browse Photos` and `✨ Try Demo` action pair. Top search/chip bars remain hidden.
+  - **Phase 2 (Active / Searched)**: Center dropzone transforms into the matching product grid; top active photo bar appears showing the uploaded image thumbnail, match count, and a simple `Change Photo` action.
+- **Minimalist Jargon-Free UX**:
+  - Keep the interface free of extraneous capsule tags or confusing technical terms (*"Neural Vector Scan"*, *"1536-dim embeddings"*, *"Silhouette constraints"*). Keep the focus squarely on the photo and the matching products with 1-click **Add to Bag**.
+
+
 
 

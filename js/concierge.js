@@ -634,8 +634,9 @@
       html += renderProductCards(response.products);
     }
 
-    // Action Link if present
-    if (response.actionLink) {
+    // Action Link if present (suppressed for self-contained interactive order widgets to prevent duplicate action buttons)
+    const isSelfContainedOrderWidget = ['order_auth_required', 'order_address', 'order_payment', 'order_review', 'order_confirmed'].includes(response.type);
+    if (response.actionLink && !isSelfContainedOrderWidget) {
       const resolvedUrl = resolveHref(response.actionLink.url);
       html += `
         <div class="concierge-action-wrap">
@@ -1288,6 +1289,15 @@
     const input = trackerCard.querySelector('input');
     if (!input || !input.value.trim()) return;
     handleUserMessage('Track order ' + input.value.trim());
+  }
+
+  // Global Export
+  if (typeof window !== 'undefined') {
+    window.NexConcierge = {
+      open: openDrawer,
+      close: closeDrawer,
+      sendMessage: handleUserMessage
+    };
   }
 
 })(typeof window !== 'undefined' ? window : global, typeof document !== 'undefined' ? document : {});

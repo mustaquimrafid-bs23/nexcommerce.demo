@@ -1,5 +1,0 @@
-[     306ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:8080/js/animations.js?v=6:2
-[     340ms] ReferenceError: startActiveProgress is not defined
-    at startTimer (http://localhost:8080/js/home.js?v=7:242:5)
-    at initHeroCarousel (http://localhost:8080/js/home.js?v=7:454:3)
-    at HTMLDocument.<anonymous> (http://localhost:8080/js/home.js?v=7:12:3)

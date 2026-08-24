@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore simplified Shop by Photo UI designs for nexCommerce." />
+  <title>Shop by Photo — 3 Simplified UI Variations · nexCommerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-base: #060913;
+      --bg-surface: #0c1222;
+      --bg-elevated: #131b2e;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(61, 224, 255, 0.35);
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-cyan: #3DE0FF;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #030712;
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      padding: 40px 20px;
+      line-height: 1.5;
+    }
+
+    .preview-section {
+      max-width: 900px;
+      margin: 0 auto 60px auto;
+      background: #080d1a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(61, 224, 255, 0.1);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 999px;
+      color: var(--accent-cyan);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 600;
+      color: #FFF;
+      margin-bottom: 6px;
+    }
+    .section-title em { font-style: italic; color: var(--accent-cyan); font-weight: 400; }
+    .section-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+
+    /* Modal Canvas Container */
+    .modal-frame {
+      background: rgba(13, 19, 36, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .modal-title { font-size: 20px; font-weight: 700; color: #FFF; margin-bottom: 2px; }
+    .modal-subtitle { font-size: 13px; color: var(--text-secondary); }
+    .close-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle);
+      color: var(--text-secondary); display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Common Components */
+    .sample-looks-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .sample-label { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+    .sample-pill {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .sample-pill.active {
+      background: rgba(61, 224, 255, 0.12);
+      border-color: var(--accent-cyan);
+      color: #FFF;
+      font-weight: 600;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .match-pill {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: rgba(61, 224, 255, 0.12);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      color: var(--accent-cyan);
+      font-size: 9px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .card-img-wrap {
+      width: 100%; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+      margin-bottom: 6px;
+    }
+    .card-img-wrap img { max-height: 85px; max-width: 85%; object-fit: contain; }
+    .card-title { font-size: 12px; font-weight: 600; color: #FFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-price { font-size: 12px; font-weight: 700; color: var(--accent-cyan); font-family: var(--font-mono); margin-bottom: 6px; }
+    .card-add-btn {
+      margin-top: auto;
+      background: #FFF; color: #000; border: none; border-radius: 5px;
+      padding: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+
+    /* ─── VARIATION 1: STREAMLINED MINIMALIST ─── */
+    .v1-photo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+    .v1-photo-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .v1-photo-thumb {
+      width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #000; border: 1px solid rgba(61,224,255,0.3);
+    }
+    .v1-photo-text h4 { font-size: 13px; font-weight: 600; color: #FFF; margin-bottom: 1px; }
+    .v1-photo-text p { font-size: 11px; color: var(--text-secondary); }
+    .v1-upload-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle);
+      color: #FFF; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ─── VARIATION 2: GOOGLE LENS STYLE INPUT ─── */
+    .v2-input-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-accent);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      gap: 10px;
+    }
+    .v2-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(61, 224, 255, 0.15);
+      color: var(--accent-cyan);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .v2-chip img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
+    .v2-upload-action {
+      margin-left: auto;
+      background: transparent; border: none; color: var(--accent-cyan);
+      font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: underline;
+    }
+
+    /* ─── VARIATION 3: SPLIT CLEAN VIEW ─── */
+    .v3-split-wrap {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 18px;
+    }
+    .v3-photo-pane {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .v3-photo-pane img {
+      width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; border: 1px solid rgba(61,224,255,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <div style="max-width: 900px; margin: 0 auto 30px auto;">
+    <h1 style="font-family: var(--font-serif); font-size: 32px; margin-bottom: 4px;">Simplified "Shop by Photo" UI Variations</h1>
+    <p style="color: var(--text-secondary); font-size: 14px;">Clean, jargon-free, and streamlined interfaces designed for zero cognitive friction.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!-- VARIATION 1: STREAMLINED MINIMALIST (RECOMMENDED) -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="preview-section" id="simplifiedOption1">
+    <div class="section-badge"><i data-lucide="sparkles" style="width:13px;height:13px;"></i> Variation 1 (Recommended)</div>
+    <h2 class="section-title">Streamlined <em>Clean Minimalist</em></h2>
+    <p class="section-desc">Replaces all technical jargon with simple plain English. Features a sleek top photo preview bar, quick sample buttons, and clear matching cards.</p>
+
+    <div class="modal-frame">
+      <div class="header-row">
+        <div>
+          <div class="modal-title">Shop by Photo</div>
+          <div class="modal-subtitle">Upload or choose a photo to find similar clothes in our store.</div>
+        </div>
+        <button class="close-btn" aria-label="Close modal"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+
+      <!-- Clean Photo Bar -->
+      <div class="v1-photo-bar">
+        <div class="v1-photo-left">
+          <img src="../assets/images/products/hero_sweater.png" alt="Sweater" class="v1-photo-thumb" />
+          <div class="v1-photo-text">
+            <h4>Showing matches for Cashmere Sweater</h4>
+            <p>Matching knitwear style, color, and fit</p>
+          </div>
+        </div>
+        <button class="v1-upload-btn" aria-label="Upload new photo"><i data-lucide="upload" style="width:13px;height:13px;"></i> Upload New Photo</button>
+      </div>
+
+      <!-- Sample Looks -->
+      <div class="sample-looks-row">
+        <span class="sample-label">Try sample looks:</span>
+        <button class="sample-pill active">🧥 Cashmere Sweater</button>
+        <button class="sample-pill">👟 Leather Sneakers</button>
+        <button class="sample-pill">🧥 Wool Coat</button>
+        <button class="sample-pill">🎧 Headphones</button>
+        <button class="sample-pill">👜 Canvas Tote</button>
+      </div>
+
+      <!-- Results Grid -->
+      <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">
+        Matching Items in Store
+      </div>
+      <div class="cards-grid">
+        <div class="product-card">
+          <span class="match-pill">96% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/hero_sweater.png" alt="Cashmere Turtleneck" /></div>
+          <div class="card-title">Cashmere Turtleneck</div>
+          <div class="card-price">€ 185.00</div>
+          <button class="card-add-btn"><i data-lucide="shopping-bag" style="width:11px;height:11px;"></i> Add to Bag</button>
+        </div>
+        <div class="product-card">
+          <span class="match-pill">91% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/plp_blazer.png" alt="Structured Blazer" /></div>
+          <div class="card-title">Structured Wool Blazer</div>
+          <div class="card-price">€ 264.00</div>
+          <button class="card-add-btn"><i data-lucide="shopping-bag" style="width:11px;height:11px;"></i> Add to Bag</button>
+        </div>
+        <div class="product-card">
+          <span class="match-pill">88% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/plp_overcoat.png" alt="Charcoal Overcoat" /></div>
+          <div class="card-title">Charcoal Overcoat</div>
+          <div class="card-price">€ 380.00</div>
+          <button class="card-add-btn"><i data-lucide="shopping-bag" style="width:11px;height:11px;"></i> Add to Bag</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!-- VARIATION 2: GOOGLE LENS STYLE -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="preview-section" id="simplifiedOption2">
+    <div class="section-badge" style="background:rgba(241,51,101,0.1);color:#F13365;border-color:rgba(241,51,101,0.3);"><i data-lucide="camera" style="width:13px;height:13px;"></i> Variation 2</div>
+    <h2 class="section-title">Visual <em>Lens Input Bar</em></h2>
+    <p class="section-desc">Search-bar style layout where the photo is held as an active tag chip with instant one-click sample switching.</p>
+
+    <div class="modal-frame">
+      <div class="header-row">
+        <div>
+          <div class="modal-title">Search with Image</div>
+          <div class="modal-subtitle">Find clothes by image matching.</div>
+        </div>
+        <button class="close-btn" aria-label="Close modal"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+
+      <div class="v2-input-box">
+        <span class="v2-chip"><img src="../assets/images/products/hero_sweater.png" alt="Sweater" /> Cashmere Sweater <i data-lucide="x" style="width:11px;height:11px;cursor:pointer;"></i></span>
+        <span style="font-size:12px;color:var(--text-muted);">Showing 3 similar items...</span>
+        <button class="v2-upload-action" aria-label="Upload different photo">+ Upload New Photo</button>
+      </div>
+
+      <div class="sample-looks-row">
+        <span class="sample-label">Examples:</span>
+        <button class="sample-pill active">Cashmere</button>
+        <button class="sample-pill">Sneakers</button>
+        <button class="sample-pill">Overcoat</button>
+        <button class="sample-pill">Headphones</button>
+      </div>
+
+      <div class="cards-grid">
+        <div class="product-card">
+          <span class="match-pill">96% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/hero_sweater.png" alt="Cashmere Turtleneck" /></div>
+          <div class="card-title">Cashmere Turtleneck</div>
+          <div class="card-price">€ 185.00</div>
+          <button class="card-add-btn">+ Add to Bag</button>
+        </div>
+        <div class="product-card">
+          <span class="match-pill">91% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/plp_blazer.png" alt="Structured Blazer" /></div>
+          <div class="card-title">Structured Wool Blazer</div>
+          <div class="card-price">€ 264.00</div>
+          <button class="card-add-btn">+ Add to Bag</button>
+        </div>
+        <div class="product-card">
+          <span class="match-pill">88% MATCH</span>
+          <div class="card-img-wrap"><img src="../assets/images/products/plp_overcoat.png" alt="Charcoal Overcoat" /></div>
+          <div class="card-title">Charcoal Overcoat</div>
+          <div class="card-price">€ 380.00</div>
+          <button class="card-add-btn">+ Add to Bag</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <!-- VARIATION 3: SIDE-BY-SIDE SPLIT -->
+  <!-- ════════════════════════════════════════════════════════════════════════ -->
+  <section class="preview-section" id="simplifiedOption3">
+    <div class="section-badge" style="background:rgba(52,211,153,0.1);color:#34D399;border-color:rgba(52,211,153,0.3);"><i data-lucide="columns" style="width:13px;height:13px;"></i> Variation 3</div>
+    <h2 class="section-title">Split <em>Photo &amp; Matches</em> View</h2>
+    <p class="section-desc">Two-column layout showing the full uploaded photo on the left and matched products on the right.</p>
+
+    <div class="modal-frame">
+      <div class="header-row">
+        <div>
+          <div class="modal-title">Shop by Photo</div>
+          <div class="modal-subtitle">Direct photo matching.</div>
+        </div>
+        <button class="close-btn" aria-label="Close modal"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+
+      <div class="v3-split-wrap">
+        <!-- Left: Uploaded Photo -->
+        <div class="v3-photo-pane">
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;">Your Photo</div>
+          <img src="../assets/images/products/hero_sweater.png" alt="Your Photo" />
+          <button class="v1-upload-btn" style="width:100%;justify-content:center;" aria-label="Change photo">Change Photo</button>
+        </div>
+
+        <!-- Right: Results -->
+        <div>
+          <div class="sample-looks-row" style="margin-bottom:10px;">
+            <span class="sample-label">Sample looks:</span>
+            <button class="sample-pill active">Sweater</button>
+            <button class="sample-pill">Sneakers</button>
+            <button class="sample-pill">Coat</button>
+          </div>
+
+          <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="product-card">
+              <span class="match-pill">96% MATCH</span>
+              <div class="card-img-wrap"><img src="../assets/images/products/hero_sweater.png" alt="Cashmere Turtleneck" /></div>
+              <div class="card-title">Cashmere Turtleneck</div>
+              <div class="card-price">€ 185.00</div>
+              <button class="card-add-btn">+ Add to Bag</button>
+            </div>
+            <div class="product-card">
+              <span class="match-pill">91% MATCH</span>
+              <div class="card-img-wrap"><img src="../assets/images/products/plp_blazer.png" alt="Structured Blazer" /></div>
+              <div class="card-title">Wool Blazer</div>
+              <div class="card-price">€ 264.00</div>
+              <button class="card-add-btn">+ Add to Bag</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>
