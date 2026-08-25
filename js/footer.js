@@ -39,9 +39,10 @@
               '</a>' +
             '</div>' +
           '</div>' +
-          '<!-- Column 2: About (Strictly 3 Simple Links) -->' +
+          '<!-- Column 2: About & Guides -->' +
           '<div class="footer-nav-col">' +
             '<span class="footer-col-heading">ABOUT</span>' +
+            '<a href="' + toRoot + 'feature-showcase.html" class="footer-link-item">Feature Guide</a>' +
             '<a href="' + toPages + 'about.html" class="footer-link-item">About Us</a>' +
             '<a href="' + toPages + 'privacy.html" class="footer-link-item">Privacy Policy</a>' +
             '<a href="' + toPages + 'terms.html" class="footer-link-item">Terms of Service</a>' +
@@ -118,136 +119,249 @@
     };
 
     var phases = [
-      { label: '1. Discovery & Search', features: [
-        { 
-          icon: S.search, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'AI Smart Search',
-          does: 'Finds clothes and shoes using normal everyday sentences instead of exact names.',
-          example: 'Type: "Warm jacket for a winter dinner date under $250"',
-          demo: 'ai-search'
-        },
-        { 
-          icon: S.compass, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'Style Discovery',
-          does: 'Shows ready-to-wear outfits for your mood, work, or events.',
-          example: 'Click "Office Meeting" or "Weekend Travel" for instant looks.',
-          path: toPages + 'discovery.html'
-        },
-        { 
-          icon: S.camera, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'Shop by Photo',
-          does: 'Upload or take any picture to find similar clothes in our store.',
-          example: 'Upload a photo of a sweater from Instagram to find similar items.',
-          demo: 'visual-search',
-          path: toPages + 'discovery.html?mode=visual'
-        },
-      ]},
-      { label: '2. Styling & Fit', features: [
-        { 
-          icon: S.mic, bg: 'rgba(241,51,101,0.1)', color: '#F13365', name: 'AI Personal Stylist',
-          does: 'A 24/7 private assistant to help pick outfits, check sizes, or place orders.',
-          example: 'Ask: "What shoes look best with this cashmere sweater?"',
-          demo: 'concierge'
-        },
-        { 
-          icon: S.layers, bg: 'rgba(241,51,101,0.1)', color: '#F13365', name: 'Complete Outfit Builder',
-          does: 'Puts together full head-to-toe matching outfits in 1 single click.',
-          example: '1 button adds jacket, shirt, pants, and watch together to cart.',
-          path: toPages + 'discovery.html#drops'
-        },
-        { 
-          icon: S.ruler, bg: 'rgba(241,51,101,0.1)', color: '#F13365', name: 'Size & Fit Advisor',
-          does: 'Calculates your exact size from your body measurements.',
-          example: 'Enter height and chest size: "Recommended: Size Medium".',
-          path: toPages + 'size-guide.html'
-        },
-      ]},
-      { label: '3. Shop Smart & Deals', features: [
-        { 
-          icon: S.wallet, bg: 'rgba(52,211,153,0.1)', color: '#34D399', name: 'Budget Cart Builder',
-          does: 'Give it your spending limit — AI builds the best outfit within your budget.',
-          example: 'Set $400 budget -> AI picks 3 items totaling $360 ($40 left).',
-          demo: 'budget-cart'
-        },
-        { 
-          icon: S.fileText, bg: 'rgba(52,211,153,0.1)', color: '#34D399', name: 'List & Receipt Scanner',
-          does: 'Paste or scan any text list or receipt to fill your cart in seconds.',
-          example: 'Paste: "2 black t-shirts size L and 1 pair of sneakers size 42".',
-          demo: 'slip-to-cart'
-        },
-        { 
-          icon: S.columns, bg: 'rgba(52,211,153,0.1)', color: '#34D399', name: 'Side-by-Side Comparison',
-          does: 'Compares two items side-by-side across warmth, fabric, and fit.',
-          example: 'Compare two coats to see which is warmer and lighter.',
-          demo: 'comparison'
-        },
-        { 
-          icon: S.refresh, bg: 'rgba(52,211,153,0.1)', color: '#34D399', name: 'Smart Reorder',
-          does: 'Learns what everyday items you buy and reminds you before you run out.',
-          example: 'Reminds you with a 1-click reorder button for your favorite items.',
-          path: toPages + 'smart-list.html'
-        },
-        { 
-          icon: S.tag, bg: 'rgba(52,211,153,0.1)', color: '#34D399', name: 'Best Deal & Coupon Finder',
-          does: 'Finds the best discount and tells you if adding an item saves more.',
-          example: '"Add a $10 item to unlock 20% off and save $40 total!"',
-          demo: 'savings'
-        },
-      ]},
-      { label: '4. Fast Delivery & Checkout', features: [
-        { 
-          icon: S.mapPin, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'Same-Day Delivery Checker',
-          does: 'Checks your postal code to see if a courier can deliver your order today.',
-          example: '"Order in the next 2 hours for courier delivery today by 6 PM."',
-          demo: 'delivery-hub'
-        },
-        { 
-          icon: S.navigation, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'Delivery Assistant',
-          does: 'Tracks your package with simple, clear messages instead of confusing codes.',
-          example: '"Your package is on the local delivery van arriving tomorrow morning."',
-          path: toPages + 'tracking.html'
-        },
-        { 
-          icon: S.shield, bg: 'rgba(61,224,255,0.1)', color: '#3DE0FF', name: 'Quick Chat Checkout',
-          does: 'Buy items directly inside chat with Pay on Delivery safety.',
-          example: 'Say: "Order my bag" -> Confirms address & sets safe delivery.',
-          demo: 'concierge'
-        },
-      ]},
-      { label: '5. Bag Protection', features: [
-        { 
-          icon: S.zap, bg: 'rgba(241,51,101,0.1)', color: '#F13365', name: 'Saved Bag Reservation',
-          does: 'Holds the items in your cart with a special discount if you leave the page.',
-          example: 'Locks your selected items and gives you a special discount code.',
-          demo: 'cart-recovery'
-        },
-      ]},
+      { 
+        icon: '🔍',
+        label: '1. Finding What You Want (Search & Discovery)', 
+        features: [
+          { 
+            num: '01',
+            icon: S.search, 
+            gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)', 
+            color: '#3DE0FF', 
+            name: 'Smart Conversational Search',
+            does: 'Type in normal sentences instead of exact keywords.',
+            example: 'Warm jacket for a winter dinner date under $250',
+            actionText: 'Try Search',
+            demo: 'ai-search'
+          },
+          { 
+            num: '02',
+            icon: S.camera, 
+            gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', 
+            color: '#8b5cf6', 
+            name: 'Search by Photo',
+            does: 'Upload any picture or screenshot to find matching items.',
+            example: 'Upload a photo of white sneakers from Instagram.',
+            actionText: 'Try Photo Search',
+            demo: 'visual-search',
+            path: toPages + 'discovery.html?mode=visual'
+          },
+          { 
+            num: '03',
+            icon: S.mic, 
+            gradient: 'linear-gradient(135deg, #0284c7, #0369a1)', 
+            color: '#0284c7', 
+            name: 'Natural Voice Search',
+            does: 'Talk naturally into the microphone without robotic commands.',
+            example: 'Hey stylist, show me black overcoats under $300.',
+            actionText: 'Try Voice Search',
+            demo: 'ai-search'
+          },
+        ]
+      },
+      { 
+        icon: '👔',
+        label: '2. Outfits & Perfect Fit (Styling & Sizing)', 
+        features: [
+          { 
+            num: '04',
+            icon: S.mic, 
+            gradient: 'linear-gradient(135deg, #ec4899, #be185d)', 
+            color: '#ec4899', 
+            name: '24/7 Personal Stylist Chat',
+            does: 'A private chat stylist that knows what product you are viewing.',
+            example: 'Viewing a blazer? It suggests matching pants & shoes.',
+            actionText: 'Open Chat',
+            demo: 'concierge'
+          },
+          { 
+            num: '05',
+            icon: S.layers, 
+            gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', 
+            color: '#f59e0b', 
+            name: '1-Click Outfit Bundles',
+            does: 'Bundles complete head-to-toe matching looks in 1 click.',
+            example: '1 button adds jacket, shirt, pants, and watch together.',
+            actionText: 'View Outfits',
+            path: toPages + 'discovery.html#drops'
+          },
+          { 
+            num: '06',
+            icon: S.ruler, 
+            gradient: 'linear-gradient(135deg, #10b981, #047857)', 
+            color: '#10b981', 
+            name: 'Smart Size & Fit Advisor',
+            does: 'Enter chest and waist measurements to find your exact size.',
+            example: 'Chest 98cm + Waist 82cm → Size Medium (94% fit).',
+            actionText: 'Open Size Guide',
+            path: toPages + 'size-guide.html'
+          },
+          { 
+            num: '07',
+            icon: S.columns, 
+            gradient: 'linear-gradient(135deg, #0284c7, #0369a1)', 
+            color: '#0284c7', 
+            name: 'Side-by-Side Comparison',
+            does: 'Compares two items side-by-side across warmth, fabric, and fit.',
+            example: 'Choose Cashmere for winter; Fine-Knit for office.',
+            actionText: 'Compare Items',
+            demo: 'comparison'
+          },
+        ]
+      },
+      { 
+        icon: '🛒',
+        label: '3. Shopping Bag & Deals (Savings & Budget)', 
+        features: [
+          { 
+            num: '08',
+            icon: S.wallet, 
+            gradient: 'linear-gradient(135deg, #10b981, #047857)', 
+            color: '#10b981', 
+            name: 'Target-Budget Cart Builder',
+            does: 'Set a spending limit and it builds a matching wardrobe for you.',
+            example: 'Set $500 budget → gets 3 matching pieces for $454.',
+            actionText: 'Build Under Budget',
+            demo: 'budget-cart'
+          },
+          { 
+            num: '09',
+            icon: S.fileText, 
+            gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', 
+            color: '#8b5cf6', 
+            name: 'Paste a Shopping List (Slip-to-Cart)',
+            does: 'Paste a text note and it adds all items to your bag in 1 click.',
+            example: 'Paste: "2x cashmere sweater M, 1x leather runner 42"',
+            actionText: 'Try List Scanner',
+            demo: 'slip-to-cart'
+          },
+          { 
+            num: '10',
+            icon: S.tag, 
+            gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', 
+            color: '#f59e0b', 
+            name: 'Proactive Discount Optimizer',
+            does: 'Automatically finds and applies the best coupon codes.',
+            example: 'Alert: "Add $15 more to unlock 15% VIP discount!"',
+            actionText: 'Check Savings',
+            demo: 'savings'
+          },
+          { 
+            num: '11',
+            icon: S.refresh, 
+            gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)', 
+            color: '#06b6d4', 
+            name: 'Smart Reorder Reminders',
+            does: 'Reminds you when wardrobe essentials are running low.',
+            example: '1-click restock popover after 60 days.',
+            actionText: 'Open Smart List',
+            path: toPages + 'smart-list.html'
+          },
+        ]
+      },
+      { 
+        icon: '🚚',
+        label: '4. Fast Checkout & Delivery (Buying & Tracking)', 
+        features: [
+          { 
+            num: '12',
+            icon: S.shield, 
+            gradient: 'linear-gradient(135deg, #ec4899, #be185d)', 
+            color: '#ec4899', 
+            name: 'Order Directly in Chat',
+            does: 'Buy items right inside the chat without filling long forms.',
+            example: 'Say: "Order my bag" → Confirms address and places order.',
+            actionText: 'Try Chat Order',
+            demo: 'concierge'
+          },
+          { 
+            num: '13',
+            icon: S.navigation, 
+            gradient: 'linear-gradient(135deg, #0284c7, #0369a1)', 
+            color: '#0284c7', 
+            name: 'Live 6-Stage Delivery Tracker',
+            does: 'Shows live progress from tailoring to doorstep with clear updates.',
+            example: 'Explains: "Driver will arrive today by 3:30 PM."',
+            actionText: 'Open Tracker',
+            path: toPages + 'tracking.html'
+          },
+          { 
+            num: '14',
+            icon: S.mapPin, 
+            gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', 
+            color: '#f59e0b', 
+            name: 'Same-Day Local Delivery Gate',
+            does: 'Checks local warehouse stock for 45-minute express delivery.',
+            example: 'Order within 1h 45m for express delivery today.',
+            actionText: 'Check City Hub',
+            demo: 'delivery-hub'
+          },
+          { 
+            num: '15',
+            icon: S.zap, 
+            gradient: 'linear-gradient(135deg, #10b981, #047857)', 
+            color: '#10b981', 
+            name: '100% Private On-Device Vault',
+            does: 'Your sizes and favorites stay strictly on your phone. Never tracked or sold.',
+            example: '1-click button on Privacy page to download or erase data.',
+            actionText: 'Open Vault',
+            path: toPages + 'privacy.html'
+          },
+        ]
+      },
     ];
 
-    var rowsHtml = '';
+    var sectionsHtml = '';
     phases.forEach(function(phase) {
-      rowsHtml += '<div class="ai-tour-phase-label">' + phase.label + '</div>';
-      phase.features.forEach(function(f) {
-        var content = 
-          '<div class="ai-tour-feat-icon" style="background:' + f.bg + ';color:' + f.color + '">' + f.icon + '</div>' +
-          '<div class="ai-tour-feat-body">' +
-            '<div class="ai-tour-feat-name">' + f.name + '</div>' +
-            '<div class="ai-tour-feat-desc"><strong>What it does:</strong> ' + f.does + '</div>' +
-            '<div class="ai-tour-feat-example"><strong>Example:</strong> ' + f.example + '</div>' +
+      sectionsHtml += 
+        '<div class="ai-tour-section-block">' +
+          '<div class="ai-tour-section-header">' +
+            '<span>' + phase.icon + '</span>' +
+            '<span class="ai-tour-section-title">' + phase.label + '</span>' +
+            '<span class="ai-tour-section-badge">' + phase.features.length + ' Features</span>' +
           '</div>' +
-          '<div class="ai-tour-feat-arrow">→</div>';
+          '<div class="ai-tour-cards-grid">';
+      
+      phase.features.forEach(function(f) {
+        var isDemo = !!f.demo;
+        var actionElem = isDemo
+          ? '<button type="button" class="ai-tour-card-action-btn" data-tour-demo="' + f.demo + '">' + f.actionText + ' &rarr;</button>'
+          : '<a href="' + f.path + '" class="ai-tour-card-action-link">' + f.actionText + ' &rarr;</a>';
 
-        if (f.demo) {
-          rowsHtml += '<button type="button" class="ai-tour-feature-row" data-tour-demo="' + f.demo + '" style="--row-accent:' + f.color + '">' + content + '</button>';
-        } else {
-          rowsHtml += '<a href="' + f.path + '" class="ai-tour-feature-row" style="--row-accent:' + f.color + '">' + content + '</a>';
-        }
+        sectionsHtml += 
+          '<div class="ai-tour-card-box">' +
+            '<div>' +
+              '<div class="ai-tour-box-top">' +
+                '<div class="ai-tour-box-icon" style="background:' + f.gradient + ';">' + f.icon + '</div>' +
+                '<div class="ai-tour-box-meta">' +
+                  '<span class="ai-tour-box-num">Feature ' + f.num + '</span>' +
+                  '<h4 class="ai-tour-box-title">' + f.name + '</h4>' +
+                '</div>' +
+              '</div>' +
+              '<div class="ai-tour-box-content">' +
+                '<div class="ai-tour-info-row">' +
+                  '<div class="ai-tour-info-label">What it does</div>' +
+                  '<p class="ai-tour-info-text">' + f.does + '</p>' +
+                '</div>' +
+                '<div class="ai-tour-example-box">' +
+                  '<div class="ai-tour-example-label">Real Example</div>' +
+                  '<div class="ai-tour-example-val">' + f.example + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ai-tour-box-footer">' + actionElem + '</div>' +
+          '</div>';
       });
+
+      sectionsHtml += '</div></div>';
     });
 
     // Floating button
     var btn = document.createElement('button');
     btn.id = 'aiTourFloatingBtn';
-    btn.setAttribute('aria-label', 'View AI Features');
+    btn.setAttribute('aria-label', 'View Smart Features');
     btn.setAttribute('aria-expanded', 'false');
-    btn.innerHTML = '<span class="ai-tour-btn-dot"></span> AI Features';
+    btn.innerHTML = '<span class="ai-tour-btn-dot"></span> Smart Features';
     document.body.appendChild(btn);
 
     // Modal
@@ -255,7 +369,7 @@
     modal.id = 'aiTourModal';
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
-    modal.setAttribute('aria-label', 'AI Features overview');
+    modal.setAttribute('aria-label', 'Smart Features overview');
     modal.setAttribute('data-lenis-prevent', '');
 
     modal.innerHTML =
@@ -263,12 +377,13 @@
         '<div class="ai-tour-panel-accent"></div>' +
         '<div class="ai-tour-panel-head">' +
           '<div>' +
+            '<div class="ai-tour-panel-tag">✨ Simple & Clear Overview</div>' +
             '<div class="ai-tour-panel-title">Smart Shopping Features</div>' +
-            '<div class="ai-tour-panel-sub">15 smart tools to help you shop — click any to try or preview.</div>' +
+            '<div class="ai-tour-panel-sub">15 simple tools to make finding, sizing, and buying clothes easier and faster.</div>' +
           '</div>' +
           '<button class="ai-tour-close" id="aiTourCloseBtn" aria-label="Close">&times;</button>' +
         '</div>' +
-        '<div class="ai-tour-feature-list" data-lenis-prevent tabindex="0">' + rowsHtml + '</div>' +
+        '<div class="ai-tour-feature-list" data-lenis-prevent tabindex="0">' + sectionsHtml + '</div>' +
       '</div>';
 
     document.body.appendChild(modal);
@@ -288,7 +403,7 @@
     }
 
     // Interactive Demo Handlers
-    modal.querySelectorAll('.ai-tour-feature-row[data-tour-demo]').forEach(function(rowBtn) {
+    modal.querySelectorAll('[data-tour-demo]').forEach(function(rowBtn) {
       var demoType = rowBtn.getAttribute('data-tour-demo');
       if (demoType === 'cart-recovery') return; // Handled separately below
 
@@ -347,7 +462,7 @@
     });
 
     // Anchor Link Handlers for direct page & section navigation
-    modal.querySelectorAll('a.ai-tour-feature-row').forEach(function(anchor) {
+    modal.querySelectorAll('a.ai-tour-card-action-link, .ai-tour-card-box a').forEach(function(anchor) {
       anchor.addEventListener('click', function(e) {
         var href = anchor.getAttribute('href');
         if (!href) return;

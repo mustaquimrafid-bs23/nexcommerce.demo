@@ -591,30 +591,40 @@
       const productHref = `${_resolvePage('product.html')}?id=${p.id}`;
       return `
       <div class="search-product-card" data-id="${p.id}">
-        <div class="search-card-specular" aria-hidden="true"></div>
-        <a href="${productHref}" class="search-card-img-wrap" style="display:block; text-decoration:none;">
-          <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
+        <div class="search-card-img-wrap">
+          <a href="${productHref}" class="search-quickview-overlay-btn btn-view-product" data-id="${p.id}" aria-label="Quick Look ${escapeHtml(p.name)}">
+            <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+          </a>
           <span class="search-card-badge">${escapeHtml(p.matchBadge || 'RECOMMENDED')}</span>
-        </a>
+          <img src="${_resolveAsset(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" />
+        </div>
         <div class="search-card-content">
+          <div class="search-rating-row">
+            <span>★ 4.9</span>
+            <span class="search-rating-count">(94)</span>
+          </div>
           <div class="search-card-header">
             <span class="search-card-brand">${escapeHtml(p.brand)}</span>
             <h4 class="search-card-title">
               <a href="${productHref}" style="color:inherit; text-decoration:none;">${escapeHtml(p.name)}</a>
             </h4>
-            <div class="search-card-price tabular-nums">${p.formattedPrice}</div>
           </div>
-          <div class="search-card-actions">
-            <button type="button" class="btn-search-quick-add" data-id="${p.id}">
-              <i data-lucide="shopping-bag" style="width:14px;height:14px;margin-right:6px;"></i> QUICK ADD
+          <div class="search-card-swatches">
+            <span class="search-swatch-dot active" style="background:#FFFFFF;" title="Light / Silver"></span>
+            <span class="search-swatch-dot" style="background:#1E293B;" title="Midnight Charcoal"></span>
+            <span class="search-swatch-dot" style="background:#78350F;" title="Tuscan Leather"></span>
+          </div>
+          <div class="search-card-footer">
+            <div class="search-price-group">
+              <div class="search-card-price tabular-nums">${p.formattedPrice}</div>
+              <div class="search-stock-whisper">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </div>
+            </div>
+            <button type="button" class="btn-search-round-add btn-search-quick-add" data-id="${p.id}" aria-label="Add ${escapeHtml(p.name)} to Bag" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
             </button>
-            <a href="${productHref}" class="btn-search-view btn-view-product" data-id="${p.id}">
-              VIEW
-            </a>
           </div>
-          <button type="button" class="link-see-why" data-id="${p.id}">
-            See details &amp; specs &rarr;
-          </button>
         </div>
       </div>
     `;}).join('');
@@ -1002,6 +1012,23 @@
         e.stopPropagation();
         const pid = btn.getAttribute('data-id');
         handleQuickAdd(pid, btn);
+      });
+    });
+
+    // Swatches
+    resultsContainer.querySelectorAll('.search-swatch-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const parent = dot.closest('.search-card-swatches');
+        if (parent) {
+          parent.querySelectorAll('.search-swatch-dot').forEach(d => d.classList.remove('active'));
+        }
+        dot.classList.add('active');
+        const title = dot.getAttribute('title') || 'Color';
+        if (window.showToast) {
+          window.showToast(`Selected finish: ${title}`, 'info');
+        }
       });
     });
 

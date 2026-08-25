@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple feature guide and overview of nexCommerce intelligent shopping capabilities.">
+  <title>nexCommerce — Simple Feature Guide</title>
+  
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #001229;
+      --bg-surface: #061e3d;
+      --bg-card: #0b284e;
+      --bg-card-hover: #0f3466;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-focus: #3DE0FF;
+      --cyan: #3DE0FF;
+      --pink: #F13365;
+      --green: #10B981;
+      --amber: #F59E0B;
+      --purple: #8B5CF6;
+      --text-white: #FFFFFF;
+      --text-muted: #94A3B8;
+      --text-sub: #CBD5E1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    /* Simple Header */
+    .top-nav {
+      background: rgba(0, 18, 41, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFF;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-pill {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: var(--cyan);
+      color: #001229;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+    }
+
+    .nav-btn {
+      background: #FFF;
+      color: #001229;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    /* Hero Banner */
+    .hero {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(61, 224, 255, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #FFF;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-sub);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* Section Category Headers */
+    .section-block {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #FFF;
+    }
+
+    .section-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    /* 3-Column Simple Box Grid */
+    .boxes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Clean Simple Box */
+    .card-box {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .card-box:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .box-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .box-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #FFF;
+    }
+
+    .icon-blue { background: linear-gradient(135deg, #0284c7, #0369a1); }
+    .icon-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .icon-pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+    .icon-purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .icon-green { background: linear-gradient(135deg, #10b981, #047857); }
+    .icon-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .icon-red { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+
+    .box-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .box-heading {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-top: 0.15rem;
+    }
+
+    .box-content {
+      margin-bottom: 1.25rem;
+    }
+
+    .info-row {
+      margin-bottom: 0.75rem;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .info-text {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.45;
+    }
+
+    .example-box {
+      background: rgba(0, 18, 41, 0.6);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .example-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .example-val {
+      font-size: 0.85rem;
+      color: #FFF;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .box-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .action-link {
+      color: var(--cyan);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: gap 0.2s ease;
+    }
+
+    .action-link:hover {
+      gap: 0.6rem;
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 1.85rem; }
+      .boxes-grid { grid-template-columns: 1fr; }
+      .container { padding: 1.5rem 1rem; }
+      .top-nav { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="brand">
+      <span>nexCommerce</span>
+      <span class="brand-pill">Simple Guide</span>
+    </div>
+    <a href="../index.html" class="nav-btn">
+      <i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i> Open Live Storefront
+    </a>
+  </header>
+
+  <div class="container">
+    
+    <!-- Hero Title -->
+    <section class="hero">
+      <div class="hero-tag">
+        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Simple & Clear Overview
+      </div>
+      <h1 class="hero-title">Every Smart Feature in 4 Simple Stages</h1>
+      <p class="hero-subtitle">
+        Everything you need to know about how nexCommerce makes online shopping faster, easier, and smarter.
+      </p>
+    </section>
+
+    <!-- ================= STAGE 1: SEARCH & DISCOVERY ================= -->
+    <section class="section-block">
+      <div class="section-header">
+        <div class="section-icon-box">🔍</div>
+        <h2 class="section-title">1. Finding What You Want (Search & Discovery)</h2>
+        <span class="section-badge">3 Features</span>
+      </div>
+
+      <div class="boxes-grid">
+        
+        <!-- Box 01 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-cyan">
+                <i data-lucide="search" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 01</div>
+                <h3 class="box-heading">Smart Conversational Search</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">You can type or speak in regular sentences. It extracts what you need (warmth, price, occasion) without needing exact product names.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">"Warm jacket for a winter dinner date under $250"</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="discovery.html" class="action-link">Try Smart Search <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 02 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-purple">
+                <i data-lucide="camera" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 02</div>
+                <h3 class="box-heading">Search by Photo</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Upload a screenshot from Instagram or a street style photo to instantly find matching clothes and shoes in the store.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Upload a photo of white leather sneakers to find the closest match.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="discovery.html?mode=visual" class="action-link">Try Photo Search <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 03 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-blue">
+                <i data-lucide="mic" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 03</div>
+                <h3 class="box-heading">Natural Voice Search</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Talk naturally into the microphone. It removes filler words ("umm", "can you please") and speaks back a helpful summary.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">"Hey stylist, show me black overcoats under 300 dollars."</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="discovery.html" class="action-link">Try Voice Search <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= STAGE 2: STYLING & SIZING ================= -->
+    <section class="section-block">
+      <div class="section-header">
+        <div class="section-icon-box">👔</div>
+        <h2 class="section-title">2. Outfits & Perfect Fit (Styling & Sizing)</h2>
+        <span class="section-badge">4 Features</span>
+      </div>
+
+      <div class="boxes-grid">
+        
+        <!-- Box 04 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-pink">
+                <i data-lucide="message-square" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 04</div>
+                <h3 class="box-heading">24/7 Personal Stylist</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">A private chat stylist that knows what product you are viewing and gives instant styling, fabric, and size tips.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Viewing a sweater? Stylist suggests matching pants and care instructions.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="product.html" class="action-link">Open Stylist Chat <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 05 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-amber">
+                <i data-lucide="shirt" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 05</div>
+                <h3 class="box-heading">1-Click Outfit Bundles</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Puts together complete head-to-toe matching looks (jacket + knit + shoes + bag) and lets you add the full look in 1 click.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Click "Business Travel Look" to bundle blazer, knit, and runners together.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="product.html" class="action-link">View Outfits <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 06 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-green">
+                <i data-lucide="ruler" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 06</div>
+                <h3 class="box-heading">Smart Size & Fit Advisor</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Enter your chest and waist measurements to find your exact size and see how fitted or relaxed the garment will drape on you.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Chest 98cm + Waist 82cm → Size Medium (94% fit confidence).</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="size-guide.html" class="action-link">Open Size Calibrator <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 07 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-blue">
+                <i data-lucide="columns-2" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 07</div>
+                <h3 class="box-heading">Side-by-Side Comparison</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Compares two similar items side by side on warmth, fabric weight, and price, with a clear verdict on which one to buy.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">"Choose Cashmere for outdoor winter; choose Fine-Knit for office air-con."</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="category.html" class="action-link">Compare Items <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= STAGE 3: SHOPPING BAG & DEALS ================= -->
+    <section class="section-block">
+      <div class="section-header">
+        <div class="section-icon-box">🛒</div>
+        <h2 class="section-title">3. Shopping Bag & Deals (Savings & Budget)</h2>
+        <span class="section-badge">4 Features</span>
+      </div>
+
+      <div class="boxes-grid">
+        
+        <!-- Box 08 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-green">
+                <i data-lucide="wallet" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 08</div>
+                <h3 class="box-heading">Target-Budget Cart Builder</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Set a spending limit (e.g. $500), and it automatically picks a full matching wardrobe that stays strictly under your budget.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Set $500 limit → gets sweater + shoes + bag = $454 ($46 headroom left).</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="cart.html" class="action-link">Build Under Budget <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 09 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-purple">
+                <i data-lucide="file-text" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 09</div>
+                <h3 class="box-heading">Paste a Shopping List (Slip-to-Cart)</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Paste a messy WhatsApp text message or note, and it matches all items, quantities, and sizes directly into your bag in 1 click.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Paste: "2x cashmere sweater in grey size M, 1x leather runner 42"</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="cart.html" class="action-link">Try List Scanner <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 10 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-amber">
+                <i data-lucide="tag" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 10</div>
+                <h3 class="box-heading">Proactive Discount Optimizer</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Finds the best coupon combinations and alerts you if adding a small item unlocks a bigger discount for bigger net savings.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Alert: "Add $15 more to unlock 15% VIP discount (saving $35+ total)!"</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="checkout.html" class="action-link">Check Savings <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 11 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-cyan">
+                <i data-lucide="repeat" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 11</div>
+                <h3 class="box-heading">Smart Reorder Reminders</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Learns your usual buying habits and gently reminds you when wardrobe essentials (like t-shirts or grooming pieces) need restocking.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">1-click restock popover after 60 days with your exact saved size.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="smart-list.html" class="action-link">Open Smart List <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= STAGE 4: CHECKOUT & DELIVERY ================= -->
+    <section class="section-block">
+      <div class="section-header">
+        <div class="section-icon-box">🚚</div>
+        <h2 class="section-title">4. Fast Checkout & Delivery (Buying & Tracking)</h2>
+        <span class="section-badge">4 Features</span>
+      </div>
+
+      <div class="boxes-grid">
+        
+        <!-- Box 12 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-pink">
+                <i data-lucide="credit-card" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 12</div>
+                <h3 class="box-heading">Order Directly in Chat</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Confirm your order right inside the styling chat assistant with your saved address in 3 clicks without filling web forms.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Type "Order my cart" → confirms address and places order immediately.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="cart.html" class="action-link">Try Chat Ordering <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 13 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-blue">
+                <i data-lucide="truck" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 13</div>
+                <h3 class="box-heading">Live 6-Stage Delivery Tracker</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Live animated timeline showing every step of your order with an assistant that explains courier updates in plain English.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">Explains: "Package arrived at local depot. Driver will arrive today by 3:30 PM."</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="tracking.html" class="action-link">Open Live Tracker <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 14 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-amber">
+                <i data-lucide="clock" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 14</div>
+                <h3 class="box-heading">Same-Day Local Delivery Gate</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Checks local warehouse stock in your city to show exact same-day delivery countdown timers so you know when it arrives.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">"Order within 1h 45m for 45-minute express delivery to your door today."</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="category.html" class="action-link">Check City Delivery <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+        <!-- Box 15 -->
+        <div class="card-box">
+          <div>
+            <div class="box-top">
+              <div class="box-icon icon-green">
+                <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
+              </div>
+              <div>
+                <div class="box-num">Feature 15</div>
+                <h3 class="box-heading">100% Private On-Device Vault</h3>
+              </div>
+            </div>
+            <div class="box-content">
+              <div class="info-row">
+                <div class="info-label">What it does</div>
+                <p class="info-text">Your style preferences, measurements, and shopping cart are saved only on your device. Never uploaded, tracked, or sold.</p>
+              </div>
+              <div class="example-box">
+                <div class="example-label"><i data-lucide="play" style="width: 10px; height: 10px;"></i> Real Example</div>
+                <div class="example-val">1-click button on the Privacy page to download or erase all saved signals.</div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <a href="privacy.html" class="action-link">Open Privacy Vault <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

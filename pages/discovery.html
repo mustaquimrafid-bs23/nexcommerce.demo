@@ -277,6 +277,21 @@
       font-weight: 700;
     }
 
+    .disc-sphere-count {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #94A3B8;
+      transition: all 0.2s ease;
+    }
+
+    .disc-sphere-pill.active .disc-sphere-count {
+      background: #020B18;
+      color: #FFFFFF;
+    }
+
     /* ═══════════════════════════════════════════════════════════════════════
        2. VISUAL MASONRY MOODBOARD
     ═══════════════════════════════════════════════════════════════════════ */
@@ -286,12 +301,12 @@
       align-items: flex-end;
       flex-wrap: wrap;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .disc-sec-title {
       font-family: 'Manrope', sans-serif;
-      font-size: clamp(26px, 3vw, 36px);
+      font-size: clamp(24px, 2.5vw, 32px);
       font-weight: 600;
       color: #FFFFFF;
       margin: 0;
@@ -299,7 +314,7 @@
     }
 
     .disc-sec-sub {
-      font-size: 13px;
+      font-size: 12.5px;
       color: #94A3B8;
       margin: 4px 0 0;
     }
@@ -310,11 +325,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 12px 20px;
+      padding: 10px 18px;
       background: rgba(61, 224, 255, 0.06);
       border: 1px solid rgba(61, 224, 255, 0.25);
       border-radius: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       animation: fadeInDown 0.3s ease;
@@ -339,7 +354,7 @@
     }
 
     .disc-status-text {
-      font-size: 13px;
+      font-size: 12.5px;
       color: #E2E8F0;
     }
 
@@ -365,7 +380,7 @@
       color: #FFFFFF;
       font-size: 11px;
       font-weight: 600;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 9999px;
       cursor: pointer;
       transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -376,66 +391,69 @@
       border-color: #FFFFFF;
     }
 
-    /* Masonry Grid with Asymmetric Column Flow */
+    /* Fluid Reflow Responsive Grid */
     .disc-masonry-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+      transition: all 0.3s ease;
     }
 
     .disc-masonry-col {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      display: contents;
     }
 
-    /* Masonry Card Types */
+    /* Grid Card Types */
     .disc-card {
       position: relative;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: visible;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .disc-card:hover {
       border-color: rgba(61, 224, 255, 0.35);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
     }
 
     .disc-card.matched-highlight {
       border-color: var(--accent-cyan, #3DE0FF) !important;
-      box-shadow: 0 0 24px rgba(61, 224, 255, 0.25) !important;
+      box-shadow: 0 0 20px rgba(61, 224, 255, 0.25) !important;
     }
 
     /* Match Badge */
     .disc-match-badge {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      padding: 4px 10px;
+      top: 8px;
+      right: 8px;
+      padding: 3px 8px;
       background: rgba(3, 24, 56, 0.92);
       border: 1px solid var(--accent-cyan, #3DE0FF);
       border-radius: 9999px;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--accent-cyan, #3DE0FF);
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      box-shadow: 0 0 12px rgba(61, 224, 255, 0.35);
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.35);
       backdrop-filter: blur(8px);
       z-index: 10;
     }
 
-    /* Full-bleed Lifestyle Card with Shoppable Hotspots */
+    /* Lifestyle Card — Compact Height */
     .disc-card-lifestyle {
       position: relative;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
+      height: 260px !important;
+      background: #031633;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     }
 
     .disc-card-img {
@@ -655,116 +673,195 @@
       color: #020B18;
     }
 
-    /* Product Card with Clean Studio Shot */
+    /* Product Card — Option 2: Compact Modern Commerce Tile */
     .disc-card-product {
-      padding: 16px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      overflow: hidden;
-      border-radius: 8px;
+      gap: 6px;
+      background: #031633;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .disc-card-product:hover {
+      border-color: rgba(61, 224, 255, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(61, 224, 255, 0.15);
     }
 
     .disc-product-img-box {
       width: 100%;
-      aspect-ratio: 1 / 1.05;
-      background: radial-gradient(circle at 50% 50%, #031D45 0%, #020B18 80%);
+      aspect-ratio: 1 / 1;
+      background: #020F24;
       border-radius: 6px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 0;
+      position: relative;
     }
 
     .disc-product-img-box img {
-      width: 90%;
-      height: 90%;
+      width: 100%;
+      height: 100%;
       object-fit: contain !important;
       transition: transform 0.4s ease;
-      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+      display: block;
     }
 
     .disc-card:hover .disc-product-img-box img {
       transform: scale(1.06);
     }
 
+    .disc-quickview-btn {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(1, 17, 38, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      z-index: 5;
+    }
+
+    .disc-card-product:hover .disc-quickview-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .disc-quickview-btn:hover {
+      background: #FFFFFF;
+      color: #001229;
+      border-color: #FFFFFF;
+    }
+
     .disc-product-meta {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .disc-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      color: #F59E0B;
+      font-weight: 700;
+    }
+
+    .disc-rating-count {
+      color: #64748B;
+      font-weight: 500;
+      font-size: 10px;
     }
 
     .disc-product-brand {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #94A3B8;
-      margin-bottom: 2px;
     }
 
     .disc-product-name {
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       font-weight: 600;
       color: #FFFFFF;
       margin: 0;
+      line-height: 1.3;
+    }
+
+    .disc-swatches {
+      display: flex;
+      gap: 5px;
+      margin: 2px 0;
+    }
+
+    .disc-swatch-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .disc-swatch-dot.active,
+    .disc-swatch-dot:hover {
+      border-color: #FFFFFF;
+      transform: scale(1.2);
+    }
+
+    .disc-product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 4px;
+    }
+
+    .disc-price-group {
+      display: flex;
+      flex-direction: column;
     }
 
     .disc-product-price {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 700;
       color: #FFFFFF;
       white-space: nowrap;
     }
 
-    .disc-product-cta-row {
+    .disc-stock-status {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #10B981;
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 3px;
     }
 
-    .btn-disc-primary {
-      flex: 1;
-      height: 38px;
+    .btn-disc-round-add {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       background: #FFFFFF;
       color: #020B18;
       border: none;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-    }
-
-    .btn-disc-primary:hover { opacity: 0.9; }
-
-    .btn-disc-quick-add {
-      width: 38px;
-      height: 38px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
-      color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
-    .btn-disc-quick-add:hover {
-      background: rgba(61, 224, 255, 0.15);
-      border-color: var(--accent-cyan, #3DE0FF);
-      color: var(--accent-cyan, #3DE0FF);
+    .btn-disc-round-add:hover {
+      background: var(--accent-cyan, #3DE0FF);
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(61, 224, 255, 0.35);
     }
 
     /* ═══════════════════════════════════════════════════════════════════════
@@ -1182,26 +1279,32 @@
         <button type="button" class="disc-sphere-pill active" data-sphere="all">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #3DE0FF, #A78BFA);color:#3DE0FF;"></span>
           <span class="disc-sphere-title">All Realms</span>
+          <span class="disc-sphere-count" id="count-all">6</span>
         </button>
         <button type="button" class="disc-sphere-pill" data-sphere="quiet-luxury">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #CBD5E1, #334155);color:#CBD5E1;"></span>
           <span class="disc-sphere-title">Quiet Luxury</span>
+          <span class="disc-sphere-count" id="count-quiet-luxury">2</span>
         </button>
         <button type="button" class="disc-sphere-pill" data-sphere="alpine-thermal">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #38BDF8, #1E293B);color:#38BDF8;"></span>
           <span class="disc-sphere-title">Alpine Thermal</span>
+          <span class="disc-sphere-count" id="count-alpine-thermal">2</span>
         </button>
         <button type="button" class="disc-sphere-pill" data-sphere="nordic-minimal">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F8FAFC, #94A3B8);color:#F8FAFC;"></span>
           <span class="disc-sphere-title">Nordic Minimal</span>
+          <span class="disc-sphere-count" id="count-nordic-minimal">1</span>
         </button>
         <button type="button" class="disc-sphere-pill" data-sphere="nocturne-acoustic">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #22D3EE, #0F172A);color:#22D3EE;"></span>
           <span class="disc-sphere-title">Nocturne Acoustic</span>
+          <span class="disc-sphere-count" id="count-nocturne-acoustic">1</span>
         </button>
         <button type="button" class="disc-sphere-pill" data-sphere="transit-leisure">
           <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F59E0B, #451A03);color:#F59E0B;"></span>
           <span class="disc-sphere-title">Transit Leisure</span>
+          <span class="disc-sphere-count" id="count-transit-leisure">2</span>
         </button>
       </div>
     </section>
@@ -1211,7 +1314,7 @@
       <div class="disc-section-header">
         <div>
           <h2 class="disc-sec-title" id="masonryTitle">Browse &amp; Explore</h2>
-          <p class="disc-sec-sub">Interactive editorial photography &mdash; tap pulsing pins to discover featured pieces.</p>
+          <p class="disc-sec-sub">Curated luxury catalog &mdash; select finishes, explore details, and add to bag.</p>
         </div>
       </div>
 
@@ -1222,182 +1325,220 @@
           <span class="disc-status-text" id="discStatusText">Showing results for <strong>"Leather runner sneakers"</strong></span>
           <span class="disc-status-count" id="discStatusCount">(1 Direct Match)</span>
         </div>
-        <button type="button" class="disc-clear-btn" id="discClearSearchBtn" aria-label="Clear active filter">
-          <i data-lucide="x" style="width: 13px; height: 13px;"></i>
-          <span>Clear Filter</span>
-        </button>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <a href="../search-result-variations.html" class="disc-clear-btn" style="border-color: var(--accent-cyan, #3DE0FF); color: var(--accent-cyan, #3DE0FF); text-decoration: none;">
+            <i data-lucide="layout-grid" style="width: 13px; height: 13px;"></i>
+            <span>Compare 3 Card Styles</span>
+          </a>
+          <button type="button" class="disc-clear-btn" id="discClearSearchBtn" aria-label="Clear active filter">
+            <i data-lucide="x" style="width: 13px; height: 13px;"></i>
+            <span>Clear Filter</span>
+          </button>
+        </div>
       </div>
 
       <div class="disc-masonry-grid" id="masonryGrid">
 
-        <!-- Column 1 -->
-        <div class="disc-masonry-col">
-          <!-- Card 1: Lifestyle with Hotspot -->
-          <div class="disc-card disc-card-lifestyle" style="height:440px;" data-sphere-match="alpine-thermal quiet-luxury" data-keywords="cashmere sweater knitwear thermal winter architectural alpine quiet luxury" data-product-id="p1">
-            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Thermal Cashmere Runway" class="disc-card-img">
-            <div class="disc-card-scrim"></div>
-            <!-- Hotspot with Shoppable Popover -->
-            <div class="disc-hotspot-pin" style="top:42%;left:48%;" data-product-id="p1" tabindex="0" role="button" aria-label="Shoppable Pin: Architectural Cashmere Sweater — € 185.00">
-              <span class="disc-hotspot-core" aria-hidden="true"></span>
-              <span class="disc-hotspot-ring" aria-hidden="true"></span>
-              <div class="disc-hotspot-popover" role="tooltip">
-                <img src="../assets/images/products/hero_sweater.png" alt="Cashmere Sweater" class="disc-hotspot-thumb" />
-                <div class="disc-hotspot-details">
-                  <span class="disc-hotspot-tag">Featured Knitwear</span>
-                  <h4 class="disc-hotspot-name">Architectural Cashmere</h4>
-                  <span class="disc-hotspot-price">€ 185.00</span>
-                </div>
-                <div class="disc-hotspot-actions">
-                  <button type="button" class="btn-hotspot-quickadd" data-quick-add-id="p1" data-quick-add-name="Architectural Cashmere Sweater" data-quick-add-price="185" data-quick-add-img="../assets/images/products/hero_sweater.png" aria-label="Quick Add Cashmere Sweater">
-                    <i data-lucide="plus" style="width:12px;height:12px;"></i>
-                  </button>
-                  <a href="product.html?id=p1" class="btn-hotspot-link" aria-label="View Product Details">
-                    <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i>
-                  </a>
-                </div>
-              </div>
+        <!-- Card 1: Architectural Cashmere Sweater (p1) -->
+        <div class="disc-card disc-card-product" data-sphere-match="alpine-thermal quiet-luxury" data-keywords="cashmere knit sweater roll-neck wool warm knitwear winter architectural alpine quiet luxury" data-product-id="p1">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p1" class="disc-quickview-btn" aria-label="Quick Look Cashmere Knit Sweater">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(112 reviews)</span>
             </div>
-            <div class="disc-card-footer-info">
-              <div class="disc-card-footer-text">
-                <div class="disc-card-tag">Alpine Thermal</div>
-                <h3 class="disc-card-title">Architectural Cashmere</h3>
-              </div>
-              <a href="product.html?id=p1" class="btn-disc-primary">View</a>
+            <div class="disc-product-brand">Knitwear Studio</div>
+            <h3 class="disc-product-name">Architectural Cashmere Sweater</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#334155;" title="Heather Charcoal" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#E2E8F0;" title="Alpine Cream" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#1E293B;" title="Midnight Blue" onclick="selectDiscSwatch(this)"></span>
             </div>
           </div>
-
-          <!-- Card 2: Product Card -->
-          <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury" data-keywords="blazer wool structured tailoring unlined merino jacket quiet luxury apparel" data-product-id="p2">
-            <div class="disc-product-img-box">
-              <img src="../assets/images/products/plp_blazer.png" alt="Structured Wool Blazer">
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 185.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
             </div>
-            <div class="disc-product-meta">
-              <div>
-                <div class="disc-product-brand">Atelier Tailoring</div>
-                <h3 class="disc-product-name">Structured Wool Blazer</h3>
-              </div>
-              <div class="disc-product-price">€ 245.00</div>
-            </div>
-            <div class="disc-product-cta-row">
-              <a href="product.html?id=p2" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p2" data-quick-add-name="Structured Wool Blazer" data-quick-add-price="245" data-quick-add-img="../assets/images/products/plp_blazer.png" aria-label="Quick add Structured Wool Blazer">
-                <i data-lucide="plus" style="width:14px;height:14px;"></i>
-              </button>
-            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p1" data-quick-add-name="Architectural Cashmere Sweater" data-quick-add-price="185" data-quick-add-img="../assets/images/products/hero_sweater.png" aria-label="Quick add Cashmere Knit Sweater" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
           </div>
         </div>
 
-        <!-- Column 2 -->
-        <div class="disc-masonry-col">
-          <!-- Card 3: Product Card (Minimalist Leather Runner) -->
-          <div class="disc-card disc-card-product" data-sphere-match="nordic-minimal transit-leisure" data-keywords="leather runner sneakers shoe trainers footwear low-top vibram quiet city mobility" data-product-id="p6">
-            <div class="disc-product-img-box">
-              <img src="../assets/images/products/prod_runner.png" alt="Minimalist Leather Runner">
+        <!-- Card 2: Structured Wool Blazer (p2) -->
+        <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury" data-keywords="blazer wool structured tailoring unlined merino jacket quiet luxury apparel" data-product-id="p2">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p2" class="disc-quickview-btn" aria-label="Quick Look Structured Wool Blazer">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/plp_blazer.png" alt="Structured Wool Blazer">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(88 reviews)</span>
             </div>
-            <div class="disc-product-meta">
-              <div>
-                <div class="disc-product-brand">Footwear Studio</div>
-                <h3 class="disc-product-name">Minimalist Leather Runner</h3>
-              </div>
-              <div class="disc-product-price">€ 195.00</div>
-            </div>
-            <div class="disc-product-cta-row">
-              <a href="product.html?id=p6" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p6" data-quick-add-name="Minimalist Leather Runner" data-quick-add-price="195" data-quick-add-img="../assets/images/products/prod_runner.png" aria-label="Quick add Minimalist Leather Runner">
-                <i data-lucide="plus" style="width:14px;height:14px;"></i>
-              </button>
+            <div class="disc-product-brand">Atelier Tailoring</div>
+            <h3 class="disc-product-name">Structured Wool Blazer</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#1E293B;" title="Midnight Navy" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#0F172A;" title="Charcoal Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#475569;" title="Stone Grey" onclick="selectDiscSwatch(this)"></span>
             </div>
           </div>
-
-          <!-- Card 4: Lifestyle with Hotspot -->
-          <div class="disc-card disc-card-lifestyle" style="height:460px;" data-sphere-match="nocturne-acoustic" data-keywords="headphone audio sound spatial resonance acoustic studio wireless music" data-product-id="p4">
-            <img src="../assets/images/lifestyle/hero_headphone_landscape.jpg" alt="Acoustic Isolation Edit" class="disc-card-img">
-            <div class="disc-card-scrim"></div>
-            <!-- Hotspot with Shoppable Popover -->
-            <div class="disc-hotspot-pin" style="top:36%;left:54%;" data-product-id="p4" tabindex="0" role="button" aria-label="Shoppable Pin: Studio Spatial Headphones — € 320.00">
-              <span class="disc-hotspot-core" aria-hidden="true"></span>
-              <span class="disc-hotspot-ring" aria-hidden="true"></span>
-              <div class="disc-hotspot-popover" role="tooltip">
-                <img src="../assets/images/products/prod_headphones.png" alt="Studio Headphones" class="disc-hotspot-thumb" />
-                <div class="disc-hotspot-details">
-                  <span class="disc-hotspot-tag">Acoustic Studio</span>
-                  <h4 class="disc-hotspot-name">Studio Spatial Audio</h4>
-                  <span class="disc-hotspot-price">€ 320.00</span>
-                </div>
-                <div class="disc-hotspot-actions">
-                  <button type="button" class="btn-hotspot-quickadd" data-quick-add-id="p4" data-quick-add-name="Studio Spatial Headphones" data-quick-add-price="320" data-quick-add-img="../assets/images/products/prod_headphones.png" aria-label="Quick Add Studio Headphones">
-                    <i data-lucide="plus" style="width:12px;height:12px;"></i>
-                  </button>
-                  <a href="product.html?id=p4" class="btn-hotspot-link" aria-label="View Product Details">
-                    <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i>
-                  </a>
-                </div>
-              </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 245.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
             </div>
-            <div class="disc-card-footer-info">
-              <div class="disc-card-footer-text">
-                <div class="disc-card-tag">Nocturne Acoustic</div>
-                <h3 class="disc-card-title">Studio Spatial Resonance</h3>
-              </div>
-              <a href="product.html?id=p4" class="btn-disc-primary">View</a>
-            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p2" data-quick-add-name="Structured Wool Blazer" data-quick-add-price="245" data-quick-add-img="../assets/images/products/plp_blazer.png" aria-label="Quick add Structured Wool Blazer" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
           </div>
         </div>
 
-        <!-- Column 3 -->
-        <div class="disc-masonry-col">
-          <!-- Card 5: Lifestyle with Hotspot -->
-          <div class="disc-card disc-card-lifestyle" style="height:420px;" data-sphere-match="transit-leisure" data-keywords="leather tote bag weekender carryall transit travel accessories" data-product-id="p7">
-            <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Transit Leather Tote" class="disc-card-img">
-            <div class="disc-card-scrim"></div>
-            <!-- Hotspot with Shoppable Popover -->
-            <div class="disc-hotspot-pin" style="top:58%;left:44%;" data-product-id="p7" tabindex="0" role="button" aria-label="Shoppable Pin: Leather Weekender Tote — € 285.00">
-              <span class="disc-hotspot-core" aria-hidden="true"></span>
-              <span class="disc-hotspot-ring" aria-hidden="true"></span>
-              <div class="disc-hotspot-popover" role="tooltip">
-                <img src="../assets/images/products/prod_tote.png" alt="Leather Tote" class="disc-hotspot-thumb" />
-                <div class="disc-hotspot-details">
-                  <span class="disc-hotspot-tag">Transit Atelier</span>
-                  <h4 class="disc-hotspot-name">Leather Weekender Tote</h4>
-                  <span class="disc-hotspot-price">€ 285.00</span>
-                </div>
-                <div class="disc-hotspot-actions">
-                  <button type="button" class="btn-hotspot-quickadd" data-quick-add-id="p7" data-quick-add-name="Leather Weekender Tote" data-quick-add-price="285" data-quick-add-img="../assets/images/products/prod_tote.png" aria-label="Quick Add Leather Tote">
-                    <i data-lucide="plus" style="width:12px;height:12px;"></i>
-                  </button>
-                  <a href="product.html?id=p7" class="btn-hotspot-link" aria-label="View Product Details">
-                    <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i>
-                  </a>
-                </div>
-              </div>
+        <!-- Card 3: Minimalist Leather Runner (p6) -->
+        <div class="disc-card disc-card-product" data-sphere-match="nordic-minimal transit-leisure" data-keywords="leather runner sneakers shoe trainers footwear low-top vibram quiet city mobility" data-product-id="p6">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p6" class="disc-quickview-btn" aria-label="Quick Look Minimalist Leather Runner">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_runner.png" alt="Minimalist Leather Runner">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(94 reviews)</span>
             </div>
-            <div class="disc-card-footer-info">
-              <div class="disc-card-footer-text">
-                <div class="disc-card-tag">Transit Leisure</div>
-                <h3 class="disc-card-title">Weekender Carryall</h3>
-              </div>
-              <a href="product.html?id=p7" class="btn-disc-primary">View</a>
+            <div class="disc-product-brand">Footwear Studio</div>
+            <h3 class="disc-product-name">Minimalist Leather Runner</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#FFFFFF;" title="White Nappa" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#1E293B;" title="Midnight Charcoal" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#78350F;" title="Tuscan Leather" onclick="selectDiscSwatch(this)"></span>
             </div>
           </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 195.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p6" data-quick-add-name="Minimalist Leather Runner" data-quick-add-price="195" data-quick-add-img="../assets/images/products/prod_runner.png" aria-label="Quick add Minimalist Leather Runner" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
 
-          <!-- Card 6: Product Card (Cashmere Knit Sweater) -->
-          <div class="disc-card disc-card-product" data-sphere-match="alpine-thermal quiet-luxury" data-keywords="cashmere knit sweater roll-neck wool warm knitwear winter apparel" data-product-id="p1">
-            <div class="disc-product-img-box">
-              <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater">
+        <!-- Card 4: Studio Spatial Audio (p4) -->
+        <div class="disc-card disc-card-product" data-sphere-match="nocturne-acoustic" data-keywords="headphone audio sound spatial resonance acoustic studio wireless music electronics" data-product-id="p4">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p4" class="disc-quickview-btn" aria-label="Quick Look Studio Spatial Audio">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_headphones.png" alt="Studio Spatial Audio">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.8</span>
+              <span class="disc-rating-count">(76 reviews)</span>
             </div>
-            <div class="disc-product-meta">
-              <div>
-                <div class="disc-product-brand">Knitwear Studio</div>
-                <h3 class="disc-product-name">Cashmere Knit Sweater</h3>
-              </div>
-              <div class="disc-product-price">€ 185.00</div>
+            <div class="disc-product-brand">Acoustic Lab</div>
+            <h3 class="disc-product-name">Studio Spatial Audio</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Matte Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#94A3B8;" title="Titanium Silver" onclick="selectDiscSwatch(this)"></span>
             </div>
-            <div class="disc-product-cta-row">
-              <a href="product.html?id=p1" class="btn-disc-primary">View Piece</a>
-              <button type="button" class="btn-disc-quick-add" data-quick-add-id="p1" data-quick-add-name="Cashmere Knit Sweater" data-quick-add-price="185" data-quick-add-img="../assets/images/products/hero_sweater.png" aria-label="Quick add Cashmere Knit Sweater">
-                <i data-lucide="plus" style="width:14px;height:14px;"></i>
-              </button>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 320.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
             </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p4" data-quick-add-name="Studio Spatial Audio" data-quick-add-price="320" data-quick-add-img="../assets/images/products/prod_headphones.png" aria-label="Quick add Studio Spatial Audio" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 5: Leather Weekender Tote (p7) -->
+        <div class="disc-card disc-card-product" data-sphere-match="transit-leisure quiet-luxury" data-keywords="leather tote bag weekender carryall transit travel accessories leathercraft" data-product-id="p7">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p7" class="disc-quickview-btn" aria-label="Quick Look Leather Weekender Tote">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_tote.png" alt="Leather Weekender Tote">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(64 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Transit Atelier</div>
+            <h3 class="disc-product-name">Leather Weekender Tote</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Onyx Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#9A3412;" title="Caramel Tan" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#451A03;" title="Espresso Brown" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 285.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p7" data-quick-add-name="Leather Weekender Tote" data-quick-add-price="285" data-quick-add-img="../assets/images/products/prod_tote.png" aria-label="Quick add Leather Weekender Tote" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 6: Minimalist Chrono Watch (p5) -->
+        <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury nordic-minimal" data-keywords="watch chrono time minimalist horology titanium sapphire leather accessories" data-product-id="p5">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p5" class="disc-quickview-btn" aria-label="Quick Look Minimalist Chrono Watch">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/search_watch.png" alt="Minimalist Chrono Watch">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(105 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Atelier Horology</div>
+            <h3 class="disc-product-name">Minimalist Chrono Watch</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Black Titanium" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#CBD5E1;" title="Silver Steel" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#B45309;" title="Tan Leather" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 410.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p5" data-quick-add-name="Minimalist Chrono Watch" data-quick-add-price="410" data-quick-add-img="../assets/images/products/search_watch.png" aria-label="Quick add Minimalist Chrono Watch" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
           </div>
         </div>
 
@@ -1599,6 +1740,19 @@
       }, 25);
     }
 
+    // ── Swatch Selection Helper ───────────────────────────────────────────
+    window.selectDiscSwatch = function(dot) {
+      const parent = dot.closest('.disc-swatches');
+      if (parent) {
+        parent.querySelectorAll('.disc-swatch-dot').forEach(d => d.classList.remove('active'));
+      }
+      dot.classList.add('active');
+      const title = dot.getAttribute('title') || 'Color';
+      if (window.showToast) {
+        window.showToast(`Selected finish: ${title}`, 'info');
+      }
+    };
+
     // ── Quick Add Helper ───────────────────────────────────────────────────
     function quickAdd(id, name, price, img) {
       if (window.nexCart && typeof window.nexCart.addItem === 'function') {
@@ -1785,20 +1939,47 @@
       return activePill ? (activePill.dataset.sphere || 'all') : 'all';
     }
 
+    function updateFilterCounts() {
+      const cards = Array.from(document.querySelectorAll('.disc-card'));
+      const spheres = ['all', 'quiet-luxury', 'alpine-thermal', 'nordic-minimal', 'nocturne-acoustic', 'transit-leisure'];
+      
+      spheres.forEach(s => {
+        let count = 0;
+        if (s === 'all') {
+          count = cards.length;
+        } else {
+          count = cards.filter(c => (c.dataset.sphereMatch || '').includes(s)).length;
+        }
+        const badge = document.getElementById(`count-${s}`);
+        if (badge) badge.textContent = count;
+      });
+    }
+
     function applyRealmFilter(sphere) {
       const cards = document.querySelectorAll('.disc-card');
+      let visibleCount = 0;
       cards.forEach(card => {
         const sphereMatch = card.dataset.sphereMatch || '';
         if (sphere === 'all' || sphereMatch.includes(sphere)) {
           card.style.display = 'flex';
           card.style.opacity = '1';
           card.style.transform = 'scale(1)';
+          visibleCount++;
         } else {
           card.style.display = 'none';
         }
       });
       // Ensure all drops visible on realm switch
       document.querySelectorAll('.disc-drop-card').forEach(drop => drop.style.display = 'flex');
+
+      if (sphere !== 'all' && statusBanner && statusText && statusCount) {
+        statusBanner.style.display = 'flex';
+        const sphereName = document.querySelector(`.disc-sphere-pill[data-sphere="${sphere}"] .disc-sphere-title`)?.textContent || sphere;
+        statusText.innerHTML = `Showing realm: <strong>"${escapeHtml(sphereName)}"</strong>`;
+        statusCount.textContent = `(${visibleCount} ${visibleCount === 1 ? 'Piece' : 'Pieces'})`;
+      } else if (sphere === 'all' && statusBanner && (!mainInput || !mainInput.value)) {
+        statusBanner.style.display = 'none';
+      }
     }
 
     function escapeHtml(str) {
@@ -1869,6 +2050,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
+      updateFilterCounts();
 
       const urlParams = new URLSearchParams(window.location.search);
       const qParam = urlParams.get('q');
