@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="view-transition" content="same-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Style Concierge &mdash; nexCommerce</title>
-  <meta name="description" content="Your personal AI Style Concierge. Expertly curating complete looks, finding perfect fits, and refining selections based on your unique style profile.">
+  <title>Smart Style Concierge &mdash; nexCommerce</title>
+  <meta name="description" content="Your personal Smart Style Concierge. Expertly styling complete looks, finding perfect fits, and refining selections based on your unique style profile.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -397,7 +397,7 @@
       </div>
       <div class="preloader-status-whisper">
         <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Loading AI Stylist...</span>
+        <span id="preloaderStatusText">Loading Smart Stylist...</span>
       </div>
       <div class="preloader-progress-track" aria-hidden="true">
         <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
@@ -433,7 +433,7 @@
       <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
         <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
         <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
-        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
@@ -478,7 +478,7 @@
             </a>
             <a href="profile.html" class="nav-more-item" role="menuitem">
               <i data-lucide="sparkles"></i>
-              <span>AI Style Profile</span>
+              <span>Smart Style Profile</span>
             </a>
             <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
@@ -511,7 +511,7 @@
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
-        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
@@ -520,7 +520,7 @@
       </a>
       <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
       <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
-        <span>Account &amp; AI Profile</span>
+        <span>Account &amp; Smart Profile</span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
@@ -535,7 +535,7 @@
   </div>
 
   <main class="concierge-studio-canvas" id="mainContent">
-    <h1 class="sr-only">nexCommerce AI Style Concierge &amp; Styling Studio</h1>
+    <h1 class="sr-only">nexCommerce Smart Style Concierge &amp; Styling Studio</h1>
 
     <!-- STUDIO TOP BAR: AGENT STATUS & ACTIONS -->
     <div class="studio-top-bar">
@@ -544,10 +544,10 @@
           <i data-lucide="sparkles" style="width:20px;height:20px;color:#3DE0FF;"></i>
         </div>
         <div>
-          <div class="agent-name">AI Style Concierge</div>
+          <div class="agent-name">Smart Style Concierge</div>
           <div class="agent-status-whisper">
             <span class="agent-live-dot"></span>
-            <span>Active &middot; AI Wardrobe Stylist</span>
+            <span>Active &middot; Smart Wardrobe Stylist</span>
           </div>
         </div>
       </div>
@@ -581,7 +581,7 @@
 
         <!-- QUICK SCENARIO PROMPTS -->
         <div class="studio-scenario-chips" id="studioScenarioChips" data-lenis-prevent>
-          <button type="button" class="scenario-chip" data-prompt="Curate a 3-day winter trip in St. Moritz">✦ 3-Day Winter Alpine Trip</button>
+          <button type="button" class="scenario-chip" data-prompt="Style a 3-day winter trip in St. Moritz">✦ 3-Day Winter Alpine Trip</button>
           <button type="button" class="scenario-chip" data-prompt="Show me tailored knitwear and blazers">✦ Knitwear &amp; Sweaters</button>
           <button type="button" class="scenario-chip" data-prompt="What size should I get for cashmere sweaters?">✦ Fit &amp; Sizing Advice</button>
           <button type="button" class="scenario-chip" data-prompt="How fast is express delivery across the EU?">✦ Delivery Timelines</button>
@@ -617,11 +617,11 @@
           </div>
         </div>
 
-        <!-- CURATED PRODUCT CARDS -->
+        <!-- RECOMMENDED PRODUCT CARDS -->
         <div class="studio-look-grid" id="studioLookCanvas" data-lenis-prevent>
           <div class="studio-canvas-empty" id="studioCanvasEmpty">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            <p>Start chatting or click a styling prompt to discover curated pieces.</p>
+            <p>Start chatting or click a styling prompt to discover recommended pieces.</p>
           </div>
         </div>
 

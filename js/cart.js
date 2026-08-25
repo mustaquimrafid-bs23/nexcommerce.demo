@@ -351,7 +351,7 @@ const CartState = {
   },
 
   addItem(product, quantity = 1, variant = 'Standard') {
-    let itemObj = typeof product === 'string' ? { id: product, name: 'Curated Atelier Piece', price: 0, image: '../assets/images/products/suit_mens_dark_hd.png' } : { ...product };
+    let itemObj = typeof product === 'string' ? { id: product, name: 'Selected Atelier Piece', price: 0, image: '../assets/images/products/suit_mens_dark_hd.png' } : { ...product };
     if (!itemObj.id && typeof product === 'object') itemObj.id = product.id || 'item_' + Date.now();
     const selectedVariant = variant || itemObj.variant || itemObj.size || 'Standard';
     const existing = this.items.find(i => i.id === itemObj.id && i.variant === selectedVariant);
@@ -360,7 +360,7 @@ const CartState = {
     } else {
       this.items.push({
         id: itemObj.id,
-        name: itemObj.name || itemObj.title || 'Curated Atelier Piece',
+        name: itemObj.name || itemObj.title || 'Selected Atelier Piece',
         price: Number(itemObj.price) || (typeof itemObj.price === 'string' ? parseInt(itemObj.price.replace(/[^\d]/g, ''), 10) : 0),
         image: itemObj.image || itemObj.img || '../assets/images/products/suit_mens_dark_hd.png',
         category: itemObj.category || 'Apparel',
@@ -884,7 +884,7 @@ const CartState = {
       mcBody.innerHTML = `
         <div class="minicart-empty" style="text-align: center; padding: 48px 16px;">
           <h3 style="font-family: var(--font-serif); font-size: 20px; color: #fff; margin-bottom: 8px;">Your bag is empty</h3>
-          <p style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 16px;">Discover pieces curated around how you want to dress.</p>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 16px;">Discover pieces styled around how you want to dress.</p>
           <a href="${_resolvePage('discovery.html')}" class="btn-primary-commerce" onclick="nexCart.closeMiniCart()" style="display:inline-block; padding: 10px 20px; font-size: 12px;">EXPLORE DISCOVERY &rarr;</a>
         </div>
       `;

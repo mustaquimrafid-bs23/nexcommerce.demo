@@ -735,7 +735,7 @@ function renderPreferencesPanel() {
 
     <div class="account-card" style="margin-top: 24px;">
       <div class="account-card-title">YOUR STYLE &amp; FIT PROFILE</div>
-      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">Explicit preferences guide our AI recommendations. You are always in control.</div>
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">Explicit preferences guide our smart recommendations. You are always in control.</div>
 
       <div class="preference-group">
         <span class="preference-label">STYLE AESTHETIC</span>
@@ -757,7 +757,7 @@ function renderPreferencesPanel() {
 
     <div class="account-card" style="background: rgba(0, 200, 255, 0.03); border-color: rgba(0, 200, 255, 0.16); margin-top: 16px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <div class="account-card-title" style="color: var(--accent-cyan); margin: 0;">AI INFERRED PROFILE</div>
+        <div class="account-card-title" style="color: var(--accent-cyan); margin: 0;">SMART INFERRED PROFILE</div>
         <span style="font-size: 11px; color: var(--text-secondary);">IMPLICIT SIGNALS</span>
       </div>
       <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px;">
@@ -770,15 +770,15 @@ function renderPreferencesPanel() {
       <div class="account-card-title" style="color: var(--accent-pink);">DATA TRANSPARENCY</div>
       <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px;">
         nexCommerce uses your explicit preferences and implicit search signals to tailor product recommendations and discovery results.
-        We do not sell this data. You can clear your AI profile at any time.
+        We do not sell this data. You can clear your Smart profile at any time.
       </p>
-      <button class="btn-secondary-action" style="color: var(--accent-pink); border-color: rgba(255, 0, 85, 0.4);" onclick="clearAiProfile()">CLEAR AI PROFILE DATA</button>
+      <button class="btn-secondary-action" style="color: var(--accent-pink); border-color: rgba(255, 0, 85, 0.4);" onclick="clearAiProfile()">CLEAR SMART PROFILE DATA</button>
     </div>
   `;
 }
 
 window.clearAiProfile = function() {
-  if (confirm('Are you sure you want to clear your AI Profile? This will reset your recommendations.')) {
+  if (confirm('Are you sure you want to clear your Smart Profile? This will reset your recommendations.')) {
     ACCOUNT_DATA.preferences.style = '';
     ACCOUNT_DATA.preferences.fit = '';
     ACCOUNT_DATA.preferences.color = '';

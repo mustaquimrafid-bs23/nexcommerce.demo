@@ -50,10 +50,10 @@
       name: 'Personalized Style Concierge',
       icon: 'sparkles',
       alwaysActive: false,
-      description: 'Powers adaptive editorial curation and allows the Neural Style Concierge to retain conversational sartorial preferences across visits.',
+      description: 'Powers adaptive personalized styling and allows the Neural Style Concierge to retain conversational sartorial preferences across visits.',
       cookies: [
-        { name: 'nex_style_profile', provider: 'nexCommerce AI Lab', purpose: 'Sartorial silhouette, palette, and intent preferences', expiry: '180 Days' },
-        { name: 'nex_concierge_history', provider: 'nexCommerce AI Lab', purpose: 'Retains active styling conversation context', expiry: '30 Days' }
+        { name: 'nex_style_profile', provider: 'nexCommerce Smart Lab', purpose: 'Sartorial silhouette, palette, and intent preferences', expiry: '180 Days' },
+        { name: 'nex_concierge_history', provider: 'nexCommerce Smart Lab', purpose: 'Retains active styling conversation context', expiry: '30 Days' }
       ]
     }
   };

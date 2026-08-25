@@ -12,7 +12,7 @@
   var SPOTLIGHT_CAPSULES = [
     {
       key: 'all',
-      eyebrow: 'PRIVATE CURATION OVERVIEW',
+      eyebrow: 'SAVED ITEMS OVERVIEW',
       title: 'Your Complete Atelier Archive',
       desc: 'Every tailored silhouette, acoustic instrument, and artisanal piece reserved across your private vault.',
       flavorTag: 'Atelier Reserved'
@@ -92,7 +92,7 @@
           <button type="button" class="card-quicklook-btn" data-action="open-quicklook" data-id="${item.id}" aria-label="Quick look for ${escapeStr(item.title)}" title="Quick Look">
             <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
           </button>
-          <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="${item.id}" aria-label="Remove ${escapeStr(item.title)} from curation" title="Remove from Curation">
+          <button type="button" class="wishlist-remove-btn" data-action="remove-wish" data-id="${item.id}" aria-label="Remove ${escapeStr(item.title)} from saved list" title="Remove from Saved List">
             <i data-lucide="x" style="width: 14px; height: 14px;"></i>
           </button>
         </div>
@@ -167,7 +167,7 @@
     ids.forEach(function(id) {
       var item = catalog[id] || {
         id: id,
-        title: 'Atelier Curated Piece',
+        title: 'Atelier Selected Piece',
         brand: 'MAISON ARCHIVE',
         price: 180,
         image: 'assets/images/products/plp_overcoat.png',

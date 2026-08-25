@@ -95,7 +95,7 @@
         <div class="savings-card-top">
           <div class="savings-advisor-badge">
             <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-            <span>AI Savings Advisor</span>
+            <span>Smart Savings Advisor</span>
           </div>
           <div class="savings-amount-highlight">Save € ${best.discountAmount.toFixed(2)}</div>
         </div>

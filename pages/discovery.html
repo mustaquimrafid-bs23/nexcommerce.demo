@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explore &amp; Discover &mdash; nexCommerce</title>
-  <meta name="description" content="Explore luxury apparel, acoustic instruments, and artisanal pieces through visual masonry moodboards, curated outfit drops, and semantic AI intent.">
+  <meta name="description" content="Explore luxury apparel, acoustic instruments, and artisanal pieces through visual moodboards, seasonal outfit drops, and semantic Smart intent.">
   <meta name="view-transition" content="same-origin" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -865,7 +865,7 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════════════
-       3. CURATED EDITORIAL OUTFIT DROPS
+       3. FEATURED EDITORIAL OUTFIT DROPS
     ═══════════════════════════════════════════════════════════════════════ */
     .disc-drops-grid {
       display: grid;
@@ -1134,7 +1134,7 @@
       <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
         <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
         <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
-        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">AI</span></a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
       </nav>
 
       <!-- Center: Smart Search Pill -->
@@ -1179,7 +1179,7 @@
             </a>
             <a href="profile.html" class="nav-more-item" role="menuitem">
               <i data-lucide="sparkles"></i>
-              <span>AI Style Profile</span>
+              <span>Smart Style Profile</span>
             </a>
             <a href="orders.html" class="nav-more-item" role="menuitem">
               <i data-lucide="receipt"></i>
@@ -1212,7 +1212,7 @@
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
-        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">AI</span></span>
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
@@ -1221,7 +1221,7 @@
       </a>
       <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
       <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
-        <span>Account &amp; AI Profile</span>
+        <span>Account &amp; Smart Profile</span>
         <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
       </a>
       <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
@@ -1241,7 +1241,7 @@
     <section class="disc-hero" aria-label="Visual Discovery & Search">
       <div class="disc-hero-eyebrow">
         <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
-        <span>Visual Discovery &amp; Curation</span>
+        <span>Visual Discovery &amp; Outfits</span>
       </div>
       <h1 class="disc-hero-title">Visual Discovery <em>&amp; Moodboards</em></h1>
       <p class="disc-hero-sub">Explore luxury pieces through tactile moodboards, styled outfit drops, and aesthetic realm lenses.</p>
@@ -1314,7 +1314,7 @@
       <div class="disc-section-header">
         <div>
           <h2 class="disc-sec-title" id="masonryTitle">Browse &amp; Explore</h2>
-          <p class="disc-sec-sub">Curated luxury catalog &mdash; select finishes, explore details, and add to bag.</p>
+          <p class="disc-sec-sub">Handpicked luxury catalog &mdash; select finishes, explore details, and add to bag.</p>
         </div>
       </div>
 
@@ -1545,12 +1545,12 @@
       </div>
     </section>
 
-    <!-- ─── 3. CURATED EDITORIAL OUTFIT DROPS ─────────────────────────── -->
+    <!-- ─── 3. FEATURED EDITORIAL OUTFIT DROPS ─────────────────────────── -->
     <section id="drops" aria-labelledby="dropsTitle">
       <div class="disc-section-header">
         <div>
           <h2 class="disc-sec-title" id="dropsTitle">Complete Outfit Builder</h2>
-          <p class="disc-sec-sub">Complete styled ensembles curated for climate, occasion, and harmony &mdash; 1-click bundle checkout.</p>
+          <p class="disc-sec-sub">Complete styled ensembles tailored for climate, occasion, and harmony &mdash; 1-click bundle checkout.</p>
         </div>
       </div>
 
@@ -1780,7 +1780,7 @@
       ids.forEach(id => {
         const item = catalog.find(x => x.id === id);
         if (item && window.nexCart && typeof window.nexCart.addItem === 'function') {
-          window.nexCart.addItem({ id: item.id, name: item.name, price: item.price, image: item.image, category: 'Curated Capsule' });
+          window.nexCart.addItem({ id: item.id, name: item.name, price: item.price, image: item.image, category: 'Featured Capsule' });
           addedCount++;
         }
       });

@@ -1472,7 +1472,7 @@ function bindCardEvents(container) {
         showUndoToast(product.name, () => {
           undismissItem(id);
           renderSmartListPage();
-          showToast(`${product.name} restored to curation`, 'info');
+          showToast(`${product.name} restored to saved items`, 'info');
         });
       });
       return;

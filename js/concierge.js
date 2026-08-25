@@ -129,7 +129,7 @@
             <div class="voice-bar-anim"></div>
             <div class="voice-bar-anim"></div>
           </div>
-          <input type="text" id="conciergeInput" name="concierge_query" placeholder="Ask about style, size, or tap mic..." autocomplete="off" aria-label="Ask the AI concierge a question" />
+          <input type="text" id="conciergeInput" name="concierge_query" placeholder="Ask about style, size, or tap mic..." autocomplete="off" aria-label="Ask the Smart concierge a question" />
           <button type="button" id="conciergeVoiceCancelBtn" class="voice-cancel-btn" style="display:none;" aria-label="Cancel Voice Input" title="Cancel voice input">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
@@ -148,7 +148,7 @@
     floatingPill.id = 'nexConciergeFloatingPill';
     floatingPill.type = 'button';
     floatingPill.className = 'concierge-floating-pill';
-    floatingPill.setAttribute('aria-label', 'Ask Stylist & AI Concierge');
+    floatingPill.setAttribute('aria-label', 'Ask Stylist & Smart Concierge');
     floatingPill.setAttribute('title', 'Ask Stylist');
     floatingPill.setAttribute('data-action', 'open-concierge');
     floatingPill.innerHTML = `

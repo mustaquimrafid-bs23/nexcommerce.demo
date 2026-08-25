@@ -82,7 +82,7 @@
         <div class="slip-modal-dialog">
           <div class="slip-modal-header">
             <div class="slip-modal-title-group">
-              <span class="slip-modal-eyebrow">✨ Customer Commerce Agent · AI Capability 4</span>
+              <span class="slip-modal-eyebrow">✨ Customer Commerce Agent · Smart Capability 4</span>
               <h2 class="slip-modal-title">Shopping Slip to Cart</h2>
             </div>
             <button id="slipModalCloseBtn" class="slip-modal-close-btn" aria-label="Close dialog">
@@ -97,7 +97,7 @@
                 <i data-lucide="file-text" style="width:24px;height:24px;"></i>
               </div>
               <div class="slip-dropzone-title">Upload Shopping Slip or Receipt Image</div>
-              <div class="slip-dropzone-sub">Drag and drop PNG, JPG, or receipt photos — AI will extract & match items instantly</div>
+              <div class="slip-dropzone-sub">Drag and drop PNG, JPG, or receipt photos — Smart system will extract & match items instantly</div>
               <div class="slip-dropzone-actions" onclick="event.stopPropagation()">
                 <button type="button" id="slipDemoReceiptBtn" class="btn-dropzone-action btn-dropzone-demo" title="Try instant OCR receipt scan demo">
                   <i data-lucide="sparkles" style="width:13px;height:13px;"></i>

@@ -182,7 +182,7 @@
       }
       if (payload.type === 'bundle_look' || payload.isBundleLook) {
         const total = (payload.products || []).reduce((acc, p) => acc + (p.numericPrice || 0), 0);
-        return `I have curated a complete outfit for you totaling € ${total}. All pieces are ready to add to your bag.`;
+        return `I have styled a complete outfit for you totaling € ${total}. All pieces are ready to add to your bag.`;
       }
       if (payload.type === 'sizing_advisor') {
         return 'Here is your sizing guidance. Our apparel pieces fit true to standard European sizing with relaxed tailored cuts.';
@@ -254,7 +254,7 @@
       if (isSensitiveCreditCard) {
         return {
           type: 'security_alert',
-          text: `**🔒 Security Guardrail: Never Share Card Details in Chat**\n\nFor your financial protection, our AI Assistant **never** requests or collects credit card numbers, CVVs, or bank PINs.\n\nAll assistant orders automatically default to **Cash on Delivery (Pay on Arrival)** with zero financial risk. You can also securely settle via Apple Pay or Card on the **Order Details** page anytime before dispatch.`,
+          text: `**🔒 Security Guardrail: Never Share Card Details in Chat**\n\nFor your financial protection, our Smart Assistant **never** requests or collects credit card numbers, CVVs, or bank PINs.\n\nAll assistant orders automatically default to **Cash on Delivery (Pay on Arrival)** with zero financial risk. You can also securely settle via Apple Pay or Card on the **Order Details** page anytime before dispatch.`,
           spokenSummary: 'For your security, please do not enter card numbers in chat. Orders default to Pay on Delivery, or you can pay securely online from your order details page.',
           products: catalog.slice(0, 2),
           suggestedChips: ['I want to place an order', 'Track my order', 'Delivery times']
@@ -377,7 +377,7 @@
         return {
           type: 'order_payment',
           text: `**Payment Method Selection (Default: Cash on Delivery)**\n\nDelivery address confirmed as **${address}**.\n\nAI Orders default to **Cash on Delivery (Pay on Arrival)** with zero financial risk. You can also settle digitally online anytime before courier dispatch:`,
-          spokenSummary: 'Address confirmed! AI orders default to Cash on Delivery with option to settle online before courier dispatch.',
+          spokenSummary: 'Address confirmed! Smart orders default to Cash on Delivery with option to settle online before courier dispatch.',
           widgetPayload: {
             address: address,
             paymentMethods: [
@@ -455,7 +455,7 @@
         }
         return {
           type: 'budget_cart',
-          text: `**Autonomous Target-Budget Cart Builder**\n\nI've launched the Budget Cart Optimizer set to **€ ${targetBudget}**. It has curated synergistic pieces maximizing budget efficiency while preserving headroom.`,
+          text: `**Autonomous Target-Budget Cart Builder**\n\nI've launched the Budget Cart Optimizer set to **€ ${targetBudget}**. It has selected matching pieces maximizing budget efficiency while preserving headroom.`,
           actionLink: { text: 'OPEN BUDGET BUILDER →', url: '#' },
           products: catalog.slice(0, 3),
           suggestedChips: ['€ 300 Essentials', '€ 500 Autumn Wardrobe', 'Upload shopping slip']
@@ -474,7 +474,7 @@
 
         return {
           type: 'savings_advisor',
-          text: `**AI Checkout Savings & Promo Advisor**\n\nHere are our active atelier promotional codes:\n\n${promos}\n\nOur system will also auto-apply the highest-saving code for you at checkout!`,
+          text: `**Smart Checkout Savings & Promo Advisor**\n\nHere are our active atelier promotional codes:\n\n${promos}\n\nOur system will also auto-apply the highest-saving code for you at checkout!`,
           actionLink: { text: 'GO TO CHECKOUT →', url: 'checkout.html' },
           products: catalog.slice(0, 2),
           suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']
@@ -515,7 +515,7 @@
         } else {
           return {
             type: 'cart_recovery',
-            text: `**Cart Recovery Assistant**\n\nYour bag is currently clear. Browse our latest arrivals or use our **Budget Cart Builder** to assemble a fresh curated capsule!`,
+            text: `**Cart Recovery Assistant**\n\nYour bag is currently clear. Browse our latest arrivals or use our **Budget Cart Builder** to assemble a fresh custom collection!`,
             actionLink: { text: 'BUILD CART BY BUDGET →', url: '#' },
             products: catalog.slice(0, 3),
             suggestedChips: ['Build cart by budget', 'Compare top pieces', 'Upload shopping slip']

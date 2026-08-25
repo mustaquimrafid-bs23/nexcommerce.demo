@@ -13,7 +13,7 @@
       id: 'default',
       name: 'Ocean Blue',
       shortName: 'Ocean',
-      description: 'Default AI blue',
+      description: 'Default Smart blue',
       swatch: '#00C8FF',
       vars: {
         '--accent-cyan':      '#00C8FF',

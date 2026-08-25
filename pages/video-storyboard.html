@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visual Production Storyboard & Interactive 30-Second Video Simulator for nexCommerce Promotional Ad.">
+  <title>nexCommerce — Visual Production Storyboard</title>
+  
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #000f24;
+      --bg-surface: #00193b;
+      --bg-card: #042452;
+      --bg-card-hover: #07306b;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --border-focus: #3DE0FF;
+      --cyan: #3DE0FF;
+      --pink: #F13365;
+      --crimson: #E60C45;
+      --green: #10B981;
+      --amber: #F59E0B;
+      --text-white: #FFFFFF;
+      --text-muted: #94A3B8;
+      --text-sub: #CBD5E1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      padding-bottom: 6rem;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      background: rgba(0, 15, 36, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .brand-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(61, 224, 255, 0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFF;
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .nav-btn-primary {
+      background: var(--cyan);
+      color: #000f24;
+      border: none;
+      font-weight: 700;
+    }
+
+    .nav-btn-primary:hover {
+      background: #FFF;
+      color: #000f24;
+      box-shadow: 0 0 20px rgba(61, 224, 255, 0.4);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(241, 51, 101, 0.12);
+      color: var(--pink);
+      border: 1px solid rgba(241, 51, 101, 0.3);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #FFFFFF 60%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-sub);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ================= LIVE VIDEO SIMULATOR PLAYER ================= */
+    .player-section {
+      background: linear-gradient(180deg, #021a3d 0%, #000f24 100%);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .player-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #FFF;
+    }
+
+    .screen-stage {
+      aspect-ratio: 16 / 9;
+      max-height: 480px;
+      width: 100%;
+      background: #000a17;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .stage-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(1.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .stage-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .slide-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 15, 36, 0.88) 0%, rgba(0, 15, 36, 0.6) 100%);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide-badge {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(61, 224, 255, 0.2);
+      color: var(--cyan);
+      border: 1px solid rgba(61, 224, 255, 0.4);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+    }
+
+    .slide-center {
+      margin: auto 0;
+      max-width: 650px;
+    }
+
+    .slide-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #FFF;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .slide-sub {
+      font-size: 1.15rem;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .slide-mockup-visual {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .product-mini-preview {
+      width: 90px;
+      height: 90px;
+      border-radius: 12px;
+      background: radial-gradient(circle, #0a356b, #001229);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .product-mini-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-footer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .play-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: #000f24;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px rgba(61, 224, 255, 0.5);
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      border-radius: 9999px;
+      transition: width 0.1s linear;
+    }
+
+    .timer-readout {
+      font-family: monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cyan);
+      min-width: 65px;
+      text-align: right;
+    }
+
+    /* ================= 6-FRAME STORYBOARD GRID ================= */
+    .grid-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .grid-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFF;
+    }
+
+    .storyboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .frame-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .frame-card:hover {
+      border-color: var(--cyan);
+      background: var(--bg-card-hover);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .frame-media {
+      aspect-ratio: 16 / 9;
+      background: #000c1c;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .frame-media img.bg-art {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.65);
+    }
+
+    .frame-overlay-ui {
+      position: absolute;
+      inset: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(180deg, rgba(0,15,36,0.3) 0%, rgba(0,15,36,0.85) 100%);
+    }
+
+    .frame-pill {
+      align-self: flex-start;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .frame-kinetic-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.25;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    }
+
+    .frame-kinetic-text span {
+      display: block;
+      font-size: 0.75rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 500;
+      color: var(--cyan);
+      margin-top: 0.2rem;
+    }
+
+    .frame-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+    }
+
+    .frame-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .frame-time {
+      color: var(--cyan);
+      background: rgba(61, 224, 255, 0.1);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .frame-desc-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+
+    .frame-desc-text {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.45;
+    }
+
+    .prompt-box {
+      background: rgba(0, 10, 25, 0.7);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      color: #94A3B8;
+      line-height: 1.35;
+      position: relative;
+    }
+
+    .prompt-box strong {
+      color: var(--cyan);
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .storyboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .slide-headline { font-size: 1.85rem; }
+    }
+
+    @media (max-width: 768px) {
+      .storyboard-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2rem; }
+      .top-nav { padding: 1rem; }
+      .container { padding: 1.5rem 1rem; }
+      .slide-headline { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="top-nav">
+    <div class="brand-wrap">
+      <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="brand-logo" onerror="this.style.display='none'">
+      <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem;">nexCommerce</span>
+      <span class="brand-pill">Visual Storyboard</span>
+    </div>
+    <div class="nav-actions">
+      <a href="feature-guide.html" class="nav-btn">
+        <i data-lucide="book-open" style="width: 14px; height: 14px;"></i> Feature Guide
+      </a>
+      <a href="../index.html" class="nav-btn nav-btn-primary">
+        <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Live Storefront
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Hero Title -->
+    <section class="hero">
+      <div class="hero-tag">
+        <i data-lucide="clapperboard" style="width: 13px; height: 13px;"></i> 30-Second Ad Production Plan
+      </div>
+      <h1 class="hero-title">Visual Storyboard & Video Ad Simulator</h1>
+      <p class="hero-subtitle">
+        High-impact kinetic typography and visual scenes ready for Gemini Omni, Google Veo, and CapCut production.
+      </p>
+    </section>
+
+    <!-- ================= LIVE VIDEO SIMULATOR PLAYER ================= -->
+    <section class="player-section">
+      <div class="player-header">
+        <div class="player-title">
+          <i data-lucide="play-circle" style="color: var(--cyan);"></i> 30-Second Ad Interactive Simulator
+        </div>
+        <div class="slide-badge" id="currentSceneTag">SCENE 1 / 6 — THE HOOK</div>
+      </div>
+
+      <div class="screen-stage" id="screenStage">
+        
+        <!-- Slide 1: Search -->
+        <div class="stage-slide active" id="slide1" style="background-image: url('../assets/images/lifestyle/hero_sweater_landscape.jpg');">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">01. Intelligent Search</div>
+            <div class="slide-center">
+              <h2 class="slide-headline">Search like you speak.</h2>
+              <div class="slide-sub">"Warm wool jacket for winter dinner under $250"</div>
+              <div class="slide-mockup-visual">
+                <div class="product-mini-preview">
+                  <img src="../assets/images/products/plp_overcoat.png" alt="Coat">
+                </div>
+                <div style="font-size: 0.85rem; color: #FFF; background: rgba(0,0,0,0.6); padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid var(--cyan);">
+                  ⚡ Instant Intent Parsing: <strong>Dinner Date</strong> • <strong>Heavy Warmth</strong> • <strong>&lt;$250</strong>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer-meta">
+              <span>Camera: Slow Dolly-In (45° Isometric)</span>
+              <span>SFX: Tactile Keyboard Typing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Grid Reveal -->
+        <div class="stage-slide" id="slide2" style="background-image: url('../assets/images/lifestyle/hero_runner_landscape.jpg');">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge" style="background: rgba(241, 51, 101, 0.2); color: var(--pink); border-color: var(--pink);">02. Selected Results (Beat Drop)</div>
+            <div class="slide-center">
+              <h2 class="slide-headline">Instant visual discovery.</h2>
+              <div class="slide-sub">Matching tailored pieces in milliseconds. Zero filter clutter.</div>
+              <div class="slide-mockup-visual">
+                <div class="product-mini-preview"><img src="../assets/images/products/plp_overcoat.png" alt="Coat"></div>
+                <div class="product-mini-preview"><img src="../assets/images/products/prod_runner.png" alt="Runners"></div>
+                <div class="product-mini-preview"><img src="../assets/images/products/prod_tote.png" alt="Tote"></div>
+              </div>
+            </div>
+            <div class="slide-footer-meta">
+              <span>Camera: Fast Whip-Pan Snap Zoom</span>
+              <span>SFX: Heavy Bass Drop (0:05) + Card Pops</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Personal Stylist -->
+        <div class="stage-slide" id="slide3" style="background-image: url('../assets/images/lifestyle/hero_tote_landscape.jpg');">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">03. Personal Stylist</div>
+            <div class="slide-center">
+              <h2 class="slide-headline">Complete looks in 1 click.</h2>
+              <div class="slide-sub">Color-matched jackets, knits, and boots styled seamlessly.</div>
+              <div class="slide-mockup-visual">
+                <div style="background: rgba(4, 36, 82, 0.85); padding: 0.8rem 1.2rem; border-radius: 10px; border: 1.5px solid var(--cyan); display: flex; align-items: center; gap: 1rem;">
+                  <i data-lucide="sparkles" style="color: var(--cyan); width: 24px; height: 24px;"></i>
+                  <div>
+                    <div style="font-size: 0.8rem; color: var(--cyan); font-weight: 700;">Stylist Bundle Match</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #FFF;">Complete Dinner Date Outfit ($380)</div>
+                  </div>
+                  <span style="background: #10B981; color: #000; font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.6rem; border-radius: 6px; margin-left: auto;">Added to Bag ✓</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer-meta">
+              <span>Camera: Over-the-shoulder Parallax Pan</span>
+              <span>SFX: Glass Slide + Haptic Tap</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Budget & Slip-to-Cart -->
+        <div class="stage-slide" id="slide4" style="background-image: url('../assets/images/lifestyle/hero_sweater_landscape.jpg');">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">04. Smart Shopping Bag</div>
+            <div class="slide-center">
+              <h2 class="slide-headline">Paste notes. Stay under budget.</h2>
+              <div class="slide-sub">Messy WhatsApp list to cart instantly + dynamic discount boost.</div>
+              <div class="slide-mockup-visual">
+                <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; padding: 0.8rem 1.2rem; border-radius: 10px;">
+                  <div style="font-size: 0.8rem; color: #10B981; font-weight: 700;">Target Budget: $450.00</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: #FFF;">Cart Total: $415.00 <span style="font-size: 0.8rem; color: #10B981;">(Saved $55.00)</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer-meta">
+              <span>Camera: Center Macro UI Zoom</span>
+              <span>SFX: Magic Swoosh + Cash Chime</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Live Delivery Tracker -->
+        <div class="stage-slide" id="slide5" style="background-image: url('../assets/images/lifestyle/hero_headphone_landscape.jpg');">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-badge">05. Live Fulfillment</div>
+            <div class="slide-center">
+              <h2 class="slide-headline">Tracked to the minute.</h2>
+              <div class="slide-sub">Live 6-stage delivery map + same-day countdown to your door.</div>
+              <div class="slide-mockup-visual">
+                <div style="background: rgba(0, 15, 36, 0.9); border: 1.5px solid var(--cyan); padding: 0.75rem 1.2rem; border-radius: 10px; display: flex; align-items: center; gap: 1rem;">
+                  <i data-lucide="truck" style="color: var(--cyan); width: 22px; height: 22px;"></i>
+                  <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Courier Status</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #FFF;">Arriving in 35 Minutes (North London)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-footer-meta">
+              <span>Camera: 3D Isometric Map Crane Glide</span>
+              <span>SFX: Radar Pulse + Sonic Ping</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 6: Outro Brand Sign-Off -->
+        <div class="stage-slide" id="slide6" style="background: radial-gradient(circle, #01285e 0%, #000c1e 100%);">
+          <div class="slide-bg-overlay"></div>
+          <div class="slide-content" style="text-align: center; justify-content: center;">
+            <div style="margin: auto 0;">
+              <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 48px; object-fit: contain; margin-bottom: 1rem;" onerror="this.style.display='none'">
+              <h2 class="slide-headline" style="font-size: 3rem; margin-bottom: 0.5rem;">nexCommerce</h2>
+              <p style="font-size: 1.3rem; color: var(--cyan); font-weight: 600; letter-spacing: 0.02em; margin-bottom: 1.5rem;">
+                Commerce that understands what happens next.
+              </p>
+              <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #FFF; color: #000f24; font-weight: 800; font-size: 0.9rem; padding: 0.6rem 1.4rem; border-radius: 9999px;">
+                Experience the Live Storefront <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+              </div>
+            </div>
+            <div class="slide-footer-meta" style="justify-content: center;">
+              <span>Apple-Style Brand Outro & Tagline</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Player Controls -->
+      <div class="player-controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">
+          <i data-lucide="play" id="playIcon" style="width: 20px; height: 20px; margin-left: 2px;"></i>
+        </button>
+        <div class="progress-bar-wrap" onclick="seekVideo(event)">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="timer-readout" id="timerReadout">0:00 / 0:30</div>
+      </div>
+    </section>
+
+    <!-- ================= 6-FRAME STORYBOARD GRID ================= -->
+    <section>
+      <div class="grid-section-header">
+        <h2 class="grid-title">6-Frame Production Storyboard</h2>
+        <span style="font-size: 0.85rem; color: var(--cyan); font-weight: 600;">Full 30-Second Scene Breakdown</span>
+      </div>
+
+      <div class="storyboard-grid">
+        
+        <!-- Frame 01 -->
+        <div class="frame-card">
+          <div class="frame-media">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Search Scene" class="bg-art">
+            <div class="frame-overlay-ui">
+              <span class="frame-pill" style="color: var(--cyan); border-color: var(--cyan);">Frame 01 • 0:00 - 0:05</span>
+              <div class="frame-kinetic-text">
+                Search like you speak.
+                <span>Natural sentences. Zero filter clutter.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: The Hook</span>
+              <span class="frame-time">0:00–0:05</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">Close-up 45° dolly-in on dark navy search pill. Query auto-types with 3 floating intent pills.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Cinematic close-up of sleek glassmorphic search input on deep navy (#001229). Types "Warm wool jacket for dinner under $250". Glowing cyan pills, 4k studio.
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 02 -->
+        <div class="frame-card">
+          <div class="frame-media">
+            <img src="../assets/images/lifestyle/hero_runner_landscape.jpg" alt="Grid Scene" class="bg-art">
+            <div class="frame-overlay-ui">
+              <span class="frame-pill" style="color: var(--pink); border-color: var(--pink);">Frame 02 • 0:05 - 0:10 (Drop)</span>
+              <div class="frame-kinetic-text">
+                Instant visual discovery.
+                <span>Matching tailored pieces in milliseconds.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: The Drop</span>
+              <span class="frame-time">0:05–0:10</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">Whip-pan snap zoom on the bass drop. 4 tailored winter fashion pieces pop onto grid with 98% match badges.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Top-down studio shot of luxury charcoal wool coat and leather boots sliding smoothly onto dark slate surface with cyan badges. 8k studio finish.
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 03 -->
+        <div class="frame-card">
+          <div class="frame-media">
+            <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Stylist Scene" class="bg-art">
+            <div class="frame-overlay-ui">
+              <span class="frame-pill" style="color: var(--cyan); border-color: var(--cyan);">Frame 03 • 0:10 - 0:15</span>
+              <div class="frame-kinetic-text">
+                Complete looks in 1 click.
+                <span>Color-matched coats, knits & shoes.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: Personal Stylist</span>
+              <span class="frame-time">0:10–0:15</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">Over-the-shoulder parallax pan as stylist drawer slides open, grouping 3 items into a complete look with 1-click add.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Over-the-shoulder shot of customer tapping stylist drawer. Dark-mode drawer bundles coat, sweater, shoes into 1 card. Soft rim lighting.
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 04 -->
+        <div class="frame-card">
+          <div class="frame-media">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Cart Scene" class="bg-art">
+            <div class="frame-overlay-ui">
+              <span class="frame-pill" style="color: var(--green); border-color: var(--green);">Frame 04 • 0:15 - 0:20</span>
+              <div class="frame-kinetic-text">
+                Paste notes. Stay under budget.
+                <span>List to cart instantly + discount optimizer.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: Budget & List Scanner</span>
+              <span class="frame-time">0:15–0:20</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">Macro zoom on dynamic cart. WhatsApp text transforms into cart pieces; budget slider adjusts with green discount badge.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Macro shot of eCommerce cart. WhatsApp text note morphs into clean photo cards with budget slider adjusting to $415 and flashing discount badge.
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 05 -->
+        <div class="frame-card">
+          <div class="frame-media">
+            <img src="../assets/images/lifestyle/hero_headphone_landscape.jpg" alt="Tracker Scene" class="bg-art">
+            <div class="frame-overlay-ui">
+              <span class="frame-pill" style="color: var(--cyan); border-color: var(--cyan);">Frame 05 • 0:20 - 0:25</span>
+              <div class="frame-kinetic-text">
+                Tracked to the minute.
+                <span>Live route map + same-day countdown.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: Live Fulfillment</span>
+              <span class="frame-time">0:20–0:25</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">3D isometric camera glide over city dusk map with glowing cyan delivery trail. Mobile screen shows 6-stage status badge.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Isometric 3D city map at dusk with glowing cyan delivery route. Camera glides down to smartphone showing 6-stage tracker 'Arriving in 35 min'.
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 06 -->
+        <div class="frame-card">
+          <div class="frame-media" style="background: radial-gradient(circle, #01285e, #000c1e);">
+            <div class="frame-overlay-ui" style="justify-content: center; text-align: center; align-items: center;">
+              <span class="frame-pill" style="position: absolute; top: 1rem; left: 1rem; color: #FFF; border-color: #FFF;">Frame 06 • 0:25 - 0:30</span>
+              <div class="frame-kinetic-text" style="font-size: 1.5rem;">
+                nexCommerce
+                <span style="color: var(--cyan); font-size: 0.85rem;">Commerce that understands what happens next.</span>
+              </div>
+            </div>
+          </div>
+          <div class="frame-body">
+            <div class="frame-meta-row">
+              <span>Scene: Brand Outro</span>
+              <span class="frame-time">0:25–0:30</span>
+            </div>
+            <div>
+              <div class="frame-desc-title">Visual Action & Camera</div>
+              <p class="frame-desc-text">Luxury particle bokeh background. White official wordmark resolves with pink gradient tick and tagline.</p>
+            </div>
+            <div class="prompt-box">
+              <strong>Gemini Omni Prompt</strong>
+              Luxury corporate outro. Deep navy (#001229) with particle bokeh. White 'nexCommerce' logo with glowing pink tick resolves on center screen.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let isPlaying = false;
+    let currentTime = 0;
+    const totalDuration = 30; // 30 seconds
+    let playInterval = null;
+
+    const slides = [
+      { id: 'slide1', start: 0, end: 5, tag: 'SCENE 1 / 6 — THE HOOK (NATURAL SEARCH)' },
+      { id: 'slide2', start: 5, end: 10, tag: 'SCENE 2 / 6 — THE DROP (SELECTED GRID)' },
+      { id: 'slide3', start: 10, end: 15, tag: 'SCENE 3 / 6 — PERSONAL STYLIST (OUTFIT BUNDLE)' },
+      { id: 'slide4', start: 15, end: 20, tag: 'SCENE 4 / 6 — SMART CART (BUDGET BUILDER)' },
+      { id: 'slide5', start: 20, end: 25, tag: 'SCENE 5 / 6 — LIVE FULFILLMENT (ROUTE TRACKER)' },
+      { id: 'slide6', start: 25, end: 30, tag: 'SCENE 6 / 6 — BRAND OUTRO (NEXCOMMERCE)' }
+    ];
+
+    function updateStage() {
+      const progressPercent = (currentTime / totalDuration) * 100;
+      document.getElementById('progressFill').style.width = progressPercent + '%';
+
+      const secs = Math.floor(currentTime);
+      const formatted = `0:${secs < 10 ? '0' : ''}${secs} / 0:30`;
+      document.getElementById('timerReadout').innerText = formatted;
+
+      // Determine active slide
+      slides.forEach((s) => {
+        const el = document.getElementById(s.id);
+        if (currentTime >= s.start && (currentTime < s.end || (currentTime >= 30 && s.id === 'slide6'))) {
+          el.classList.add('active');
+          document.getElementById('currentSceneTag').innerText = s.tag;
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        pauseVideo();
+      } else {
+        playVideo();
+      }
+    }
+
+    function playVideo() {
+      if (currentTime >= totalDuration) {
+        currentTime = 0;
+      }
+      isPlaying = true;
+      document.getElementById('playIcon').setAttribute('data-lucide', 'pause');
+      lucide.createIcons();
+
+      playInterval = setInterval(() => {
+        currentTime += 0.1;
+        if (currentTime >= totalDuration) {
+          currentTime = totalDuration;
+          updateStage();
+          pauseVideo();
+        } else {
+          updateStage();
+        }
+      }, 100);
+    }
+
+    function pauseVideo() {
+      isPlaying = false;
+      clearInterval(playInterval);
+      document.getElementById('playIcon').setAttribute('data-lucide', 'play');
+      lucide.createIcons();
+    }
+
+    function seekVideo(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percent = clickX / rect.width;
+      currentTime = percent * totalDuration;
+      updateStage();
+    }
+
+    updateStage();
+  </script>
+</body>
+</html>

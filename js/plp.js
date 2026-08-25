@@ -320,7 +320,7 @@
     if (panel && tabs[index]) panel.setAttribute('aria-labelledby', tabs[index].id);
 
     const eyebrowEl = document.getElementById('spotlightLookEyebrow');
-    if (eyebrowEl) eyebrowEl.textContent = `CURATED CAPSULE · ${look.indexLabel}`;
+    if (eyebrowEl) eyebrowEl.textContent = `FEATURED CAPSULE · ${look.indexLabel}`;
 
     const seasonEl = document.getElementById('spotlightSeasonBadge');
     const titleEl = document.getElementById('spotlightCapsuleTitle');
@@ -439,7 +439,7 @@
       eyebrowText = 'FOOTWEAR · ARTISANAL';
     } else if (cat === 'new') {
       titleText = 'New Arrivals';
-      subtitleText = 'The latest seasonal drops, limited releases, and freshly curated luxury essentials.';
+      subtitleText = 'The latest seasonal drops, limited releases, and handpicked luxury essentials.';
       eyebrowText = 'NEW ARRIVALS · AW26';
     }
 
@@ -569,7 +569,7 @@
     }
 
     if (countEl) {
-      countEl.textContent = `${items.length} ${items.length === 1 ? 'PIECE' : 'PIECES'} CURATED`;
+      countEl.textContent = `${items.length} ${items.length === 1 ? 'PIECE' : 'PIECES'} AVAILABLE`;
     }
 
     if (items.length === 0) {

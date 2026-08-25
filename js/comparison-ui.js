@@ -61,7 +61,7 @@
         <div class="compare-modal-dialog">
           <div class="compare-modal-header">
             <div>
-              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#3DE0FF;">✨ Customer Commerce Agent · AI Capability 2</span>
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#3DE0FF;">✨ Customer Commerce Agent · Smart Capability 2</span>
               <h2 class="compare-modal-title">Product Advisor &amp; Comparison Matrix</h2>
             </div>
             <button id="compareModalCloseBtn" class="slip-modal-close-btn" aria-label="Close comparison">
@@ -143,11 +143,11 @@
       const imgB = this._resolveImg(pB.image || pB.img);
 
       body.innerHTML = `
-        <!-- AI Verdict Summary -->
+        <!-- Smart Verdict Summary -->
         <div class="compare-verdict-card">
           <div class="compare-verdict-eyebrow">
             <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-            <span>AI Advisor Verdict</span>
+            <span>Smart Advisor Verdict</span>
           </div>
           <div class="compare-verdict-headline">${comp.verdict.headline}</div>
           <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;">${comp.verdict.summary}</div>

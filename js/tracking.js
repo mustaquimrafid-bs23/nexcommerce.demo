@@ -205,7 +205,7 @@ function initTracking() {
     return;
   }
 
-  // Ensure logistics payload exists for AI Delivery Assistant
+  // Ensure logistics payload exists for Smart Delivery Assistant
   order.logisticsPayload = {
     status: order.statusKey || mapToStatusKey(order.status),
     carrierReason: order.carrierReason || null,
@@ -1074,7 +1074,7 @@ function renderServiceMessage(order) {
     <div style="border:1px solid var(--border-strong, rgba(61,224,255,0.25));background:var(--bg-surface, #0A1C38);border-radius:var(--radius-lg);padding:26px;" data-motion="fade-up">
       <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-body);font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-cyan);margin-bottom:14px;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        AI LOGISTICS INTELLIGENCE
+        SMART LOGISTICS INTELLIGENCE
       </div>
       <div style="font-family:var(--font-serif);font-size:clamp(18px,2.2vw,24px);font-weight:500;color:var(--text-primary);line-height:1.25;margin-bottom:8px;">${guidance.headline}</div>
       <div style="font-family:var(--font-body);font-size:13.5px;line-height:1.6;color:var(--text-secondary);margin-bottom:18px;max-width:92%;">${guidance.explanation}</div>
@@ -1110,7 +1110,7 @@ document.addEventListener('click', function(e) {
   const res = document.getElementById('qaResponse');
   if (res) {
     res.style.display = 'block';
-    res.innerHTML = `<div style="font-weight:700;margin-bottom:4px;color:var(--accent-cyan);font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">AI Answer:</div><div>${answer}</div>`;
+    res.innerHTML = `<div style="font-weight:700;margin-bottom:4px;color:var(--accent-cyan);font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">Smart Answer:</div><div>${answer}</div>`;
   }
 });
 

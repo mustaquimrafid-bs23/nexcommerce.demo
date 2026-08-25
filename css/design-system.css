@@ -9699,6 +9699,24 @@ mark.search-hl {
   margin-left: 6px;
 }
 
+/* ── Multi-Tier Fluid Header Scaling for Laptops & Displays (993px – 1440px) ── */
+@media (max-width: 1440px) {
+  .nav-inner {
+    gap: 16px;
+  }
+  .nav-right-actions {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .nav-brand-group {
+    flex-shrink: 0;
+  }
+  .nav-search-pill-wrap {
+    max-width: 280px;
+    min-width: 180px;
+  }
+}
+
 @media (max-height: 800px), (max-width: 1366px) {
   .site-header {
     height: 64px;
@@ -9707,7 +9725,93 @@ mark.search-hl {
     height: 56px;
   }
   .site-logo-img {
-    height: 25px;
+    height: 24px;
+  }
+  .nav-inner {
+    gap: 12px;
+  }
+  .nav-menu-links {
+    gap: 2px;
+  }
+  .nav-item-link {
+    font-size: 12.5px;
+    padding: 5px 10px;
+  }
+  .nav-search-pill-wrap {
+    max-width: 240px;
+    min-width: 150px;
+  }
+  .nav-search-pill {
+    height: 36px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+  .search-kbd {
+    display: none !important;
+  }
+  .nav-right-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .delivery-hub-pill {
+    height: 34px;
+    min-height: 34px;
+    padding: 0 10px;
+    gap: 6px;
+    font-size: 11.5px;
+  }
+  .delivery-location-label {
+    font-size: 11.5px;
+  }
+  .delivery-express-badge {
+    font-size: 9.5px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .nav-inner {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .nav-search-pill-wrap {
+    max-width: 190px;
+    min-width: 130px;
+  }
+  .nav-item-link {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  .delivery-hub-pill .delivery-express-badge {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1080px) {
+  .nav-inner {
+    gap: 8px;
+    padding: 0 12px;
+  }
+  .nav-brand-group {
+    gap: 10px;
+  }
+  .site-logo-img {
+    height: 22px;
+  }
+  .nav-search-pill-wrap {
+    max-width: 150px;
+    min-width: 100px;
+  }
+  .search-pill-placeholder {
+    font-size: 11.5px;
+  }
+  .nav-right-actions {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .nav-icon-btn {
+    width: 34px;
+    height: 34px;
   }
 }
 
@@ -10235,6 +10339,12 @@ mark.search-hl {
 
 /* 1. Large Tablet / Laptop Screen (1025px - 1440px) or Height (<= 800px) */
 @media (max-width: 1440px) and (min-width: 1025px), (max-height: 800px) and (min-width: 1025px) {
+  .hero-fullbleed-section {
+    height: calc(100vh - 110px);
+    height: calc(100dvh - 110px);
+    min-height: 380px;
+    max-height: clamp(480px, 74vh, 640px);
+  }
   .hero-fullbleed-layer {
     object-position: 74% center;
   }
@@ -10256,21 +10366,21 @@ mark.search-hl {
     font-size: 10.5px;
   }
   .hero-3d-hotspot-wrap {
-    bottom: 96px !important;
-    right: 28px !important;
+    bottom: 82px !important;
+    right: 24px !important;
     top: auto !important;
     left: auto !important;
   }
   .hero-hotspot-card {
-    min-width: 290px;
+    min-width: 270px;
     width: max-content;
     max-width: calc(100vw - 32px);
-    padding: 6px 14px 6px 6px;
-    gap: 12px;
+    padding: 5px 12px 5px 5px;
+    gap: 10px;
   }
   .hero-hotspot-thumb {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
   }
   .hero-hotspot-title {
     max-width: none;
@@ -10285,47 +10395,48 @@ mark.search-hl {
 /* 2. Compact Laptop Viewports (Height <= 680px, e.g. 1080p @ 150% Scale, 1366x768) */
 @media (max-height: 680px) and (min-width: 769px) {
   .hero-fullbleed-section {
-    height: calc(100vh - 82px);
-    height: calc(100dvh - 82px);
-    min-height: 360px;
+    height: calc(100vh - 90px);
+    height: calc(100dvh - 90px);
+    min-height: 340px;
+    max-height: 480px;
   }
   .hero-whisper-eyebrow {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .hero-serif-title {
-    font-size: clamp(26px, 3.2vw, 38px);
+    font-size: clamp(24px, 3vw, 36px);
     line-height: 1.05;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .btn-editorial-crimson {
-    height: 38px;
-    padding: 0 20px;
+    height: 36px;
+    padding: 0 18px;
     font-size: 10px;
   }
   .hero-3d-hotspot-wrap {
-    bottom: 88px !important;
-    right: 24px !important;
+    bottom: 74px !important;
+    right: 20px !important;
     top: auto !important;
     left: auto !important;
   }
   .hero-hotspot-card {
-    min-width: 275px;
+    min-width: 240px;
     width: max-content;
     max-width: calc(100vw - 32px);
-    padding: 5px 12px 5px 5px;
-    gap: 10px;
+    padding: 4px 10px 4px 4px;
+    gap: 8px;
   }
   .hero-hotspot-thumb {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   .hero-hotspot-title {
     max-width: none;
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
   }
   .hero-hotspot-price {
-    font-size: 10px;
+    font-size: 9.5px;
   }
 }
 
@@ -17471,6 +17582,22 @@ input:checked + .toggle-slider:before {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 1366px), (max-height: 800px) {
+  .concierge-floating-pill {
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0 !important;
+  }
+  .concierge-chat-svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 @media (max-width: 767px) {
   .concierge-drawer {
     width: 100vw;
@@ -21024,6 +21151,15 @@ body.cart-open .concierge-floating-pill,
   pointer-events: none !important;
   transform: translateY(20px) scale(0.9) !important;
   transition: opacity 150ms ease, transform 150ms ease !important;
+}
+
+@media (max-width: 1366px), (max-height: 800px) {
+  #aiTourFloatingBtn {
+    bottom: 20px;
+    left: 20px;
+    padding: 8px 14px;
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 768px) {

@@ -60,7 +60,7 @@
         <div class="budget-modal-dialog">
           <div class="budget-modal-header">
             <div>
-              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent-cyan,#3DE0FF);">AI · Budget Builder</span>
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent-cyan,#3DE0FF);">Smart · Budget Builder</span>
               <h2 class="budget-modal-title">Build Your Perfect Basket</h2>
             </div>
             <button id="budgetModalCloseBtn" class="slip-modal-close-btn" aria-label="Close budget builder">
