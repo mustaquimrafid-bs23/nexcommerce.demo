@@ -58,7 +58,7 @@ export default function CartPage() {
   const total = getTotal();
   const itemCount = getItemCount();
 
-  const FREE_SHIPPING_THRESHOLD = 300;
+  const FREE_SHIPPING_THRESHOLD = 150;
   const progressPercent = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
   const remainingForFree = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 

@@ -33,7 +33,7 @@ export function AccountHero({
             <span>TIER I &middot; VIP MEMBER</span>
           </div>
           <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-[44px] text-white leading-tight mb-1.5">
-            {user.name || 'Valued Member'}
+            {user.name || 'Valued Client'}
           </h1>
           <p className="text-xs sm:text-[13px] text-white/50">
             {user.email} &middot; Member since 2024
@@ -46,13 +46,13 @@ export function AccountHero({
             className="h-10 px-4 sm:px-5 bg-white/[0.04] hover:bg-accent-cyan/10 border border-white/10 hover:border-accent-cyan/30 rounded-lg text-white text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 shadow-sm"
           >
             <Sparkles size={14} className="text-accent-cyan" />
-            <span>Personal Stylist</span>
+            <span>Direct Concierge Line</span>
           </Link>
 
           <button
             type="button"
             onClick={onSignOut}
-            className="h-10 px-4 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 rounded-lg text-rose-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2"
+            className="h-10 px-4 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 hover:border-rose-500/50 rounded-lg text-rose-400 hover:text-white text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer"
             aria-label="Sign out of account"
           >
             <LogOut size={13} />
@@ -61,14 +61,14 @@ export function AccountHero({
         </div>
       </div>
 
-      {/* 3-Stat Summary Strip */}
+      {/* 3-Stat Telemetry Strip */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 sm:px-7 sm:py-5 gap-4 sm:gap-0">
         <div className="flex-1 sm:px-6 first:sm:pl-0">
           <span className="block text-[9px] font-bold tracking-[0.12em] text-white/40 uppercase mb-1">
             TOTAL ORDERS
           </span>
           <div className="font-display text-xl sm:text-2xl font-bold text-white tabular-nums">
-            {totalOrders} {totalOrders === 1 ? 'Item' : 'Items'}
+            {totalOrders} {totalOrders === 1 ? 'Piece' : 'Pieces'}
           </div>
         </div>
 
@@ -87,7 +87,7 @@ export function AccountHero({
 
         <div className="flex-1 sm:px-6">
           <span className="block text-[9px] font-bold tracking-[0.12em] text-white/40 uppercase mb-1">
-            TOTAL SPENT
+            PORTFOLIO VALUATION
           </span>
           <div className="font-display text-xl sm:text-2xl font-bold text-white tabular-nums">
             &euro; {totalSpent.toFixed(2)}

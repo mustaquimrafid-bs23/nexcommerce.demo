@@ -71,7 +71,7 @@ export function SignedOutView({ onSignIn }: SignedOutViewProps) {
 
         <button
           type="submit"
-          className="w-full h-12 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-pink/20 cursor-pointer mt-2"
+          className="w-full h-12 rounded-xl bg-accent-cyan hover:bg-accent-cyan/90 text-obsidian-950 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-cyan/20 cursor-pointer mt-2"
         >
           <Lock size={13} />
           <span>SIGN IN</span>

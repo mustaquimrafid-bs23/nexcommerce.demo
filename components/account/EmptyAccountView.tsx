@@ -35,12 +35,12 @@ export function EmptyAccountView({ user, onSignOut }: EmptyAccountViewProps) {
         </h2>
 
         <p className="text-sm text-white/60 max-w-md leading-relaxed mb-7">
-          Your orders and delivery updates will appear here after your first purchase.
+          Your orders and delivery updates will appear here after your first acquisition.
         </p>
 
         <Link
           href="/category?cat=all"
-          className="h-12 px-8 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-accent-pink/20"
+          className="h-12 px-8 rounded-xl bg-accent-cyan hover:bg-accent-cyan/90 text-obsidian-950 text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-accent-cyan/20 cursor-pointer"
         >
           <span>Start Shopping</span>
         </Link>

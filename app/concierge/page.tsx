@@ -1,36 +1,63 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Sparkles,
   Send,
   ShoppingBag,
   RotateCcw,
+  Check,
   Package,
   ChevronRight,
   ShieldCheck,
+  Mic,
+  ArrowUp,
+  MessageSquare,
+  Truck,
+  RotateCcw as ReturnIcon,
+  CheckCircle2,
 } from 'lucide-react';
 import { useConciergeStore } from '@/store/useConciergeStore';
 import { useCartStore } from '@/store/useCartStore';
 import { formatPrice } from '@/lib/utils';
-import { MASTER_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/catalog';
+import { MASTER_PRODUCTS } from '@/data/products';
 
-const STARTER_PROMPTS = [
-  'Warm minimalist overcoat for Paris winter',
-  'Artisanal evening dinner outfit',
-  'Weekend travel leather carry',
-  'Studio focus & acoustic setup',
-  'Complete everyday capsule wardrobe',
+const SCENARIO_PROMPT_CHIPS = [
+  { label: '✦ 3-Day Winter Alpine Trip', prompt: 'Style a 3-day winter trip in St. Moritz' },
+  { label: '✦ Knitwear & Sweaters', prompt: 'Show me tailored knitwear and blazers' },
+  { label: '✦ Fit & Sizing Advice', prompt: 'What size should I get for cashmere sweaters?' },
+  { label: '✦ Delivery Timelines', prompt: 'How fast is express delivery across the UK and Europe?' },
+  { label: '✦ Track Order NX-8921-X', prompt: 'Track order NX-8921-X' },
 ];
 
 export default function ConciergePage() {
   const [mounted, setMounted] = useState(false);
   const [inputVal, setInputVal] = useState('');
+  const [mobileTab, setMobileTab] = useState<'chat' | 'look'>('chat');
+  const [voiceActive, setVoiceActive] = useState(false);
+  const [addedItemIds, setAddedItemIds] = useState<Record<string, boolean>>({});
+  const [bundleAdded, setBundleAdded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, isTyping, sendMessage, clearChat } = useConciergeStore();
+  const {
+    messages,
+    isTyping,
+    sendMessage,
+    clearChat,
+    currentLookTitle,
+    currentLookProducts,
+    harmonyScore,
+    selectedCategory,
+    selectedSize,
+    selectedFit,
+    setSizeCategory,
+    setSizeMeasurement,
+    setSizeFit,
+    calculateSize,
+  } = useConciergeStore();
+
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
@@ -41,6 +68,16 @@ export default function ConciergePage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  // Dynamic subtotal calculation for the Look Canvas
+  const lookSubtotal = useMemo(() => {
+    return currentLookProducts.reduce((acc, p) => acc + (p.price || 0), 0);
+  }, [currentLookProducts]);
+
+  // Sizing calculated result
+  const sizeResult = useMemo(() => {
+    return calculateSize();
+  }, [selectedCategory, selectedSize, selectedFit, calculateSize]);
+
   if (!mounted) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,267 +87,557 @@ export default function ConciergePage() {
     setInputVal('');
   };
 
-  const handleAddBundleToBag = (products: Product[]) => {
-    products.forEach((p) => {
+  const handleVoiceToggle = () => {
+    if (!voiceActive) {
+      setVoiceActive(true);
+      setTimeout(() => {
+        setVoiceActive(false);
+        sendMessage('Show me cashmere knitwear for a winter evening');
+      }, 2400);
+    } else {
+      setVoiceActive(false);
+    }
+  };
+
+  const handleSingleQuickAdd = (product: Product) => {
+    addItem(
+      product,
+      product.sizes ? product.sizes[0] : undefined,
+      product.colors ? product.colors[0].name : undefined
+    );
+    setAddedItemIds((prev) => ({ ...prev, [product.id]: true }));
+    setTimeout(() => {
+      setAddedItemIds((prev) => ({ ...prev, [product.id]: false }));
+    }, 2000);
+  };
+
+  const handleAddAllLookToBag = () => {
+    if (!currentLookProducts.length) return;
+    currentLookProducts.forEach((p) => {
       addItem(
         p,
         p.sizes ? p.sizes[0] : undefined,
         p.colors ? p.colors[0].name : undefined
       );
     });
+    setBundleAdded(true);
+    setTimeout(() => {
+      setBundleAdded(false);
+    }, 2200);
+  };
+
+  // Time-aware greeting
+  const getGreeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return 'Good morning';
+    if (h < 18) return 'Good afternoon';
+    return 'Good evening';
   };
 
   return (
-    <div className="min-h-screen pb-24">
-      {/* Header Banner */}
-      <section className="bg-obsidian-950 border-b border-white/10 pt-10 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-3">
-          <div className="flex items-center gap-2 text-xs text-white/50">
-            <Link href="/" className="hover:text-white transition-colors">
-              Maison
-            </Link>
-            <ChevronRight size={12} />
-            <span className="text-white">Private Styling Concierge</span>
+    <div className="min-h-screen bg-obsidian-950 text-white pb-20 pt-4 px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-4">
+        
+        {/* STUDIO TOP BAR: AGENT PROFILE, MOBILE TABS & RESET */}
+        <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-surface-navy/30 border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-pink/30 to-accent-cyan/30 border border-accent-cyan/40 flex items-center justify-center shadow-[0_0_15px_rgba(61,224,255,0.25)] flex-shrink-0">
+              <Sparkles size={18} className="text-accent-cyan" />
+            </div>
+            <div>
+              <div className="font-editorial text-lg text-white font-medium flex items-center gap-2">
+                Smart Style Concierge
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-white/60">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-live-pulse flex-shrink-0" />
+                <span>Active · Personal Stylist</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-accent-pink/20 to-accent-cyan/20 border border-white/15 text-xs font-semibold text-white mb-2">
-                <Sparkles size={12} className="text-accent-pink" />
-                <span>Dedicated 24/7 Atelier Stylist</span>
-              </div>
-              <h1 className="font-editorial text-3xl sm:text-4xl text-white font-normal">
-                Private Styling <span className="italic">Concierge Suite</span>
-              </h1>
-            </div>
-
+          {/* MOBILE VIEWPORT SWITCHER TABS (max-width: 900px) */}
+          <div className="flex lg:hidden items-center gap-1.5 bg-obsidian-900/80 p-1 rounded-xl border border-white/10">
             <button
-              onClick={clearChat}
-              className="text-xs text-white/60 hover:text-white flex items-center gap-1"
+              type="button"
+              onClick={() => setMobileTab('chat')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                mobileTab === 'chat'
+                  ? 'bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40 shadow-[0_0_10px_rgba(61,224,255,0.2)]'
+                  : 'text-white/60 hover:text-white'
+              }`}
             >
-              <RotateCcw size={14} />
-              <span>Reset Conversation</span>
+              <MessageSquare size={13} />
+              <span>Chat</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileTab('look')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                mobileTab === 'look'
+                  ? 'bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40 shadow-[0_0_10px_rgba(61,224,255,0.2)]'
+                  : 'text-white/60 hover:text-white'
+              }`}
+            >
+              <Sparkles size={13} />
+              <span>Look ({currentLookProducts.length})</span>
             </button>
           </div>
+
+          {/* RESET SESSION BUTTON */}
+          <button
+            type="button"
+            onClick={clearChat}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-xs font-semibold text-white/70 hover:text-white transition-all cursor-pointer"
+            title="Reset Conversation"
+          >
+            <RotateCcw size={14} />
+            <span className="hidden sm:inline">Reset</span>
+          </button>
         </div>
-      </section>
 
-      {/* Main Dual-Column Suite */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          {/* Left Column: Conversational Stream (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col h-[700px] rounded-3xl bg-surface-navy/35 border border-white/10 overflow-hidden shadow-2xl">
-            {/* Quick Inspiration Chips */}
-            <div className="p-4 bg-obsidian-950/60 border-b border-white/10 overflow-x-auto scrollbar-none flex gap-2">
-              {STARTER_PROMPTS.map((prompt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => sendMessage(prompt)}
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-navy/60 hover:bg-surface-navy border border-white/10 text-[11px] text-white/80 hover:text-white transition-colors"
-                >
-                  &ldquo;{prompt}&rdquo;
-                </button>
-              ))}
-            </div>
+        {/* 2-COLUMN SPLIT GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          
+          {/* LEFT PANE: CONVERSATIONAL DIALOGUE (7 cols) */}
+          <div
+            className={`lg:col-span-7 flex flex-col h-[580px] sm:h-[650px] lg:h-[700px] rounded-3xl bg-surface-navy/35 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl transition-all ${
+              mobileTab === 'look' ? 'hidden lg:flex' : 'flex'
+            }`}
+          >
+            {/* MESSAGES STREAM */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 dialogue-messages-stream">
+              
+              {/* INITIAL WELCOME HERO */}
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-accent-cyan/10 via-white/[0.03] to-transparent border border-accent-cyan/25 flex items-center gap-3 animate-fade-in-up">
+                <Sparkles size={18} className="text-accent-cyan flex-shrink-0" />
+                <span className="text-xs sm:text-[13.5px] font-medium text-white">
+                  {getGreeting()} — What are you looking to discover or style today?
+                </span>
+              </div>
 
-            {/* Chat Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex flex-col ${
-                    msg.sender === 'user' ? 'items-end' : 'items-start'
-                  } space-y-3`}
-                >
+              {/* MESSAGE BUBBLES */}
+              {messages.map((msg, idx) => {
+                const isUser = msg.sender === 'user';
+                return (
                   <div
-                    className={`max-w-[85%] p-4 rounded-2xl text-xs leading-relaxed ${
-                      msg.sender === 'user'
-                        ? 'bg-accent-pink text-white rounded-tr-none font-medium'
-                        : 'bg-surface-navy/70 border border-white/10 text-white/90 rounded-tl-none'
-                    }`}
+                    key={msg.id || idx}
+                    className={`flex flex-col ${
+                      isUser ? 'items-end' : 'items-start'
+                    } space-y-2 animate-fade-in-up`}
                   >
-                    <p>{msg.text}</p>
+                    {/* BUBBLE BODY */}
+                    <div
+                      className={`text-xs sm:text-[13.5px] leading-relaxed p-4 rounded-2xl ${
+                        isUser
+                          ? 'bg-accent-cyan text-obsidian-950 font-semibold rounded-tr-none shadow-[0_4px_14px_rgba(61,224,255,0.25)] max-w-[85%]'
+                          : 'bg-white/[0.04] border border-white/[0.08] text-white/95 rounded-tl-none w-full max-w-[95%] space-y-3'
+                      }`}
+                    >
+                      {/* Formatted Text */}
+                      <div className="space-y-2">
+                        {msg.text.split('\n\n').map((para, pIdx) => {
+                          // Format bold markers **text**
+                          const parts = para.split(/(\*\*.*?\*\*)/g);
+                          return (
+                            <p key={pIdx} className="leading-relaxed">
+                              {parts.map((part, partIdx) => {
+                                if (part.startsWith('**') && part.endsWith('**')) {
+                                  return (
+                                    <strong
+                                      key={partIdx}
+                                      className={isUser ? 'font-bold' : 'text-accent-cyan font-semibold'}
+                                    >
+                                      {part.slice(2, -2)}
+                                    </strong>
+                                  );
+                                }
+                                if (part.startsWith('`') && part.endsWith('`')) {
+                                  return (
+                                    <code
+                                      key={partIdx}
+                                      className="px-1.5 py-0.5 rounded bg-white/10 text-accent-cyan text-xs font-mono"
+                                    >
+                                      {part.slice(1, -1)}
+                                    </code>
+                                  );
+                                }
+                                return part;
+                              })}
+                            </p>
+                          );
+                        })}
+                      </div>
+
+                      {/* EMBEDDED SIZE & FIT ADVISOR WIDGET */}
+                      {msg.widgetType === 'sizing_advisor' && (
+                        <div className="mt-4 p-4 rounded-2xl bg-obsidian-950/90 border border-accent-cyan/25 space-y-4">
+                          {/* 1. Garment Category Selector */}
+                          <div className="space-y-1.5">
+                            <div className="text-[11px] font-semibold tracking-wider text-white/50 uppercase">
+                              1. Garment Category
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {['Tops & Sweaters', 'Jackets & Tailoring', 'Shoes & Trainers'].map((cat) => (
+                                <button
+                                  key={cat}
+                                  type="button"
+                                  onClick={() => setSizeCategory(cat)}
+                                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
+                                    selectedCategory === cat
+                                      ? 'bg-accent-cyan text-obsidian-950 border-accent-cyan font-semibold shadow-[0_0_10px_rgba(61,224,255,0.3)]'
+                                      : 'bg-white/5 hover:bg-white/10 text-white/80 border-white/10'
+                                  }`}
+                                >
+                                  {cat}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 2. Measurement / Body Size */}
+                          <div className="space-y-1.5">
+                            <div className="text-[11px] font-semibold tracking-wider text-white/50 uppercase">
+                              2. Measurement / Typical Size
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {(selectedCategory.includes('Shoe') || selectedCategory.includes('Trainer')
+                                ? ['EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45']
+                                : ['XS (36")', 'S (38")', 'M (40")', 'L (42")', 'XL (44")']
+                              ).map((sizeOption) => (
+                                <button
+                                  key={sizeOption}
+                                  type="button"
+                                  onClick={() => setSizeMeasurement(sizeOption)}
+                                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
+                                    selectedSize === sizeOption
+                                      ? 'bg-accent-cyan text-obsidian-950 border-accent-cyan font-semibold shadow-[0_0_10px_rgba(61,224,255,0.3)]'
+                                      : 'bg-white/5 hover:bg-white/10 text-white/80 border-white/10'
+                                  }`}
+                                >
+                                  {sizeOption}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 3. Desired Silhouette Fit */}
+                          {!selectedCategory.includes('Shoe') && !selectedCategory.includes('Trainer') && (
+                            <div className="space-y-1.5">
+                              <div className="text-[11px] font-semibold tracking-wider text-white/50 uppercase">
+                                3. Desired Silhouette Fit
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {[
+                                  'True to size (Clean silhouette)',
+                                  'Size up (Relaxed drape)',
+                                ].map((fitOption) => (
+                                  <button
+                                    key={fitOption}
+                                    type="button"
+                                    onClick={() => setSizeFit(fitOption)}
+                                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
+                                      selectedFit === fitOption
+                                        ? 'bg-accent-cyan text-obsidian-950 border-accent-cyan font-semibold shadow-[0_0_10px_rgba(61,224,255,0.3)]'
+                                        : 'bg-white/5 hover:bg-white/10 text-white/80 border-white/10'
+                                    }`}
+                                  >
+                                    {fitOption}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Dynamic Recommendation Result Card */}
+                          <div className="p-3.5 rounded-xl bg-surface-navy/70 border border-emerald-400/30 space-y-1.5">
+                            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                              <CheckCircle2 size={16} />
+                              <span>
+                                Recommended Size: {sizeResult.recommendedSize} · {sizeResult.confidence}% Match
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-white/70 leading-relaxed">
+                              {sizeResult.note}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* EMBEDDED LIVE ORDER TRACKING STEPPER WIDGET */}
+                      {msg.widgetType === 'order_tracking' && msg.widgetPayload && (
+                        <div className="mt-4 p-4 rounded-2xl bg-obsidian-950/90 border border-accent-cyan/25 space-y-4">
+                          <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                            <div>
+                              <div className="text-[10px] text-white/40 uppercase tracking-wider font-semibold">
+                                Order Reference
+                              </div>
+                              <div className="text-xs font-bold text-white">
+                                {msg.widgetPayload.orderCode}
+                              </div>
+                            </div>
+                            <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent-cyan/15 border border-accent-cyan/30 text-[11px] font-semibold text-accent-cyan">
+                              <Truck size={12} />
+                              <span>{msg.widgetPayload.carrier}</span>
+                            </div>
+                          </div>
+
+                          <div className="text-xs text-white/80">
+                            Estimated Delivery: <strong className="text-white">{msg.widgetPayload.estimatedDelivery}</strong>
+                          </div>
+
+                          {/* 4-Stage Stepper Nodes */}
+                          <div className="space-y-3 pt-1">
+                            {msg.widgetPayload.steps.map((st: any, sIdx: number) => {
+                              const isDone = sIdx < msg.widgetPayload.currentStep;
+                              const isCurrent = sIdx === msg.widgetPayload.currentStep - 1;
+                              return (
+                                <div key={sIdx} className="flex items-start gap-3 relative">
+                                  {/* Milestone Node */}
+                                  <div
+                                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 z-10 ${
+                                      isDone
+                                        ? 'bg-emerald-400 text-obsidian-950'
+                                        : isCurrent
+                                        ? 'bg-accent-cyan text-obsidian-950 shadow-[0_0_10px_rgba(61,224,255,0.4)]'
+                                        : 'bg-white/10 text-white/40'
+                                    }`}
+                                  >
+                                    {isDone ? '✓' : sIdx + 1}
+                                  </div>
+                                  <div className="flex-1 text-xs">
+                                    <div className={`font-semibold ${isCurrent ? 'text-accent-cyan' : isDone ? 'text-white' : 'text-white/40'}`}>
+                                      {st.label}
+                                    </div>
+                                    <div className="text-[10px] text-white/50">{st.date}</div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ACTION LINK */}
+                      {msg.actionLink && (
+                        <div className="pt-2">
+                          <Link
+                            href={msg.actionLink.url}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan font-bold text-xs uppercase tracking-wider transition-all"
+                          >
+                            <span>{msg.actionLink.text}</span>
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                );
+              })}
 
-                  {/* Bundle Display */}
-                  {msg.bundle && (
-                    <div className="w-full p-5 rounded-2xl bg-obsidian-900 border border-accent-pink/30 space-y-4 shadow-xl">
-                      <div className="flex justify-between items-center pb-3 border-b border-white/10">
-                        <div className="flex items-center gap-2 text-xs text-accent-pink font-semibold">
-                          <Package size={16} />
-                          <span>{msg.bundle.title}</span>
-                        </div>
-                        <div>
-                          <span className="text-sm font-bold text-white">
-                            {formatPrice(msg.bundle.discountedPrice)}
-                          </span>
-                          <span className="text-xs text-white/40 line-through ml-2">
-                            {formatPrice(msg.bundle.totalPrice)}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-3 gap-3">
-                        {msg.bundle.products.map((p) => (
-                          <div
-                            key={p.id}
-                            className="rounded-xl bg-surface-card p-2 border border-white/5 space-y-1"
-                          >
-                            <div className="relative aspect-square rounded-lg overflow-hidden">
-                              <img
-                                src={p.image}
-                                alt={p.name}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div className="text-[11px] text-white font-medium truncate">
-                              {p.name}
-                            </div>
-                            <div className="text-[10px] text-white/50">
-                              {formatPrice(p.price, p.currency)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        onClick={() => handleAddBundleToBag(msg.bundle!.products)}
-                        className="w-full py-3.5 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white font-semibold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-pink/20"
-                      >
-                        <ShoppingBag size={14} />
-                        <span>Add Complete Look to Bag</span>
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Single Products */}
-                  {msg.products && msg.products.length > 0 && (
-                    <div className="w-full grid grid-cols-2 gap-3">
-                      {msg.products.map((p) => (
-                        <div
-                          key={p.id}
-                          className="p-3 rounded-xl bg-surface-navy/50 border border-white/10 flex flex-col justify-between space-y-2"
-                        >
-                          <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-surface-card">
-                            <img
-                              src={p.image}
-                              alt={p.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div>
-                            <div className="text-xs font-medium text-white truncate">
-                              {p.name}
-                            </div>
-                            <div className="text-[11px] text-white/50">
-                              {formatPrice(p.price, p.currency)}
-                            </div>
-                          </div>
-                          <button
-                            onClick={() =>
-                              addItem(
-                                p,
-                                p.sizes ? p.sizes[0] : undefined,
-                                p.colors ? p.colors[0].name : undefined
-                              )
-                            }
-                            className="w-full py-2 rounded-lg bg-white/10 hover:bg-white text-white hover:text-obsidian-950 text-xs font-semibold transition-colors flex items-center justify-center gap-1"
-                          >
-                            <ShoppingBag size={13} />
-                            <span>Quick Add</span>
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-
+              {/* TYPING INDICATOR */}
               {isTyping && (
-                <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-navy/40 border border-white/10 text-xs text-white/60 w-fit">
+                <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs text-white/60 w-fit animate-fade-in-up">
                   <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce delay-150" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce delay-300" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-typing-1" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-typing-2" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-typing-3" />
                   </div>
-                  <span>Curating pieces for you...</span>
+                  <span>Selecting recommended pieces for you...</span>
                 </div>
               )}
 
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Form */}
-            <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-obsidian-900 flex gap-2">
-              <input
-                type="text"
-                placeholder="Ask your stylist for an outfit, occasion pairing, or sizing recommendation..."
-                value={inputVal}
-                onChange={(e) => setInputVal(e.target.value)}
-                className="flex-1 bg-surface-navy/70 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 focus:outline-none focus:border-accent-pink"
-              />
-              <button
-                type="submit"
-                disabled={!inputVal.trim()}
-                className="px-5 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 disabled:opacity-40 text-white text-xs font-semibold transition-all flex items-center justify-center"
-              >
-                <Send size={16} />
-              </button>
-            </form>
+            {/* QUICK SCENARIO CHIPS ROW */}
+            <div className="px-4 py-2.5 bg-black/25 border-t border-white/[0.06] overflow-x-auto no-scrollbar flex items-center gap-2 shrink-0">
+              {SCENARIO_PROMPT_CHIPS.map((chip, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => sendMessage(chip.prompt)}
+                  className="whitespace-nowrap px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-accent-cyan/40 text-[11.5px] font-medium text-white/80 hover:text-accent-cyan transition-all cursor-pointer shrink-0"
+                >
+                  {chip.label}
+                </button>
+              ))}
+            </div>
+
+            {/* INPUT DOCK */}
+            <div className="p-3.5 sm:p-4 bg-obsidian-950/95 border-t border-white/10 shrink-0">
+              <form onSubmit={handleSubmit} className="flex items-center gap-2">
+                <div className="flex-1 flex items-center gap-2 bg-white/[0.04] border border-white/[0.14] rounded-xl px-3 py-1.5 focus-within:border-accent-cyan/50 focus-within:shadow-[0_0_14px_rgba(61,224,255,0.15)] transition-all">
+                  
+                  {/* Voice Mic Toggle */}
+                  <button
+                    type="button"
+                    onClick={handleVoiceToggle}
+                    className={`p-2 rounded-full transition-colors cursor-pointer flex items-center justify-center ${
+                      voiceActive
+                        ? 'text-rose-400 bg-rose-500/20'
+                        : 'text-white/50 hover:text-accent-cyan hover:bg-white/5'
+                    }`}
+                    title={voiceActive ? 'Listening...' : 'Click for Voice Input'}
+                  >
+                    {voiceActive ? (
+                      <div className="flex items-center gap-0.5 h-4">
+                        <span className="w-0.5 h-3 bg-rose-400 animate-wave-bar" />
+                        <span className="w-0.5 h-4 bg-rose-400 animate-wave-bar" style={{ animationDelay: '0.15s' }} />
+                        <span className="w-0.5 h-2.5 bg-rose-400 animate-wave-bar" style={{ animationDelay: '0.3s' }} />
+                        <span className="w-0.5 h-3.5 bg-rose-400 animate-wave-bar" style={{ animationDelay: '0.45s' }} />
+                      </div>
+                    ) : (
+                      <Mic size={17} />
+                    )}
+                  </button>
+
+                  <input
+                    type="text"
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    placeholder="Ask your stylist for an outfit, fabric advice, or fit guidance..."
+                    className="flex-1 bg-transparent text-xs sm:text-[13.5px] text-white placeholder-white/40 focus:outline-none py-2"
+                  />
+
+                  {/* Send Button */}
+                  <button
+                    type="submit"
+                    disabled={!inputVal.trim()}
+                    className="w-9 h-9 rounded-lg bg-accent-cyan hover:opacity-90 disabled:opacity-30 text-obsidian-950 flex items-center justify-center transition-all cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+                    aria-label="Send message"
+                  >
+                    <ArrowUp size={18} />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
 
-          {/* Right Column: Featured Wardrobe & Lookbook (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 rounded-3xl bg-surface-navy/40 border border-white/10 space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                <h2 className="font-editorial text-2xl text-white font-normal">
-                  Atelier Curation Rail
+          {/* RIGHT PANE: REACTIVE WARDROBE LOOK CANVAS (5 cols) */}
+          <div
+            className={`lg:col-span-5 flex flex-col h-[580px] sm:h-[650px] lg:h-[700px] rounded-3xl bg-surface-navy/35 border border-white/10 backdrop-blur-xl p-4 sm:p-6 shadow-2xl transition-all ${
+              mobileTab === 'chat' ? 'hidden lg:flex' : 'flex'
+            }`}
+          >
+            {/* CANVAS HEADER */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 block">
+                  YOUR OUTFIT
+                </span>
+                <h2 className="font-editorial text-2xl text-white font-normal mt-0.5">
+                  {currentLookTitle}
                 </h2>
-                <span className="text-xs text-accent-cyan font-medium">Seasonal Picks</span>
               </div>
-
-              <div className="space-y-4">
-                {MASTER_PRODUCTS.slice(0, 3).map((product) => (
-                  <div
-                    key={product.id}
-                    className="p-3 rounded-2xl bg-surface-navy/30 border border-white/5 flex items-center justify-between gap-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-14 h-16 rounded-xl bg-surface-card overflow-hidden flex-shrink-0">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <div className="text-xs font-editorial text-white font-medium line-clamp-1">
-                          {product.name}
-                        </div>
-                        <div className="text-[11px] text-white/50">
-                          {formatPrice(product.price, product.currency)}
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => addItem(product)}
-                      className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white text-white hover:text-obsidian-950 text-[11px] font-semibold transition-colors flex-shrink-0"
-                    >
-                      Quick Add
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <div className="p-4 rounded-2xl bg-obsidian-950/80 border border-white/5 flex items-center gap-3 text-xs text-white/70">
-                <ShieldCheck size={20} className="text-emerald-400 flex-shrink-0" />
-                <span>
-                  All stylist recommendations are confidential and computed in-browser with zero third-party profiling.
+              <div>
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-xs font-semibold text-emerald-400">
+                  {harmonyScore}
                 </span>
               </div>
             </div>
+
+            {/* PRODUCT CARDS LIST */}
+            <div className="flex-1 overflow-y-auto py-4 space-y-3.5">
+              {currentLookProducts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-center p-6 space-y-3 text-white/40">
+                  <Sparkles size={36} className="text-white/20" />
+                  <p className="text-xs">
+                    Start chatting or click a styling prompt to discover recommended pieces.
+                  </p>
+                </div>
+              ) : (
+                currentLookProducts.map((product) => {
+                  const isAdded = !!addedItemIds[product.id];
+                  return (
+                    <div
+                      key={product.id}
+                      className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-white/15 transition-all flex items-center justify-between gap-4 group"
+                    >
+                      {/* Left: Product Image & Details */}
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                        <div className="w-16 h-20 rounded-xl bg-gradient-to-b from-white/[0.06] to-transparent p-1.5 flex items-center justify-center flex-shrink-0 border border-white/5">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-contain drop-shadow-md group-hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 space-y-1">
+                          <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-accent-cyan">
+                            {product.category || 'Atelier'}
+                          </span>
+                          <h3 className="text-xs sm:text-[13px] font-editorial text-white font-medium truncate block">
+                            {product.name}
+                          </h3>
+                          <div className="text-xs font-bold text-white/90">
+                            {formatPrice(product.price, product.currency)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: 1-Click Quick Add Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleSingleQuickAdd(product)}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 flex-shrink-0 cursor-pointer ${
+                          isAdded
+                            ? 'bg-emerald-400 text-obsidian-950 shadow-[0_0_12px_rgba(52,211,153,0.3)]'
+                            : 'bg-accent-cyan/10 hover:bg-accent-cyan text-accent-cyan hover:text-obsidian-950 border border-accent-cyan/30'
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <Check size={13} />
+                            <span>Added ✓</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag size={13} />
+                            <span>Quick Add</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* STUDIO BUNDLE BAR AT BOTTOM */}
+            <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4 shrink-0">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 block">
+                  FULL OUTFIT
+                </span>
+                <span className="text-xl sm:text-2xl font-bold text-white">
+                  {formatPrice(lookSubtotal)}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAddAllLookToBag}
+                disabled={currentLookProducts.length === 0}
+                className={`px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg ${
+                  bundleAdded
+                    ? 'bg-emerald-400 text-obsidian-950 shadow-emerald-400/25'
+                    : 'bg-accent-cyan hover:opacity-90 text-obsidian-950 shadow-accent-cyan/25'
+                }`}
+              >
+                {bundleAdded ? (
+                  <>
+                    <Check size={16} />
+                    <span>Added to Bag</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag size={16} />
+                    <span>Add All to Bag</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

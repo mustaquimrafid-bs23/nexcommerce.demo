@@ -66,7 +66,7 @@ export function AddressesPanel({
                   {addr.tag}
                 </span>
                 {addr.isDefault && (
-                  <span className="text-[9px] font-bold tracking-wider uppercase text-accent-cyan bg-accent-cyan/10 border border-accent-cyan/25 px-2 py-0.5 rounded-full">
+                  <span className="text-[9px] font-bold tracking-wider uppercase text-accent-cyan bg-accent-cyan/10 border border-accent-cyan/25 px-2.5 py-0.5 rounded-full">
                     DEFAULT
                   </span>
                 )}
@@ -76,7 +76,7 @@ export function AddressesPanel({
                 <div className="font-semibold text-white">{addr.name}</div>
                 <div>{addr.address}</div>
                 <div>
-                  {addr.postcode} {addr.city}, {addr.country}
+                  {addr.postcode} {addr.city}, {addr.country || 'Germany'}
                 </div>
                 <div className="text-white/50 text-[11px] pt-1">{addr.phone}</div>
               </div>
@@ -114,10 +114,10 @@ export function AddressesPanel({
           </div>
           <div>
             <div className="font-display font-semibold text-sm text-white/70 group-hover:text-white transition-colors">
-              Add New Address
+              Add New Delivery Destination
             </div>
             <div className="text-[11px] text-white/35 mt-0.5">
-              Personal residence, studio or workplace
+              European residential or studio delivery
             </div>
           </div>
         </button>

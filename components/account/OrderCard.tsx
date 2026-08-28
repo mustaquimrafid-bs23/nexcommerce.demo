@@ -57,17 +57,17 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
         </div>
       </div>
 
-      {/* Live Route Strip (In-Transit Orders) */}
+      {/* Live Route Strip (Active Shipments) */}
       {isPreparing && !isCancelled && (
         <div className="bg-accent-cyan/[0.04] border border-accent-cyan/15 rounded-xl p-3.5 sm:p-4 mb-5">
-          <div className="h-1 w-full bg-white/[0.08] rounded-full overflow-hidden mb-2.5">
+          <div className="h-1.5 w-full bg-white/[0.08] rounded-full overflow-hidden mb-2.5">
             <div
               className="h-full bg-gradient-to-r from-accent-cyan to-emerald-400 rounded-full transition-all duration-700"
               style={{ width: '45%' }}
             />
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="flex items-center gap-2 text-white/60">
+            <span className="flex items-center gap-2 text-white/70">
               <Truck size={13} className="text-accent-cyan" />
               <span>Order Processing &middot; Ready for Dispatch</span>
             </span>
@@ -85,7 +85,7 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
             <ShieldAlert size={15} className="text-rose-400 flex-shrink-0" />
             <span>
               <strong className="font-semibold">Cancelled</strong> &middot;{' '}
-              {order.cancellationReason || 'Customer requested cancellation'}
+              {order.cancellationReason || 'Client requested cancellation'}
             </span>
           </div>
           <span className="text-accent-cyan font-semibold whitespace-nowrap">
@@ -98,17 +98,20 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
       <div className="flex flex-col gap-3.5 mb-5 pb-5 border-b border-white/[0.06]">
         {order.items.map((item, idx) => (
           <div key={idx} className="flex items-center gap-3.5">
-            <div className="w-14 h-[70px] rounded-lg overflow-hidden bg-white/[0.04] flex-shrink-0 border border-white/[0.06]">
+            <div className="w-14 h-[70px] rounded-lg overflow-hidden bg-white/[0.04] flex-shrink-0 border border-white/[0.06] flex items-center justify-center p-1">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded"
                 loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/images/products/p1.png';
+                }}
               />
             </div>
             <div className="flex-1 min-w-0 flex flex-col gap-0.5">
               <span className="text-[9px] font-bold tracking-wider text-accent-cyan uppercase">
-                {item.category}
+                {item.category || 'APPAREL'}
               </span>
               <h3 className="font-display font-semibold text-sm text-white truncate">
                 {item.name}
@@ -118,7 +121,7 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
               </span>
             </div>
             <div className="font-display font-bold text-sm text-white tabular-nums whitespace-nowrap">
-              &euro; {item.price.toFixed(2)}
+              &euro; {(item.price * item.qty).toFixed(2)}
             </div>
           </div>
         ))}
@@ -130,17 +133,17 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
           {!isCancelled && (
             <Link
               href={`/tracking?orderId=${encodeURIComponent(order.ref)}`}
-              className="h-9 px-3.5 rounded-lg bg-accent-cyan/[0.08] hover:bg-accent-cyan/[0.16] border border-accent-cyan/25 hover:border-accent-cyan/40 text-accent-cyan text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5"
+              className="h-9 px-3.5 rounded-lg bg-accent-cyan/[0.08] hover:bg-accent-cyan/[0.16] border border-accent-cyan/25 hover:border-accent-cyan/40 text-accent-cyan text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 min-h-[36px]"
             >
               <Compass size={13} />
-              <span>Track Delivery</span>
+              <span>Live Route Map</span>
             </Link>
           )}
 
           <button
             type="button"
             onClick={() => onReorder(order.ref, order.items[0])}
-            className="h-9 px-3.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-white/70 hover:text-white text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="h-9 px-3.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-white/70 hover:text-white text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 cursor-pointer min-h-[36px]"
           >
             <RotateCcw size={13} />
             <span>Buy Again</span>
@@ -150,7 +153,7 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
             <button
               type="button"
               onClick={() => onCancelOrder(order.ref)}
-              className="h-9 px-3 rounded-lg bg-rose-500/[0.06] hover:bg-rose-500/15 border border-rose-500/20 hover:border-rose-500/35 text-rose-400 hover:text-rose-300 text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="h-9 px-3 rounded-lg bg-rose-500/[0.06] hover:bg-rose-500/15 border border-rose-500/20 hover:border-rose-500/35 text-rose-400 hover:text-rose-300 text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 cursor-pointer min-h-[36px]"
             >
               <XCircle size={13} />
               <span>Cancel Order</span>

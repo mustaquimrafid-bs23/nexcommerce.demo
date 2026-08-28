@@ -335,5 +335,19 @@ Bugs cluster at the intersections of dimensions (e.g., an unescaped string insid
 
 ---
 
-*Last updated: 2026-08-21 | My role: Senior SQA / Manual QA Engineer*
+## 14. Plain Everyday Human English & Anti-"AI Phrasing" Standard
+
+### 14.1 Everyday Human English vs. Robotic / "AI-Sounding" Phrasing
+- Prohibit pretentious, academic, flowery, or overly synthetic phrasing across all customer-facing surfaces.
+- Forbid terms such as: `"telemetry"`, `"biometric measurements"`, `"silhouette recommendations"`, `"residential delivery windows"`, `"cryptographic provenance"`, `"dispatch portal"`, `"client concierge"`.
+- Enforce simple British English terminology: `"tracking updates"`, `"size chart"`, `"fit advice"`, `"delivery times"`, `"contact support"`, `"send a message"`.
+
+### 14.2 Radical Simplicity on Support & Utility Pages
+- Utility and support pages (Help, FAQs, Contact) must prioritize speed of resolution over marketing density.
+- Standard Layout: Clean Search Header + Top 5 FAQs (left column) + Minimal Contact Card with direct Live Chat & Tracking buttons (right column).
+- Strictly avoid embedding heavy promotional carousels or secondary address directories into support flows.
+
+---
+
+*Last updated: 2026-08-29 | My role: Senior SQA / Manual QA Engineer*
 

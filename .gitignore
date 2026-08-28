@@ -1,17 +1,20 @@
 # Dependencies
 node_modules/
 package-lock.json
+.pnpm-store/
 
-# Next.js & Build Artifacts
+# Next.js, Vercel & Build Artifacts
 .next/
 out/
 build/
 dist/
-*.tsbuildinfo
 .turbo/
 .cache/
+.vercel/
+*.tsbuildinfo
+.eslintcache
 
-# Testing & Coverage
+# Testing, Playwright & Vitest
 coverage/
 .nyc_output/
 test-results/
@@ -19,16 +22,37 @@ playwright-report/
 blob-report/
 .playwright-mcp/
 playwright/.cache/
+playwright-artifacts/
+.vitest/
 
-# IDEs & Editors
+# Python (Scripts & Skills tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# IDEs, Editors & AI Assistants
 .vscode/
 .idea/
 .cursor/
+.claude/
 *.sublime-workspace
 *.sublime-project
+*.swp
+*.swo
+*~
+*.bak
 
 # Temporary, Scratch & Root Verification Screenshots
 scratch/
+tmp/
+temp/
 *.tmp
 *.temp
 /*.png
@@ -37,6 +61,7 @@ scratch/
 /*.webp
 /*.mp4
 /*.webm
+*.ariaSnapshot
 
 # OS Metadata
 .DS_Store
@@ -47,17 +72,21 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 Desktop.ini
+$RECYCLE.BIN/
 
-# Environment & Logs
+# Environment, Secrets & Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 .env
 .env*.local
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+*.pem
+*.key
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sliders, Sparkles, Shield, Trash2 } from 'lucide-react';
+import { Sparkles, Shield, Trash2 } from 'lucide-react';
 import { StylePreferences, ActivitySignal } from './types';
 
 interface StyleProfilePanelProps {
@@ -36,13 +36,13 @@ export function StyleProfilePanel({
               Quiet Luxury &amp; Nordic Minimal
             </h2>
             <p className="text-xs sm:text-[13px] text-white/60 leading-relaxed">
-              Your style preferences are actively personalising recommendations across tailoring, knitwear, and everyday essentials.
+              Your style preferences are actively personalising catalogue recommendations across tailoring, knitwear, and everyday essentials.
             </p>
           </div>
 
           <Link
             href="/concierge"
-            className="h-10 px-5 rounded-lg bg-accent-cyan text-obsidian-950 hover:bg-accent-cyan/90 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2 flex-shrink-0 shadow-md shadow-accent-cyan/20"
+            className="h-10 px-5 rounded-lg bg-accent-cyan text-obsidian-950 hover:bg-accent-cyan/90 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2 flex-shrink-0 shadow-md shadow-accent-cyan/20 min-h-[40px]"
           >
             <Sparkles size={13} />
             <span>Consult Stylist</span>
@@ -57,7 +57,7 @@ export function StyleProfilePanel({
             YOUR STYLE &amp; FIT PROFILE
           </h3>
           <p className="text-xs text-white/50">
-            Explicit preferences guide our smart recommendations. You are always in control.
+            Explicit preferences guide our recommendations. You are always in control.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export function StyleProfilePanel({
                   key={s}
                   type="button"
                   onClick={() => onUpdatePreference('style', s)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer min-h-[36px] ${
                     isSelected
                       ? 'bg-accent-cyan text-obsidian-950 shadow-sm shadow-accent-cyan/20'
                       : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10'
@@ -100,7 +100,7 @@ export function StyleProfilePanel({
                   key={f}
                   type="button"
                   onClick={() => onUpdatePreference('fit', f)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer min-h-[36px] ${
                     isSelected
                       ? 'bg-accent-cyan text-obsidian-950 shadow-sm shadow-accent-cyan/20'
                       : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10'
@@ -126,7 +126,7 @@ export function StyleProfilePanel({
                   key={c}
                   type="button"
                   onClick={() => onUpdatePreference('color', c)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer min-h-[36px] ${
                     isSelected
                       ? 'bg-accent-cyan text-obsidian-950 shadow-sm shadow-accent-cyan/20'
                       : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10'
@@ -152,7 +152,7 @@ export function StyleProfilePanel({
                   key={b}
                   type="button"
                   onClick={() => onUpdatePreference('brand', b)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer min-h-[36px] ${
                     isSelected
                       ? 'bg-accent-cyan text-obsidian-950 shadow-sm shadow-accent-cyan/20'
                       : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/10'
@@ -173,7 +173,7 @@ export function StyleProfilePanel({
             ACTIVITY PREFERENCES
           </h3>
           <span className="text-[10px] font-semibold text-white/40 uppercase tracking-wider">
-            BASED ON YOUR BROWSING
+            IMPLICIT SIGNALS
           </span>
         </div>
 
@@ -201,7 +201,7 @@ export function StyleProfilePanel({
         <div className="flex items-center gap-2">
           <Shield size={16} className="text-accent-pink" />
           <h3 className="text-sm font-bold tracking-wider text-accent-pink uppercase">
-            YOUR PRIVACY & DATA
+            DATA TRANSPARENCY &amp; PRIVACY
           </h3>
         </div>
 
@@ -213,7 +213,7 @@ export function StyleProfilePanel({
           <button
             type="button"
             onClick={onClearProfile}
-            className="h-10 px-5 rounded-lg border border-accent-pink/40 hover:border-accent-pink hover:bg-accent-pink/10 text-accent-pink text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer"
+            className="h-10 px-5 rounded-lg border border-accent-pink/40 hover:border-accent-pink hover:bg-accent-pink/10 text-accent-pink text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer min-h-[40px]"
           >
             <Trash2 size={13} />
             <span>Clear Style Profile Data</span>

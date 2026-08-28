@@ -1662,3 +1662,18 @@ All copy across every screen, component, badge, modal, tooltip, empty state, and
 
 3. **Full-Bleed `<picture>` Display Specification**:
    - In full-bleed and parallax image canvas layers, `<picture>` elements MUST explicitly declare `position: absolute; inset: 0; width: 100%; height: 100%; display: block;` to prevent inline element height collapse.
+
+---
+
+# 56. CUSTOMER CARE, HELP & UTILITY PAGE ARCHITECTURE
+
+1. **Radical Simplicity & Speed of Resolution**:
+   - Customer support and help desk pages must prioritize instant answers and quick assistance over promotional merchandising density.
+   - Core Layout:
+     1. **Hero Search Header**: Clean search input + quick-filter chips (`All`, `Orders`, `Delivery`, `Returns`, `Sizing`).
+     2. **Frequently Asked Questions (Left 7-Col)**: 5–8 essential questions with instant real-time search filtering.
+     3. **Direct Contact Card (Right 5-Col)**: 2 quick-action buttons (*Live Stylist Chat*, *Track an Order*) + simple 3-field message form (*Your Name*, *Email Address*, *Message*) with instant confirmation ticket generator (`TKT-xxxx-NX`).
+   - Strictly avoid adding heavy rotating look carousels, clocks, or multi-screen boutique directories to help pages.
+
+2. **Royal Obsidian Navy Palette Adherence**:
+   - All support and utility page backgrounds must strictly adhere to the signature Royal Navy palette (`bg-gradient-to-b from-[#012148] via-[#00193b] to-[#00142e]`) with active sapphire ambient lighting cones (`radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.15) 0%, rgba(10, 58, 120, 0.2) 35%, transparent 70%)`). Never render pitch-black backgrounds (`#000814`).

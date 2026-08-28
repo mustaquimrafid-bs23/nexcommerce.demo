@@ -307,7 +307,7 @@ export function Header() {
                   role="menu"
                 >
                   <Link
-                    href="/discovery"
+                    href="/guide"
                     onClick={() => setDropdownOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                     role="menuitem"
@@ -349,7 +349,7 @@ export function Header() {
                   <div className="border-t border-white/10 my-1" />
 
                   <Link
-                    href="/discovery"
+                    href="/help"
                     onClick={() => setDropdownOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                     role="menuitem"
@@ -362,88 +362,112 @@ export function Header() {
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Navigation Drawer with Canonical ID & lenis prevention */}
-        {mobileOpen && (
-          <div
-            className="md:hidden fixed inset-0 top-[104px] bg-[#00142e]/98 backdrop-blur-2xl border-t border-white/10 p-6 flex flex-col justify-between z-50 animate-in fade-in slide-in-from-top-4 duration-200 overflow-y-auto"
-            id="mobileNavDrawer"
-            role="dialog"
-            aria-label="Navigation Menu"
-            data-lenis-prevent
-          >
-            <div className="space-y-4">
-              <nav className="flex flex-col gap-3 text-sm">
-                <Link
-                  href="/category"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
-                >
-                  <span className="font-medium">Categories</span>
-                  <ChevronRight size={16} className="text-white/40" />
-                </Link>
+      {/* Mobile Navigation Drawer with Canonical ID & lenis prevention (Outside header to escape backdrop-filter containing block) */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 top-[104px] bg-[#00142e]/98 backdrop-blur-2xl border-t border-white/10 p-6 flex flex-col justify-between z-50 animate-in fade-in slide-in-from-top-4 duration-200 overflow-y-auto"
+          id="mobileNavDrawer"
+          role="dialog"
+          aria-label="Navigation Menu"
+          data-lenis-prevent
+        >
+          <div className="space-y-4">
+            <nav className="flex flex-col gap-3 text-sm">
+              <Link
+                href="/guide"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <BookOpen size={16} className="text-[#3DE0FF]" />
+                  <span className="font-medium">Shopping Guide</span>
+                </div>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
 
-                <Link
-                  href="/smart-list"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">Smart List</span>
-                    <span className="nav-badge-pink text-[9px] px-1.5 py-0.5 rounded-full bg-[#E60C45]/20 text-[#F13365] font-bold border border-[#E60C45]/30">
-                      NEW
-                    </span>
-                  </div>
-                  <ChevronRight size={16} className="text-white/40" />
-                </Link>
+              <Link
+                href="/category"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <span className="font-medium">Categories</span>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
 
-                <Link
-                  href="/wishlist"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <Heart size={16} className="text-[#F13365]" />
-                    <span className="font-medium">Saved Pieces</span>
-                  </div>
-                  <span className="text-xs text-white/50">{mounted ? wishlistCount : 0} items</span>
-                </Link>
+              <Link
+                href="/smart-list"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Smart List</span>
+                  <span className="nav-badge-pink text-[9px] px-1.5 py-0.5 rounded-full bg-[#E60C45]/20 text-[#F13365] font-bold border border-[#E60C45]/30">
+                    NEW
+                  </span>
+                </div>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
 
-                <Link
-                  href="/account"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <User size={16} className="text-[#3DE0FF]" />
-                    <span className="font-medium">Account & Smart Profile</span>
-                  </div>
-                  <ChevronRight size={16} className="text-white/40" />
-                </Link>
+              <Link
+                href="/wishlist"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Heart size={16} className="text-[#F13365]" />
+                  <span className="font-medium">Saved Pieces</span>
+                </div>
+                <span className="text-xs text-white/50">{mounted ? wishlistCount : 0} items</span>
+              </Link>
 
-                <Link
-                  href="/tracking"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <Truck size={16} className="text-emerald-400" />
-                    <span className="font-medium">Orders & Tracking</span>
-                  </div>
-                  <ChevronRight size={16} className="text-white/40" />
-                </Link>
-              </nav>
-            </div>
+              <Link
+                href="/account"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <User size={16} className="text-[#3DE0FF]" />
+                  <span className="font-medium">Account &amp; Smart Profile</span>
+                </div>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
 
-            <div className="border-t border-white/10 pt-4 space-y-2">
-              <div className="text-xs text-white/50">Maison Sovereignty Active</div>
-              <div className="text-xs text-emerald-400 font-medium">
-                Complimentary express delivery on orders over € 150.00
-              </div>
+              <Link
+                href="/tracking"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Truck size={16} className="text-emerald-400" />
+                  <span className="font-medium">Orders &amp; Tracking</span>
+                </div>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
+
+              <Link
+                href="/help"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#0A2A54]/50 hover:bg-[#0A2A54] text-white transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Headphones size={16} className="text-white/70" />
+                  <span className="font-medium">Help &amp; Customer Care</span>
+                </div>
+                <ChevronRight size={16} className="text-white/40" />
+              </Link>
+            </nav>
+          </div>
+
+          <div className="border-t border-white/10 pt-4 space-y-2">
+            <div className="text-xs text-white/50">Atelier Services Active</div>
+            <div className="text-xs text-emerald-400 font-medium">
+              Complimentary express delivery on orders over € 150.00
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
     </>
   );
 }

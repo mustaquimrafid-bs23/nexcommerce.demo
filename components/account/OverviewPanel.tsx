@@ -22,7 +22,7 @@ export function OverviewPanel({
   const recentOrders = orders.filter((o) => o.status !== 'preparing').slice(0, 2);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-9">
       {/* Active Shipment Section */}
       {activeOrder && (
         <section>
@@ -67,14 +67,14 @@ export function OverviewPanel({
               Quiet Luxury &amp; Nordic Minimal
             </h2>
             <p className="text-xs sm:text-[13px] text-white/60 leading-relaxed">
-              Your style preferences are actively tailoring catalog recommendations across tailoring, knitwear, and everyday essentials.
+              Your style preferences are actively personalising catalogue recommendations across tailoring, knitwear, and everyday essentials.
             </p>
           </div>
 
           <button
             type="button"
             onClick={onNavigateStyleTab}
-            className="h-10 px-5 rounded-lg bg-accent-cyan text-obsidian-950 hover:bg-accent-cyan/90 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2 flex-shrink-0 cursor-pointer shadow-md shadow-accent-cyan/20"
+            className="h-10 px-5 rounded-lg bg-accent-cyan text-obsidian-950 hover:bg-accent-cyan/90 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2 flex-shrink-0 cursor-pointer shadow-md shadow-accent-cyan/20 min-h-[40px]"
           >
             <Sliders size={13} />
             <span>Customise Style Profile</span>

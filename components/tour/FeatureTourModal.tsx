@@ -20,6 +20,7 @@ import {
   MapPin,
   ArrowRight,
 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useSearchStore } from '@/store/useSearchStore';
 import { useConciergeStore } from '@/store/useConciergeStore';
 
@@ -214,20 +215,25 @@ export function FeatureTourModal() {
     }
   };
 
+  const pathname = usePathname();
+  const isGuidePage = pathname === '/guide' || pathname === '/shopping-guide' || pathname === '/feature-guide';
+
   return (
     <>
       {/* ─── Floating Button: Bottom-Left Pill (#aiTourFloatingBtn) ─── */}
-      <button
-        id="aiTourFloatingBtn"
-        type="button"
-        className="fixed bottom-6 left-6 sm:bottom-7 sm:left-7 z-[8800] flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#071B2E]/95 border border-[#3DE0FF]/35 text-[#3DE0FF] text-xs font-semibold shadow-[0_6px_24px_rgba(0,0,0,0.6)] hover:bg-[#0A2540] hover:border-[#3DE0FF]/70 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 cursor-pointer select-none backdrop-blur-md"
-        aria-label="View Shopping Guide"
-        aria-expanded={isOpen}
-        onClick={() => setIsOpen(true)}
-      >
-        <span className="ai-tour-btn-dot w-2 h-2 rounded-full bg-[#3DE0FF] shadow-[0_0_8px_#3DE0FF] animate-pulse" />
-        <span>Shopping Guide</span>
-      </button>
+      {!isGuidePage && (
+        <button
+          id="aiTourFloatingBtn"
+          type="button"
+          className="fixed bottom-6 left-6 sm:bottom-7 sm:left-7 z-[8800] flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#071B2E]/95 border border-[#3DE0FF]/35 text-[#3DE0FF] text-xs font-semibold shadow-[0_6px_24px_rgba(0,0,0,0.6)] hover:bg-[#0A2540] hover:border-[#3DE0FF]/70 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 cursor-pointer select-none backdrop-blur-md"
+          aria-label="View Shopping Guide"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen(true)}
+        >
+          <span className="ai-tour-btn-dot w-2 h-2 rounded-full bg-[#3DE0FF] shadow-[0_0_8px_#3DE0FF] animate-pulse" />
+          <span>Shopping Guide</span>
+        </button>
+      )}
 
       {/* ─── Shopping Features Modal (#aiTourModal) ─── */}
       {isOpen && (

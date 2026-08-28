@@ -278,8 +278,20 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
   - `Dispatch` → `Shipping / Delivery`
   - `Vault` → `Saved Items / Wishlist`
   - `Telemetry / Human updates` → `Simple, clear messages / Real-time updates`
+  - `Biometric measurements` → `Size chart / body measurements`
+  - `Silhouette recommendations` → `Fit advice / styling tips`
+  - `Residential delivery windows` → `Delivery times`
+  - `Direct Dispatch Portal` → `Contact Support / Send a message`
+  - `Cryptographic provenance` → `Authentic items / quality guarantee`
+  - `Demo Fill` → `Fill Example`
 
-**15. Universal Feature Showcase & Tour Modal UI Consistency Invariant**:
+**15. Customer Care, Help & Support Radical Simplicity**:
+- Customer support and help desk pages must prioritize instant answers and fast resolution over promotional merchandising density.
+- Standard Layout: Clean Search Header + Top 5 FAQs (left column) + Minimal Contact Card with direct Live Chat & Tracking buttons (right column).
+- Strictly avoid embedding heavy promotional carousels, clocks, or secondary address directories into support flows.
+- Ground support pages in the Royal Obsidian Navy palette (`bg-gradient-to-b from-[#012148] via-[#00193b] to-[#00142e]`) with active sapphire ambient lighting cones. Never render pitch-black backgrounds (`#000814`).
+
+**16. Universal Feature Showcase & Tour Modal UI Consistency Invariant**:
 - **Strict Parity Between Pages and Modals**: Whenever designing or updating feature overviews, standalone showcase pages (`feature-showcase.html`), or global floating tour modals (`#aiTourModal` in `js/footer.js`), all feature representations must share 100% visual and structural parity.
 - **Mandatory Box-and-Box Card Structure**: Every feature entry across all pages and modals MUST strictly follow the structured card grid format:
   1. **Colorful Gradient Icon Badge** (Cyan, Pink, Blue, Green, Amber, Purple).

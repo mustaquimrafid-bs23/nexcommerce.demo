@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Check, ShoppingBag } from 'lucide-react';
+import { ChevronRight, Check } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCartStore } from '@/store/useCartStore';
 import { MASTER_PRODUCTS } from '@/data/products';
@@ -48,7 +48,7 @@ const INITIAL_ORDERS: AccountOrder[] = [
         image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=200&q=80',
       },
     ],
-    deliveryMethod: 'DHL Express Courier',
+    deliveryMethod: 'DHL Express European Custody',
     expectedDate: '19 August 2026',
     paymentMethod: 'Klarna Pay in 30 Days',
     address: 'Maximilianstraße 35, 80539 Munich, Germany',
@@ -94,7 +94,7 @@ const INITIAL_ORDERS: AccountOrder[] = [
         image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=200&q=80',
       },
     ],
-    deliveryMethod: 'DHL Express Courier',
+    deliveryMethod: 'DHL Express European Custody',
     expectedDate: '29 July 2026',
     paymentMethod: 'iDEAL',
     address: 'Maximilianstraße 35, 80539 Munich, Germany',
@@ -162,9 +162,9 @@ export default function AccountPage() {
     setMounted(true);
 
     try {
-      const hash = window.location.hash.replace('#', '') as TabKey;
-      if (['overview', 'orders', 'addresses', 'style'].includes(hash)) {
-        setActiveTab(hash);
+      const hash = window.location.hash.replace('#', '') as string;
+      if (['overview', 'orders', 'addresses', 'style', 'style-dna'].includes(hash)) {
+        setActiveTab(hash === 'style-dna' ? 'style' : (hash as TabKey));
       }
 
       const confirmed = sessionStorage.getItem('nex_confirmed_order');
@@ -179,7 +179,7 @@ export default function AccountPage() {
               status: 'preparing',
               statusLabel: 'Preparing',
               items: parsed.items || prev[0]?.items || [],
-              deliveryMethod: parsed.deliveryMethod || 'DHL Express Courier',
+              deliveryMethod: parsed.deliveryMethod || 'DHL Express European Custody',
               expectedDate: parsed.expectedDate || '19 August 2026',
               paymentMethod: parsed.paymentMethod || 'Klarna Pay in 30 Days',
               address: parsed.customer?.address || 'Maximilianstraße 35, 80539 Munich, Germany',
@@ -199,11 +199,21 @@ export default function AccountPage() {
     } catch {
       // Ignored
     }
+
+    const handleHashChange = () => {
+      const h = window.location.hash.replace('#', '');
+      if (['overview', 'orders', 'addresses', 'style', 'style-dna'].includes(h)) {
+        setActiveTab(h === 'style-dna' ? 'style' : (h as TabKey));
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const handleTabChange = useCallback((tab: TabKey) => {
     setActiveTab(tab);
-    window.location.hash = tab;
+    window.location.hash = tab === 'style' ? 'style-dna' : tab;
   }, []);
 
   const showToast = useCallback((msg: string) => {
@@ -216,10 +226,9 @@ export default function AccountPage() {
   // Reorder flow
   const handleReorder = useCallback(
     (orderRef: string, item: OrderItem) => {
-      // Find matching master product or create standard representation
       const matched = MASTER_PRODUCTS.find(
         (p) => p.name.toLowerCase() === item.name.toLowerCase()
-      ) || {
+      ) || ({
         id: `p-${orderRef}`,
         name: item.name,
         category: item.category.toLowerCase(),
@@ -228,7 +237,7 @@ export default function AccountPage() {
         currency: 'EUR',
         description: `High-quality ${item.name}`,
         image: item.image,
-      } as Product;
+      } as Product);
 
       const size = item.variant ? item.variant.split('/')[1]?.trim() || 'M' : 'M';
       addItemToCart(matched, size, undefined, 1);
@@ -263,11 +272,13 @@ export default function AccountPage() {
   const handleAddAddress = useCallback((newAddr: Omit<SavedAddress, 'id'>) => {
     const id = `addr-${Date.now()}`;
     setAddresses((prev) => [...prev, { ...newAddr, id }]);
-  }, []);
+    showToast('Delivery address saved successfully.');
+  }, [showToast]);
 
   const handleRemoveAddress = useCallback((id: string) => {
     setAddresses((prev) => prev.filter((a) => a.id !== id));
-  }, []);
+    showToast('Delivery address removed.');
+  }, [showToast]);
 
   // Style operations
   const handleUpdatePreference = useCallback((key: keyof StylePreferences, val: string) => {
@@ -315,7 +326,9 @@ export default function AccountPage() {
           {currentAuthState === 'signed_in' && (
             <>
               <ChevronRight size={12} className="text-white/30" />
-              <span className="text-accent-cyan capitalize">{activeTab}</span>
+              <span className="text-accent-cyan capitalize">
+                {activeTab === 'style' ? 'Style DNA' : activeTab}
+              </span>
             </>
           )}
         </nav>

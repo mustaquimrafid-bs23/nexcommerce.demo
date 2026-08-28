@@ -116,8 +116,8 @@ export const useCartStore = create<CartState>()(
       },
       getShippingFee: () => {
         const subtotal = get().getSubtotal();
-        if (subtotal === 0 || subtotal >= 300) return 0;
-        return 25; // standard €25 under threshold
+        if (subtotal === 0 || subtotal >= 150) return 0;
+        return 12; // standard €12 under threshold
       },
       getTotal: () => {
         const subtotal = get().getSubtotal();

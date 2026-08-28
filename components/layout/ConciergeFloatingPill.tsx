@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { useConciergeStore } from '@/store/useConciergeStore';
 
 /**
@@ -13,10 +14,11 @@ import { useConciergeStore } from '@/store/useConciergeStore';
  * - Opens the Concierge Drawer on click
  */
 export function ConciergeFloatingPill() {
+  const pathname = usePathname();
   const { isOpen, openConcierge } = useConciergeStore();
 
-  // Hide floating FAB when the Concierge drawer is open
-  if (isOpen) return null;
+  // Hide floating FAB when on the concierge page or when the Concierge drawer is open
+  if (isOpen || pathname === '/concierge') return null;
 
   return (
     <button

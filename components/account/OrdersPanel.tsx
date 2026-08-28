@@ -38,10 +38,10 @@ export function OrdersPanel({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
           <div className="text-[9px] font-bold tracking-[0.14em] text-white/35 uppercase">
-            ORDER HISTORY
+            ORDER PORTFOLIO
           </div>
           <p className="text-xs text-white/50 mt-1">
-            All purchases and delivery updates.
+            All purchases and fulfilment records.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export function OrdersPanel({
                 key={filter}
                 type="button"
                 onClick={() => onFilterChange(filter)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer min-h-[36px] ${
                   isActive
                     ? 'bg-accent-cyan text-obsidian-950 shadow-sm shadow-accent-cyan/20'
                     : 'bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/[0.08] border border-white/10'

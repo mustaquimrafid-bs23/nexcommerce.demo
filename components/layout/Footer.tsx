@@ -97,6 +97,12 @@ export function Footer() {
               About Us
             </Link>
             <Link
+              href="/help"
+              className="footer-link-item text-xs sm:text-[12.5px] text-white/55 hover:text-white transition-colors w-fit hover:translate-x-0.5"
+            >
+              Help &amp; Customer Care
+            </Link>
+            <Link
               href="/privacy"
               className="footer-link-item text-xs sm:text-[12.5px] text-white/55 hover:text-white transition-colors w-fit hover:translate-x-0.5"
             >

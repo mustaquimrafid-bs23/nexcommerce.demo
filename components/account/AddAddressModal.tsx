@@ -64,7 +64,7 @@ export function AddAddressModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="addAddressTitle"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
     >
       <div
         className="w-full max-w-lg bg-obsidian-950 border border-white/15 rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5"
@@ -80,7 +80,7 @@ export function AddAddressModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X size={18} />
@@ -93,7 +93,7 @@ export function AddAddressModal({
               htmlFor="addrTag"
               className="block text-[10px] font-bold tracking-wider text-white/50 uppercase mb-1.5"
             >
-              Address Label / Tag
+              Address Tag (e.g. Home, Studio, Office)
             </label>
             <input
               id="addrTag"
