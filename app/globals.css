@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian-950: #00142e;
+  --color-obsidian-900: #012148;
+  --color-obsidian-800: #062d5e;
+  --color-obsidian-700: #0a3a78;
+  
+  --color-surface-navy: #0A2A54;
+  --color-surface-card: #08254c;
+  --color-surface-stone: #f4f2ee;
+  
+  --color-accent-crimson: #E60C45;
+  --color-accent-pink: #F13365;
+  --color-accent-cyan: #3DE0FF;
+  
+  --font-serif: var(--font-serif), 'Cormorant Garamond', serif;
+  --font-sans: var(--font-sans), 'Inter', sans-serif;
+  --font-display: var(--font-display), 'Manrope', sans-serif;
+
+  --radius-atelier: 12px;
+}
+
+:root {
+  --bg-obsidian-deep: #00142e;
+  --bg-obsidian: #012148;
+  --surface-navy: #0A2A54;
+  --surface-card: #08254c;
+  --surface-stone: #f4f2ee;
+  
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  
+  --accent-crimson: #E60C45;
+  --accent-pink: #F13365;
+  --accent-cyan: #3DE0FF;
+  
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-hover: rgba(255, 255, 255, 0.18);
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  font-family: var(--font-sans), 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Luxury Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(10, 42, 84, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+}
+
+.glass-panel-hover:hover {
+  border-color: var(--border-glass-hover);
+  background: rgba(10, 42, 84, 0.85);
+}
+
+/* Editorial Headline Typography */
+.font-editorial {
+  font-family: var(--font-serif), 'Cormorant Garamond', serif;
+}
+
+/* Hide Next.js dev overlay button from blocking mobile UI */
+nextjs-portal {
+  display: none !important;
+}
+
+/* Hide scrollbar for clean mobile horizontal pill strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 120fps GPU Thinking Track */
+.nex-thinking-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: opacity 200ms ease, max-height 200ms ease;
+}
+.nex-thinking-track.active {
+  opacity: 1;
+  max-height: 2px;
+}
+.nex-thinking-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%);
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* Text Highlighting in Search Typeahead */
+mark.search-hl {
+  background: rgba(61, 224, 255, 0.25);
+  color: #3DE0FF;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* Search Card Specular Glare Layer */
+.search-product-card {
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+}
+.search-product-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 60%
+  );
+  opacity: var(--glare-opacity, 0);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+

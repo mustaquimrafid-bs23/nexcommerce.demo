@@ -105,3 +105,23 @@ function _resolveAsset(assetPath) {
 - **One-off automation scripts**: Migration, component injection, refactoring, or scratch automation scripts (`.py`, `.js`) should be executed and then deleted immediately after verification.
 - **No loose script clutter**: Do not keep stagnant `scripts/` or `scratch/` directories containing expired one-off migration scripts.
 - **Link verification**: After any directory or file restructuring, ensure link integrity checks pass with 0 broken links.
+
+---
+
+## 6. Next.js App Router & Dual-Stack Coexistence Standards
+When Next.js App Router coexists alongside the legacy multi-page static HTML demo:
+
+1. **Directory Resolution & Root Placement**:
+   - Root `./pages/` contains legacy `.html` static views.
+   - To avoid Turbopack's `'pages' and 'app' directories should be under the same folder` collision, App Router directories (`app/`, `components/`, `lib/`, `store/`, `types/`, `data/`) must live at the root level.
+   - `next.config.mjs` must explicitly declare `pageExtensions: ['tsx', 'ts', 'jsx', 'js']` so Turbopack strictly ignores `.html` files in `./pages/`.
+
+2. **Module Format Boundary (`type: module` vs. CommonJS Tests)**:
+   - Root `package.json` sets `"type": "module"` for Next.js ES Modules.
+   - `tests/` must contain an isolated `tests/package.json` with `{"type": "commonjs"}` to preserve 100% backward compatibility for all Node.js test runners using `require()`.
+
+3. **Dual-Mode Operational Invariant**:
+   - Modern Next.js App: `npm run dev` (`next dev`) and `npm run build` (`next build`).
+   - Legacy Prototype: `npm run dev:legacy` (`node server.js`).
+   - Regression Verification: `npm test` (`node tests/run-all-tests.js`).
+

@@ -28,6 +28,8 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 > See `.agents/rules/tech-stack-and-engineering-standards.md` for the full canonical stack reference.
 > See `.agents/rules/workspace-organization-standards.md` for workspace directory layout and path standards.
 > See `.agents/rules/antigravity-frontend-execution-rules.md` for frontend design, typography, framework execution, and browser agent verification rules.
+> See `.agents/rules/nextjs-tailwind-zustand-standards.md` for Next.js 15+ App Router, Tailwind v4, React 19, and Zustand state standards.
+> See `.agents/rules/web-performance-and-code-simplification.md` for Core Web Vitals (LCP/CLS/INP) and clean code simplification standards.
 > See `.agents/rules/single-page-audit-and-execution-protocol.md` for the mandatory 6-step single-page audit and execution protocol.
 
 - **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
@@ -353,6 +355,36 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Instant 1-Click Demo Action**: Always provide a dedicated, prominent `✨ Try Demo` action for zero-friction testing with a curated sample asset without requiring a local file.
 - **Clean 2-Phase State Transition**: Seamlessly transition from the initial dropzone to the active matching product grid + top active photo bar upon upload or demo click.
 
+**26. Full-Bleed Editorial Hero & Root Layout Guardrails**:
+- **Root Main Padding**: Never apply hardcoded global top padding (e.g. `<main className="pt-20">`) to root layout wrappers when pages feature full-bleed hero banners. Subpages without hero banners must manage their own top spacing or use contextual page containers.
+- **Left-Anchored Editorial Composition & Model Framing**: For high-end editorial heroes with photographic human models or structured product silhouettes on the right, hero typography (eyebrow, serif headline, single confident CTA) MUST be left-anchored (`left: clamp(24px, 6vw, 96px); top: 50%; transform: translateY(-50%)`) with a horizontal gradient vignette (`linear-gradient(90deg, rgba(3,8,20,0.85), transparent)`). Never center text blocks directly on top of model photography.
+- **Full-Bleed `<picture>` Display Specification**: In full-bleed and parallax image canvas layers, `<picture>` elements MUST explicitly declare `position: absolute; inset: 0; width: 100%; height: 100%; display: block;` to prevent inline element height collapse.
+
+**27. Mobile E-Commerce Product Rail vs. Grid Invariant**:
+- On mobile viewports (`max-width: 768px`), multi-item product displays (Flash Deals, Curated/Recommended Collections, Related Items) MUST unconditionally render as horizontal scrollable snap rails (`display: flex; overflow-x: auto; gap: 12px–14px; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;`) with calibrated card widths (`w-[185px]–w-[220px] flex-shrink-0 snap-start`).
+- Cards must NEVER wrap vertically into cramped 2-column or 1-column layouts on mobile where vertical viewport scrolling competes with product discovery.
+- **Persistent Mobile Action Overlays**: Card action buttons (`+ QUICK ADD`, `Add to Bag`) MUST have `opacity: 1; transform: none; pointer-events: auto;` on mobile touchscreens because mobile devices lack hover states. Hiding actions behind desktop `:hover` on mobile completely breaks 1-tap purchasing.
+
+**28. Editorial Hero Subject Framing & Visual Anchoring Guardrail**:
+- In full-bleed editorial hero sections featuring photography with lifestyle models and merchandise, mobile viewports MUST calibrate `object-position` (e.g. `object-[center_35%]`) so that the model and product piece are 100% visible and centered in the frame without head or torso clipping.
+- Vignette gradients overlaying editorial models must use high-transparency midpoints (≤ 4–10% opacity at 50%) to ensure subject clarity.
+- Floating shoppable look capsules must anchor in the natural thumb zone (`bottom-20` on mobile) with 1-tap add and instant cart drawer synchronization.
+
+**29. Rolling Flip Digit Physics & Live Countdown Invariant**:
+- Numeric countdown tickers must implement spring/slide-up rolling digit transitions (`FlipDigit`: exit with `translateY(-4px)` fade -> enter with `translateY(0)` slide in using `cubic-bezier(0.23, 1, 0.32, 1)` easing) rather than static text replacement.
+- Pair countdown tickers with continuous GPU-composited linear progress bars (`scaleX`) and dual-layer pulsing live status beacons (`animate-ping` ring + core dot).
+
+**30. Plain Everyday British English & Anti-AI Copywriting Matrix**:
+- In all customer-facing copywriting, UI labels, button texts, and tooltips, strictly adhere to natural British English vocabulary and eliminate robotic pseudo-luxury words:
+  - `Jumper` (not sweater / knit)
+  - `Trainers` (not sneakers / runner)
+  - `Shopping Bag / Basket` (not cart)
+  - `Tailored Suit / Wool Coat` (not structured outerwear)
+  - `Our Favourite Styles` (not curated styles / handpicked items)
+  - `Search by Occasion` (not smart search / natural language search)
+  - `Shopping Guide` (not smart tour / feature guide)
+  - `100% genuine items` (not verified authentic)
+
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
 When building any screen or component for nexCommerce, reference these real-world sites as design benchmarks:
@@ -581,6 +613,20 @@ Benchmark sites: NET-A-PORTER, SSENSE, Loewe.com, Brunello Cucinelli, Mr Porter,
   - On standard 768px tablet displays, active browser scrollbars reduce effective client width to ~761px. Multi-column grids (3–4 columns) overflow if media queries only target `max-width: 768px`.
 - **Mandatory 860px Intermediate Breakpoint**:
   - Always implement `@media (max-width: 860px)` to transition 3-column product grids down to 2 columns and reduce container horizontal padding (e.g., from `40px` down to `16px–20px`), guaranteeing zero horizontal overflow across iPad, tablet, and portrait touch viewports.
+
+**18. Next.js 15+ App Router, Tailwind CSS v4 CSS-First & Zustand SSR Hydration Invariant**:
+- **Async Request APIs**: In Next.js 15+, dynamic route parameters (`params`, `searchParams`), `cookies()`, and `headers()` are Promises and MUST ALWAYS be awaited before access (`const { id } = await params;`).
+- **Tailwind v4 CSS-First**: STRICTLY FORBIDDEN from creating or modifying `tailwind.config.js` or `tailwind.config.ts`. All tokens, luxury colors, and theme overrides must be declared in `app/globals.css` under `@theme { ... }`. Always merge dynamic classes using `cn()` from `@/lib/utils`.
+- **Zustand SSR Hydration Guard**: All stores using `persist` (reading `localStorage`) must guard against SSR hydration mismatches in client components using a mounted state guard (`const [mounted, setMounted] = useState(false); useEffect(() => setMounted(true), []); if (!mounted) return null;`) or a hydration hook wrapper.
+- **React 19 Forms**: Forms and server actions must use `useActionState` (never deprecated `useFormState`), `useFormStatus`, and `useOptimistic`.
+- **Navigation Invariant**: Always import routing hooks from `next/navigation` (`useRouter`, `usePathname`, `useSearchParams`). Never import from `next/router`.
+
+**19. Web Performance, Core Web Vitals & Clean Code Invariant**:
+- **LCP & Priority Media**: All above-the-fold media (hero lookbook, primary PDP gallery image) MUST declare `priority={true}` and calibrated `sizes` attributes (e.g. `sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"`). Never use `fill` without `sizes`.
+- **Zero CLS Reservation**: All image cards, video frames, and skeletons must reserve aspect ratio/height before content loads (`aspect-[3/4]`, `aspect-[16/9]`). Dynamic overlays and drawers must be positioned out of flow (`fixed`/`absolute`) with scroll containment (`overscroll-behavior: contain`).
+- **Zero Redundant `useEffect`**: NEVER use `useEffect` to sync state or filter items from existing state/props. Always compute derived state synchronously during render with `useMemo` or pure functions.
+- **Zero Div Soup & Clean Conditionals**: Use semantic tags (`<section>`, `<article>`) directly without wrapper divs. Avoid `{count && <Badge />}` which renders `0` when empty; always use `{count > 0 && <Badge />}`.
+
 
 ### ❌ FAILURE CONDITIONS (Will Be Rejected)
 - Pretentious jargon in navigation or footer (`THE MAISON`, `THE ATELIER STORY`, `THE PRIVATE EDIT`) instead of clear human terms (`ABOUT`, `NEWSLETTER`, `About Us`)

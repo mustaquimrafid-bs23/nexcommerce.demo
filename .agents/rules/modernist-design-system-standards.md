@@ -1652,12 +1652,13 @@ All copy across every screen, component, badge, modal, tooltip, empty state, and
    - `.atelier-thumb` using `width: 48px; height: 48px; object-fit: contain !important;` with radial studio backdrop.
    - Clean recent searches footer row with one-click individual deletion and "Clear Recent" button.
 
-2. **Prohibited Idle Anti-Patterns**:
-   - ❌ Stacking 4+ separate dense sections (Recents + Dept Photos + Full Product Cards with ADD buttons + Prompt Rails) simultaneously on idle.
-   - ❌ Bulky CTA action buttons or badge tags inside idle highlight cards.
-   - ❌ Multi-row photo grids exceeding 3 items before the user enters a search query.
-   - ❌ Conversational text essays or terminal placeholders.
+# 55. FULL-BLEED EDITORIAL HERO & ROOT LAYOUT GUARDRAILS
 
+1. **Root Main Padding & Full-Bleed Alignment**:
+   - Never apply hardcoded global top padding (e.g. `<main className="pt-20">`) to root layout wrappers when pages feature full-bleed hero banners. Subpages without hero banners must manage their own top spacing or use contextual page containers.
 
+2. **Left-Anchored Editorial Composition & Model Framing**:
+   - For high-end editorial heroes with photographic human models or structured product silhouettes on the right, hero typography (eyebrow, serif headline, single confident CTA) MUST be left-anchored (`left: clamp(24px, 6vw, 96px); top: 50%; transform: translateY(-50%)`) with a horizontal gradient vignette (`linear-gradient(90deg, rgba(3,8,20,0.85), transparent)`). Never center text blocks directly on top of model photography.
 
-
+3. **Full-Bleed `<picture>` Display Specification**:
+   - In full-bleed and parallax image canvas layers, `<picture>` elements MUST explicitly declare `position: absolute; inset: 0; width: 100%; height: 100%; display: block;` to prevent inline element height collapse.

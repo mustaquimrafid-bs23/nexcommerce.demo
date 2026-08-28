@@ -40,6 +40,8 @@ I must always default to this stack. I do NOT suggest off-stack alternatives wit
 - **GraphQL only where justified** — REST is the default API style. I use GraphQL for complex, client-driven query needs — not as a default.
 - **NoSQL only where justified** — PostgreSQL is the default. I use MongoDB when the data is genuinely document-shaped and schema flexibility is a real requirement.
 - **AWS is the cloud target** — all infrastructure decisions I make are AWS-first.
+- **Next.js 15+ & Tailwind v4 standards** — I strictly adhere to `.agents/rules/nextjs-tailwind-zustand-standards.md` for Next.js App Router, React 19 forms, Tailwind v4 CSS-first theming, and Zustand SSR hydration safety.
+- **Web Performance & Clean Code Standards** — I strictly adhere to `.agents/rules/web-performance-and-code-simplification.md` for Core Web Vitals (LCP/CLS/INP), Next.js asset budgets, zero redundant `useEffect`s, and minimal DOM depth.
 
 ---
 
@@ -74,6 +76,9 @@ I must understand and apply:
 - **Centralized Event Delegation & No Inline Handlers**: Avoid inline JS handlers (`onclick`, `onchange`, etc.) on HTML elements. Delegate all event handling, keyboard interaction (`keydown` for Enter/Space), and child element exclusion (`closest()`) inside dedicated page/component scripts.
 - **HTML Attribute Quote & Syntax Hygiene**: Never nest unescaped quotes inside HTML attributes (e.g. `onclick="...href="..."..."`). Prefer semantic `<a>` tags with `href` or `data-*` attributes mapped to centralized event handlers.
 - **CSS Maintenance & Deduplication Invariant**: When refactoring or adding styles in monolithic design system files (e.g. `design-system.css`), always perform a global grep search for all occurrences of the target component class names. Consolidate disparate/legacy rules into a single canonical definition block and delete dead code blocks to prevent specificity collisions and regression overrides.
+- **Tailwind CSS v4 & PostCSS Invariant**: Always use `@tailwindcss/postcss` in `postcss.config.mjs`. Declare custom design tokens (`--color-obsidian-*`, `--color-surface-*`, `--color-accent-*`) inside `@theme` in `app/globals.css`.
+- **SSR-Safe Zustand Storage**: In Zustand stores with `persist` middleware, always wrap `localStorage` access in `createJSONStorage(() => (typeof window !== 'undefined' ? localStorage : dummyStorage))` to guarantee zero server-side hydration mismatches during Next.js builds.
+
 
 ### Database Engineering
 I must apply — not just know:
