@@ -1,6 +1,6 @@
 /**
  * MiniCart (Shopping Bag) Elevation Test Suite
- * Tests UI structure, financial threshold math, 0-item depletion, and UK English copywriting.
+ * Tests UI structure, financial threshold math, 0-item depletion, deep navy color tokens, and UK English copywriting.
  */
 const assert = require('assert');
 const fs = require('fs');
@@ -22,7 +22,15 @@ assert.ok(miniCartCode.includes('Shopping Bag'), 'Header title must be "Shopping
 assert.ok(miniCartCode.includes('FREE_DELIVERY_THRESHOLD = 150'), 'Free delivery threshold must be 150 EUR');
 assert.ok(miniCartCode.includes('useWishlistStore'), 'Must integrate with useWishlistStore for saving pieces');
 assert.ok(miniCartCode.includes('AnimatePresence'), 'Must utilize AnimatePresence for smooth entry/exit animations');
-console.log('  ✓ All MiniCartDrawer structural invariants verified.');
+
+// Visual Palette Invariants: Deep Navy Background & White Luxury CTA Button
+assert.ok(miniCartCode.includes('#012148'), 'Must use Deep Navy Base (#012148) for drawer background');
+assert.ok(miniCartCode.includes('#0A2A54'), 'Must use Midnight Navy (#0A2A54) for header/footer surfaces');
+assert.ok(!miniCartCode.includes('bg-[#060B14]'), 'Pitch-black #060B14 background is strictly forbidden');
+assert.ok(miniCartCode.includes('bg-white') && miniCartCode.includes('text-obsidian-950'), 'Must use signature crisp white luxury button for checkout CTA');
+assert.ok(miniCartCode.includes('object-contain'), 'Must use object-contain for studio thumbnail frames to prevent cropping');
+
+console.log('  ✓ All MiniCartDrawer structural & color invariants verified.');
 
 // 2. Plain English UK Copywriting & Zero AI Words Invariant
 console.log('2. Verifying Plain UK English & Zero AI Jargon...');
@@ -33,7 +41,8 @@ const FORBIDDEN_WORDS = [
   /\balgorithmic\b/i,
   /\bengine\b/i,
   /\bsmart cart\b/i,
-  /\bgenerative\b/i
+  /\bgenerative\b/i,
+  /\bPersonal Discovery\b/i
 ];
 
 FORBIDDEN_WORDS.forEach((regex) => {
@@ -83,8 +92,7 @@ assert.strictEqual(emptyState.amountToFree, 150);
 assert.strictEqual(emptyState.deliveryProgress, 0);
 
 assert.ok(miniCartCode.includes('Your bag is empty'), 'Empty state headline must be present');
-assert.ok(miniCartCode.includes('Explore New Arrivals'), 'Empty state discovery CTA must be present');
-assert.ok(miniCartCode.includes('Personal Discovery'), 'Empty state personal discovery CTA must be present');
+assert.ok(miniCartCode.includes('Explore Collection') || miniCartCode.includes('Explore New Arrivals'), 'Empty state discovery CTA must be present');
 assert.ok(miniCartCode.includes('View Saved Pieces'), 'Empty state wishlist CTA must be present');
 
 console.log('  ✓ 0-Item empty state boundary verified.');

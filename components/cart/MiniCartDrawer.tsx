@@ -76,29 +76,29 @@ export function MiniCartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-md"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md"
             onClick={closeCart}
             aria-hidden="true"
           />
 
-          {/* Drawer Panel */}
+          {/* Drawer Panel - Deep Navy #012148 Base */}
           <motion.aside
             id="nexMiniCartDrawer"
             initial={{ x: '100%' }}
             animate={{ x: '0%' }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300, mass: 0.8 }}
-            className="relative w-full max-w-[460px] bg-[#060B14] border-l border-white/10 h-full flex flex-col z-[9999] shadow-[0_0_60px_rgba(0,0,0,0.85)] will-change-transform"
+            className="relative w-full max-w-[460px] bg-[#012148] border-l border-white/10 h-full flex flex-col z-[9999] shadow-[0_0_60px_rgba(0,0,0,0.7)] will-change-transform text-white"
             data-lenis-prevent
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 bg-[#08101E]/80 backdrop-blur-sm">
+            {/* Header - Midnight Navy #0A2A54 Surface */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 bg-[#0A2A54]">
               <div className="flex items-center gap-3">
                 <h2 className="font-serif text-2xl font-normal tracking-wide text-white">
                   Shopping Bag
                 </h2>
                 {totalCount > 0 && (
-                  <span className="text-[11px] font-sans font-medium px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/10 tabular-nums">
+                  <span className="text-[11px] font-sans font-medium px-2.5 py-0.5 rounded-full bg-white/10 text-white/90 border border-white/10 tabular-nums">
                     {totalCount} {totalCount === 1 ? 'piece' : 'pieces'}
                   </span>
                 )}
@@ -106,7 +106,7 @@ export function MiniCartDrawer() {
               <button
                 id="minicartCloseBtn"
                 onClick={closeCart}
-                className="w-9 h-9 flex items-center justify-center text-white/60 hover:text-white rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+                className="w-9 h-9 flex items-center justify-center text-white/70 hover:text-white rounded-full bg-white/5 hover:bg-white/15 border border-white/10 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
                 aria-label="Close Shopping Bag"
                 type="button"
               >
@@ -116,7 +116,7 @@ export function MiniCartDrawer() {
 
             {/* Dynamic Complimentary Delivery Progress Bar */}
             {items.length > 0 && (
-              <div className="px-6 py-3.5 bg-gradient-to-r from-[#0C172C] to-[#08101E] border-b border-white/10">
+              <div className="px-6 py-3.5 bg-gradient-to-r from-[#0E366B] to-[#0A2A54] border-b border-white/10">
                 <div className="flex items-center justify-between text-xs mb-2">
                   {qualifiesForFreeDelivery ? (
                     <span className="text-[#34D399] font-medium flex items-center gap-1.5">
@@ -124,11 +124,11 @@ export function MiniCartDrawer() {
                       You have unlocked Complimentary Express Delivery
                     </span>
                   ) : (
-                    <span className="text-white/80">
+                    <span className="text-white/85">
                       Add <strong className="text-white font-semibold tabular-nums">{formatPrice(amountToFree)}</strong> more for <span className="text-[#3DE0FF] font-medium">Complimentary Delivery</span>
                     </span>
                   )}
-                  <span className="text-[11px] text-white/50 tabular-nums">
+                  <span className="text-[11px] text-white/60 tabular-nums">
                     {Math.round(deliveryProgress)}%
                   </span>
                 </div>
@@ -153,30 +153,23 @@ export function MiniCartDrawer() {
             >
               {items.length === 0 ? (
                 <div className="text-center py-16 px-4 flex flex-col items-center justify-center space-y-5">
-                  <div className="w-16 h-16 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-white/40 shadow-inner">
+                  <div className="w-16 h-16 rounded-full bg-[#0A2A54] border border-white/10 flex items-center justify-center text-white/50 shadow-inner">
                     <ShoppingBag size={28} />
                   </div>
                   <div className="space-y-1.5 max-w-[280px]">
                     <h3 className="font-serif text-2xl font-normal text-white">Your bag is empty</h3>
-                    <p className="text-white/60 text-xs leading-relaxed">
-                      Discover contemporary pieces styled around how you want to dress.
+                    <p className="text-white/70 text-xs leading-relaxed">
+                      Discover pieces styled around how you want to dress.
                     </p>
                   </div>
                   <div className="pt-2 flex flex-col w-full max-w-[240px] gap-2.5">
                     <Link
                       href="/category?cat=all"
                       onClick={closeCart}
-                      className="w-full py-2.5 px-4 rounded-xl bg-white text-obsidian-950 font-semibold text-xs uppercase tracking-wider text-center hover:bg-white/90 transition-all shadow-md active:scale-98"
+                      className="w-full py-3 px-4 rounded-xl bg-white text-obsidian-950 font-bold text-xs uppercase tracking-wider text-center hover:bg-white/90 transition-all shadow-md active:scale-98 flex items-center justify-center gap-1.5"
                     >
-                      Explore New Arrivals
-                    </Link>
-                    <Link
-                      href="/discovery"
-                      onClick={closeCart}
-                      className="w-full py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 text-white/80 font-medium text-xs text-center hover:bg-white/10 hover:text-white transition-all active:scale-98 flex items-center justify-center gap-1.5"
-                    >
-                      <span>Personal Discovery</span>
-                      <ArrowRight size={13} />
+                      <span>Explore Collection</span>
+                      <ArrowRight size={14} />
                     </Link>
                     <Link
                       href="/wishlist"
@@ -201,13 +194,13 @@ export function MiniCartDrawer() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden' }}
                         transition={{ duration: 0.25, ease: 'easeOut' }}
-                        className="flex gap-4 p-3.5 rounded-xl bg-[#091222]/80 border border-white/10 hover:border-white/20 transition-colors group"
+                        className="flex gap-4 p-3.5 rounded-xl bg-[#071E3D]/90 hover:bg-[#0A2A54]/80 border border-white/10 hover:border-white/20 transition-colors group"
                       >
                         {/* Radial Studio Thumbnail Frame */}
                         <Link
                           href={`/product/${item.product.id}`}
                           onClick={closeCart}
-                          className="relative w-20 h-24 rounded-lg bg-gradient-to-b from-[#131f38]/60 to-[#0c1527]/80 border border-white/10 p-1 flex-shrink-0 flex items-center justify-center overflow-hidden"
+                          className="relative w-20 h-24 rounded-lg bg-gradient-to-b from-[#0c2a52] to-[#071a33] border border-white/10 p-1 flex-shrink-0 flex items-center justify-center overflow-hidden"
                           aria-label={`View ${item.product.name}`}
                         >
                           {item.product.image ? (
@@ -222,7 +215,7 @@ export function MiniCartDrawer() {
                               loading="lazy"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-white/20">
+                            <div className="w-full h-full flex items-center justify-center text-white/30">
                               <ShoppingBag size={20} />
                             </div>
                           )}
@@ -232,7 +225,7 @@ export function MiniCartDrawer() {
                         <div className="flex-1 min-w-0 flex flex-col justify-between">
                           <div>
                             {item.product.category && (
-                              <span className="text-[10px] font-semibold tracking-widest text-[#3DE0FF]/80 uppercase block mb-0.5">
+                              <span className="text-[10px] font-semibold tracking-widest text-[#3DE0FF] uppercase block mb-0.5">
                                 {item.product.category}
                               </span>
                             )}
@@ -245,12 +238,12 @@ export function MiniCartDrawer() {
                             </Link>
                             <div className="flex items-center gap-2 mt-1">
                               {item.selectedSize && (
-                                <span className="inline-block text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/70">
+                                <span className="inline-block text-[10px] px-2 py-0.5 rounded bg-white/10 border border-white/10 text-white/80">
                                   Size: {item.selectedSize}
                                 </span>
                               )}
                               {item.selectedColor && (
-                                <span className="inline-block text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/70">
+                                <span className="inline-block text-[10px] px-2 py-0.5 rounded bg-white/10 border border-white/10 text-white/80">
                                   {item.selectedColor}
                                 </span>
                               )}
@@ -258,9 +251,9 @@ export function MiniCartDrawer() {
                           </div>
 
                           {/* Stepper + Micro Actions + Price */}
-                          <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/5">
+                          <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/10">
                             {/* Quantity Stepper */}
-                            <div className="flex items-center border border-white/15 rounded-lg bg-black/20 overflow-hidden">
+                            <div className="flex items-center border border-white/20 rounded-lg bg-[#012148] overflow-hidden">
                               <button
                                 type="button"
                                 onClick={() =>
@@ -271,7 +264,7 @@ export function MiniCartDrawer() {
                                     item.selectedColor
                                   )
                                 }
-                                className="w-7 h-7 flex items-center justify-center text-xs text-white/70 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                                className="w-7 h-7 flex items-center justify-center text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
                                 aria-label={`Decrease quantity of ${item.product.name}`}
                                 disabled={item.quantity <= 1}
                               >
@@ -290,7 +283,7 @@ export function MiniCartDrawer() {
                                     item.selectedColor
                                   )
                                 }
-                                className="w-7 h-7 flex items-center justify-center text-xs text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                                className="w-7 h-7 flex items-center justify-center text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                                 aria-label={`Increase quantity of ${item.product.name}`}
                               >
                                 +
@@ -304,8 +297,8 @@ export function MiniCartDrawer() {
                                 onClick={(e) => handleWishlistToggle(item.product, e)}
                                 className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                                   wishlisted
-                                    ? 'text-[#F13365] bg-[#F13365]/10'
-                                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                                    ? 'text-[#F13365] bg-[#F13365]/15'
+                                    : 'text-white/50 hover:text-white hover:bg-white/10'
                                 }`}
                                 aria-label="Save piece to wishlist"
                                 title={wishlisted ? 'Saved in Wishlist' : 'Save to Wishlist'}
@@ -317,7 +310,7 @@ export function MiniCartDrawer() {
                                 onClick={() =>
                                   removeItem(item.product.id, item.selectedSize, item.selectedColor)
                                 }
-                                className="p-1.5 text-white/40 hover:text-[#FB7185] hover:bg-[#FB7185]/10 rounded-lg transition-colors cursor-pointer"
+                                className="p-1.5 text-white/50 hover:text-[#FB7185] hover:bg-[#FB7185]/15 rounded-lg transition-colors cursor-pointer"
                                 aria-label={`Remove ${item.product.name} from bag`}
                                 title="Remove piece"
                               >
@@ -331,7 +324,7 @@ export function MiniCartDrawer() {
                                 {formatPrice(item.product.price * item.quantity)}
                               </span>
                               {item.quantity > 1 && (
-                                <span className="text-[10px] text-white/40 tabular-nums block">
+                                <span className="text-[10px] text-white/50 tabular-nums block">
                                   {formatPrice(item.product.price)} ea
                                 </span>
                               )}
@@ -345,9 +338,9 @@ export function MiniCartDrawer() {
               )}
             </div>
 
-            {/* Footer Summary & Checkout */}
+            {/* Footer Summary & Checkout - Midnight Navy #0A2A54 */}
             {items.length > 0 && (
-              <div id="minicartFooter" className="p-6 border-t border-white/10 bg-[#08101E] space-y-4">
+              <div id="minicartFooter" className="p-6 border-t border-white/10 bg-[#0A2A54] space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between items-baseline text-sm">
                     <span className="text-white/70">Estimated Subtotal</span>
@@ -356,12 +349,12 @@ export function MiniCartDrawer() {
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-white/50">Delivery</span>
-                    <span className={`tabular-nums font-medium ${qualifiesForFreeDelivery ? 'text-[#34D399]' : 'text-white/70'}`}>
+                    <span className="text-white/60">Delivery</span>
+                    <span className={`tabular-nums font-medium ${qualifiesForFreeDelivery ? 'text-[#34D399]' : 'text-white/80'}`}>
                       {qualifiesForFreeDelivery ? 'Complimentary' : formatPrice(12)}
                     </span>
                   </div>
-                  <p className="text-[11px] text-white/40 pt-1">
+                  <p className="text-[11px] text-white/50 pt-1">
                     VAT &amp; duties included where applicable. Items reserved for 30 minutes.
                   </p>
                 </div>
@@ -370,20 +363,20 @@ export function MiniCartDrawer() {
                   <Link
                     href="/cart"
                     onClick={closeCart}
-                    className="minicart-checkout-btn block w-full py-3.5 px-4 text-center rounded-xl bg-[#E60C45] hover:bg-[#F13365] text-white font-bold text-xs uppercase tracking-widest transition-all duration-200 shadow-lg shadow-[#E60C45]/25 hover:scale-[1.01] active:scale-[0.99]"
+                    className="minicart-checkout-btn block w-full py-3.5 px-4 text-center rounded-xl bg-white hover:bg-white/90 text-obsidian-950 font-bold text-xs uppercase tracking-widest transition-all duration-200 shadow-lg hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                   >
-                    Review Bag &amp; Checkout &rarr;
+                    VIEW BAG &amp; CHECKOUT &rarr;
                   </Link>
                 </div>
 
                 {/* Trust & Reassurance Badges */}
-                <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-white/45">
+                <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-white/60">
                   <span className="flex items-center gap-1.5">
-                    <ShieldCheck size={13} className="text-[#3DE0FF]/70" />
+                    <ShieldCheck size={13} className="text-[#3DE0FF]" />
                     <span>256-bit Encrypted</span>
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <RotateCcw size={13} className="text-[#34D399]/70" />
+                    <RotateCcw size={13} className="text-[#34D399]" />
                     <span>Complimentary Returns</span>
                   </span>
                 </div>

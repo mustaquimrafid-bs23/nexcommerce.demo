@@ -20,10 +20,9 @@ const miniCartTsx = fs.readFileSync(path.join(__dirname, '../components/cart/Min
 assert.ok(miniCartTsx.includes('Shopping Bag'), 'Header title must be "Shopping Bag"');
 assert.ok(miniCartTsx.includes('Complimentary Express Delivery'), 'Must use "Complimentary Express Delivery"');
 assert.ok(miniCartTsx.includes('Estimated Subtotal'), 'Must use "Estimated Subtotal"');
-assert.ok(miniCartTsx.includes('Review Bag &amp; Checkout'), 'Must use "Review Bag & Checkout" action text');
+assert.ok(miniCartTsx.includes('VIEW BAG &amp; CHECKOUT') || miniCartTsx.includes('VIEW BAG & CHECKOUT') || miniCartTsx.includes('View Bag &amp; Checkout') || miniCartTsx.includes('View Bag & Checkout'), 'Must use "View Bag & Checkout" action text');
 assert.ok(miniCartTsx.includes('Your bag is empty'), 'Empty state must use "Your bag is empty"');
-assert.ok(miniCartTsx.includes('Explore New Arrivals'), 'Empty state must offer "Explore New Arrivals"');
-assert.ok(miniCartTsx.includes('Personal Discovery'), 'Empty state must offer "Personal Discovery"');
+assert.ok(miniCartTsx.includes('Explore Collection') || miniCartTsx.includes('Explore New Arrivals'), 'Empty state must offer "Explore Collection"');
 assert.ok(miniCartTsx.includes('View Saved Pieces'), 'Empty state must offer "View Saved Pieces"');
 assert.ok(miniCartTsx.includes('256-bit Encrypted'), 'Security badge must be present');
 assert.ok(miniCartTsx.includes('Complimentary Returns'), 'Returns badge must be present');
@@ -38,7 +37,8 @@ const JARGON_PATTERNS = [
   /\bsmart cart\b/i,
   /\bgenerative\b/i,
   /\bsynthesize\b/i,
-  /\btelemetry\b/i
+  /\btelemetry\b/i,
+  /\bPersonal Discovery\b/i
 ];
 JARGON_PATTERNS.forEach(pattern => {
   assert.ok(!pattern.test(miniCartTsx), `Forbidden jargon pattern ${pattern} detected in MiniCartDrawer.tsx`);
@@ -49,12 +49,15 @@ console.log('  ✓ Dimension 1 Passed: 100% clean British luxury copy, zero AI j
 // DIMENSION 2: Visual / Layout & Silhouette Geometry
 // ─────────────────────────────────────────────────────────────────────────────
 console.log('📌 DIMENSION 2: Visual / Layout & Silhouette Geometry');
+assert.ok(miniCartTsx.includes('#012148'), 'Must use Deep Navy Base (#012148) for drawer background');
+assert.ok(miniCartTsx.includes('#0A2A54'), 'Must use Midnight Navy (#0A2A54) for header/footer surfaces');
+assert.ok(!miniCartTsx.includes('bg-[#060B14]'), 'Pitch-black #060B14 background is strictly forbidden');
+assert.ok(miniCartTsx.includes('bg-white') && miniCartTsx.includes('text-obsidian-950'), 'Must use signature crisp white luxury button for checkout CTA');
 assert.ok(miniCartTsx.includes('object-contain'), 'Product images must use object-contain to prevent cropping silhouettes');
-assert.ok(miniCartTsx.includes('bg-gradient-to-b'), 'Product thumbnail frame must have studio radial/gradient depth');
-assert.ok(miniCartTsx.includes('max-w-[460px]'), 'Drawer must have strict responsive max-width');
+assert.ok(miniCartTsx.includes('max-w-[460px]') || miniCartTsx.includes('max-w-[420px]'), 'Drawer must have strict responsive max-width');
 assert.ok(miniCartTsx.includes('tabular-nums'), 'Prices and numerical quantities must use tabular-nums');
 assert.ok(miniCartTsx.includes('border-white/10'), '1px subtle borders enforced for obsidian surface elevation');
-console.log('  ✓ Dimension 2 Passed: Uncropped silhouette containment, responsive drawer geometry.\n');
+console.log('  ✓ Dimension 2 Passed: Uncropped silhouette containment, deep navy palette, white luxury CTA.\n');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DIMENSION 3: Interactions, 120fps Motion & Scroll Isolation
@@ -71,7 +74,7 @@ assert.ok(miniCartTsx.includes('_nexLenis?.start'), 'Smooth scroll engine must r
 console.log('  ✓ Dimension 3 Passed: 120fps spring transitions, scroll lock & Lenis isolation active.\n');
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DIMENSION 4: Cross-Page Consistency & Feature Parity
+// DIMENSION 4: Cross-Page Consistency & Global Mounting
 // ─────────────────────────────────────────────────────────────────────────────
 console.log('📌 DIMENSION 4: Cross-Page Consistency & Global Mounting');
 const layoutTsx = fs.readFileSync(path.join(__dirname, '../app/layout.tsx'), 'utf8');

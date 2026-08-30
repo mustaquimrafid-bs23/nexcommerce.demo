@@ -1,9 +1,21 @@
-# Dependencies
+# ==============================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ==============================================================================
 node_modules/
 package-lock.json
 .pnpm-store/
+.pnp
+.pnp.js
+.pnp.cjs
+.pnp.mjs
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
 
-# Next.js, Vercel & Build Artifacts
+# ==============================================================================
+# NEXT.JS, VERCEL & BUILD ARTIFACTS
+# ==============================================================================
 .next/
 out/
 build/
@@ -12,9 +24,14 @@ dist/
 .cache/
 .vercel/
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 .eslintcache
+.stylelintcache
+.parcel-cache/
 
-# Testing, Playwright & Vitest
+# ==============================================================================
+# TESTING, COVERAGE, PLAYWRIGHT & VITEST
+# ==============================================================================
 coverage/
 .nyc_output/
 test-results/
@@ -24,8 +41,17 @@ blob-report/
 playwright/.cache/
 playwright-artifacts/
 .vitest/
+*.ariaSnapshot
 
-# Python (Scripts & Skills tooling)
+# ==============================================================================
+# STATIC ANALYSIS & QUALITY TOOLS (SONARQUBE)
+# ==============================================================================
+.scannerwork/
+.sonar/
+
+# ==============================================================================
+# PYTHON (SCRIPTS, SUBAGENTS & SKILLS TOOLING)
+# ==============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -36,12 +62,18 @@ __pycache__/
 .venv/
 venv/
 env/
+ENV/
 
-# IDEs, Editors & AI Assistants
+# ==============================================================================
+# IDES, EDITORS & AI ASSISTANTS
+# ==============================================================================
 .vscode/
 .idea/
 .cursor/
 .claude/
+.gemini/
+.zed/
+.fleet/
 *.sublime-workspace
 *.sublime-project
 *.swp
@@ -49,21 +81,27 @@ env/
 *~
 *.bak
 
-# Temporary, Scratch & Root Verification Screenshots
+# ==============================================================================
+# SCRATCH SCRIPTS, TEMPORARY DUMPS & ROOT VERIFICATION SCREENSHOTS
+# (Note: Leading slash ensures public/assets/ and docs/ images are NOT ignored)
+# ==============================================================================
 scratch/
 tmp/
 temp/
 *.tmp
 *.temp
+*.dump
+*.stackdump
 /*.png
 /*.jpg
 /*.jpeg
 /*.webp
 /*.mp4
 /*.webm
-*.ariaSnapshot
 
-# OS Metadata
+# ==============================================================================
+# OPERATING SYSTEM METADATA
+# ==============================================================================
 .DS_Store
 .DS_Store?
 ._*
@@ -74,7 +112,9 @@ ehthumbs_vista.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# Environment, Secrets & Logs
+# ==============================================================================
+# ENVIRONMENT, SECRETS, CERTIFICATES & LOGS
+# ==============================================================================
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -89,4 +129,7 @@ lerna-debug.log*
 .env.production.local
 *.pem
 *.key
-
+*.cert
+*.crt
+*.pfx
+*.p12

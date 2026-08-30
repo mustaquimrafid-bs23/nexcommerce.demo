@@ -22,10 +22,14 @@ interface CartState {
   getItemCount: () => number;
 }
 
-const VALID_COUPONS: Record<string, { discount: number; label: string }> = {
-  NEX10: { discount: 10, label: '10% Atelier Welcome Privileges' },
+const VALID_COUPONS: Record<string, { discount: number; label: string; freeShipping?: boolean }> = {
+  NEX10: { discount: 10, label: '10% Welcome Privilege' },
   LUXURY20: { discount: 20, label: '20% Seasonal Maison Private Sale' },
+  VIP20: { discount: 20, label: '20% Season Privilege' },
+  ATELIER15: { discount: 15, label: '15% Atelier Member Privilege' },
+  WELCOME10: { discount: 10, label: '10% Welcome Courtesy' },
   VIP30: { discount: 30, label: '30% Atelier Collector Privilege' },
+  FREESHIP: { discount: 0, label: 'Complimentary Express Delivery', freeShipping: true },
 };
 
 export const useCartStore = create<CartState>()(
@@ -117,6 +121,8 @@ export const useCartStore = create<CartState>()(
       getShippingFee: () => {
         const subtotal = get().getSubtotal();
         if (subtotal === 0 || subtotal >= 150) return 0;
+        const coupon = get().appliedCoupon ? VALID_COUPONS[get().appliedCoupon!] : null;
+        if (coupon?.freeShipping) return 0;
         return 12; // standard €12 under threshold
       },
       getTotal: () => {
