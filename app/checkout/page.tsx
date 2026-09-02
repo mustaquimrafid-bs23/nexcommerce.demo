@@ -22,6 +22,8 @@ import { CheckoutProgressRibbon } from '@/components/checkout/CheckoutProgressRi
 import { HolographicCardPreview } from '@/components/checkout/HolographicCardPreview';
 import { OrderSummarySidebar } from '@/components/checkout/OrderSummarySidebar';
 import { PaymentAuthModal } from '@/components/checkout/PaymentAuthModal';
+import { SavingsOptimizerBanner } from '@/components/checkout/SavingsOptimizerBanner';
+import { MfsPaymentSheet } from '@/components/checkout/MfsPaymentSheet';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -62,10 +64,10 @@ export default function CheckoutPage() {
 
   const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState<boolean>(false);
 
-  // Modal & submission state
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [isOrderConfirmed, setIsOrderConfirmed] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [mfsGateway, setMfsGateway] = useState<'bkash' | 'nagad' | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const {
@@ -240,6 +242,11 @@ export default function CheckoutPage() {
       return;
     }
     if (items.length === 0) return;
+
+    if (formData.paymentMethod === 'bkash' || formData.paymentMethod === 'nagad') {
+      setMfsGateway(formData.paymentMethod as 'bkash' | 'nagad');
+      return;
+    }
 
     setIsProcessing(true);
 
@@ -1214,6 +1221,52 @@ export default function CheckoutPage() {
                       <div className="text-xs font-semibold text-white">Bank Transfer</div>
                       <div className="text-[10px] text-white/45">EU IBAN Debit</div>
                     </div>
+
+                    {/* bKash MFS */}
+                    <div
+                      onClick={() => setFormData((p) => ({ ...p, paymentMethod: 'bkash' }))}
+                      className={`rounded-xl border p-3 cursor-pointer transition-all ${
+                        formData.paymentMethod === 'bkash'
+                          ? 'border-[#E2136E] bg-[#E2136E]/[0.08] ring-1 ring-[#E2136E]/30'
+                          : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="rounded bg-[#E2136E] text-white text-[10px] font-bold px-1.5 py-0.5">bKash</span>
+                        <div
+                          className={`h-3.5 w-3.5 rounded-full border ${
+                            formData.paymentMethod === 'bkash'
+                              ? 'border-[#E2136E] bg-[#E2136E]'
+                              : 'border-white/25'
+                          }`}
+                        />
+                      </div>
+                      <div className="text-xs font-semibold text-white">bKash MFS</div>
+                      <div className="text-[10px] text-white/45">Instant Mobile Pay</div>
+                    </div>
+
+                    {/* Nagad MFS */}
+                    <div
+                      onClick={() => setFormData((p) => ({ ...p, paymentMethod: 'nagad' }))}
+                      className={`rounded-xl border p-3 cursor-pointer transition-all ${
+                        formData.paymentMethod === 'nagad'
+                          ? 'border-[#F7931E] bg-[#F7931E]/[0.08] ring-1 ring-[#F7931E]/30'
+                          : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="rounded bg-[#F7931E] text-white text-[10px] font-bold px-1.5 py-0.5">Nagad</span>
+                        <div
+                          className={`h-3.5 w-3.5 rounded-full border ${
+                            formData.paymentMethod === 'nagad'
+                              ? 'border-[#F7931E] bg-[#F7931E]'
+                              : 'border-white/25'
+                          }`}
+                        />
+                      </div>
+                      <div className="text-xs font-semibold text-white">Nagad MFS</div>
+                      <div className="text-[10px] text-white/45">Instant Mobile Pay</div>
+                    </div>
                   </div>
 
                   {/* Card Details & 3D Holographic Card Stage */}
@@ -1461,20 +1514,28 @@ export default function CheckoutPage() {
             </div>
 
             {/* RIGHT COLUMN: STICKY ORDER SUMMARY */}
-            <OrderSummarySidebar
-              items={items}
-              subtotal={subtotal}
-              discount={discount}
-              shipping={shipping}
-              total={total}
-              itemCount={itemCount}
-              appliedCoupon={appliedCoupon}
-              onApplyCoupon={applyCoupon}
-              onRemoveCoupon={removeCoupon}
-              onSubmitOrder={handlePlaceOrder}
-              isProcessing={isProcessing}
-              isGiftWrap={isGiftWrapActive}
-            />
+            <div className="space-y-4">
+              <SavingsOptimizerBanner
+                subtotal={subtotal}
+                appliedCoupon={appliedCoupon}
+                onApplyCoupon={(code) => applyCoupon(code)}
+              />
+
+              <OrderSummarySidebar
+                items={items}
+                subtotal={subtotal}
+                discount={discount}
+                shipping={shipping}
+                total={total}
+                itemCount={itemCount}
+                appliedCoupon={appliedCoupon}
+                onApplyCoupon={applyCoupon}
+                onRemoveCoupon={removeCoupon}
+                onSubmitOrder={handlePlaceOrder}
+                isProcessing={isProcessing}
+                isGiftWrap={isGiftWrapActive}
+              />
+            </div>
           </div>
         )}
       </main>
@@ -1485,6 +1546,36 @@ export default function CheckoutPage() {
         total={total}
         paymentMethod={formData.paymentMethod}
         isConfirmed={isOrderConfirmed}
+      />
+
+      {/* Mobile Financial Services (MFS) Settlement Sheet */}
+      <MfsPaymentSheet
+        isOpen={!!mfsGateway}
+        gateway={mfsGateway || 'bkash'}
+        amount={total}
+        onClose={() => setMfsGateway(null)}
+        onSuccess={() => {
+          const mfsRef = 'NX-MFS-' + Date.now().toString(36).toUpperCase().slice(-5);
+          const confirmedOrder = {
+            ref: mfsRef,
+            orderId: mfsRef,
+            id: mfsRef,
+            paymentMethod: mfsGateway,
+            total,
+            subtotal,
+            discount,
+            shipping,
+            items: [...items],
+            status: 'Confirmed',
+          };
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('latest_order', JSON.stringify(confirmedOrder));
+            sessionStorage.setItem('nex_confirmed_order', JSON.stringify(confirmedOrder));
+          }
+          clearCart();
+          setMfsGateway(null);
+          router.push('/confirmation?ref=' + mfsRef);
+        }}
       />
     </div>
   );

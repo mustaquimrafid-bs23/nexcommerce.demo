@@ -25,6 +25,7 @@ import { OrderConfidenceStrip } from '@/components/cart/OrderConfidenceStrip';
 import { SmartSavingsAdvisor } from '@/components/cart/SmartSavingsAdvisor';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 import { SlipToCartModal } from '@/components/cart/SlipToCartModal';
+import { CartHeroStats } from '@/components/cart/CartHeroStats';
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -188,6 +189,11 @@ export default function CartPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Cart Hero Live Telemetry Stats */}
+          <div className="mt-6">
+            <CartHeroStats itemCount={itemCount} subtotal={subtotal} discountAmount={discountAmount} />
           </div>
 
           {/* Integrated Action Toolbar */}
