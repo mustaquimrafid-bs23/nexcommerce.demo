@@ -14,38 +14,38 @@ import {
 import { useReveal } from '@/hooks/useReveal';
 
 const TYPEWRITER_PLACEHOLDERS = [
-  'Warm jacket for a cold weekend in Edinburgh',
-  'Smart tailored clothes for work and meetings',
-  'Lightweight linen shirts and trousers for a holiday',
-  'Soft cashmere jumpers and leather bags',
-  'Classic leather watch and wallet gift ideas',
+  'Something for a winter evening in Milan',
+  'Lightweight apparel for weekend trip',
+  'Minimalist tailored workwear',
+  'Luxury gifts for him',
+  'Light breathable summer fabrics',
 ];
 
 const POPULAR_PROMPTS = [
   {
     icon: Wine,
     label: 'Dinner outfit',
-    query: 'Dinner outfit for a smart evening out',
+    query: 'Dinner outfit for a cool evening in Milan',
   },
   {
     icon: Compass,
-    label: 'Weekend away',
-    query: 'Clothes and shoes for a weekend trip',
+    label: 'Weekend trip',
+    query: 'Lightweight apparel for weekend trip',
   },
   {
     icon: Briefcase,
-    label: 'Office workwear',
-    query: 'Smart tailored clothes for the office',
+    label: 'Work essentials',
+    query: 'Minimalist tailored workwear',
   },
   {
     icon: Gift,
-    label: 'Gift ideas',
-    query: 'Classic gifts and accessories for him',
+    label: 'Gift for him',
+    query: 'Luxury gifts for him',
   },
   {
     icon: Sun,
-    label: 'Summer holiday',
-    query: 'Light and breathable summer clothes',
+    label: 'Summer styles',
+    query: 'Light breathable summer fabrics',
   },
 ];
 
@@ -195,11 +195,11 @@ export function IntentSearchCard() {
           <div className="relative z-10 max-w-xl mx-auto flex flex-col items-center space-y-2 sm:space-y-2.5">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3DE0FF]/10 border border-[#3DE0FF]/25 text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#3DE0FF] shadow-[0_2px_10px_rgba(61,224,255,0.12)]">
               <Sparkles size={12} className="text-[#3DE0FF]" />
-              <span>Search by Occasion</span>
+              <span>Smart Search</span>
             </div>
 
             <h2 className="font-editorial text-2xl sm:text-4xl text-white font-normal leading-tight tracking-[-0.02em]">
-              What are you looking for?
+              Tell us what you&apos;re dressing for.
             </h2>
           </div>
 
@@ -217,7 +217,7 @@ export function IntentSearchCard() {
               <input
                 type="text"
                 id="homeIntentInput"
-                placeholder={currentText || 'Warm jacket for a cold weekend in Edinburgh'}
+                placeholder={currentText || 'Something for a winter evening in Milan'}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full bg-transparent text-xs sm:text-[15px] text-white placeholder-white/45 focus:outline-none py-1 sm:py-1.5 tracking-wide"
@@ -248,7 +248,7 @@ export function IntentSearchCard() {
           {/* Bottom Popular Idea Chips: Swipeable Horizontal Strip on Mobile, Wrap on Desktop */}
           <div className="relative z-10 w-full flex flex-col items-center space-y-2 sm:space-y-3 pt-0.5">
             <span className="text-[10px] sm:text-[11px] uppercase font-bold tracking-[0.08em] text-white/45">
-              Popular Ideas
+              Popular Prompts
             </span>
 
             <div className="w-full overflow-x-auto no-scrollbar py-1 px-1 flex items-center gap-2 sm:flex-wrap sm:justify-center">

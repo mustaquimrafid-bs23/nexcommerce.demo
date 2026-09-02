@@ -3,11 +3,11 @@
 import { useEffect, useRef } from 'react';
 
 type UseRevealOptions = {
-  /** Distance to pre-translate before entrance. Default 28 */
+  /** Distance to pre-translate before entrance. Default 24 */
   y?: number;
-  /** Initial scale. Default 0.97 */
+  /** Initial scale. Default 0.98 */
   scale?: number;
-  /** rootMargin bottom offset. Default '-8%' */
+  /** rootMargin bottom offset. Default '50px 0px 50px 0px' */
   margin?: string;
   /** Stagger delay between children in seconds. Default 0.07 */
   stagger?: number;
@@ -21,18 +21,13 @@ type UseRevealOptions = {
 
 /**
  * useReveal — IntersectionObserver-based scroll-reveal hook.
- * Matches baseline initScrollReveals() / inView() + stagger() pattern.
- * Uses native WAAPI (Web Animations API) — same as animations.js baseline.
- *
- * Usage:
- *   const ref = useReveal<HTMLElement>({ childSelector: '.card' });
- *   <section ref={ref}>...</section>
+ * Uses native WAAPI (Web Animations API) to smoothly animate elements on entry
+ * while guaranteeing 100% content visibility for SSR, SEO, and full-page captures.
  */
 export function useReveal<T extends HTMLElement = HTMLElement>(options: UseRevealOptions = {}) {
   const {
-    y = 28,
-    scale = 0.97,
-    margin = '-8%',
+    y = 24,
+    scale = 0.98,
     stagger: staggerDelay = 0.07,
     childSelector,
     duration = 700,
@@ -40,69 +35,66 @@ export function useReveal<T extends HTMLElement = HTMLElement>(options: UseRevea
   } = options;
 
   const ref = useRef<T>(null);
-  const revealed = useRef(false);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // Respect prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
     const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-    // Pre-hide the section and its children immediately so there's no flash
-    el.style.opacity = '0';
-    el.style.transform = `translateY(${y}px) scale(${scale})`;
-
-    const children: Element[] = childSelector
-      ? Array.from(el.querySelectorAll(childSelector))
+    const children: HTMLElement[] = childSelector
+      ? Array.from(el.querySelectorAll<HTMLElement>(childSelector))
       : [];
 
-    children.forEach(child => {
-      (child as HTMLElement).style.opacity = '0';
-      (child as HTMLElement).style.transform = `translateY(${y * 0.6}px) scale(${scale})`;
-    });
+    const playEntrance = () => {
+      if (hasAnimated.current) return;
+      hasAnimated.current = true;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || revealed.current) return;
-        revealed.current = true;
-        observer.unobserve(el);
+      el.animate(
+        [
+          { opacity: 0.15, transform: `translateY(${y}px) scale(${scale})` },
+          { opacity: 1, transform: 'translateY(0px) scale(1)' },
+        ],
+        { duration, delay, easing: EASING, fill: 'forwards' }
+      );
 
-        // Animate section container
-        el.animate(
+      children.forEach((child, i) => {
+        const childDelay = delay + (i * staggerDelay * 1000) + 60;
+        child.animate(
           [
-            { opacity: 0, transform: `translateY(${y}px) scale(${scale})` },
+            { opacity: 0.1, transform: `translateY(${y * 0.5}px) scale(${scale})` },
             { opacity: 1, transform: 'translateY(0px) scale(1)' },
           ],
-          { duration, delay, easing: EASING, fill: 'forwards' }
-        ).onfinish = () => {
-          el.style.opacity = '1';
-          el.style.transform = '';
-        };
+          { duration: duration - 50, delay: childDelay, easing: EASING, fill: 'forwards' }
+        );
+      });
+    };
 
-        // Stagger children
-        children.forEach((child, i) => {
-          const childDelay = delay + (i * staggerDelay * 1000) + 80;
-          child.animate(
-            [
-              { opacity: 0, transform: `translateY(${y * 0.6}px) scale(${scale})` },
-              { opacity: 1, transform: 'translateY(0px) scale(1)' },
-            ],
-            { duration: duration - 50, delay: childDelay, easing: EASING, fill: 'forwards' }
-          ).onfinish = () => {
-            (child as HTMLElement).style.opacity = '1';
-            (child as HTMLElement).style.transform = '';
-          };
-        });
-      },
-      { rootMargin: `0px 0px ${margin} 0px` }
-    );
+    let observer: IntersectionObserver | null = null;
+    try {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry && entry.isIntersecting) {
+            playEntrance();
+            if (observer) observer.unobserve(el);
+          }
+        },
+        { rootMargin: '80px 0px 80px 0px', threshold: 0.05 }
+      );
+      observer.observe(el);
+    } catch {
+      playEntrance();
+    }
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, [childSelector, delay, duration, scale, staggerDelay, y]);
 
   return ref;
 }

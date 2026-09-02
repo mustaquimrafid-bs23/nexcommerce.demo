@@ -22,10 +22,10 @@ interface CuratedItem {
 }
 
 const CURATED_PRODUCTS: CuratedItem[] = [
-  { id: 'p1', badge: 'Top Pick',        brand: 'ARC',   name: 'Cashmere Knit Jumper',          price: 185, image: '/assets/images/products/hero_sweater.png',        category: 'outerwear',   parallaxDepth: 1 },
-  { id: 'p2', badge: 'Staff Favourite', brand: 'ARC',   name: 'Tailored Wool Blazer',          price: 245, image: '/assets/images/products/plp_blazer.png',           category: 'tailoring',   parallaxDepth: 2 },
-  { id: 'p7', badge: 'Trending Now',    brand: 'FORMA', name: 'Quilted Leather Tote Bag',      price: 285, image: '/assets/images/products/prod_tote.png',            category: 'accessories', parallaxDepth: 3 },
-  { id: 'p4', badge: 'Most Loved',      brand: 'FORM',  name: 'Wireless Over-Ear Headphones',  price: 320, image: '/assets/images/lifestyle/thumb_headphones.jpg',    category: 'accessories', parallaxDepth: 2 },
+  { id: 'p1', badge: 'Top Pick',        brand: 'ARC',   name: 'Architectural Cashmere Sweater', price: 185, image: '/assets/images/products/hero_sweater.png',     category: 'outerwear',   parallaxDepth: 1 },
+  { id: 'p2', badge: 'Staff Favourite', brand: 'ARC',   name: 'Structured Wool Blazer',         price: 245, image: '/assets/images/products/plp_blazer.png',        category: 'tailoring',   parallaxDepth: 2 },
+  { id: 'p7', badge: 'Trending Now',    brand: 'FORMA', name: 'Quilted Leather Structured Tote', price: 285, image: '/assets/images/products/prod_tote.png',         category: 'accessories', parallaxDepth: 3 },
+  { id: 'p4', badge: 'Most Loved',      brand: 'FORM',  name: 'Studio Acoustics Headphone GT',  price: 320, image: '/assets/images/lifestyle/thumb_headphones.jpg', category: 'accessories', parallaxDepth: 2 },
 ];
 
 const MAX_TILT = 6.5;
@@ -240,17 +240,17 @@ export function ProductGrid() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.14em] uppercase text-[#3DE0FF] mb-0.5">
-              <span>Picked for You</span>
+              <span>Recommended for You</span>
             </div>
             <h2 className="font-editorial text-2xl sm:text-3xl lg:text-4xl text-white font-normal">
-              Our Favourite Styles.
+              Handpicked for your style.
             </h2>
           </div>
           <Link
             href="/category?cat=all"
             className="curated-see-all-link text-xs font-semibold text-white/70 hover:text-white transition-colors whitespace-nowrap flex-shrink-0"
           >
-            View all items &rarr;
+            View all &rarr;
           </Link>
         </div>
 

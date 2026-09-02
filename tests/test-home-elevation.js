@@ -20,12 +20,15 @@ const homePath = path.resolve(process.cwd(), 'app/page.tsx');
 assert('app/page.tsx exists', fs.existsSync(homePath));
 
 const content = fs.readFileSync(homePath, 'utf8');
-assert('Homepage mounts CategoryTiles', content.includes('CategoryTiles'));
-assert('Homepage mounts RecentlyViewedRail', content.includes('RecentlyViewedRail'));
-assert('Homepage mounts TrustStrip', content.includes('TrustStrip'));
-
-const lookbookModalPath = path.resolve(process.cwd(), 'components/home/LookbookModal.tsx');
-assert('components/home/LookbookModal.tsx exists', fs.existsSync(lookbookModalPath));
+assert('Homepage mounts HeroSection', content.includes('HeroSection'));
+assert('Homepage mounts DealsSection', content.includes('DealsSection'));
+assert('Homepage mounts IntentSearchCard', content.includes('IntentSearchCard'));
+assert('Homepage mounts ProductGrid', content.includes('ProductGrid'));
+assert('Homepage mounts EditorialBanner', content.includes('EditorialBanner'));
+assert('Homepage does not mount extra CategoryTiles', !content.includes('<CategoryTiles'));
+assert('Homepage does not mount extra RecentlyViewedRail', !content.includes('<RecentlyViewedRail'));
+assert('Homepage does not mount extra TrustStrip', !content.includes('<TrustStrip'));
 
 console.log(`\nResults: ${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);
+

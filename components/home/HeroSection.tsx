@@ -8,8 +8,8 @@ import { useCartStore } from '@/store/useCartStore';
 import { Product } from '@/types/catalog';
 
 const FEATURED_PIECE: Product = {
-  id: 'p7',
-  name: 'Leather Tote Bag',
+  id: 'p2',
+  name: 'Structured Leather Tote',
   category: 'accessories',
   price: 245,
   currency: 'EUR',
@@ -180,7 +180,7 @@ export function HeroSection() {
   };
 
   const handleCardClick = () => {
-    router.push('/product/p7');
+    router.push('/product/p2');
   };
 
   return (
@@ -206,7 +206,7 @@ export function HeroSection() {
           />
           <img
             src="/assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg"
-            alt="Autumn / Winter 2026 Collection — Tailored Silhouette & Leather Tote Bag"
+            alt="Autumn / Winter 2026 Collection — Tailored Silhouette & Structured Leather Tote"
             className="absolute inset-0 w-full h-full object-cover object-[center_35%] sm:object-[70%_center] pointer-events-none"
             draggable="false"
           />
@@ -258,7 +258,7 @@ export function HeroSection() {
         className="absolute bottom-20 sm:bottom-10 left-1/2 -translate-x-1/2 sm:left-auto sm:right-24 sm:translate-x-0 md:right-28 z-20 block w-max max-w-[calc(100vw-32px)]"
         id="heroHotspotWrap"
         role="region"
-        aria-label="Featured Item"
+        aria-label="Featured Look Shoppable Piece"
       >
         <div
           onClick={handleCardClick}
@@ -269,7 +269,7 @@ export function HeroSection() {
           <div className="relative w-9 h-9 sm:w-12 sm:h-14 rounded-full sm:rounded-xl overflow-hidden bg-[#08254c] border border-white/20 sm:border-white/10 flex-shrink-0">
             <img
               src="/assets/images/lifestyle/thumb_tote.jpg"
-              alt="Leather Tote Bag"
+              alt="Structured Leather Tote"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               id="heroDockThumbImg"
             />
@@ -281,13 +281,13 @@ export function HeroSection() {
               className="text-[8px] sm:text-[9px] font-bold tracking-[0.14em] text-[#FB7185] uppercase block leading-tight"
               id="heroLookNum"
             >
-              FEATURED ITEM
+              FEATURED PIECE
             </span>
             <h3
               className="text-[10px] sm:text-[11.5px] font-semibold text-white tracking-[0.04em] uppercase truncate max-w-[130px] sm:max-w-[160px] leading-snug mt-0.5"
               id="heroHotspotTitle"
             >
-              LEATHER TOTE BAG
+              STRUCTURED LEATHER TOTE
             </h3>
             <span
               className="text-[10px] sm:text-xs font-bold text-white/90 tabular-nums block mt-0.5"

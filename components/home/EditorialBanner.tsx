@@ -108,7 +108,7 @@ export function EditorialBanner() {
                 <div className="flex items-center justify-between">
                   <span className="text-[9px] font-bold tracking-[0.14em] uppercase text-[#F13365] flex items-center gap-1">
                     <Sparkles size={11} className="text-[#F13365]" />
-                    <span>Featured Dress</span>
+                    <span>Smart Found</span>
                   </span>
                   <span className="text-[11px] font-bold text-white tabular-nums">
                     &euro; 1,280.00
@@ -117,10 +117,10 @@ export function EditorialBanner() {
 
                 <div className="space-y-0.5 text-left">
                   <h3 className="text-xs font-semibold text-white tracking-wide">
-                    Crimson Silk Evening Dress
+                    Crimson Silk-Crepe Gown
                   </h3>
                   <p className="text-[10.5px] text-white/60 leading-tight line-clamp-2">
-                    98% Mulberry Silk &middot; Pure silk with an elegant draped finish.
+                    98% Mulberry Silk &middot; Bias Draped
                   </p>
                 </div>
 
@@ -136,7 +136,7 @@ export function EditorialBanner() {
                   ) : (
                     <>
                       <Plus size={12} strokeWidth={3} />
-                      <span>Quick Add &middot; &euro; 1,280</span>
+                      <span>Add</span>
                     </>
                   )}
                 </button>

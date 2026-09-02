@@ -23,11 +23,11 @@ interface DealItem {
 }
 
 const FLASH_DEALS: DealItem[] = [
-  { id: 'p1', name: 'Merino Wool Jumper',       category: 'outerwear',   brand: 'ARC',     currentPrice: 160, originalPrice: 199, discount: '-20%', image: '/assets/images/products/hero_sweater.png', parallaxDepth: 1 },
-  { id: 'p6', name: 'Classic Leather Trainers',  category: 'footwear',    brand: 'FORM',    currentPrice: 185, originalPrice: 245, discount: '-25%', image: '/assets/images/products/prod_runner.png',  parallaxDepth: 2 },
-  { id: 'p5', name: 'Classic Leather Watch',     category: 'accessories', brand: 'FORMA',   currentPrice: 285, originalPrice: 340, discount: '-15%', image: '/assets/images/products/search_watch.png', parallaxDepth: 3 },
-  { id: 'p2', name: 'Tailored Wool Blazer',      category: 'tailoring',   brand: 'ARC',     currentPrice: 245, originalPrice: 270, discount: '-30%', image: '/assets/images/products/plp_blazer.png',   parallaxDepth: 2 },
-  { id: 'p8', name: 'Noise-Cancelling Earbuds',  category: 'accessories', brand: 'FORM',    currentPrice: 145, originalPrice: 185, discount: '-30%', image: '/assets/images/products/search_earbuds.png', parallaxDepth: 1 },
+  { id: 'p1', name: 'Merino Knit Sweater',      category: 'outerwear',   brand: 'ARC',     currentPrice: 160, originalPrice: 199, discount: '-20%', image: '/assets/images/products/hero_sweater.png', parallaxDepth: 1 },
+  { id: 'p6', name: 'Minimal Runner',           category: 'footwear',    brand: 'FORM',    currentPrice: 185, originalPrice: 245, discount: '-25%', image: '/assets/images/products/prod_runner.png',  parallaxDepth: 2 },
+  { id: 'p5', name: 'Classic Leather Watch',    category: 'accessories', brand: 'ATELIER', currentPrice: 285, originalPrice: 340, discount: '-15%', image: '/assets/images/products/search_watch.png', parallaxDepth: 3 },
+  { id: 'p2', name: 'Tailored Wool Blazer',     category: 'tailoring',   brand: 'ARC',     currentPrice: 245, originalPrice: 270, discount: '-30%', image: '/assets/images/products/plp_blazer.png',   parallaxDepth: 2 },
+  { id: 'p8', name: 'Noise Canceling Earbuds', category: 'accessories', brand: 'FORM',    currentPrice: 145, originalPrice: 185, discount: '-30%', image: '/assets/images/products/search_earbuds.png', parallaxDepth: 1 },
 ];
 
 const MAX_TILT = 8;
@@ -300,10 +300,10 @@ export function DealsSection() {
           <div className="deals-header-left">
             <div className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.14em] uppercase text-[#F13365] mb-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F13365] animate-pulse" />
-              <span>Limited Time</span>
+              <span>Flash Sale</span>
             </div>
             <h2 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
-              Today&apos;s Special Offers
+              Today&apos;s Offers
             </h2>
           </div>
 
@@ -312,7 +312,7 @@ export function DealsSection() {
               href="/category?sort=sale"
               className="text-xs font-semibold text-white/70 hover:text-white transition-colors"
             >
-              View all offers &rarr;
+              All deals
             </Link>
 
             {/* Live Countdown Pill with Flip Digits & Progress Track */}
@@ -326,7 +326,7 @@ export function DealsSection() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F13365] opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#F13365]" />
               </span>
-              <span className="text-white/60 text-[10.5px] font-medium tracking-wide">Ends in</span>
+              <span className="text-white/60 text-[10.5px] font-medium tracking-wide">Closes in</span>
               <div className="font-mono font-bold text-xs tracking-wider text-white tabular-nums flex items-center gap-0.5">
                 <FlipDigit value={formatDigit(timeLeft.hours)} colorClass="text-[#3DE0FF]" />
                 <span className="text-white/40 animate-pulse">:</span>
