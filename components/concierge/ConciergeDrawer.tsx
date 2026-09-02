@@ -15,6 +15,7 @@ import { useConciergeStore } from '@/store/useConciergeStore';
 import { useCartStore } from '@/store/useCartStore';
 import { formatPrice } from '@/lib/utils';
 import { Product } from '@/types/catalog';
+import { MASTER_PRODUCTS } from '@/data/products';
 
 const STARTER_PROMPTS = [
   'Warm wool overcoat for cold weather',
@@ -134,6 +135,46 @@ export function ConciergeDrawer() {
               ))}
             </div>
           </div>
+
+          {/* First-Frame Invariant: Featured Visual Capsule */}
+          {messages.length === 0 && (
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] uppercase tracking-wider text-accent-cyan font-semibold flex items-center gap-1.5">
+                  <Sparkles size={12} />
+                  <span>Featured Atelier Capsule</span>
+                </span>
+                <span className="text-[10px] text-white/40 font-mono">3 Recommendations</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2.5">
+                {MASTER_PRODUCTS.slice(0, 3).map((p) => (
+                  <div
+                    key={p.id}
+                    className="p-3 rounded-2xl bg-surface-card border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-all shadow-md"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-12 h-12 rounded-xl bg-obsidian-950 p-1 shrink-0 flex items-center justify-center">
+                        <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
+                      </div>
+                      <div className="min-w-0 space-y-0.5">
+                        <div className="text-xs font-semibold text-white truncate">{p.name}</div>
+                        <div className="text-xs font-mono text-accent-cyan">{formatPrice(p.price)}</div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => addItem(p, p.sizes ? p.sizes[0] : 'One Size')}
+                      className="px-3 py-1.5 rounded-xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-[10px] font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer shadow-sm"
+                    >
+                      Quick Add
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Chat Messages */}
           <div className="space-y-5 pt-2">
