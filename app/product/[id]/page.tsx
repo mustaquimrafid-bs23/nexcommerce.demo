@@ -15,6 +15,9 @@ import {
   Sparkles,
   Scale,
   MessageSquare,
+  Minus,
+  Plus,
+  CheckCircle2,
 } from 'lucide-react';
 import { MASTER_PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
@@ -53,7 +56,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   const { addItem } = useCartStore();
   const { toggleWishlist, isWishlisted } = useWishlistStore();
-  const { openConcierge } = useConciergeStore();
+  const { openConcierge, sendMessage } = useConciergeStore();
 
   const wishlisted = isWishlisted(product.id);
 
@@ -74,14 +77,22 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
   };
 
+  const handleColorSelect = (colorName: string, colorImg?: string) => {
+    setSelectedColor(colorName);
+    if (colorImg) {
+      setActiveImage(colorImg);
+    }
+  };
+
   const handleAddToCart = () => {
-    addItem(product, selectedSize || 'One Size', quantity);
+    addItem(product, selectedSize || 'One Size', selectedColor || 'Standard', quantity);
     setToastMessage(`Added ${quantity} × ${product.name} to your bag`);
     setTimeout(() => setToastMessage(null), 3500);
   };
 
   const handleAskStylist = () => {
-    openConcierge(
+    openConcierge();
+    sendMessage(
       `How would you style the ${product.name} (${product.category})? What matching pieces or occasions suit this best?`
     );
   };
@@ -90,16 +101,24 @@ export default function ProductPage({ params }: ProductPageProps) {
     setIsCompareOpen(true);
   };
 
+  const toggleAccordionSection = (section: string) => {
+    setOpenAccordion(openAccordion === section ? '' : section);
+  };
+
   return (
-    <div className="min-h-screen bg-transparent text-white pb-24 pt-6">
+    <div
+      className="min-h-screen text-white pb-24 pt-6"
+      style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}
+    >
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-surface-navy border border-accent-cyan/40 text-white text-xs shadow-2xl backdrop-blur-xl">
-          {toastMessage}
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-surface-navy border border-accent-cyan/40 text-white text-xs shadow-2xl backdrop-blur-xl flex items-center gap-2">
+          <CheckCircle2 size={14} className="text-accent-cyan" />
+          <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Sizing & Fit Smart Assistant Modal */}
+      {/* Sizing & Fit Modal */}
       <AIFitModal
         isOpen={isFitModalOpen}
         onClose={() => setIsFitModalOpen(false)}
@@ -107,7 +126,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         availableSizes={product.sizes}
       />
 
-      {/* Side-by-Side Spec & Drape Comparison Modal */}
+      {/* Side-by-Side Comparison Modal */}
       <ComparisonModal
         isOpen={isCompareOpen}
         productA={product}
@@ -218,7 +237,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <div className="flex items-center gap-1 text-xs text-amber-400 font-medium">
                     <Star size={13} fill="currentColor" />
                     <span>{product.rating}</span>
-                    <span className="text-white/40">({product.reviews || 24})</span>
+                    <span className="text-white/40">({(product as any).reviews || 24} reviews)</span>
                   </div>
                 )}
               </div>
@@ -233,31 +252,31 @@ export default function ProductPage({ params }: ProductPageProps) {
                   &euro;{product.price.toFixed(2)}
                 </span>
                 <span className="text-xs text-white/50 font-light">
-                  All prices incl. 19% statutory VAT &middot; Duties included
+                  All prices incl. VAT &middot; Free express UK delivery
                 </span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-white/70 leading-relaxed font-light">
               {product.description ||
-                'Meticulously proportioned with architectural restraint. Constructed in small batch production across our Northern European master ateliers.'}
+                'Meticulously proportioned with architectural restraint. Constructed in small batch production across our European master ateliers.'}
             </p>
 
-            {/* Artisanal Specification Badges Grid */}
+            {/* Specification Badges Grid */}
             <SpecBadgesGrid category={product.category} />
 
             {/* Finish / Swatch Selection */}
             {product.colors && product.colors.length > 0 && (
               <div className="space-y-3 pt-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-white/60">Selected Finish:</span>
+                  <span className="text-white/60">Selected Colour:</span>
                   <span className="font-semibold text-white">{selectedColor}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   {product.colors.map((c) => (
                     <button
                       key={c.name}
-                      onClick={() => setSelectedColor(c.name)}
+                      onClick={() => handleColorSelect(c.name, c.img)}
                       className={`relative w-8 h-8 rounded-full border transition-all cursor-pointer ${
                         selectedColor === c.name
                           ? 'border-accent-pink ring-2 ring-accent-pink/40 scale-110'
@@ -278,7 +297,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
             )}
 
-            {/* Anatomical Size Selection & Fit Assistant Trigger */}
+            {/* Size Selection & Fit Assistant Trigger */}
             {product.sizes && product.sizes.length > 0 && (
               <div className="space-y-3 pt-1">
                 <div className="flex justify-between text-xs">
@@ -298,15 +317,17 @@ export default function ProductPage({ params }: ProductPageProps) {
                     </Link>
                   </div>
                 </div>
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+
+                <div className="flex flex-wrap gap-2.5">
                   {product.sizes.map((s) => (
                     <button
                       key={s}
+                      type="button"
                       onClick={() => setSelectedSize(s)}
-                      className={`py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+                      className={`px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer border ${
                         selectedSize === s
-                          ? 'bg-white text-obsidian-950 border-white shadow-md'
-                          : 'bg-surface-navy/50 text-white/80 border-white/10 hover:border-white/30'
+                          ? 'bg-accent-pink text-white border-accent-pink shadow-lg shadow-accent-pink/20'
+                          : 'bg-obsidian-950/70 text-white/80 border-white/10 hover:border-white/30'
                       }`}
                     >
                       {s}
@@ -316,131 +337,152 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
             )}
 
-            {/* Quantity and Primary Add to Bag Action */}
-            <div className="space-y-3 pt-3 border-t border-white/10">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center rounded-2xl bg-surface-navy/70 border border-white/15 p-1">
+            {/* Quantity Selector & Add to Bag CTA */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center border border-white/15 rounded-2xl bg-obsidian-950/70 p-1">
                   <button
+                    type="button"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-9 h-9 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                    className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Decrease quantity"
                   >
-                    -
+                    <Minus size={13} />
                   </button>
-                  <span className="w-9 text-center text-sm font-semibold text-white">
+                  <span className="w-8 text-center text-xs font-mono font-bold text-white">
                     {quantity}
                   </span>
                   <button
+                    type="button"
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-9 h-9 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                    className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Increase quantity"
                   >
-                    +
+                    <Plus size={13} />
                   </button>
                 </div>
 
                 <button
+                  type="button"
                   onClick={handleAddToCart}
-                  className="flex-1 py-3.5 px-6 rounded-2xl bg-accent-crimson hover:bg-accent-crimson/90 text-white font-semibold text-xs uppercase tracking-widest transition-all shadow-xl shadow-accent-crimson/30 hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 py-3.5 px-6 rounded-2xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-xs font-semibold uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl shadow-accent-crimson/25 hover:scale-[1.02]"
                 >
-                  <ShoppingBag size={16} />
-                  <span>Add to Shopping Bag</span>
+                  <ShoppingBag size={14} />
+                  <span>Add to Bag</span>
                 </button>
               </div>
 
-              {/* Side-by-Side Compare & Ask Stylist Actions */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-2 gap-2.5 pt-1">
                 <button
-                  id="pdpCompareBtn"
-                  type="button"
-                  onClick={handleTriggerCompare}
-                  className="py-2.5 px-3 rounded-xl bg-surface-card border border-white/10 hover:border-accent-cyan text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <Scale size={13} className="text-accent-cyan" />
-                  <span>Compare Piece</span>
-                </button>
-
-                <button
-                  id="btnPdpAskStylist"
                   type="button"
                   onClick={handleAskStylist}
-                  className="btn-pdp-concierge-trigger py-2.5 px-3 rounded-xl bg-surface-card border border-white/10 hover:border-accent-pink text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className="py-2.5 px-3 rounded-xl bg-obsidian-950/60 border border-white/10 hover:border-accent-cyan/40 text-xs text-white/80 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
-                  <MessageSquare size={13} className="text-accent-pink" />
-                  <span>Ask Stylist</span>
+                  <MessageSquare size={13} className="text-accent-cyan" />
+                  <span>Ask Style Advisor</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleTriggerCompare}
+                  className="py-2.5 px-3 rounded-xl bg-obsidian-950/60 border border-white/10 hover:border-accent-pink/40 text-xs text-white/80 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <Scale size={13} className="text-accent-pink" />
+                  <span>Compare Piece</span>
                 </button>
               </div>
             </div>
 
-            {/* White Glove Guarantees */}
-            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-white/5 text-center text-[11px] text-white/60">
-              <div className="p-3 rounded-xl bg-surface-navy/30 border border-white/5 space-y-1">
-                <Truck size={16} className="mx-auto text-accent-cyan" />
-                <span className="block font-medium text-white/90">Express Delivery</span>
-                <span className="text-[10px]">Complimentary &gt; €150</span>
+            {/* Delivery & Trust Highlights */}
+            <div className="p-4 rounded-2xl bg-surface-card/60 border border-white/10 space-y-2.5 text-xs text-white/70">
+              <div className="flex items-center gap-2.5">
+                <Truck size={14} className="text-accent-cyan shrink-0" />
+                <span>Complimentary Express UK &amp; European Delivery</span>
               </div>
-              <div className="p-3 rounded-xl bg-surface-navy/30 border border-white/5 space-y-1">
-                <RotateCcw size={16} className="mx-auto text-accent-pink" />
-                <span className="block font-medium text-white/90">14-Day Returns</span>
-                <span className="text-[10px]">Pre-paid label</span>
+              <div className="flex items-center gap-2.5">
+                <RotateCcw size={14} className="text-accent-pink shrink-0" />
+                <span>14-Day Right to Cancel &amp; Free Returns</span>
               </div>
-              <div className="p-3 rounded-xl bg-surface-navy/30 border border-white/5 space-y-1">
-                <ShieldCheck size={16} className="mx-auto text-emerald-400" />
-                <span className="block font-medium text-white/90">Authentic</span>
-                <span className="text-[10px]">100% Certified</span>
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck size={14} className="text-emerald-400 shrink-0" />
+                <span>Bespoke Care &amp; Craftsmanship Guarantee</span>
               </div>
             </div>
 
-            {/* Accordion Specifications */}
-            <div className="border-t border-white/10 pt-4 divide-y divide-white/10 text-xs">
-              <div>
+            {/* Accordion Panels */}
+            <div className="border-t border-white/10 pt-4 space-y-2">
+              {/* Accordion 1: Details */}
+              <div className="border border-white/10 rounded-2xl overflow-hidden bg-obsidian-950/40">
                 <button
-                  onClick={() =>
-                    setOpenAccordion(openAccordion === 'details' ? '' : 'details')
-                  }
-                  className="w-full py-3 flex items-center justify-between text-white font-medium text-left cursor-pointer"
+                  type="button"
+                  onClick={() => toggleAccordionSection('details')}
+                  className="w-full p-4 flex items-center justify-between text-xs font-semibold text-white/90 text-left cursor-pointer"
                 >
-                  <span>Composition &amp; Artisanal Craft</span>
+                  <span>Garment Details &amp; Composition</span>
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      openAccordion === 'details' ? 'rotate-180' : ''
+                    className={`transition-transform duration-200 ${
+                      openAccordion === 'details' ? 'rotate-180 text-accent-cyan' : ''
                     }`}
                   />
                 </button>
                 {openAccordion === 'details' && (
-                  <div className="pb-4 text-white/70 space-y-2 leading-relaxed font-light">
+                  <div className="px-4 pb-4 text-xs text-white/60 space-y-2 font-light leading-relaxed border-t border-white/5 pt-3">
                     <p>
-                      Meticulously crafted from selected sustainably sourced fibers. Hand-finished
-                      in northern Italy following generations of tailoring tradition.
+                      Crafted from fine Mongolian cashmere offering natural thermal regulation with an ultra-soft handle. Finished with Italian horn buttons and hand-rolled silk trims.
                     </p>
-                    <ul className="list-disc list-inside space-y-1 text-white/60">
-                      <li>100% Premium Noble Selection</li>
-                      <li>Double-reinforced structural seams</li>
-                      <li>Dry clean only / Specialist care</li>
+                    <ul className="list-disc list-inside space-y-1 text-white/70">
+                      <li>Material: 100% Mongolian Cashmere</li>
+                      <li>Fit: Modern relaxed tailored cut</li>
+                      <li>Origin: Crafted in Northern Europe</li>
                     </ul>
                   </div>
                 )}
               </div>
 
-              <div>
+              {/* Accordion 2: Sizing & Fit */}
+              <div className="border border-white/10 rounded-2xl overflow-hidden bg-obsidian-950/40">
                 <button
-                  onClick={() =>
-                    setOpenAccordion(openAccordion === 'shipping' ? '' : 'shipping')
-                  }
-                  className="w-full py-3 flex items-center justify-between text-white font-medium text-left cursor-pointer"
+                  type="button"
+                  onClick={() => toggleAccordionSection('sizing')}
+                  className="w-full p-4 flex items-center justify-between text-xs font-semibold text-white/90 text-left cursor-pointer"
                 >
-                  <span>White-Glove Shipping &amp; Returns</span>
+                  <span>Sizing, Fit &amp; Tailoring</span>
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      openAccordion === 'shipping' ? 'rotate-180' : ''
+                    className={`transition-transform duration-200 ${
+                      openAccordion === 'sizing' ? 'rotate-180 text-accent-pink' : ''
                     }`}
                   />
                 </button>
-                {openAccordion === 'shipping' && (
-                  <div className="pb-4 text-white/70 space-y-2 leading-relaxed font-light">
+                {openAccordion === 'sizing' && (
+                  <div className="px-4 pb-4 text-xs text-white/60 space-y-2 font-light leading-relaxed border-t border-white/5 pt-3">
                     <p>
-                      All creations arrive in our signature gift presentation box with reusable
-                      dust bags and bespoke hanger.
+                      Designed to fit true to European size. For an oversized look, choose one size up. Refer to our interactive size guide for chest and shoulder measurements.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Accordion 3: Care Instructions */}
+              <div className="border border-white/10 rounded-2xl overflow-hidden bg-obsidian-950/40">
+                <button
+                  type="button"
+                  onClick={() => toggleAccordionSection('care')}
+                  className="w-full p-4 flex items-center justify-between text-xs font-semibold text-white/90 text-left cursor-pointer"
+                >
+                  <span>Care Instructions &amp; Provenance</span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${
+                      openAccordion === 'care' ? 'rotate-180 text-accent-cyan' : ''
+                    }`}
+                  />
+                </button>
+                {openAccordion === 'care' && (
+                  <div className="px-4 pb-4 text-xs text-white/60 space-y-2 font-light leading-relaxed border-t border-white/5 pt-3">
+                    <p>
+                      Specialist dry clean only or gentle hand wash in cold water using neutral wool detergent. Dry flat away from direct sunlight.
                     </p>
                   </div>
                 )}
@@ -449,7 +491,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
 
-        {/* Complete the Look 3-Piece Bundle Checkout */}
+        {/* Complete the Look Bundle */}
         <CompleteLookBundle currentProduct={product} />
       </div>
     </div>

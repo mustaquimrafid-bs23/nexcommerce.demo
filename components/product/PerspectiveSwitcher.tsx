@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Camera, User, ZoomIn } from 'lucide-react';
+import { Camera, User, ZoomIn } from 'lucide-react';
 
 export type PerspectiveMode = 'silhouette' | 'model' | 'macro';
 
@@ -12,7 +12,7 @@ interface PerspectiveSwitcherProps {
 
 export function PerspectiveSwitcher({ activeMode, onChange }: PerspectiveSwitcherProps) {
   return (
-    <div className="flex items-center gap-2 p-1 rounded-2xl bg-obsidian-950/80 border border-white/10 backdrop-blur-md">
+    <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-obsidian-950/80 border border-white/10 backdrop-blur-md">
       <button
         type="button"
         onClick={() => onChange('silhouette')}
@@ -23,7 +23,7 @@ export function PerspectiveSwitcher({ activeMode, onChange }: PerspectiveSwitche
         }`}
       >
         <Camera size={13} />
-        <span>Perspective: Silhouette</span>
+        <span>Studio Silhouette</span>
       </button>
 
       <button
@@ -36,7 +36,7 @@ export function PerspectiveSwitcher({ activeMode, onChange }: PerspectiveSwitche
         }`}
       >
         <User size={13} />
-        <span>Perspective: Model / Styling</span>
+        <span>Editorial Look</span>
       </button>
 
       <button
@@ -49,7 +49,7 @@ export function PerspectiveSwitcher({ activeMode, onChange }: PerspectiveSwitche
         }`}
       >
         <ZoomIn size={13} />
-        <span>Perspective: Macro / Texture</span>
+        <span>Material &amp; Macro</span>
       </button>
     </div>
   );

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingBag, Sparkles, Check, ArrowRight } from 'lucide-react';
-import { Product, MASTER_PRODUCTS } from '@/data/products';
+import { Product } from '@/types/catalog';
+import { MASTER_PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
 
 interface CompleteLookBundleProps {

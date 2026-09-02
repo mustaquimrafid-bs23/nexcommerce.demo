@@ -1,33 +1,32 @@
 'use client';
 
 import React from 'react';
-import { Shield, Sparkles, Feather, Clock } from 'lucide-react';
 
 interface SpecBadgesGridProps {
   category?: string;
 }
 
 export function SpecBadgesGrid({ category }: SpecBadgesGridProps) {
-  const isAcoustic = category === 'Acoustics';
-  const isLeather = category === 'Accessories';
+  const isAcoustic = category === 'Acoustics' || category === 'acoustics' || category === 'objects';
+  const isLeather = category === 'Accessories' || category === 'accessories' || category === 'leather-goods' || category === 'Leather Goods';
 
   const specs = isAcoustic
     ? [
         { label: 'Acoustic Driver', val: '40mm Beryllium Foil' },
-        { label: 'Chassis Metallurgy', val: 'Grade 5 Titanium' },
+        { label: 'Chassis Material', val: 'Grade 5 Titanium' },
         { label: 'Ear Cushion', val: 'Lambskin Memory Foam' },
-        { label: 'Acoustic Tuning', val: 'Zero Harmonic Distortion' },
+        { label: 'Sound Profile', val: 'Zero Harmonic Distortion' },
       ]
     : isLeather
     ? [
         { label: 'Leather Origin', val: 'Tuscan Full-Grain' },
-        { label: 'Tannage Method', val: '100% Vegetable Chestnut' },
+        { label: 'Tannage Method', val: 'Vegetable Chestnut' },
         { label: 'Hardware', val: 'Solid Polished Brass' },
         { label: 'Stitching', val: 'Waxed Saddle Thread' },
       ]
     : [
-        { label: 'Materiality', val: '100% Mongolian Cashmere' },
-        { label: 'Button Architecture', val: 'Italian Horn Buttons' },
+        { label: 'Composition', val: '100% Mongolian Cashmere' },
+        { label: 'Buttons', val: 'Natural Italian Horn' },
         { label: 'Construction', val: 'Full Floating Canvas' },
         { label: 'Finishing', val: 'Hand-Rolled Silk Edges' },
       ];
