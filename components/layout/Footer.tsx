@@ -91,7 +91,7 @@ export function Footer() {
               ABOUT
             </span>
             <Link
-              href="/discovery"
+              href="/about"
               className="footer-link-item text-xs sm:text-[12.5px] text-white/55 hover:text-white transition-colors w-fit hover:translate-x-0.5"
             >
               About Us
