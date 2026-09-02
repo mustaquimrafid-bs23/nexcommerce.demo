@@ -8,7 +8,6 @@ import {
   ArrowRight,
   ArrowLeft,
   ShieldCheck,
-  Truck,
   RotateCcw,
   Tag,
   CheckCircle2,
@@ -22,10 +21,10 @@ import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
 import { OrderConfidenceStrip } from '@/components/cart/OrderConfidenceStrip';
+import { CartPromoBanner } from '@/components/cart/CartPromoBanner';
 import { SmartSavingsAdvisor } from '@/components/cart/SmartSavingsAdvisor';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 import { SlipToCartModal } from '@/components/cart/SlipToCartModal';
-import { CartHeroStats } from '@/components/cart/CartHeroStats';
 import { CartRecoveryModal } from '@/components/cart/CartRecoveryModal';
 
 export default function CartPage() {
@@ -80,7 +79,10 @@ export default function CartPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center bg-transparent">
+      <div
+        className="min-h-[70vh] flex items-center justify-center text-white"
+        style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}
+      >
         <div className="w-8 h-8 rounded-full border-2 border-accent-cyan border-t-transparent animate-spin" />
       </div>
     );
@@ -118,8 +120,11 @@ export default function CartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-white pb-28 relative">
-      {/* Background Subtle Radial Glow */}
+    <div
+      className="min-h-screen text-white pb-28 relative overflow-hidden"
+      style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}
+    >
+      {/* Background Subtle Ambient Highlights */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[400px] bg-accent-cyan/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-96 right-10 w-[500px] h-[500px] bg-accent-pink/5 rounded-full blur-[160px] pointer-events-none" />
 
@@ -152,12 +157,12 @@ export default function CartPage() {
                   id="cartItemCount"
                   className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 text-[10px] font-bold tracking-wider text-white"
                 >
-                  {itemCount} {itemCount === 1 ? 'Piece Selected' : 'Pieces Selected'}
+                  {itemCount} {itemCount === 1 ? 'Item Selected' : 'Items Selected'}
                 </span>
               </div>
 
-              <h1 className="font-editorial text-3xl sm:text-4xl text-white font-normal">
-                Shopping <span className="italic font-normal">Bag</span>
+              <h1 className="font-sans font-bold text-3xl sm:text-4xl text-white tracking-tight">
+                Shopping <em className="font-serif italic font-normal text-accent-cyan">Bag</em>
               </h1>
 
               <p className="text-xs text-white/70 max-w-xl leading-relaxed">
@@ -165,56 +170,58 @@ export default function CartPage() {
               </p>
             </div>
 
-            {/* Right: Stats Telemetry Card */}
-            <div className="lg:col-span-5 bg-black/40 border border-white/10 rounded-xl p-4 flex items-center justify-around text-center shadow-inner">
+            {/* Right: Stats Summary Cluster */}
+            <div
+              id="cartHeroStats"
+              className="lg:col-span-5 bg-black/40 border border-white/10 rounded-xl p-4 flex items-center justify-around text-center shadow-inner"
+            >
               <div className="space-y-1">
-                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">
-                  Total Items
+                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider block">
+                  TOTAL ITEMS
                 </span>
-                <div className="text-lg font-bold text-white tabular-nums font-mono">
+                <span id="heroPieceCount" className="text-base font-bold text-white tabular-nums block font-sans">
                   {itemCount}
-                </div>
+                </span>
               </div>
 
               <div className="w-px h-8 bg-white/10" />
 
               <div className="space-y-1">
-                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">
-                  Estimated Value
+                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider block">
+                  ESTIMATED VALUE
                 </span>
-                <div className="text-lg font-bold text-white tabular-nums font-mono">
+                <span id="heroSubtotalVal" className="text-base font-bold text-white tabular-nums block font-sans">
                   {formatPrice(subtotal)}
-                </div>
+                </span>
               </div>
 
               <div className="w-px h-8 bg-white/10" />
 
               <div className="space-y-1">
-                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">
-                  Express Delivery
+                <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider block">
+                  EXPRESS DELIVERY
                 </span>
-                <div
-                  className={`text-xs font-bold ${
+                <span
+                  id="heroShippingStatus"
+                  className={`text-base font-bold block font-sans ${
                     remainingForFree === 0 ? 'text-emerald-400' : 'text-accent-cyan'
                   }`}
                 >
                   {remainingForFree === 0 ? 'Complimentary' : 'Standard EU'}
-                </div>
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Cart Hero Live Telemetry Stats */}
-          <div className="mt-6">
-            <CartHeroStats itemCount={itemCount} subtotal={subtotal} discountAmount={discountAmount} />
-          </div>
-
           {/* Integrated Action Toolbar */}
-          <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <div
+            id="cartHeaderActions"
+            className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3"
+          >
             <div>
               <Link
                 href="/category?cat=all"
-                className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white/80 hover:text-white transition-all flex items-center gap-2"
+                className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-all flex items-center gap-2"
               >
                 <ArrowLeft size={13} />
                 <span>Continue Shopping</span>
@@ -226,7 +233,7 @@ export default function CartPage() {
                 type="button"
                 data-action="open-budget-cart"
                 onClick={() => setIsBudgetModalOpen(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan hover:text-white text-xs font-bold tracking-wide transition-all flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm"
               >
                 <Sparkles size={13} />
                 <span>Budget Builder</span>
@@ -239,7 +246,7 @@ export default function CartPage() {
                 type="button"
                 data-action="open-slip-to-cart"
                 onClick={() => setIsSlipModalOpen(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-accent-pink/10 hover:bg-accent-pink/20 border border-accent-pink/30 text-accent-pink hover:text-white text-xs font-bold tracking-wide transition-all flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2.5 rounded-xl bg-accent-pink/10 hover:bg-accent-pink/20 border border-accent-pink/30 text-accent-pink hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm"
               >
                 <Receipt size={13} />
                 <span>Slip to Cart</span>
@@ -253,7 +260,7 @@ export default function CartPage() {
                   type="button"
                   data-action="clear-cart"
                   onClick={clearCart}
-                  className="px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 text-rose-300 hover:text-rose-200 text-xs font-medium transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/25 text-rose-300 hover:text-rose-200 text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5"
                 >
                   <Trash2 size={13} />
                   <span>Clear Bag</span>
@@ -304,6 +311,7 @@ export default function CartPage() {
 
             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div
+                id="cartDeliveryProgressBar"
                 className="h-full bg-gradient-to-r from-accent-cyan to-emerald-400 transition-all duration-500 rounded-full shadow-[0_0_12px_rgba(0,245,160,0.4)]"
                 style={{ width: `${progressPercent}%` }}
               />
@@ -327,7 +335,7 @@ export default function CartPage() {
               </span>
               <h2 className="text-2xl font-editorial text-white">Your shopping bag is empty</h2>
               <p className="text-xs text-white/50 max-w-md mx-auto leading-relaxed">
-                Explore our contemporary collections, new arrivals, and intelligent personalized edits.
+                Explore our contemporary collections, new arrivals, and handpicked edits.
               </p>
             </div>
 
@@ -373,7 +381,7 @@ export default function CartPage() {
           </div>
         ) : (
           <div id="cartGrid" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Cart Rows & Showcases (7 cols) */}
+            {/* Left Column: Cart Rows, Confidence Badges & Promotional Banner (7 cols) */}
             <div className="lg:col-span-7 space-y-6">
               {/* Product Rows List */}
               <div id="cartItemsList" className="space-y-4" role="region" aria-label="Cart Items">
@@ -460,7 +468,7 @@ export default function CartPage() {
                                   item.selectedColor
                                 )
                               }
-                              className="w-8 h-8 text-xs text-white/60 hover:text-white flex items-center justify-center transition-colors"
+                              className="w-8 h-8 text-xs text-white/60 hover:text-white flex items-center justify-center transition-colors min-w-[44px] min-h-[44px]"
                               aria-label="Decrease quantity"
                             >
                               -
@@ -478,7 +486,7 @@ export default function CartPage() {
                                   item.selectedColor
                                 )
                               }
-                              className="w-8 h-8 text-xs text-white/60 hover:text-white flex items-center justify-center transition-colors"
+                              className="w-8 h-8 text-xs text-white/60 hover:text-white flex items-center justify-center transition-colors min-w-[44px] min-h-[44px]"
                               aria-label="Increase quantity"
                             >
                               +
@@ -490,7 +498,7 @@ export default function CartPage() {
                             <button
                               type="button"
                               onClick={() => toggleWishlist(item.product)}
-                              className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-colors ${
+                              className={`w-10 h-10 min-w-[44px] min-h-[44px] rounded-lg border flex items-center justify-center transition-colors ${
                                 isSaved
                                   ? 'bg-rose-500/20 border-rose-500/40 text-rose-400'
                                   : 'bg-white/5 border-white/10 text-white/40 hover:text-rose-400 hover:border-rose-500/30'
@@ -510,8 +518,8 @@ export default function CartPage() {
                                   item.selectedColor
                                 )
                               }
-                              className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-rose-400 hover:border-rose-500/30 flex items-center justify-center transition-colors"
-                              title="Remove creation from bag"
+                              className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-rose-400 hover:border-rose-500/30 flex items-center justify-center transition-colors"
+                              title="Remove item from bag"
                               aria-label="Remove item"
                             >
                               <Trash2 size={14} />
@@ -526,6 +534,9 @@ export default function CartPage() {
 
               {/* Order Confidence Badge Strip */}
               <OrderConfidenceStrip />
+
+              {/* Promotional Exclusive Banner */}
+              <CartPromoBanner />
             </div>
 
             {/* Right Column: Sticky Order Summary (5 cols) */}
@@ -542,7 +553,7 @@ export default function CartPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-1.5 text-xs text-white/70">
                     <Tag size={13} className="text-accent-cyan" />
-                    <span>Promo or Privilege Code</span>
+                    <span>Promo or Gift Code</span>
                   </div>
 
                   {appliedCoupon ? (
@@ -554,7 +565,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         onClick={removeCoupon}
-                        className="text-white/60 hover:text-white transition-colors"
+                        className="text-white/60 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                         aria-label="Remove coupon"
                       >
                         <X size={14} />
@@ -571,7 +582,7 @@ export default function CartPage() {
                       />
                       <button
                         type="submit"
-                        className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white text-white hover:text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-colors"
+                        className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white text-white hover:text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-colors min-h-[44px]"
                       >
                         Apply
                       </button>
@@ -630,7 +641,7 @@ export default function CartPage() {
                 {/* Checkout Primary CTA */}
                 <Link
                   href="/checkout"
-                  className="block w-full py-4 rounded-xl bg-white text-obsidian-950 hover:bg-white/90 font-bold text-xs uppercase tracking-widest text-center transition-all shadow-xl hover:scale-[1.01] active:scale-[0.99]"
+                  className="block w-full py-4 rounded-xl bg-white text-obsidian-950 hover:bg-white/90 font-bold text-xs uppercase tracking-widest text-center transition-all shadow-xl hover:scale-[1.01] active:scale-[0.99] min-h-[44px] flex items-center justify-center"
                 >
                   Proceed to Checkout &rarr;
                 </Link>
@@ -639,15 +650,15 @@ export default function CartPage() {
                 <div className="space-y-2 pt-3 border-t border-white/10 text-[11px] text-white/60">
                   <div className="flex items-center gap-2">
                     <RotateCcw size={14} className="text-accent-cyan flex-shrink-0" />
-                    <span>14-Day Statutory Right of Withdrawal</span>
+                    <span>14-Day Free Returns</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <ShieldCheck size={14} className="text-emerald-400 flex-shrink-0" />
-                    <span>100% Certified Authentic Maison Sourcing</span>
+                    <span>100% Certified Authentic Direct from Makers</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Lock size={14} className="text-accent-pink flex-shrink-0" />
-                    <span>PSD2 Compliant 256-bit Encrypted Checkout</span>
+                    <span>256-bit Encrypted Secure Checkout</span>
                   </div>
                 </div>
               </div>
@@ -665,14 +676,14 @@ export default function CartPage() {
         >
           <div>
             <span className="text-[10px] uppercase font-bold text-white/50 block">Total Due</span>
-            <span className="text-base font-bold text-white font-mono tabular-nums">
+            <span id="mobileStickyTotal" className="text-base font-bold text-white font-mono tabular-nums">
               {formatPrice(total)}
             </span>
           </div>
 
           <Link
             href="/checkout"
-            className="px-6 py-3 rounded-xl bg-white text-obsidian-950 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg active:scale-95 transition-all"
+            className="px-6 py-3 rounded-xl bg-white text-obsidian-950 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg active:scale-95 transition-all min-h-[44px]"
           >
             <span>Checkout</span>
             <ArrowRight size={14} />
