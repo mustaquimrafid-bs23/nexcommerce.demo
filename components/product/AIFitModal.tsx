@@ -118,13 +118,14 @@ export function AIFitModal({
               <div className="flex items-center gap-2">
                 <Sparkles size={16} className="text-accent-cyan" />
                 <h3 className="font-editorial text-xl font-normal text-white">
-                  Find Your Size
+                  Find My Size
                 </h3>
               </div>
               <button
                 type="button"
+                id="btnCloseFitModal"
                 onClick={onClose}
-                aria-label="Close size advisor"
+                aria-label="Close fit assistant"
                 className="p-1.5 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <X size={18} />
