@@ -1,36 +1,38 @@
 'use client';
 
 import React, { useState } from 'react';
+import { History, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 const TIMELINE_MILESTONES = [
   {
     year: '2022',
-    title: 'The Paris Atelier Founding',
-    desc: 'nexCommerce was born on Rue Saint-Honoré to honor ancestral European garment construction without artificial synthetic fillers.',
+    title: 'The Paris Workshop Founding',
+    desc: 'nexCommerce was founded on Rue Saint-Honoré in Paris to celebrate traditional European tailoring without synthetic fillers or seasonal markdowns.',
     img: '/assets/images/lifestyle/auth_lifestyle.jpg',
   },
   {
     year: '2023',
-    title: 'The Tuscan Tannery Alliance',
-    desc: 'Formed direct exclusive partnerships with 3rd-generation master vegetable tanners in Santa Croce, Italy for zero-waste leather pieces.',
+    title: 'The Tuscan Leather Partnership',
+    desc: 'Formed direct partnerships with third-generation vegetable tanneries in Santa Croce, Italy, ensuring zero-waste full-grain leather goods.',
     img: '/assets/images/lifestyle/tote_lifestyle.png',
   },
   {
     year: '2024',
-    title: 'Neural Style Concierge',
-    desc: 'Launched on-device generative style intelligence, mapping client lifestyle nuances and climate vectors to bespoke wardrobe capsules.',
+    title: 'Personal Style Advisory',
+    desc: 'Introduced our intelligent style consultation service, helping clients curate thoughtful, versatile wardrobe capsules suited to their lifestyles.',
     img: '/assets/images/lifestyle/hero_sweater_hd.jpg',
   },
   {
     year: '2025',
-    title: 'Circular Craft & Acoustic Lab',
-    desc: 'Opened the Berlin acoustic research laboratory and instituted our unconditional Lifetime Atelier Restoration guarantee.',
+    title: 'Berlin Acoustic Studio & Restoration Care',
+    desc: 'Established our acoustic design studio in Berlin and introduced our Lifetime Garment Care guarantee with complimentary seam and lining repairs.',
     img: '/assets/images/lifestyle/hero_headphone_hd.jpg',
   },
   {
     year: '2026',
-    title: 'The Modern Digital Maison',
-    desc: 'Expanded seamless concierge delivery across all 27 EU member states with zero-knowledge data privacy and 100% Net-0 carbon custody.',
+    title: 'Expanding Across the UK & Europe',
+    desc: 'Expanded our bespoke delivery service across the UK and Europe with 100% carbon-neutral shipping and zero-knowledge customer privacy.',
     img: '/assets/images/lifestyle/hero_watch_landscape.jpg',
   },
 ];
@@ -43,14 +45,15 @@ export function CraftTimeline() {
     <section className="py-16 lg:py-24 bg-surface-navy/15 border-b border-white/10" id="timeline" aria-label="Our Story">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="space-y-2 text-center max-w-xl mx-auto">
-          <span className="text-xs font-semibold uppercase tracking-widest text-accent-cyan">
-            Chronology of Purpose
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent-cyan flex items-center justify-center gap-1.5">
+            <History size={13} />
+            <span>Milestones</span>
           </span>
           <h2 className="font-editorial text-3xl sm:text-4xl text-white font-normal">
             Our <span className="italic font-normal">Journey</span>
           </h2>
-          <p className="text-xs text-white/50">
-            From an experimental tailoring suite in Paris to a continental atelier of quiet luxury.
+          <p className="text-xs text-white/60 font-light">
+            From a small tailoring workshop in Paris to a modern European design house.
           </p>
         </div>
 
@@ -75,29 +78,38 @@ export function CraftTimeline() {
         </div>
 
         {/* Active Milestone Card */}
-        <div className="max-w-4xl mx-auto rounded-3xl bg-surface-card border border-white/10 p-6 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-2xl">
-          <div className="md:col-span-7 space-y-4">
-            <span className="text-3xl font-display font-bold text-accent-cyan">
-              {milestone.year}
-            </span>
-            <h3 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
-              {milestone.title}
-            </h3>
-            <p className="text-sm text-white/70 leading-relaxed font-light">
-              {milestone.desc}
-            </p>
-          </div>
-
-          <div className="md:col-span-5">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-obsidian-950">
-              <img
-                src={milestone.img}
-                alt={milestone.title}
-                className="w-full h-full object-cover transition-opacity duration-300"
-              />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={milestone.year}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="max-w-4xl mx-auto rounded-3xl bg-surface-card border border-white/10 p-6 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-2xl"
+          >
+            <div className="md:col-span-7 space-y-4">
+              <span className="text-3xl sm:text-4xl font-display font-bold text-accent-cyan">
+                {milestone.year}
+              </span>
+              <h3 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
+                {milestone.title}
+              </h3>
+              <p className="text-sm text-white/70 leading-relaxed font-light">
+                {milestone.desc}
+              </p>
             </div>
-          </div>
-        </div>
+
+            <div className="md:col-span-5">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-obsidian-950">
+                <img
+                  src={milestone.img}
+                  alt={milestone.title}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
