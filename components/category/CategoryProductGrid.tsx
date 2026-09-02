@@ -38,22 +38,22 @@ const itemVariants: Variants = {
 export function CategoryProductGrid({ products, onResetFilters, onQuickLook }: CategoryProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="py-20 px-4 text-center rounded-2xl border border-white/10 bg-surface-card/40 backdrop-blur-md space-y-4 my-8">
+      <div className="py-20 px-4 text-center rounded-2xl border border-white/10 bg-[#080E1E]/60 backdrop-blur-md space-y-4 my-8">
         <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white/50 flex items-center justify-center mx-auto">
           <Sparkles size={20} />
         </div>
         <div className="space-y-1.5 max-w-md mx-auto">
           <h3 className="font-editorial text-2xl sm:text-3xl text-white font-medium">
-            No Pieces Found
+            No Items Found
           </h3>
           <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
-            We couldn&apos;t find pieces matching this filter or search term. Explore our full atelier catalog.
+            We could not find any items matching this filter. View all items to see the full collection.
           </p>
         </div>
         <div className="pt-2">
           <button
             onClick={onResetFilters}
-            className="px-6 py-2.5 rounded-sm bg-white text-obsidian-950 hover:bg-white/90 font-bold text-xs uppercase tracking-wider transition-all duration-200 inline-flex items-center gap-2 cursor-pointer shadow-lg active:scale-95"
+            className="px-6 py-2.5 rounded-sm bg-white text-[#01132B] hover:bg-white/90 font-bold text-xs uppercase tracking-wider transition-all duration-200 inline-flex items-center gap-2 cursor-pointer shadow-lg active:scale-95"
           >
             <RotateCcw size={13} />
             <span>View All Pieces</span>

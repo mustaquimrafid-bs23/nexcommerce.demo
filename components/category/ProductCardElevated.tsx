@@ -7,7 +7,7 @@ import { ShoppingBag, Heart, Eye } from 'lucide-react';
 import { Product } from '@/types/catalog';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
-import { formatPrice } from '@/lib/utils';
+import { useCurrencyStore } from '@/store/useCurrencyStore';
 
 interface ProductCardElevatedProps {
   product: Product;
@@ -32,6 +32,7 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
 
   const addItem = useCartStore((state) => state.addItem);
   const { toggleWishlist, isWishlisted } = useWishlistStore();
+  const formatPrice = useCurrencyStore((state) => state.formatPrice);
 
   useEffect(() => {
     setMounted(true);
@@ -155,7 +156,7 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
     <div
       ref={cardRef}
       onClick={() => router.push(`/product/${product.id}`)}
-      className="plp-card luxury-product-card group relative rounded-[6px] bg-white/[0.04] border border-white/[0.09] hover:border-white/20 overflow-hidden flex flex-col justify-between shadow-xl transition-all duration-300 cursor-pointer will-change-transform"
+      className="plp-card luxury-product-card group relative rounded-[6px] bg-[#080e1e]/70 border border-white/[0.09] hover:border-white/22 overflow-hidden flex flex-col justify-between shadow-xl transition-all duration-300 cursor-pointer will-change-transform"
       style={{ transformStyle: 'preserve-3d' }}
       data-id={product.id}
       data-parallax-depth={parallaxDepth}
@@ -175,10 +176,10 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
       />
 
       {/* 3:4 Media Frame */}
-      <div className="plp-card-media relative aspect-[3/4] overflow-hidden bg-white/[0.03]">
+      <div className="plp-card-media relative aspect-[3/4] overflow-hidden bg-[#040914]">
         {/* Luxury Badge: NEW */}
         {product.isNew && (
-          <span className="plp-luxury-badge absolute top-3 left-3 z-20 px-2 py-0.5 rounded-[2px] bg-obsidian-950/85 backdrop-blur-md border border-white/15 text-[9px] font-bold uppercase tracking-[0.14em] text-white">
+          <span className="plp-luxury-badge absolute top-3 left-3 z-20 px-2 py-0.5 rounded-[2px] bg-white text-[#01132B] text-[9px] font-bold uppercase tracking-[0.14em] shadow-md">
             NEW
           </span>
         )}
@@ -192,9 +193,9 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
                 e.stopPropagation();
                 onQuickLook(product);
               }}
-              className="p-2 rounded-full backdrop-blur-md border border-white/15 bg-obsidian-950/70 text-white/60 hover:text-white hover:border-white/40 transition-all cursor-pointer"
+              className="p-2 rounded-full backdrop-blur-md border border-white/15 bg-black/60 text-white/60 hover:text-white hover:border-[#3DE0FF] hover:text-[#3DE0FF] transition-all cursor-pointer"
               aria-label={`Quick look at ${product.name}`}
-              title="Quick Look Mini-PDP"
+              title="Quick View"
             >
               <Eye size={14} />
             </button>
@@ -206,8 +207,8 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
               wishlisted ? 'active' : ''
             } p-2 rounded-full backdrop-blur-md border transition-all cursor-pointer ${
               wishlisted
-                ? 'bg-accent-pink border-accent-pink text-white shadow-lg'
-                : 'bg-obsidian-950/70 border-white/15 text-white/60 hover:text-white hover:border-white/40'
+                ? 'bg-[#E60C45] border-[#E60C45] text-white shadow-lg'
+                : 'bg-black/60 border-white/15 text-white/60 hover:text-white hover:border-white/40'
             }`}
             aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
             data-id={product.id}
@@ -223,7 +224,7 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
             src={activeImage}
             alt={product.name}
             id={`cardImg_${product.id}`}
-            className="plp-card-img w-full h-full object-contain group-hover:scale-[1.04] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] drop-shadow-md"
+            className="plp-card-img w-full h-full object-contain group-hover:scale-[1.045] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] drop-shadow-md"
             loading="lazy"
           />
         </div>
@@ -233,10 +234,10 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
           onClick={handleQuickAdd}
           className={`plp-quick-add-btn btn-plp-add-to-bag absolute bottom-0 left-0 right-0 py-3 text-[10px] font-bold uppercase tracking-[0.14em] transition-transform duration-240 ease-[cubic-bezier(0.16,1,0.3,1)] transform translate-y-full group-hover:translate-y-0 flex items-center justify-center gap-1.5 cursor-pointer z-20 border-t border-white/12 ${
             isAdded
-              ? 'bg-white text-obsidian-950 font-bold'
+              ? 'bg-white text-[#01132B] font-bold'
               : isAdding
-              ? 'bg-white/90 text-obsidian-950'
-              : 'bg-[#080e1e]/95 text-white hover:bg-white hover:text-obsidian-950'
+              ? 'bg-white/90 text-[#01132B]'
+              : 'bg-[#080e1e]/95 text-white hover:bg-white hover:text-[#01132B]'
           }`}
           data-id={product.id}
           aria-label={`Quick Add ${product.name} to Bag`}
@@ -259,31 +260,31 @@ export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }:
         <div>
           {/* Item 1: Brand & Category */}
           <div className="plp-card-brand-row">
-            <span className="plp-card-category-label text-[9px] font-semibold uppercase tracking-[0.14em] text-white/35 block truncate">
+            <span className="plp-card-category-label text-[9px] font-semibold uppercase tracking-[0.14em] text-white/40 block truncate">
               {brandName.toUpperCase()} · {product.category.toUpperCase()}
             </span>
           </div>
 
           {/* Item 2: Title */}
           <Link href={`/product/${product.id}`} className="plp-card-title-link block mt-0.5">
-            <h3 className="plp-card-name font-editorial text-[13px] text-white font-semibold tracking-tight hover:text-accent-pink transition-colors truncate">
+            <h3 className="plp-card-name font-editorial text-[13px] text-white font-semibold tracking-tight hover:text-[#3DE0FF] transition-colors truncate">
               {product.name}
             </h3>
           </Link>
         </div>
 
-        {/* Item 3: Price + Tactile Color Swatches Row */}
+        {/* Item 3: Price + Tactile Colour Swatches Row */}
         <div className="plp-card-bottom-row pt-2 flex items-center justify-between gap-2 border-t border-white/[0.04]">
-          <div className="plp-card-price-tag text-[13px] font-medium text-white/80 tabular-nums">
-            {product.formattedPrice || formatPrice(product.price, product.currency)}
+          <div className="plp-card-price-tag text-[13px] font-medium text-white/85 tabular-nums font-mono">
+            {formatPrice(product.price)}
           </div>
 
-          {/* Tactile Circular Color Swatches */}
+          {/* Tactile Circular Colour Swatches */}
           {product.colors && product.colors.length > 1 && (
             <div
               className="plp-swatches-row flex items-center gap-1.5"
               role="radiogroup"
-              aria-label={`Available colorways for ${product.name}`}
+              aria-label={`Available colourways for ${product.name}`}
             >
               {product.colors.map((c) => {
                 const isSelected = activeColor === c.name;

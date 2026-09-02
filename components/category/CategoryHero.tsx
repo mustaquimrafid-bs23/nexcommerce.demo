@@ -18,39 +18,39 @@ const CATEGORY_BANNERS: Record<string, string> = {
 
 const CATEGORY_TITLES: Record<string, { title: string; subtitle: string; eyebrow: string }> = {
   all: {
-    title: 'Apparel & Collections — nexCommerce',
-    subtitle: 'Pieces designed around natural comfort, architectural tailoring, and enduring quality.',
-    eyebrow: 'COLLECTIONS · AW26',
+    title: 'Autumn & Winter Collection — nexCommerce',
+    subtitle: 'Classic clothing, footwear, and accessories made to last.',
+    eyebrow: 'NEW SEASON · AUTUMN WINTER',
   },
   apparel: {
-    title: 'Apparel & Knitwear — nexCommerce',
-    subtitle: 'Precision cashmere, structured merino wool, and relaxed silhouettes crafted for modern living.',
-    eyebrow: 'APPAREL · AW26',
+    title: 'Knitwear & Everyday Clothing — nexCommerce',
+    subtitle: 'Cashmere jumpers, merino wool tops, and relaxed tailored pieces.',
+    eyebrow: 'CLOTHING · NEW IN',
   },
   outerwear: {
-    title: 'Outerwear & Tailoring — nexCommerce',
-    subtitle: 'Double-faced wool overcoats, tailored blazers, and architectural cold-weather layers.',
-    eyebrow: 'OUTERWEAR · AW26',
+    title: 'Coats & Winter Jackets — nexCommerce',
+    subtitle: 'Wool coats, smart blazers, and warm winter layers.',
+    eyebrow: 'OUTERWEAR · NEW SEASON',
   },
   acoustics: {
-    title: 'Acoustic Engineering — nexCommerce',
-    subtitle: 'Studio-grade spatial drivers and active acoustic isolation wrapped in lambskin and titanium.',
-    eyebrow: 'ACOUSTIC ENGINEERING',
+    title: 'Headphones & Audio — nexCommerce',
+    subtitle: 'Over-ear headphones and wireless earphones with clear, rich sound.',
+    eyebrow: 'AUDIO & HEADPHONES',
   },
   accessories: {
-    title: 'Fine Accessories & Horology — nexCommerce',
-    subtitle: 'Minimalist chronographs, full-grain leather goods, and refined essentials.',
-    eyebrow: 'FINE ACCESSORIES',
+    title: 'Watches & Leather Bags — nexCommerce',
+    subtitle: 'Classic watches, leather bags, and daily accessories.',
+    eyebrow: 'ACCESSORIES',
   },
   footwear: {
-    title: 'Footwear & Runners — nexCommerce',
-    subtitle: 'Italian calfskin runners and architectural footwear built with ergonomic Vibram cushioning.',
-    eyebrow: 'FOOTWEAR · ARTISANAL',
+    title: 'Footwear & Trainers — nexCommerce',
+    subtitle: 'Leather trainers and shoes with supportive, comfortable soles.',
+    eyebrow: 'FOOTWEAR',
   },
   new: {
     title: 'New Arrivals — nexCommerce',
-    subtitle: 'The latest seasonal drops, limited releases, and handpicked luxury essentials.',
-    eyebrow: 'NEW ARRIVALS · AW26',
+    subtitle: 'Fresh arrivals and newly released pieces for this season.',
+    eyebrow: 'NEW ARRIVALS',
   },
 };
 
@@ -78,9 +78,9 @@ export function CategoryHero({ selectedCategory }: CategoryHeroProps) {
         {meta.eyebrow}
       </span>
 
-      {/* PURE FULL-WIDTH CATEGORY HERO BANNER */}
+      {/* Pure Full-Width Category Hero Banner */}
       <section className="plp-pure-banner-section mb-6" id="plpPureBannerSection">
-        <div className="plp-pure-banner-frame w-full aspect-[21/9] sm:aspect-[28/9] md:aspect-[32/9] rounded-xl overflow-hidden border border-white/10 bg-obsidian-950 shadow-2xl relative">
+        <div className="plp-pure-banner-frame w-full aspect-[21/9] sm:aspect-[28/9] md:aspect-[32/9] rounded-xl overflow-hidden border border-white/10 bg-[#080E1E] shadow-2xl relative">
           <img
             src={bannerSrc}
             alt={meta.title}
@@ -88,7 +88,7 @@ export function CategoryHero({ selectedCategory }: CategoryHeroProps) {
             id="plpCategoryBannerImg"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950/40 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#01132B]/60 via-transparent to-transparent pointer-events-none" />
         </div>
       </section>
     </div>

@@ -37,7 +37,7 @@ export function CategoryToolbar({
     <div className="space-y-4 mb-6">
       {/* Product Count & Sort Toolbar */}
       <div className="plp-toolbar-row flex items-center justify-between pb-3.5 border-b border-white/10">
-        <span className="plp-product-count text-[10px] font-semibold tracking-[0.16em] uppercase text-white/40" id="plpProductCount">
+        <span className="plp-product-count text-[10px] font-semibold tracking-[0.16em] uppercase text-white/40 font-mono" id="plpProductCount">
           {totalCount} {totalCount === 1 ? 'PIECE' : 'PIECES'} AVAILABLE
         </span>
         <div className="plp-sort-wrapper flex items-center gap-2">
@@ -51,13 +51,13 @@ export function CategoryToolbar({
             className="plp-sort-select h-8 px-2.5 pr-7 bg-white/[0.04] border border-white/15 rounded-sm text-xs font-medium text-white/80 focus:outline-none cursor-pointer"
             aria-label="Sort products"
           >
-            <option value="recommended" className="bg-obsidian-950 text-white">
+            <option value="recommended" className="bg-[#080E1E] text-white">
               Recommended
             </option>
-            <option value="price-low" className="bg-obsidian-950 text-white">
+            <option value="price-low" className="bg-[#080E1E] text-white">
               Price: Low to High
             </option>
-            <option value="price-high" className="bg-obsidian-950 text-white">
+            <option value="price-high" className="bg-[#080E1E] text-white">
               Price: High to Low
             </option>
           </select>
@@ -83,7 +83,7 @@ export function CategoryToolbar({
                 isActive ? 'active' : ''
               } inline-flex items-center px-3.5 py-1.5 rounded-sm text-[10px] sm:text-[11px] font-semibold tracking-[0.12em] uppercase transition-all duration-180 cursor-pointer whitespace-nowrap flex-shrink-0 border ${
                 isActive
-                  ? 'bg-white text-obsidian-950 border-white shadow-md'
+                  ? 'bg-white text-[#01132B] border-white shadow-md'
                   : 'bg-transparent text-white/50 border-white/15 hover:border-white/35 hover:text-white'
               }`}
               data-category={cat.id}

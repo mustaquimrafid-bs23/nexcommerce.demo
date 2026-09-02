@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Sparkles, ShoppingBag, ArrowRight, Check, Compass } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { MASTER_PRODUCTS } from '@/data/products';
-import { formatPrice } from '@/lib/utils';
+import { useCurrencyStore } from '@/store/useCurrencyStore';
 import { motion, AnimatePresence } from 'motion/react';
 
 export interface CuratedLook {
@@ -30,8 +30,8 @@ const CURATED_LOOKS: CuratedLook[] = [
     indexLabel: '01 OF 03',
     tabLabel: '01 TAILORING',
     seasonTag: 'SEASONAL EDIT · AW26',
-    title: 'The Winter Tailoring Capsule',
-    desc: 'Architectural double-faced wool blazers and structured cashmere layers designed for modern movement.',
+    title: 'Winter Tailoring',
+    desc: 'Warm wool blazers and soft cashmere layers designed for everyday comfort.',
     targetCategory: 'outerwear',
     pieceCount: '1 Matching Piece',
     heroImage: '/assets/images/lifestyle/category_hero_banner.jpg',
@@ -39,15 +39,15 @@ const CURATED_LOOKS: CuratedLook[] = [
     featuredProductTitle: 'STRUCTURED WOOL BLAZER',
     featuredProductPrice: 264,
     featuredProductThumb: '/assets/images/lifestyle/thumb_sweater.jpg',
-    featuredProductTag: 'FEATURED LOOK',
+    featuredProductTag: 'FEATURED ITEM',
   },
   {
     id: 'look-2',
     indexLabel: '02 OF 03',
-    tabLabel: '02 ACOUSTICS',
-    seasonTag: 'ACOUSTIC ENGINEERING',
-    title: 'The Studio Acoustics Edit',
-    desc: 'Precision titanium drivers and active acoustic isolation wrapped in Italian lambskin.',
+    tabLabel: '02 AUDIO',
+    seasonTag: 'STUDIO SOUND',
+    title: 'Headphones & Sound',
+    desc: 'Clear studio sound and noise cancellation with soft leather ear pads.',
     targetCategory: 'acoustics',
     pieceCount: '2 Matching Pieces',
     heroImage: '/assets/images/lifestyle/category_hero_banner.jpg',
@@ -55,15 +55,15 @@ const CURATED_LOOKS: CuratedLook[] = [
     featuredProductTitle: 'STUDIO ACOUSTICS HEADPHONE GT',
     featuredProductPrice: 320,
     featuredProductThumb: '/assets/images/lifestyle/thumb_headphones.jpg',
-    featuredProductTag: 'STUDIO CRAFT',
+    featuredProductTag: 'STUDIO SOUND',
   },
   {
     id: 'look-3',
     indexLabel: '03 OF 03',
     tabLabel: '03 FOOTWEAR',
-    seasonTag: 'ARTISANAL FOOTWEAR',
-    title: 'The Architectural Runner',
-    desc: 'Italian calfskin runners engineered with ergonomic Vibram soles and minimalist lines.',
+    seasonTag: 'HANDMADE FOOTWEAR',
+    title: 'Everyday Leather Trainers',
+    desc: 'Handmade leather trainers with flexible, cushioned soles.',
     targetCategory: 'footwear',
     pieceCount: '2 Matching Pieces',
     heroImage: '/assets/images/lifestyle/category_hero_banner.jpg',
@@ -71,7 +71,7 @@ const CURATED_LOOKS: CuratedLook[] = [
     featuredProductTitle: 'MINIMALIST LEATHER RUNNER',
     featuredProductPrice: 198,
     featuredProductThumb: '/assets/images/lifestyle/thumb_runner.jpg',
-    featuredProductTag: 'HAND-LASTED',
+    featuredProductTag: 'HANDMADE',
   },
 ];
 
@@ -86,6 +86,7 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
   const [isPaused, setIsPaused] = useState(false);
   const [addedSuccess, setAddedSuccess] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
+  const formatPrice = useCurrencyStore((state) => state.formatPrice);
 
   const activeLook = CURATED_LOOKS[activeLookIndex];
 
@@ -145,7 +146,7 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
     };
   }, [activeLookIndex, handleNextLook]);
 
-  // Keyboard Roving Navigation
+  // Keyboard Navigation
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
@@ -176,13 +177,13 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
-      aria-label="Curated Capsule Spotlight"
+      aria-label="Featured Looks Spotlight"
     >
       {/* 120fps GPU Progress Track */}
       <div className="spotlight-progress-track absolute top-0 left-0 right-0 h-[2px] bg-white/10 z-30 overflow-hidden">
         <div
           ref={progressBarRef}
-          className="spotlight-progress-bar h-full w-full bg-gradient-to-r from-accent-cyan via-white to-accent-pink origin-left will-change-transform"
+          className="spotlight-progress-bar h-full w-full bg-gradient-to-r from-[#3DE0FF] via-white to-[#E60C45] origin-left will-change-transform"
           style={{ transform: 'scaleX(0)' }}
         />
       </div>
@@ -191,9 +192,9 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
         {/* Spotlight Navigation Tabs & Index Indicator */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-accent-cyan flex items-center gap-1.5">
+            <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-[#3DE0FF] flex items-center gap-1.5">
               <Sparkles size={12} />
-              <span>Curated Capsules</span>
+              <span>Curated Looks</span>
             </span>
             <span className="text-white/20">|</span>
             <span className="text-[10px] font-semibold text-white/50 tracking-widest uppercase">
@@ -201,7 +202,7 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
             </span>
           </div>
 
-          {/* Architectural Roving Tablist */}
+          {/* Look Selector Tabs */}
           <div
             role="tablist"
             aria-label="Signature Look Selector"
@@ -219,7 +220,7 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
                   onKeyDown={(e) => handleKeyDown(e, idx)}
                   className={`spotlight-tab-btn px-3.5 py-1.5 rounded-sm text-[10px] sm:text-[11px] font-bold tracking-[0.12em] uppercase transition-all duration-200 cursor-pointer whitespace-nowrap border ${
                     isActive
-                      ? 'active bg-white text-obsidian-950 border-white shadow-lg shadow-white/10'
+                      ? 'active bg-white text-[#01132B] border-white shadow-lg shadow-white/10'
                       : 'bg-transparent text-white/50 border-white/15 hover:border-white/40 hover:text-white'
                   }`}
                 >
@@ -241,24 +242,24 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
             className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center"
           >
             {/* Visual Frame Left Pane */}
-            <div className="lg:col-span-7 relative aspect-[16/9] sm:aspect-[21/10] rounded-xl sm:rounded-2xl overflow-hidden border border-white/10 bg-obsidian-950 shadow-inner group">
+            <div className="lg:col-span-7 relative aspect-[16/9] sm:aspect-[21/10] rounded-xl sm:rounded-2xl overflow-hidden border border-white/10 bg-[#080E1E] shadow-inner group">
               <img
                 src={activeLook.heroImage}
                 alt={activeLook.title}
                 className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-700 ease-out brightness-90"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080E1E] via-[#080E1E]/30 to-transparent" />
 
               {/* Tag Overlays */}
               <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                <span className="px-2.5 py-1 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-white/15 text-[10px] font-bold uppercase tracking-wider text-white">
+                <span className="px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[10px] font-bold uppercase tracking-wider text-white">
                   {activeLook.seasonTag}
                 </span>
               </div>
 
               <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 right-3 sm:right-4 flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-accent-cyan font-bold block mb-1">
+                  <span className="text-[10px] uppercase tracking-widest text-[#3DE0FF] font-bold block mb-1">
                     {activeLook.pieceCount}
                   </span>
                   <h3 className="font-editorial text-lg sm:text-2xl text-white font-medium drop-shadow-md">
@@ -271,8 +272,8 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
             {/* Story & Featured Piece Right Pane */}
             <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
               <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-[0.16em] text-accent-pink font-bold block">
-                  Editorial Concept
+                <span className="text-[10px] uppercase tracking-[0.16em] text-[#E60C45] font-bold block">
+                  Style Notes
                 </span>
                 <h4 className="font-editorial text-xl sm:text-2xl text-white font-normal leading-snug">
                   {activeLook.title}
@@ -283,9 +284,9 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
               </div>
 
               {/* Featured Piece Card */}
-              <div className="rounded-xl border border-white/10 bg-obsidian-950/80 p-3 sm:p-4 flex items-center justify-between gap-3 shadow-lg">
+              <div className="rounded-xl border border-white/10 bg-[#080E1E] p-3 sm:p-4 flex items-center justify-between gap-3 shadow-lg">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-14 sm:w-14 sm:h-16 rounded-lg overflow-hidden border border-white/10 bg-surface-navy/60 flex-shrink-0">
+                  <div className="w-12 h-14 sm:w-14 sm:h-16 rounded-lg overflow-hidden border border-white/10 bg-[#01132B] flex-shrink-0">
                     <img
                       src={activeLook.featuredProductThumb}
                       alt={activeLook.featuredProductTitle}
@@ -293,13 +294,13 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
                     />
                   </div>
                   <div className="min-w-0 space-y-0.5">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-accent-cyan block">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-[#3DE0FF] block">
                       {activeLook.featuredProductTag}
                     </span>
                     <h5 className="font-editorial text-xs sm:text-sm text-white font-medium truncate">
                       {activeLook.featuredProductTitle}
                     </h5>
-                    <span className="text-xs font-bold text-white tabular-nums block">
+                    <span className="text-xs font-bold text-white tabular-nums block font-mono">
                       {formatPrice(activeLook.featuredProductPrice)}
                     </span>
                   </div>
@@ -310,7 +311,7 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
                   className={`btn-spotlight-quick-add px-3 sm:px-4 py-2 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 flex-shrink-0 cursor-pointer shadow-md active:scale-95 ${
                     addedSuccess
                       ? 'bg-emerald-500 text-white'
-                      : 'bg-white text-obsidian-950 hover:bg-white/90'
+                      : 'bg-white text-[#01132B] hover:bg-white/90'
                   }`}
                   aria-label={`Quick Add ${activeLook.featuredProductTitle} to Bag`}
                 >
@@ -331,10 +332,10 @@ export function CuratedCapsuleSpotlight({ onSelectCategory }: CuratedCapsuleSpot
               {/* Filter Sync Action */}
               <button
                 onClick={() => onSelectCategory(activeLook.targetCategory)}
-                className="w-full py-2.5 rounded-lg border border-white/15 hover:border-white/40 bg-surface-navy/40 hover:bg-surface-navy text-white text-xs font-semibold tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer group"
+                className="w-full py-2.5 rounded-lg border border-white/15 hover:border-white/40 bg-white/[0.03] hover:bg-white/[0.08] text-white text-xs font-semibold tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer group"
               >
-                <Compass size={14} className="text-accent-cyan group-hover:rotate-45 transition-transform" />
-                <span>Explore {activeLook.tabLabel.replace(/^\d+\s*/, '')} Capsule</span>
+                <Compass size={14} className="text-[#3DE0FF] group-hover:rotate-45 transition-transform" />
+                <span>Shop {activeLook.tabLabel.replace(/^\d+\s*/, '')}</span>
                 <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
