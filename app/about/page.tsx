@@ -5,42 +5,46 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { AboutHeroSplit } from '@/components/about/AboutHeroSplit';
 import { MaterialsSection } from '@/components/about/MaterialsSection';
+import { HotspotViewer } from '@/components/about/HotspotViewer';
 import { DisciplinesGrid } from '@/components/about/DisciplinesGrid';
 import { CraftTimeline } from '@/components/about/CraftTimeline';
 import { GuardiansGrid } from '@/components/about/GuardiansGrid';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-transparent text-white pb-24">
-      {/* 1. Atelier Heritage & Manifesto Split Hero */}
+    <div className="min-h-screen text-white pb-24" style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}>
+      {/* 1. Atelier Heritage & Philosophy Split Hero */}
       <AboutHeroSplit />
 
       {/* 2. Interactive Noble Materials Swatch Stage */}
       <MaterialsSection />
 
-      {/* 3. Four Pillars of Craft Disciplines Grid */}
+      {/* 3. Tactile Craftsmanship Hotspot Viewer */}
+      <HotspotViewer />
+
+      {/* 4. Four Pillars of Design Disciplines Grid */}
       <DisciplinesGrid />
 
-      {/* 4. Chronology of Purpose Interactive Timeline */}
+      {/* 5. Chronology of Purpose Interactive Timeline */}
       <CraftTimeline />
 
-      {/* 5. The Guardians of Craft Master Artisans */}
+      {/* 6. The Master Artisans & Designers */}
       <GuardiansGrid />
 
-      {/* 6. Collection Invitation Banner */}
+      {/* 7. Collection Invitation Banner */}
       <section className="py-20 bg-obsidian-950/80 border-b border-white/10 text-center" aria-label="Atelier Invitation">
         <div className="max-w-3xl mx-auto px-4 space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-xs font-semibold text-accent-cyan">
             <Sparkles size={13} />
-            <span>Continental Atelier Delivery</span>
+            <span>Complimentary UK &amp; European Delivery</span>
           </div>
 
           <h2 className="font-editorial text-4xl sm:text-5xl text-white font-normal">
-            Experience the <span className="italic font-normal">Creations</span>
+            Experience the <span className="italic font-normal">Collections</span>
           </h2>
 
           <p className="text-sm text-white/60 max-w-xl mx-auto font-light leading-relaxed">
-            All pieces arrive in our signature gift presentation box with reusable organic dust bags, white-glove carbon custody, and complimentary European returns.
+            All pieces arrive in our signature gift presentation box with reusable organic dust bags, carbon-neutral shipping, and 30-day complimentary returns.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
