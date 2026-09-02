@@ -8,6 +8,7 @@ import { MaterialsSection } from '@/components/about/MaterialsSection';
 import { HotspotViewer } from '@/components/about/HotspotViewer';
 import { DisciplinesGrid } from '@/components/about/DisciplinesGrid';
 import { CraftTimeline } from '@/components/about/CraftTimeline';
+import { ProvenanceLedger } from '@/components/about/ProvenanceLedger';
 import { GuardiansGrid } from '@/components/about/GuardiansGrid';
 
 export default function AboutPage() {
@@ -28,10 +29,13 @@ export default function AboutPage() {
       {/* 5. Chronology of Purpose Interactive Timeline */}
       <CraftTimeline />
 
-      {/* 6. The Master Artisans & Designers */}
+      {/* 6. Standards & Promises Infographic Ledger */}
+      <ProvenanceLedger />
+
+      {/* 7. The Master Artisans & Designers */}
       <GuardiansGrid />
 
-      {/* 7. Collection Invitation Banner */}
+      {/* 8. Collection Invitation Banner */}
       <section className="py-20 bg-obsidian-950/80 border-b border-white/10 text-center" aria-label="Atelier Invitation">
         <div className="max-w-3xl mx-auto px-4 space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-xs font-semibold text-accent-cyan">
