@@ -17,12 +17,14 @@ import {
   Headphones,
   ChevronRight,
   MapPin,
+  Camera,
 } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { useSearchStore } from '@/store/useSearchStore';
 import { AnnouncementBar } from './AnnouncementBar';
 import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGateModal';
+import { VisualSearchModal } from './VisualSearchModal';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,6 +32,7 @@ export function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isDeliveryGateOpen, setIsDeliveryGateOpen] = useState(false);
+  const [isVisualSearchOpen, setIsVisualSearchOpen] = useState(false);
   const [activeHub, setActiveHub] = useState<DarkStoreHub>(DARK_STORE_HUBS[0]);
 
   useEffect(() => {
@@ -244,9 +247,23 @@ export function Header() {
                 <Search size={14} className="text-[#F13365]" />
                 <span className="truncate">Search clothes, shoes, or what you need...</span>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-white/10 font-mono text-white/50 flex items-center gap-0.5">
-                <kbd>Ctrl</kbd>+<kbd>K</kbd>
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  id="globalVisualSearchTrigger"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsVisualSearchOpen(true);
+                  }}
+                  className="p-1 text-white/50 hover:text-accent-pink transition-colors cursor-pointer"
+                  title="Search by image"
+                >
+                  <Camera size={14} />
+                </button>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-white/10 font-mono text-white/50 flex items-center gap-0.5">
+                  <kbd>Ctrl</kbd>+<kbd>K</kbd>
+                </span>
+              </div>
             </button>
           </div>
 
@@ -509,6 +526,12 @@ export function Header() {
             window.dispatchEvent(new CustomEvent('hub-changed', { detail: { hub } }));
           }
         }}
+      />
+
+      {/* Multimodal Visual Search Modal */}
+      <VisualSearchModal
+        isOpen={isVisualSearchOpen}
+        onClose={() => setIsVisualSearchOpen(false)}
       />
     </>
   );
