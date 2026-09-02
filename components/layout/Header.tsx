@@ -16,17 +16,31 @@ import {
   Receipt,
   Headphones,
   ChevronRight,
+  MapPin,
 } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { useSearchStore } from '@/store/useSearchStore';
 import { AnnouncementBar } from './AnnouncementBar';
+import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGateModal';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isDeliveryGateOpen, setIsDeliveryGateOpen] = useState(false);
+  const [activeHub, setActiveHub] = useState<DarkStoreHub>(DARK_STORE_HUBS[0]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('nex_delivery_hub');
+      if (stored) {
+        const found = DARK_STORE_HUBS.find((h) => h.id === stored);
+        if (found) setActiveHub(found);
+      }
+    }
+  }, []);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const cartBadgeRef = useRef<HTMLSpanElement>(null);
@@ -204,8 +218,22 @@ export function Header() {
             </nav>
           </div>
 
+          {/* Delivery Hub Pill */}
+          <button
+            id="deliveryHubBtn"
+            type="button"
+            onClick={() => setIsDeliveryGateOpen(true)}
+            className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-white/70 hover:text-white transition-colors cursor-pointer shrink-0"
+            title="Change Delivery Atelier"
+          >
+            <MapPin size={13} className="text-accent-cyan" />
+            <span className="text-[11px] font-medium truncate max-w-[150px]">
+              Deliver to: <strong className="text-white font-semibold">{activeHub.city}</strong>
+            </span>
+          </button>
+
           {/* Center: Smart Search Pill with Focus Ring & Canonical IDs */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-6">
+          <div className="hidden lg:flex flex-1 max-w-md mx-4">
             <button
               onClick={openSearch}
               className="w-full flex items-center justify-between px-4 py-2 rounded-full bg-[#0A2A54]/80 hover:bg-[#0A2A54] border border-white/10 hover:border-white/25 focus-visible:ring-2 focus-visible:ring-[#3DE0FF]/50 focus-visible:border-[#3DE0FF] focus:outline-none text-xs text-white/60 hover:text-white transition-all shadow-inner cursor-pointer"
@@ -468,6 +496,20 @@ export function Header() {
           </div>
         </div>
       )}
+
+      {/* Dark Store Hub Delivery Location Modal */}
+      <DeliveryGateModal
+        isOpen={isDeliveryGateOpen}
+        activeHubId={activeHub.id}
+        onClose={() => setIsDeliveryGateOpen(false)}
+        onSelectHub={(hub) => {
+          setActiveHub(hub);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('nex_delivery_hub', hub.id);
+            window.dispatchEvent(new CustomEvent('hub-changed', { detail: { hub } }));
+          }
+        }}
+      />
     </>
   );
 }
