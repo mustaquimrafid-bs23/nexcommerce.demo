@@ -18,6 +18,7 @@ import {
   ChevronRight,
   MapPin,
   Camera,
+  Zap,
 } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
@@ -233,32 +234,17 @@ export function Header() {
             </nav>
           </div>
 
-          {/* Delivery Hub Pill */}
-          <button
-            id="headerDeliveryHubPill"
-            data-testid="deliveryHubBtn"
-            type="button"
-            onClick={openDeliveryGate}
-            className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-white/70 hover:text-white transition-colors cursor-pointer shrink-0"
-            title="Change Delivery Atelier"
-          >
-            <MapPin size={13} className="text-accent-cyan" />
-            <span className="text-[11px] font-medium truncate max-w-[150px]">
-              Deliver to: <strong className="text-white font-semibold">{activeHub.city}</strong>
-            </span>
-          </button>
-
           {/* Center: Smart Search Pill with Focus Ring & Canonical IDs */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-4">
+          <div className="hidden lg:flex flex-1 max-w-md mx-6">
             <button
               onClick={openSearch}
               className="w-full flex items-center justify-between px-4 py-2 rounded-full bg-[#0A2A54]/80 hover:bg-[#0A2A54] border border-white/10 hover:border-white/25 focus-visible:ring-2 focus-visible:ring-[#3DE0FF]/50 focus-visible:border-[#3DE0FF] focus:outline-none text-xs text-white/60 hover:text-white transition-all shadow-inner cursor-pointer"
               id="searchTriggerBtn"
-              aria-label="Search shop (Ctrl + K)"
+              aria-label="Search Catalog (Ctrl + K)"
             >
               <div className="flex items-center gap-2.5">
-                <Search size={14} className="text-[#F13365]" />
-                <span className="truncate">Search clothes, shoes, or what you need...</span>
+                <Search size={14} className="text-[#3DE0FF]" />
+                <span className="truncate">Search, or describe what you need...</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -281,7 +267,29 @@ export function Header() {
           </div>
 
           {/* Right: Actions & 3-Dot Dropdown */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2.5">
+            {/* Delivery Hub Location Pill */}
+            <div id="headerDeliveryHubWrapper" className="hidden xl:flex items-center">
+              <button
+                id="headerDeliveryHubPill"
+                data-testid="deliveryHubBtn"
+                type="button"
+                onClick={openDeliveryGate}
+                className="inline-flex items-center gap-2 h-9 px-3 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/12 hover:border-[#3DE0FF]/45 text-white text-xs font-medium transition-all cursor-pointer shadow-sm hover:shadow-[0_0_18px_rgba(61,224,255,0.2)] shrink-0"
+                title="Select delivery location and dark store hub"
+                aria-label="Select delivery location and dark store hub"
+              >
+                <MapPin size={13} className="text-[#3DE0FF] shrink-0" />
+                <span className="delivery-location-label font-semibold text-white tracking-tight">
+                  {activeHub.city.split(' ')[0]}
+                </span>
+                <span className="delivery-express-badge inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-amber-400 text-[10px] font-semibold">
+                  <Zap size={10} className="fill-amber-400" />
+                  <span>Next-day 10 AM</span>
+                </span>
+              </button>
+            </div>
+
             {/* Mobile Search Trigger */}
             <button
               onClick={openSearch}
@@ -290,17 +298,6 @@ export function Header() {
               aria-label="Search"
             >
               <Search size={20} />
-            </button>
-
-            {/* Currency Switcher Toggle */}
-            <button
-              id="currencyToggleBtn"
-              type="button"
-              onClick={toggleCurrency}
-              className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10.5px] font-mono font-semibold text-white/80 hover:text-white transition-all cursor-pointer flex items-center gap-1 shrink-0"
-              title="Switch currency (EUR / BDT)"
-            >
-              <span>{mounted ? (currency === 'EUR' ? '€ EUR' : '৳ BDT') : '€ EUR'}</span>
             </button>
 
             {/* Saved Items */}
@@ -416,6 +413,25 @@ export function Header() {
                   </Link>
 
                   <div className="border-t border-white/10 my-1" />
+
+                  <button
+                    id="currencyToggleBtn"
+                    type="button"
+                    onClick={() => {
+                      toggleCurrency();
+                      setDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                    role="menuitem"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <span className="font-mono text-accent-cyan font-bold">€ / ৳</span>
+                      <span>Currency</span>
+                    </span>
+                    <span className="font-mono text-[11px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white">
+                      {mounted ? (currency === 'EUR' ? '€ EUR' : '৳ BDT') : '€ EUR'}
+                    </span>
+                  </button>
 
                   <Link
                     href="/help"
