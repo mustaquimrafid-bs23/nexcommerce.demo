@@ -72,6 +72,7 @@ export function AILogisticsConcierge({ order, onOpenReschedule }: AILogisticsCon
         </div>
         <button
           type="button"
+          id="btnOpenRescheduleSlot"
           onClick={onOpenReschedule}
           className="px-3 py-1.5 rounded-xl bg-accent-cyan/15 hover:bg-accent-cyan/25 border border-accent-cyan/30 text-accent-cyan text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
         >

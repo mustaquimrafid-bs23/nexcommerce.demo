@@ -65,6 +65,7 @@ export function DeliveryRescheduleModal({
 
   return (
     <div
+      id="rescheduleModalBackdrop"
       className="fixed inset-0 z-[9500] flex items-center justify-center p-4 bg-[#01132B]/85 backdrop-blur-md transition-all duration-300"
       role="dialog"
       aria-modal="true"
@@ -88,6 +89,7 @@ export function DeliveryRescheduleModal({
           </div>
           <button
             type="button"
+            id="rescheduleModalCloseBtn"
             onClick={onClose}
             aria-label="Close modal"
             className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
@@ -100,7 +102,7 @@ export function DeliveryRescheduleModal({
           Select a convenient doorstep delivery window for your parcel.
         </p>
 
-        <form onSubmit={handleConfirm} className="space-y-4">
+        <form id="rescheduleForm" onSubmit={handleConfirm} className="space-y-4">
           {/* Day selection */}
           <div className="space-y-2">
             <label className="text-xs font-semibold text-white/80 block">
@@ -156,6 +158,7 @@ export function DeliveryRescheduleModal({
             </label>
             <input
               type="text"
+              id="rescheduleNoteInput"
               value={driverNote}
               onChange={(e) => setDriverNote(e.target.value)}
               placeholder="e.g. Leave with concierge or safe porch..."
@@ -178,6 +181,7 @@ export function DeliveryRescheduleModal({
 
           <button
             type="submit"
+            id="rescheduleConfirmBtn"
             disabled={isConfirmed}
             className="w-full min-h-[46px] rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-accent-pink/25"
           >
