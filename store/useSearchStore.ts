@@ -19,7 +19,7 @@ export interface SearchResultItem {
 }
 
 export const POPULAR_DEPARTMENTS = [
-  { label: 'Clothing', query: 'apparel' },
+  { label: 'Apparel', query: 'apparel' },
   { label: 'Footwear', query: 'footwear' },
   { label: 'Audio', query: 'audio' },
   { label: 'Accessories', query: 'accessories' },

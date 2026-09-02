@@ -220,6 +220,7 @@ export function SearchOverlay() {
 
         {/* Master Atelier Modal Container */}
         <div
+          id="aiSearchModal"
           className="relative w-full max-w-4xl bg-gradient-to-b from-[#0e2e5c]/95 to-[#061c3e]/98 backdrop-blur-2xl border border-white/20 rounded-2xl sm:rounded-3xl shadow-[0_30px_80px_rgba(0,14,38,0.6)] z-10 flex flex-col max-h-[88vh] overflow-hidden my-auto"
           role="dialog"
           aria-modal="true"
@@ -230,6 +231,7 @@ export function SearchOverlay() {
             <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl bg-[#143c76]/75 border border-white/20 focus-within:border-accent-cyan focus-within:ring-2 focus-within:ring-accent-cyan/30 focus-within:bg-[#1a4c91]/95 transition-all">
               <Sparkles size={18} className="text-accent-cyan flex-shrink-0" />
               <input
+                id="aiSearchModalInput"
                 ref={inputRef}
                 type="text"
                 value={query}
@@ -287,6 +289,7 @@ export function SearchOverlay() {
 
           {/* Modal Body Container */}
           <div
+            id="aiSearchResultsModal"
             ref={resultsContainerRef}
             className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 custom-scrollbar"
             tabIndex={0}
@@ -325,6 +328,7 @@ export function SearchOverlay() {
                     </span>
                     {recentSearches.length > 0 && (
                       <button
+                        id="btnClearSearchHistory"
                         onClick={clearAllRecentSearches}
                         className="text-[11px] font-semibold text-accent-cyan hover:text-white uppercase tracking-wider transition-colors cursor-pointer"
                       >
