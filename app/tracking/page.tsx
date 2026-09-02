@@ -18,6 +18,8 @@ import TelemetryMatrix from '@/components/tracking/TelemetryMatrix';
 import DeliveryGuidanceCard from '@/components/tracking/DeliveryGuidanceCard';
 import OrderSummaryCard from '@/components/tracking/OrderSummaryCard';
 import OrderLookupModal from '@/components/tracking/OrderLookupModal';
+import { AILogisticsConcierge } from '@/components/tracking/AILogisticsConcierge';
+import { DeliveryRescheduleModal } from '@/components/tracking/DeliveryRescheduleModal';
 
 function resolveOrder(rawId: string | null): TrackingOrder {
   const cleanId = rawId ? String(rawId).trim() : '';
@@ -200,6 +202,7 @@ function TrackingPageInner() {
     resolveOrder(queryOrderParam)
   );
   const [isLookupOpen, setIsLookupOpen] = useState(false);
+  const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
 
   // Sync state when URL parameter changes
   useEffect(() => {
@@ -325,6 +328,12 @@ function TrackingPageInner() {
 
             {/* Delivery Guidance & Instant Enquiries */}
             <DeliveryGuidanceCard order={currentOrder} />
+
+            {/* AI Logistics Concierge (Smart Parcel Q&A & Rescheduling) */}
+            <AILogisticsConcierge
+              order={currentOrder}
+              onOpenReschedule={() => setIsRescheduleOpen(true)}
+            />
           </div>
 
           {/* Right Column: Order Summary (5 cols) */}
@@ -342,6 +351,21 @@ function TrackingPageInner() {
         isOpen={isLookupOpen}
         onClose={() => setIsLookupOpen(false)}
         onTrackOrder={handleSelectOrder}
+      />
+
+      {/* Delivery Reschedule Modal */}
+      <DeliveryRescheduleModal
+        isOpen={isRescheduleOpen}
+        order={currentOrder}
+        onClose={() => setIsRescheduleOpen(false)}
+        onConfirmReschedule={(day, slot) => {
+          setCurrentOrder((prev) => ({
+            ...prev,
+            expectedDate: `${day} (${slot})`,
+            expectedRange: `${day} (${slot})`,
+            estimatedDelivery: `${day} (${slot})`,
+          }));
+        }}
       />
     </main>
   );
