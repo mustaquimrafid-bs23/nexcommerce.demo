@@ -5,10 +5,8 @@ import Link from 'next/link';
 import {
   Sparkles,
   X,
-  Send,
+  ArrowRight,
   ShoppingBag,
-  RotateCcw,
-  Check,
   Package,
   Volume2,
   VolumeX,
@@ -21,11 +19,12 @@ import { formatPrice } from '@/lib/utils';
 import { Product } from '@/types/catalog';
 import { MASTER_PRODUCTS } from '@/data/products';
 
-const STARTER_PROMPTS = [
-  'Warm wool overcoat for cold weather',
-  'Smart evening dinner outfit',
-  'Leather travel bag for a weekend away',
-  'Comfortable trainers and everyday basics',
+const SUGGESTED_CHIPS = [
+  'Place an order (Voice Demo)',
+  'Place an order (Text Demo)',
+  'Build cart by budget',
+  'Compare top pieces',
+  'Upload shopping slip',
 ];
 
 export function ConciergeDrawer() {
@@ -35,14 +34,14 @@ export function ConciergeDrawer() {
   const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { isOpen, closeConcierge, messages, isTyping, sendMessage, clearChat } =
+  const { isOpen, closeConcierge, messages, isTyping, sendMessage } =
     useConciergeStore();
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
     setMounted(true);
     if (typeof window !== 'undefined') {
-      setIsVoiceEnabled(localStorage.getItem('nex_stylist_voice') === 'true');
+      setIsVoiceEnabled(localStorage.getItem('nex_stylist_voice_muted') !== 'true');
     }
   }, []);
 
@@ -94,7 +93,7 @@ export function ConciergeDrawer() {
     const next = !isVoiceEnabled;
     setIsVoiceEnabled(next);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('nex_stylist_voice', String(next));
+      localStorage.setItem('nex_stylist_voice_muted', next ? 'false' : 'true');
       if (!next && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
@@ -144,12 +143,11 @@ export function ConciergeDrawer() {
     }
   };
 
-
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
+    <div className="fixed inset-0 z-[9999] flex justify-end">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/65 backdrop-blur-sm transition-opacity"
         onClick={closeConcierge}
       />
 
@@ -158,39 +156,25 @@ export function ConciergeDrawer() {
         id="conciergeDrawer"
         role="dialog"
         aria-modal="true"
-        aria-label="Ask Stylist Assistant"
-        className="relative w-full max-w-lg bg-[#020B18] border-l border-white/10 shadow-2xl flex flex-col h-full z-10 animate-in slide-in-from-right duration-300"
+        aria-label="Ask Stylist"
+        className="relative w-full max-w-[460px] bg-[#0A0A0A] border-l border-white/[0.08] shadow-2xl flex flex-col h-full z-10 animate-in slide-in-from-right duration-300"
       >
-        {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-center justify-between bg-surface-navy/60">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-accent-pink/20 flex items-center justify-center border border-accent-pink/40 shadow-sm shadow-accent-pink/20">
-              <Sparkles size={18} className="text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-editorial text-xl text-white font-medium">
-                  Personal Stylist
-                </h2>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold uppercase tracking-wider">
-                  ONLINE 24/7
-                </span>
-              </div>
-              <p className="text-[11px] text-white/50">
-                Outfit ideas, sizing advice, and styling help
-              </p>
-            </div>
+        {/* Header (1:1 with feature/storefront-elevation prototype) */}
+        <div className="concierge-header px-6 py-5 border-b border-white/[0.06] bg-[#0A0A0A] flex items-center justify-between shrink-0">
+          <div className="concierge-header-title text-xs font-semibold tracking-[0.12em] text-white flex items-center gap-2 uppercase font-sans">
+            <Sparkles size={16} className="text-[#F13365]" />
+            <span>Ask Stylist</span>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="concierge-header-actions flex items-center gap-2">
             <button
               type="button"
               id="conciergeVoiceToggleBtn"
               onClick={toggleVoice}
-              className={`p-2 rounded-full transition-colors cursor-pointer ${
+              className={`p-2 rounded transition-colors cursor-pointer ${
                 isVoiceEnabled
-                  ? 'bg-accent-pink/25 text-accent-pink border border-accent-pink/40'
-                  : 'text-white/40 hover:text-white hover:bg-white/5'
+                  ? 'text-[#F13365]'
+                  : 'text-white/40 hover:text-white'
               }`}
               aria-label="Toggle Stylist Voice Audio"
               title={isVoiceEnabled ? 'Stylist Voice Active (Click to mute)' : 'Stylist Voice Muted (Click to enable)'}
@@ -198,16 +182,10 @@ export function ConciergeDrawer() {
               {isVoiceEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
             </button>
             <button
-              onClick={clearChat}
-              className="p-2 text-white/40 hover:text-white rounded-full hover:bg-white/5 transition-colors cursor-pointer"
-              title="Reset conversation"
-            >
-              <RotateCcw size={16} />
-            </button>
-            <button
+              type="button"
               onClick={closeConcierge}
-              className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/5 transition-colors cursor-pointer"
-              aria-label="Close stylist"
+              className="concierge-close p-1.5 text-white/50 hover:text-white rounded transition-colors cursor-pointer"
+              aria-label="Close"
             >
               <X size={20} />
             </button>
@@ -215,275 +193,272 @@ export function ConciergeDrawer() {
         </div>
 
         {/* Messages Stream */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Quick Starter Chips */}
-          <div className="space-y-2">
-            <span className="text-[11px] uppercase tracking-wider text-white/40 font-medium">
-              Outfit ideas to get started:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {STARTER_PROMPTS.map((prompt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => sendMessage(prompt)}
-                  className="text-left text-xs px-3 py-1.5 rounded-full bg-surface-navy/70 hover:bg-surface-navy text-white/80 hover:text-white border border-white/10 hover:border-white/25 transition-colors"
-                >
-                  &ldquo;{prompt}&rdquo;
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* First-Frame Invariant: Featured Visual Capsule */}
+        <div id="conciergeStream" className="flex-1 overflow-y-auto p-6 space-y-6" data-lenis-prevent>
+          {/* Initial Welcome & First-Frame 2-Column Product Grid */}
           {messages.length === 0 && (
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] uppercase tracking-wider text-accent-cyan font-semibold flex items-center gap-1.5">
-                  <Sparkles size={12} />
-                  <span>Featured Atelier Capsule</span>
-                </span>
-                <span className="text-[10px] text-white/40 font-mono">3 Recommendations</span>
+            <div className="msg-concierge-wrapper space-y-4">
+              <div className="text-sm text-white/95 leading-relaxed font-sans">
+                Featured wardrobe pieces &amp; styling ideas:
               </div>
 
-              <div className="grid grid-cols-1 gap-2.5">
-                {MASTER_PRODUCTS.slice(0, 3).map((p) => (
+              <div className="concierge-product-grid grid grid-cols-2 gap-3 w-full" data-lenis-prevent>
+                {MASTER_PRODUCTS.slice(0, 4).map((p) => (
                   <div
                     key={p.id}
-                    className="p-3 rounded-2xl bg-surface-card border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-all shadow-md"
+                    className="concierge-product-card bg-white/[0.03] border border-white/[0.08] hover:border-[#F13365]/40 rounded-lg overflow-hidden flex flex-col transition-all hover:-translate-y-0.5 group"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-12 h-12 rounded-xl bg-obsidian-950 p-1 shrink-0 flex items-center justify-center">
-                        <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
-                      </div>
-                      <div className="min-w-0 space-y-0.5">
-                        <div className="text-xs font-semibold text-white truncate">{p.name}</div>
-                        <div className="text-xs font-mono text-accent-cyan">{formatPrice(p.price)}</div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => addItem(p, p.sizes ? p.sizes[0] : 'One Size')}
-                      className="px-3 py-1.5 rounded-xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-[10px] font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer shadow-sm"
+                    <Link
+                      href={`/product/${p.id}`}
+                      className="block w-full h-[150px] overflow-hidden bg-white/[0.02]"
+                      title={`View details for ${p.name}`}
                     >
-                      Quick Add
-                    </button>
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </Link>
+                    <div className="p-3 flex flex-col gap-1 flex-1">
+                      <div className="text-[9.5px] uppercase tracking-wider text-white/50 font-medium font-sans">
+                        {p.category || 'Apparel'}
+                      </div>
+                      <Link
+                        href={`/product/${p.id}`}
+                        className="text-xs font-semibold text-white truncate hover:text-[#3DE0FF] transition-colors"
+                      >
+                        {p.name}
+                      </Link>
+                      <div className="text-xs font-mono text-white/90 tabular-nums">
+                        {formatPrice(p.price)}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addItem(p, p.sizes ? p.sizes[0] : 'One Size')}
+                        className="concierge-add-btn mt-2 w-full py-1.5 rounded-md border border-white/15 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer"
+                      >
+                        ADD TO BAG
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Chat Messages */}
-          <div className="space-y-5 pt-2">
-            {messages.map((msg) => (
+          {/* Dynamic Chat Stream */}
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex flex-col ${
+                msg.sender === 'user' ? 'items-end' : 'items-start'
+              } space-y-3`}
+            >
+              {/* Bubble Text */}
               <div
-                key={msg.id}
-                className={`flex flex-col ${
-                  msg.sender === 'user' ? 'items-end' : 'items-start'
-                } space-y-3`}
+                className={`max-w-[85%] p-3.5 rounded-2xl text-[13.5px] leading-relaxed ${
+                  msg.sender === 'user'
+                    ? 'bg-white/[0.08] text-white border border-white/10 rounded-br-none'
+                    : 'bg-white/[0.04] border border-white/[0.08] text-white/95 rounded-bl-none'
+                }`}
               >
-                {/* Bubble Text */}
-                <div
-                  className={`max-w-[88%] p-4 rounded-2xl text-xs leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'bg-accent-pink text-white rounded-tr-none font-medium'
-                      : 'bg-surface-navy/50 border border-white/10 text-white/90 rounded-tl-none'
-                  }`}
-                >
-                  <p>{msg.text}</p>
-                </div>
+                <p>{msg.text}</p>
+              </div>
 
-                {/* Outfit Bundle Card (Visual First) */}
-                {msg.bundle && (
-                  <div className="w-full p-4 rounded-2xl bg-obsidian-900 border border-accent-pink/30 space-y-4 shadow-xl">
-                    <div className="flex justify-between items-center pb-2 border-b border-white/10">
-                      <div className="flex items-center gap-1.5 text-xs text-accent-pink font-semibold">
-                        <Package size={15} />
-                        <span>{msg.bundle.title}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-bold text-white">
-                          {formatPrice(msg.bundle.discountedPrice)}
-                        </span>
-                        <span className="text-[10px] text-white/40 line-through ml-1.5">
-                          {formatPrice(msg.bundle.totalPrice)}
-                        </span>
-                      </div>
+              {/* Outfit Bundle Card */}
+              {msg.bundle && (
+                <div className="w-full p-4 rounded-xl bg-white/[0.03] border border-[#F13365]/30 space-y-4 shadow-xl">
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <div className="flex items-center gap-1.5 text-xs text-[#F13365] font-semibold">
+                      <Package size={15} />
+                      <span>{msg.bundle.title}</span>
                     </div>
-
-                    {/* Bundle Items Thumbnails Grid */}
-                    <div className="grid grid-cols-3 gap-2">
-                      {msg.bundle.products.map((p) => (
-                        <div
-                          key={p.id}
-                          className="rounded-xl bg-surface-card p-2 border border-white/5 flex flex-col justify-between"
-                        >
-                          <div className="relative aspect-square rounded-lg overflow-hidden mb-1.5 bg-surface-navy/60 p-1 flex items-center justify-center">
-                            <img
-                              src={p.image}
-                              alt={p.name}
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                          <div className="text-[10px] text-white font-medium truncate">
-                            {p.name}
-                          </div>
-                          <div className="text-[9px] text-white/50">
-                            {formatPrice(p.price, p.currency)}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Add Bundle to Bag & In-Chat Checkout CTAs */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleAddBundleToBag(msg.bundle!.products)}
-                        className="flex-1 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-pink/20 cursor-pointer"
-                      >
-                        <ShoppingBag size={14} />
-                        <span>Add Look to Bag</span>
-                      </button>
-                      <Link
-                        href="/checkout"
-                        onClick={() => {
-                          handleAddBundleToBag(msg.bundle!.products);
-                          closeConcierge();
-                        }}
-                        className="px-4 py-3 rounded-xl bg-white hover:bg-slate-200 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer"
-                        title="Proceed to Instant Checkout"
-                      >
-                        <span>Checkout</span>
-                        <Check size={14} />
-                      </Link>
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-white">
+                        {formatPrice(msg.bundle.discountedPrice)}
+                      </span>
+                      <span className="text-[10px] text-white/40 line-through ml-1.5">
+                        {formatPrice(msg.bundle.totalPrice)}
+                      </span>
                     </div>
                   </div>
-                )}
 
-                {/* Individual Products Grid */}
-                {msg.products && msg.products.length > 0 && (
-                  <div className="w-full grid grid-cols-2 gap-3">
-                    {msg.products.map((p) => (
+                  <div className="grid grid-cols-3 gap-2">
+                    {msg.bundle.products.map((p) => (
                       <div
                         key={p.id}
-                        className="p-3 rounded-xl bg-surface-navy/40 border border-white/10 flex flex-col justify-between space-y-2"
+                        className="rounded-lg bg-black/40 p-2 border border-white/5 flex flex-col justify-between"
                       >
-                        <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-surface-card">
+                        <div className="aspect-square rounded overflow-hidden mb-1">
                           <img
                             src={p.image}
                             alt={p.name}
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <div>
-                          <div className="text-[11px] font-medium text-white truncate">
-                            {p.name}
-                          </div>
-                          <div className="text-[10px] text-white/50">
-                            {formatPrice(p.price, p.currency)}
-                          </div>
+                        <div className="text-[10px] text-white/80 truncate font-medium">
+                          {p.name}
                         </div>
-
-                        <button
-                          onClick={() =>
-                            addItem(
-                              p,
-                              p.sizes ? p.sizes[0] : undefined,
-                              p.colors ? p.colors[0].name : undefined
-                            )
-                          }
-                          className="w-full py-1.5 rounded-lg bg-white/10 hover:bg-white text-white hover:text-obsidian-950 text-[11px] font-semibold transition-colors flex items-center justify-center gap-1"
-                        >
-                          <ShoppingBag size={12} />
-                          <span>Quick Add</span>
-                        </button>
+                        <div className="text-[10px] font-mono text-[#3DE0FF]">
+                          {formatPrice(p.price)}
+                        </div>
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
-            ))}
 
-            {isTyping && (
-              <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-navy/40 border border-white/10 text-xs text-white/60 w-fit">
-                <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce delay-150" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-pink animate-bounce delay-300" />
+                  <button
+                    onClick={() => handleAddBundleToBag(msg.bundle!.products)}
+                    className="w-full py-2.5 rounded-lg bg-gradient-to-r from-[#F13365] to-[#E60C45] hover:opacity-95 text-white text-xs font-bold tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <ShoppingBag size={14} />
+                    <span>Add Entire Look to Bag</span>
+                  </button>
                 </div>
-                <span>Finding items for you...</span>
-              </div>
-            )}
+              )}
 
-            <div ref={messagesEndRef} />
-          </div>
-        </div>
+              {/* In-Chat Products Grid */}
+              {msg.products && msg.products.length > 0 && !msg.bundle && (
+                <div className="concierge-product-grid grid grid-cols-2 gap-3 w-full" data-lenis-prevent>
+                  {msg.products.map((p) => (
+                    <div
+                      key={p.id}
+                      className="concierge-product-card bg-white/[0.03] border border-white/[0.08] hover:border-[#F13365]/40 rounded-lg overflow-hidden flex flex-col transition-all hover:-translate-y-0.5 group"
+                    >
+                      <Link
+                        href={`/product/${p.id}`}
+                        className="block w-full h-[140px] overflow-hidden bg-white/[0.02]"
+                      >
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </Link>
+                      <div className="p-3 flex flex-col gap-1 flex-1">
+                        <div className="text-[9.5px] uppercase tracking-wider text-white/50 font-medium font-sans">
+                          {p.category || 'Apparel'}
+                        </div>
+                        <Link
+                          href={`/product/${p.id}`}
+                          className="text-xs font-semibold text-white truncate hover:text-[#3DE0FF] transition-colors"
+                        >
+                          {p.name}
+                        </Link>
+                        <div className="text-xs font-mono text-white/90 tabular-nums">
+                          {formatPrice(p.price, p.currency)}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => addItem(p, p.sizes ? p.sizes[0] : 'One Size')}
+                          className="concierge-add-btn mt-2 w-full py-1.5 rounded-md border border-white/15 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer"
+                        >
+                          ADD TO BAG
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
 
-        {/* Input Bar */}
-        <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-obsidian-900/90 flex items-center gap-2 relative">
-          {/* Animated 6-bar Listening Waveform */}
-          {isListening && (
-            <div
-              id="conciergeListeningWave"
-              className="absolute inset-x-4 top-2 bottom-2 z-10 bg-[#06152D] rounded-xl flex items-center justify-between px-4 border border-accent-pink/50 animate-in fade-in duration-200"
-              aria-label="Listening to microphone"
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-accent-pink animate-ping" />
-                <span className="text-xs text-white/90 font-medium">Listening to speech...</span>
+          {isTyping && (
+            <div className="flex items-center gap-2 p-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white/60 w-fit">
+              <div className="flex gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F13365] animate-bounce" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F13365] animate-bounce delay-150" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F13365] animate-bounce delay-300" />
               </div>
-              <div className="flex items-center gap-1.5 h-6">
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-2 animate-pulse" />
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-5 animate-pulse delay-75" />
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-3 animate-pulse delay-150" />
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-6 animate-pulse delay-100" />
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-4 animate-pulse delay-200" />
-                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-2 animate-pulse delay-300" />
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsListening(false)}
-                className="text-white/60 hover:text-white text-xs font-semibold px-2 py-1 rounded bg-white/10 cursor-pointer"
-              >
-                Cancel
-              </button>
+              <span>Stylist is curating...</span>
             </div>
           )}
 
-          <input
-            type="text"
-            id="conciergeInput"
-            placeholder="Ask about outfits, sizes, or tap mic..."
-            value={inputVal}
-            onChange={(e) => setInputVal(e.target.value)}
-            className="flex-1 bg-surface-navy/70 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 focus:outline-none focus:border-accent-pink"
-          />
+          <div ref={messagesEndRef} />
+        </div>
 
-          <button
-            type="button"
-            id="conciergeMicBtn"
-            onClick={toggleListening}
-            className={`p-3 rounded-xl border transition-colors cursor-pointer flex items-center justify-center ${
-              isListening
-                ? 'bg-accent-pink/30 text-accent-pink border-accent-pink/60 animate-pulse'
-                : 'bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border-white/15'
-            }`}
-            aria-label="Tap to speak"
-            title="Tap to speak with Stylist"
-          >
-            {isListening ? <MicOff size={15} /> : <Mic size={15} />}
-          </button>
+        {/* Input Area (Bottom Chips + Pill Form) */}
+        <div className="concierge-input-area border-t border-white/[0.08] bg-[#0A0A0A] p-4 space-y-3 shrink-0">
+          {/* Actionable Chips (Positioned right above input bar) */}
+          <div id="conciergeChips" className="concierge-chips-container flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {SUGGESTED_CHIPS.map((chip) => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => sendMessage(chip)}
+                className="concierge-chip px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 text-xs text-white/70 hover:text-white whitespace-nowrap transition-all cursor-pointer shrink-0 font-sans"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
 
-          <button
-            type="submit"
-            disabled={!inputVal.trim()}
-            className="px-4 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 disabled:opacity-40 text-white text-xs font-semibold transition-all flex items-center justify-center cursor-pointer"
-            aria-label="Send message"
-          >
-            <Send size={15} />
-          </button>
-        </form>
+          <form id="conciergeForm" onSubmit={handleSubmit} className="concierge-input-bar relative flex items-center bg-white/[0.035] border border-white/10 focus-within:border-[#F13365]/50 rounded-full px-4 py-1 transition-all">
+            {/* Animated 6-bar Listening Waveform */}
+            {isListening && (
+              <div
+                id="conciergeListeningWave"
+                className="listening-waveform absolute inset-0 z-10 bg-[#0A0A0A] rounded-full flex items-center justify-between px-4 border border-[#F13365]/50 animate-in fade-in duration-200"
+                aria-label="Listening to microphone"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#F13365] animate-ping" />
+                  <span className="text-xs text-white/90 font-medium">Listening to speech...</span>
+                </div>
+                <div className="flex items-center gap-1.5 h-5">
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-2 animate-pulse" />
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-5 animate-pulse delay-75" />
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-3 animate-pulse delay-150" />
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-5 animate-pulse delay-100" />
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-4 animate-pulse delay-200" />
+                  <div className="voice-bar-anim w-1 bg-[#F13365] rounded-full h-2 animate-pulse delay-300" />
+                </div>
+                <button
+                  type="button"
+                  id="conciergeVoiceCancelBtn"
+                  onClick={() => setIsListening(false)}
+                  className="voice-cancel-btn text-white/60 hover:text-white text-xs font-semibold px-2 py-0.5 rounded bg-white/10 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+
+            <input
+              type="text"
+              id="conciergeInput"
+              name="concierge_query"
+              placeholder="Ask about style, size, or tap mic..."
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              className="flex-1 bg-transparent text-xs text-white placeholder-white/40 focus:outline-none py-2 font-sans"
+              autoComplete="off"
+            />
+
+            <button
+              type="button"
+              id="conciergeMicBtn"
+              onClick={toggleListening}
+              className={`p-2 transition-colors cursor-pointer flex items-center justify-center ${
+                isListening
+                  ? 'text-[#F13365] animate-pulse'
+                  : 'text-white/40 hover:text-white'
+              }`}
+              aria-label="Tap to speak"
+              title="Tap to speak with Stylist"
+            >
+              {isListening ? <MicOff size={15} /> : <Mic size={15} />}
+            </button>
+
+            <button
+              type="submit"
+              disabled={!inputVal.trim()}
+              className="concierge-send-btn p-2 text-white hover:text-[#F13365] disabled:text-white/20 transition-colors cursor-pointer flex items-center justify-center"
+              aria-label="Send message"
+            >
+              <ArrowRight size={17} />
+            </button>
+          </form>
+        </div>
       </aside>
     </div>
   );
