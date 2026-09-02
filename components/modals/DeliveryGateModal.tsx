@@ -97,6 +97,7 @@ export function DeliveryGateModal({
           </div>
           <button
             type="button"
+            id="closeDeliveryModalBtn"
             onClick={handleClose}
             aria-label="Close delivery modal"
             className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
@@ -113,6 +114,7 @@ export function DeliveryGateModal({
         <div className="relative">
           <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
           <input
+            id="hubPostalSearchInput"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -124,6 +126,7 @@ export function DeliveryGateModal({
         {/* GPS location detector button */}
         <button
           type="button"
+          id="hubGpsDetectBtn"
           onClick={handleGpsDetect}
           disabled={isDetecting}
           className="w-full py-2.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
@@ -133,7 +136,7 @@ export function DeliveryGateModal({
         </button>
 
         {/* Hub Selection Grid */}
-        <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
+        <div id="hubSelectionGrid" className="space-y-2.5 max-h-60 overflow-y-auto pr-1 scrollbar-thin">
           {filteredHubs.map((hub) => {
             const isSelected = hub.id === activeHubId;
             return (
@@ -174,7 +177,7 @@ export function DeliveryGateModal({
         </div>
 
         {/* Fallback info */}
-        <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-[11px] text-white/60 flex items-center gap-2">
+        <div id="hubFallbackBanner" className="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-[11px] text-white/60 flex items-center gap-2">
           <Truck size={14} className="text-white/40 shrink-0" />
           <span>All destinations outside regional express zones arrive in 2–3 business days via DHL Carbon-Neutral.</span>
         </div>

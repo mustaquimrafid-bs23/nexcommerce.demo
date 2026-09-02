@@ -281,7 +281,7 @@ export function Header() {
               >
                 <MapPin size={13} className="text-[#3DE0FF] shrink-0" />
                 <span className="delivery-location-label font-semibold text-white tracking-tight">
-                  {activeHub.city.split(' ')[0]}
+                  <span className="sr-only">Deliver to: </span>{activeHub.city.split(' ')[0]}
                 </span>
                 <span className="delivery-express-badge inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-amber-400 text-[10px] font-semibold">
                   <Zap size={10} className="fill-amber-400" />
