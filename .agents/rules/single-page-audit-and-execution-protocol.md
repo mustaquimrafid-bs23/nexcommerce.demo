@@ -4,11 +4,11 @@
 When tasked with auditing, polishing, debugging, or fixing the storefront, you MUST execute on strictly ONE page per cycle across the 28 storefront pages using this non-negotiable 6-step lifecycle:
 
 ```
-[ Step 1: Single Page Audit ] 
-      │ (Capture Desktop 1440px & Mobile 375px screenshots, check console & markup)
+[ Step 1: Automatic 7-Dimension UI/UX Audit ] 
+      │ (Capture Desktop 1440px & Mobile 375px screenshots; audit Content, Visual, Interactions, Parity, Flows, Edges, a11y)
       ▼
 [ Step 2: Findings & Implementation Plan ] 
-      │ (Create implementation_plan.md for THIS SINGLE PAGE ONLY)
+      │ (Create implementation_plan.md for THIS SINGLE PAGE ONLY with 3 design options)
       ▼
 [ Step 3: STOP & Request User Approval ] 
       │ (Present findings, link plan, DO NOT modify code automatically)

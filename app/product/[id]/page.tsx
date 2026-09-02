@@ -69,7 +69,7 @@ export default function ProductDetailPage({ params }: PageProps) {
   const galleryImages = product.gallery && product.gallery.length > 0 ? product.gallery : [product.image];
 
   return (
-    <div className="min-h-screen pb-24 bg-obsidian-900">
+    <div className="min-h-screen pb-24 bg-transparent text-white">
       {/* Breadcrumb Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex items-center gap-2 text-xs text-white/50">

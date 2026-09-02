@@ -187,15 +187,88 @@ All Server Actions, form inputs, and external API responses **must** be validate
 - **Components**: The dock must include an active selection count badge, an overlapping avatar filmstrip stack of selected item images, live subtotal valuation, a clear selection button (`X`), and a batch "Add Selected to Bag" action with spring animations (`type: 'spring', damping: 24, stiffness: 260`).
 - **0-Item Depletion Invariant**: When `selectedIds.size === 0`, the dock unmounts gracefully with spring physics (`y: 80, opacity: 0`), and any 0-item depletion cleans all ambient metrics down to 0.
 
-### Cart Multi-Quantity Store Parameter
-- **Optional Quantity**: Ensure `useCartStore.addItem(product, size, color, quantity = 1)` accepts an optional `quantity` parameter with default `1`. This enables Quick Look quantity steppers and multi-item batch adds in a single clean state mutation without argument count mismatches (`TS2554`).
+---
 
-### Full "Mini-PDP" Quick Look Slide-Over Standard
-- **Interactive Mini-PDP**: Quick Look drawers must never be static shallow cards. They must deliver:
-  1. Multi-angle uncropped gallery filmstrip with active thumbnail switching.
-  2. Tactile metallic finish swatches with real-time price delta recalculation.
-  3. Responsive architectural size selector blocks with inventory stock validation.
-  4. Technical specifications grid (Materials, Origin, Care).
-  5. Quantity stepper (`- 1 +`) and 1-click Add to Bag with the exact configured variant payload.
-  6. Direct navigation link to the full product PDP.
+## 7. Modal & Dialog Portaling Invariant (Stacking Context Safety)
+
+### Mandatory `createPortal` for All Dialogs and Modals
+Under W3C CSS specifications, applying `backdrop-filter` (e.g. `backdrop-blur-md`, `backdrop-blur-xl`), `transform`, `filter`, or `perspective` on any ancestor card creates a new CSS containing block and stacking context for all `position: fixed` descendants.
+Rendering a modal/dialog inline inside a glassmorphism card traps `position: fixed; inset: 0;` inside the card's bounding box rather than covering the whole viewport, causing modals to appear clipped and cutting off buttons.
+
+**Strict Rule**: All modals, dialogs, slide-over panels, and full-screen overlays in Next.js / React client components MUST unconditionally be portaled directly to `document.body` via React's `createPortal(modalElement, document.body)` with an SSR-safe `mounted` state guard and high z-index (`z-[9999]`):
+
+```typescript
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { X } from 'lucide-react';
+
+export function ComponentWithModal() {
+  const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-[#0A2A54]/30 p-6 backdrop-blur-md">
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="px-4 py-2 rounded-xl bg-accent-cyan text-[#01132B] text-xs font-bold"
+      >
+        Open Dialog
+      </button>
+
+      {/* Portaled Modal - Never clipped by parent backdrop-blur or overflow */}
+      {mounted && isOpen && createPortal(
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+        >
+          {/* Backdrop Click Dismiss */}
+          <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
+
+          {/* Dialog Container */}
+          <div className="max-w-md w-full rounded-2xl bg-[#012148] border border-white/20 p-6 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] relative z-10 animate-[fadeIn_0.2s_ease-out] space-y-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-base font-bold text-white">Dialog Title</h3>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-white/70">Dialog content goes here...</p>
+
+            <div className="flex justify-end gap-3 pt-3 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="px-5 py-2 rounded-xl bg-accent-cyan text-xs font-bold text-[#01132B]"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
+  );
+}
+```
+
 

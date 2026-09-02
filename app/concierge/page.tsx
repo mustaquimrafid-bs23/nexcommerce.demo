@@ -135,7 +135,7 @@ export default function ConciergePage() {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-white pb-20 pt-4 px-3 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-transparent text-white pb-20 pt-4 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-4">
         
         {/* STUDIO TOP BAR: AGENT PROFILE, MOBILE TABS & RESET */}

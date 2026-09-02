@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable} ${manrope.variable}`}>
-      <body className="min-h-screen flex flex-col bg-obsidian-900 text-white antialiased">
+      <body className="min-h-screen flex flex-col bg-[#01132B] bg-[radial-gradient(120%_80%_at_50%_0%,#032B5E_0%,#01132B_60%,#001838_100%)] bg-fixed text-[#F8FAFF] antialiased">
         <PagePreloader />
         <LenisProvider />
         <Header />

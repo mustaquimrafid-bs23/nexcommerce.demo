@@ -70,6 +70,15 @@ After completing **every single task or feature change**, you MUST unconditional
    - **Adjacent Interactive Element Non-Overlap Assertion**: In any component featuring action clusters (e.g. card action buttons, swatch discs, badge groups, floating bars), visual testing MUST explicitly verify that adjacent interactive targets maintain clean separation ($\ge 6\text{–}8\text{px}$ gap) with zero element superposition, clipping, or z-index collisions in both idle and hover/active states.
    - **7-Dimension Cross-Page Sweep Invariant**: For all full-site audits or multi-page releases, testing must unconditionally sweep across all 7 dimensions (Content & Copy, Visual/Layout, Interactions, Cross-page Consistency, E2E User Flows, Edge Cases, Accessibility) per `.agents/rules/sqa-engineering-standards.md` Section 13, eliminating single-dimension blind spots.
 
+### 🛡️ MANDATORY ADVERSARIAL REVIEW GATE ON EVERY TASK COMPLETION
+Before declaring completion, claiming success, or presenting work to the user, the engineer/agent MUST unconditionally execute an internal adversarial review across all three gates:
+1. **Adversarial Plan & Decision Challenge**: Verify domain boundaries (e.g. Confirmation vs. Order Details) and search for CSS containing block traps (`backdrop-filter`, `transform`, `overflow`).
+2. **Adversarial Code Diff Scrutiny**: Scrutinize every modified line for high-risk anti-patterns (unportaled modals missing `createPortal`, missing `mounted` SSR hydration guards, unhandled empty states, unescaped attributes).
+3. **Mandatory Interactive Modal & Flow Triggering in Browser**: In Tier 3 live browser testing, actively click and trigger every interactive button, dialog, modal, and drawer across Desktop (`1440x900`) and Mobile (`375x812`) viewports to assert 100% full-screen unclipped geometry with zero boundary cutoff before user handover.
+
+### 🛡️ AUTOMATIC PROACTIVE 7-DIMENSION UI/UX AUDIT INVARIANT
+Whenever designing, elevating, redesigning, or modifying any page, component, or workflow, the engineer/agent MUST autonomously and proactively execute a deep **7-Dimension UI/UX Audit** (Content & Copy, Visual/Layout, Interactions, Cross-page Consistency, E2E User Flows, Edge Cases, Accessibility) against premier luxury benchmarks (SSENSE, Mr Porter, Apple Store, NET-A-PORTER) before declaring completion, without waiting for explicit user prompting.
+
 
 ### DevOps
 - CI/CD: GitHub Actions (primary), Azure DevOps, GitLab CI.
@@ -396,6 +405,16 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
   - `Search by Occasion` (not smart search / natural language search)
   - `Shopping Guide` (not smart tour / feature guide)
   - `100% genuine items` (not verified authentic)
+
+**31. Modal & Dialog Portaling Invariant (`createPortal` to `document.body`)**:
+- Under W3C CSS specifications, applying `backdrop-filter` (e.g. `backdrop-blur-md`), `transform`, `filter`, or `perspective` on any ancestor container creates a new CSS containing block for all `position: fixed` descendants.
+- All modals, popups, and full-screen overlays in Next.js / React client components MUST unconditionally be portaled directly to `document.body` via React's `createPortal(modalElement, document.body)` with an SSR-safe `mounted` state guard and high z-index (`z-[9999]`) to guarantee zero boundary clipping.
+
+**32. Post-Checkout Inline Authorization & Confirmation Domain Separation**:
+- **Inline Button Feedback**: Order placement must trigger crisp inline feedback on the primary CTA (`PAY & COMPLETE ORDER` → `AUTHORIZING PAYMENT…` ~500ms) with zero artificial blocking modals and zero empty-cart background screen flicker (`items.length === 0 && !isProcessing`).
+- **Confirmation Page Radical Simplicity**: Order Confirmation (`/confirmation`) must remain an uncluttered celebration receipt featuring the glowing emerald checkmark halo, personalized customer greeting with email confirmation note, concise digital receipt card (Order # with 1-click copy, ETA, total, destination, QR pass), and exactly two primary CTAs: **[View Order Details →]** (linking to `/orders/[id]`) and **[Continue Shopping]** (linking to `/category`).
+- **Strict Domain Separation**: The confirmation page must NEVER duplicate the full 6-card operations dashboard (timeline steppers, tax invoice breakdown tables, return/cancellation actions, or recommendation carousels). All operational telemetry, invoice downloads, and return controls belong strictly in **Order Details (`/orders/[id]`)**.
+- **Multi-Storage Synchronization**: Completed orders must synchronize across session storage (`latest_order`, `nex_confirmed_order`) and local storage (`nex_placed_orders`, `nex_orders`) so confirmation and order history views hydrate actual customer and item details dynamically.
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 

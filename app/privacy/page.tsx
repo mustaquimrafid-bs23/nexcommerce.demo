@@ -186,7 +186,7 @@ export default function PrivacyPage() {
       )}
 
       {/* Header Banner */}
-      <section className="bg-obsidian-950 border-b border-white/10 pt-10 pb-12 px-4 sm:px-6 lg:px-8">
+      <section className="bg-white/[0.02] backdrop-blur-md border-b border-white/10 pt-10 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex items-center gap-2 text-xs text-white/50">
             <Link href="/" className="hover:text-white transition-colors">

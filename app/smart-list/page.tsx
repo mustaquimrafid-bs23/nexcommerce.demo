@@ -206,7 +206,7 @@ function SmartListContent() {
   };
 
   return (
-    <div className="min-h-screen pb-32 bg-obsidian-950 text-white">
+    <div className="min-h-screen pb-32 bg-transparent text-white">
       <main className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* 1. Cinema Pure Hero Lifestyle Banner */}
         <SmartListHeroBanner />
@@ -260,7 +260,7 @@ export default function SmartListPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-obsidian-950 flex items-center justify-center text-white/50 text-xs">
+        <div className="min-h-screen bg-transparent flex items-center justify-center text-white/50 text-xs">
           Loading Smart List…
         </div>
       }

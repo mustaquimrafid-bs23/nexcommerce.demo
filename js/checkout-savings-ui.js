@@ -1,7 +1,7 @@
 /**
- * nexCommerce — Proactive Checkout Savings UI Controller (Capability 5)
+ * nexCommerce — Checkout Savings UI Controller
  * Orchestrates savings evaluation, card hydration in the checkout order summary,
- * and 1-click optimal coupon execution.
+ * and 1-click promo discount execution.
  */
 (function(window) {
   'use strict';
@@ -75,13 +75,13 @@
         card.innerHTML = `
           <div class="savings-card-top">
             <div class="savings-advisor-badge">
-              <i data-lucide="check-circle" style="width:14px;height:14px;color:#00F5A0;"></i>
-              <span>Optimal Savings Applied</span>
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#34D399;"></i>
+              <span>Savings Applied</span>
             </div>
-            <div class="savings-applied-pill" style="background:rgba(0,245,160,0.12);color:#00F5A0;border:1px solid rgba(0,245,160,0.25);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ Code ${activeCoupon.code} Active</div>
+            <div class="savings-applied-pill" style="background:rgba(52,211,153,0.12);color:#34D399;border:1px solid rgba(52,211,153,0.25);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ Code ${activeCoupon.code} Active</div>
           </div>
           <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;margin-top:6px;">
-            ✨ Highest possible savings rate activated. Your order ledger has been discounted automatically.
+            Best available discount applied. Your order total has been updated.
           </div>
         `;
         if (window.lucide) window.lucide.createIcons();
@@ -94,18 +94,18 @@
       card.innerHTML = `
         <div class="savings-card-top">
           <div class="savings-advisor-badge">
-            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-            <span>Smart Savings Advisor</span>
+            <i data-lucide="sparkles" style="width:14px;height:14px;color:#3DE0FF;"></i>
+            <span>Promotional Discount</span>
           </div>
-          <div class="savings-amount-highlight">Save € ${best.discountAmount.toFixed(2)}</div>
+          <div class="savings-amount-highlight" style="color:#34D399;font-weight:700;">Save € ${best.discountAmount.toFixed(2)}</div>
         </div>
 
-        <div class="savings-recommendation-text">
-          Optimal code <strong>\`${best.code}\`</strong> (${best.label}) gives you the highest net savings on your selection.
+        <div class="savings-recommendation-text" style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;margin:6px 0 10px;">
+          Recommended code <strong>\`${best.code}\`</strong> (${best.label}) gives you the highest net savings on your selection.
         </div>
 
         ${upgrade ? `
-          <div class="savings-upgrade-alert">
+          <div class="savings-upgrade-alert" style="margin-bottom:10px;">
             <i data-lucide="zap" style="width:14px;height:14px;color:#3DE0FF;flex-shrink:0;"></i>
             <span>${upgrade.message}</span>
           </div>
@@ -113,7 +113,7 @@
 
         <button id="btnAutoApplySavings" class="savings-apply-action-btn" data-apply-code="${best.code}">
           <i data-lucide="check-circle" style="width:14px;height:14px;flex-shrink:0;"></i>
-          <span>⚡ Apply Promo (${best.code} · Save €${best.discountAmount.toFixed(2)})</span>
+          <span>Apply Promo (${best.code} · Save €${best.discountAmount.toFixed(2)})</span>
         </button>
       `;
 
@@ -147,20 +147,20 @@
         cardElement.innerHTML = `
           <div class="savings-card-top">
             <div class="savings-advisor-badge">
-              <i data-lucide="check-circle" style="width:14px;height:14px;color:#00F5A0;"></i>
-              <span>Optimal Savings Applied</span>
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#34D399;"></i>
+              <span>Savings Applied</span>
             </div>
-            <div class="savings-applied-pill">✓ Code ${code} Active</div>
+            <div class="savings-applied-pill" style="background:rgba(52,211,153,0.12);color:#34D399;border:1px solid rgba(52,211,153,0.25);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ Code ${code} Active</div>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;">
-            ✨ Highest possible savings rate activated. Your order ledger has been discounted automatically.
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.4;margin-top:6px;">
+            Best available discount applied. Your order total has been updated.
           </div>
         `;
         if (window.lucide) window.lucide.createIcons();
       }
 
       if (typeof window.showToast === 'function') {
-        window.showToast(`⚡ Optimal promo code ${code} applied successfully!`);
+        window.showToast(`Promo code ${code} applied successfully!`);
       }
     }
   }

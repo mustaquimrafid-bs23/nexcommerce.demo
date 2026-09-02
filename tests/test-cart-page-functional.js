@@ -22,7 +22,7 @@ assert.ok(cartHtml.includes('id="cartEmptyArea"'), 'cartEmptyArea must exist');
 assert.ok(cartHtml.includes('data-action="clear-cart"'), 'Clear Cart button must exist in toolbar');
 assert.ok(cartHtml.includes('data-action="open-budget-cart"'), 'Budget Builder AI button must exist');
 assert.ok(cartHtml.includes('data-action="open-slip-to-cart"'), 'Slip to Cart AI button must exist');
-assert.ok(cartHtml.includes('id="cartPromoBanner"'), 'cartPromoBanner must exist');
+assert.ok(!cartHtml.includes('id="cartPromoBanner"'), 'cartPromoBanner should be removed');
 assert.ok(cartHtml.includes('checkout-savings-engine.js'), 'checkout-savings-engine.js must be loaded');
 assert.ok(cartHtml.includes('checkout-savings-ui.js'), 'checkout-savings-ui.js must be loaded');
 console.log('  ✓ All DOM structural invariants verified in cart.html');

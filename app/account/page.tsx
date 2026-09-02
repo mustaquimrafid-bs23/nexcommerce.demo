@@ -314,7 +314,7 @@ export default function AccountPage() {
     .reduce((sum, o) => sum + (Number(o.total) || 0), 0);
 
   return (
-    <main className="min-h-screen bg-obsidian-deep text-white pb-24 pt-6 sm:pt-8">
+    <main className="min-h-screen bg-transparent text-white pb-24 pt-6 sm:pt-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumbs" className="flex items-center gap-2 text-xs text-white/50 mb-6">

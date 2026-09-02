@@ -37,6 +37,7 @@ coverage/
 test-results/
 playwright-report/
 blob-report/
+.playwright/
 .playwright-mcp/
 playwright/.cache/
 playwright-artifacts/
@@ -86,6 +87,9 @@ ENV/
 # (Note: Leading slash ensures public/assets/ and docs/ images are NOT ignored)
 # ==============================================================================
 scratch/
+scratch*/
+scratch_*
+*.scratch.*
 tmp/
 temp/
 *.tmp
@@ -98,6 +102,7 @@ temp/
 /*.webp
 /*.mp4
 /*.webm
+all_screens_composite.*
 
 # ==============================================================================
 # OPERATING SYSTEM METADATA

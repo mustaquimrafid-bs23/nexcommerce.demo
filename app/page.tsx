@@ -7,7 +7,7 @@ import { EditorialBanner } from '@/components/home/EditorialBanner';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-obsidian-900">
+    <div className="flex flex-col min-h-screen bg-transparent">
       {/* 1. Full-Bleed 3D Editorial Hero with Floating Shoppable Capsule */}
       <HeroSection />
 

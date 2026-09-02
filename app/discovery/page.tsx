@@ -126,7 +126,7 @@ function DiscoveryContent() {
   }, [query, selectedSphere]);
 
   return (
-    <div className="min-h-screen pb-24 bg-gradient-to-b from-[#031838] via-[#011126] to-[#000b1a] text-white">
+    <div className="min-h-screen pb-24 bg-transparent text-white">
       {/* Hero Section */}
       <section className="pt-12 pb-14 px-4 sm:px-6 lg:px-8 border-b border-white/10 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto space-y-6">

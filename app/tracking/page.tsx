@@ -23,29 +23,35 @@ function resolveOrder(rawId: string | null): TrackingOrder {
   const cleanId = rawId ? String(rawId).trim() : '';
 
   if (cleanId) {
-    // 1. Search in localStorage placed orders
+    // 1. Search in localStorage placed orders (nex_placed_orders & nex_orders)
     if (typeof window !== 'undefined') {
       try {
-        const stored = localStorage.getItem('nex_placed_orders');
-        if (stored) {
-          const list = JSON.parse(stored);
-          if (Array.isArray(list)) {
-            const match = list.find((o) => {
-              const oId = String(o.id || o.ref || '').toUpperCase();
-              return oId === cleanId.toUpperCase();
-            });
-            if (match) return normalizeOrder(match);
+        const localKeys = ['nex_placed_orders', 'nex_orders'];
+        for (const k of localKeys) {
+          const stored = localStorage.getItem(k);
+          if (stored) {
+            const list = JSON.parse(stored);
+            if (Array.isArray(list)) {
+              const match = list.find((o) => {
+                const oId = String(o.id || o.ref || o.orderId || '').toUpperCase();
+                return oId === cleanId.toUpperCase();
+              });
+              if (match) return normalizeOrder(match);
+            }
           }
         }
       } catch (_) {}
 
-      // 2. Search in sessionStorage confirmed order
+      // 2. Search in sessionStorage confirmed order (nex_confirmed_order & latest_order)
       try {
-        const conf = sessionStorage.getItem('nex_confirmed_order');
-        if (conf) {
-          const parsed = JSON.parse(conf);
-          if (parsed && String(parsed.ref || parsed.id || '').toUpperCase() === cleanId.toUpperCase()) {
-            return normalizeOrder(parsed);
+        const sessionKeys = ['nex_confirmed_order', 'latest_order'];
+        for (const k of sessionKeys) {
+          const conf = sessionStorage.getItem(k);
+          if (conf) {
+            const parsed = JSON.parse(conf);
+            if (parsed && String(parsed.ref || parsed.id || parsed.orderId || '').toUpperCase() === cleanId.toUpperCase()) {
+              return normalizeOrder(parsed);
+            }
           }
         }
       } catch (_) {}
@@ -275,7 +281,7 @@ function TrackingPageInner() {
   const currentStageIdx = STATUS_TO_STAGE[currentOrder.statusKey || currentOrder.status] ?? 4;
 
   return (
-    <main id="mainContent" className="min-h-screen bg-[#012148] text-white pb-24 pt-6">
+    <main id="mainContent" className="min-h-screen bg-transparent text-white pb-24 pt-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Hero Section & Toolbar */}
         <TrackingHeroHeader

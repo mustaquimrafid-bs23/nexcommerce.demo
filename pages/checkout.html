@@ -12,10 +12,20 @@
   <link rel="stylesheet" href="../css/design-system.css?v=40">
 
   <style>
-    /* ── Base ───────────────────────────────────────────────────────── */
+    :root {
+      --bg-body: #01132B;
+      --bg-main: #012148;
+      --bg-deep: #001838;
+      --bg-surface: #0A2A54;
+      --accent-cyan: #3DE0FF;
+      --color-success: #34D399;
+    }
+    /* ── Base & Foundations ─────────────────────────────────────────── */
     body {
-      background-color: var(--bg-main, #000B1A);
-      color: var(--text-primary, #FFFFFF);
+      background-color: var(--bg-body, #01132B);
+      background-image: radial-gradient(120% 80% at 50% 0%, #032B5E 0%, var(--bg-body, #01132B) 60%, var(--bg-deep, #001838) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary, #F8FAFF);
       font-family: var(--font-body, 'Inter', sans-serif);
       min-height: 100vh;
       display: flex;
@@ -56,13 +66,13 @@
     /* ── Spotlight Hero Card ─────────────────────────────────────────── */
     .checkout-hero-header {
       margin-bottom: 28px;
-      background: linear-gradient(135deg, rgba(8, 20, 48, 0.8) 0%, rgba(3, 11, 28, 0.95) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(135deg, rgba(10, 42, 84, 0.65) 0%, rgba(1, 19, 43, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 18px;
       padding: 32px 36px 26px;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.4);
       position: relative;
       overflow: hidden;
     }
@@ -73,7 +83,7 @@
       right: -60px;
       width: 280px;
       height: 280px;
-      background: radial-gradient(circle, rgba(61, 224, 255, 0.10) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(61, 224, 255, 0.12) 0%, transparent 70%);
       pointer-events: none;
     }
     .checkout-hero-main {
@@ -104,46 +114,48 @@
     .checkout-live-dot {
       width: 7px;
       height: 7px;
-      border-radius: 50%;
       background: #34D399;
-      box-shadow: 0 0 10px #34D399;
-      animation: secPulse 2s infinite ease-in-out;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #34D399;
+      animation: pulse-dot 2s infinite ease-in-out;
     }
-    @keyframes secPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: 0.6; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
     .checkout-badge-pill {
-      background: rgba(52, 211, 153, 0.12);
-      color: #34D399;
-      border: 1px solid rgba(52, 211, 153, 0.28);
-      font-size: 10px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 100px;
+      padding: 2px 8px;
+      font-size: 9.5px;
       font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 9999px;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      color: #3DE0FF;
+      text-transform: uppercase;
     }
     .checkout-hero-title {
       font-family: var(--font-display, 'Manrope', sans-serif);
-      font-size: clamp(28px, 3.5vw, 42px);
+      font-size: clamp(28px, 3.2vw, 38px);
       font-weight: 700;
-      color: #FFFFFF;
-      line-height: 1.15;
       letter-spacing: -0.02em;
-      margin: 0 0 4px 0;
+      line-height: 1.15;
+      color: #FFFFFF;
+      margin: 0;
     }
     .checkout-hero-title em {
-      font-family: var(--font-serif, 'Instrument Serif', Georgia, serif);
+      font-family: var(--font-accent, 'Instrument Serif', Georgia, serif);
       font-style: italic;
-      color: #3DE0FF;
       font-weight: 400;
+      color: #3DE0FF;
     }
     .checkout-hero-subtitle {
       font-size: 13.5px;
-      color: rgba(255, 255, 255, 0.6);
-      margin: 0;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.65);
+      margin: 4px 0 0;
       max-width: 580px;
-      line-height: 1.5;
     }
     .checkout-hero-stats {
       display: flex;
@@ -152,8 +164,8 @@
       flex-wrap: wrap;
     }
     .checkout-hero-stat-pill {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       padding: 10px 16px;
       display: flex;
@@ -166,7 +178,7 @@
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.12em;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.45);
       text-transform: uppercase;
     }
     .stat-pill-value {
@@ -184,7 +196,7 @@
       align-items: center;
       gap: 16px;
       padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       flex-wrap: wrap;
     }
     .btn-hero-action {
@@ -193,9 +205,9 @@
       gap: 8px;
       padding: 8px 16px;
       background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 100px;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.8);
       font-size: 12px;
       font-weight: 600;
       text-decoration: none;
@@ -203,8 +215,8 @@
       transition: all 0.2s ease;
     }
     .btn-hero-action:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.22);
       color: #FFFFFF;
       transform: translateY(-1px);
     }
@@ -214,56 +226,57 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(10, 42, 84, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 14px;
       padding: 16px 24px;
       margin-bottom: 28px;
+      backdrop-filter: blur(12px);
     }
     .progress-step-item {
       display: flex;
       align-items: center;
       gap: 12px;
       flex-shrink: 0;
-      opacity: 0.45;
+      opacity: 0.5;
       transition: all 0.35s ease;
       cursor: pointer;
     }
     .progress-step-item.active { opacity: 1; }
-    .progress-step-item.completed { opacity: 0.85; }
+    .progress-step-item.completed { opacity: 0.88; }
     .step-num-bubble {
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.6);
       flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.04);
       transition: all 0.35s ease;
     }
     .progress-step-item.active .step-num-bubble {
       border-color: #3DE0FF;
-      color: #000B1A;
+      color: #01132B;
       background: #3DE0FF;
-      box-shadow: 0 0 16px rgba(61, 224, 255, 0.35);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.4);
     }
     .progress-step-item.completed .step-num-bubble {
       border-color: #34D399;
-      color: #000B1A;
+      color: #01132B;
       background: #34D399;
     }
     .step-meta { display: flex; flex-direction: column; gap: 2px; }
     .step-title { font-size: 13px; font-weight: 600; color: #FFFFFF; letter-spacing: 0.02em; }
-    .step-sub { font-size: 11px; color: rgba(255, 255, 255, 0.4); }
+    .step-sub { font-size: 11px; color: rgba(255, 255, 255, 0.45); }
     .progress-connector-line {
       flex: 1;
       height: 2px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.09);
       margin: 0 16px;
       border-radius: 2px;
       position: relative;
@@ -287,8 +300,8 @@
 
     /* ── Fast 1-Tap Wallets ──────────────────────────────────────────── */
     .express-wallets-panel {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 42, 84, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 14px;
       padding: 20px 24px;
       position: relative;
@@ -297,7 +310,7 @@
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.16em;
-      color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.45);
       text-align: center;
       text-transform: uppercase;
       margin-bottom: 14px;
@@ -314,8 +327,8 @@
     .wallet-btn {
       min-height: 48px;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
       color: #FFFFFF;
       cursor: pointer;
       display: flex;
@@ -327,15 +340,15 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     .wallet-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.25);
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
     }
     .wallet-btn:active { transform: translateY(0); }
     .apple-pay-btn {
       background: #000000;
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.25);
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -343,8 +356,8 @@
     }
     .apple-pay-btn svg { width: 16px; height: 16px; fill: #FFFFFF; }
     .gpay-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.18);
     }
     .klarna-btn {
       background: #FFB3C7;
@@ -358,20 +371,20 @@
       gap: 12px;
       margin-top: 16px;
     }
-    .divider-line { flex: 1; height: 1px; background: rgba(255, 255, 255, 0.07); }
+    .divider-line { flex: 1; height: 1px; background: rgba(255, 255, 255, 0.09); }
     .divider-text {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.12em;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.4);
       text-transform: uppercase;
       white-space: nowrap;
     }
 
     /* ── Form Cards & Accessible Controls ────────────────────────────── */
     .form-group-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 42, 84, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 16px;
       padding: 26px;
       backdrop-filter: blur(12px);
@@ -414,18 +427,18 @@
       font-size: 11.5px;
       font-weight: 600;
       letter-spacing: 0.04em;
-      color: rgba(255, 255, 255, 0.65);
+      color: rgba(255, 255, 255, 0.7);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .form-field-label .req-star { color: #FB7185; }
-    .form-field-label .field-hint { font-size: 10px; color: rgba(255, 255, 255, 0.35); font-weight: 400; }
+    .form-field-label .field-hint { font-size: 10px; color: rgba(255, 255, 255, 0.4); font-weight: 400; }
     .input-box {
       width: 100%;
       height: 48px;
-      background: rgba(4, 18, 44, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(4, 20, 48, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 0 16px;
       border-radius: 10px;
       color: #FFFFFF;
@@ -437,7 +450,7 @@
     .input-box:focus {
       outline: none;
       border-color: #3DE0FF;
-      background: rgba(6, 26, 62, 0.85);
+      background: rgba(8, 30, 70, 0.85);
       box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.15);
     }
     .input-box.input-error {
@@ -449,7 +462,6 @@
       font-size: 11.5px;
       color: #FB7185;
       margin-top: 4px;
-      font-weight: 500;
     }
     .field-error-msg.visible { display: block; }
     .checkout-grid-2col {
@@ -458,203 +470,191 @@
       gap: 14px;
     }
 
-    /* ── Saved Address Selector ──────────────────────────────────────── */
+    /* ── Saved Address Cards ─────────────────────────────────────────── */
     .saved-addresses-cluster {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-bottom: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
     .saved-address-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.025);
+      cursor: pointer;
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 14px 16px;
-      border: 1.5px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.015);
       transition: all 0.2s ease;
     }
     .saved-address-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.22);
     }
     .saved-address-card.selected {
       border-color: #3DE0FF;
-      background: rgba(61, 224, 255, 0.05);
+      background: rgba(61, 224, 255, 0.07);
       box-shadow: 0 0 0 1px rgba(61, 224, 255, 0.15);
     }
     .addr-radio-ring {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       margin-top: 2px;
       flex-shrink: 0;
-      position: relative;
       transition: all 0.2s ease;
     }
     .saved-address-card.selected .addr-radio-ring {
       border-color: #3DE0FF;
       background: #3DE0FF;
+      box-shadow: 0 0 8px rgba(61, 224, 255, 0.4);
     }
-    .saved-address-card.selected .addr-radio-ring::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
-      background: #000B1A;
-      border-radius: 50%;
-    }
-    .addr-info { flex: 1; min-width: 0; }
-    .addr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+    .addr-info { display: flex; flex-direction: column; gap: 2px; }
+    .addr-top { display: flex; align-items: center; gap: 6px; }
     .addr-title { font-size: 13px; font-weight: 600; color: #FFFFFF; }
-    .addr-badge { font-size: 9px; font-weight: 700; color: #34D399; background: rgba(52, 211, 153, 0.1); padding: 2px 6px; border-radius: 4px; }
-    .addr-line { font-size: 12px; color: rgba(255, 255, 255, 0.5); line-height: 1.4; }
+    .addr-badge {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(61, 224, 255, 0.15);
+      color: #3DE0FF;
+    }
+    .addr-line { font-size: 11.5px; color: rgba(255, 255, 255, 0.55); line-height: 1.35; }
 
     /* ── Delivery Options ────────────────────────────────────────────── */
-    .delivery-options-grid { display: flex; flex-direction: column; gap: 10px; }
-    .delivery-option-card {
+    .delivery-options-grid {
       display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px 18px;
-      border: 1.5px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.015);
-      transition: all 0.22s ease;
+      flex-direction: column;
+      gap: 12px;
     }
-    .delivery-option-card input[type="radio"] { display: none; }
+    .delivery-option-card {
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.025);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
     .delivery-option-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
     }
     .delivery-option-card.active {
       border-color: #3DE0FF;
-      background: rgba(61, 224, 255, 0.05);
+      background: rgba(61, 224, 255, 0.06);
       box-shadow: 0 0 0 1px rgba(61, 224, 255, 0.15);
     }
+    .delivery-option-card input[type="radio"] { display: none; }
     .option-check-circle {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       flex-shrink: 0;
-      margin-top: 2px;
-      position: relative;
       transition: all 0.2s ease;
     }
     .delivery-option-card.active .option-check-circle {
       border-color: #3DE0FF;
       background: #3DE0FF;
+      box-shadow: 0 0 8px rgba(61, 224, 255, 0.4);
     }
-    .delivery-option-card.active .option-check-circle::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px;
-      height: 8px;
-      background: #000B1A;
-      border-radius: 50%;
-    }
-    .option-content { flex: 1; min-width: 0; }
-    .option-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .option-content { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .option-top { display: flex; justify-content: space-between; align-items: baseline; }
     .option-name { font-size: 14px; font-weight: 600; color: #FFFFFF; }
-    .option-price { font-size: 14px; font-weight: 700; color: #34D399; font-variant-numeric: tabular-nums; }
-    .delivery-option-card:not(.active) .option-price { color: #FFFFFF; }
-    .option-desc { font-size: 12px; color: rgba(255, 255, 255, 0.45); line-height: 1.45; margin: 0 0 6px; }
+    .option-price { font-size: 13.5px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums; }
+    .delivery-option-card.active .option-price { color: #34D399; }
+    .option-desc { font-size: 12px; color: rgba(255, 255, 255, 0.5); line-height: 1.4; margin: 0; }
     .option-badge {
-      display: inline-block;
       font-size: 9px;
       font-weight: 700;
-      letter-spacing: 0.09em;
-      padding: 2px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .delivery-option-card.active .option-badge {
-      border-color: rgba(61, 224, 255, 0.3);
-      color: #3DE0FF;
-      background: rgba(61, 224, 255, 0.08);
+      letter-spacing: 0.1em;
+      padding: 2px 7px;
+      border-radius: 100px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      color: #34D399;
+      display: inline-block;
+      margin-top: 4px;
+      width: fit-content;
     }
 
-    /* ── Luxury Add-ons (Gift Wrap & Courier Notes) ─────────────────── */
+    /* ── Luxury Add-ons ──────────────────────────────────────────────── */
     .luxury-addons-wrap {
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: 14px;
     }
     .addon-card {
-      background: rgba(255, 255, 255, 0.015);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 12px;
-      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      overflow: hidden;
       transition: all 0.2s ease;
     }
-    .addon-card:hover { border-color: rgba(255, 255, 255, 0.14); }
+    .addon-card.active {
+      border-color: rgba(61, 224, 255, 0.35);
+      background: rgba(61, 224, 255, 0.03);
+    }
     .addon-header {
+      padding: 14px 18px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       cursor: pointer;
-      user-select: none;
     }
     .addon-title-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
     .addon-icon {
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: rgba(61, 224, 255, 0.08);
-      border: 1px solid rgba(61, 224, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #3DE0FF;
     }
-    .addon-title { font-size: 13.5px; font-weight: 600; color: #FFFFFF; }
-    .addon-sub { font-size: 11px; color: rgba(255, 255, 255, 0.4); }
+    .addon-title { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+    .addon-sub { font-size: 11px; color: rgba(255, 255, 255, 0.45); }
     .addon-toggle-pill {
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.08em;
       padding: 4px 10px;
       border-radius: 100px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
       background: rgba(255, 255, 255, 0.04);
       transition: all 0.2s ease;
     }
     .addon-card.active .addon-toggle-pill {
       border-color: #34D399;
+      background: rgba(52, 211, 153, 0.15);
       color: #34D399;
-      background: rgba(52, 211, 153, 0.1);
     }
     .addon-body {
       display: none;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0 18px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
     }
     .addon-card.active .addon-body { display: block; }
     .textarea-box {
       width: 100%;
       min-height: 72px;
-      background: rgba(4, 18, 44, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(4, 20, 48, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 10px 14px;
       border-radius: 8px;
       color: #FFFFFF;
@@ -667,19 +667,19 @@
     .textarea-box:focus {
       outline: none;
       border-color: #3DE0FF;
-      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.15);
     }
 
     /* ── Delivery Guidance ───────────────────────────────────────────── */
     .delivery-guidance {
       margin-bottom: 14px;
       padding: 12px 16px;
-      background: rgba(61, 224, 255, 0.04);
-      border: 1px solid rgba(61, 224, 255, 0.12);
+      background: rgba(61, 224, 255, 0.05);
+      border: 1px solid rgba(61, 224, 255, 0.15);
       border-radius: 10px;
       font-size: 12.5px;
       line-height: 1.5;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.7);
     }
     .delivery-guidance strong { color: #FFFFFF; }
 
@@ -734,15 +734,15 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.14);
       overflow: hidden;
       box-sizing: border-box;
     }
     .card-front {
-      background: linear-gradient(135deg, #0A192F 0%, #030B17 50%, #172A45 100%);
+      background: linear-gradient(135deg, #0A2A54 0%, #01132B 50%, #103B75 100%);
     }
     .card-back {
-      background: linear-gradient(135deg, #030B17 0%, #0A192F 100%);
+      background: linear-gradient(135deg, #01132B 0%, #0A2A54 100%);
       transform: rotateY(180deg);
       padding: 0;
       justify-content: space-between;
@@ -755,7 +755,7 @@
       border-radius: 6px;
       border: 1px solid rgba(0, 0, 0, 0.2);
     }
-    .card-contactless { color: rgba(255, 255, 255, 0.4); }
+    .card-contactless { color: rgba(255, 255, 255, 0.45); }
     .card-number-display {
       font-family: 'Inter', monospace;
       font-size: clamp(14px, 1.85vw, 18px);
@@ -769,7 +769,7 @@
       font-size: 7px;
       font-weight: 700;
       letter-spacing: 0.12em;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.45);
       display: block;
       margin-bottom: 3px;
     }
@@ -781,11 +781,11 @@
       color: #FFFFFF;
       text-transform: uppercase;
     }
-    .card-brand-pill { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.7); }
+    .card-brand-pill { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.8); }
     .card-shimmer-sheen {
       position: absolute;
       inset: 0;
-      background: linear-gradient(45deg, transparent 35%, rgba(61, 224, 255, 0.08) 50%, transparent 65%);
+      background: linear-gradient(45deg, transparent 35%, rgba(61, 224, 255, 0.1) 50%, transparent 65%);
       pointer-events: none;
       background-size: 200% 200%;
       animation: card-sheen 6s ease-in-out infinite;
@@ -798,7 +798,7 @@
       font-size: 8px;
       font-weight: 700;
       letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.45);
       display: block;
       margin-bottom: 4px;
       text-align: right;
@@ -817,7 +817,7 @@
     .card-back-meta {
       padding: 0 22px 16px;
       font-size: 7.5px;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.35);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -827,20 +827,20 @@
     /* ── Payment Method Grid ─────────────────────────────────────────── */
     .luxury-payment-card {
       padding: 14px 16px;
-      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(255, 255, 255, 0.09);
       border-radius: 12px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.015);
+      background: rgba(255, 255, 255, 0.02);
       transition: all 0.2s ease;
     }
     .luxury-payment-card:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
     }
     .luxury-payment-card.selected {
       border-color: #3DE0FF;
-      background: rgba(61, 224, 255, 0.05);
-      box-shadow: 0 0 0 1px rgba(61, 224, 255, 0.12);
+      background: rgba(61, 224, 255, 0.06);
+      box-shadow: 0 0 0 1px rgba(61, 224, 255, 0.15);
     }
     .payment-card-header {
       display: flex;
@@ -858,7 +858,7 @@
     }
     .klarna-badge { background: #FFB3C7; color: #000000; }
     .ideal-badge { background: #CC0066; color: #FFFFFF; }
-    .applepay-badge { background: #000000; color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .applepay-badge { background: #000000; color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.25); }
     .paypal-badge { background: #003087; color: #FFFFFF; }
     .bancontact-badge { background: #005499; color: #FFFFFF; }
     .sepa-badge { background: #003399; color: #FFFFFF; }
@@ -866,7 +866,7 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       transition: all 0.2s ease;
     }
     .luxury-payment-card.selected .payment-radio-indicator {
@@ -876,14 +876,14 @@
     }
     .payment-card-info { display: flex; flex-direction: column; gap: 2px; }
     .payment-card-title { font-size: 13.5px; font-weight: 600; color: #FFFFFF; }
-    .payment-card-desc { font-size: 11px; color: rgba(255, 255, 255, 0.4); }
+    .payment-card-desc { font-size: 11px; color: rgba(255, 255, 255, 0.45); }
 
     /* ── Klarna Info & Installments ──────────────────────────────────── */
     .klarna-info-panel {
       margin-top: 16px;
       padding: 14px 16px;
-      background: rgba(255, 179, 199, 0.06);
-      border: 1px solid rgba(255, 179, 199, 0.2);
+      background: rgba(255, 179, 199, 0.08);
+      border: 1px solid rgba(255, 179, 199, 0.25);
       border-radius: 10px;
       font-size: 12.5px;
       line-height: 1.5;
@@ -896,20 +896,20 @@
       margin-top: 10px;
     }
     .installment-box {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
       border: 1px solid rgba(255, 179, 199, 0.2);
       border-radius: 6px;
       padding: 8px 10px;
       text-align: center;
     }
-    .installment-due { font-size: 9px; color: rgba(255, 228, 236, 0.7); text-transform: uppercase; }
+    .installment-due { font-size: 9px; color: rgba(255, 228, 236, 0.75); text-transform: uppercase; }
     .installment-amt { font-size: 13px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums; }
 
     /* ── Mobile Summary Bar ──────────────────────────────────────────── */
     .mobile-summary-bar {
       display: none;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 42, 84, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 12px;
       padding: 16px 20px;
       margin-bottom: 20px;
@@ -923,8 +923,8 @@
 
     /* ── Order Summary Sticky Panel ──────────────────────────────────── */
     .order-summary-sticky-panel {
-      background: linear-gradient(155deg, rgba(10, 25, 47, 0.98) 0%, rgba(3, 11, 23, 0.98) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(155deg, rgba(10, 42, 84, 0.95) 0%, rgba(1, 19, 43, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 18px;
       padding: 22px 24px;
       position: sticky;
@@ -960,7 +960,7 @@
       justify-content: space-between;
       align-items: baseline;
       padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .summary-title {
       font-family: var(--font-display, 'Manrope', sans-serif);
@@ -973,7 +973,7 @@
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.14em;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.45);
       text-transform: uppercase;
     }
     .summary-items-list {
@@ -1042,8 +1042,8 @@
     .coupon-input {
       flex: 1;
       height: 44px;
-      background: rgba(4, 18, 44, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(4, 20, 48, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 0 14px;
       border-radius: 8px;
       color: #FFFFFF;
@@ -1055,15 +1055,15 @@
     .coupon-input:focus {
       outline: none;
       border-color: #3DE0FF;
-      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.1);
+      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.12);
     }
     .coupon-input.coupon-input-error { border-color: #FB7185; }
     .coupon-apply-btn {
       padding: 0 18px;
       height: 44px;
       border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
       color: #FFFFFF;
       font-size: 11px;
       font-weight: 700;
@@ -1074,8 +1074,8 @@
       font-family: var(--font-body, 'Inter', sans-serif);
     }
     .coupon-apply-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
     }
     .coupon-pill {
       font-size: 11px;
@@ -1092,7 +1092,7 @@
     .coupon-remove-btn {
       background: none;
       border: none;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.45);
       cursor: pointer;
       font-size: 16px;
       line-height: 1;
@@ -1107,15 +1107,15 @@
       flex-direction: column;
       gap: 10px;
       padding: 16px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .ledger-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 13.5px;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.6);
     }
     .ledger-row .tabular-nums { font-variant-numeric: tabular-nums; color: #FFFFFF; }
     .ledger-total {
@@ -1124,7 +1124,7 @@
       color: #FFFFFF;
       padding-top: 12px;
       margin-top: 4px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
     }
     .ledger-total .tabular-nums { color: #FFFFFF; font-size: 18px; }
 
@@ -1139,7 +1139,7 @@
       align-items: flex-start;
       gap: 9px;
       font-size: 11.5px;
-      color: rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.5);
       line-height: 1.4;
     }
     .trust-signal-item i { flex-shrink: 0; margin-top: 1px; }
@@ -1155,7 +1155,7 @@
       gap: 8px;
       border-radius: 12px;
       background: linear-gradient(135deg, #3DE0FF 0%, #00C4E0 100%);
-      color: #000B1A;
+      color: #01132B;
       border: none;
       cursor: pointer;
       font-family: var(--font-body, 'Inter', sans-serif);
@@ -1249,54 +1249,30 @@
       }
       #btn-order-primary-text {
         font-size: 11px;
-        letter-spacing: 0.02em;
       }
       .submit-total-tag {
         font-size: 11.5px;
         padding: 4px 8px;
       }
-      .coupon-input {
-        font-size: 12px;
-        padding: 0 10px;
+      .saved-addresses-cluster {
+        grid-template-columns: 1fr;
       }
-      .coupon-apply-btn {
-        padding: 0 12px;
-        font-size: 10px;
+      .checkout-grid-2col {
+        grid-template-columns: 1fr;
       }
-      .summary-title {
-        font-size: 17px;
-      }
-    }
-    @media (max-width: 540px) {
-      .checkout-grid-2col { grid-template-columns: 1fr; }
-      #payment-method-group { grid-template-columns: 1fr !important; }
-      .express-wallets-grid { grid-template-columns: 1fr !important; }
-      .step-num-bubble { width: 30px; height: 30px; font-size: 10px; }
-      .progress-connector-line { margin: 0 4px; }
-    }
-
-    @keyframes euAuthSlide {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-      100% { transform: translateX(200%); }
     }
   </style>
 </head>
 <body>
 
-  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
-  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
-    <div class="preloader-inner">
-      <div class="preloader-logo-wrap">
-        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+  <!-- PRELOADER -->
+  <div class="preloader-overlay" id="preloaderOverlay">
+    <div class="preloader-content">
+      <div class="preloader-brand">nexCommerce</div>
+      <div class="preloader-line">
+        <div class="preloader-progress" id="preloaderProgress"></div>
       </div>
-      <div class="preloader-status-whisper">
-        <span class="preloader-status-dot"></span>
-        <span id="preloaderStatusText">Securing checkout session...</span>
-      </div>
-      <div class="preloader-progress-track" aria-hidden="true">
-        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
-      </div>
+      <div class="preloader-label">Securing checkout session...</div>
       <div class="preloader-percent" id="preloaderPercent">0%</div>
     </div>
   </div>
@@ -1331,7 +1307,7 @@
         <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
       </nav>
 
-      <!-- Center: Smart Search Pill -->
+      <!-- Center: Search Pill -->
       <div class="nav-search-pill-wrap desktop-only">
         <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
           <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
@@ -1447,17 +1423,17 @@
           <div class="checkout-hero-content">
             <div class="checkout-hero-eyebrow">
               <span class="checkout-live-dot" aria-hidden="true"></span>
-              <span>256-Bit SSL Encrypted Checkout</span>
-              <span class="checkout-badge-pill">PSD2 &amp; 3DS 2.2</span>
+              <span>Bank-Grade Secure Checkout</span>
+              <span class="checkout-badge-pill">3D Secure Protected</span>
             </div>
-            <h1 class="checkout-hero-title" id="checkoutHeroHeading">Finalize Your <em>Order</em></h1>
-            <p class="checkout-hero-subtitle">Review shipping credentials, select your preferred payment gateway, and confirm with instant biometric &amp; card authorization.</p>
+            <h1 class="checkout-hero-title" id="checkoutHeroHeading">Complete Your <em>Order</em></h1>
+            <p class="checkout-hero-subtitle">Review your delivery address, select your payment method, and complete your order with bank-grade encryption.</p>
           </div>
 
           <div class="checkout-hero-stats" aria-label="Order quick stats">
             <div class="checkout-hero-stat-pill">
               <span class="stat-pill-label">RESERVED PIECES</span>
-              <span class="stat-pill-value cyan-accent" id="heroReservedPieces">2 PIECES</span>
+              <span class="stat-pill-value cyan-accent" id="heroReservedPieces">0 PIECES</span>
             </div>
             <div class="checkout-hero-stat-pill">
               <span class="stat-pill-label">ESTIMATED TOTAL</span>
@@ -1496,7 +1472,7 @@
           <div class="step-num-bubble" id="bubble-2">02</div>
           <div class="step-meta">
             <span class="step-title">Delivery Options</span>
-            <span class="step-sub">Courier &amp; Timing</span>
+            <span class="step-sub">Delivery &amp; Timing</span>
           </div>
         </div>
         <div class="progress-connector-line" id="line-2"></div>
@@ -1504,18 +1480,18 @@
           <div class="step-num-bubble" id="bubble-3">03</div>
           <div class="step-meta">
             <span class="step-title">Payment &amp; Review</span>
-            <span class="step-sub">3D Secure Gateway</span>
+            <span class="step-sub">Payment &amp; Verification</span>
           </div>
         </div>
       </nav>
 
       <!-- Empty Cart State -->
-      <div id="checkout-empty-state" style="display:none;padding:60px 24px;text-align:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:18px;max-width:600px;margin:40px auto;">
+      <div id="checkout-empty-state" style="display:none;padding:60px 24px;text-align:center;background:rgba(10,42,84,0.3);border:1px solid rgba(255,255,255,0.09);border-radius:18px;max-width:600px;margin:40px auto;backdrop-filter:blur(12px);">
         <div style="width:64px;height:64px;border-radius:50%;background:rgba(61,224,255,0.08);border:1px solid rgba(61,224,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
           <i data-lucide="shopping-bag" style="width:28px;height:28px;color:#3DE0FF;"></i>
         </div>
-        <h2 style="font-family:var(--font-display, 'Manrope', sans-serif);font-size:28px;font-weight:700;margin-bottom:8px;">Your shopping bag is empty</h2>
-        <p style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px;line-height:1.5;">Please add pieces to your shopping bag before proceeding to checkout.</p>
+        <h2 style="font-family:var(--font-display, 'Manrope', sans-serif);font-size:28px;font-weight:700;margin-bottom:8px;color:#FFFFFF;">Your shopping bag is empty</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:24px;line-height:1.5;">Please add pieces to your shopping bag before proceeding to checkout.</p>
         <a href="category.html?cat=all" class="btn-primary-commerce" style="display:inline-flex;padding:12px 28px;">DISCOVER THE COLLECTION</a>
       </div>
 
@@ -1529,8 +1505,8 @@
           <div class="mobile-summary-bar">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
-                <div style="font-size:14px;font-weight:600;" id="mobile-summary-title">Order Summary &middot; € 0.00</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.4);" id="mobile-summary-sub">0 Items &middot; Incl. VAT</div>
+                <div style="font-size:14px;font-weight:600;color:#FFFFFF;" id="mobile-summary-title">Order Summary &middot; € 0.00</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.45);" id="mobile-summary-sub">0 Items &middot; Incl. VAT</div>
               </div>
               <button type="button" id="mobile-summary-toggle" class="btn-secondary-action" onclick="toggleMobileSummary()" style="height:36px;padding:0 14px;font-size:11px;">View details ↓</button>
             </div>
@@ -1557,7 +1533,7 @@
             </div>
             <div class="or-divider-row">
               <span class="divider-line"></span>
-              <span class="divider-text">Or enter your billing &amp; shipping details</span>
+              <span class="divider-text">Or enter your delivery and payment details</span>
               <span class="divider-line"></span>
             </div>
           </section>
@@ -1583,7 +1559,7 @@
               <div class="field-wrap">
                 <label for="cust-email" class="form-field-label">
                   <span>Email Address <span class="req-star">*</span></span>
-                  <span class="field-hint">Invoice &amp; tracking recipient</span>
+                  <span class="field-hint">Receipt &amp; tracking recipient</span>
                 </label>
                 <input type="email" id="cust-email" name="email" class="input-box" placeholder="e.g. tanvir@brainstation-23.com" autocomplete="email" aria-required="true">
                 <div class="field-error-msg" id="err-cust-email">Please enter a valid email address.</div>
@@ -1631,10 +1607,10 @@
                 <i data-lucide="map-pin" style="width:18px;height:18px;color:#3DE0FF;"></i>
                 <span>Delivery Address</span>
               </h2>
-              <span class="group-step-tag">DESTINATION</span>
+              <span class="group-step-tag">DELIVERY ADDRESS</span>
             </div>
 
-            <!-- Saved Address Quick Selector (For authenticated users) -->
+            <!-- Saved Address Quick Selector -->
             <div class="saved-addresses-cluster" id="savedAddressesCluster">
               <div class="saved-address-card selected" id="addrCard-1" onclick="selectSavedAddress(1, 'Friedrichstraße 42', 'Berlin', '10117', 'DE')">
                 <div class="addr-radio-ring"></div>
@@ -1744,7 +1720,7 @@
                     <span class="option-price">€ 18.00</span>
                   </div>
                   <p class="option-desc">Guaranteed next-business-day delivery before 12:00 PM with direct courier hand-off.</p>
-                  <span class="option-badge">NEXT DAY DISPATCH</span>
+                  <span class="option-badge">NEXT-DAY DISPATCH</span>
                 </div>
               </label>
 
@@ -1769,15 +1745,15 @@
                   <div class="addon-title-group">
                     <div class="addon-icon"><i data-lucide="gift" style="width:16px;height:16px;"></i></div>
                     <div>
-                      <div class="addon-title">Complimentary Luxury Gift Packaging</div>
-                      <div class="addon-sub">Debossed box, silk ribbon, and personalized card</div>
+                      <div class="addon-title">Complimentary Gift Packaging</div>
+                      <div class="addon-sub">Signature gift box, satin ribbon, and personalised gift card</div>
                     </div>
                   </div>
                   <span class="addon-toggle-pill" id="pillGiftWrap">+ ADD</span>
                 </div>
                 <div class="addon-body">
                   <label for="giftMessageInput" class="form-field-label">
-                    <span>Personalized Gift Card Message</span>
+                    <span>Personalised Gift Message</span>
                     <span class="field-hint" id="giftMsgCount">0/180</span>
                   </label>
                   <textarea id="giftMessageInput" class="textarea-box" placeholder="Write a personal note to be hand-inscribed on our signature stationery..." maxlength="180" oninput="document.getElementById('giftMsgCount').textContent = this.value.length + '/180'"></textarea>
@@ -1807,8 +1783,8 @@
 
           <!-- Payment Failure Recovery Banner -->
           <div id="banner-payment-fail" class="recovery-banner payment-fail">
-            <strong>Payment authorization could not be completed.</strong><br>
-            Your order has not been placed and your bag remains safely preserved. Please choose another payment method or retry.
+            <strong>Payment could not be completed.</strong><br>
+            Your order has not been placed and your shopping bag remains safely preserved. Please choose another payment method or try again.
             <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
               <button type="button" class="btn-secondary-action" onclick="retryPayment()">Try again</button>
               <button type="button" class="btn-secondary-action" onclick="changePaymentMethod()">Choose another method</button>
@@ -1817,7 +1793,7 @@
 
           <!-- Cart Availability Warning Banner -->
           <div id="banner-cart-warn" class="recovery-banner cart-warn">
-            <strong>Some items in your bag are no longer available.</strong><br>
+            <strong>Some items in your shopping bag are no longer available.</strong><br>
             Please review your shopping bag before proceeding.
             <div style="margin-top:10px;">
               <button type="button" class="btn-secondary-action" onclick="window.location.href='cart.html'">Review shopping bag</button>
@@ -1831,7 +1807,7 @@
                 <i data-lucide="shield-check" style="width:18px;height:18px;color:#34D399;"></i>
                 <span>Payment Method</span>
               </h2>
-              <span class="group-step-tag">STEP 03 &middot; PSD2 3DS 2.2</span>
+              <span class="group-step-tag">STEP 03 &middot; 3D SECURE 2.2</span>
             </div>
 
             <div id="payment-method-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -1843,7 +1819,7 @@
                 </div>
                 <div class="payment-card-info">
                   <span class="payment-card-title">Klarna Pay Later</span>
-                  <span class="payment-card-desc">Pay in 30 days &middot; 0% APR</span>
+                  <span class="payment-card-desc">Pay in 30 days &middot; 0% interest</span>
                 </div>
               </div>
 
@@ -1868,18 +1844,18 @@
                 </div>
                 <div class="payment-card-info">
                   <span class="payment-card-title">iDEAL</span>
-                  <span class="payment-card-desc">Netherlands direct bank checkout</span>
+                  <span class="payment-card-desc">Netherlands direct bank payment</span>
                 </div>
               </div>
 
               <div class="luxury-payment-card" id="pay-applepay" onclick="selectPayment('applepay')">
                 <div class="payment-card-header">
-                  <div class="payment-brand-badge applepay-badge"> Pay</div>
+                  <div class="payment-brand-badge applepay-badge">Pay</div>
                   <div class="payment-radio-indicator"></div>
                 </div>
                 <div class="payment-card-info">
                   <span class="payment-card-title">Apple / Google Pay</span>
-                  <span class="payment-card-desc">Instant 1-touch biometric auth</span>
+                  <span class="payment-card-desc">Instant 1-touch payment</span>
                 </div>
               </div>
 
@@ -1918,9 +1894,9 @@
             </div>
 
             <!-- ── Card Details Panel with 3D Holographic Preview ── -->
-            <div id="card-details-panel" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.07);">
+            <div id="card-details-panel" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">
               <!-- 3D HOLOGRAPHIC CARD -->
-              <div class="holographic-card-stage">
+              <div class="holographic-card-stage" id="card-preview-stage">
                 <div class="holographic-card-container" id="holographicCard">
                   <!-- FRONT -->
                   <div class="card-face card-front">
@@ -1952,7 +1928,7 @@
                       <div class="card-cvv-box" id="cardDisplayCvc">•••</div>
                     </div>
                     <div class="card-back-meta">
-                      <span>AUTHORIZED SIGNATURE &middot; NOT VALID UNLESS SIGNED</span>
+                      <span>AUTHORISED SIGNATURE &middot; NOT VALID UNLESS SIGNED</span>
                       <span>nexCommerce Atelier</span>
                     </div>
                   </div>
@@ -2003,7 +1979,7 @@
             </div>
 
             <!-- iDEAL Panel -->
-            <div id="ideal-details-panel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.07);">
+            <div id="ideal-details-panel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);">
               <label for="ideal-bank-select" class="form-field-label" style="margin-bottom:8px;">
                 <span>Select Your Dutch Bank:</span>
               </label>
@@ -2021,7 +1997,7 @@
             </div>
 
             <!-- SEPA Panel -->
-            <div id="sepa-details-panel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.07);">
+            <div id="sepa-details-panel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);">
               <div style="display:flex;flex-direction:column;gap:12px;">
                 <div class="field-wrap">
                   <label for="sepa-iban" class="form-field-label">
@@ -2046,8 +2022,8 @@
                     <div class="field-error-msg" id="err-sepa-holder">Please enter the account holder name.</div>
                   </div>
                 </div>
-                <div style="font-size:11.5px;color:rgba(255,255,255,0.4);line-height:1.45;background:rgba(255,255,255,0.02);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">
-                  By confirming, you authorize nexCommerce to instruct your bank to debit your account in accordance with the European SEPA Core Direct Debit mandate rules.
+                <div style="font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.45;background:rgba(255,255,255,0.03);padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+                  By confirming, you authorise nexCommerce to instruct your bank to debit your account in accordance with European SEPA Direct Debit rules.
                 </div>
               </div>
             </div>
@@ -2076,7 +2052,7 @@
         <!-- END LEFT COLUMN -->
 
         <!-- ══ RIGHT COLUMN: ORDER SUMMARY STICKY ══ -->
-        <aside class="order-summary-sticky-panel" aria-label="Order Summary Sidebar" data-lenis-prevent="true" data-lenis-prevent tabindex="0">
+        <aside class="order-summary-sticky-panel" aria-label="Order Summary Sidebar" data-lenis-prevent="true" tabindex="0">
 
           <div class="summary-header">
             <h2 class="summary-title">Order Summary</h2>
@@ -2084,11 +2060,11 @@
           </div>
 
           <!-- Visual Product List -->
-          <div class="summary-items-list" id="desktop-items-list" role="region" aria-label="Reserved pieces in order" data-lenis-prevent="true" data-lenis-prevent tabindex="0">
+          <div class="summary-items-list" id="desktop-items-list" role="region" aria-label="Reserved pieces in order" data-lenis-prevent="true" tabindex="0">
             <!-- Populated by loadCheckoutState() -->
           </div>
 
-          <!-- Proactive Smart Savings Advisor Mount (Capability 5) -->
+          <!-- Proactive Savings Finder Mount -->
           <div id="checkoutSavingsMount" style="margin-bottom: 4px;"></div>
 
           <!-- Promo Code -->
@@ -2120,10 +2096,10 @@
               <span id="summary-discount-amount" class="tabular-nums">−€ 0.00</span>
             </div>
             <div id="summary-gift-row" class="ledger-row" style="display:none;color:#3DE0FF;">
-              <span>Luxury Gift Packaging</span>
+              <span>Complimentary Gift Packaging</span>
               <span class="tabular-nums">COMPLIMENTARY</span>
             </div>
-            <div class="ledger-row" style="font-size:12px;color:rgba(255,255,255,0.35);">
+            <div class="ledger-row" style="font-size:12px;color:rgba(255,255,255,0.4);">
               <span>Estimated VAT (19% Included)</span>
               <span id="summary-vat" class="tabular-nums">€ 0.00</span>
             </div>
@@ -2133,23 +2109,23 @@
             </div>
           </div>
 
-          <!-- European Consumer Trust Signals -->
+          <!-- Trust Signals -->
           <div class="checkout-trust-signals">
             <div class="trust-signal-item">
               <i data-lucide="rotate-ccw" style="width:14px;height:14px;color:#3DE0FF;"></i>
-              <span>14-Day Statutory Right of Withdrawal &amp; Free Returns</span>
+              <span>14-day free returns and exchanges</span>
             </div>
             <div class="trust-signal-item">
               <i data-lucide="shield-check" style="width:14px;height:14px;color:#34D399;"></i>
-              <span>100% Authentic Guaranteed with Digital Certificate</span>
+              <span>100% authentic guaranteed with certificate</span>
             </div>
             <div class="trust-signal-item">
               <i data-lucide="lock" style="width:14px;height:14px;color:#3DE0FF;"></i>
-              <span>Bank-grade 256-bit SSL encrypted transaction</span>
+              <span>Bank-grade 256-bit SSL encrypted checkout</span>
             </div>
             <div class="trust-signal-item">
               <i data-lucide="leaf" style="width:14px;height:14px;color:#34D399;"></i>
-              <span>Carbon neutral express courier journey</span>
+              <span>Carbon neutral express courier delivery</span>
             </div>
           </div>
 
@@ -2157,13 +2133,13 @@
           <button type="button" id="btn-place-order" class="btn-checkout-submit" onclick="handlePlaceOrder()">
             <div class="btn-checkout-submit-left">
               <i data-lucide="lock" style="width:15px;height:15px;flex-shrink:0;"></i>
-              <span id="btn-order-primary-text">COMPLETE SECURE PURCHASE</span>
+              <span id="btn-order-primary-text">PAY &amp; COMPLETE ORDER</span>
             </div>
             <span class="submit-total-tag" id="submit-total-display">€ 0.00</span>
           </button>
 
-          <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.35);line-height:1.4;margin:0;">
-            By placing your order, you agree to nexCommerce's <a href="terms.html" style="color:rgba(255,255,255,0.6);text-decoration:underline;">Terms of Sale</a> and <a href="privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:underline;">Privacy Policy</a>.
+          <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.4);line-height:1.4;margin:0;">
+            By placing your order, you agree to nexCommerce's <a href="terms.html" style="color:rgba(255,255,255,0.7);text-decoration:underline;">Terms of Sale</a> and <a href="privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:underline;">Privacy Policy</a>.
           </p>
 
         </aside>
@@ -2172,31 +2148,31 @@
     </div>
   </main>
 
-  <!-- ── EUROPEAN PAYMENT AUTHENTICATION MODAL (3D SECURE 2.2) ── -->
-  <div id="payment-modal-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(2,10,24,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);align-items:center;justify-content:center;" onclick="handleModalBackdropClick(event)">
-    <div id="eu-payment-auth-card" style="display:none;width:100%;max-width:460px;margin:0 20px;background:rgba(10,25,47,0.98);border-radius:18px;padding:36px 32px;border:1px solid rgba(255,255,255,0.12);box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);text-align:center;">
+  <!-- ── PAYMENT AUTHENTICATION MODAL (3D SECURE 2.2) ── -->
+  <div id="payment-modal-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(1,19,43,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);align-items:center;justify-content:center;" onclick="handleModalBackdropClick(event)">
+    <div id="eu-payment-auth-card" style="display:none;width:100%;max-width:460px;margin:0 20px;background:rgba(10,42,84,0.98);border-radius:18px;padding:36px 32px;border:1px solid rgba(255,255,255,0.12);box-shadow:0 30px 60px -12px rgba(0,0,0,0.7);text-align:center;">
       <div id="eu-auth-badge" style="margin-bottom:16px;display:inline-flex;align-items:center;justify-content:center;"></div>
       <h3 id="eu-auth-title" style="font-family:var(--font-display, 'Manrope', sans-serif);font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;">Verifying Payment...</h3>
-      <p id="eu-auth-desc" style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:22px;"></p>
+      <p id="eu-auth-desc" style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:22px;"></p>
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">Amount to Authorize</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">Amount to Authorise</span>
         <span id="eu-auth-amount" style="font-size:22px;font-weight:700;color:#3DE0FF;font-variant-numeric:tabular-nums;">€ 0.00</span>
       </div>
       <div style="height:4px;width:100%;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:20px;">
         <div style="height:100%;width:50%;background:#3DE0FF;animation:euAuthSlide 1.5s infinite ease-in-out;"></div>
       </div>
-      <div style="font-size:11.5px;color:rgba(255,255,255,0.35);letter-spacing:0.04em;display:flex;align-items:center;justify-content:center;gap:6px;">
+      <div style="font-size:11.5px;color:rgba(255,255,255,0.45);letter-spacing:0.04em;display:flex;align-items:center;justify-content:center;gap:6px;">
         <i data-lucide="lock" style="width:12px;height:12px;color:#34D399;"></i>
-        <span>Bank-Grade 256-Bit Encrypted PSD2 Handshake</span>
+        <span>Bank-grade encrypted secure payment verification</span>
       </div>
     </div>
 
-    <div id="payment-success-panel" style="display:none;text-align:center;padding:54px 32px;background:rgba(10,25,47,0.98);border-radius:18px;border:1px solid rgba(255,255,255,0.12);max-width:420px;width:100%;margin:0 20px;">
+    <div id="payment-success-panel" style="display:none;text-align:center;padding:54px 32px;background:rgba(10,42,84,0.98);border-radius:18px;border:1px solid rgba(255,255,255,0.12);max-width:420px;width:100%;margin:0 20px;">
       <div style="width:68px;height:68px;border-radius:50%;background:rgba(52,211,153,0.12);border:2px solid #34D399;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
         <i data-lucide="check" style="width:34px;height:34px;color:#34D399;"></i>
       </div>
       <div style="font-family:var(--font-display, 'Manrope', sans-serif);font-size:26px;font-weight:700;color:#fff;margin-bottom:8px;">Order Confirmed</div>
-      <div style="font-size:13.5px;color:rgba(255,255,255,0.5);line-height:1.5;">Generating your digital certificate, invoice, and courier tracking journey...</div>
+      <div style="font-size:13.5px;color:rgba(255,255,255,0.6);line-height:1.5;">Preparing your receipt, order confirmation, and delivery tracking...</div>
     </div>
   </div>
 
@@ -2497,9 +2473,9 @@
               <img src="${itemImg}" alt="${i.name}" onerror="this.onerror=null;this.src='../assets/images/products/p1.png'">
             </div>
             <div>
-              <div style="font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:2px;">${itemBrand}</div>
+              <div style="font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;">${itemBrand}</div>
               <div style="font-size:13.5px;font-weight:600;color:#FFFFFF;line-height:1.3;margin-bottom:3px;">${i.name}</div>
-              <div style="font-size:11.5px;color:rgba(255,255,255,0.45);">${itemVariant} &middot; Qty ${itemQty}</div>
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.5);">${itemVariant} &middot; Qty ${itemQty}</div>
             </div>
             <div style="font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;color:#FFFFFF;">€ ${(Number(i.price) * itemQty).toFixed(2)}</div>
           </div>`;
@@ -2722,7 +2698,7 @@
       cta.style.opacity = '0.65';
       cta.style.cursor  = 'not-allowed';
       const txt = document.getElementById('btn-order-primary-text');
-      if (txt) txt.textContent = 'AUTHENTICATING PAYMENT…';
+      if (txt) txt.textContent = 'PROCESSING PAYMENT…';
       const st = document.getElementById('submit-total-display');
       if (st) st.style.display = 'none';
     }
@@ -2735,7 +2711,7 @@
       cta.style.opacity = '';
       cta.style.cursor  = '';
       const txt = document.getElementById('btn-order-primary-text');
-      if (txt) txt.textContent = 'COMPLETE SECURE PURCHASE';
+      if (txt) txt.textContent = 'PAY & COMPLETE ORDER';
       const st = document.getElementById('submit-total-display');
       if (st) st.style.display = '';
       updateSummaryTotals();
@@ -2769,19 +2745,19 @@
       if (authAmt) authAmt.textContent = `€ ${displayTotal.toFixed(2)}`;
 
       const methodLabels = {
-        card:       ['3D Secure 2.2 Bank Challenge', 'Please confirm this purchase in your bank mobile banking app (Verified by Visa / Mastercard Identity Check).', '<span style="background:#0F2042;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:700;">PSD2 3DS2</span>'],
-        ideal:      [`Redirecting to ${document.getElementById('ideal-bank-select')?.options[document.getElementById('ideal-bank-select')?.selectedIndex]?.text || 'iDEAL Bank'}`, 'Authenticating your direct bank transfer in an encrypted token session.', '<span class="payment-brand-badge ideal-badge">iDEAL</span>'],
-        klarna:     ['Klarna Smooth Checkout', 'Verifying your 30-day payment authorization with Klarna Bank AB.', '<span class="payment-brand-badge klarna-badge">Klarna.</span>'],
-        applepay:   ['Apple Pay Authorization', 'Double-click side button or authenticate with Face ID to finalize order.', '<span class="payment-brand-badge applepay-badge"> Pay</span>'],
-        paypal:     ['PayPal Secure Gateway', 'Authenticating one-touch express token session with PayPal.', '<span class="payment-brand-badge paypal-badge">PayPal</span>'],
+        card:       ['3D Secure Bank Challenge', 'Please confirm this purchase in your bank mobile app (Verified by Visa / Mastercard Identity Check).', '<span style="background:#0F2042;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:700;">3D Secure 2.2</span>'],
+        ideal:      [`Connecting to ${document.getElementById('ideal-bank-select')?.options[document.getElementById('ideal-bank-select')?.selectedIndex]?.text || 'iDEAL Bank'}`, 'Authenticating your direct bank transfer in an encrypted session.', '<span class="payment-brand-badge ideal-badge">iDEAL</span>'],
+        klarna:     ['Klarna Direct Verification', 'Confirming your 30-day payment authorization with Klarna Bank AB.', '<span class="payment-brand-badge klarna-badge">Klarna.</span>'],
+        applepay:   ['Apple Pay Confirmation', 'Double-click side button or authenticate with Face ID to complete order.', '<span class="payment-brand-badge applepay-badge">Pay</span>'],
+        paypal:     ['PayPal Secure Payment', 'Authenticating one-touch payment with PayPal.', '<span class="payment-brand-badge paypal-badge">PayPal</span>'],
         bancontact: ['Bancontact Belgium', 'Connecting with Payconiq / Bancontact secure gateway.', '<span class="payment-brand-badge bancontact-badge">Bancontact</span>'],
-        sepa:       ['SEPA Direct Debit Mandate', 'Registering electronic SEPA creditor identifier with the European banking network.', '<span class="payment-brand-badge sepa-badge">SEPA CORE</span>']
+        sepa:       ['SEPA Direct Debit', 'Registering SEPA direct debit payment mandate with the banking network.', '<span class="payment-brand-badge sepa-badge">SEPA DIRECT DEBIT</span>']
       };
 
       const selectedKey = overrideMethodLabel === 'Apple Pay' ? 'applepay' : (overrideMethodLabel === 'Google Pay' ? 'applepay' : activePayment);
       const ml = methodLabels[selectedKey] || methodLabels.klarna;
 
-      if (authTitle) authTitle.textContent = overrideMethodLabel ? `${overrideMethodLabel} Authorization` : ml[0];
+      if (authTitle) authTitle.textContent = overrideMethodLabel ? `${overrideMethodLabel} Confirmation` : ml[0];
       if (authDesc)  authDesc.textContent  = ml[1];
       if (authBadge) authBadge.innerHTML   = ml[2];
 
@@ -2823,7 +2799,7 @@
       const countryName   = countrySelect ? countrySelect.options[countrySelect.selectedIndex].text : 'Germany';
 
       const isGiftWrap = document.getElementById('addonGiftWrap')?.classList.contains('active') || false;
-      const giftNote   = isGiftWrap ? (document.getElementById('giftMessageInput')?.value.trim() || 'Complimentary gift wrap requested') : null;
+      const giftNote   = isGiftWrap ? (document.getElementById('giftMessageInput')?.value.trim() || 'Complimentary gift packaging requested') : null;
       const courierNote = document.getElementById('deliveryNoteInput')?.value.trim() || null;
 
       const confirmedOrder = {

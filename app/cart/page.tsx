@@ -66,7 +66,7 @@ export default function CartPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center bg-obsidian-950">
+      <div className="min-h-[70vh] flex items-center justify-center bg-transparent">
         <div className="w-8 h-8 rounded-full border-2 border-accent-cyan border-t-transparent animate-spin" />
       </div>
     );
@@ -104,7 +104,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-white pb-28 relative">
+    <div className="min-h-screen bg-transparent text-white pb-28 relative">
       {/* Background Subtle Radial Glow */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[400px] bg-accent-cyan/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-96 right-10 w-[500px] h-[500px] bg-accent-pink/5 rounded-full blur-[160px] pointer-events-none" />

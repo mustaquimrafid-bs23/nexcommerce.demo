@@ -1509,3 +1509,29 @@ That is the standard the implementation should target.
 * **Layout & Navigation**: Uninterrupted horizontal track with `scroll-snap-type: x mandatory`, minimal floating glass chevrons (`‹` and `›`), and real-time position badges (`01 / 07`).
 * **Micro-Interactions**: Native momentum drag-to-scroll, wheel horizontal glide, tactile quick-add ripple with checkmark morph, and 3D spring hover tilt (`±5.5°`).
 * **Zero DOM Thrashing**: Feed cards must be rendered once into the DOM rather than rebuilding `innerHTML` on interaction.
+
+---
+
+# 50. Post-Checkout Order Placement & Confirmation Protocol
+
+### A. Instant Inline Authorization Standard
+* **No Artificial Blocking Popups**: Placing an order must never trigger lingering multi-step blocking modal dialogues (e.g. simulated 2-second bank challenge spinners followed by separate popup screens).
+* **Inline Button Feedback**: Order placement must trigger crisp, responsive inline button feedback on the primary CTA (`PAY & COMPLETE ORDER` → `AUTHORIZING PAYMENT…` with spinner and ~500ms micro-spring) before seamlessly transitioning to `/confirmation`.
+* **Zero Empty-Bag Flicker Guard**: Cart clearance during order placement must not flash the empty bag UI on the checkout page during navigation. Always guard checkout rendering (`items.length === 0 && !isProcessing`).
+
+### B. Strict Confirmation vs. Order Details Domain Separation
+* **Order Confirmation (`/confirmation`)**:
+  * **Purpose**: Immediate post-purchase reassurance, unboxing celebration, and concise digital receipt.
+  * **Required Elements**:
+    1. **Celebration Hero**: Glowing emerald halo, `● ORDER CONFIRMED` badge, and personalized customer greeting with explicit email receipt confirmation note.
+    2. **Concise Minimalist Receipt Pass**: Order reference (with 1-click copy), estimated delivery arrival date, total paid amount, delivery destination summary, and dynamic scannable QR tracking pass.
+    3. **Primary Call-to-Action Buttons**: Exactly two prominent, uncrowded buttons: **[View Order Details →]** (linking to `/orders/[id]`) and **[Continue Shopping]** (linking to `/category`).
+  * **Strict Clutter Ban**: The confirmation page must NEVER duplicate the full 6-card administrative operations dashboard (timeline steppers, tax invoice breakdown tables, return/cancellation actions, or recommendation carousels).
+* **Order Details (`/orders/[id]`)**:
+  * **Purpose**: Dedicated operational dashboard for long-term order lifecycle management.
+  * **Capabilities**: Live carrier GPS telemetry, status checkpoint logs, VAT tax invoice download, return/exchange management, and customer concierge support.
+
+### C. Multi-Storage Synchronization Invariant
+* Placed orders must be synchronized across both active session keys (`sessionStorage['latest_order']`, `sessionStorage['nex_confirmed_order']`) and local history lists (`localStorage['nex_placed_orders']`, `localStorage['nex_orders']`).
+* Both Confirmation and Order Details must hydrate dynamically from these keys, displaying actual purchased items and customer details without falling back to static mock data.
+

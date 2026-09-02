@@ -298,7 +298,10 @@ Bugs cluster at the intersections of dimensions (e.g., an unescaped string insid
 
 ### 3. Interactions
 - **Action Coverage**: Click every button and link — confirm every single one executes an intentional action or valid navigation.
-- **Drawer / Modal Lifecycles**: Open every drawer, modal, and dropdown; verify opening, backdrop blur, keyboard ESC dismissal, and close button.
+- **Drawer / Modal Lifecycles & Interactive Trigger Verification**:
+  1. Open every drawer, modal, and dropdown on the page; verify opening, backdrop blur, keyboard ESC dismissal, and close button.
+  2. **Mandatory Unclipped Viewport Assertion**: Verification MUST actively click and trigger every dialog/modal popup (e.g. Review modal, Return modal, Cancellation confirmation, Support dialog) to assert 100% full-screen unclipped geometry with zero boundary cutoff across title, inputs, textareas, and action buttons (`Cancel`, `Submit`).
+  3. **Stacking Context Safety**: Assert that all modals are portaled directly to `document.body` via `createPortal`, completely isolated from parent `backdrop-filter`, `transform`, or `overflow` boundaries.
 - **Modal Overlay Scroll Isolation & Smooth Scroll Invariant**: Every modal, bottom sheet, slide-over drawer, and dropdown with internal scrolling MUST:
   1. Include `data-lenis-prevent` on the overlay wrapper, modal card, and all internal scrollable grids.
   2. Call `window._nexLenis.stop()` when opening and `window._nexLenis.start()` when closing.

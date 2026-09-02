@@ -24,6 +24,24 @@
 
 ## 4. Canvas & Layout Scoping Invariants
 - **Global Canvas Palette Continuity**: Do NOT introduce isolated body background overrides. Maintain continuous brand canvas gradients across all routes.
+- **Single Root Fixed Canvas Pattern (Zero Opaque Page Overrides)**:
+  - The canonical **Sapphire Radial Canvas** (`#032B5E` at 50% 0% radiating to `#01132B` and `#001838`) MUST be declared strictly once at the root level on `<body>` in `app/layout.tsx` and `app/globals.css` with `background-attachment: fixed`.
+  - Individual page route wrappers (`app/**/page.tsx`) must NEVER declare opaque background utility classes (`bg-obsidian-900`, `bg-obsidian-950`, `bg-obsidian-deep`, `bg-[#012148]`, `bg-gradient-to-b...`). All page containers must declare `bg-transparent`.
+  - Subordinate banners and section wrappers must use translucent glass (`bg-white/[0.02] backdrop-blur-md` or `bg-[#0A2A54]/20`) rather than solid opaque fills that mask the root sapphire lighting.
+- **Canonical Sapphire Radial Canvas Standard**:
+  - The canonical background for ALL storefront routes (Next.js and static HTML) is the **Sapphire Radial Gradient**:
+    ```css
+    bg-[#01132B] bg-[radial-gradient(120%_80%_at_50%_0%,#032B5E_0%,#01132B_60%,#001838_100%)] text-[#F8FAFF]
+    ```
+  - Never use flat `#01132B` or `#000000` on primary pages. The top-center `#032B5E` radial aura radiates light down through the upper fold, preventing the page from feeling flat, dull, or suffocatingly dark.
+- **Flagship Benchmark Inspection Before Invention**:
+  - When addressing feedback regarding visual tone, darkness, or contrast, NEVER invent ad-hoc color schemes or change palettes.
+  - Always inspect the codebase's flagship benchmark routes first—specifically **`/checkout`** and **`/confirmation`**—extract their exact background gradients, glassmorphism tokens, and border formulas, and align the target page to match.
+- **Sibling Route Context Check Before Reskinning**: Never redesign, re-theme, or alter the color temperature of an individual route in isolation. Always inspect sibling and parent routes (e.g., `/orders`, `/confirmation`, `/cart`, `/category`) first to verify site-wide visual coherence.
+- **"Too Dark" / Contrast Feedback Disambiguation**: When a user reports that a dark-mode page is "too dark", NEVER convert that single page into a light-mode island against a dark global header. In luxury dark-mode architectures, "too dark" means:
+  1. The page is missing the canonical top-down sapphire radial canvas (`#032B5E` at `50% 0%`).
+  2. Container cards are muddy/flat (`to-[#041430]`) rather than crisp glass (`bg-[#0A2A54]/30 border-white/10 backdrop-blur-md`).
+  3. Typography and numerical metrics lack luminous accent highlights (`text-accent-cyan`, high-contrast white).
 - **Container-Scoped Component Cards**: Do not place dark component background fills on full-width section wrappers. Wrap cards in `.container` to prevent horizontal edge-to-edge color bands.
 - **Complete Viewport Vertical Inspection**: Always audit every subordinate section (filters, chips, search refinement bars) from header to footer before submitting work.
 
@@ -84,6 +102,7 @@
 
 ## 13. Universal 3-Option UI Generation & User Choice Invariant
 - **Mandatory 3-Option Exploration for All UI Work**: Whenever creating any new UI (page, component, section, card, modal, drawer, or widget) or modifying/redesigning an existing UI, ALWAYS generate and present 3 distinct UI design variations with different aesthetic directions, layouts, or visual treatments rather than imposing a single design.
+- **Design System & Canvas Palette Boundary**: All 3 generated design variations MUST stay strictly within the active design system and global canvas palette (e.g. Obsidian Sapphire `#01132B` / `#0A2A54`). NEVER present an out-of-system light-mode option for a single subpage in a dark-mode application unless the user explicitly requested a site-wide light mode toggle.
 - **Visual Evidence & Structural Presentation**: Provide concrete visual previews or structural mockups for all 3 options (e.g. via image generation, Stitch MCP screen variants, or live interactive prototype mockups) detailing typography, composition, color treatment, and visual hierarchy.
 - **Interactive User Selection Before Implementation**: Explicitly prompt the user with structured choices (or `ask_question`) to choose their preferred design direction (or combine specific elements) and await confirmation before modifying or writing production code.
 
