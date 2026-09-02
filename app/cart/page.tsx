@@ -26,6 +26,7 @@ import { SmartSavingsAdvisor } from '@/components/cart/SmartSavingsAdvisor';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 import { SlipToCartModal } from '@/components/cart/SlipToCartModal';
 import { CartHeroStats } from '@/components/cart/CartHeroStats';
+import { CartRecoveryModal } from '@/components/cart/CartRecoveryModal';
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -38,6 +39,7 @@ export default function CartPage() {
   // Modals state
   const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
   const [isSlipModalOpen, setIsSlipModalOpen] = useState(false);
+  const [isRecoveryModalOpen, setIsRecoveryModalOpen] = useState(false);
   const [removingItemId, setRemovingItemId] = useState<string | null>(null);
 
   const {
@@ -63,7 +65,18 @@ export default function CartPage() {
     setMounted(true);
     // Ensure minicart drawer is closed when viewing full cart page
     closeCart();
-  }, [closeCart]);
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 10 && items.length > 0) {
+        if (typeof window !== 'undefined' && !sessionStorage.getItem('nex_recovery_dismissed')) {
+          setIsRecoveryModalOpen(true);
+        }
+      }
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return () => document.removeEventListener('mouseleave', handleMouseLeave);
+  }, [closeCart, items.length]);
 
   if (!mounted) {
     return (
@@ -676,6 +689,11 @@ export default function CartPage() {
       <SlipToCartModal
         isOpen={isSlipModalOpen}
         onClose={() => setIsSlipModalOpen(false)}
+      />
+
+      <CartRecoveryModal
+        isOpen={isRecoveryModalOpen}
+        onClose={() => setIsRecoveryModalOpen(false)}
       />
     </div>
   );
