@@ -60,4 +60,21 @@ When converting, migrating, or verifying visual parity between a reference proto
 3. **Zero Orphaned Action Pills**:
    - Utility or location pills (e.g. Delivery Gate, Currency, Store Locator) must never be inserted into primary navigation gaps between the brand nav and search bars. They must belong strictly to their designated action container (`nav-right-actions`).
 
+---
+
+## 9. Source-Template Fidelity & Mandatory Overlay Triggering
+When converting prototype components (`js/*.js`, `pages/*.html`) into Next.js/React:
+
+1. **Direct Template Translation (Zero Hallucination)**:
+   - Always open the prototype's JavaScript/HTML file (e.g. `js/concierge.js`, `js/cart.js`, `index.html`) and inspect the exact template markup.
+   - Do NOT improvise, "elevate", or invent new headers, avatars, status badges, or button layouts unless explicitly requested. Every title, tag, placeholder, and button text must match the prototype template verbatim.
+
+2. **Mandatory Interactive Overlay Triggering in Visual Audits**:
+   - Capturing only the idle state of a page is strictly insufficient.
+   - For every drawer, slide-out, modal, and floating assistant, Playwright MUST programmatically click the trigger button (e.g. `#nexConciergeFloatingPill`, `#searchTriggerBtn`, Quick Look triggers), take a screenshot of the OPEN state, and compare it directly to the prototype's open state.
+
+3. **Composite Component Assertions in Automated Tests**:
+   - Tests for interactive features inside modals or drawers must assert the host container's header title, layout grid, and primary action copy in addition to individual feature button IDs.
+
+
 
