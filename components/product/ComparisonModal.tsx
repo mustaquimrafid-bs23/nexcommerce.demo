@@ -105,7 +105,9 @@ export function ComparisonModal({
           </div>
           <button
             type="button"
+            id="compareModalCloseBtn"
             onClick={onClose}
+            aria-label="Close comparison modal"
             className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 flex items-center justify-center transition-colors cursor-pointer"
           >
             <X size={16} />

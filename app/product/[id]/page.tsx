@@ -384,6 +384,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
                 <button
                   type="button"
+                  id="pdpCompareBtn"
                   onClick={handleTriggerCompare}
                   className="py-2.5 px-3 rounded-xl bg-obsidian-950/60 border border-white/10 hover:border-accent-pink/40 text-xs text-white/80 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
