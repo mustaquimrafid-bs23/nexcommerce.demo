@@ -2,34 +2,34 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Compass } from 'lucide-react';
 
 const DISCIPLINES = [
   {
     num: '01',
     title: 'Outerwear & Tailoring',
-    desc: 'Constructed jackets, architectural trench coats, and double-breasted blazers hand-canvassed in Biella, Italy.',
+    desc: 'Structured jackets, classic trench coats, and double-breasted blazers hand-canvassed in Biella, Northern Italy.',
     link: '/category?cat=outerwear',
     image: '/assets/images/products/plp_overcoat.png',
   },
   {
     num: '02',
     title: 'Artisanal Footwear',
-    desc: 'Goodyear-welted Chelsea boots and minimalist vulcanized calfskin trainers crafted in Civitanova Marche.',
+    desc: 'Goodyear-welted Chelsea boots and minimalist calfskin trainers crafted by master cobblers in Civitanova Marche.',
     link: '/category?cat=footwear',
     image: '/assets/images/products/prod_runner.png',
   },
   {
     num: '03',
     title: 'Acoustics & Sound',
-    desc: 'Over-ear monitoring headphones featuring bespoke beryllium drivers, lambskin padding, and CNC-machined titanium frames.',
+    desc: 'Over-ear studio headphones featuring custom beryllium drivers, lambskin ear cushions, and lightweight titanium frames.',
     link: '/category?cat=acoustics',
     image: '/assets/images/products/prod_headphones.png',
   },
   {
     num: '04',
     title: 'Leather Goods & Horology',
-    desc: 'Vegetable-tanned weekender bags, sculpted cardholders, and Swiss automatic timepieces assembled in Geneva.',
+    desc: 'Vegetable-tanned weekender holdalls, slim cardholders, and Swiss automatic timepieces assembled in Geneva.',
     link: '/category?cat=accessories',
     image: '/assets/images/products/prod_tote.png',
   },
@@ -37,17 +37,18 @@ const DISCIPLINES = [
 
 export function DisciplinesGrid() {
   return (
-    <section className="py-16 lg:py-24 border-b border-white/10" id="disciplines" aria-label="What We Make">
+    <section className="py-16 lg:py-24 border-b border-white/10" id="disciplines" aria-label="Our Four Disciplines">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="space-y-2 text-center max-w-xl mx-auto">
-          <span className="text-xs font-semibold uppercase tracking-widest text-accent-pink">
-            The Maison's Craft Spectrum
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent-pink flex items-center justify-center gap-1.5">
+            <Compass size={13} />
+            <span>Our Workshop Disciplines</span>
           </span>
           <h2 className="font-editorial text-3xl sm:text-4xl text-white font-normal">
-            Four Pillars of <span className="italic font-normal">Design</span>
+            Our Four <span className="italic font-normal">Disciplines</span>
           </h2>
-          <p className="text-xs text-white/50">
-            Each discipline is led by a dedicated specialist atelier in its historic European center of excellence.
+          <p className="text-xs text-white/60 font-light">
+            Each discipline is overseen by a specialist heritage workshop in its historic European centre of excellence.
           </p>
         </div>
 
@@ -56,7 +57,7 @@ export function DisciplinesGrid() {
             <Link
               key={d.num}
               href={d.link}
-              className="p-6 rounded-3xl bg-surface-card border border-white/10 hover:border-accent-cyan/40 transition-all duration-300 group flex flex-col justify-between space-y-6 shadow-xl hover:-translate-y-1"
+              className="p-6 rounded-3xl bg-surface-card border border-white/10 hover:border-accent-cyan/40 transition-all duration-300 group flex flex-col justify-between space-y-6 shadow-xl hover:-translate-y-1.5"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-xs font-mono text-white/40 border-b border-white/5 pb-3">
@@ -76,7 +77,7 @@ export function DisciplinesGrid() {
                   {d.title}
                 </h3>
 
-                <p className="text-xs text-white/60 leading-relaxed font-light">
+                <p className="text-xs text-white/70 leading-relaxed font-light">
                   {d.desc}
                 </p>
               </div>
