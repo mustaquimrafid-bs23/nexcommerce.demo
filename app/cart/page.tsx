@@ -255,9 +255,10 @@ export default function CartPage() {
 
               <button
                 type="button"
+                id="openSlipToCartBtn"
                 data-action="open-slip-to-cart"
                 onClick={() => setIsSlipModalOpen(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-accent-pink/10 hover:bg-accent-pink/20 border border-accent-pink/30 text-accent-pink hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2.5 rounded-xl bg-accent-pink/10 hover:bg-accent-pink/20 border border-accent-pink/30 text-accent-pink hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <Receipt size={13} />
                 <span>Slip to Cart</span>

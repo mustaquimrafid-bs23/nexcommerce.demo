@@ -160,12 +160,12 @@ export function SlipToCartModal({ isOpen, onClose }: SlipToCartModalProps) {
   const totalMatchedAmount = matches.reduce((sum, m) => sum + m.quantity * m.product.price, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+    <div id="slipModalBackdrop" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div
         className="w-full max-w-3xl bg-obsidian-950 border border-accent-pink/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-white"
         role="dialog"
         aria-modal="true"
-        aria-label="Paste a Shopping List"
+        aria-label="Shopping Slip to Cart"
       >
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-surface-navy/60">
@@ -174,16 +174,15 @@ export function SlipToCartModal({ isOpen, onClose }: SlipToCartModalProps) {
               <Receipt size={16} />
             </div>
             <div>
-              <h3 className="text-base font-editorial text-white font-medium">Paste a Shopping List</h3>
-              <p className="text-[11px] text-white/50">
-                Paste any text notes or written items to instantly match and import them into your bag
-              </p>
+              <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-accent-cyan block">✨ Customer Commerce Agent · Smart Capability 4</span>
+              <h3 className="text-base font-editorial text-white font-medium">Shopping Slip to Cart</h3>
             </div>
           </div>
           <button
+            id="slipModalCloseBtn"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white flex items-center justify-center transition-colors"
-            aria-label="Close modal"
+            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close dialog"
           >
             <X size={16} />
           </button>
@@ -204,7 +203,7 @@ export function SlipToCartModal({ isOpen, onClose }: SlipToCartModalProps) {
                     key={idx}
                     type="button"
                     onClick={() => handleApplyPreset(sample.text)}
-                    className="text-[10px] px-2 py-0.5 rounded bg-white/5 hover:bg-white/15 text-accent-pink border border-white/10 transition-colors"
+                    className="text-[10px] px-2 py-0.5 rounded bg-white/5 hover:bg-white/15 text-accent-pink border border-white/10 transition-colors cursor-pointer"
                   >
                     {sample.name}
                   </button>
@@ -213,6 +212,7 @@ export function SlipToCartModal({ isOpen, onClose }: SlipToCartModalProps) {
             </div>
 
             <textarea
+              id="slipTextInput"
               rows={3}
               value={inputText}
               onChange={(e) => {
@@ -347,32 +347,33 @@ export function SlipToCartModal({ isOpen, onClose }: SlipToCartModalProps) {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-white/10 bg-surface-navy/60 flex items-center justify-between gap-4">
+        <div id="slipModalFooter" className="px-6 py-4 border-t border-white/10 bg-surface-navy/60 flex items-center justify-between gap-4">
           <div className="text-xs text-white/70">
             {matches.length > 0 ? (
-              <span>
+              <span id="slipStatVal">
                 Total Matched: <strong className="text-emerald-400 font-bold text-sm">{formatPrice(totalMatchedAmount)}</strong> ({totalMatchedCount} items)
               </span>
             ) : (
-              <span className="text-white/40">Paste a list above to preview matched items</span>
+              <span id="slipStatVal" className="text-white/40">Paste a list above to preview matched items</span>
             )}
           </div>
 
           <button
             type="button"
+            id="slipConfirmBtn"
             onClick={handleAddAllToBag}
             disabled={matches.length === 0}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-accent-pink to-accent-cyan hover:from-accent-pink/90 hover:to-accent-cyan/90 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-accent-pink/20 transition-all active:scale-95"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-accent-pink to-accent-cyan hover:from-accent-pink/90 hover:to-accent-cyan/90 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-accent-pink/20 transition-all active:scale-95 cursor-pointer"
           >
             {successToast ? (
               <>
                 <Check size={14} />
-                <span>Added to Bag!</span>
+                <span id="slipConfirmBtnText">Added to Bag!</span>
               </>
             ) : (
               <>
                 <ShoppingBag size={14} />
-                <span>Add All Matched ({totalMatchedCount}) to Bag</span>
+                <span id="slipConfirmBtnText">Add All Matched ({totalMatchedCount}) to Bag</span>
               </>
             )}
           </button>
