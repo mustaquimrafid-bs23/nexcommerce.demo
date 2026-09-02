@@ -14,7 +14,7 @@ export default function TelemetryMatrix({ order }: TelemetryMatrixProps) {
   const badges = [
     {
       icon: '📐',
-      label: 'PACKAGE SPECS',
+      label: 'PARCEL SPECIFICATIONS',
       rows: [
         { k: 'Weight', v: t.weight },
         { k: 'Dimensions', v: t.dims },
@@ -23,11 +23,11 @@ export default function TelemetryMatrix({ order }: TelemetryMatrixProps) {
     },
     {
       icon: '🌡️',
-      label: 'CLIMATE CONTROL',
+      label: 'CLIMATE PROTECTION',
       rows: [
         { k: 'Temperature', v: t.temp },
         { k: 'Sensor Status', v: t.tempStatus },
-        { k: 'Chamber', v: 'Hermetic Vault' },
+        { k: 'Packaging', v: 'Weather Sealed' },
       ],
     },
     {
@@ -61,7 +61,7 @@ export default function TelemetryMatrix({ order }: TelemetryMatrixProps) {
         {badges.map((b) => (
           <div
             key={b.label}
-            className="p-4 rounded-xl bg-[#08254c]/75 border border-white/15 backdrop-blur-md hover:border-accent-cyan/40 hover:-translate-y-0.5 transition-all duration-200"
+            className="p-4 rounded-xl bg-gradient-to-br from-[#0A2A54]/80 to-[#01132B]/90 border border-white/15 backdrop-blur-md hover:border-accent-cyan/40 hover:-translate-y-0.5 transition-all duration-200"
           >
             <span className="text-xl mb-2 block">{b.icon}</span>
             <div className="text-[9px] font-bold tracking-[0.14em] uppercase text-accent-cyan mb-2.5">

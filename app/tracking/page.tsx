@@ -284,7 +284,7 @@ function TrackingPageInner() {
   const currentStageIdx = STATUS_TO_STAGE[currentOrder.statusKey || currentOrder.status] ?? 4;
 
   return (
-    <main id="mainContent" className="min-h-screen bg-transparent text-white pb-24 pt-6">
+    <main id="mainContent" className="min-h-screen bg-[#01132B] bg-[radial-gradient(120%_80%_at_50%_0%,#032B5E_0%,#01132B_60%,#001838_100%)] text-[#F8FAFF] pb-24 pt-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Hero Section & Toolbar */}
         <TrackingHeroHeader
