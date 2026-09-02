@@ -132,7 +132,7 @@ export function BudgetCartModal({ isOpen, onClose }: BudgetCartModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+    <div id="budgetModalBackdrop" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div
         className="w-full max-w-2xl bg-obsidian-950 border border-accent-cyan/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-white"
         role="dialog"
@@ -146,21 +146,22 @@ export function BudgetCartModal({ isOpen, onClose }: BudgetCartModalProps) {
               <Sparkles size={16} />
             </div>
             <div>
-              <h3 className="text-base font-editorial text-white font-medium">Smart Budget Builder</h3>
-              <p className="text-[11px] text-white/50">Plan and assemble a complete look within your chosen spending limit</p>
+              <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-accent-cyan block">Smart · Budget Builder</span>
+              <h3 className="text-base font-editorial text-white font-medium">Build Your Perfect Basket</h3>
             </div>
           </div>
           <button
+            id="budgetModalCloseBtn"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white flex items-center justify-center transition-colors"
-            aria-label="Close modal"
+            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close budget builder"
           >
             <X size={16} />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 overflow-y-auto" data-lenis-prevent>
+        <div id="budgetModalBody" className="p-6 space-y-6 overflow-y-auto" data-lenis-prevent>
           {/* Target Budget Slider & Presets */}
           <div className="space-y-3 p-4 rounded-xl bg-surface-navy/30 border border-white/10">
             <div className="flex justify-between items-center text-xs">
@@ -311,14 +312,15 @@ export function BudgetCartModal({ isOpen, onClose }: BudgetCartModalProps) {
 
         {/* Modal Footer */}
         <div className="px-6 py-4 border-t border-white/10 bg-surface-navy/60 flex items-center justify-between gap-4">
-          <div className="text-xs text-white/70">
+          <div id="budgetFooterSummary" className="text-xs text-white/70">
             Look Total: <strong className="text-emerald-400 font-bold text-sm">{formatPrice(basket.totalPrice)}</strong>
           </div>
 
           <button
             type="button"
+            id="budgetBatchAddBtn"
             onClick={handleAddEntireLook}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-emerald-400 hover:from-accent-cyan/90 hover:to-emerald-300 text-obsidian-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-accent-cyan/20 transition-all active:scale-95"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-accent-cyan to-emerald-400 hover:from-accent-cyan/90 hover:to-emerald-300 text-obsidian-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-accent-cyan/20 transition-all active:scale-95 cursor-pointer"
           >
             {successToast ? (
               <>

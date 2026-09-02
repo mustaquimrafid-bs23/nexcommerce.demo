@@ -241,9 +241,10 @@ export default function CartPage() {
             <div className="flex flex-wrap items-center gap-2.5">
               <button
                 type="button"
+                id="cartOpenBudgetBtn"
                 data-action="open-budget-cart"
                 onClick={() => setIsBudgetModalOpen(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2.5 rounded-xl bg-accent-cyan/10 hover:bg-accent-cyan/20 border border-accent-cyan/30 text-accent-cyan hover:text-white text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <Sparkles size={13} />
                 <span>Budget Builder</span>
