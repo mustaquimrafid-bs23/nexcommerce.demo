@@ -25,8 +25,10 @@ import { useSearchStore } from '@/store/useSearchStore';
 import { AnnouncementBar } from './AnnouncementBar';
 import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGateModal';
 import { VisualSearchModal } from './VisualSearchModal';
+import { useCurrencyStore } from '@/store/useCurrencyStore';
 
 export function Header() {
+  const { currency, toggleCurrency } = useCurrencyStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -277,6 +279,17 @@ export function Header() {
               aria-label="Search"
             >
               <Search size={20} />
+            </button>
+
+            {/* Currency Switcher Toggle */}
+            <button
+              id="currencyToggleBtn"
+              type="button"
+              onClick={toggleCurrency}
+              className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10.5px] font-mono font-semibold text-white/80 hover:text-white transition-all cursor-pointer flex items-center gap-1 shrink-0"
+              title="Switch currency (EUR / BDT)"
+            >
+              <span>{mounted ? (currency === 'EUR' ? '€ EUR' : '৳ BDT') : '€ EUR'}</span>
             </button>
 
             {/* Saved Items */}
