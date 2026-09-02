@@ -25,6 +25,7 @@ import { AIFitModal } from '@/components/product/AIFitModal';
 import { CompleteLookBundle } from '@/components/product/CompleteLookBundle';
 import { MobileStickyBar } from '@/components/product/MobileStickyBar';
 import { SpecBadgesGrid } from '@/components/product/SpecBadgesGrid';
+import { ComparisonModal } from '@/components/product/ComparisonModal';
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -46,6 +47,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [activeImage, setActiveImage] = useState(product.image);
   const [perspectiveMode, setPerspectiveMode] = useState<PerspectiveMode>('silhouette');
   const [isFitModalOpen, setIsFitModalOpen] = useState(false);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string>('details');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -85,8 +87,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   const handleTriggerCompare = () => {
-    setToastMessage(`Product comparison with ${product.name} staged.`);
-    setTimeout(() => setToastMessage(null), 3000);
+    setIsCompareOpen(true);
   };
 
   return (
@@ -104,6 +105,14 @@ export default function ProductPage({ params }: ProductPageProps) {
         onClose={() => setIsFitModalOpen(false)}
         onSelectSize={(size) => setSelectedSize(size)}
         availableSizes={product.sizes}
+      />
+
+      {/* Side-by-Side Spec & Drape Comparison Modal */}
+      <ComparisonModal
+        isOpen={isCompareOpen}
+        productA={product}
+        productB={MASTER_PRODUCTS.find((p) => p.id !== product.id) || MASTER_PRODUCTS[1]}
+        onClose={() => setIsCompareOpen(false)}
       />
 
       {/* Mobile Sticky Purchase Bar */}
