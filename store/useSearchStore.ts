@@ -89,9 +89,11 @@ interface SearchState {
   isProcessing: boolean;
   activeDepartment: string;
   recentSearches: string[];
+  contextPills: { tag: string; label: string }[];
   openSearch: () => void;
   closeSearch: () => void;
   setQuery: (q: string) => void;
+  removeContextPill: (tag: string) => void;
   setActiveDepartment: (dept: string) => void;
   parseIntent: (q: string) => ExtractedIntent;
   getSearchResults: () => SearchResultItem[];
@@ -116,6 +118,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   isProcessing: false,
   activeDepartment: 'apparel',
   recentSearches: DEFAULT_RECENTS,
+  contextPills: [],
 
   openSearch: () => {
     get().loadRecentSearches();
@@ -127,7 +130,22 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   },
 
   setQuery: (query: string) => {
-    set({ query });
+    const pills = query
+      .split(/\s+/)
+      .filter((w) => w.length > 2)
+      .map((w) => ({
+        tag: w,
+        label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+      }));
+    set({ query, contextPills: pills });
+  },
+
+  removeContextPill: (tagToRemove: string) => {
+    const remaining = get().query
+      .split(/\s+/)
+      .filter((w) => w.toLowerCase() !== tagToRemove.toLowerCase())
+      .join(' ');
+    get().setQuery(remaining);
   },
 
   setActiveDepartment: (activeDepartment: string) => {

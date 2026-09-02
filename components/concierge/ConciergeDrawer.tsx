@@ -10,6 +10,10 @@ import {
   RotateCcw,
   Check,
   Package,
+  Volume2,
+  VolumeX,
+  Mic,
+  MicOff,
 } from 'lucide-react';
 import { useConciergeStore } from '@/store/useConciergeStore';
 import { useCartStore } from '@/store/useCartStore';
@@ -27,6 +31,8 @@ const STARTER_PROMPTS = [
 export function ConciergeDrawer() {
   const [mounted, setMounted] = useState(false);
   const [inputVal, setInputVal] = useState('');
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { isOpen, closeConcierge, messages, isTyping, sendMessage, clearChat } =
@@ -35,7 +41,23 @@ export function ConciergeDrawer() {
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window !== 'undefined') {
+      setIsVoiceEnabled(localStorage.getItem('nex_stylist_voice') === 'true');
+    }
   }, []);
+
+  // Speak assistant messages when voice is enabled
+  useEffect(() => {
+    if (!isVoiceEnabled || typeof window === 'undefined' || !window.speechSynthesis) return;
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg && lastMsg.sender === 'assistant' && lastMsg.text) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(lastMsg.text.slice(0, 200));
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [messages, isVoiceEnabled]);
 
   useEffect(() => {
     if (isOpen) {
@@ -68,6 +90,61 @@ export function ConciergeDrawer() {
     });
   };
 
+  const toggleVoice = () => {
+    const next = !isVoiceEnabled;
+    setIsVoiceEnabled(next);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nex_stylist_voice', String(next));
+      if (!next && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    }
+  };
+
+  const toggleListening = () => {
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+    if (typeof window === 'undefined') return;
+    const SpeechRec =
+      (window as unknown as { SpeechRecognition?: any }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition?: any }).webkitSpeechRecognition;
+
+    if (SpeechRec) {
+      try {
+        const recognition = new SpeechRec();
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        setIsListening(true);
+
+        recognition.onresult = (event: any) => {
+          const transcript = Array.from(event.results)
+            .map((r: any) => r[0].transcript)
+            .join('');
+          setInputVal(transcript);
+        };
+
+        recognition.onerror = () => {
+          setIsListening(false);
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+        };
+
+        recognition.start();
+      } catch {
+        setIsListening(false);
+      }
+    } else {
+      setIsListening(true);
+      setInputVal('Looking for warm wool overcoat');
+      setTimeout(() => setIsListening(false), 2000);
+    }
+  };
+
+
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
@@ -78,15 +155,16 @@ export function ConciergeDrawer() {
 
       {/* Slide-out Drawer */}
       <aside
-        id="nexConciergeDrawer"
+        id="conciergeDrawer"
         role="dialog"
-        aria-label="Personal Stylist"
-        className="concierge-drawer relative w-full max-w-lg bg-obsidian-950 border-l border-white/10 h-full flex flex-col z-10 shadow-2xl"
+        aria-modal="true"
+        aria-label="Ask Stylist Assistant"
+        className="relative w-full max-w-lg bg-[#020B18] border-l border-white/10 shadow-2xl flex flex-col h-full z-10 animate-in slide-in-from-right duration-300"
       >
         {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-center justify-between bg-obsidian-900/60">
+        <div className="p-6 border-b border-white/10 flex items-center justify-between bg-surface-navy/60">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-accent-pink to-accent-cyan flex items-center justify-center shadow-lg shadow-accent-pink/20">
+            <div className="w-10 h-10 rounded-full bg-accent-pink/20 flex items-center justify-center border border-accent-pink/40 shadow-sm shadow-accent-pink/20">
               <Sparkles size={18} className="text-white" />
             </div>
             <div>
@@ -104,7 +182,21 @@ export function ConciergeDrawer() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              id="conciergeVoiceToggleBtn"
+              onClick={toggleVoice}
+              className={`p-2 rounded-full transition-colors cursor-pointer ${
+                isVoiceEnabled
+                  ? 'bg-accent-pink/25 text-accent-pink border border-accent-pink/40'
+                  : 'text-white/40 hover:text-white hover:bg-white/5'
+              }`}
+              aria-label="Toggle Stylist Voice Audio"
+              title={isVoiceEnabled ? 'Stylist Voice Active (Click to mute)' : 'Stylist Voice Muted (Click to enable)'}
+            >
+              {isVoiceEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+            </button>
             <button
               onClick={clearChat}
               className="p-2 text-white/40 hover:text-white rounded-full hover:bg-white/5 transition-colors cursor-pointer"
@@ -329,18 +421,65 @@ export function ConciergeDrawer() {
         </div>
 
         {/* Input Bar */}
-        <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-obsidian-900/90 flex gap-2">
+        <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-obsidian-900/90 flex items-center gap-2 relative">
+          {/* Animated 6-bar Listening Waveform */}
+          {isListening && (
+            <div
+              id="conciergeListeningWave"
+              className="absolute inset-x-4 top-2 bottom-2 z-10 bg-[#06152D] rounded-xl flex items-center justify-between px-4 border border-accent-pink/50 animate-in fade-in duration-200"
+              aria-label="Listening to microphone"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-accent-pink animate-ping" />
+                <span className="text-xs text-white/90 font-medium">Listening to speech...</span>
+              </div>
+              <div className="flex items-center gap-1.5 h-6">
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-2 animate-pulse" />
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-5 animate-pulse delay-75" />
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-3 animate-pulse delay-150" />
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-6 animate-pulse delay-100" />
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-4 animate-pulse delay-200" />
+                <div className="voice-bar-anim w-1 bg-accent-pink rounded-full h-2 animate-pulse delay-300" />
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsListening(false)}
+                className="text-white/60 hover:text-white text-xs font-semibold px-2 py-1 rounded bg-white/10 cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+
           <input
             type="text"
-            placeholder="Ask about outfits, sizes, or describe what you need..."
+            id="conciergeInput"
+            placeholder="Ask about outfits, sizes, or tap mic..."
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
             className="flex-1 bg-surface-navy/70 border border-white/15 rounded-xl px-4 py-3 text-xs text-white placeholder-white/40 focus:outline-none focus:border-accent-pink"
           />
+
+          <button
+            type="button"
+            id="conciergeMicBtn"
+            onClick={toggleListening}
+            className={`p-3 rounded-xl border transition-colors cursor-pointer flex items-center justify-center ${
+              isListening
+                ? 'bg-accent-pink/30 text-accent-pink border-accent-pink/60 animate-pulse'
+                : 'bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border-white/15'
+            }`}
+            aria-label="Tap to speak"
+            title="Tap to speak with Stylist"
+          >
+            {isListening ? <MicOff size={15} /> : <Mic size={15} />}
+          </button>
+
           <button
             type="submit"
             disabled={!inputVal.trim()}
-            className="px-4 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 disabled:opacity-40 text-white text-xs font-semibold transition-all flex items-center justify-center"
+            className="px-4 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 disabled:opacity-40 text-white text-xs font-semibold transition-all flex items-center justify-center cursor-pointer"
+            aria-label="Send message"
           >
             <Send size={15} />
           </button>

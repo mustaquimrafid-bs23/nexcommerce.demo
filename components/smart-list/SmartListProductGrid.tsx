@@ -12,6 +12,7 @@ interface SmartListProductGridProps {
   onToggleSelect: (productId: string) => void;
   onOpenQuickLook: (product: SmartListProduct) => void;
   onResetFilters: () => void;
+  onDismiss?: (productId: string) => void;
 }
 
 export function SmartListProductGrid({
@@ -20,6 +21,7 @@ export function SmartListProductGrid({
   onToggleSelect,
   onOpenQuickLook,
   onResetFilters,
+  onDismiss,
 }: SmartListProductGridProps) {
   if (products.length === 0) {
     return (
@@ -69,6 +71,7 @@ export function SmartListProductGrid({
               isSelected={selectedIds.has(product.id)}
               onToggleSelect={onToggleSelect}
               onOpenQuickLook={onOpenQuickLook}
+              onDismiss={onDismiss}
             />
           </motion.div>
         ))}

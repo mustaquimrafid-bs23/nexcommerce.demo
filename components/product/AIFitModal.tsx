@@ -73,6 +73,10 @@ export function AIFitModal({
   };
 
   const recSize = calculateRecommendation();
+  const safeH = Math.max(120, Math.min(230, height || 178));
+  const safeW = Math.max(35, Math.min(160, weight || 72));
+  const bmi = safeW / ((safeH / 100) * (safeH / 100));
+  const confidence = Math.min(98, Math.max(88, Math.round(98 - Math.abs(22 - bmi) * 1.4)));
 
   const handleApply = () => {
     onSelectSize(recSize);
@@ -113,68 +117,67 @@ export function AIFitModal({
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2">
                 <Sparkles size={16} className="text-accent-cyan" />
-                <h2 className="font-editorial text-2xl text-white font-normal">Find My Size</h2>
+                <h3 className="font-editorial text-xl font-normal text-white">
+                  Find Your Size
+                </h3>
               </div>
               <button
-                id="btnCloseFitModal"
                 type="button"
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-                aria-label="Close size finder"
+                aria-label="Close size advisor"
+                className="p-1.5 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <X size={16} />
+                <X size={18} />
               </button>
             </div>
 
-            <p className="text-xs text-white/60 font-light leading-relaxed">
-              We will recommend your ideal size based on your height, weight, and preferred fit.
-            </p>
-
-            {/* Numeric Inputs */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Sliders: Height and Weight */}
+            <div className="space-y-4">
               <div className="space-y-1.5">
-                <label
-                  htmlFor="fitInputHeight"
-                  className="text-[11px] font-semibold uppercase tracking-wider text-white/70 block"
-                >
-                  Height (cm)
-                </label>
+                <div className="flex justify-between text-xs">
+                  <label htmlFor="fitHeightInput" className="text-white/70">
+                    Height
+                  </label>
+                  <span className="font-mono text-accent-cyan font-semibold">
+                    {height} cm
+                  </span>
+                </div>
                 <input
-                  id="fitInputHeight"
-                  type="number"
+                  id="fitHeightInput"
+                  type="range"
+                  min="150"
+                  max="210"
                   value={height}
                   onChange={(e) => setHeight(Number(e.target.value))}
-                  min="140"
-                  max="220"
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-sm outline-none focus:border-accent-cyan/60 transition-colors"
+                  className="w-full accent-accent-cyan cursor-pointer"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label
-                  htmlFor="fitInputWeight"
-                  className="text-[11px] font-semibold uppercase tracking-wider text-white/70 block"
-                >
-                  Weight (kg)
-                </label>
+                <div className="flex justify-between text-xs">
+                  <label htmlFor="fitWeightInput" className="text-white/70">
+                    Weight
+                  </label>
+                  <span className="font-mono text-accent-cyan font-semibold">
+                    {weight} kg
+                  </span>
+                </div>
                 <input
-                  id="fitInputWeight"
-                  type="number"
+                  id="fitWeightInput"
+                  type="range"
+                  min="45"
+                  max="130"
                   value={weight}
                   onChange={(e) => setWeight(Number(e.target.value))}
-                  min="40"
-                  max="150"
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-sm outline-none focus:border-accent-cyan/60 transition-colors"
+                  className="w-full accent-accent-cyan cursor-pointer"
                 />
               </div>
             </div>
 
-            {/* Fit Preference Selection */}
+            {/* Fit Preference Chips */}
             <div className="space-y-2">
-              <label className="text-[11px] font-semibold uppercase tracking-wider text-white/70 block">
-                How do you like it to fit?
-              </label>
-              <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Fit preference">
+              <span className="text-xs text-white/70 block">Preferred Silhouette</span>
+              <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Preferred Silhouette">
                 {(['Tailored', 'Regular', 'Relaxed'] as const).map((pref) => {
                   const isSelected = fitPref === pref;
                   return (
@@ -206,7 +209,9 @@ export function AIFitModal({
                 <span className="text-[10px] font-semibold uppercase tracking-widest text-accent-cyan">
                   Recommended Size
                 </span>
-                <span className="text-[11px] text-white/50 font-mono">Best match</span>
+                <span className="text-[11px] text-accent-cyan font-mono font-semibold bg-accent-cyan/10 px-2 py-0.5 rounded-full border border-accent-cyan/20">
+                  {confidence}% Confidence
+                </span>
               </div>
               <motion.div
                 key={recSize}

@@ -1,16 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Check } from 'lucide-react';
+import { ShoppingBag, Check, Trash2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { SmartListProduct } from '@/data/smartListProducts';
 import { useCartStore } from '@/store/useCartStore';
+import { CadenceAdjusterPopover } from './CadenceAdjusterPopover';
 
 interface SmartListProductCardProps {
   product: SmartListProduct;
   isSelected: boolean;
   onToggleSelect: (productId: string) => void;
   onOpenQuickLook: (product: SmartListProduct) => void;
+  onDismiss?: (productId: string) => void;
 }
 
 const MAX_TILT = 5.5;
@@ -22,6 +24,7 @@ export function SmartListProductCard({
   isSelected,
   onToggleSelect,
   onOpenQuickLook,
+  onDismiss,
 }: SmartListProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [activeImage, setActiveImage] = useState(product.image);
@@ -203,8 +206,8 @@ export function SmartListProductCard({
           <Check className={`w-3.5 h-3.5 stroke-[3] ${isSelected ? 'text-obsidian-950' : 'opacity-0'}`} />
         </button>
 
-        {/* Special Offer or Out of Stock Badge */}
-        <div className="flex items-center gap-1.5">
+        {/* Special Offer or Out of Stock Badge & Dismiss button */}
+        <div className="flex items-center gap-1.5 pointer-events-auto">
           {isSpecialOffer && (
             <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-[0.14em] uppercase bg-accent-pink/20 border border-accent-pink/40 text-accent-pink shadow-sm">
               SPECIAL OFFER
@@ -214,6 +217,21 @@ export function SmartListProductCard({
             <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-[0.14em] uppercase bg-obsidian-900/90 border border-white/20 text-white/60">
               OUT OF STOCK
             </span>
+          )}
+          {onDismiss && (
+            <button
+              type="button"
+              data-dismiss
+              onClick={(e) => {
+                e.stopPropagation();
+                onDismiss(product.id);
+              }}
+              className="w-7 h-7 rounded-full bg-obsidian-950/70 hover:bg-accent-pink/25 border border-white/20 hover:border-accent-pink/50 text-white/50 hover:text-accent-pink flex items-center justify-center transition-all cursor-pointer"
+              title="Remove from Smart List"
+              aria-label={`Remove ${product.name} from Smart List`}
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
           )}
         </div>
       </div>
@@ -282,12 +300,11 @@ export function SmartListProductCard({
             </div>
 
             {/* Replenishment Cadence Indicator */}
-            <span
-              className="text-[9.5px] font-mono font-semibold px-2 py-0.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/25 text-accent-cyan"
-              title="Smart Replenishment Cadence"
-            >
-              Monthly Refill
-            </span>
+            <CadenceAdjusterPopover
+              productId={product.id}
+              productName={product.name}
+              initialDays={product.avgIntervalDays || 30}
+            />
           </div>
         </div>
 

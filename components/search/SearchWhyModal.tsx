@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
-import { X, Check } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Check, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types/catalog';
+import { useCartStore } from '@/store/useCartStore';
+import { formatPrice } from '@/lib/utils';
 
 interface SearchWhyModalProps {
   product: Product | null;
@@ -10,7 +12,16 @@ interface SearchWhyModalProps {
 }
 
 export function SearchWhyModal({ product, onClose }: SearchWhyModalProps) {
+  const addItem = useCartStore((state) => state.addItem);
+  const [isAdded, setIsAdded] = useState(false);
+
   if (!product) return null;
+
+  const handleAdd = () => {
+    addItem(product, product.sizes ? product.sizes[0] : 'One Size');
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
     <div
@@ -28,7 +39,7 @@ export function SearchWhyModal({ product, onClose }: SearchWhyModalProps) {
           </span>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close evidence dialog"
           >
             <X size={18} />
@@ -37,9 +48,14 @@ export function SearchWhyModal({ product, onClose }: SearchWhyModalProps) {
 
         {/* Product Headline */}
         <div className="space-y-1">
-          <h3 className="font-editorial text-xl font-normal text-white">
-            {product.name}
-          </h3>
+          <div className="flex items-baseline justify-between gap-2">
+            <h3 className="font-editorial text-xl font-normal text-white">
+              {product.name}
+            </h3>
+            <span className="text-sm font-mono font-bold text-accent-cyan shrink-0">
+              {formatPrice(product.price)}
+            </span>
+          </div>
           <p className="text-xs text-white/70 italic leading-relaxed">
             &ldquo;{product.reasoning || product.description}&rdquo;
           </p>
@@ -67,8 +83,22 @@ export function SearchWhyModal({ product, onClose }: SearchWhyModalProps) {
         )}
 
         {/* Footer */}
-        <div className="pt-2 flex justify-end">
+        <div className="pt-2 flex items-center justify-between gap-3">
           <button
+            type="button"
+            onClick={handleAdd}
+            className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              isAdded
+                ? 'bg-emerald-500 text-obsidian-950'
+                : 'bg-white/10 hover:bg-white text-white hover:text-obsidian-950 border border-white/20'
+            }`}
+          >
+            <ShoppingBag size={13} />
+            <span>{isAdded ? 'Added to Bag' : 'Add to Bag'}</span>
+          </button>
+
+          <button
+            type="button"
             onClick={onClose}
             className="px-6 py-2.5 rounded-xl bg-accent-cyan hover:bg-accent-cyan/90 text-obsidian-950 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
           >
@@ -79,3 +109,4 @@ export function SearchWhyModal({ product, onClose }: SearchWhyModalProps) {
     </div>
   );
 }
+

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Sparkles, Scale, Check, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types/catalog';
+import { MASTER_PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
 import { formatPrice } from '@/lib/utils';
 
@@ -21,10 +22,15 @@ export function ComparisonModal({
   const { addItem } = useCartStore();
   const [chosenId, setChosenId] = React.useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [currentProductB, setCurrentProductB] = useState<Product>(productB);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setCurrentProductB(productB);
+  }, [productB]);
 
   if (!isOpen || !mounted) return null;
 
@@ -41,7 +47,7 @@ export function ComparisonModal({
     {
       label: 'Materiality',
       valA: productA.category === 'Acoustics' ? 'Grade 5 Titanium & Lambskin' : '100% Mongolian Cashmere',
-      valB: productB.category === 'Acoustics' ? 'Beryllium Foil Drivers' : 'Virgin Italian Wool Crepe',
+      valB: currentProductB.category === 'Acoustics' ? 'Beryllium Foil Drivers' : 'Virgin Italian Wool Crepe',
       diffA: 'Ultra Warm',
       diffB: 'Year-Round',
     },
@@ -60,11 +66,11 @@ export function ComparisonModal({
       diffB: 'Artisanal',
     },
     {
-      label: 'Statutory Care',
-      valA: 'Specialist Dry Clean Only',
-      valB: 'Cold Hand Wash or Dry Clean',
-      diffA: 'Delicate',
-      diffB: 'Resilient',
+      label: 'Optimal Occasion',
+      valA: 'Alpine Lounge & Weekend',
+      valB: 'Boardroom & Galas',
+      diffA: 'Casual Chic',
+      diffB: 'Executive',
     },
     {
       label: 'Hardware & Finish',
@@ -144,17 +150,35 @@ export function ComparisonModal({
 
           <div className="col-span-4 p-3 rounded-2xl bg-obsidian-950/60 border border-white/10 space-y-2 text-center">
             <div className="aspect-square w-16 mx-auto rounded-xl bg-white/5 p-1 flex items-center justify-center">
-              <img src={productB.image} alt={productB.name} className="max-h-full max-w-full object-contain" />
+              <img src={currentProductB.image} alt={currentProductB.name} className="max-h-full max-w-full object-contain" />
             </div>
-            <div className="text-xs font-semibold text-white truncate">{productB.name}</div>
-            <div className="text-xs font-mono text-accent-pink">{formatPrice(productB.price)}</div>
+            <div className="space-y-1">
+              <select
+                id="compareSlotB"
+                value={currentProductB.id}
+                onChange={(e) => {
+                  const next = MASTER_PRODUCTS.find((p) => p.id === e.target.value);
+                  if (next) setCurrentProductB(next);
+                }}
+                className="w-full text-[11px] font-semibold bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2 py-1 text-white truncate focus:outline-none focus:border-accent-cyan cursor-pointer"
+                title="Switch comparison piece"
+                aria-label="Select piece to compare against"
+              >
+                {MASTER_PRODUCTS.filter((p) => p.id !== productA.id).map((p) => (
+                  <option key={p.id} value={p.id} className="bg-obsidian-900 text-white">
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="text-xs font-mono text-accent-pink">{formatPrice(currentProductB.price)}</div>
             <button
               type="button"
-              onClick={() => handleChoose(productB)}
+              onClick={() => handleChoose(currentProductB)}
               className="w-full py-1.5 rounded-xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-[10px] font-semibold uppercase tracking-wider flex items-center justify-center gap-1 transition-all cursor-pointer shadow-sm"
             >
-              {chosenId === productB.id ? <Check size={12} /> : <ShoppingBag size={12} />}
-              <span>{chosenId === productB.id ? 'Chosen' : 'Choose This'}</span>
+              {chosenId === currentProductB.id ? <Check size={12} /> : <ShoppingBag size={12} />}
+              <span>{chosenId === currentProductB.id ? 'Chosen' : 'Choose This'}</span>
             </button>
           </div>
         </div>

@@ -87,17 +87,80 @@ export default function ConciergePage() {
     setInputVal('');
   };
 
+  const recognitionRef = useRef<any>(null);
+
   const handleVoiceToggle = () => {
-    if (!voiceActive) {
+    if (voiceActive) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (_) {}
+      }
+      setVoiceActive(false);
+      return;
+    }
+
+    if (typeof window === 'undefined') return;
+
+    const SpeechRec =
+      (window as unknown as { SpeechRecognition?: any }).SpeechRecognition ||
+      (window as unknown as { webkitSpeechRecognition?: any }).webkitSpeechRecognition;
+
+    if (SpeechRec) {
+      try {
+        const recognition = new SpeechRec();
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        recognitionRef.current = recognition;
+        setVoiceActive(true);
+
+        let finalTranscript = '';
+
+        recognition.onresult = (event: any) => {
+          let interim = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            } else {
+              interim += event.results[i][0].transcript;
+            }
+          }
+          const currentText = finalTranscript || interim;
+          if (currentText) {
+            setInputVal(currentText);
+          }
+        };
+
+        recognition.onerror = () => {
+          setVoiceActive(false);
+        };
+
+        recognition.onend = () => {
+          setVoiceActive(false);
+          if (finalTranscript.trim()) {
+            sendMessage(finalTranscript.trim());
+            setInputVal('');
+          }
+        };
+
+        recognition.start();
+      } catch {
+        setVoiceActive(false);
+      }
+    } else {
+      // Graceful fallback for non-Web Speech environments
       setVoiceActive(true);
+      const fallbackQuery = 'Show me cashmere knitwear for a winter evening';
+      setInputVal(fallbackQuery);
       setTimeout(() => {
         setVoiceActive(false);
-        sendMessage('Show me cashmere knitwear for a winter evening');
-      }, 2400);
-    } else {
-      setVoiceActive(false);
+        sendMessage(fallbackQuery);
+        setInputVal('');
+      }, 1500);
     }
   };
+
 
   const handleSingleQuickAdd = (product: Product) => {
     addItem(

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { Trash2 } from 'lucide-react';
 import { SMART_LIST_PRODUCTS, SmartListProduct } from '@/data/smartListProducts';
 import { useCartStore } from '@/store/useCartStore';
 import { SmartListHeroBanner } from '@/components/smart-list/SmartListHeroBanner';
@@ -23,8 +24,21 @@ function SmartListContent() {
   const [quickLookProduct, setQuickLookProduct] = useState<SmartListProduct | null>(null);
   const [isQuickLookOpen, setIsQuickLookOpen] = useState<boolean>(false);
   const [isAddingAll, setIsAddingAll] = useState<boolean>(false);
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+  const [undoToast, setUndoToast] = useState<{ productId: string; productName: string } | null>(null);
+  const undoTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const addCartItem = useCartStore((state) => state.addItem);
+
+  // Load dismissed items from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('nex_sl_dismissed');
+      if (stored) {
+        setDismissedIds(new Set(JSON.parse(stored)));
+      }
+    } catch (_) {}
+  }, []);
 
   // Sync category state with URL search param
   useEffect(() => {
@@ -32,6 +46,40 @@ function SmartListContent() {
       setSelectedCategory(catParam);
     }
   }, [catParam]);
+
+  const handleDismiss = (productId: string) => {
+    const prod = SMART_LIST_PRODUCTS.find((p) => p.id === productId);
+    if (!prod) return;
+
+    setDismissedIds((prev) => {
+      const next = new Set(prev).add(productId);
+      try {
+        localStorage.setItem('nex_sl_dismissed', JSON.stringify(Array.from(next)));
+      } catch (_) {}
+      return next;
+    });
+
+    setUndoToast({ productId, productName: prod.name });
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = setTimeout(() => {
+      setUndoToast(null);
+    }, 5000);
+  };
+
+  const handleUndo = () => {
+    if (!undoToast) return;
+    const idToRestore = undoToast.productId;
+    setDismissedIds((prev) => {
+      const next = new Set(prev);
+      next.delete(idToRestore);
+      try {
+        localStorage.setItem('nex_sl_dismissed', JSON.stringify(Array.from(next)));
+      } catch (_) {}
+      return next;
+    });
+    setUndoToast(null);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+  };
 
   const handleCategoryChange = (catId: string) => {
     setSelectedCategory(catId);
@@ -50,13 +98,15 @@ function SmartListContent() {
     router.push(pathname, { scroll: false });
   };
 
-  // Compute filtered products
+  // Compute filtered products excluding dismissed items
   const filteredProducts = useMemo(() => {
     return SMART_LIST_PRODUCTS.filter((product) => {
+      if (dismissedIds.has(product.id)) return false;
       if (selectedCategory === 'all') return true;
       return product.category.toLowerCase() === selectedCategory.toLowerCase();
     });
-  }, [selectedCategory]);
+  }, [selectedCategory, dismissedIds]);
+
 
   // Compute category tab counts
   const categoryTabs: SmartListCategoryTab[] = useMemo(() => {
@@ -233,6 +283,7 @@ function SmartListContent() {
           onToggleSelect={handleToggleSelect}
           onOpenQuickLook={handleOpenQuickLook}
           onResetFilters={handleResetFilters}
+          onDismiss={handleDismiss}
         />
 
         {/* 4. Floating Obsidian Island Batch Dock */}
@@ -251,6 +302,31 @@ function SmartListContent() {
 
         {/* 6. Floating Tactile Scroll-to-Top Button */}
         <SmartListScrollTop />
+
+        {/* 7. Floating Undo Toast */}
+        {undoToast && (
+          <div
+            id="smartListUndoToast"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] px-5 py-3.5 rounded-2xl bg-[#06152D] border border-accent-pink/50 text-white text-xs shadow-2xl backdrop-blur-xl flex items-center justify-between gap-4 min-w-[320px] animate-in slide-in-from-bottom-5 duration-300"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="flex items-center gap-2.5 truncate">
+              <Trash2 size={15} className="text-accent-pink shrink-0" />
+              <span className="truncate">
+                <strong>{undoToast.productName}</strong> removed from list
+              </span>
+            </div>
+            <button
+              type="button"
+              id="slToastUndoBtn"
+              onClick={handleUndo}
+              className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white text-white hover:text-obsidian-950 font-bold uppercase tracking-wider text-[11px] transition-colors cursor-pointer shrink-0 border border-white/20"
+            >
+              Undo
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );
