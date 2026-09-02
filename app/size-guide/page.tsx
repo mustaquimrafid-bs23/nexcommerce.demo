@@ -2,21 +2,25 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, ArrowRight, MessageSquare, ArrowLeft } from 'lucide-react';
+import { Sparkles, ArrowRight, MessageSquare, ArrowLeft, Ruler } from 'lucide-react';
 import { AnatomicalVisualizer } from '@/components/size-guide/AnatomicalVisualizer';
 import { SizeConversionMatrix } from '@/components/size-guide/SizeConversionMatrix';
 import { MeasurementGuide } from '@/components/size-guide/MeasurementGuide';
 import { useConciergeStore } from '@/store/useConciergeStore';
 
 export default function SizeGuidePage() {
-  const { openConcierge } = useConciergeStore();
+  const { openConcierge, sendMessage } = useConciergeStore();
 
   const handleAskStylist = () => {
-    openConcierge('I need personal sizing guidance for my measurements.');
+    openConcierge();
+    sendMessage('I need personal sizing guidance for my measurements.');
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-white pb-24 pt-8">
+    <div
+      className="min-h-screen text-white pb-24 pt-8"
+      style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Navigation Breadcrumb */}
         <div>
@@ -31,17 +35,17 @@ export default function SizeGuidePage() {
 
         {/* Hero Section */}
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-pink/15 border border-accent-pink/30 text-xs font-semibold uppercase tracking-widest text-accent-pink">
-            <Sparkles size={13} />
-            <span>Atelier Fit Architecture</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-cyan/15 border border-accent-cyan/30 text-xs font-semibold uppercase tracking-widest text-accent-cyan">
+            <Ruler size={13} />
+            <span>Find Your Exact Fit</span>
           </div>
 
           <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-white font-normal leading-[1.08]">
-            Anatomical Size &amp; <span className="italic font-normal">Fit Calibrator</span>
+            Size &amp; <span className="italic font-normal">Fit Guide</span>
           </h1>
 
           <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
-            Every garment from the Maison is cut with architectural precision. Adjust your biometric measurements below to calculate your exact European size, drape ease, and proportional fit.
+            Find your exact size with our interactive measurement calculator and conversion tables &mdash; no guessing, just precision.
           </p>
         </div>
 
@@ -62,13 +66,13 @@ export default function SizeGuidePage() {
             <div className="lg:col-span-8 space-y-2">
               <span className="text-xs font-semibold uppercase tracking-widest text-accent-cyan flex items-center gap-1.5">
                 <MessageSquare size={13} />
-                <span>Private Consultation</span>
+                <span>Personal Advisory</span>
               </span>
               <h3 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
-                Still Uncertain About Your <span className="italic font-normal">Proportions?</span>
+                Need Personal Sizing <span className="italic font-normal">Advice?</span>
               </h3>
               <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
-                Our master pattern tailors and neural Style Concierge can evaluate your garment selection against your personal wardrobe choices.
+                Our client style advisor can recommend the best size, silhouette, and layering combinations based on your preferred fit.
               </p>
             </div>
 
@@ -76,9 +80,9 @@ export default function SizeGuidePage() {
               <button
                 type="button"
                 onClick={handleAskStylist}
-                className="px-6 py-3.5 rounded-2xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-xs font-semibold uppercase tracking-widest transition-all cursor-pointer shadow-xl shadow-accent-crimson/20 flex items-center justify-center gap-2"
+                className="px-6 py-3.5 rounded-2xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-xs font-semibold uppercase tracking-widest transition-all cursor-pointer shadow-xl shadow-accent-crimson/20 flex items-center justify-center gap-2 hover:scale-105"
               >
-                <span>Consult Style Concierge</span>
+                <span>Ask Style Advisor</span>
                 <ArrowRight size={14} />
               </button>
             </div>
