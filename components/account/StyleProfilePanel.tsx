@@ -201,7 +201,7 @@ export function StyleProfilePanel({
         <div className="flex items-center gap-2">
           <Shield size={16} className="text-accent-pink" />
           <h3 className="text-sm font-bold tracking-wider text-accent-pink uppercase">
-            DATA TRANSPARENCY &amp; PRIVACY
+            {'YOUR PRIVACY & DATA'}
           </h3>
         </div>
 

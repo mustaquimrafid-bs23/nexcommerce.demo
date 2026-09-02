@@ -1,5 +1,6 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { X, Clock, Sparkles, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
@@ -13,11 +14,6 @@ export function CartRecoveryModal({ isOpen, onClose }: CartRecoveryModalProps) {
   const router = useRouter();
   const { items, applyCoupon } = useCartStore();
   const [secondsRemaining, setSecondsRemaining] = useState(899); // 14:59
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -27,7 +23,7 @@ export function CartRecoveryModal({ isOpen, onClose }: CartRecoveryModalProps) {
     return () => clearInterval(interval);
   }, [isOpen]);
 
-  if (!isOpen || items.length === 0 || !mounted) return null;
+  if (!isOpen || items.length === 0) return null;
 
   const minutes = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
@@ -52,10 +48,10 @@ export function CartRecoveryModal({ isOpen, onClose }: CartRecoveryModalProps) {
     onClose();
   };
 
-  return createPortal(
+  return (
     <div
       id="cartRecoveryModalOverlay"
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-label="Cart Recovery Incentive"
@@ -65,6 +61,7 @@ export function CartRecoveryModal({ isOpen, onClose }: CartRecoveryModalProps) {
         <button
           type="button"
           onClick={handleDismiss}
+          aria-label="Close recovery modal"
           className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 flex items-center justify-center transition-colors cursor-pointer"
         >
           <X size={16} />
@@ -118,7 +115,7 @@ export function CartRecoveryModal({ isOpen, onClose }: CartRecoveryModalProps) {
           <span>Claim COMEBACK10 &amp; Complete Order</span>
         </button>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }
+export default CartRecoveryModal;

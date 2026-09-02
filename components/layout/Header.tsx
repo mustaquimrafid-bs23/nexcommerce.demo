@@ -24,8 +24,9 @@ import { useWishlistStore } from '@/store/useWishlistStore';
 import { useSearchStore } from '@/store/useSearchStore';
 import { AnnouncementBar } from './AnnouncementBar';
 import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGateModal';
-import { VisualSearchModal } from './VisualSearchModal';
+import { VisualSearchModal } from '@/components/modals/VisualSearchModal';
 import { useCurrencyStore } from '@/store/useCurrencyStore';
+import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 
 import { useDeliveryGateStore } from '@/store/useDeliveryGateStore';
 
@@ -35,7 +36,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isVisualSearchOpen, setIsVisualSearchOpen] = useState(false);
+
+  const isVisualSearchOpen = useVisualSearchStore((s) => s.isOpen);
+  const openVisualSearch = useVisualSearchStore((s) => s.openVisualSearch);
+  const closeVisualSearch = useVisualSearchStore((s) => s.closeVisualSearch);
 
   const activeHub = useDeliveryGateStore((s) => s.activeHub);
   const isDeliveryGateOpen = useDeliveryGateStore((s) => s.isModalOpen);
@@ -262,7 +266,7 @@ export function Header() {
                   id="globalVisualSearchTrigger"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsVisualSearchOpen(true);
+                    openVisualSearch();
                   }}
                   className="p-1 text-white/50 hover:text-accent-pink transition-colors cursor-pointer"
                   title="Search by image"
@@ -551,7 +555,7 @@ export function Header() {
       {/* Multimodal Visual Search Modal */}
       <VisualSearchModal
         isOpen={isVisualSearchOpen}
-        onClose={() => setIsVisualSearchOpen(false)}
+        onClose={closeVisualSearch}
       />
     </>
   );

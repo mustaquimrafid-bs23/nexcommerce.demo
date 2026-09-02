@@ -20,7 +20,7 @@ const CATEGORY_TITLES: Record<string, { title: string; subtitle: string; eyebrow
   all: {
     title: 'Autumn & Winter Collection — nexCommerce',
     subtitle: 'Classic clothing, footwear, and accessories made to last.',
-    eyebrow: 'NEW SEASON · AUTUMN WINTER',
+    eyebrow: 'COLLECTIONS · AW26',
   },
   apparel: {
     title: 'Knitwear & Everyday Clothing — nexCommerce',

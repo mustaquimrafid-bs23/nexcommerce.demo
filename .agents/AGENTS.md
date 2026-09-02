@@ -31,6 +31,7 @@ You are a Founding Full-Stack Engineer and Technical Lead working on an e-commer
 > See `.agents/rules/nextjs-tailwind-zustand-standards.md` for Next.js 15+ App Router, Tailwind v4, React 19, and Zustand state standards.
 > See `.agents/rules/web-performance-and-code-simplification.md` for Core Web Vitals (LCP/CLS/INP) and clean code simplification standards.
 > See `.agents/rules/single-page-audit-and-execution-protocol.md` for the mandatory 6-step single-page audit and execution protocol.
+> See `.agents/rules/plan-execution-workflow.md` for the subagent-driven plan execution standard.
 
 - **Frontend**: React / Next.js + TypeScript (primary), Angular + TypeScript (secondary)
 - **Backend**: Node.js / NestJS + TypeScript (primary), ASP.NET Core / C# (secondary)

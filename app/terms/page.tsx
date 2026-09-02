@@ -155,7 +155,7 @@ export default function TermsPage() {
                 Article 04
               </span>
               <h2 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
-                14-Day Right to Cancel &amp; Returns Policy
+                14-Day Right of Withdrawal (Widerrufsbelehrung) &amp; Returns Policy
               </h2>
               <div className="text-xs sm:text-sm text-white/70 leading-relaxed font-light space-y-3">
                 <p>

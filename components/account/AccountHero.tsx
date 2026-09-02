@@ -46,7 +46,7 @@ export function AccountHero({
             className="h-10 px-4 sm:px-5 bg-white/[0.04] hover:bg-accent-cyan/10 border border-white/10 hover:border-accent-cyan/30 rounded-lg text-white text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 shadow-sm"
           >
             <Sparkles size={14} className="text-accent-cyan" />
-            <span>Direct Concierge Line</span>
+            <span>Personal Stylist</span>
           </Link>
 
           <button
@@ -61,7 +61,7 @@ export function AccountHero({
         </div>
       </div>
 
-      {/* 3-Stat Telemetry Strip */}
+      {/* 3-Stat Metric Strip */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 sm:px-7 sm:py-5 gap-4 sm:gap-0">
         <div className="flex-1 sm:px-6 first:sm:pl-0">
           <span className="block text-[9px] font-bold tracking-[0.12em] text-white/40 uppercase mb-1">
@@ -87,7 +87,7 @@ export function AccountHero({
 
         <div className="flex-1 sm:px-6">
           <span className="block text-[9px] font-bold tracking-[0.12em] text-white/40 uppercase mb-1">
-            PORTFOLIO VALUATION
+            TOTAL SPENT
           </span>
           <div className="font-display text-xl sm:text-2xl font-bold text-white tabular-nums">
             &euro; {totalSpent.toFixed(2)}

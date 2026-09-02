@@ -26,6 +26,7 @@ import { SmartSavingsAdvisor } from '@/components/cart/SmartSavingsAdvisor';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 import { SlipToCartModal } from '@/components/cart/SlipToCartModal';
 import { CartRecoveryModal } from '@/components/cart/CartRecoveryModal';
+import { CartHeroStats } from '@/components/cart/CartHeroStats';
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -211,6 +212,15 @@ export default function CartPage() {
                 </span>
               </div>
             </div>
+          </div>
+
+          {/* Cart Hero Stats Card */}
+          <div className="mt-6">
+            <CartHeroStats
+              itemCount={getItemCount()}
+              subtotal={getSubtotal()}
+              discountAmount={getDiscountAmount()}
+            />
           </div>
 
           {/* Integrated Action Toolbar */}

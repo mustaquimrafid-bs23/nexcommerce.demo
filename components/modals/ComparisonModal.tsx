@@ -1,32 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Scale, Check, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types/catalog';
 import { useCartStore } from '@/store/useCartStore';
+import { useComparisonStore } from '@/store/useComparisonStore';
+import { MASTER_PRODUCTS } from '@/data/products';
 import { formatPrice } from '@/lib/utils';
 
 interface ComparisonModalProps {
-  isOpen: boolean;
-  productA: Product;
-  productB: Product;
-  onClose: () => void;
+  isOpen?: boolean;
+  productA?: Product;
+  productB?: Product;
+  onClose?: () => void;
 }
 
 export function ComparisonModal({
-  isOpen,
-  productA,
-  productB,
-  onClose,
-}: ComparisonModalProps) {
+  isOpen: propIsOpen,
+  productA: propProductA,
+  productB: propProductB,
+  onClose: propOnClose,
+}: ComparisonModalProps = {}) {
+  const storeIsOpen = useComparisonStore((s) => s.isOpen);
+  const storeProductA = useComparisonStore((s) => s.productA);
+  const storeProductB = useComparisonStore((s) => s.productB);
+  const storeClose = useComparisonStore((s) => s.closeComparison);
+
+  const isOpen = propIsOpen !== undefined ? propIsOpen : storeIsOpen;
+  const onClose = propOnClose || storeClose;
+  const productA = propProductA || storeProductA || MASTER_PRODUCTS[0];
+  const productB = propProductB || storeProductB || MASTER_PRODUCTS[1];
+
   const { addItem } = useCartStore();
-  const [chosenId, setChosenId] = React.useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [chosenId, setChosenId] = useState<string | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
-  if (!isOpen || !mounted) return null;
+  if (!isOpen) return null;
 
   const handleChoose = (product: Product) => {
     addItem(product, product.sizes ? product.sizes[0] : 'One Size');
@@ -37,11 +55,11 @@ export function ComparisonModal({
     }, 1200);
   };
 
-  const specs = [
+  const specRows = [
     {
       label: 'Materiality',
-      valA: productA.category === 'Acoustics' ? 'Grade 5 Titanium & Lambskin' : '100% Mongolian Cashmere',
-      valB: productB.category === 'Acoustics' ? 'Beryllium Foil Drivers' : 'Virgin Italian Wool Crepe',
+      valA: productA.category === 'Acoustics' || productA.category === 'acoustics' ? 'Grade 5 Titanium & Lambskin' : '100% Mongolian Cashmere',
+      valB: productB.category === 'Acoustics' || productB.category === 'acoustics' ? 'Beryllium Foil Drivers' : 'Virgin Italian Wool Crepe',
       diffA: 'Ultra Warm',
       diffB: 'Year-Round',
     },
@@ -75,10 +93,10 @@ export function ComparisonModal({
     },
   ];
 
-  return createPortal(
+  return (
     <div
       id="compareModalBackdrop"
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-label="Product Comparison Matrix"
@@ -100,6 +118,7 @@ export function ComparisonModal({
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close comparison modal"
             className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 flex items-center justify-center transition-colors cursor-pointer"
           >
             <X size={16} />
@@ -161,7 +180,7 @@ export function ComparisonModal({
 
         {/* Spec Matrix Rows */}
         <div className="space-y-2.5 text-xs">
-          {specs.map((row, idx) => (
+          {specRows.map((row, idx) => (
             <div
               key={idx}
               className="grid grid-cols-12 gap-3 p-2.5 rounded-xl bg-obsidian-950/40 border border-white/5 items-center"
@@ -183,7 +202,6 @@ export function ComparisonModal({
           ))}
         </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }

@@ -269,15 +269,25 @@ export function SmartListProductCard({
           <h3 className="text-sm sm:text-[15px] font-semibold text-white tracking-tight line-clamp-1 group-hover:text-accent-cyan transition-colors">
             {product.name}
           </h3>
-          <div className="flex items-baseline gap-2 pt-0.5">
-            <span className="text-sm sm:text-base font-bold text-white tabular-nums tracking-tight">
-              € {product.price.toFixed(2)}
-            </span>
-            {product.originalPrice && (
-              <span className="text-xs text-white/40 line-through tabular-nums">
-                € {product.originalPrice.toFixed(2)}
+          <div className="flex items-baseline justify-between gap-2 pt-0.5">
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm sm:text-base font-bold text-white tabular-nums tracking-tight">
+                € {product.price.toFixed(2)}
               </span>
-            )}
+              {product.originalPrice && (
+                <span className="text-xs text-white/40 line-through tabular-nums">
+                  € {product.originalPrice.toFixed(2)}
+                </span>
+              )}
+            </div>
+
+            {/* Replenishment Cadence Indicator */}
+            <span
+              className="text-[9.5px] font-mono font-semibold px-2 py-0.5 rounded-full bg-accent-cyan/10 border border-accent-cyan/25 text-accent-cyan"
+              title="Smart Replenishment Cadence"
+            >
+              Monthly Refill
+            </span>
           </div>
         </div>
 

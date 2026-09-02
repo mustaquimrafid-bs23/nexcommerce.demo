@@ -150,13 +150,13 @@ function SignUpContent() {
       <div className="space-y-2">
         <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-cyan flex items-center gap-1.5">
           <Sparkles size={12} />
-          <span>Create Your Account</span>
+          <span>Create Your Account &middot; Client Privileges</span>
         </span>
         <h1 className="font-editorial text-3xl sm:text-4xl text-white font-normal">
           Create an <span className="italic font-normal">Account</span>
         </h1>
         <p className="text-xs sm:text-sm text-white/60 font-light">
-          Join nexCommerce to save your favourite pieces, track orders, and receive personalised style advice.
+          Join nexCommerce to save your favourite pieces, track orders, and access 24/7 Concierge stylist advice.
         </p>
       </div>
 

@@ -252,7 +252,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   &euro;{product.price.toFixed(2)}
                 </span>
                 <span className="text-xs text-white/50 font-light">
-                  All prices incl. VAT &middot; Free express UK delivery
+                  All prices incl. 19% statutory VAT &middot; Duties included &middot; Free express UK delivery
                 </span>
               </div>
             </div>

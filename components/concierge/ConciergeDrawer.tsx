@@ -45,10 +45,16 @@ export function ConciergeDrawer() {
 
   if (!mounted || !isOpen) return null;
 
+  // DLP Card Guard: Mask any accidental credit card numbers entered in chat
+  const sanitizeDLP = (text: string) => {
+    return text.replace(/\b(?:\d[ -]*?){13,19}\b/g, '[REDACTED PAYMENT DATA]');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputVal.trim()) return;
-    sendMessage(inputVal);
+    const sanitized = sanitizeDLP(inputVal);
+    sendMessage(sanitized);
     setInputVal('');
   };
 
@@ -238,14 +244,28 @@ export function ConciergeDrawer() {
                       ))}
                     </div>
 
-                    {/* Add Bundle to Bag CTA */}
-                    <button
-                      onClick={() => handleAddBundleToBag(msg.bundle!.products)}
-                      className="w-full py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-pink/20"
-                    >
-                      <ShoppingBag size={14} />
-                      <span>Add Complete Look to Bag</span>
-                    </button>
+                    {/* Add Bundle to Bag & In-Chat Checkout CTAs */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleAddBundleToBag(msg.bundle!.products)}
+                        className="flex-1 py-3 rounded-xl bg-accent-pink hover:bg-accent-pink/90 text-white font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-accent-pink/20 cursor-pointer"
+                      >
+                        <ShoppingBag size={14} />
+                        <span>Add Look to Bag</span>
+                      </button>
+                      <Link
+                        href="/checkout"
+                        onClick={() => {
+                          handleAddBundleToBag(msg.bundle!.products);
+                          closeConcierge();
+                        }}
+                        className="px-4 py-3 rounded-xl bg-white hover:bg-slate-200 text-obsidian-950 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer"
+                        title="Proceed to Instant Checkout"
+                      >
+                        <span>Checkout</span>
+                        <Check size={14} />
+                      </Link>
+                    </div>
                   </div>
                 )}
 

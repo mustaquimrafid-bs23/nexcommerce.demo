@@ -21,6 +21,8 @@ import { useCartStore } from '@/store/useCartStore';
 import { Product } from '@/types/catalog';
 import { formatPrice } from '@/lib/utils';
 
+import { useVisualSearchStore } from '@/store/useVisualSearchStore';
+
 const AESTHETIC_SPHERES = [
   { id: 'all', label: 'All Spheres', color: '#FFFFFF' },
   { id: 'quiet-luxury', label: 'Quiet Luxury', color: '#E2E8F0' },
@@ -72,6 +74,7 @@ function DiscoveryContent() {
 
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
+  const openVisualSearch = useVisualSearchStore((state) => state.openVisualSearch);
 
   useEffect(() => {
     if (initialQuery) {
@@ -90,6 +93,26 @@ function DiscoveryContent() {
     setTimeout(() => {
       openCart();
     }, 350);
+  };
+
+  // Extract individual keywords as removable context pills
+  const contextPills = useMemo(() => {
+    if (!query.trim()) return [];
+    return query
+      .split(/\s+/)
+      .filter((w) => w.length > 2)
+      .map((w) => ({
+        tag: w,
+        label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+      }));
+  }, [query]);
+
+  const removeContextPill = (tagToRemove: string) => {
+    const remaining = query
+      .split(/\s+/)
+      .filter((w) => w.toLowerCase() !== tagToRemove.toLowerCase())
+      .join(' ');
+    setQuery(remaining);
   };
 
   // Filter products by sphere and query
@@ -167,6 +190,16 @@ function DiscoveryContent() {
 
               <button
                 type="button"
+                onClick={() => openVisualSearch()}
+                className="p-2 text-white/60 hover:text-accent-pink transition-colors cursor-pointer"
+                title="Search by Photo (Visual Search)"
+                aria-label="Search by Photo"
+              >
+                <Camera size={16} />
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setQuery(query || 'cashmere')}
                 className="px-5 py-2.5 rounded-full bg-white hover:bg-slate-200 text-obsidian-950 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-transform hover:scale-105 cursor-pointer flex-shrink-0"
               >
@@ -174,6 +207,31 @@ function DiscoveryContent() {
                 <ArrowRight size={13} />
               </button>
             </div>
+
+            {/* Removable Understood Context Pills */}
+            {contextPills.length > 0 && (
+              <div className="flex items-center justify-center gap-1.5 flex-wrap pt-1 text-xs animate-fade-in">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-accent-cyan mr-1">
+                  Understood Context:
+                </span>
+                {contextPills.map((pill) => (
+                  <span
+                    key={pill.tag}
+                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-accent-cyan/15 border border-accent-cyan/30 text-accent-cyan text-[11px] font-semibold"
+                  >
+                    <span>{pill.label}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeContextPill(pill.tag)}
+                      className="hover:text-white transition-colors p-0.5"
+                      aria-label={`Remove filter ${pill.label}`}
+                    >
+                      <X size={11} />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Quick Intent Chips */}
             <div className="flex items-center justify-center gap-2 flex-wrap pt-1 text-xs">

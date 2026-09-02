@@ -136,7 +136,7 @@ export function OrderCard({ order, onReorder, onCancelOrder }: OrderCardProps) {
               className="h-9 px-3.5 rounded-lg bg-accent-cyan/[0.08] hover:bg-accent-cyan/[0.16] border border-accent-cyan/25 hover:border-accent-cyan/40 text-accent-cyan text-xs font-semibold tracking-wide transition-colors flex items-center gap-1.5 min-h-[36px]"
             >
               <Compass size={13} />
-              <span>Live Route Map</span>
+              <span>Track Delivery</span>
             </Link>
           )}
 
