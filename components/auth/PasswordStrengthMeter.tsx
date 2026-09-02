@@ -18,10 +18,10 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
   if (hasNumberOrSymbol) score++;
 
   const getLabel = () => {
-    if (!password) return 'Security Level: Unentered';
-    if (score === 1) return 'Security Level: Fragile';
-    if (score === 2) return 'Security Level: Acceptable';
-    return 'Security Level: Atelier Cryptographic';
+    if (!password) return 'Security: Enter a password';
+    if (score === 1) return 'Security: Weak';
+    if (score === 2) return 'Security: Good';
+    return 'Security: Strong & Secure';
   };
 
   const getBarColor = (index: number) => {
@@ -57,7 +57,7 @@ export function PasswordStrengthMeter({ password }: PasswordStrengthMeterProps) 
         </div>
         <div className={`flex items-center gap-1.5 ${hasNumberOrSymbol ? 'text-accent-cyan' : 'text-white/40'}`}>
           {hasNumberOrSymbol ? <Check size={12} /> : <X size={12} />}
-          <span>Number/Symbol</span>
+          <span>Number / Symbol</span>
         </div>
       </div>
     </div>
