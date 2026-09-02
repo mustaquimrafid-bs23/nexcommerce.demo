@@ -15,35 +15,39 @@ export function SavingsOptimizerBanner({
   appliedCoupon,
   onApplyCoupon,
 }: SavingsOptimizerBannerProps) {
-  const isEligibleForAtelier10 = subtotal >= 100;
   const isEligibleForVip50 = subtotal >= 500;
+  const isEligibleForVip20 = subtotal >= 100;
 
   let recommendation = {
-    code: 'ATELIER10',
-    discount: '10% OFF',
-    desc: 'Available on all atelier orders over €100.00',
+    code: 'VIP20',
+    discount: '20% OFF',
+    desc: 'Save 20% on orders over €100.00',
   };
 
   if (isEligibleForVip50) {
     recommendation = {
       code: 'VIP50',
       discount: '€50.00 OFF',
-      desc: 'Exclusive high-cart tier savings applied to orders over €500.00',
+      desc: 'Save €50.00 on orders over €500.00',
     };
   }
 
   const isApplied = appliedCoupon === recommendation.code;
 
+  if (!isEligibleForVip20) {
+    return null;
+  }
+
   return (
-    <div className="p-4 rounded-2xl bg-surface-card border border-accent-pink/30 space-y-3 shadow-lg">
+    <div className="p-4 rounded-2xl bg-gradient-to-br from-[#0A2A54]/90 to-[#01132B]/95 border border-accent-pink/30 space-y-3 shadow-lg backdrop-blur-md">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles size={15} className="text-accent-pink" />
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-pink">
-            Smart Savings Advisor
+          <span className="text-[11px] font-bold uppercase tracking-widest text-accent-pink">
+            Promotional Discount
           </span>
         </div>
-        <span className="px-2 py-0.5 rounded-full bg-accent-pink/20 text-accent-pink text-[10px] font-bold">
+        <span className="px-2.5 py-0.5 rounded-full bg-accent-pink/20 text-accent-pink text-[10px] font-bold">
           {recommendation.discount}
         </span>
       </div>
@@ -54,14 +58,14 @@ export function SavingsOptimizerBanner({
             <Tag size={12} className="text-accent-cyan" />
             <span>Code: {recommendation.code}</span>
           </div>
-          <p className="text-[11px] text-white/60 font-light">{recommendation.desc}</p>
+          <p className="text-[11px] text-white/60 font-normal">{recommendation.desc}</p>
         </div>
 
         <button
           type="button"
           onClick={() => onApplyCoupon(recommendation.code)}
           disabled={isApplied}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
             isApplied
               ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
               : 'bg-accent-pink hover:bg-accent-pink/90 text-white shadow-md'
@@ -73,7 +77,7 @@ export function SavingsOptimizerBanner({
               <span>Applied</span>
             </span>
           ) : (
-            <span>Apply Coupon</span>
+            <span>Apply Voucher</span>
           )}
         </button>
       </div>
