@@ -109,7 +109,7 @@ export function Footer() {
               Privacy Policy
             </Link>
             <Link
-              href="/privacy"
+              href="/terms"
               className="footer-link-item text-xs sm:text-[12.5px] text-white/55 hover:text-white transition-colors w-fit hover:translate-x-0.5"
             >
               Terms of Service
@@ -170,7 +170,7 @@ export function Footer() {
                 Privacy
               </Link>{' '}
               &middot;{' '}
-              <Link href="/privacy" className="footer-legal-link underline hover:text-white/70">
+              <Link href="/terms" className="footer-legal-link underline hover:text-white/70">
                 Terms
               </Link>{' '}
               &middot;{' '}
