@@ -114,10 +114,10 @@ export function CadenceAdjusterPopover({
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold tracking-widest uppercase text-accent-cyan">
-                    AUTOMATIC REPLENISHMENT
+                    REORDER SCHEDULE
                   </span>
                   <h3 id="slCadenceTitle" className="font-editorial text-xl font-normal text-white">
-                    Repurchase Schedule
+                    Adjust Reorder Frequency
                   </h3>
                 </div>
                 <button
