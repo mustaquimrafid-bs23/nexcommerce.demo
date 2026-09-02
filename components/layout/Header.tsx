@@ -27,15 +27,21 @@ import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGate
 import { VisualSearchModal } from './VisualSearchModal';
 import { useCurrencyStore } from '@/store/useCurrencyStore';
 
+import { useDeliveryGateStore } from '@/store/useDeliveryGateStore';
+
 export function Header() {
   const { currency, toggleCurrency } = useCurrencyStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isDeliveryGateOpen, setIsDeliveryGateOpen] = useState(false);
   const [isVisualSearchOpen, setIsVisualSearchOpen] = useState(false);
-  const [activeHub, setActiveHub] = useState<DarkStoreHub>(DARK_STORE_HUBS[0]);
+
+  const activeHub = useDeliveryGateStore((s) => s.activeHub);
+  const isDeliveryGateOpen = useDeliveryGateStore((s) => s.isModalOpen);
+  const openDeliveryGate = useDeliveryGateStore((s) => s.openModal);
+  const closeDeliveryGate = useDeliveryGateStore((s) => s.closeModal);
+  const setActiveHub = useDeliveryGateStore((s) => s.setActiveHub);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -45,7 +51,7 @@ export function Header() {
         if (found) setActiveHub(found);
       }
     }
-  }, []);
+  }, [setActiveHub]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const cartBadgeRef = useRef<HTMLSpanElement>(null);
@@ -225,9 +231,10 @@ export function Header() {
 
           {/* Delivery Hub Pill */}
           <button
-            id="deliveryHubBtn"
+            id="headerDeliveryHubPill"
+            data-testid="deliveryHubBtn"
             type="button"
-            onClick={() => setIsDeliveryGateOpen(true)}
+            onClick={openDeliveryGate}
             className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs text-white/70 hover:text-white transition-colors cursor-pointer shrink-0"
             title="Change Delivery Atelier"
           >
@@ -531,7 +538,7 @@ export function Header() {
       <DeliveryGateModal
         isOpen={isDeliveryGateOpen}
         activeHubId={activeHub.id}
-        onClose={() => setIsDeliveryGateOpen(false)}
+        onClose={closeDeliveryGate}
         onSelectHub={(hub) => {
           setActiveHub(hub);
           if (typeof window !== 'undefined') {
