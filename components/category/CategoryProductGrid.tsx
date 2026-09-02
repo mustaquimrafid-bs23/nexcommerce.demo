@@ -9,6 +9,7 @@ import { Sparkles, RotateCcw } from 'lucide-react';
 interface CategoryProductGridProps {
   products: Product[];
   onResetFilters: () => void;
+  onQuickLook?: (product: Product) => void;
 }
 
 const containerVariants: Variants = {
@@ -34,7 +35,7 @@ const itemVariants: Variants = {
   },
 };
 
-export function CategoryProductGrid({ products, onResetFilters }: CategoryProductGridProps) {
+export function CategoryProductGrid({ products, onResetFilters, onQuickLook }: CategoryProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="py-20 px-4 text-center rounded-2xl border border-white/10 bg-surface-card/40 backdrop-blur-md space-y-4 my-8">
@@ -77,6 +78,7 @@ export function CategoryProductGrid({ products, onResetFilters }: CategoryProduc
             <ProductCardElevated
               product={product}
               parallaxDepth={idx % 2 === 0 ? 1 : 2}
+              onQuickLook={onQuickLook}
             />
           </motion.div>
         ))}

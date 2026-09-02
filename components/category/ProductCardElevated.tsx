@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShoppingBag, Heart } from 'lucide-react';
+import { ShoppingBag, Heart, Eye } from 'lucide-react';
 import { Product } from '@/types/catalog';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
@@ -12,13 +12,14 @@ import { formatPrice } from '@/lib/utils';
 interface ProductCardElevatedProps {
   product: Product;
   parallaxDepth?: number;
+  onQuickLook?: (product: Product) => void;
 }
 
 const MAX_TILT = 5.5;
 const LERP_IN = 0.12;
 const LERP_OUT = 0.18;
 
-export function ProductCardElevated({ product, parallaxDepth = 1 }: ProductCardElevatedProps) {
+export function ProductCardElevated({ product, parallaxDepth = 1, onQuickLook }: ProductCardElevatedProps) {
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -182,22 +183,39 @@ export function ProductCardElevated({ product, parallaxDepth = 1 }: ProductCardE
           </span>
         )}
 
-        {/* Wishlist Button */}
-        <button
-          onClick={handleWishlist}
-          className={`plp-card-wishlist ${
-            wishlisted ? 'active' : ''
-          } absolute top-3 right-3 z-20 p-2 rounded-full backdrop-blur-md border transition-all cursor-pointer ${
-            wishlisted
-              ? 'bg-accent-pink border-accent-pink text-white shadow-lg'
-              : 'bg-obsidian-950/70 border-white/15 text-white/60 hover:text-white hover:border-white/40'
-          }`}
-          aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
-          data-id={product.id}
-          title={wishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
-        >
-          <Heart size={14} fill={wishlisted ? 'currentColor' : 'none'} />
-        </button>
+        {/* Action Cluster: Wishlist & Quick Look */}
+        <div className="card-top-actions absolute top-3 right-3 z-20 flex items-center gap-1.5">
+          {onQuickLook && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onQuickLook(product);
+              }}
+              className="p-2 rounded-full backdrop-blur-md border border-white/15 bg-obsidian-950/70 text-white/60 hover:text-white hover:border-white/40 transition-all cursor-pointer"
+              aria-label={`Quick look at ${product.name}`}
+              title="Quick Look Mini-PDP"
+            >
+              <Eye size={14} />
+            </button>
+          )}
+
+          <button
+            onClick={handleWishlist}
+            className={`plp-card-wishlist ${
+              wishlisted ? 'active' : ''
+            } p-2 rounded-full backdrop-blur-md border transition-all cursor-pointer ${
+              wishlisted
+                ? 'bg-accent-pink border-accent-pink text-white shadow-lg'
+                : 'bg-obsidian-950/70 border-white/15 text-white/60 hover:text-white hover:border-white/40'
+            }`}
+            aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
+            data-id={product.id}
+            title={wishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
+          >
+            <Heart size={14} fill={wishlisted ? 'currentColor' : 'none'} />
+          </button>
+        </div>
 
         {/* Product Image */}
         <div className="w-full h-full flex items-center justify-center p-3">

@@ -3,9 +3,11 @@
 import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { MASTER_PRODUCTS } from '@/data/products';
+import { Product } from '@/types/catalog';
 import { CategoryHero } from '@/components/category/CategoryHero';
 import { CategoryToolbar } from '@/components/category/CategoryToolbar';
 import { CategoryProductGrid } from '@/components/category/CategoryProductGrid';
+import { QuickLookMiniPDP } from '@/components/category/QuickLookMiniPDP';
 
 function CategoryContent() {
   const searchParams = useSearchParams();
@@ -16,6 +18,7 @@ function CategoryContent() {
 
   const [selectedCategory, setSelectedCategory] = useState<string>(catParam);
   const [sortBy, setSortBy] = useState<string>('recommended');
+  const [quickLookProduct, setQuickLookProduct] = useState<Product | null>(null);
 
   // Sync state if URL search params change
   useEffect(() => {
@@ -73,6 +76,14 @@ function CategoryContent() {
         <CategoryProductGrid
           products={filteredProducts}
           onResetFilters={handleResetFilters}
+          onQuickLook={setQuickLookProduct}
+        />
+
+        {/* 4. In-Drawer Quick Look Mini-PDP */}
+        <QuickLookMiniPDP
+          product={quickLookProduct}
+          isOpen={!!quickLookProduct}
+          onClose={() => setQuickLookProduct(null)}
         />
       </main>
     </div>
