@@ -215,9 +215,9 @@ export default function ProductDetailPage({ params }: PageProps) {
               <div className="space-y-3 pt-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-white/60">Select Size:</span>
-                  <span className="text-accent-pink cursor-pointer hover:underline">
+                  <Link href="/size-guide" className="text-accent-pink hover:underline">
                     Size &amp; Fit Guide
-                  </span>
+                  </Link>
                 </div>
                 <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
                   {product.sizes.map((s) => (
