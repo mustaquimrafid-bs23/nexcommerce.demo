@@ -41,3 +41,23 @@ When cards, overlays, or floating docks contain 2+ adjacent action buttons or in
 ## 7. Local Test Server URL Query Handling Invariant
 When creating ad-hoc Node.js HTTP servers to serve static workspace files for Playwright / browser testing, ALWAYS parse and strip URL query strings (`req.url.split('?')[0]` or `url.parse(req.url).pathname`) before resolving file paths with `fs.readFile`. This guarantees that cache-busted or parameterized static assets (`design-system.css?v=40`, `cart.js?v=6`, `products/p1.png?v=2`) resolve cleanly with HTTP 200 rather than throwing false 404 Not Found errors.
 
+---
+
+## 8. Structural DOM Order & Reference Alignment Invariant
+When converting, migrating, or verifying visual parity between a reference prototype (e.g. `http://localhost:8080`) and a production framework (e.g. Next.js `http://localhost:3000`):
+
+1. **Strict Flex/Grid Sibling Order Verification**:
+   - Automated tests and browser inspection scripts MUST NOT merely assert element existence (`id="..."`).
+   - For global chrome (Header, Announcement Bar, Footer, Toolbars, Action Bars), tests must verify that interactive child elements appear in the exact semantic sibling sequence as the reference (e.g., `[Left: Brand/Nav] -> [Center: Search] -> [Right: Location/Tools/Cart]`).
+   - Sibling order must be verified using DOM hierarchy (`element.parentElement.className`, `Array.from(parent.children).indexOf(...)`) or relative bounding box coordinates ($X_{left} < X_{center} < X_{right}$).
+
+2. **Reference DOM & Layout Coordinate Sweep**:
+   - Before declaring parity complete on any page or shared component, execute an automated Playwright inspection script querying both running endpoints to assert:
+     - Equivalent child count and order within major layout slots.
+     - Centering symmetry of primary focal elements (e.g., Search Bar is centered within $\pm 20\text{px}$ of viewport midpoint).
+     - Identical placeholder copy, badge labels, and icon pairings.
+
+3. **Zero Orphaned Action Pills**:
+   - Utility or location pills (e.g. Delivery Gate, Currency, Store Locator) must never be inserted into primary navigation gaps between the brand nav and search bars. They must belong strictly to their designated action container (`nav-right-actions`).
+
+
