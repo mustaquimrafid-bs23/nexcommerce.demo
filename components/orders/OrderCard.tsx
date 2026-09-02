@@ -258,6 +258,13 @@ export function OrderCard({ order, onCancelOrder }: OrderCardProps) {
 
           <div className="flex items-center gap-2">
             <Link
+              href={`/tracking?ref=${encodeURIComponent(order.id)}`}
+              className="h-8 px-3.5 rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+            >
+              <Truck className="w-3.5 h-3.5 text-accent-cyan" />
+              <span>Track Shipment</span>
+            </Link>
+            <Link
               href={`/orders/${encodeURIComponent(order.id)}`}
               className="h-8 px-4 rounded-lg bg-accent-cyan text-[#01132B] text-xs font-bold flex items-center gap-1.5 hover:bg-accent-cyan/90 transition-all shadow-sm"
             >
