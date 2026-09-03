@@ -12,6 +12,9 @@ package-lock.json
 .yarn/unplugged/
 .yarn/build-state.yml
 .yarn/install-state.gz
+bun.lockb
+bun.lock
+.bun/
 
 # ==============================================================================
 # NEXT.JS, VERCEL & BUILD ARTIFACTS
@@ -20,6 +23,7 @@ package-lock.json
 out/
 build/
 dist/
+.swc/
 .turbo/
 .cache/
 .vercel/
@@ -30,7 +34,7 @@ tsconfig.tsbuildinfo
 .parcel-cache/
 
 # ==============================================================================
-# TESTING, COVERAGE, PLAYWRIGHT & VITEST
+# TESTING, COVERAGE, PLAYWRIGHT, VITEST & LIGHTHOUSE
 # ==============================================================================
 coverage/
 .nyc_output/
@@ -43,6 +47,10 @@ playwright/.cache/
 playwright-artifacts/
 .vitest/
 *.ariaSnapshot
+lighthouse-report/
+lighthouse-audit/
+*.report.html
+*.report.json
 
 # ==============================================================================
 # STATIC ANALYSIS & QUALITY TOOLS (SONARQUBE)
@@ -73,6 +81,11 @@ ENV/
 .cursor/
 .claude/
 .gemini/
+.antigravity/
+.agy/
+.superpowers/
+.system_generated/
+.agents/.cache/
 .zed/
 .fleet/
 *.sublime-workspace
@@ -96,10 +109,20 @@ temp/
 *.temp
 *.dump
 *.stackdump
+*.heapsnapshot
+*.cpuprofile
+*.trace
+trace.json
+trace.json.gz
+.tempmediaStorage/
+recordings/
+videos/
 /*.png
 /*.jpg
 /*.jpeg
 /*.webp
+/*.gif
+/*.avif
 /*.mp4
 /*.webm
 all_screens_composite.*
@@ -116,6 +139,7 @@ ehthumbs.db
 ehthumbs_vista.db
 Desktop.ini
 $RECYCLE.BIN/
+*.lnk
 
 # ==============================================================================
 # ENVIRONMENT, SECRETS, CERTIFICATES & LOGS

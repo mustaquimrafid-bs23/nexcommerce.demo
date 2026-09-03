@@ -90,7 +90,9 @@ interface SearchState {
   activeDepartment: string;
   recentSearches: string[];
   contextPills: { tag: string; label: string }[];
-  openSearch: () => void;
+  pendingAutoSearch: string | null;
+  openSearch: (initialQuery?: string | unknown, autoExecute?: boolean) => void;
+  clearPendingAutoSearch: () => void;
   closeSearch: () => void;
   setQuery: (q: string) => void;
   removeContextPill: (tag: string) => void;
@@ -119,14 +121,37 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   activeDepartment: 'apparel',
   recentSearches: DEFAULT_RECENTS,
   contextPills: [],
+  pendingAutoSearch: null,
 
-  openSearch: () => {
+  openSearch: (initialQuery?: string | unknown, autoExecute: boolean = false) => {
     get().loadRecentSearches();
-    set({ isOpen: true });
+    if (typeof initialQuery === 'string' && initialQuery.trim()) {
+      const clean = initialQuery.trim();
+      const pills = clean
+        .split(/\s+/)
+        .filter((w) => w.length > 2)
+        .map((w) => ({
+          tag: w,
+          label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+        }));
+      get().saveRecentSearch(clean);
+      set({
+        isOpen: true,
+        query: clean,
+        contextPills: pills,
+        pendingAutoSearch: autoExecute ? clean : null,
+      });
+    } else {
+      set({ isOpen: true, pendingAutoSearch: null });
+    }
+  },
+
+  clearPendingAutoSearch: () => {
+    set({ pendingAutoSearch: null });
   },
 
   closeSearch: () => {
-    set({ isOpen: false, query: '' });
+    set({ isOpen: false, query: '', pendingAutoSearch: null });
   },
 
   setQuery: (query: string) => {
@@ -209,25 +234,29 @@ export const useSearchStore = create<SearchState>((set, get) => ({
     const q = (query || '').toLowerCase().trim();
 
     let occasion: string | null = null;
-    if (/dinner|evening out|date|restaurant|night out/.test(q)) occasion = 'Dinner / Evening';
+    if (/weekend|getaway/.test(q)) occasion = 'Weekend Getaway';
+    else if (/dinner|evening out|date|restaurant|night out/.test(q)) occasion = 'Dinner / Evening';
     else if (/flight|travel|plane|vacation|trip|airport/.test(q)) occasion = 'Travel / Flight';
     else if (/work|office|meeting|desk|business/.test(q)) occasion = 'Work / Office';
-    else if (/casual|weekend|everyday|daily|relax/.test(q)) occasion = 'Everyday / Casual';
+    else if (/casual|everyday|daily|relax/.test(q)) occasion = 'Everyday / Casual';
     else if (/gift|present|birthday|brother|sister|friend/.test(q)) occasion = 'Gift';
     else if (/evening|night|sunset/.test(q)) occasion = 'Evening';
 
     let climate: string | null = null;
-    if (/winter|cold|cool|15.?c|18.?c|20.?c|chilly|autumn|fall/.test(q)) climate = 'Cool Weather (15°C–20°C)';
+    if (/cold|winter|freezing|chilly|snow|ice/.test(q)) climate = 'Cold Weather (Winter)';
+    else if (/cool|15.?c|18.?c|20.?c|autumn|fall/.test(q)) climate = 'Cool Weather (15°C–20°C)';
     else if (/summer|warm|hot|sunny|heat/.test(q)) climate = 'Warm Climate';
     else if (/rain|waterproof|wet/.test(q)) climate = 'Rain & Weather';
 
     let location: string | null = null;
-    if (/milan|milano/.test(q)) location = 'Milan';
-    else if (/paris/.test(q)) location = 'Paris';
+    if (/edinburgh/.test(q)) location = 'Edinburgh';
+    else if (/milan|milano/.test(q)) location = 'Milan';
     else if (/london/.test(q)) location = 'London';
+    else if (/paris/.test(q)) location = 'Paris';
     else if (/tokyo/.test(q)) location = 'Tokyo';
     else if (/munich|münchen/.test(q)) location = 'Munich';
     else if (/new york|nyc/.test(q)) location = 'New York';
+    else if (/rome|roma/.test(q)) location = 'Rome';
 
     let budgetMax: number | null = null;
     const matchUnder = q.match(/under\s*(?:€|eur|\$)?\s*([\d,]+k?)/i) || q.match(/less\s*than\s*(?:€|eur|\$)?\s*([\d,]+k?)/i);
@@ -239,7 +268,8 @@ export const useSearchStore = create<SearchState>((set, get) => ({
     }
 
     let targetCategory: string | null = null;
-    if (/sweater|turtleneck|knit|crew|blazer|clothing|apparel|shirt|trousers|jacket|coat|overcoat/.test(q)) targetCategory = 'Apparel';
+    if (/coat|overcoat|parka|trench|jacket|blazer|outerwear/.test(q)) targetCategory = 'Outerwear';
+    else if (/sweater|turtleneck|knit|crew|clothing|apparel|shirt|trousers/.test(q)) targetCategory = 'Apparel';
     else if (/headphone|earbud|audio|acoustics|music|sound|earphones/.test(q)) targetCategory = 'Audio';
     else if (/shoe|shoes|sneaker|sneakers|runner|runners|footwear|boots/.test(q)) targetCategory = 'Footwear';
     else if (/tote|bag|watch|chronograph|accessories|belt|wallet/.test(q)) targetCategory = 'Accessories';
@@ -300,12 +330,23 @@ export const useSearchStore = create<SearchState>((set, get) => ({
 
     if (intent.targetCategory) {
       const target = intent.targetCategory.toLowerCase();
-      matches = matches.filter(
-        (p) =>
-          p.category.toLowerCase() === target ||
-          (p.subCategory && p.subCategory.toLowerCase() === target) ||
-          (p.tags && p.tags.some((t) => t.toLowerCase() === target))
-      );
+      if (target === 'outerwear') {
+        matches = matches.filter(
+          (p) =>
+            p.category.toLowerCase() === 'outerwear' ||
+            (p.tags && (p.tags.includes('coat') || p.tags.includes('overcoat') || p.tags.includes('outerwear') || p.tags.includes('blazer') || p.tags.includes('warm'))) ||
+            p.name.toLowerCase().includes('coat') ||
+            p.name.toLowerCase().includes('blazer') ||
+            p.name.toLowerCase().includes('overcoat')
+        );
+      } else {
+        matches = matches.filter(
+          (p) =>
+            p.category.toLowerCase() === target ||
+            (p.subCategory && p.subCategory.toLowerCase() === target) ||
+            (p.tags && p.tags.some((t) => t.toLowerCase() === target))
+        );
+      }
     }
 
     if (!intent.occasion && !intent.climate && !intent.budgetMax && !intent.targetCategory) {
@@ -330,24 +371,58 @@ export const useSearchStore = create<SearchState>((set, get) => ({
       });
     }
 
-    return matches.map((product) => {
+    const scored = matches.map((product) => {
       let score = 92;
       let reason = product.reasoning || `Matches your search for "${q}"`;
+      let badge = product.matchBadge || 'RECOMMENDED';
 
-      if (intent.occasion && product.tags?.some((t) => t.includes('evening') || t.includes('dinner'))) {
-        score = 98;
-        reason = product.reasoning || `Ideal choice for ${intent.occasion}`;
-      } else if (intent.climate && product.tags?.some((t) => t.includes('warm') || t.includes('winter') || t.includes('cool'))) {
-        score = 96;
-        reason = product.reasoning || `Engineered for ${intent.climate}`;
+      // Specific Edinburgh / Cold Weather / Weekend Overcoat Tuning
+      if (intent.location === 'Edinburgh' || (intent.climate === 'Cold Weather (Winter)' && intent.targetCategory === 'Outerwear')) {
+        if (product.id === 'p3') {
+          score = 99;
+          badge = intent.location === 'Edinburgh' ? 'PERFECT FOR EDINBURGH' : 'CLIMATE FIT';
+          reason = intent.location === 'Edinburgh'
+            ? 'Double-faced virgin wool & cashmere overcoat providing substantial thermal warmth for Edinburgh’s cold climate.'
+            : 'Engineered with double-faced virgin wool and cashmere for optimal protection in cold winter temperatures.';
+        } else if (product.id === 'p1') {
+          score = 96;
+          badge = 'LAYERING ESSENTIAL';
+          reason = '2-ply Grade-A Mongolian cashmere knitwear engineered for thermal comfort in chilly conditions.';
+        } else if (product.id === 'p2') {
+          score = 93;
+          badge = 'WEEKEND DINNER FIT';
+          reason = 'Italian virgin wool tailored blazer designed for smart-casual evening dinners during your getaway.';
+        }
+      } else if (intent.location === 'London' || (intent.occasion === 'Dinner / Evening' && q.includes('dinner'))) {
+        if (product.id === 'p2') {
+          score = 99;
+          badge = 'STYLE MATCH';
+          reason = 'Italian virgin wool tailoring with unlined soft canvassing tailored for a London evening.';
+        } else if (product.id === 'p1') {
+          score = 95;
+          badge = 'BEST MATCH';
+          reason = 'Refined Mongolian cashmere knitwear for comfortable evening dining.';
+        }
+      } else {
+        if (intent.occasion && product.tags?.some((t) => t.includes('evening') || t.includes('dinner'))) {
+          score = 98;
+          badge = 'STYLE MATCH';
+          reason = product.reasoning || `Ideal choice for ${intent.occasion}`;
+        } else if (intent.climate && product.tags?.some((t) => t.includes('warm') || t.includes('winter') || t.includes('cool'))) {
+          score = 96;
+          badge = 'CLIMATE FIT';
+          reason = product.reasoning || `Engineered for ${intent.climate}`;
+        }
       }
 
       return {
         product,
         matchScore: score,
         matchReason: reason,
-        matchBadge: product.matchBadge || 'RECOMMENDED',
+        matchBadge: badge,
       };
     });
+
+    return scored.sort((a, b) => b.matchScore - a.matchScore);
   },
 }));

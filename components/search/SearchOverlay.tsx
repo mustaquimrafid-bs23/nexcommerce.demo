@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -19,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useSearchStore, POPULAR_DEPARTMENTS } from '@/store/useSearchStore';
 import { useCartStore } from '@/store/useCartStore';
+import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 import { Product } from '@/types/catalog';
 import { SearchWhyModal } from './SearchWhyModal';
 import { formatPrice } from '@/lib/utils';
@@ -55,10 +57,13 @@ export function SearchOverlay() {
     deleteRecentSearch,
     clearAllRecentSearches,
     checkTypo,
+    pendingAutoSearch,
+    clearPendingAutoSearch,
   } = useSearchStore();
 
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
+  const openVisualSearch = useVisualSearchStore((state) => state.openVisualSearch);
 
   // Initialize and load recent searches on mount
   useEffect(() => {
@@ -83,15 +88,28 @@ export function SearchOverlay() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, openSearch, closeSearch, loadRecentSearches]);
 
-  // Focus input on open
+  // Focus input and handle pending auto-search on open
   useEffect(() => {
     if (isOpen) {
-      setHasExecutedSearch(false);
-      setIsProcessingSearch(false);
       setFocusIndex(-1);
       setTimeout(() => inputRef.current?.focus(), 80);
+
+      const targetQ = pendingAutoSearch || query;
+      if (pendingAutoSearch && pendingAutoSearch.trim()) {
+        clearPendingAutoSearch();
+        setQuery(targetQ);
+        saveRecentSearch(targetQ);
+        setIsProcessingSearch(true);
+        runThinkingTrack(400, () => {
+          setIsProcessingSearch(false);
+          setHasExecutedSearch(true);
+        });
+      } else if (!query.trim()) {
+        setHasExecutedSearch(false);
+        setIsProcessingSearch(false);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, pendingAutoSearch, clearPendingAutoSearch, query, setQuery, saveRecentSearch]);
 
   // GPU Thinking Track Animation
   const runThinkingTrack = useCallback((durationMs = 450, onDone?: () => void) => {
@@ -208,12 +226,12 @@ export function SearchOverlay() {
     );
   };
 
-  return (
+  return createPortal(
     <>
-      <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-14 px-4 overflow-y-auto">
+      <div className="fixed inset-0 z-[99990] flex items-start justify-center pt-8 sm:pt-14 px-4 overflow-y-auto">
         {/* Backdrop */}
         <div
-          className="fixed inset-0 bg-[#011a3c]/60 backdrop-blur-md transition-opacity duration-300"
+          className="fixed inset-0 bg-[#02132d]/75 backdrop-blur-md transition-opacity duration-300"
           onClick={closeSearch}
           aria-hidden="true"
         />
@@ -221,7 +239,7 @@ export function SearchOverlay() {
         {/* Master Atelier Modal Container */}
         <div
           id="aiSearchModal"
-          className="relative w-full max-w-4xl bg-gradient-to-b from-[#0e2e5c]/95 to-[#061c3e]/98 backdrop-blur-2xl border border-white/20 rounded-2xl sm:rounded-3xl shadow-[0_30px_80px_rgba(0,14,38,0.6)] z-10 flex flex-col max-h-[88vh] overflow-hidden my-auto"
+          className="relative w-full max-w-4xl bg-gradient-to-b from-[#0e3266]/98 via-[#0a2652]/98 to-[#071d3f]/98 backdrop-blur-2xl border border-[#3DE0FF]/30 rounded-2xl sm:rounded-3xl shadow-[0_30px_80px_rgba(2,19,45,0.85)] z-10 flex flex-col max-h-[88vh] overflow-hidden my-auto"
           role="dialog"
           aria-modal="true"
           aria-label="Intelligent Atelier Search"
@@ -263,7 +281,11 @@ export function SearchOverlay() {
 
               <button
                 type="button"
-                onClick={() => handleNavigateDiscovery(query || 'visual-lens')}
+                id="globalVisualSearchTrigger"
+                onClick={() => {
+                  closeSearch();
+                  openVisualSearch();
+                }}
                 className="text-white/60 hover:text-accent-cyan transition-colors flex-shrink-0 p-1 cursor-pointer"
                 title="Shop by Photo (Visual Search)"
                 aria-label="Shop by Photo (Visual Search)"
@@ -562,8 +584,8 @@ export function SearchOverlay() {
                           key={product.id}
                           className="search-product-card rounded-xl bg-[#031633] border border-white/15 hover:border-accent-cyan/45 shadow-[0_6px_18px_rgba(0,0,0,0.35)] overflow-hidden flex flex-col group transition-all"
                         >
-                          {/* Radial Studio Image Container */}
-                          <div className="relative w-full aspect-[1/1.05] bg-gradient-radial from-[#062656] to-[#020f24] overflow-hidden flex items-center justify-center p-3">
+                          {/* Radial Studio Image Container - Display Scaling Resilient */}
+                          <div className="relative w-full h-36 sm:h-40 md:h-44 bg-gradient-radial from-[#062656] to-[#020f24] overflow-hidden flex items-center justify-center p-2.5">
                             <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-[#011126]/90 border border-accent-cyan/40 text-[9px] font-bold text-accent-cyan uppercase tracking-wider backdrop-blur-md z-10">
                               {matchBadge}
                             </span>
@@ -729,7 +751,7 @@ export function SearchOverlay() {
           </div>
 
           {/* Footer Info Bar */}
-          <div className="p-3 sm:px-5 bg-[#061c3e] border-t border-white/10 flex items-center justify-between text-[11px] text-white/50 font-sans">
+          <div className="p-3 sm:px-5 bg-[#071d3f]/98 border-t border-[#1a4785] flex items-center justify-between text-[11px] text-white/60 font-sans">
             <span>
               Press <strong className="text-white">Enter</strong> to see all results
             </span>
@@ -746,6 +768,7 @@ export function SearchOverlay() {
         product={selectedProductForWhy}
         onClose={() => setSelectedProductForWhy(null)}
       />
-    </>
+    </>,
+    document.body
   );
 }

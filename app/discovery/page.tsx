@@ -82,6 +82,15 @@ function DiscoveryContent() {
     }
   }, [initialQuery]);
 
+  useEffect(() => {
+    const mode = searchParams?.get('mode');
+    const visual = searchParams?.get('visual');
+    if (mode === 'visual' || visual === '1') {
+      const look = searchParams?.get('look');
+      openVisualSearch(look || undefined);
+    }
+  }, [searchParams, openVisualSearch]);
+
   const handleQuickAdd = (product: Product, e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -95,12 +104,15 @@ function DiscoveryContent() {
     }, 350);
   };
 
-  // Extract individual keywords as removable context pills
+  // Extract individual keywords as removable context pills (filtering stop words)
   const contextPills = useMemo(() => {
     if (!query.trim()) return [];
+    const STOPWORDS = new Set([
+      'for', 'a', 'an', 'in', 'and', 'the', 'with', 'under', 'to', 'of', 'on', 'at', 'is', 'by', 'or', 'from'
+    ]);
     return query
       .split(/\s+/)
-      .filter((w) => w.length > 2)
+      .filter((w) => w.length > 2 && !STOPWORDS.has(w.toLowerCase()))
       .map((w) => ({
         tag: w,
         label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
@@ -135,13 +147,26 @@ function DiscoveryContent() {
 
     if (query.trim()) {
       const q = query.toLowerCase().trim();
+      const terms = q.split(/\s+/).filter((t) => t.length > 2);
       list = list.filter((p) => {
         const inName = p.name.toLowerCase().includes(q);
         const inBrand = (p.brand || '').toLowerCase().includes(q);
         const inCat = p.category.toLowerCase().includes(q) || (p.subCategory || '').toLowerCase().includes(q);
         const inDesc = p.description.toLowerCase().includes(q);
         const inTags = p.tags ? p.tags.some((t) => t.toLowerCase().includes(q)) : false;
-        return inName || inBrand || inCat || inDesc || inTags;
+        const directMatch = inName || inBrand || inCat || inDesc || inTags;
+        if (directMatch) return true;
+
+        // Natural language token matching for conversational queries
+        return terms.some((term) => {
+          return (
+            p.name.toLowerCase().includes(term) ||
+            p.category.toLowerCase().includes(term) ||
+            (p.subCategory && p.subCategory.toLowerCase().includes(term)) ||
+            (p.tags && p.tags.some((t) => t.toLowerCase().includes(term))) ||
+            p.description.toLowerCase().includes(term)
+          );
+        });
       });
     }
 
@@ -190,8 +215,9 @@ function DiscoveryContent() {
 
               <button
                 type="button"
+                id="discoveryVisualSearchBtn"
                 onClick={() => openVisualSearch()}
-                className="p-2 text-white/60 hover:text-accent-pink transition-colors cursor-pointer"
+                className="p-2 text-white/60 hover:text-accent-cyan transition-colors cursor-pointer"
                 title="Search by Photo (Visual Search)"
                 aria-label="Search by Photo"
               >

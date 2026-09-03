@@ -60,7 +60,7 @@ export interface ConciergeState {
   selectedFit: string;
   
   // Actions
-  openConcierge: () => void;
+  openConcierge: (initialPrompt?: string | unknown) => void;
   closeConcierge: () => void;
   sendMessage: (query: string) => void;
   clearChat: () => void;
@@ -92,7 +92,15 @@ export const useConciergeStore = create<ConciergeState>((set, get) => ({
   selectedSize: 'M (40")',
   selectedFit: 'True to size (Clean silhouette)',
   
-  openConcierge: () => set({ isOpen: true }),
+  openConcierge: (initialPrompt?: string | unknown) => {
+    set({ isOpen: true });
+    if (typeof initialPrompt === 'string' && initialPrompt.trim()) {
+      const prompt = initialPrompt.trim();
+      setTimeout(() => {
+        get().sendMessage(prompt);
+      }, 150);
+    }
+  },
   closeConcierge: () => set({ isOpen: false }),
   
   clearChat: () =>

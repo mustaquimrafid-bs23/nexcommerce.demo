@@ -44,6 +44,24 @@
   3. Typography and numerical metrics lack luminous accent highlights (`text-accent-cyan`, high-contrast white).
 - **Container-Scoped Component Cards**: Do not place dark component background fills on full-width section wrappers. Wrap cards in `.container` to prevent horizontal edge-to-edge color bands.
 - **Complete Viewport Vertical Inspection**: Always audit every subordinate section (filters, chips, search refinement bars) from header to footer before submitting work.
+- **🛡️ MANDATORY SITE-WIDE ATELIER ROYAL SAPPHIRE NAVY INVARIANT (ZERO PITCH-BLACK)**:
+  - **Strict Pitch-Black Ban**: Pitch-black or muddy grey-black backgrounds (`#000000`, `#070B14`, `#02070f`, `#021127`, `bg-black/*`) are STRICTLY FORBIDDEN across all website surfaces, pages, cards, drawers, dialogs, and overlays.
+  - **Visible Blue Invariant**: All containers, modals, drawers, and overlays must be visibly, unmistakably **Royal Sapphire Navy** (`#0e3266` to `#071d3f`), matching the signature search modal.
+  - **Canonical Palette Matrix**:
+    | Surface Element | Exact Tailwind / Hex Formula |
+    | :--- | :--- |
+    | **Root Body Canvas** | `bg-[#01132B] bg-[radial-gradient(120%_80%_at_50%_0%,#032B5E_0%,#01132B_60%,#001838_100%)]` |
+    | **Drawer / Modal Panel** | `bg-gradient-to-b from-[#0e3266]/98 via-[#0a2652]/98 to-[#071d3f]/98 border border-[#3DE0FF]/30 backdrop-blur-2xl shadow-[-24px_0_70px_rgba(2,19,45,0.85)]` |
+    | **Overlay Backdrop** | `bg-[#02132d]/75 backdrop-blur-md` (NEVER `bg-black/*`) |
+    | **Modal / Drawer Header**| `bg-[#0c2f60]/90 border-b border-white/15` with close button `bg-[#143d78]` |
+    | **Media Stage / Photo Card** | `bg-gradient-to-b from-[#113972]/85 via-[#0c2d5c]/95 to-[#071f44] border border-[#3DE0FF]/25` |
+    | **Inner Spec / Content Cards** | `bg-[#082248]/85 border border-[#1a4785] divide-y divide-[#173e75]/60` |
+    | **Icon Chips & Accents** | `bg-[#133d78] text-accent-cyan border border-[#3DE0FF]/30` |
+    | **Sticky Action Dock** | `bg-[#071d3f]/98 border-t border-[#1a4785]` |
+    | **Control Pills / Steppers** | `bg-[#0c2f60] border border-white/20 text-white` |
+  - **Reference Prototype Token Translation Invariant**:
+    - When porting, elevating, or matching UI features against a reference prototype branch (e.g., `feature/storefront-elevation` or static mockups), NEVER blindly copy legacy near-black or muddy grey color values (`rgba(4, 7, 16, *)`, `rgba(13, 19, 36, *)`, `#040710`, `#070B14`).
+    - While layout geometry, typography, micro-interactions, and copy must achieve 100% parity, all container backgrounds, modal dialogs, and overlay backdrops MUST be strictly translated into the canonical **Atelier Royal Sapphire Navy Matrix** (`rgba(2, 19, 45, 0.75)` backdrop, `rgba(14, 50, 102, 0.98)` dialog gradient, `rgba(17, 57, 114, 0.85)` cards).
 
 ## 5. Authentication & Entry Portal UX Standard (`signin.html` / `signup.html`)
 - **Pure Editorial Photography (No Widget Clutter)**:
@@ -132,6 +150,13 @@
   - **Phase 2 (Active / Searched)**: Center dropzone transforms into the matching product grid; top active photo bar appears showing the uploaded image thumbnail, match count, and a simple `Change Photo` action.
 - **Minimalist Jargon-Free UX**:
   - Keep the interface free of extraneous capsule tags or confusing technical terms (*"Neural Vector Scan"*, *"1536-dim embeddings"*, *"Silhouette constraints"*). Keep the focus squarely on the photo and the matching products with 1-click **Add to Bag**.
+
+## 16. Modal Product Card Scaling & Viewport Height Resilience
+- **Modal Product Card Height Capping**:
+  Inside overlay modals (`#aiSearchModal`, `#aiTourModal`), avoid unbounded `aspect-[1/1.05]` or tall card wrappers that push prices and CTAs below the fold. Always cap image containers at `h-36 sm:h-40 md:h-44` with `object-fit: contain` inside radial studio wrappers so that all card details (brand, title, swatches, price, reasoning links, and Quick Add buttons) remain 100% visible on displays scaled at 125%–150% (550px–650px effective viewport height).
+- **Natural Language Tokenization & Stopword Cleansing Invariant**:
+  When conversational natural language queries (e.g. `"Warm coat for a cold weekend in Edinburgh"`) are forwarded to catalog discovery (`/discovery?q=...`), always sanitize connecting words via a dedicated stopword filter (`new Set(['for', 'a', 'an', 'in', 'and', 'the', 'with', 'under', 'to', 'of', 'on', 'at', 'is', 'by', 'or', 'from'])`). Never allow prepositions or connecting words to be rendered as standalone filter chips (`Understood Context: For ✕`).
+
 
 
 

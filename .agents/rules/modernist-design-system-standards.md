@@ -104,11 +104,15 @@ There is an established, iconic brand identity for **nexCommerce**. Modernist pr
    - `linear-gradient(90deg, #3DE0FF 0%, #38BDF8 50%, #FB7185 100%)` with ambient specular glow `box-shadow: 0 0 12px rgba(61, 224, 255, 0.6)`.
    - Used for continuous story timers, spotlight progress bars, and luminous signature accents.
    - **Anti-Pattern**: NEVER strip the signature brand gradient into plain greyscale/monochrome black-and-white.
-2. **Obsidian Brand Canvas Palette**:
-   - Deep background: `#010C1E` / Surface card: `#080E1E` (or `rgba(8, 14, 30, 0.80)` with `backdrop-filter: blur(20px)`).
+2. **Obsidian & Royal Sapphire Navy Brand Canvas Palette**:
+   - **Root Canvas**: `#01132B` with top-center radial aura `#032B5E` radiating downward.
+   - **Overlay, Drawer & Modal Surfaces**: Must use the rich **Atelier Royal Sapphire Navy** gradient (`#0e3266` via `#0a2652` to `#071d3f` with `border-[#3DE0FF]/30`).
+   - **Overlays / Backdrops**: Deep midnight sapphire tint `#02132d` at 75% opacity with `backdrop-blur-md`.
+   - **Interior Cards & Specs**: `#082248` with `#1a4785` borders and `#133d78` icon chips.
+   - **STRICT INVARIANT**: Pitch-black or muddy grey-black fills (`#000000`, `#070B14`, `#02070f`, `#021127`, `bg-black/*`) are STRICTLY FORBIDDEN anywhere on the site.
 3. **Core Accent Roles**:
    - **Electric Cyan (`#3DE0FF`)**: Live status pulse dots, focus rings, interactive telemetry signals, and AI indicators.
-   - **Rose / Coral (`#FB7185`)**: Refined luxury wishlist active state, seasonal editorial badges, and highlight tags.
+   - **Rose / Coral (`#FB7185` / `#E60C45`)**: Refined luxury wishlist active state, seasonal editorial badges, and highlight tags.
 
 Priority order:
 1. **Existing nexCommerce brand guidelines & signature accents**

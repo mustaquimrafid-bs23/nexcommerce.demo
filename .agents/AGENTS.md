@@ -208,6 +208,7 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Animations & Motion Engineering:** Use libraries like **Motion (motion.dev)**, **GSAP**, and the installed **Emil Kowalski Design Engineering Suite** (`animate`, `apple-design`, `emil-design-eng`, `review-animations`, `find-animation-opportunities`) for fluid physics, interruptible springs, momentum projection, and custom easing curves (`cubic-bezier(0.23, 1, 0.32, 1)`).
 - **GPU-Composited Progress Animations**: Never animate CPU layout properties (`width`, `height`) for continuous progress/story timers. Always use GPU `transform: scaleX(0) → scaleX(1)` with `transform-origin: left center`, `will-change: transform`, and parent `overflow: hidden` to guarantee 120fps subpixel smoothness and zero clipped visual artifacts.
 - **Display Scaling Resilience (1080p @ 125%–150%)**: Always account for scaled laptop displays (effective viewport heights of 550px–650px). Scale header heights down on compact viewports (`≤800px` height), cap hero `min-height` at `360px–420px`, and ensure above-the-fold CTAs and headlines have zero-scroll visibility.
+- **Modal Product Card Height Capping Invariant**: Inside overlay modals (`#aiSearchModal`, `#aiTourModal`), avoid unbounded `aspect-[1/1.05]` or tall card wrappers that push prices and CTAs below the fold. Always cap image containers at `h-36 sm:h-40 md:h-44` with `object-fit: contain` inside radial studio wrappers so that all card details (brand, title, swatches, price, and Quick Add buttons) remain 100% visible on displays scaled at 125%–150% (550px–650px effective viewport height).
 - **3D Perspective & Spatial Tag Safety**: In containers with `perspective: 1000px–1200px`, cap corner-anchored interactive tags at `translateZ(10px–15px)` to prevent outward 3D perspective expansion beyond screen borders. Never inject inline percentage coordinates from JS that override CSS responsive boundaries.
 - **Centralized Event Delegation & No Inline Handlers**: Avoid inline JS handlers (`onclick`, `onchange`, etc.) on HTML elements. Delegate all event handling, keyboard interaction (`keydown` for Enter/Space), and child element exclusion (`closest()`) inside dedicated page/component scripts.
 - **HTML Attribute Quote & Syntax Hygiene**: Never nest unescaped quotes inside HTML attributes (e.g. `onclick="...href="..."..."`). Prefer semantic `<a>` tags with `href` or `data-*` attributes mapped to centralized event handlers.
@@ -417,6 +418,20 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - **Confirmation Page Radical Simplicity**: Order Confirmation (`/confirmation`) must remain an uncluttered celebration receipt featuring the glowing emerald checkmark halo, personalized customer greeting with email confirmation note, concise digital receipt card (Order # with 1-click copy, ETA, total, destination, QR pass), and exactly two primary CTAs: **[View Order Details →]** (linking to `/orders/[id]`) and **[Continue Shopping]** (linking to `/category`).
 - **Strict Domain Separation**: The confirmation page must NEVER duplicate the full 6-card operations dashboard (timeline steppers, tax invoice breakdown tables, return/cancellation actions, or recommendation carousels). All operational telemetry, invoice downloads, and return controls belong strictly in **Order Details (`/orders/[id]`)**.
 - **Multi-Storage Synchronization**: Completed orders must synchronize across session storage (`latest_order`, `nex_confirmed_order`) and local storage (`nex_placed_orders`, `nex_orders`) so confirmation and order history views hydrate actual customer and item details dynamically.
+
+**33. Safe IntersectionObserver & Non-Destructive Scroll Reveals**:
+- All scroll-reveal hooks (`useReveal`) must normalize `rootMargin` to 4 valid tokens (`100px 0px 50px 0px`), guard observer instantiation in `try/catch`, and avoid destructive synchronous `opacity: 0` inline traps that break SSR hydration, React StrictMode re-mounts, and full-page visual captures.
+
+**34. Canonical Storefront Prototype Parity Invariant**:
+- When implementing or auditing Next.js App Router storefront pages against prototype branches (`feature/storefront-elevation`), enforce strict 1-to-1 parity on section count, container IDs, microcopy, prices, and layout hierarchy without adding unapproved placeholder or speculative sections.
+
+**35. Live Reference Branch Worktree & Visual Screenshot Invariant**:
+- Whenever the user specifies 100% parity with a reference branch (e.g. `feature/storefront-elevation`), do not rely solely on static code search.
+- Spin up an isolated temporary worktree (`git worktree add scratch/elevation_worktree <branch>`), serve on an alternate port (e.g. `8089`), capture live reference screenshots via Chrome DevTools MCP, and verify the implementation 1:1 against the live running reference before cleanly tearing down the worktree.
+
+**36. Context Pill Stopword Cleansing Invariant**:
+- When natural language conversational queries are forwarded to catalog discovery pages (`/discovery?q=...`), the context pill extractor must filter out grammatical stopwords (`for`, `and`, `the`, `with`, `under`, `to`, `of`, `in`, `at`, `by`, `from`, `or`, `a`, `an`).
+- Never allow connecting words to display as standalone context chips in the UI.
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 

@@ -223,23 +223,24 @@ export function ComponentWithModal() {
       </button>
 
       {/* Portaled Modal - Never clipped by parent backdrop-blur or overflow */}
+      {/* MANDATORY: Use Royal Sapphire Navy styling (NEVER bg-black/*) */}
       {mounted && isOpen && createPortal(
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-[9999] bg-[#02132d]/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
         >
           {/* Backdrop Click Dismiss */}
           <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
 
-          {/* Dialog Container */}
-          <div className="max-w-md w-full rounded-2xl bg-[#012148] border border-white/20 p-6 sm:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] relative z-10 animate-[fadeIn_0.2s_ease-out] space-y-4">
+          {/* Dialog Container - Royal Sapphire Navy Palette */}
+          <div className="max-w-md w-full rounded-2xl bg-gradient-to-b from-[#0e3266]/98 via-[#0a2652]/98 to-[#071d3f]/98 border border-[#3DE0FF]/30 p-6 sm:p-7 shadow-[0_25px_60px_rgba(2,19,45,0.85)] relative z-10 animate-[fadeIn_0.2s_ease-out] space-y-4">
             <div className="flex items-start justify-between gap-3">
               <h3 className="text-base font-bold text-white">Dialog Title</h3>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+                className="w-7 h-7 rounded-lg bg-[#143d78] border border-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -270,5 +271,32 @@ export function ComponentWithModal() {
   );
 }
 ```
+
+---
+
+## 8. Safe Scroll Reveal & Non-Destructive Entrance Standard
+
+- **Zero Opacity-0 Lock Traps**: Never lock DOM elements to `opacity: '0'` via permanent inline styles in custom hooks before an observer triggers. Elements must remain visible and accessible by default for SSR hydration, SEO scrapers, and headless full-page automated captures.
+- **Valid 4-Token `rootMargin` Parsing**: `IntersectionObserver` strictly requires standard 4-token margin strings (`100px 0px 50px 0px` or `0px 0px -10% 0px`). Single shorthand tokens like `'-10%'` throw a native browser `DOMException`. Always normalize single margin inputs.
+- **Fail-Safe WAAPI Entrance**: Trigger entrance animations via WAAPI `el.animate(...)` with `{ fill: 'forwards' }` and wrap observer creation in `try / catch` with an immediate entrance fallback if observer construction fails.
+
+---
+
+## 9. Canonical Prototype & Branch Parity Invariant
+
+- **Strict Section-Count Invariant**: When migrating or elevating pages from a prototype branch (e.g. `feature/storefront-elevation`), never introduce speculative or unrequested sections (e.g. extra category rails, duplicate carousels, extra trust strips) that are not part of the canonical reference spec.
+- **Exact Data & Microcopy Parity**: Product identifiers (`id: 'p2'`), discount percentages, eyebrow tags (`Flash Sale`, `Smart Search`, `Recommended for You`), and CTA labels must match the prototype 1-to-1.
+- **Pre-Completion Branch Parity Diff Verification**: Before declaring migration completion, run an automated parity script or diff against the reference prototype HTML to confirm that section counts, container IDs, and core interactive anchors match with zero unexplained divergence.
+
+---
+
+## 10. Modal Quick-Add Overlay Isolation Invariant
+
+- **Modal Quick-Add Side-Effect Containment**:
+  - When invoking `useCartStore.getState().addItem()` from within an active dialog modal or slide-over drawer (e.g., Visual Search Modal, Quick Look Drawer, Hotspot Popover, Search Overlay), the action must NOT trigger unwanted drawer stacking collisions or popups.
+  - If `addItem()` defaults to setting `isOpen: true` (opening the `MiniCartDrawer`), the modal component must immediately call `useCartStore.getState().closeCart()` (or add the item silently) so that the cart drawer backdrop (`z-[9998]`) does not render and intercept pointer events.
+  - The active modal must remain in primary focus, with the quick-add button displaying a temporary inline success state (e.g., green `✓ Added`), and the cart counter badge updating ambiently.
+
+
 
 

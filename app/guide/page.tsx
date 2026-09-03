@@ -31,6 +31,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { useConciergeStore } from '@/store/useConciergeStore';
+import { useSearchStore } from '@/store/useSearchStore';
 
 interface FeatureItem {
   id: number;
@@ -333,16 +334,11 @@ export default function GuidePage() {
   const handleActionClick = (feature: FeatureItem, e: React.MouseEvent) => {
     if (feature.actionType === 'concierge') {
       e.preventDefault();
-      openConcierge();
+      openConcierge(feature.example.replace(/^["']|["']$/g, ''));
     } else if (feature.actionType === 'search') {
-      if (typeof window !== 'undefined') {
-        const searchBtn = document.getElementById('searchTriggerBtn');
-        if (searchBtn) {
-          searchBtn.click();
-        } else {
-          document.dispatchEvent(new CustomEvent('nex:open-search'));
-        }
-      }
+      e.preventDefault();
+      const cleanQuery = feature.example.replace(/^["']|["']$/g, '');
+      useSearchStore.getState().openSearch(cleanQuery, true);
     }
   };
 

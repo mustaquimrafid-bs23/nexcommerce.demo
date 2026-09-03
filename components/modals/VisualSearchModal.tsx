@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Camera, Upload, Sparkles, Check, ShoppingBag, ArrowRight } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import { MASTER_PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
 import { useVisualSearchStore } from '@/store/useVisualSearchStore';
@@ -10,28 +10,39 @@ import { Product } from '@/types/catalog';
 
 export const PRESET_LOOKS = [
   {
-    id: 'overcoat',
-    name: 'Tailored Milan Overcoat',
+    id: 'knitwear',
+    name: 'Cashmere Sweater',
     image: '/assets/images/products/hero_sweater.png',
-    category: 'outerwear',
+    queryKey: 'coat knitwear cashmere sweater',
+    category: 'apparel',
   },
   {
-    id: 'acoustics',
-    name: 'Titanium Studio Acoustics',
-    image: '/assets/images/products/prod_headphones.png',
-    category: 'acoustics',
-  },
-  {
-    id: 'runner',
-    name: 'Full-Grain Leather Runner',
+    id: 'footwear',
+    name: 'Leather Sneakers',
     image: '/assets/images/products/prod_runner.png',
+    queryKey: 'shoe running sneaker footwear',
     category: 'footwear',
   },
   {
-    id: 'blazer',
-    name: 'Italian Virgin Wool Blazer',
-    image: '/assets/images/products/plp_blazer.png',
-    category: 'tailoring',
+    id: 'outerwear',
+    name: 'Wool Overcoat',
+    image: '/assets/images/products/plp_overcoat.png',
+    queryKey: 'coat jacket wool outerwear',
+    category: 'outerwear',
+  },
+  {
+    id: 'audio',
+    name: 'Headphones',
+    image: '/assets/images/products/prod_headphones.png',
+    queryKey: 'headphone audio sound studio',
+    category: 'acoustics',
+  },
+  {
+    id: 'accessories',
+    name: 'Canvas Tote',
+    image: '/assets/images/products/prod_tote.png',
+    queryKey: 'bag tote canvas accessories',
+    category: 'accessories',
   },
 ];
 
@@ -41,77 +52,156 @@ interface VisualSearchModalProps {
 }
 
 export function VisualSearchModal({ isOpen: propIsOpen, onClose: propOnClose }: VisualSearchModalProps = {}) {
+  const [mounted, setMounted] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const storeIsOpen = useVisualSearchStore((s) => s.isOpen);
   const storeClose = useVisualSearchStore((s) => s.closeVisualSearch);
+  const storeInitialPreset = useVisualSearchStore((s) => s.activePreset);
   const storeInitialImage = useVisualSearchStore((s) => s.activeImage);
+  const storeInitialLabel = useVisualSearchStore((s) => s.activeLabel);
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : storeIsOpen;
   const onClose = propOnClose || storeClose;
 
   const { addItem } = useCartStore();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [activeThumb, setActiveThumb] = useState<string | null>(null);
   const [activeLabel, setActiveLabel] = useState<string | null>(null);
-  const [results, setResults] = useState<Product[]>([]);
+  const [results, setResults] = useState<(Product & { visualScore?: number })[]>([]);
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const [isDragOver, setIsDragOver] = useState(false);
 
   useEffect(() => {
-    if (storeInitialImage) {
-      setActiveThumb(storeInitialImage);
-      setActiveLabel('Uploaded Reference');
-      setResults(MASTER_PRODUCTS.slice(0, 3));
+    setMounted(true);
+  }, []);
+
+  // Sync state when store updates or modal opens
+  useEffect(() => {
+    if (!isOpen) {
+      setActiveThumb(null);
+      setActiveLabel(null);
+      setResults([]);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } else {
+      if (storeInitialPreset) {
+        handleSearchPreset(storeInitialPreset);
+      } else if (storeInitialImage) {
+        setActiveThumb(storeInitialImage);
+        setActiveLabel(storeInitialLabel || 'Uploaded Photo');
+        _executeCatalogMatching(storeInitialLabel || 'photo');
+      } else {
+        setActiveThumb(null);
+        setActiveLabel(null);
+        setResults([]);
+      }
     }
-  }, [storeInitialImage]);
+  }, [isOpen, storeInitialPreset, storeInitialImage, storeInitialLabel]);
 
+  // Handle Escape key and body scroll lock
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape') {
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    // Stop Lenis if available
+    if (typeof window !== 'undefined' && (window as any)._nexLenis?.stop) {
+      (window as any)._nexLenis.stop();
+    }
+    document.body.classList.add('nex-modal-open');
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('nex-modal-open');
+      if (typeof window !== 'undefined' && (window as any)._nexLenis?.start) {
+        (window as any)._nexLenis.start();
+      }
+    };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!mounted || !isOpen) return null;
 
-  const handleSelectPreset = (preset: typeof PRESET_LOOKS[0]) => {
+  const handleSearchPreset = (presetKey: string) => {
+    const preset = PRESET_LOOKS.find((p) => p.id === presetKey) || PRESET_LOOKS[0];
     setActiveThumb(preset.image);
     setActiveLabel(preset.name);
-    // Find matching products
-    const matches = MASTER_PRODUCTS.filter(
-      (p) => p.category.toLowerCase() === preset.category.toLowerCase()
-    ).slice(0, 3);
-    setResults(matches.length > 0 ? matches : MASTER_PRODUCTS.slice(0, 3));
+    _executeCatalogMatching(preset.queryKey);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const _executeCatalogMatching = (queryKey: string) => {
+    const q = queryKey.toLowerCase();
+    let matches: (Product & { visualScore?: number })[] = [];
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      setActiveThumb(dataUrl);
-      setActiveLabel(file.name.replace(/\.[^/.]+$/, '').slice(0, 20));
+    if (q.includes('knitwear') || q.includes('sweater') || q.includes('cashmere')) {
+      matches = MASTER_PRODUCTS.filter((p) => p.id === 'p1' || p.id === 'p2' || p.id === 'p3');
+    } else if (q.includes('shoe') || q.includes('runner') || q.includes('footwear') || q.includes('sneaker')) {
+      matches = MASTER_PRODUCTS.filter((p) => p.category === 'footwear' || p.tags?.includes('footwear') || p.id === 'p6');
+    } else if (q.includes('headphone') || q.includes('audio') || q.includes('sound') || q.includes('acoustic')) {
+      matches = MASTER_PRODUCTS.filter((p) => p.category === 'acoustics' || p.id === 'p4');
+    } else if (q.includes('coat') || q.includes('blazer') || q.includes('outerwear')) {
+      matches = MASTER_PRODUCTS.filter((p) => p.id === 'p3' || p.id === 'p2' || p.id === 'p1');
+    } else {
+      matches = MASTER_PRODUCTS.filter((p) => p.category === 'apparel' || p.id === 'p1' || p.id === 'p2');
+    }
 
-      const lower = file.name.toLowerCase();
-      let matched = MASTER_PRODUCTS.slice(0, 3);
-      if (lower.includes('shoe') || lower.includes('runner') || lower.includes('boot') || lower.includes('sneaker')) {
-        matched = MASTER_PRODUCTS.filter((p) => p.category === 'footwear').slice(0, 3);
-      } else if (lower.includes('headphone') || lower.includes('audio') || lower.includes('acoustic')) {
-        matched = MASTER_PRODUCTS.filter((p) => p.category === 'acoustics').slice(0, 3);
-      } else if (lower.includes('jacket') || lower.includes('coat') || lower.includes('blazer') || lower.includes('outerwear')) {
-        matched = MASTER_PRODUCTS.filter((p) => p.category === 'outerwear' || p.category === 'apparel').slice(0, 3);
+    // Ensure we always present 3 matching cards
+    if (matches.length < 3) {
+      for (const p of MASTER_PRODUCTS) {
+        if (!matches.some((m) => m.id === p.id)) {
+          matches.push(p);
+        }
+        if (matches.length >= 3) break;
       }
-      setResults(matched.length > 0 ? matched : MASTER_PRODUCTS.slice(0, 3));
+    }
+
+    // Assign realistic match confidence scores
+    const scoredMatches = matches.slice(0, 3).map((p, idx) => ({
+      ...p,
+      visualScore: idx === 0 ? 0.96 : idx === 1 ? 0.93 : 0.89,
+    }));
+
+    setResults(scoredMatches);
+  };
+
+  const handleFileUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      const cleanName = file.name.replace(/\.[^/.]+$/, '').slice(0, 20);
+      setActiveThumb(dataUrl);
+      setActiveLabel(cleanName);
+      _executeCatalogMatching(file.name);
     };
     reader.readAsDataURL(file);
   };
 
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      handleFileUpload(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      handleFileUpload(file);
+    }
+  };
+
   const handleQuickAdd = (product: Product) => {
     addItem(product, product.sizes ? product.sizes[0] : 'One Size');
+    useCartStore.getState().closeCart();
     setAddedIds((prev) => new Set(prev).add(product.id));
     setTimeout(() => {
       setAddedIds((prev) => {
@@ -119,152 +209,302 @@ export function VisualSearchModal({ isOpen: propIsOpen, onClose: propOnClose }: 
         next.delete(product.id);
         return next;
       });
-    }, 2000);
+    }, 1600);
   };
 
-  return (
+  const handleResetToDropzone = () => {
+    setActiveThumb(null);
+    setActiveLabel(null);
+    setResults([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  return createPortal(
     <div
-      id="nexVisualSearchModal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-950/85 backdrop-blur-md animate-fade-in"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Multimodal Visual Search"
+      className="nex-visual-modal-backdrop active"
+      id="nexVisualSearchBackdrop"
+      aria-hidden="false"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
-      <div className="relative w-full max-w-2xl rounded-3xl bg-surface-card border border-white/15 p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-accent-pink/15 text-accent-pink flex items-center justify-center">
-              <Camera size={16} />
-            </div>
-            <div>
-              <h2 className="font-editorial text-2xl text-white font-normal">Multimodal Visual Lens</h2>
-              <span className="text-[10px] font-mono text-white/50 uppercase">Neural Image Recognition</span>
-            </div>
+      <div
+        className="nex-visual-modal-dialog nex-visual-v2-dialog"
+        id="nexVisualSearchDialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="nexVisualSearchTitle"
+        data-lenis-prevent
+      >
+        <input
+          type="file"
+          id="nexVisualFileInput"
+          ref={fileInputRef}
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleFileInputChange}
+        />
+
+        {/* Clean Header */}
+        <div className="nex-visual-modal-header">
+          <div>
+            <h2 className="nex-visual-title" id="nexVisualSearchTitle">
+              Shop by Photo
+            </h2>
+            <p className="nex-visual-subtitle">
+              Upload a photo to find similar clothes in our store.
+            </p>
           </div>
           <button
             type="button"
+            className="nex-visual-close-btn"
+            id="nexVisualCloseBtn"
+            aria-label="Close Visual Search (Esc)"
             onClick={onClose}
-            aria-label="Close visual search modal"
-            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-white/70 flex items-center justify-center transition-colors cursor-pointer"
           >
-            <X size={16} />
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
           </button>
         </div>
 
-        {/* Upload Drop Zone */}
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          className="p-6 rounded-2xl border-2 border-dashed border-white/20 hover:border-accent-cyan/60 bg-obsidian-950/50 text-center space-y-2 cursor-pointer transition-colors group"
-        >
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            accept="image/*"
-            className="hidden"
-          />
-          <div className="w-10 h-10 rounded-full bg-white/5 text-white/60 group-hover:text-accent-cyan flex items-center justify-center mx-auto transition-colors">
-            <Upload size={18} />
-          </div>
-          <div className="text-xs font-semibold text-white">Upload or drop any fashion photo</div>
-          <p className="text-[11px] text-white/50 font-light">
-            Matches silhouette, color harmonies, and textures across our European catalog.
-          </p>
-        </div>
-
-        {/* Preset Lookbook Inspiration */}
-        <div className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-white/60 block">
-            Or test with curated atelier pieces:
-          </span>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {PRESET_LOOKS.map((look) => (
-              <button
-                key={look.id}
-                type="button"
-                onClick={() => handleSelectPreset(look)}
-                className={`p-2 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2 ${
-                  activeLabel === look.name
-                    ? 'bg-accent-cyan/15 border-accent-cyan'
-                    : 'bg-obsidian-950/60 border-white/10 hover:border-white/20'
-                }`}
-              >
-                <img src={look.image} alt={look.name} className="w-8 h-8 object-contain rounded" />
-                <span className="text-[11px] text-white font-medium truncate">{look.name.split(' ')[0]}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Active Query Lens Bar */}
+        {/* Active Photo Bar (Visible only when a photo is active) */}
         {activeThumb && (
-          <div className="p-3 rounded-2xl bg-obsidian-950/90 border border-accent-pink/30 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <img src={activeThumb} alt="Query Lens" className="w-10 h-10 rounded-lg object-contain bg-white/5 p-1" />
-              <div className="min-w-0">
-                <span className="text-[10px] font-mono uppercase text-accent-pink block">Active Lens Query</span>
-                <span className="text-xs font-semibold text-white truncate block">{activeLabel}</span>
+          <div className="nex-visual-lens-bar" id="nexVisualLensBar">
+            <div className="nex-visual-lens-chip" id="nexVisualActiveChip">
+              <img id="nexVisualChipThumb" src={activeThumb} alt="Selected Photo" />
+              <span id="nexVisualChipLabel">{activeLabel}</span>
+            </div>
+
+            <div className="nex-visual-lens-status" id="nexVisualLensStatus">
+              Showing matches for {activeLabel}...
+            </div>
+
+            <button
+              type="button"
+              className="nex-visual-lens-upload-btn"
+              id="nexVisualUploadTrigger"
+              aria-label="Change photo"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                <line x1="16" x2="22" y1="5" y2="5" />
+                <line x1="19" x2="19" y1="2" y2="8" />
+                <circle cx="9" cy="9" r="2" />
+                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+              </svg>
+              <span>Change Photo</span>
+            </button>
+          </div>
+        )}
+
+        {/* Matching Products Results or Initial Center Dropzone */}
+        <div className="nex-visual-results-grid" id="nexVisualResultsGrid">
+          {!activeThumb ? (
+            /* Initial Blank / Empty State (Single Upload Dropzone) */
+            <div
+              className={`nex-visual-initial-prompt ${isDragOver ? 'dragover' : ''}`}
+              id="nexVisualDropzonePrompt"
+              role="button"
+              tabIndex={0}
+              aria-label="Click or drop an image here to search"
+              onClick={() => fileInputRef.current?.click()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragOver(true);
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragOver(false);
+              }}
+              onDrop={handleDrop}
+            >
+              <div className="nex-visual-prompt-icon">
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#3DE0FF"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                  <line x1="16" x2="22" y1="5" y2="5" />
+                  <line x1="19" x2="19" y1="2" y2="8" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                </svg>
+              </div>
+              <h3 className="nex-visual-prompt-title">Click or drop any photo here</h3>
+              <p className="nex-visual-prompt-desc">
+                Upload an outfit image to find matching pieces, or run an instant demo.
+              </p>
+
+              <div className="nex-visual-prompt-actions">
+                <button
+                  type="button"
+                  className="nex-visual-browse-btn"
+                  id="nexVisualBrowseBtn"
+                  aria-label="Browse photos on your device"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    fileInputRef.current?.click();
+                  }}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                    <line x1="16" x2="22" y1="5" y2="5" />
+                    <line x1="19" x2="19" y1="2" y2="8" />
+                    <circle cx="9" cy="9" r="2" />
+                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                  </svg>
+                  <span>Browse Photos</span>
+                </button>
+                <button
+                  type="button"
+                  className="nex-visual-demo-btn"
+                  id="nexVisualDemoBtn"
+                  aria-label="Run instant demo with sample outfit photo"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSearchPreset('knitwear');
+                  }}
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                  </svg>
+                  <span>✨ Try Demo</span>
+                </button>
               </div>
             </div>
-            <span className="text-[10px] font-mono text-accent-cyan shrink-0">Neural Embeddings Synced</span>
-          </div>
-        )}
-
-        {/* Matching Results Grid */}
-        {results.length > 0 && (
-          <div className="space-y-3 pt-1">
-            <div className="flex items-center justify-between text-xs text-white/60">
-              <span className="font-semibold uppercase tracking-wider text-[11px]">Visual Catalog Matches</span>
-              <span className="font-mono text-accent-cyan">{results.length} Pieces Found</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {results.map((p, idx) => {
-                const matchScore = 98 - idx * 4;
-                const isAdded = addedIds.has(p.id);
-                return (
-                  <div
-                    key={p.id}
-                    className="p-3 rounded-2xl bg-obsidian-950/60 border border-white/10 flex flex-col justify-between space-y-2.5 relative group"
-                  >
-                    <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-accent-cyan/20 text-accent-cyan font-mono text-[9px] font-bold">
-                      {matchScore}% MATCH
-                    </span>
-
-                    <div className="aspect-square rounded-xl bg-white/5 p-2 flex items-center justify-center">
-                      <img src={p.image} alt={p.name} className="max-h-full max-w-full object-contain" />
-                    </div>
-
-                    <div className="space-y-0.5">
-                      <h4 className="text-xs font-semibold text-white truncate">{p.name}</h4>
-                      <div className="font-mono text-xs text-white/80">{formatPrice(p.price)}</div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleQuickAdd(p)}
-                      className="w-full py-2 rounded-xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-[10px] font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-md"
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check size={12} />
-                          <span>Added!</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag size={12} />
-                          <span>Add to Bag</span>
-                        </>
-                      )}
-                    </button>
+          ) : results.length > 0 ? (
+            results.map((p) => {
+              const scorePct = Math.round((p.visualScore || 0.96) * 100);
+              const isAdded = addedIds.has(p.id);
+              return (
+                <div key={p.id} className="nex-visual-result-card" data-product-id={p.id}>
+                  <div className="nex-visual-card-score">{scorePct}% MATCH</div>
+                  <div className="nex-visual-card-img-wrap">
+                    <img src={p.image} alt={p.name} className="nex-visual-card-img" />
                   </div>
-                );
-              })}
+                  <div className="nex-visual-card-body">
+                    <div className="nex-visual-card-title">{p.name}</div>
+                    <div className="nex-visual-card-price">{formatPrice(p.price)}</div>
+                  </div>
+                  <button
+                    type="button"
+                    className="nex-visual-card-add-btn"
+                    data-add-id={p.id}
+                    onClick={() => handleQuickAdd(p)}
+                  >
+                    {isAdded ? (
+                      <>
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#34D399"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        <span style={{ color: '#34D399' }}>Added</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                          <path d="M3 6h18" />
+                          <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                        <span>+ Add to Bag</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <div className="nex-visual-initial-prompt">
+              <p className="nex-visual-prompt-desc">
+                No matching items found. Try uploading a different photo.
+              </p>
+              <button
+                type="button"
+                className="nex-visual-browse-btn"
+                onClick={handleResetToDropzone}
+              >
+                Try Again
+              </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

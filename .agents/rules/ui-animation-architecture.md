@@ -90,3 +90,9 @@ Introduce Motion only when interactions require coordinated state transitions, g
 - **Horizontal Filter Pill Invariant**: All horizontal scrolling pill filters (`.plp-filter-bar`, tab strips) MUST have `flex-shrink: 0; white-space: nowrap;` to guarantee 100% text legibility across all mobile viewports (320px–480px).
 - **Hairline Luxury Border Invariant**: All dark luxury cards and capsules must strictly use translucent hairline borders (`1px solid rgba(255, 255, 255, 0.08)`) with multi-layer diffuse ambient shadows, strictly avoiding hard or thick solid outlines.
 
+### 8.11 Safe IntersectionObserver & WAAPI Scroll Reveal Standard
+- **Valid 4-Token `rootMargin` Formatting**: `IntersectionObserver` strictly requires standard CSS margin formatting (e.g. `'100px 0px 50px 0px'` or `'0px 0px -10% 0px'`). Single tokens like `'-10%'` or `'-8%'` throw a native browser `DOMException`. Always normalize single margin inputs to 4-token strings: `margin.includes(' ') ? margin : \`0px 0px \${margin} 0px\``.
+- **Zero Destructive Pre-Hiding (No Inline Opacity Lock Traps)**: Client-side scroll reveal hooks (such as `useReveal`) must NEVER lock DOM elements to `opacity: '0'` via permanent inline styles before observer execution. Elements must remain accessible and visible by default for SSR hydration, SEO scrapers, and headless full-page automated captures.
+- **Fail-Safe WAAPI Entrance**: Trigger entrance animations via WAAPI `el.animate([ { opacity: 0.15, transform: ... }, { opacity: 1, transform: 'none' } ], { duration, easing, fill: 'forwards' })`. Always wrap `IntersectionObserver` initialization in `try / catch` with an immediate entrance fallback if observer construction fails.
+- **Viewport Fallback**: On hook mount, check `el.getBoundingClientRect().top < window.innerHeight + threshold` to immediately reveal elements already visible or near the viewport.
+
