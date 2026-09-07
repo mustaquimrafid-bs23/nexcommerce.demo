@@ -1,5 +1,0 @@
-[     299ms] [ERROR] ANIMATIONS.JS IS LOADED AND EXECUTING! @ http://localhost:3000/js/animations.js?v=6:2
-[     321ms] NotFoundError: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
-    at injectFooterThemeChanger (http://localhost:3000/js/theme-switcher.js?v=3:347:21)
-    at HTMLDocument.init (http://localhost:3000/js/theme-switcher.js?v=3:405:5)
-[     345ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:3000/favicon.ico:0

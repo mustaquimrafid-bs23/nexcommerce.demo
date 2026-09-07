@@ -6,6 +6,10 @@
 
   function save(intentObj) {
     try {
+      // Respect user GDPR marketing/personalization consent
+      if (window.NexCookieConsent && !window.NexCookieConsent.hasConsent('marketing') && !window.NexCookieConsent.hasConsent('functional')) {
+        return;
+      }
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
         intent: intentObj,
         savedAt: Date.now(),

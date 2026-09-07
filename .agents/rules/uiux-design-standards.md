@@ -61,6 +61,16 @@ When conducting or analyzing user research (interviews, usability testing, custo
 - **Observe Behavior over Opinion**: Watch for hesitation, backtracking, missed cues, and incorrect clicks rather than asking *"Do you like the design?"*.
 - **Funnel Measurement**: Track drop-offs across the funnel (Discovery → PLP → PDP → Add to Cart → Cart Review → Checkout Step 1 → Payment → Confirmation) to pinpoint friction points.
 
+### 1.4 Mandatory 3-Option UI Generation & Selection Protocol
+- **Proactive Exploration**: For every new UI screen, component, modal, drawer, or visual modification, I must explore and present **3 distinct design directions** (e.g. Modernist Swiss, Glassmorphic Cyber-Luxe, Minimalist Monolith) with visual previews and clear rationale.
+- **User Choice Gate**: I must present these 3 generated options to the user and await explicit selection before writing production code or modifying files.
+
+### 🛡️ MANDATORY 3-TIER VERIFICATION PROTOCOL (Executed After EVERY Task)
+Never claim a task or feature is complete without executing all 3 verification tiers:
+1. **Tier 1 — Full Unit / Regression Test**: Run automated test suites (`node tests/...`) asserting state transitions, NLP matching, word boundaries, and calculations.
+2. **Tier 2 — Full Functional Test**: Programmatically verify end-to-end user workflows, cart item persistence (`localStorage`), search filters, and multi-page routing.
+3. **Tier 3 — Full UI / Visual Test**: Perform live browser tests across Desktop (1440px) and Mobile (375px) viewports with touch target compliance ($\ge 44\text{px}$) and screenshot evidence.
+
 ---
 
 ## 2. Design System Thinking — My Primary Mode
@@ -75,12 +85,28 @@ I never design a page directly without ensuring it is built from documented comp
 
 ### Foundations I Must Define Before Designing Screens
 - **Color tokens**: primary, secondary, semantic (success, warning, error, muted), surface, background
-- **Typography scale**: display, heading, subheading, body, caption, label — with size, weight, line-height, letter-spacing
+- **Typography system (European Luxury Standard)**:
+  - **Display / Headings**: `Neue Haas Grotesk` (fallbacks: `Helvetica Now`, `Manrope`, `Plus Jakarta Sans`)
+  - **UI / Body**: `Inter` (Navigation, buttons, product info, prices, filters, forms, checkout, account)
+  - **Editorial Accent**: `Instrument Serif` (strictly limited to hero accent words and curated editorial campaigns)
+  - **Anti-AI Font Rule**: Strictly no `Orbitron`, `Audiowide`, `Exo 2`, `Rajdhani`, gaming fonts, or excessive monospace
+  - **Weight Discipline**: 400 (Regular body), 500 (Medium UI), 600 (Semibold headers/CTAs), 700 (Bold sparingly for price emphasis)
+  - **Tracking Metrics**: Headings (`-0.02em` to `-0.01em`), uppercase labels (`+0.04em` to `+0.08em`), body (`0` to `+0.01em`)
+  - **European Language Support**: Mandatory Latin Extended character coverage (`É`, `È`, `Ê`, `Ç`, `Ñ`, `Ö`, `Ü`, `Å`, `Ø`, `Æ`, `ß`, `Š`, `Ž`, `Ł`, `Č`)
+  - **Token Scale**: Display (`64–88px`), H1 (`48–64px`), H2 (`36–48px`), H3 (`26–32px`), Body Large (`18–20px`), Body (`16–18px`), Small (`13–15px`), Micro (`11–13px`)
 - **Spacing scale**: 4px/8px base grid — all spacing must be a multiple of 4px
 - **Grid system**: columns, gutters, margins at all breakpoints (320px, 375px, 768px, 1280px, 1440px, 1920px)
 - **Border radius tokens**: consistent across all components
 - **Shadow / elevation levels**: purposeful, not decorative
 - **Icon system**: consistent stroke-based SVG icons (Lucide or equivalent) — never emoji or text characters
+
+### Modernist / Swiss Grid & Container Restraint Standards
+> Master Reference: `.agents/rules/modernist-design-system-standards.md`
+- **12-Column Grid Discipline**: All pages must align to a strict 12-column grid. Position major elements with deliberate spatial relationships.
+- **Intentional Asymmetry**: Guided by the underlying grid — never center everything blindly.
+- **Do Not Overuse UI Containers ("Not everything needs to be a card")**: Avoid excessive nested cards, nested borders, rounded containers, and floating panels. Use whitespace, grid, typography, and precise hairline borders (`1px solid rgba(...)`) to establish relationships.
+- **Image Composition Integrity**: Never blindly use `object-fit: cover`. Always inspect the focal point, model framing, and responsive aspect ratios.
+- **Restrained Surface Tokens**: Square or restrained radius (`0px–4px`), minimal/no drop shadows, and subtle background separation.
 
 ### Components I Must Design in All States
 Every interactive component must have: default, hover, active/pressed, disabled, loading, error, and (where applicable) empty/success states.
@@ -90,6 +116,7 @@ Core components: Buttons, Inputs, Selects, Checkboxes, Toggles, Cards, Tables, M
 E-commerce components: Product cards, product comparison, PDP gallery, cart drawer, checkout flow, order tracking, address selector, payment components, coupon components, dashboard widgets.
 
 ---
+
 
 ## 3. E-commerce UX — Screens I Must Know How to Design
 
@@ -142,6 +169,20 @@ When designing conversational discovery banners, intent search capsules, or prom
 3. **Cinematic Lifestyle Vignette Blending**:
    - In editorial cards with lifestyle photography, do NOT use hard vertical dividing lines.
    - Apply multi-stop alpha gradient masks (`linear-gradient(to right, transparent 55%, var(--bg-surface) 95%)`) to organically blend photography into the luxury frosted glass canvas.
+
+### Plain-English Cognitive Fluency & Action-Oriented Microcopy
+- **1-Second Skim Test**: Any primary action button, navigation trigger, or header must be understandable within 1 second by everyday shoppers and non-native English speakers.
+- **Prohibition on Abstract Hospitality Jargon**: Never use abstract loanwords or formal hospitality terms (e.g. *Concierge*, *Style Concierge*, *Sartorial*, *Custody*, *Atelier Replenishment*).
+- **Direct Action Retail Verbs**: Always use active, unambiguous phrasing:
+  - Use **"Ask Stylist"** or **"Personal Shopper"** (never "Concierge").
+  - Use **"Delivery & Shipping Times"** (never "Fulfillment & Dispatch Logistics").
+  - Use **"Size & Fit Guide"** (never "Sartorial Proportion Advisor").
+  - Use **"Live Order Tracking"** (never "Courier Custody Verification").
+
+### The "Visual-First First-Frame" Invariant (Zero Text-Only Welcomes)
+- **Zero Text-Only Welcome Screens**: Assistants, drawers, and modal overlays must NEVER open to a blank text terminal or a multi-sentence conversational essay. The initial unprompted state must immediately lead with rich studio photography cards or visual look capsules.
+- **Strict $\ge 70\%$ Visual Area**: Merchandising imagery and product cards must occupy $\ge 70\%$ of the visible drawer height on initial launch.
+- **Maximum 1-Line Minimalist Label**: Text on drawer open must be capped at a single, crisp label (e.g., `"Featured pieces & styling ideas:"`). Zero introductory paragraphs or chatbot pleasantries.
 
 > **Key principle I must apply**: Customer UI optimizes for emotion, discovery, and conversion. Admin UI optimizes for speed, clarity, and bulk operations. These require fundamentally different UX strategies.
 
@@ -203,16 +244,17 @@ I design with conversion metrics in mind, not only aesthetics.
 I use animation to **communicate**, not to decorate.
 
 **I must specify and implement:**
-- Hover states (buttons, cards, links — subtle, fast, ≤200ms)
-- Loading states (skeleton screens preferred over spinners for content areas)
-- Page / route transitions (smooth, directional)
-- Modal / drawer open/close (ease-out open, ease-in close)
-- Cart add animation (product flies to cart icon, quantity updates)
-- Success / error feedback (color + icon + brief animation)
-- Scroll-triggered reveals (used sparingly, purposefully)
+- **Hover states**: buttons, cards, links — subtle, tactile 3D depth with multi-layered shadows and micro-lift (`translateY(-2px to -4px)`), fast (≤200ms)
+- **Loading states**: skeleton screens preferred over spinners for content areas
+- **Page / route transitions**: smooth, directional GPU-composited cross-fades maintaining persistent layout anchors
+- **Modal / drawer open/close**: ease-out open, ease-in close
+- **Cart add animation**: tactile checkmark feedback, cart count scale bump, product flies to bag
+- **Success / error feedback**: color + icon + brief spring animation
+- **Scroll-triggered reveals & parallax**: subtle velocity modulation (0.85x or 1.15x) for background imagery/editorial depth (never on critical text/CTAs)
+- **Cross-breakpoint testing**: verify all motion at 390px, 768px, 1280px, and 1440px+ without lag or scroll stutter
 
 **Anti-pattern I must avoid:**
-> Animations that loop without communicating anything. Every animation must serve a UX function.
+> Animations that loop without communicating anything. Every animation must serve a UX function. Avoid flat, harsh single shadows or chaotic visual overload.
 
 ---
 
@@ -315,4 +357,160 @@ I write microcopy as a brand copywriter, not a spec sheet author.
 
 ---
 
-*Last updated: 2026-08-14 | My role: Senior UI/UX Designer / Product Designer*
+## 11. Display Scaling & Viewport Height Resilience Standard
+
+Every screen and hero component must be designed and verified against high-DPI and scaled laptop displays (specifically 1080p @ 125%–150% scaling, rendering effective viewports of ~1010×643 to ~1280×720).
+
+### Mandatory Rules:
+1. **Dynamic Header Deduction**: Full-bleed hero sections must deduct accurate total navigation height (`calc(100vh - var(--nav-total-height, 82px))` or `calc(100dvh - var(--nav-total-height, 82px))`).
+2. **Compact Navigation Scaling**: On viewports with height ≤800px, scale header and announcement bar heights down (e.g., 26px topbar + 56px header = 82px total) to liberate vertical viewport space.
+3. **Hero Min-Height Limits**: Never set `min-height` higher than 420px on desktop or 360px on laptop screens. High min-heights guarantee vertical overflow on scaled laptop displays.
+4. **Zero-Scroll Guarantee for Above-the-Fold CTAs**: The hero headline, subtitle, primary CTA, and shoppable tags must be completely visible without requiring vertical scrolling at viewport heights as low as 550px.
+
+---
+
+## 12. 3D Spatial Hotspots & Pinned Tag Safety Standard
+
+When pinning interactive shoppable tags or floating cards inside 3D perspective scenes:
+1. **Z-Depth Limits Near Edges**: Keep `translateZ` ≤ 15px for corner-pinned or edge-anchored cards to avoid 3D perspective projection clipping.
+2. **Bottom/Right Anchor Invariants**: Use `bottom` and `right` clamp values (`bottom: clamp(20px, 3.5vh, 36px); right: clamp(24px, 4vw, 48px);`) rather than percentage `top` and `left` anchors to guarantee edge clearance across all window dimensions.
+3. **Clean Script Separation**: Never leave inline `style.top` or `style.left` coordinates active in JavaScript on laptop/tablet/mobile breakpoints. Always let CSS media queries control responsive boundaries.
+4. **Focal Framing across Viewports**: Always provide explicit breakpoint `object-position` rules for lifestyle imagery (e.g. `object-position: 74% center` for laptops, `68% 22%` for mobile portrait) so off-center human models remain framed.
+
+---
+
+## 13. Minimal Discovery & Micro-Merchandising Cluster Standard
+
+When designing multi-column discovery sections (e.g., New Arrivals, Trending/Best Sellers, Curated Picks):
+1. **Zero Redundant Top Banners**: Never place an oversized section banner, subtitle, or secondary look-switcher dock above a multi-column cluster. The column headers themselves (`.micro-col-header`) are the visual anchor.
+2. **Direct Column Hierarchy**: Let each column speak for itself with a crisp title, subtle uppercase badge, and "See all →" link aligned horizontally.
+3. **No Heavy Borders**: Use soft obsidian cards (`rgba(11, 20, 36, 0.72)`) with subtle translucent hairlines (`rgba(255, 255, 255, 0.05)`) and diffuse shadows rather than solid bright borders.
+4. **All 4 Motion Standards Maintained**: Ensure in-view reveal stagger, spring LERP mouse tilt (`±5.5°`), dynamic cursor-following specular sheen (`.micro-col-specular`), GPU curtain transitions, and differential column parallax (`1x`, `2x`, `1.5x`) are integrated.
+
+---
+
+## 14. Visual-First & Low-Text Density Standard ("Show, Don't Tell")
+
+All storefront interfaces must prioritize visual communication over prose:
+
+1. **Visual Dominance (70/30 Rule)**:
+   - At least 70% of viewport area in hero sections, category showcases, lookbooks, tracking/telemetry, and feature modules must be dedicated to high-fidelity lifestyle photography, product renders, SVG visualizers, diagrams, or interactive media.
+   - Text elements must occupy ≤30% of visible layout area.
+
+2. **Strict Text Budget & Conciseness**:
+   - **Headlines**: Maximum 4–6 words. Punchy, declarative, emotionally resonant.
+   - **Subtitles & Descriptions**: Maximum 1–2 short sentences (≤25 words total). NEVER write multi-paragraph explanatory blocks.
+   - **Section Headers**: 2–4 words (e.g., "The Run Edit", "Craft & Form", "Transit Telemetry").
+   - **Product Cards**: Strictly 3-item metadata (Brand + Title + Price). Zero descriptive paragraphs or match explanations.
+
+3. **Concrete Visual Replacement Patterns (Replace Text with UI Visuals)**:
+   - **Order & Transit Tracking**: Replace text log lists and tables with interactive SVG transit route maps, animated waypoint beacons, and 4-badge parcel spec matrices.
+   - **Features & Benefits**: Replace bullet lists of text with visual feature badges, icon-anchored micro-cards on frosted pedestals, or diagrammatic callouts.
+   - **Materials & Colorways**: Use interactive visual swatches, texture previews, and live image switches instead of text descriptions.
+   - **Step-by-Step / How-it-Works**: Use visual timeline steps, iconography, and diagrammatic flows rather than narrative copy.
+   - **Trust & Guarantees**: Use icon-backed frosted micro-pills with 2–3 word labels (e.g., `⚡ Same-Day Dispatch`, `↺ 14-Day Free Returns`, `🔒 Authenticity Assured`) instead of full guarantee paragraphs.
+   - **Size & Fit**: Provide visual fit meters, silhouette overlays, and visual measurement diagrams over text tables.
+
+4. **Ultra-Modern & Premium Visual Aesthetics**:
+   - Deep obsidian canvas foundation (`#031838` to `#000B1A`) with glassmorphic cards (`backdrop-filter: blur(16px)`).
+   - Crisp 1px specular inner highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`).
+   - Vector Lucide icons housed in dedicated 44×44px translucent frosted glass pedestals.
+   - Smooth GPU-accelerated spring animations (mouse-tilt LERP `±5.5°`, curtain cross-dissolves, dashoffset route paths).
+
+5. **Zero Walls of Text**:
+   - Any continuous block of text exceeding 3 lines without an accompanying visual, diagram, or interactive anchor is strictly forbidden on customer-facing pages.
+
+---
+
+## 15. MODERNIST LUXURY FOOTER & HERO INVARIANTS
+
+1. **Human-Understandable Footer Copy & Anti-Jargon Rule**:
+   - Strictly prohibit pretentious jargon (`THE MAISON`, `THE ATELIER STORY`, `DATA PRIVACY (GDPR)`, `THE PRIVATE EDIT`).
+   - Use clean, human headings: **`ABOUT`** and **`NEWSLETTER`**.
+   - Strictly limit company links to **2 to 3 essential items**: `About Us`, `Privacy Policy`, `Terms of Service`.
+
+2. **Architectural 3-Column Main Grid**:
+   - **Column 1**: Brand Manifesto & Social Channels (Instagram, TikTok, LinkedIn).
+   - **Column 2**: `ABOUT` (3 simple links).
+   - **Column 3**: `NEWSLETTER` (straightforward 1-line copy + modern rectangular input + solid white `SUBSCRIBE` CTA).
+
+3. **3-Zone Architectural Footer Bottom Bar**:
+   - **Left Zone (1/3)**: Copyright statement, German/EU statutory VAT notice (`All prices incl. statutory VAT`), and discreet legal text links (`Impressum`, `Privacy`, `Cookie Settings`).
+   - **Center Zone (1/3)**: Centered payment trust marks.
+   - **Right Zone (1/3)**: Right-aligned market & currency selector (`[🌐 Europe · EUR (€)]`).
+   - **Strictly Top 3–4 Payment Methods**: `Apple Pay`, `Visa`, `Mastercard`, `Klarna`. Never 6+ rainbow badges. Always monochrome frosted glass.
+   - **Zero Developer Widgets**: Never inject theme switchers or debug tools into public storefront footers.
+
+4. **European Luxury Hero Headline & CTA**:
+   - **Headline**: Single-line or naturally balanced 2-line headline in `Neue Haas Grotesk`/`Manrope` (`-0.025em` tracking). No clashing italic serif stacks.
+   - **CTA Button**: Solid pure white `#FFFFFF` canvas, deep obsidian `#060E1A` typography, `2px` architectural border-radius, hairline border, and zero neon glow.
+
+---
+
+## 16. HUMAN-CENTRIC AI PERSONALIZATION & VISUAL ANCHOR INVARIANT
+
+1. **Strict Everyday Terminology Invariant**:
+   - AI styling tools, onboarding quizzes, and recommendation studios must NEVER use abstract sci-fi, RPG, or engineering tropes (e.g. "Nocturne Archetype", "Alpine Thermal Calibration", radar/spider charts with mismatched categorical axes).
+   - Use clear, plain-English wardrobe descriptions:
+     - `Minimalist & Clean` (Timeless monochrome staples & clean silhouettes)
+     - `Smart & Tailored` (Structured blazers, sharp wool trousers & dinner pieces)
+     - `Relaxed & Everyday` (Comfortable stretch pants, layers & casual sneakers)
+     - `Outdoor & Outerwear` (Technical waterproof jackets & insulated coats)
+
+2. **Mandatory Visual Photographic Anchors**:
+   - Style quizzes and aesthetic pickers MUST pair every selectable style card with an uncropped, high-resolution outfit/product photograph.
+   - Text-only style descriptions are forbidden in style-picker cards because fashion is visual-first. Customers must be able to visually recognize their aesthetic in < 1 second.
+
+---
+
+## 17. PLAIN-LANGUAGE COPYWRITING & SPOTLIGHT HERO STRUCTURAL INVARIANT
+
+1. **Plain-Language E-Commerce Copywriting & AI Feature Explanation Invariant**:
+   - Strictly avoid pretentious, obscure, pseudo-luxury, or technical engineering jargon in generic UI labels, feature cards, and tour modals.
+   - **Mandatory 2-Line Feature Card Structure**: In all feature popups, tour modals, and user-facing overviews, every AI feature entry MUST explicitly provide:
+     1. `What it does:` 1 concise sentence in simple, everyday English explaining the direct shopper benefit (never mention internal algorithms, embeddings, or state machines).
+     2. `Example:` 1 concrete, relatable real-world example query or 1-click action (e.g. `Type: "Warm jacket for a winter dinner date under $250"`).
+   - Enforce clean, natural e-commerce terminology:
+     - `Curated` → `Ready-to-wear / Matching / Hand-picked`
+     - `Pieces` → `Clothes and shoes / Items`
+     - `Capabilities` → `Smart Features / Tools`
+     - `Cap` → `Budget / Limit`
+     - `Cutoff hours` → `Delivery today`
+     - `Essentials` → `Everyday items / Basics`
+     - `YOUR SELECTION` instead of `ATELIER SELECTION`
+     - `Items Selected` / `Pieces Selected` instead of `Pieces Curated`
+     - `EXPRESS DELIVERY` / `SHIPPING` instead of `EXPRESS DISPATCH`
+     - `Saved Items` / `Wishlist` instead of `Vault`
+     - `Telemetry / Human updates` → `Simple, clear messages / Real-time updates`
+
+2. **Spotlight Hero & Integrated Action Toolbar Structure Invariant**:
+   - Page headers on major functional views (Cart, Wishlist, Smart List, Orders, Profile, Account) must NEVER be rendered as floating, uncontained text lines with raw hyperlink clusters on a blank dark canvas.
+   - Always encapsulate in a structured glassmorphic hero enclosure (`.cart-hero-header` / `.spotlight-hero-card`) with:
+     1. Live status eyebrow with pulsing beacon dot and item badge pill.
+     2. Bold typography headline (`Manrope` + italic `Instrument Serif`) and balanced subtitle.
+     3. Right-aligned real-time 3-stat metric cluster (`TOTAL ITEMS`, `ESTIMATED VALUE`, `EXPRESS DELIVERY`).
+     4. Dedicated action toolbar with styled glassmorphic button pills (`btn-action-back`, `btn-action-ai-cyan`, `btn-action-ai-magenta`, `btn-action-danger`) rather than unstyled text links.
+
+---
+
+## 18. AI MODALITY DEMO-READINESS & MULTIMODAL DROPZONE STANDARDS
+
+1. **Explicit In-Dropzone Action Clusters**:
+   - Multimodal upload zones (e.g. OCR receipt scanners, style reference uploaders, audio search inputs) must NEVER be passive, empty dashed boxes requiring hidden knowledge of click-anywhere mechanics.
+   - Every dropzone must provide visible, tactile button controls inside the container:
+     - Primary Action: Glowing gradient button (`[ ✨ Demo Sample Receipt / Image ]`) that triggers an instant simulated analysis pipeline.
+     - Secondary Action: Glass pill button (`[ 📁 Browse Image File ]`) that directly triggers the native device file chooser.
+
+2. **1-Click Sample Pre-Fill for Text & Input Panels**:
+   - Any collapsible or multi-line text input panel (e.g. `Paste Text List`, `Natural Language Query`, `JSON Payload Editor`) must include a prominent `[ 📋 Load Sample Text ]` button in the header bar.
+   - This allows users, stakeholders, and evaluators to test complex parsing and product extraction engines with 1 single click without manually crafting structured text strings.
+
+3. **Multi-Stage Visual Processing Feedback**:
+   - AI extraction routines must display visual feedback during simulated processing (e.g. pulsing OCR beacon and status title `Analyzing "sample_receipt.jpg" with OCR...`) before transitioning into the interactive split-pane match review.
+
+---
+
+*Last updated: 2026-08-23 | My role: Senior UI/UX Designer / Product Designer*
+
+
+

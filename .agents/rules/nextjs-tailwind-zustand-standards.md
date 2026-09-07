@@ -1,0 +1,365 @@
+# Next.js 15+ + Tailwind CSS v4 + Zustand + TypeScript Engineering Standards
+
+This rule defines the mandatory architectural and coding standards for all Next.js App Router, Tailwind CSS v4, and Zustand development in this workspace.
+
+---
+
+## 1. Next.js 15+ & React 19 Core Standards
+
+### React Server Components (RSC) by Default
+- Default to Server Components for data fetching, layouts, and page shells.
+- Add `'use client'` strictly at the lowest possible leaf components that require interactivity, state, or browser APIs.
+- Keep server-rendered pages fast and SEO-friendly.
+
+### Next.js 15+ Async Request APIs (CRITICAL)
+In Next.js 15+, dynamic route parameters, search params, cookies, and headers are **Promises**. AI models often hallucinate Next 13/14 synchronous access. **Always `await` them:**
+```typescript
+// Page or Layout props
+export default async function ProductPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { id } = await params;
+  const query = await searchParams;
+  // ...
+}
+
+// Server cookies & headers
+import { cookies, headers } from 'next/headers';
+
+export async function checkSession() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('auth_token');
+  const headersList = await headers();
+}
+```
+
+### React 19 Forms & Actions
+- **Forms**: Use `useActionState` (React 19 standard). **DO NOT use deprecated `useFormState`**.
+- **Pending Status**: Use `useFormStatus` inside form child components.
+- **Optimistic Updates**: Use `useOptimistic` for instant UI feedback.
+- **Server Actions**: Define with `'use server'`, validate inputs with Zod/typed schemas, and return typed responses: `{ success: boolean; data?: T; error?: string }`.
+
+### Navigation
+- Always import navigation hooks from `next/navigation` (`useRouter`, `usePathname`, `useSearchParams`).
+- **NEVER** import from `next/router` (which is legacy Pages Router and will fail).
+
+### Overlay & Drawer Navigation Auto-Dismiss Standard (CRITICAL)
+In Next.js App Router, client-side `<Link>` components transition routes without a full page reload. When rendering navigation links inside fixed slide-over drawers, modals, or full-screen search terminals (`fixed inset-0 z-[9999]`):
+1. **Explicit Close on Links**: Every `<Link>` rendered inside an overlay MUST unconditionally attach the close handler (e.g. `onClick={closeConcierge}` or `onClick={closeDrawer}`).
+2. **Automated Route Change & Popstate Guard**: Every overlay component MUST monitor route transitions and browser history to dismiss itself if navigation occurs:
+   ```tsx
+   const pathname = usePathname();
+   const prevPathRef = useRef(pathname);
+
+   // Auto-close overlay on route transition
+   useEffect(() => {
+     if (prevPathRef.current !== pathname) {
+       prevPathRef.current = pathname;
+       closeDrawer();
+     }
+   }, [pathname, closeDrawer]);
+
+   // Auto-close on browser back / forward buttons
+   useEffect(() => {
+     const handlePopState = () => closeDrawer();
+     window.addEventListener('popstate', handlePopState);
+     return () => window.removeEventListener('popstate', handlePopState);
+   }, [closeDrawer]);
+   ```
+
+---
+
+## 2. Tailwind CSS v4 Standards
+
+### CSS-First Configuration (Zero `tailwind.config.js`)
+- **STRICTLY FORBIDDEN:** Creating or editing `tailwind.config.js` or `tailwind.config.ts`. Tailwind CSS v4 is purely CSS-first.
+- All theme extensions, custom tokens, and fonts are defined directly inside `app/globals.css` using the `@theme` directive:
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian-950: #00142e;
+  --color-obsidian-900: #012148;
+  --color-surface-navy: #0A2A54;
+  --color-surface-card: #08254c;
+  --color-accent-crimson: #E60C45;
+  --color-accent-pink: #F13365;
+  --color-accent-cyan: #3DE0FF;
+  
+  --font-serif: var(--font-serif), 'Cormorant Garamond', serif;
+  --font-sans: var(--font-sans), 'Inter', sans-serif;
+  --font-display: var(--font-display), 'Manrope', sans-serif;
+  --radius-atelier: 12px;
+}
+```
+- **Class Merging**: Always use the `cn()` utility (`clsx` + `tailwind-merge`) from `@/lib/utils` for conditional or overridden class names:
+```typescript
+import { cn } from '@/lib/utils';
+
+<button className={cn('px-4 py-2 rounded-atelier bg-surface-navy', isPrimary && 'bg-accent-crimson')} />
+```
+
+---
+
+## 3. Zustand State Management (SSR Safe)
+
+### Store Architecture
+- All Zustand stores must be located in `store/` (e.g., `store/useCartStore.ts`, `store/useWishlistStore.ts`).
+- Stores must define clear TypeScript interfaces for both state and actions.
+
+### SSR Hydration Guard (Mandatory for Persisted Stores)
+Any store using `persist` middleware (reading from `localStorage`) will trigger React hydration mismatch errors if evaluated during server pre-rendering. You **must** guard against this in client components:
+
+```typescript
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useCartStore } from '@/store/useCartStore';
+
+export function CartDrawer() {
+  const [mounted, setMounted] = useState(false);
+  const { items, isOpen } = useCartStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Return null or placeholder during SSR pass
+  if (!mounted || !isOpen) return null;
+
+  return (
+    <div>{items.map(...)}</div>
+  );
+}
+```
+
+### State Scope & SSR Leak Prevention (Store Provider Pattern)
+- **Client-Only UI State**: A standard global singleton `create<T>()(...)` is approved **only** for client-only UI state (drawers, modals, search toggles, theme).
+- **User-Specific & Server-Initialized State**: When state contains user-specific data or is initialized with server data, a global module-level singleton leaks state across concurrent requests during SSR. You **MUST** use the **Zustand Store Provider Pattern**:
+```tsx
+'use client';
+
+import { type ReactNode, createContext, useRef, useContext } from 'react';
+import { useStore } from 'zustand';
+import { type CartStore, createCartStore } from '@/store/cart-store';
+
+export type CartStoreApi = ReturnType<typeof createCartStore>;
+export const CartStoreContext = createContext<CartStoreApi | undefined>(undefined);
+
+export function CartStoreProvider({ children }: { children: ReactNode }) {
+  const storeRef = useRef<CartStoreApi>(null);
+  if (!storeRef.current) {
+    storeRef.current = createCartStore();
+  }
+  return <CartStoreContext.Provider value={storeRef.current}>{children}</CartStoreContext.Provider>;
+}
+
+export function useCartStore<T>(selector: (store: CartStore) => T): T {
+  const context = useContext(CartStoreContext);
+  if (!context) throw new Error('useCartStore must be used within CartStoreProvider');
+  return useStore(context, selector);
+}
+```
+
+---
+
+## 4. Zod Schema Validation Standard
+
+All Server Actions, form inputs, and external API responses **must** be validated using `zod`:
+- **Server Actions**:
+  ```typescript
+  import { z } from 'zod';
+
+  export const AddToCartSchema = z.object({
+    productId: z.string().min(1, 'Product ID is required'),
+    quantity: z.number().int().positive().max(99),
+    selectedSize: z.string().optional(),
+    selectedColor: z.string().optional(),
+  });
+
+  export type AddToCartInput = z.infer<typeof AddToCartSchema>;
+
+  export async function addToCartAction(input: unknown) {
+    'use server';
+    const result = AddToCartSchema.safeParse(input);
+    if (!result.success) {
+      return { success: false, errors: result.error.flatten().fieldErrors };
+    }
+    // Proceed with validated result.data
+    return { success: true };
+  }
+  ```
+
+---
+
+## 5. TypeScript & Import Strictness
+
+- **Path Aliases**: Always use `@/*` for root imports (`@/components/...`, `@/store/...`, `@/lib/...`, `@/types/...`).
+- **No `any`**: Strict TypeScript is enforced. Use explicit interfaces, generics, or `unknown` with type narrowing.
+- **Explicit Types**: Always declare explicit types for Server Action return values, component props, and API handlers.
+
+---
+
+## 6. Curation Batch Dock & Mini-PDP Quick Look Standards
+
+### Curation Batch Actions (Floating Obsidian Island)
+- **Floating Island**: In collection, curation, and replenishment views (Smart List, Wishlist, Bag), provide a floating Obsidian Island dock anchored at the viewport bottom when items are selected (`selectedIds.size > 0`).
+- **Components**: The dock must include an active selection count badge, an overlapping avatar filmstrip stack of selected item images, live subtotal valuation, a clear selection button (`X`), and a batch "Add Selected to Bag" action with spring animations (`type: 'spring', damping: 24, stiffness: 260`).
+- **0-Item Depletion Invariant**: When `selectedIds.size === 0`, the dock unmounts gracefully with spring physics (`y: 80, opacity: 0`), and any 0-item depletion cleans all ambient metrics down to 0.
+
+---
+
+## 7. Modal & Dialog Portaling Invariant (Stacking Context Safety)
+
+### Mandatory `createPortal` for All Dialogs and Modals
+Under W3C CSS specifications, applying `backdrop-filter` (e.g. `backdrop-blur-md`, `backdrop-blur-xl`), `transform`, `filter`, or `perspective` on any ancestor card creates a new CSS containing block and stacking context for all `position: fixed` descendants.
+Rendering a modal/dialog inline inside a glassmorphism card traps `position: fixed; inset: 0;` inside the card's bounding box rather than covering the whole viewport, causing modals to appear clipped and cutting off buttons.
+
+**Strict Rule**: All modals, dialogs, slide-over panels, and full-screen overlays in Next.js / React client components MUST unconditionally be portaled directly to `document.body` via React's `createPortal(modalElement, document.body)` with an SSR-safe `mounted` state guard and high z-index (`z-[9999]`):
+
+```typescript
+'use client';
+
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { X } from 'lucide-react';
+
+export function ComponentWithModal() {
+  const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-[#0A2A54]/30 p-6 backdrop-blur-md">
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="px-4 py-2 rounded-xl bg-accent-cyan text-[#01132B] text-xs font-bold"
+      >
+        Open Dialog
+      </button>
+
+      {/* Portaled Modal - Never clipped by parent backdrop-blur or overflow */}
+      {/* MANDATORY: Use Royal Sapphire Navy styling (NEVER bg-black/*) */}
+      {mounted && isOpen && createPortal(
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[9999] bg-[#02132d]/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+        >
+          {/* Backdrop Click Dismiss */}
+          <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
+
+          {/* Dialog Container - Royal Sapphire Navy Palette */}
+          <div className="max-w-md w-full rounded-2xl bg-gradient-to-b from-[#0e3266]/98 via-[#0a2652]/98 to-[#071d3f]/98 border border-[#3DE0FF]/30 p-6 sm:p-7 shadow-[0_25px_60px_rgba(2,19,45,0.85)] relative z-10 animate-[fadeIn_0.2s_ease-out] space-y-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-base font-bold text-white">Dialog Title</h3>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="w-7 h-7 rounded-lg bg-[#143d78] border border-white/20 text-white/80 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-white/70">Dialog content goes here...</p>
+
+            <div className="flex justify-end gap-3 pt-3 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-2 rounded-xl bg-white/5 border border-white/15 text-xs text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="px-5 py-2 rounded-xl bg-accent-cyan text-xs font-bold text-[#01132B]"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## 8. Safe Scroll Reveal & Non-Destructive Entrance Standard
+
+- **Zero Opacity-0 Lock Traps**: Never lock DOM elements to `opacity: '0'` via permanent inline styles in custom hooks before an observer triggers. Elements must remain visible and accessible by default for SSR hydration, SEO scrapers, and headless full-page automated captures.
+- **Valid 4-Token `rootMargin` Parsing**: `IntersectionObserver` strictly requires standard 4-token margin strings (`100px 0px 50px 0px` or `0px 0px -10% 0px`). Single shorthand tokens like `'-10%'` throw a native browser `DOMException`. Always normalize single margin inputs.
+- **Fail-Safe WAAPI Entrance**: Trigger entrance animations via WAAPI `el.animate(...)` with `{ fill: 'forwards' }` and wrap observer creation in `try / catch` with an immediate entrance fallback if observer construction fails.
+
+---
+
+## 9. Canonical Prototype & Branch Parity Invariant
+
+- **Strict Section-Count Invariant**: When migrating or elevating pages from a prototype branch (e.g. `feature/storefront-elevation`), never introduce speculative or unrequested sections (e.g. extra category rails, duplicate carousels, extra trust strips) that are not part of the canonical reference spec.
+- **Exact Data & Microcopy Parity**: Product identifiers (`id: 'p2'`), discount percentages, eyebrow tags (`Flash Sale`, `Smart Search`, `Recommended for You`), and CTA labels must match the prototype 1-to-1.
+- **Pre-Completion Branch Parity Diff Verification**: Before declaring migration completion, run an automated parity script or diff against the reference prototype HTML to confirm that section counts, container IDs, and core interactive anchors match with zero unexplained divergence.
+
+## 10. Modal Quick-Add Overlay Isolation Invariant
+
+- **Modal Quick-Add Side-Effect Containment**:
+  - When invoking `useCartStore.getState().addItem()` from within an active dialog modal or slide-over drawer (e.g., Visual Search Modal, Quick Look Drawer, Hotspot Popover, Search Overlay), the action must NOT trigger unwanted drawer stacking collisions or popups.
+  - If `addItem()` defaults to setting `isOpen: true` (opening the `MiniCartDrawer`), the modal component must immediately call `useCartStore.getState().closeCart()` (or add the item silently) so that the cart drawer backdrop (`z-[9998]`) does not render and intercept pointer events.
+  - The active modal must remain in primary focus, with the quick-add button displaying a temporary inline success state (e.g., green `✓ Added`), and the cart counter badge updating ambiently.
+
+---
+
+## 11. Mandatory React Portal Architecture & Brand Surface Invariant for Overlays
+
+- **Direct Body Portaling (`createPortal`)**:
+  - Modals, drawers, and full-screen dialogs must NEVER be rendered inline within a page component's local DOM tree.
+  - Always render via `createPortal(modalContent, document.body)`.
+  - **Why**: Prevents CSS containing block traps (`transform`, `perspective`, `filter`, `backdrop-filter`, or tall page heights) from anchoring `fixed inset-0` backdrops to parent containers, which pushes dialogs hundreds or thousands of pixels offscreen below the fold.
+- **SSR Hydration Guard (`mounted`)**:
+  - Always guard portal rendering with a client mount check:
+    ```tsx
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
+    if (!mounted || !isOpen) return null;
+    return createPortal(modalContent, document.body);
+    ```
+- **Body Scroll Locking & Keydown Cleanup**:
+  - Lock body scroll when the modal is open (`document.body.style.overflow = 'hidden'`) and restore on close/unmount.
+  - Listen for `Escape` key to close the dialog cleanly.
+- **nexCommerce Brand Surface Palette Invariant**:
+  - Dialog background must strictly use the Deep Brand Navy palette:
+    `background: linear-gradient(145deg, rgba(13, 20, 40, 0.98) 0%, rgba(5, 11, 24, 0.99) 100%)`
+  - Backdrop: `rgba(3, 11, 23, 0.82)` with `backdrop-filter: blur(16px)`.
+  - Eyebrows & primary action buttons: Cyan `#3DE0FF`.
+  - Strictly avoid generic flat black, purple-magenta, or obsidian-950 palettes.
+- **Reference Branch Visual Ground Truth Protocol**:
+  - When matching UI/UX against a reference branch (e.g., `feature/storefront-elevation`), always take a full-page browser screenshot of the reference implementation first to verify exact pixel dimensions, spacing, typography scales, and interactive states before writing code.
+
+---
+
+## 12. Mandatory Authentication Route Layout Isolation Invariant
+
+- **Zero Storefront Chrome on Dedicated Auth Routes**:
+  - Dedicated authentication routes (`/signin`, `/signup`, `/forgot-password`) MUST NEVER render global navigation chrome (`Header`, `Footer`, `#aiTourFloatingBtn`, or promotional bars).
+  - Components like `Header.tsx`, `Footer.tsx`, and `FeatureTourModal.tsx` must inspect `usePathname()`:
+    ```tsx
+    const pathname = usePathname();
+    if (pathname === '/signin' || pathname === '/signup') return null;
+    ```
+- **Full-Viewport Split-Screen Geometry (`100vh`)**:
+  - Auth routes must render a dedicated 2-column split canvas (`min-h-screen grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]`).
+  - Left panel: Lifestyle photography with continuous Ken Burns motion (`@keyframes authKenBurns`).
+  - Right panel: Brand Deep Navy background (`#012148` to `#0A1B3D`) with radial gradient illumination, containing a centered `<form>` portal with direct link to `/`.
+

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="view-transition" content="same-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apparel & Collections &mdash; nexCommerce</title>
+  <meta name="description" content="Explore precision-crafted apparel, acoustics, and footwear at nexCommerce.">
+
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=41">
+  <style>
+    /* ─── Tactile Circular Swatches for 3-Item Luxury Cards ────────── */
+    .plp-card-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .plp-swatches-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plp-swatch-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s cubic-bezier(0.16, 1, 0.3, 1), fill 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .plp-swatch-dot::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+    }
+
+    .plp-swatch-dot:hover {
+      transform: scale(1.2);
+      border-color: #FFFFFF;
+    }
+
+    .plp-swatch-dot.active {
+      transform: scale(1.2);
+      border-color: #FFFFFF;
+      box-shadow: 0 0 0 2px #020B18, 0 0 0 3.5px var(--accent-cyan, #3DE0FF);
+    }
+
+    .plp-card-brand-row {
+      margin-bottom: 3px;
+    }
+
+    /* 3D Spring Tilt Perspective */
+    .luxury-product-card {
+      transform-style: preserve-3d;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Handpicked Ready-to-Wear, Acoustics &amp; Leathercraft</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link active" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>Smart Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; Smart Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 24px;">
+    <!-- ACCESSIBLE CATEGORY TITLE (WCAG 2.1 AA / SEO) -->
+    <h1 class="sr-only" id="plpMainTitle">Apparel &amp; Collections &mdash; nexCommerce</h1>
+    <p class="sr-only" id="plpMainSubtitle">Pieces designed around natural comfort, architectural tailoring, and enduring quality.</p>
+    <span class="sr-only" id="plpHeroEyebrow">COLLECTIONS · AW26</span>
+
+    <!-- PURE FULL-WIDTH CATEGORY HERO BANNER -->
+    <section class="plp-pure-banner-section" id="plpPureBannerSection">
+      <div class="plp-pure-banner-frame">
+        <img src="../assets/images/lifestyle/category_pure_hero_banner.jpg?v=2" alt="nexCommerce Autumn Winter 2026 Collection" class="plp-pure-banner-img" id="plpCategoryBannerImg" loading="eager" />
+      </div>
+    </section>
+
+    <!-- Product Count & Sort Toolbar -->
+    <div class="plp-toolbar-row">
+      <span class="plp-product-count" id="plpProductCount">8 PIECES AVAILABLE</span>
+      <div class="plp-sort-wrapper">
+        <label for="plpSortSelect" class="plp-sort-label">SORT BY</label>
+        <select class="plp-sort-select" id="plpSortSelect" aria-label="Sort products">
+          <option value="recommended">Recommended</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Category Filter Bar (Pills) -->
+    <div class="plp-filter-bar" role="tablist" aria-label="Filter by Category">
+      <button class="plp-filter-pill active" data-category="all" role="tab" aria-selected="true" aria-controls="plpProductGrid" tabindex="0">ALL</button>
+      <button class="plp-filter-pill plp-filter-pill--new" data-category="new" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">NEW IN</button>
+      <button class="plp-filter-pill" data-category="apparel" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">APPAREL</button>
+      <button class="plp-filter-pill" data-category="outerwear" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">OUTERWEAR</button>
+      <button class="plp-filter-pill" data-category="acoustics" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">ACOUSTICS</button>
+      <button class="plp-filter-pill" data-category="footwear" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">FOOTWEAR</button>
+      <button class="plp-filter-pill" data-category="accessories" role="tab" aria-selected="false" aria-controls="plpProductGrid" tabindex="-1">ACCESSORIES</button>
+    </div>
+
+    <!-- Product Grid (4 Columns Desktop / Differential Scroll Parallax) -->
+    <div class="plp-grid-4col" id="plpProductGrid" role="tabpanel" aria-label="Filtered products">
+      <!-- Populated dynamically by js/plp.js -->
+    </div>
+  </main>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY (global CMD+K) -->
+  <div id="aiSearchModal" class="search-overlay-container" role="dialog" aria-modal="true" aria-label="Intelligent Search Overlay">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon">
+            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          </div>
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Milan" autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script src="../js/cart.js?v=2"></script>
+  <script src="../js/plp.js?v=6"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/visual-search-ui.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=8"></script>
+  <script src="../js/style-profile.js"></script>
+  <script src="../js/context-retention.js"></script>
+  <script src="../js/concierge-engine.js?v=4"></script>
+  <script src="../js/concierge.js?v=4"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+
+  <!-- Centralized Page-Level Event Handlers (no inline JS) -->
+  <script>
+  (function () {
+    'use strict';
+
+    function initPageHandlers() {
+      // Footer newsletter form
+      var newsletterForm = document.getElementById('footerNewsletterForm');
+      var newsletterInput = document.getElementById('footerNewsletterEmail');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = newsletterInput ? newsletterInput.value.trim() : '';
+          if (!email) return;
+          var btn = newsletterForm.querySelector('button[type="submit"]');
+          if (btn) {
+            var orig = btn.textContent;
+            btn.textContent = 'Subscribed ✓';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            setTimeout(function () {
+              btn.textContent = orig;
+              btn.disabled = false;
+              btn.style.opacity = '';
+            }, 3000);
+          }
+          if (newsletterInput) newsletterInput.value = '';
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPageHandlers);
+    } else {
+      initPageHandlers();
+    }
+  })();
+  </script>
+
+<!-- ==========================================================================
+     MINI CART (SIDE DRAWER)
+     ========================================================================== -->
+<div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+<aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+  <div class="minicart-header">
+    <div class="minicart-title">Shopping Bag</div>
+    <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width: 18px; height: 18px;"></i></button>
+  </div>
+  <div id="minicartBody" class="minicart-body" data-lenis-prevent>
+    <!-- Populated by cart.js -->
+  </div>
+  <div id="minicartFooter" class="minicart-footer" style="display: none;">
+    <div class="minicart-subtotal">
+      <span>Subtotal</span>
+      <span id="minicartSubtotalValue">€ 0.00</span>
+    </div>
+    <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+  </div>
+</aside>
+
+<!-- Hardware-Accelerated GPU Page Transition Curtain -->
+<div class="page-transition-curtain" id="pageTransitionOverlay" aria-hidden="true"></div>
+
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore &amp; Discover &mdash; nexCommerce</title>
+  <meta name="description" content="Explore luxury apparel, acoustic instruments, and artisanal pieces through visual moodboards, seasonal outfit drops, and semantic Smart intent.">
+  <meta name="view-transition" content="same-origin" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body.discovery-v2-bg {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── Page Container ───────────────────────────────────────────────── */
+    .disc-container {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 7vw, 96px);
+    }
+
+    /* ─── Hero Section ─────────────────────────────────────────────────── */
+    .disc-hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .disc-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .disc-hero-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.08;
+    }
+
+    .disc-hero-title em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: #E2E8F0;
+    }
+
+    .disc-hero-sub {
+      font-size: clamp(15px, 1.15vw, 17px);
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 580px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Natural Language Search Bar ──────────────────────────────────── */
+    .disc-search-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 12px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .disc-search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      padding: 6px 8px 6px 20px;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+    }
+
+    .disc-search-box:focus-within {
+      border-color: rgba(61, 224, 255, 0.5);
+      box-shadow: 0 0 24px rgba(61, 224, 255, 0.15);
+      background: rgba(3, 24, 56, 0.8);
+    }
+
+    .disc-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      padding: 8px 12px;
+      min-width: 0;
+    }
+
+    .disc-search-input::placeholder {
+      color: #64748B;
+    }
+
+    .disc-search-clear-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s ease;
+    }
+
+    .disc-search-clear-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .disc-search-btn {
+      padding: 10px 24px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .disc-search-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    /* Prompt Suggestion Chips */
+    .disc-prompt-chips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .disc-prompt-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748B;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .disc-prompt-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      color: #CBD5E1;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      font-family: inherit;
+    }
+
+    .disc-prompt-chip:hover {
+      background: rgba(61, 224, 255, 0.1);
+      border-color: rgba(61, 224, 255, 0.35);
+      color: var(--accent-cyan, #3DE0FF);
+      transform: translateY(-1px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       1. AESTHETIC FILTER SPHERES
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-spheres-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .disc-spheres-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .disc-spheres-track {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .disc-sphere-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-sphere-orb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .disc-sphere-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.02em;
+    }
+
+    .disc-sphere-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .disc-sphere-pill.active {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .disc-sphere-pill.active .disc-sphere-title {
+      color: #020B18;
+      font-weight: 700;
+    }
+
+    .disc-sphere-count {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #94A3B8;
+      transition: all 0.2s ease;
+    }
+
+    .disc-sphere-pill.active .disc-sphere-count {
+      background: #020B18;
+      color: #FFFFFF;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       2. VISUAL MASONRY MOODBOARD
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .disc-sec-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(24px, 2.5vw, 32px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .disc-sec-sub {
+      font-size: 12.5px;
+      color: #94A3B8;
+      margin: 4px 0 0;
+    }
+
+    /* Active Search Status Banner */
+    .disc-status-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 18px;
+      background: rgba(61, 224, 255, 0.06);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      animation: fadeInDown 0.3s ease;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .disc-status-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .disc-status-icon {
+      color: var(--accent-cyan, #3DE0FF);
+      display: flex;
+      align-items: center;
+    }
+
+    .disc-status-text {
+      font-size: 12.5px;
+      color: #E2E8F0;
+    }
+
+    .disc-status-text strong {
+      color: #FFFFFF;
+    }
+
+    .disc-status-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-cyan, #3DE0FF);
+      padding: 2px 8px;
+      background: rgba(61, 224, 255, 0.12);
+      border-radius: 9999px;
+    }
+
+    .disc-clear-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .disc-clear-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #FFFFFF;
+    }
+
+    /* Fluid Reflow Responsive Grid */
+    .disc-masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .disc-masonry-col {
+      display: contents;
+    }
+
+    /* Grid Card Types */
+    .disc-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: visible;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-card:hover {
+      border-color: rgba(61, 224, 255, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .disc-card.matched-highlight {
+      border-color: var(--accent-cyan, #3DE0FF) !important;
+      box-shadow: 0 0 20px rgba(61, 224, 255, 0.25) !important;
+    }
+
+    /* Match Badge */
+    .disc-match-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 3px 8px;
+      background: rgba(3, 24, 56, 0.92);
+      border: 1px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 9999px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent-cyan, #3DE0FF);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.35);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    /* Lifestyle Card — Compact Height */
+    .disc-card-lifestyle {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 260px !important;
+      background: #031633;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .disc-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .disc-card-lifestyle:hover .disc-card-img {
+      transform: scale(1.03);
+    }
+
+    .disc-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+    }
+
+    .disc-card-footer-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      pointer-events: auto;
+      z-index: 5;
+    }
+
+    .disc-card-footer-text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .disc-card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      margin-bottom: 4px;
+    }
+
+    .disc-card-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Standalone view button in footer with guaranteed zero overlap */
+    .disc-card-footer-info .btn-disc-primary {
+      flex: 0 0 auto !important;
+      width: auto !important;
+      min-width: 72px;
+      height: 34px;
+      padding: 0 16px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    /* Hotspot Pulse Pin & Shoppable Popover */
+    .disc-hotspot-pin {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+    }
+
+    .disc-hotspot-core {
+      width: 12px;
+      height: 12px;
+      background: #FFFFFF;
+      border: 2px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent-cyan, #3DE0FF);
+      position: relative;
+    }
+
+    .disc-hotspot-ring {
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid var(--accent-cyan, #3DE0FF);
+      border-radius: 50%;
+      animation: hotspot-pulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    @keyframes hotspot-pulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* Shoppable Hotspot Popover Tooltip */
+    .disc-hotspot-popover {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: rgba(2, 11, 24, 0.95);
+      border: 1px solid rgba(61, 224, 255, 0.35);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(61, 224, 255, 0.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 25;
+    }
+
+    .disc-hotspot-pin:hover .disc-hotspot-popover,
+    .disc-hotspot-pin:focus-within .disc-hotspot-popover,
+    .disc-hotspot-pin.active .disc-hotspot-popover {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .disc-hotspot-thumb {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .disc-hotspot-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .disc-hotspot-tag {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .disc-hotspot-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .disc-hotspot-price {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94A3B8;
+    }
+
+    .disc-hotspot-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .btn-hotspot-quickadd,
+    .btn-hotspot-link {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-hotspot-quickadd:hover {
+      background: var(--accent-cyan, #3DE0FF);
+      border-color: var(--accent-cyan, #3DE0FF);
+      color: #020B18;
+    }
+
+    .btn-hotspot-link:hover {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+      color: #020B18;
+    }
+
+    /* Product Card — Option 2: Compact Modern Commerce Tile */
+    .disc-card-product {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: #031633;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .disc-card-product:hover {
+      border-color: rgba(61, 224, 255, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(61, 224, 255, 0.15);
+    }
+
+    .disc-product-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #020F24;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+    }
+
+    .disc-product-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain !important;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+
+    .disc-card:hover .disc-product-img-box img {
+      transform: scale(1.06);
+    }
+
+    .disc-quickview-btn {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(1, 17, 38, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      z-index: 5;
+    }
+
+    .disc-card-product:hover .disc-quickview-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .disc-quickview-btn:hover {
+      background: #FFFFFF;
+      color: #001229;
+      border-color: #FFFFFF;
+    }
+
+    .disc-product-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .disc-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      color: #F59E0B;
+      font-weight: 700;
+    }
+
+    .disc-rating-count {
+      color: #64748B;
+      font-weight: 500;
+      font-size: 10px;
+    }
+
+    .disc-product-brand {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #94A3B8;
+    }
+
+    .disc-product-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .disc-swatches {
+      display: flex;
+      gap: 5px;
+      margin: 2px 0;
+    }
+
+    .disc-swatch-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .disc-swatch-dot.active,
+    .disc-swatch-dot:hover {
+      border-color: #FFFFFF;
+      transform: scale(1.2);
+    }
+
+    .disc-product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 4px;
+    }
+
+    .disc-price-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .disc-product-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+
+    .disc-stock-status {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-disc-round-add {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-disc-round-add:hover {
+      background: var(--accent-cyan, #3DE0FF);
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(61, 224, 255, 0.35);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       3. FEATURED EDITORIAL OUTFIT DROPS
+    ═══════════════════════════════════════════════════════════════════════ */
+    .disc-drops-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .disc-drop-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    }
+
+    .disc-drop-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .disc-drop-banner {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .disc-drop-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .disc-drop-card:hover .disc-drop-banner img {
+      transform: scale(1.04);
+    }
+
+    .disc-drop-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(1, 17, 38, 0.95) 100%);
+    }
+
+    .disc-drop-capsule-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 10px;
+      background: rgba(2, 11, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      backdrop-filter: blur(8px);
+    }
+
+    .disc-drop-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .disc-drop-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .disc-drop-desc {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    /* Pieces List Inside Drop */
+    .disc-drop-pieces {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .disc-drop-piece-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .disc-drop-piece-name {
+      font-size: 12px;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .disc-drop-piece-price {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    /* Bundle Summary & CTA */
+    .disc-drop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .disc-drop-total {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .disc-drop-total-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    .disc-drop-total-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .btn-disc-bundle {
+      padding: 10px 18px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-disc-bundle:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .disc-masonry-grid,
+      .disc-drops-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .disc-container {
+        padding: 20px 16px 80px;
+        gap: 48px;
+      }
+      .disc-hero-title {
+        font-size: 34px;
+        line-height: 1.15;
+      }
+      .disc-search-box {
+        padding: 4px 6px 4px 14px;
+      }
+      .disc-search-input {
+        font-size: 13px;
+        padding: 6px 6px;
+      }
+      .disc-search-btn {
+        padding: 8px 14px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+      .disc-masonry-grid,
+      .disc-drops-grid {
+        grid-template-columns: 1fr;
+      }
+      .disc-spheres-track {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        width: 100%;
+      }
+      .disc-spheres-track::-webkit-scrollbar { display: none; }
+      .disc-sphere-pill {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .disc-card-footer-info {
+        padding: 14px;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="discovery-v2-bg">
+
+  <!-- PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Loading...</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>Smart Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; Smart Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
+  </div>
+
+  <main class="disc-container" id="mainContent">
+
+    <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
+    <section class="disc-hero" aria-label="Visual Discovery & Search">
+      <div class="disc-hero-eyebrow">
+        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+        <span>Visual Discovery &amp; Outfits</span>
+      </div>
+      <h1 class="disc-hero-title">Visual Discovery <em>&amp; Moodboards</em></h1>
+      <p class="disc-hero-sub">Explore luxury pieces through tactile moodboards, styled outfit drops, and aesthetic realm lenses.</p>
+
+      <div class="disc-search-wrap">
+        <div class="disc-search-box">
+          <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-cyan);"></i>
+          <input type="text" id="discoveryMainInput" class="disc-search-input" placeholder="Search aesthetics, occasions, or materials (e.g. Leather runner sneakers)..." autocomplete="off" aria-label="Search Discovery Catalog" />
+          <button type="button" class="disc-search-clear-btn" id="discInputClearBtn" style="display: none;" aria-label="Clear search input">
+            <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+          </button>
+          <button type="button" class="disc-search-camera-btn" id="discoveryVisualSearchBtn" aria-label="Shop by Photo / Visual Search" title="Shop by Photo (Visual Search)">
+            <i data-lucide="camera" style="width: 16px; height: 16px;"></i>
+          </button>
+          <button type="button" class="disc-search-btn" id="discoverySubmitBtn" aria-label="Explore Catalog">
+            <span>Explore</span>
+            <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+          </button>
+        </div>
+        <!-- Quick Intent Prompt Chips -->
+        <div class="disc-prompt-chips">
+          <span class="disc-prompt-label">Quick Intent:</span>
+          <button type="button" class="disc-prompt-chip" data-query="Leather runner sneakers">👟 Leather sneakers</button>
+          <button type="button" class="disc-prompt-chip" data-query="Cashmere knit sweater">🧥 Cashmere knitwear</button>
+          <button type="button" class="disc-prompt-chip" data-query="Studio acoustics headphones">🎧 Studio acoustics</button>
+          <button type="button" class="disc-prompt-chip" data-query="Structured wool blazer">✨ Quiet luxury</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 1. AESTHETIC FILTER SPHERES ───────────────────────────────── -->
+    <section class="disc-spheres-wrap" aria-label="Aesthetic Realms">
+      <span class="disc-spheres-label">Select Aesthetic Realm</span>
+      <div class="disc-spheres-track" id="spheresTrack">
+        <button type="button" class="disc-sphere-pill active" data-sphere="all">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #3DE0FF, #A78BFA);color:#3DE0FF;"></span>
+          <span class="disc-sphere-title">All Realms</span>
+          <span class="disc-sphere-count" id="count-all">6</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="quiet-luxury">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #CBD5E1, #334155);color:#CBD5E1;"></span>
+          <span class="disc-sphere-title">Quiet Luxury</span>
+          <span class="disc-sphere-count" id="count-quiet-luxury">2</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="alpine-thermal">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #38BDF8, #1E293B);color:#38BDF8;"></span>
+          <span class="disc-sphere-title">Alpine Thermal</span>
+          <span class="disc-sphere-count" id="count-alpine-thermal">2</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="nordic-minimal">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F8FAFC, #94A3B8);color:#F8FAFC;"></span>
+          <span class="disc-sphere-title">Nordic Minimal</span>
+          <span class="disc-sphere-count" id="count-nordic-minimal">1</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="nocturne-acoustic">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #22D3EE, #0F172A);color:#22D3EE;"></span>
+          <span class="disc-sphere-title">Nocturne Acoustic</span>
+          <span class="disc-sphere-count" id="count-nocturne-acoustic">1</span>
+        </button>
+        <button type="button" class="disc-sphere-pill" data-sphere="transit-leisure">
+          <span class="disc-sphere-orb" style="background:linear-gradient(135deg, #F59E0B, #451A03);color:#F59E0B;"></span>
+          <span class="disc-sphere-title">Transit Leisure</span>
+          <span class="disc-sphere-count" id="count-transit-leisure">2</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ─── 2. VISUAL MASONRY MOODBOARD ───────────────────────────────── -->
+    <section aria-labelledby="masonryTitle">
+      <div class="disc-section-header">
+        <div>
+          <h2 class="disc-sec-title" id="masonryTitle">Browse &amp; Explore</h2>
+          <p class="disc-sec-sub">Handpicked luxury catalog &mdash; select finishes, explore details, and add to bag.</p>
+        </div>
+      </div>
+
+      <!-- Active Search / Filter Status Banner -->
+      <div class="disc-status-banner" id="discStatusBanner" style="display: none;">
+        <div class="disc-status-content">
+          <span class="disc-status-icon"><i data-lucide="sparkles" style="width: 16px; height: 16px;"></i></span>
+          <span class="disc-status-text" id="discStatusText">Showing results for <strong>"Leather runner sneakers"</strong></span>
+          <span class="disc-status-count" id="discStatusCount">(1 Direct Match)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <a href="../search-result-variations.html" class="disc-clear-btn" style="border-color: var(--accent-cyan, #3DE0FF); color: var(--accent-cyan, #3DE0FF); text-decoration: none;">
+            <i data-lucide="layout-grid" style="width: 13px; height: 13px;"></i>
+            <span>Compare 3 Card Styles</span>
+          </a>
+          <button type="button" class="disc-clear-btn" id="discClearSearchBtn" aria-label="Clear active filter">
+            <i data-lucide="x" style="width: 13px; height: 13px;"></i>
+            <span>Clear Filter</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="disc-masonry-grid" id="masonryGrid">
+
+        <!-- Card 1: Architectural Cashmere Sweater (p1) -->
+        <div class="disc-card disc-card-product" data-sphere-match="alpine-thermal quiet-luxury" data-keywords="cashmere knit sweater roll-neck wool warm knitwear winter architectural alpine quiet luxury" data-product-id="p1">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p1" class="disc-quickview-btn" aria-label="Quick Look Cashmere Knit Sweater">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/hero_sweater.png" alt="Architectural Cashmere Sweater">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(112 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Knitwear Studio</div>
+            <h3 class="disc-product-name">Architectural Cashmere Sweater</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#334155;" title="Heather Charcoal" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#E2E8F0;" title="Alpine Cream" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#1E293B;" title="Midnight Blue" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 185.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p1" data-quick-add-name="Architectural Cashmere Sweater" data-quick-add-price="185" data-quick-add-img="../assets/images/products/hero_sweater.png" aria-label="Quick add Cashmere Knit Sweater" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Structured Wool Blazer (p2) -->
+        <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury" data-keywords="blazer wool structured tailoring unlined merino jacket quiet luxury apparel" data-product-id="p2">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p2" class="disc-quickview-btn" aria-label="Quick Look Structured Wool Blazer">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/plp_blazer.png" alt="Structured Wool Blazer">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(88 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Atelier Tailoring</div>
+            <h3 class="disc-product-name">Structured Wool Blazer</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#1E293B;" title="Midnight Navy" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#0F172A;" title="Charcoal Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#475569;" title="Stone Grey" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 245.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p2" data-quick-add-name="Structured Wool Blazer" data-quick-add-price="245" data-quick-add-img="../assets/images/products/plp_blazer.png" aria-label="Quick add Structured Wool Blazer" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: Minimalist Leather Runner (p6) -->
+        <div class="disc-card disc-card-product" data-sphere-match="nordic-minimal transit-leisure" data-keywords="leather runner sneakers shoe trainers footwear low-top vibram quiet city mobility" data-product-id="p6">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p6" class="disc-quickview-btn" aria-label="Quick Look Minimalist Leather Runner">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_runner.png" alt="Minimalist Leather Runner">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(94 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Footwear Studio</div>
+            <h3 class="disc-product-name">Minimalist Leather Runner</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#FFFFFF;" title="White Nappa" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#1E293B;" title="Midnight Charcoal" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#78350F;" title="Tuscan Leather" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 195.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p6" data-quick-add-name="Minimalist Leather Runner" data-quick-add-price="195" data-quick-add-img="../assets/images/products/prod_runner.png" aria-label="Quick add Minimalist Leather Runner" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4: Studio Spatial Audio (p4) -->
+        <div class="disc-card disc-card-product" data-sphere-match="nocturne-acoustic" data-keywords="headphone audio sound spatial resonance acoustic studio wireless music electronics" data-product-id="p4">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p4" class="disc-quickview-btn" aria-label="Quick Look Studio Spatial Audio">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_headphones.png" alt="Studio Spatial Audio">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.8</span>
+              <span class="disc-rating-count">(76 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Acoustic Lab</div>
+            <h3 class="disc-product-name">Studio Spatial Audio</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Matte Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#94A3B8;" title="Titanium Silver" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 320.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p4" data-quick-add-name="Studio Spatial Audio" data-quick-add-price="320" data-quick-add-img="../assets/images/products/prod_headphones.png" aria-label="Quick add Studio Spatial Audio" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 5: Leather Weekender Tote (p7) -->
+        <div class="disc-card disc-card-product" data-sphere-match="transit-leisure quiet-luxury" data-keywords="leather tote bag weekender carryall transit travel accessories leathercraft" data-product-id="p7">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p7" class="disc-quickview-btn" aria-label="Quick Look Leather Weekender Tote">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/prod_tote.png" alt="Leather Weekender Tote">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(64 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Transit Atelier</div>
+            <h3 class="disc-product-name">Leather Weekender Tote</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Onyx Black" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#9A3412;" title="Caramel Tan" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#451A03;" title="Espresso Brown" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 285.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p7" data-quick-add-name="Leather Weekender Tote" data-quick-add-price="285" data-quick-add-img="../assets/images/products/prod_tote.png" aria-label="Quick add Leather Weekender Tote" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 6: Minimalist Chrono Watch (p5) -->
+        <div class="disc-card disc-card-product" data-sphere-match="quiet-luxury nordic-minimal" data-keywords="watch chrono time minimalist horology titanium sapphire leather accessories" data-product-id="p5">
+          <div class="disc-product-img-box">
+            <a href="product.html?id=p5" class="disc-quickview-btn" aria-label="Quick Look Minimalist Chrono Watch">
+              <i data-lucide="eye" style="width:11px;height:11px;"></i> Quick Look
+            </a>
+            <img src="../assets/images/products/search_watch.png" alt="Minimalist Chrono Watch">
+          </div>
+          <div class="disc-product-meta">
+            <div class="disc-rating-row">
+              <span>★ 4.9</span>
+              <span class="disc-rating-count">(105 reviews)</span>
+            </div>
+            <div class="disc-product-brand">Atelier Horology</div>
+            <h3 class="disc-product-name">Minimalist Chrono Watch</h3>
+            <div class="disc-swatches">
+              <span class="disc-swatch-dot active" style="background:#0F172A;" title="Black Titanium" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#CBD5E1;" title="Silver Steel" onclick="selectDiscSwatch(this)"></span>
+              <span class="disc-swatch-dot" style="background:#B45309;" title="Tan Leather" onclick="selectDiscSwatch(this)"></span>
+            </div>
+          </div>
+          <div class="disc-product-footer">
+            <div class="disc-price-group">
+              <span class="disc-product-price">€ 410.00</span>
+              <span class="disc-stock-status">
+                <i data-lucide="check-circle" style="width:9px;height:9px;"></i> In Stock · Ready to ship
+              </span>
+            </div>
+            <button type="button" class="btn-disc-round-add btn-disc-quick-add" data-quick-add-id="p5" data-quick-add-name="Minimalist Chrono Watch" data-quick-add-price="410" data-quick-add-img="../assets/images/products/search_watch.png" aria-label="Quick add Minimalist Chrono Watch" title="Add to Bag">
+              <i data-lucide="plus" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── 3. FEATURED EDITORIAL OUTFIT DROPS ─────────────────────────── -->
+    <section id="drops" aria-labelledby="dropsTitle">
+      <div class="disc-section-header">
+        <div>
+          <h2 class="disc-sec-title" id="dropsTitle">Complete Outfit Builder</h2>
+          <p class="disc-sec-sub">Complete styled ensembles tailored for climate, occasion, and harmony &mdash; 1-click bundle checkout.</p>
+        </div>
+      </div>
+
+      <div class="disc-drops-grid">
+
+        <!-- Drop 1 -->
+        <div class="disc-drop-card" data-bundle-keywords="milan evening cashmere sweater headphones tote quiet luxury winter">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_sweater_landscape.jpg" alt="Milan Evening Edit">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 01 &middot; EVENING</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">The Milan Evening Look</h3>
+            <p class="disc-drop-desc">Breathable cashmere knitwear paired with studio acoustics and leather transit carryall.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Cashmere Sweater</span>
+                <span class="disc-drop-piece-price">€ 185.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Studio Spatial Headphones</span>
+                <span class="disc-drop-piece-price">€ 320.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Leather Weekender Tote</span>
+                <span class="disc-drop-piece-price">€ 285.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (3 Pieces)</span>
+                <span class="disc-drop-total-val">€ 790.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p1,p4,p7">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drop 2 -->
+        <div class="disc-drop-card" data-bundle-keywords="minimalist urban movement runner sneakers blazer calfskin quiet city mobility">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_runner_landscape.jpg" alt="Minimalist Motion">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 02 &middot; MOVEMENT</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">Minimalist Urban Rotation</h3>
+            <p class="disc-drop-desc">Structured tailoring engineered with Italian calfskin low-tops for quiet city mobility.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Structured Wool Blazer</span>
+                <span class="disc-drop-piece-price">€ 245.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Minimalist Leather Runner</span>
+                <span class="disc-drop-piece-price">€ 195.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
+                <span class="disc-drop-total-val">€ 440.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p2,p6">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drop 3 -->
+        <div class="disc-drop-card" data-bundle-keywords="long haul flight comfort transit tote sweater carryall knitwear">
+          <div class="disc-drop-banner">
+            <img src="../assets/images/lifestyle/hero_tote_landscape.jpg" alt="Transit Long Flight">
+            <div class="disc-drop-banner-overlay"></div>
+            <span class="disc-drop-capsule-badge">CAPSULE 03 &middot; TRANSIT</span>
+          </div>
+          <div class="disc-drop-content">
+            <h3 class="disc-drop-title">Long-Haul Flight Comfort</h3>
+            <p class="disc-drop-desc">Full-grain leather carryall and ultra-soft knitwear for effortless transit hours.</p>
+            <div class="disc-drop-pieces">
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Cashmere Knit Sweater</span>
+                <span class="disc-drop-piece-price">€ 185.00</span>
+              </div>
+              <div class="disc-drop-piece-row">
+                <span class="disc-drop-piece-name"><i data-lucide="check" style="width:12px;height:12px;color:var(--accent-cyan);"></i> Leather Weekender Tote</span>
+                <span class="disc-drop-piece-price">€ 285.00</span>
+              </div>
+            </div>
+            <div class="disc-drop-footer">
+              <div class="disc-drop-total">
+                <span class="disc-drop-total-label">Capsule Total (2 Pieces)</span>
+                <span class="disc-drop-total-val">€ 470.00</span>
+              </div>
+              <button type="button" class="btn-disc-bundle" data-bundle-ids="p1,p7">
+                <i data-lucide="shopping-bag" style="width:12px;height:12px;"></i>
+                <span>Add Capsule</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <input type="text" id="aiSearchModalInput" class="search-ai-input" name="q" placeholder="Something for a winter evening in Berlin..." autocomplete="off" aria-label="Search query" spellcheck="false">
+        </div>
+        <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- MINI CART -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
+    <div id="minicartFooter" class="minicart-footer" style="display:none;">
+      <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=6"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+  <script src="../js/concierge-engine.js?v=4"></script>
+  <script src="../js/concierge.js?v=4"></script>
+  <script src="../js/visual-search-ui.js"></script>
+
+  <script>
+    // ── Preloader ──────────────────────────────────────────────────────────
+    const preloader = document.getElementById('pagePreloader');
+    const bar = document.getElementById('preloaderProgressBar');
+    const pct = document.getElementById('preloaderPercent');
+    if (preloader) {
+      let p = 0;
+      const iv = setInterval(() => {
+        p += 20; if (p > 100) p = 100;
+        if (bar) bar.style.width = p + '%';
+        if (pct) pct.textContent = p + '%';
+        if (p >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => preloader.remove(), 300);
+          }, 160);
+        }
+      }, 25);
+    }
+
+    // ── Swatch Selection Helper ───────────────────────────────────────────
+    window.selectDiscSwatch = function(dot) {
+      const parent = dot.closest('.disc-swatches');
+      if (parent) {
+        parent.querySelectorAll('.disc-swatch-dot').forEach(d => d.classList.remove('active'));
+      }
+      dot.classList.add('active');
+      const title = dot.getAttribute('title') || 'Color';
+      if (window.showToast) {
+        window.showToast(`Selected finish: ${title}`, 'info');
+      }
+    };
+
+    // ── Quick Add Helper ───────────────────────────────────────────────────
+    function quickAdd(id, name, price, img) {
+      if (window.nexCart && typeof window.nexCart.addItem === 'function') {
+        window.nexCart.addItem({ id: id, name: name, price: price, image: img, category: 'Discovery Selection' });
+      }
+      if (window.showToast) {
+        window.showToast(`Added ${name} to your shopping bag.`, 'success');
+      }
+      if (window.nexCart && typeof window.nexCart.openDrawer === 'function') {
+        window.nexCart.openDrawer();
+      }
+    }
+
+    // ── Bundle Add Helper ──────────────────────────────────────────────────
+    function addBundle(ids) {
+      const catalog = [
+        { id: 'p1', name: 'Architectural Cashmere Sweater', price: 185, image: '../assets/images/products/hero_sweater.png' },
+        { id: 'p2', name: 'Structured Wool Blazer', price: 245, image: '../assets/images/products/plp_blazer.png' },
+        { id: 'p4', name: 'Studio Spatial Headphones', price: 320, image: '../assets/images/products/prod_headphones.png' },
+        { id: 'p6', name: 'Minimalist Leather Runner', price: 195, image: '../assets/images/products/prod_runner.png' },
+        { id: 'p7', name: 'Leather Weekender Tote', price: 285, image: '../assets/images/products/prod_tote.png' }
+      ];
+
+      let addedCount = 0;
+      ids.forEach(id => {
+        const item = catalog.find(x => x.id === id);
+        if (item && window.nexCart && typeof window.nexCart.addItem === 'function') {
+          window.nexCart.addItem({ id: item.id, name: item.name, price: item.price, image: item.image, category: 'Featured Capsule' });
+          addedCount++;
+        }
+      });
+
+      if (window.nexCart && typeof window.nexCart.openDrawer === 'function') {
+        window.nexCart.openDrawer();
+      }
+      if (window.showToast) {
+        window.showToast(`Added ${addedCount} capsule pieces to your shopping bag!`, 'success');
+      }
+    }
+
+    // ── Centralized Event Delegation ───────────────────────────────────────
+    document.addEventListener('click', (e) => {
+      // Quick add button
+      const quickAddBtn = e.target.closest('.btn-disc-quick-add[data-quick-add-id], .btn-hotspot-quickadd[data-quick-add-id]');
+      if (quickAddBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = quickAddBtn.getAttribute('data-quick-add-id');
+        const name = quickAddBtn.getAttribute('data-quick-add-name');
+        const price = parseFloat(quickAddBtn.getAttribute('data-quick-add-price')) || 0;
+        const img = quickAddBtn.getAttribute('data-quick-add-img');
+        quickAdd(id, name, price, img);
+        return;
+      }
+
+      // Bundle button
+      const bundleBtn = e.target.closest('.btn-disc-bundle[data-bundle-ids]');
+      if (bundleBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const ids = bundleBtn.getAttribute('data-bundle-ids').split(',');
+        addBundle(ids);
+        return;
+      }
+
+      // Prompt chips
+      const promptChip = e.target.closest('.disc-prompt-chip[data-query]');
+      if (promptChip) {
+        const query = promptChip.getAttribute('data-query');
+        if (mainInput) {
+          mainInput.value = query;
+          executeDiscoverySearch(query);
+        }
+        return;
+      }
+
+      // Hotspot popovers on mobile tap
+      const hotspotPin = e.target.closest('.disc-hotspot-pin');
+      if (hotspotPin && !e.target.closest('.disc-hotspot-popover')) {
+        document.querySelectorAll('.disc-hotspot-pin').forEach(p => {
+          if (p !== hotspotPin) p.classList.remove('active');
+        });
+        hotspotPin.classList.toggle('active');
+      } else if (!e.target.closest('.disc-hotspot-pin')) {
+        document.querySelectorAll('.disc-hotspot-pin').forEach(p => p.classList.remove('active'));
+      }
+    });
+
+    // ── In-Page Dynamic Search & Filtering Engine ──────────────────────────
+    const mainInput = document.getElementById('discoveryMainInput');
+    const submitBtn = document.getElementById('discoverySubmitBtn');
+    const clearInputBtn = document.getElementById('discInputClearBtn');
+    const statusBanner = document.getElementById('discStatusBanner');
+    const statusText = document.getElementById('discStatusText');
+    const statusCount = document.getElementById('discStatusCount');
+    const clearSearchBtn = document.getElementById('discClearSearchBtn');
+
+    function executeDiscoverySearch(rawQuery) {
+      const query = (rawQuery || '').trim();
+      const qLower = query.toLowerCase();
+
+      // Toggle input clear button
+      if (clearInputBtn) {
+        clearInputBtn.style.display = query ? 'flex' : 'none';
+      }
+
+      // Remove existing match badges & highlight borders
+      document.querySelectorAll('.disc-match-badge').forEach(el => el.remove());
+      document.querySelectorAll('.disc-card').forEach(card => {
+        card.classList.remove('matched-highlight');
+      });
+
+      if (!query) {
+        // Reset to currently active realm
+        if (statusBanner) statusBanner.style.display = 'none';
+        applyRealmFilter(getActiveSphere());
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+        return;
+      }
+
+      // Update URL with query param
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', '?q=' + encodeURIComponent(query));
+      }
+
+      // Filter Moodboard Cards
+      const terms = qLower.split(/\s+/).filter(t => t.length > 1);
+      let matchCount = 0;
+      const allCards = document.querySelectorAll('.disc-card');
+
+      allCards.forEach(card => {
+        const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+        const sphereMatch = (card.getAttribute('data-sphere-match') || '').toLowerCase();
+        const textContent = (card.textContent || '').toLowerCase();
+        const haystack = `${keywords} ${sphereMatch} ${textContent}`;
+
+        // Check if query or terms match
+        const isDirectMatch = haystack.includes(qLower) || terms.some(term => haystack.includes(term));
+
+        if (isDirectMatch) {
+          matchCount++;
+          card.style.display = 'flex';
+          card.style.opacity = '1';
+          card.style.transform = 'scale(1)';
+          card.classList.add('matched-highlight');
+
+          // Append Match Badge
+          const badge = document.createElement('span');
+          badge.className = 'disc-match-badge';
+          badge.innerHTML = '<i data-lucide="sparkles" style="width:10px;height:10px;"></i> ' + (haystack.includes(qLower) ? 'Top Match' : 'Semantic Match');
+          card.appendChild(badge);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Filter Outfit Drops
+      document.querySelectorAll('.disc-drop-card').forEach(drop => {
+        const dropKeywords = (drop.getAttribute('data-bundle-keywords') || '').toLowerCase();
+        const dropText = (drop.textContent || '').toLowerCase();
+        const isDropMatch = dropKeywords.includes(qLower) || terms.some(term => dropKeywords.includes(term) || dropText.includes(term));
+        drop.style.display = (isDropMatch || matchCount === 0) ? 'flex' : 'none';
+      });
+
+      // Update Status Banner
+      if (statusBanner && statusText && statusCount) {
+        statusBanner.style.display = 'flex';
+        statusText.innerHTML = `Showing results for <strong>"${escapeHtml(query)}"</strong>`;
+        statusCount.textContent = `(${matchCount} ${matchCount === 1 ? 'Piece Found' : 'Pieces Found'})`;
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function clearDiscoverySearch() {
+      if (mainInput) mainInput.value = '';
+      executeDiscoverySearch('');
+    }
+
+    function getActiveSphere() {
+      const activePill = document.querySelector('.disc-sphere-pill.active');
+      return activePill ? (activePill.dataset.sphere || 'all') : 'all';
+    }
+
+    function updateFilterCounts() {
+      const cards = Array.from(document.querySelectorAll('.disc-card'));
+      const spheres = ['all', 'quiet-luxury', 'alpine-thermal', 'nordic-minimal', 'nocturne-acoustic', 'transit-leisure'];
+      
+      spheres.forEach(s => {
+        let count = 0;
+        if (s === 'all') {
+          count = cards.length;
+        } else {
+          count = cards.filter(c => (c.dataset.sphereMatch || '').includes(s)).length;
+        }
+        const badge = document.getElementById(`count-${s}`);
+        if (badge) badge.textContent = count;
+      });
+    }
+
+    function applyRealmFilter(sphere) {
+      const cards = document.querySelectorAll('.disc-card');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const sphereMatch = card.dataset.sphereMatch || '';
+        if (sphere === 'all' || sphereMatch.includes(sphere)) {
+          card.style.display = 'flex';
+          card.style.opacity = '1';
+          card.style.transform = 'scale(1)';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      // Ensure all drops visible on realm switch
+      document.querySelectorAll('.disc-drop-card').forEach(drop => drop.style.display = 'flex');
+
+      if (sphere !== 'all' && statusBanner && statusText && statusCount) {
+        statusBanner.style.display = 'flex';
+        const sphereName = document.querySelector(`.disc-sphere-pill[data-sphere="${sphere}"] .disc-sphere-title`)?.textContent || sphere;
+        statusText.innerHTML = `Showing realm: <strong>"${escapeHtml(sphereName)}"</strong>`;
+        statusCount.textContent = `(${visibleCount} ${visibleCount === 1 ? 'Piece' : 'Pieces'})`;
+      } else if (sphere === 'all' && statusBanner && (!mainInput || !mainInput.value)) {
+        statusBanner.style.display = 'none';
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ── Aesthetic Spheres Filter Event ─────────────────────────────────────
+    document.querySelectorAll('.disc-sphere-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.disc-sphere-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        // If query is present, clear input and run realm filter
+        if (mainInput && mainInput.value) {
+          mainInput.value = '';
+          if (clearInputBtn) clearInputBtn.style.display = 'none';
+          if (statusBanner) statusBanner.style.display = 'none';
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        }
+        applyRealmFilter(pill.dataset.sphere);
+      });
+    });
+
+    // ── Search Input Listeners ─────────────────────────────────────────────
+    if (submitBtn && mainInput) {
+      submitBtn.addEventListener('click', () => {
+        executeDiscoverySearch(mainInput.value);
+      });
+      mainInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          executeDiscoverySearch(mainInput.value);
+        }
+      });
+      mainInput.addEventListener('input', () => {
+        if (clearInputBtn) clearInputBtn.style.display = mainInput.value ? 'flex' : 'none';
+      });
+    }
+
+    if (clearInputBtn) {
+      clearInputBtn.addEventListener('click', clearDiscoverySearch);
+    }
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', clearDiscoverySearch);
+    }
+
+    // ── Initialization from URL Search Parameter (?q=...) & Hash Anchor ───
+    function handleHashScroll() {
+      if (window.location.hash) {
+        setTimeout(function() {
+          const target = document.querySelector(window.location.hash);
+          if (target) {
+            if (window._nexLenis && typeof window._nexLenis.scrollTo === 'function') {
+              window._nexLenis.scrollTo(target, { offset: -90, duration: 0.8 });
+            } else {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            target.classList.add('tour-target-highlight');
+            setTimeout(function() { target.classList.remove('tour-target-highlight'); }, 2200);
+          }
+        }, 250);
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashScroll);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      updateFilterCounts();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const qParam = urlParams.get('q');
+      if (qParam && mainInput) {
+        mainInput.value = qParam;
+        executeDiscoverySearch(qParam);
+      }
+
+      handleHashScroll();
+    });
+  </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+</body>
+</html>

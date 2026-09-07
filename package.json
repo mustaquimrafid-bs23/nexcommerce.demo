@@ -1,0 +1,60 @@
+{
+  "name": "nexcomarch",
+  "version": "1.0.0",
+  "description": "[![Version](https://img.shields.io/badge/version-1.0.0--atelier-003371.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch) [![Status](https://img.shields.io/badge/status-22%20Pages%20Elevated%20%26%20SQA%20Verified-34D399.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/task.md) [![Design System](https://img.shields.io/badge/design%20system-Atelier%20Obsidian%20%26%20Warm%20Stone-0A2A54.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/css/design-system.css) [![Stack](https://img.shields.io/badge/architecture-Vanilla%20ES6%2B%20%7C%20CSS3%20Tokens%20%7C%20Semantic%20HTML5-F13365.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/js) [![Accessibility](https://img.shields.io/badge/accessibility-WCAG%202.1%20AA%20Compliant-3DE0FF.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/docs/brand/accessibility-guidelines.md) [![Performance](https://img.shields.io/badge/motion-120fps%20GPU--Composited-E60C45.svg?style=flat-square)](file:///c:/Users/BS1572/OneDrive%20-%20Brain%20Station%2023/Documents/nexcomarch/css/design-system.css)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "dev:legacy": "node server.js",
+    "test": "node tests/run-all-tests.js",
+    "test:next": "node tests/test-nextjs-build.js",
+    "test:unit": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mustaquimrafid-bs23/nexcommerce.demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mustaquimrafid-bs23/nexcommerce.demo/issues"
+  },
+  "homepage": "https://github.com/mustaquimrafid-bs23/nexcommerce.demo#readme",
+  "dependencies": {
+    "@react-three/fiber": "^9.7.0",
+    "@types/three": "^0.185.4",
+    "clsx": "^2.1.1",
+    "lenis": "^1.3.26",
+    "lucide-react": "^1.34.0",
+    "motion": "^13.1.1",
+    "next": "^16.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "split-type": "^0.3.4",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.185.1",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "autoprefixer": "^10.5.4",
+    "jsdom": "^30.0.1",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}

@@ -1,0 +1,164 @@
+# ==============================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ==============================================================================
+node_modules/
+package-lock.json
+.pnpm-store/
+.pnp
+.pnp.js
+.pnp.cjs
+.pnp.mjs
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+bun.lockb
+bun.lock
+.bun/
+
+# ==============================================================================
+# NEXT.JS, VERCEL & BUILD ARTIFACTS
+# ==============================================================================
+.next/
+out/
+build/
+dist/
+.swc/
+.turbo/
+.cache/
+.vercel/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.eslintcache
+.stylelintcache
+.parcel-cache/
+
+# ==============================================================================
+# TESTING, COVERAGE, PLAYWRIGHT, VITEST & LIGHTHOUSE
+# ==============================================================================
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+.playwright-mcp/
+playwright/.cache/
+playwright-artifacts/
+.vitest/
+*.ariaSnapshot
+lighthouse-report/
+lighthouse-audit/
+*.report.html
+*.report.json
+
+# ==============================================================================
+# STATIC ANALYSIS & QUALITY TOOLS (SONARQUBE)
+# ==============================================================================
+.scannerwork/
+.sonar/
+
+# ==============================================================================
+# PYTHON (SCRIPTS, SUBAGENTS & SKILLS TOOLING)
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+.venv/
+venv/
+env/
+ENV/
+
+# ==============================================================================
+# IDES, EDITORS & AI ASSISTANTS
+# ==============================================================================
+.vscode/
+.idea/
+.cursor/
+.claude/
+.gemini/
+.antigravity/
+.agy/
+.superpowers/
+.system_generated/
+.agents/.cache/
+.zed/
+.fleet/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+*.bak
+
+# ==============================================================================
+# SCRATCH SCRIPTS, TEMPORARY DUMPS & ROOT VERIFICATION SCREENSHOTS
+# (Note: Leading slash ensures public/assets/ and docs/ images are NOT ignored)
+# ==============================================================================
+scratch/
+scratch*/
+scratch_*
+*.scratch.*
+tmp/
+temp/
+*.tmp
+*.temp
+*.dump
+*.stackdump
+*.heapsnapshot
+*.cpuprofile
+*.trace
+trace.json
+trace.json.gz
+.tempmediaStorage/
+recordings/
+videos/
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
+/*.avif
+/*.mp4
+/*.webm
+all_screens_composite.*
+
+# ==============================================================================
+# OPERATING SYSTEM METADATA
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ==============================================================================
+# ENVIRONMENT, SECRETS, CERTIFICATES & LOGS
+# ==============================================================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12

@@ -15,10 +15,10 @@
     if (budget && budget.max) {
       var before = pool.length;
       pool = pool.filter(function(p) { return (p.numericPrice || p.price || 0) <= budget.max; });
-      if (pool.length < before) appliedFilters.push('Under BDT ' + budget.max.toLocaleString());
+      if (pool.length < before) appliedFilters.push('Under € ' + budget.max.toLocaleString());
       if (pool.length === 0) {
         pool = catalog.filter(function(p) { return (p.numericPrice || p.price || 0) <= budget.max * 1.4; });
-        relaxedFilters.push('Budget relaxed to BDT ' + Math.round(budget.max * 1.4).toLocaleString());
+        relaxedFilters.push('Budget relaxed to € ' + Math.round(budget.max * 1.4).toLocaleString());
       }
     }
 
@@ -39,9 +39,12 @@
       if (colPool.length > 0) { pool = colPool; appliedFilters.push(intent.color.value); }
     }
 
-    // Soft ranking
+    // Soft ranking. Baseline starts at 0 (not a flat 0.5) so a product that
+    // matches none of the query's signals scores 0 and can be filtered out
+    // below — otherwise every product in the catalog "matches" by default
+    // and the page just re-sorts the whole catalog instead of narrowing it.
     var scored = pool.map(function(p) {
-      var score = 0.5;
+      var score = 0;
       var kw = (p.keywords || []).join(' ').toLowerCase();
       var desc = (p.desc || p.reasoning || '').toLowerCase();
 
@@ -94,8 +97,19 @@
       return Object.assign({}, p, { _score: Math.min(0.99, score) });
     });
 
-    scored.sort(function(a, b) { return b._score - a._score; });
-    return { products: scored, appliedFilters: appliedFilters, relaxedFilters: relaxedFilters };
+    // Keep only products that actually matched some signal. If none did
+    // (a genuinely unrecognized query), fall back to the full hard-filtered
+    // pool rather than showing zero results — but flag it so the UI can be
+    // honest that this isn't a curated match, just the catalog as-is.
+    var relevant = scored.filter(function(p) { return p._score > 0; });
+    var isWeakMatch = false;
+    if (relevant.length === 0) {
+      relevant = scored;
+      isWeakMatch = true;
+    }
+
+    relevant.sort(function(a, b) { return b._score - a._score; });
+    return { products: relevant, appliedFilters: appliedFilters, relaxedFilters: relaxedFilters, isWeakMatch: isWeakMatch };
   }
 
   function keywordFallback(rawQuery) {

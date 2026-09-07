@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Experience & Compact Product Card — 3 UI/UX Variations | nexCommerce</title>
+  <meta name="description" content="Explore 3 simple and beautiful UI/UX variations for catalog filtering and compact product cards.">
+  
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #000B1A;
+      --bg-surface: #011126;
+      --bg-card: #031838;
+      --accent-cyan: #3DE0FF;
+      --accent-gold: #F59E0B;
+      --accent-emerald: #10B981;
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      --text-main: #FFFFFF;
+      --text-muted: #94A3B8;
+      --text-sub: #CBD5E1;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      line-height: 1.4;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Compact Top Header ───────────────────────────────────────────── */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(1, 17, 38, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(61, 224, 255, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+    }
+
+    .btn-return {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-sub);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .btn-return:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* ─── Hero Controls & Tabs ─────────────────────────────────────────── */
+    .control-header {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 18px 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .main-heading {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: rgba(2, 11, 24, 0.7);
+      border: 1px solid var(--border-subtle);
+      padding: 4px;
+      border-radius: var(--radius-md);
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 9px 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFF;
+    }
+
+    .tab-btn.active {
+      background: #FFFFFF;
+      color: #001229;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab-btn.active .tab-num {
+      background: #001229;
+      color: #FFF;
+    }
+
+    .tab-num {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      color: inherit;
+    }
+
+    /* ─── Main Showcase Layout ─────────────────────────────────────────── */
+    .showcase-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .showcase-container.single-mode {
+      grid-template-columns: 1fr;
+      max-width: 1000px;
+    }
+
+    .option-wrapper {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .option-wrapper.recommended {
+      border-color: rgba(61, 224, 255, 0.45);
+      background: linear-gradient(180deg, rgba(61, 224, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(61, 224, 255, 0.1);
+    }
+
+    .rec-pill {
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: var(--accent-cyan);
+      color: #001229;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 8px rgba(61, 224, 255, 0.4);
+    }
+
+    .option-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .option-tagline {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .option-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .option-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* ─── LIVE INTERACTIVE FILTER BAR PER OPTION ───────────────────────── */
+    .filter-test-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 16, 38, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+
+    .filter-bar-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .filter-bar-status {
+      font-size: 11px;
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .filter-pills-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .f-pill {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-sub);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .f-pill:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFF;
+    }
+
+    .f-pill.active {
+      background: var(--accent-cyan);
+      color: #001229;
+      border-color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    .f-pill-count {
+      font-size: 9.5px;
+      padding: 1px 4px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.25);
+      color: inherit;
+    }
+
+    .f-pill.active .f-pill-count {
+      background: rgba(0, 18, 41, 0.3);
+      color: #001229;
+    }
+
+    /* ─── PRODUCT CARDS DEMO GRID ──────────────────────────────────────── */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      min-height: 280px;
+    }
+
+    .showcase-container.single-mode .mini-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    /* ─── OPTION 1: "Smart Spotlight" (Soft Dimming Non-Destructive) ───── */
+    .card-opt1 {
+      background: #03142B;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+    }
+
+    /* Spotlight Matched State */
+    .card-opt1.matched {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.25);
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Soft Dimmed Unmatched State - Doesn't vanish! */
+    .card-opt1.dimmed {
+      opacity: 0.3;
+      filter: grayscale(60%);
+      transform: scale(0.97);
+    }
+
+    .card-opt1.dimmed:hover {
+      opacity: 0.75;
+      filter: grayscale(0%);
+    }
+
+    .card-opt1-img-wrap {
+      width: 100%;
+      height: 120px;
+      background: radial-gradient(circle at 50% 50%, #06234B 0%, #010B18 85%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .card-opt1-img-wrap img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain !important;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+      transition: transform 0.3s ease;
+    }
+
+    .card-opt1:hover .card-opt1-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .card-opt1-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: rgba(1, 17, 38, 0.9);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(61, 224, 255, 0.3);
+    }
+
+    .card-opt1-body {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .card-opt1-brand {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card-opt1-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-opt1-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .card-opt1-price {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFF;
+    }
+
+    .btn-opt1-add {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #001229;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-opt1-add:hover {
+      background: var(--accent-cyan);
+      transform: scale(1.1);
+    }
+
+    /* ─── OPTION 2: "Smooth Dynamic Reflow" (Live Count Counters) ─────── */
+    .card-opt2 {
+      background: #041838;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .card-opt2:hover {
+      border-color: rgba(61, 224, 255, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .card-opt2-img-wrap {
+      width: 100%;
+      height: 125px;
+      background: radial-gradient(circle at 50% 50%, #062A5E 0%, #020F24 85%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .card-opt2-img-wrap img {
+      width: 82%;
+      height: 82%;
+      object-fit: contain !important;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+      transition: transform 0.3s ease;
+    }
+
+    .card-opt2:hover .card-opt2-img-wrap img {
+      transform: scale(1.07);
+    }
+
+    .card-opt2-rating {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0, 16, 38, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-full);
+      padding: 2px 6px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .card-opt2-body {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .card-opt2-brand {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card-opt2-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-opt2-swatches {
+      display: flex;
+      gap: 4px;
+      margin: 2px 0;
+    }
+
+    .swatch-mini {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .swatch-mini.active, .swatch-mini:hover {
+      border-color: #FFF;
+      transform: scale(1.25);
+    }
+
+    .card-opt2-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .card-opt2-price {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #FFF;
+    }
+
+    .card-opt2-stock {
+      font-size: 8.5px;
+      color: var(--accent-emerald);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .btn-opt2-add {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #001229;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-opt2-add:hover {
+      background: var(--accent-cyan);
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.4);
+    }
+
+    /* ─── OPTION 3: "Micro Minimal Rail & Compact Horizontal Tile" ────── */
+    .card-opt3 {
+      background: #021124;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      padding: 8px;
+      gap: 8px;
+    }
+
+    .card-opt3:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: #031838;
+    }
+
+    .card-opt3-img-wrap {
+      width: 100%;
+      height: 110px;
+      background: #041B3B;
+      border-radius: 6px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .card-opt3-img-wrap img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain !important;
+    }
+
+    .card-opt3-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .card-opt3-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-opt3-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-opt3-price {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .btn-opt3-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFF;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-opt3-pill:hover {
+      background: #FFF;
+      color: #001229;
+    }
+
+    /* ─── TOAST NOTIFICATION ───────────────────────────────────────────── */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(0, 18, 41, 0.95);
+      border: 1px solid var(--accent-cyan);
+      color: #FFF;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 999;
+    }
+
+    .toast-box.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .showcase-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <a href="pages/discovery.html" class="brand-area">
+      <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-cyan);"></i>
+      <span class="brand-title">nexCommerce</span>
+      <span class="brand-badge">UI/UX Redesign</span>
+    </a>
+    <a href="pages/discovery.html" class="btn-return">
+      <i data-lucide="arrow-left" style="width: 13px; height: 13px;"></i>
+      <span>Back to Discovery Page</span>
+    </a>
+  </header>
+
+  <!-- CONTROL & TAB HEADER -->
+  <div class="control-header">
+    <div class="title-row">
+      <h1 class="main-heading">
+        <i data-lucide="sliders-horizontal" style="width: 22px; height: 22px; color: var(--accent-cyan);"></i>
+        Filter Experience &amp; Compact Card Sizing
+      </h1>
+    </div>
+
+    <!-- TAB SWITCHER -->
+    <div class="tab-bar">
+      <button type="button" class="tab-btn active" onclick="switchView('all', this)">
+        <span>Side-by-Side View</span>
+      </button>
+      <button type="button" class="tab-btn" onclick="switchView('opt1', this)">
+        <span class="tab-num">01</span>
+        <span>Smart Spotlight (Soft Dimming)</span>
+      </button>
+      <button type="button" class="tab-btn" onclick="switchView('opt2', this)">
+        <span class="tab-num">02</span>
+        <span>Fluid Grid &amp; Count Badges (Recommended)</span>
+      </button>
+      <button type="button" class="tab-btn" onclick="switchView('opt3', this)">
+        <span class="tab-num">03</span>
+        <span>Micro Rail &amp; Compact Tile</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SHOWCASE CONTAINER -->
+  <main class="showcase-container" id="showcaseGrid">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         VARIATION 1: "Smart Spotlight" (Soft Dimming Non-Destructive Filtering)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="option-wrapper" id="wrap-opt1">
+      <div class="option-header">
+        <span class="option-tagline">Variation 01</span>
+        <h2 class="option-title">Smart Spotlight (Soft Dimming)</h2>
+        <p class="option-desc">
+          <strong>No Products Vanish:</strong> Unmatched items stay in place but softly dim to 30% opacity. Matching items shine with glowing borders and match badges.
+        </p>
+      </div>
+
+      <!-- Live Interactive Filter Bar 1 -->
+      <div class="filter-test-bar">
+        <div class="filter-bar-label">
+          <span>Test Filter Realm:</span>
+          <span class="filter-bar-status" id="opt1StatusText">All 4 Items Active</span>
+        </div>
+        <div class="filter-pills-row">
+          <button type="button" class="f-pill active" onclick="filterOpt1('all', this)">All</button>
+          <button type="button" class="f-pill" onclick="filterOpt1('blazer', this)">Blazer</button>
+          <button type="button" class="f-pill" onclick="filterOpt1('sweater', this)">Sweater</button>
+          <button type="button" class="f-pill" onclick="filterOpt1('runner', this)">Runners</button>
+        </div>
+      </div>
+
+      <!-- Compact 2-col mini grid -->
+      <div class="mini-grid" id="opt1Grid">
+        <!-- Item 1 -->
+        <div class="card-opt1 matched" data-cat="blazer">
+          <div class="card-opt1-img-wrap">
+            <span class="card-opt1-badge">Top Match</span>
+            <img src="assets/images/products/plp_blazer.png" alt="Wool Blazer">
+          </div>
+          <div class="card-opt1-body">
+            <span class="card-opt1-brand">Atelier Tailoring</span>
+            <h3 class="card-opt1-title">Structured Wool Blazer</h3>
+            <div class="card-opt1-footer">
+              <span class="card-opt1-price">€ 245.00</span>
+              <button type="button" class="btn-opt1-add" onclick="demoAdd('Structured Wool Blazer', 245)">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="card-opt1 matched" data-cat="sweater">
+          <div class="card-opt1-img-wrap">
+            <span class="card-opt1-badge">Top Match</span>
+            <img src="assets/images/products/hero_sweater.png" alt="Cashmere Sweater">
+          </div>
+          <div class="card-opt1-body">
+            <span class="card-opt1-brand">Knitwear Studio</span>
+            <h3 class="card-opt1-title">Cashmere Knit Sweater</h3>
+            <div class="card-opt1-footer">
+              <span class="card-opt1-price">€ 185.00</span>
+              <button type="button" class="btn-opt1-add" onclick="demoAdd('Cashmere Knit Sweater', 185)">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="card-opt1 matched" data-cat="runner">
+          <div class="card-opt1-img-wrap">
+            <span class="card-opt1-badge">Top Match</span>
+            <img src="assets/images/products/prod_runner.png" alt="Leather Runner">
+          </div>
+          <div class="card-opt1-body">
+            <span class="card-opt1-brand">Footwear Studio</span>
+            <h3 class="card-opt1-title">Minimalist Leather Runner</h3>
+            <div class="card-opt1-footer">
+              <span class="card-opt1-price">€ 195.00</span>
+              <button type="button" class="btn-opt1-add" onclick="demoAdd('Minimalist Leather Runner', 195)">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="card-opt1 matched" data-cat="headphones">
+          <div class="card-opt1-img-wrap">
+            <span class="card-opt1-badge">Top Match</span>
+            <img src="assets/images/products/prod_headphones.png" alt="Studio Headphones">
+          </div>
+          <div class="card-opt1-body">
+            <span class="card-opt1-brand">Acoustic Lab</span>
+            <h3 class="card-opt1-title">Studio Spatial Audio</h3>
+            <div class="card-opt1-footer">
+              <span class="card-opt1-price">€ 320.00</span>
+              <button type="button" class="btn-opt1-add" onclick="demoAdd('Studio Spatial Audio', 320)">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         VARIATION 2: "Fluid Grid & Count Badges" (Recommended)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="option-wrapper recommended" id="wrap-opt2">
+      <span class="rec-pill">★ Recommended</span>
+      <div class="option-header">
+        <span class="option-tagline">Variation 02</span>
+        <h2 class="option-title">Fluid Grid &amp; Count Badges</h2>
+        <p class="option-desc">
+          <strong>Predictable &amp; Clean:</strong> Filter pills show live item counts before you click (e.g. <code>Blazer (1)</code>). Filtered cards cleanly reflow into a compact 4-column e-commerce grid with zero empty holes.
+        </p>
+      </div>
+
+      <!-- Live Interactive Filter Bar 2 -->
+      <div class="filter-test-bar">
+        <div class="filter-bar-label">
+          <span>Filter with Live Counts:</span>
+          <span class="filter-bar-status" id="opt2StatusText">Showing 4 of 4 Pieces</span>
+        </div>
+        <div class="filter-pills-row">
+          <button type="button" class="f-pill active" onclick="filterOpt2('all', this)">
+            <span>All</span>
+            <span class="f-pill-count">4</span>
+          </button>
+          <button type="button" class="f-pill" onclick="filterOpt2('blazer', this)">
+            <span>Blazer</span>
+            <span class="f-pill-count">1</span>
+          </button>
+          <button type="button" class="f-pill" onclick="filterOpt2('apparel', this)">
+            <span>Clothing</span>
+            <span class="f-pill-count">2</span>
+          </button>
+          <button type="button" class="f-pill" onclick="filterOpt2('footwear', this)">
+            <span>Shoes</span>
+            <span class="f-pill-count">1</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Compact 2-col mini grid -->
+      <div class="mini-grid" id="opt2Grid">
+        <!-- Item 1 -->
+        <div class="card-opt2" data-cat="blazer apparel">
+          <div class="card-opt2-img-wrap">
+            <span class="card-opt2-rating">★ 4.9</span>
+            <img src="assets/images/products/plp_blazer.png" alt="Wool Blazer">
+          </div>
+          <div class="card-opt2-body">
+            <span class="card-opt2-brand">Atelier Tailoring</span>
+            <h3 class="card-opt2-title">Structured Wool Blazer</h3>
+            <div class="card-opt2-swatches">
+              <span class="swatch-mini active" style="background:#1E293B;" title="Navy"></span>
+              <span class="swatch-mini" style="background:#0F172A;" title="Black"></span>
+              <span class="swatch-mini" style="background:#475569;" title="Grey"></span>
+            </div>
+            <div class="card-opt2-footer">
+              <div>
+                <div class="card-opt2-price">€ 245.00</div>
+                <div class="card-opt2-stock"><i data-lucide="check" style="width:9px;height:9px;"></i> Ready to ship</div>
+              </div>
+              <button type="button" class="btn-opt2-add" onclick="demoAdd('Structured Wool Blazer', 245)">
+                <i data-lucide="plus" style="width:15px;height:15px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="card-opt2" data-cat="sweater apparel">
+          <div class="card-opt2-img-wrap">
+            <span class="card-opt2-rating">★ 4.9</span>
+            <img src="assets/images/products/hero_sweater.png" alt="Cashmere Sweater">
+          </div>
+          <div class="card-opt2-body">
+            <span class="card-opt2-brand">Knitwear Studio</span>
+            <h3 class="card-opt2-title">Cashmere Knit Sweater</h3>
+            <div class="card-opt2-swatches">
+              <span class="swatch-mini active" style="background:#334155;" title="Charcoal"></span>
+              <span class="swatch-mini" style="background:#E2E8F0;" title="Cream"></span>
+              <span class="swatch-mini" style="background:#1E293B;" title="Navy"></span>
+            </div>
+            <div class="card-opt2-footer">
+              <div>
+                <div class="card-opt2-price">€ 185.00</div>
+                <div class="card-opt2-stock"><i data-lucide="check" style="width:9px;height:9px;"></i> Ready to ship</div>
+              </div>
+              <button type="button" class="btn-opt2-add" onclick="demoAdd('Cashmere Knit Sweater', 185)">
+                <i data-lucide="plus" style="width:15px;height:15px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="card-opt2" data-cat="runner footwear">
+          <div class="card-opt2-img-wrap">
+            <span class="card-opt2-rating">★ 4.9</span>
+            <img src="assets/images/products/prod_runner.png" alt="Leather Runner">
+          </div>
+          <div class="card-opt2-body">
+            <span class="card-opt2-brand">Footwear Studio</span>
+            <h3 class="card-opt2-title">Minimalist Leather Runner</h3>
+            <div class="card-opt2-swatches">
+              <span class="swatch-mini active" style="background:#FFFFFF;" title="White"></span>
+              <span class="swatch-mini" style="background:#1E293B;" title="Charcoal"></span>
+              <span class="swatch-mini" style="background:#78350F;" title="Tuscan"></span>
+            </div>
+            <div class="card-opt2-footer">
+              <div>
+                <div class="card-opt2-price">€ 195.00</div>
+                <div class="card-opt2-stock"><i data-lucide="check" style="width:9px;height:9px;"></i> Ready to ship</div>
+              </div>
+              <button type="button" class="btn-opt2-add" onclick="demoAdd('Minimalist Leather Runner', 195)">
+                <i data-lucide="plus" style="width:15px;height:15px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="card-opt2" data-cat="audio">
+          <div class="card-opt2-img-wrap">
+            <span class="card-opt2-rating">★ 4.8</span>
+            <img src="assets/images/products/prod_headphones.png" alt="Studio Headphones">
+          </div>
+          <div class="card-opt2-body">
+            <span class="card-opt2-brand">Acoustic Lab</span>
+            <h3 class="card-opt2-title">Studio Spatial Audio</h3>
+            <div class="card-opt2-swatches">
+              <span class="swatch-mini active" style="background:#0F172A;" title="Matte Black"></span>
+              <span class="swatch-mini" style="background:#94A3B8;" title="Silver"></span>
+            </div>
+            <div class="card-opt2-footer">
+              <div>
+                <div class="card-opt2-price">€ 320.00</div>
+                <div class="card-opt2-stock"><i data-lucide="check" style="width:9px;height:9px;"></i> Ready to ship</div>
+              </div>
+              <button type="button" class="btn-opt2-add" onclick="demoAdd('Studio Spatial Audio', 320)">
+                <i data-lucide="plus" style="width:15px;height:15px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         VARIATION 3: "Micro Rail & Compact Tile" (High Density)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="option-wrapper" id="wrap-opt3">
+      <div class="option-header">
+        <span class="option-tagline">Variation 03</span>
+        <h2 class="option-title">Micro Rail &amp; Compact Tile</h2>
+        <p class="option-desc">
+          <strong>Ultra Compact:</strong> Minimal card height (~210px) designed for maximum visibility so you can see twice as many products without scrolling.
+        </p>
+      </div>
+
+      <!-- Live Interactive Filter Bar 3 -->
+      <div class="filter-test-bar">
+        <div class="filter-bar-label">
+          <span>Quick Switch Category:</span>
+          <span class="filter-bar-status" id="opt3StatusText">All Selected</span>
+        </div>
+        <div class="filter-pills-row">
+          <button type="button" class="f-pill active" onclick="filterOpt3('all', this)">All</button>
+          <button type="button" class="f-pill" onclick="filterOpt3('blazer', this)">Blazers</button>
+          <button type="button" class="f-pill" onclick="filterOpt3('sweater', this)">Sweaters</button>
+          <button type="button" class="f-pill" onclick="filterOpt3('runner', this)">Runners</button>
+        </div>
+      </div>
+
+      <!-- Compact 2-col mini grid -->
+      <div class="mini-grid" id="opt3Grid">
+        <!-- Item 1 -->
+        <div class="card-opt3" data-cat="blazer">
+          <div class="card-opt3-img-wrap">
+            <img src="assets/images/products/plp_blazer.png" alt="Wool Blazer">
+          </div>
+          <div class="card-opt3-meta">
+            <h3 class="card-opt3-title">Structured Wool Blazer</h3>
+            <div class="card-opt3-row">
+              <span class="card-opt3-price">€ 245.00</span>
+              <button type="button" class="btn-opt3-pill" onclick="demoAdd('Structured Wool Blazer', 245)">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="card-opt3" data-cat="sweater">
+          <div class="card-opt3-img-wrap">
+            <img src="assets/images/products/hero_sweater.png" alt="Cashmere Sweater">
+          </div>
+          <div class="card-opt3-meta">
+            <h3 class="card-opt3-title">Cashmere Knit Sweater</h3>
+            <div class="card-opt3-row">
+              <span class="card-opt3-price">€ 185.00</span>
+              <button type="button" class="btn-opt3-pill" onclick="demoAdd('Cashmere Knit Sweater', 185)">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="card-opt3" data-cat="runner">
+          <div class="card-opt3-img-wrap">
+            <img src="assets/images/products/prod_runner.png" alt="Leather Runner">
+          </div>
+          <div class="card-opt3-meta">
+            <h3 class="card-opt3-title">Minimalist Leather Runner</h3>
+            <div class="card-opt3-row">
+              <span class="card-opt3-price">€ 195.00</span>
+              <button type="button" class="btn-opt3-pill" onclick="demoAdd('Minimalist Leather Runner', 195)">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="card-opt3" data-cat="audio">
+          <div class="card-opt3-img-wrap">
+            <img src="assets/images/products/prod_headphones.png" alt="Studio Headphones">
+          </div>
+          <div class="card-opt3-meta">
+            <h3 class="card-opt3-title">Studio Spatial Audio</h3>
+            <div class="card-opt3-row">
+              <span class="card-opt3-price">€ 320.00</span>
+              <button type="button" class="btn-opt3-pill" onclick="demoAdd('Studio Spatial Audio', 320)">+ Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST FEEDBACK -->
+  <div class="toast-box" id="demoToast">
+    <i data-lucide="check-circle" style="width:16px;height:16px;color:var(--accent-cyan);"></i>
+    <span id="toastMsg">Action confirmed</span>
+  </div>
+
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+
+    // ── Toast Helper ───────────────────────────────────────────────────────────
+    function showToast(msg) {
+      const toast = document.getElementById('demoToast');
+      const text = document.getElementById('toastMsg');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function demoAdd(name, price) {
+      showToast(`Added ${name} (€ ${price}) to Bag`);
+    }
+
+    // ── View Switcher ──────────────────────────────────────────────────────────
+    function switchView(view, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const grid = document.getElementById('showcaseGrid');
+      const w1 = document.getElementById('wrap-opt1');
+      const w2 = document.getElementById('wrap-opt2');
+      const w3 = document.getElementById('wrap-opt3');
+
+      if (view === 'all') {
+        grid.classList.remove('single-mode');
+        w1.style.display = 'flex';
+        w2.style.display = 'flex';
+        w3.style.display = 'flex';
+      } else {
+        grid.classList.add('single-mode');
+        w1.style.display = (view === 'opt1') ? 'flex' : 'none';
+        w2.style.display = (view === 'opt2') ? 'flex' : 'none';
+        w3.style.display = (view === 'opt3') ? 'flex' : 'none';
+      }
+    }
+
+    // ── Option 1 Filter (Soft Dimming Non-Destructive) ──────────────────────────
+    function filterOpt1(category, btn) {
+      const parent = btn.closest('.filter-pills-row');
+      parent.querySelectorAll('.f-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#opt1Grid .card-opt1');
+      let matchedCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat');
+        const isMatch = (category === 'all' || cat === category);
+        if (isMatch) {
+          card.classList.remove('dimmed');
+          card.classList.add('matched');
+          matchedCount++;
+        } else {
+          card.classList.remove('matched');
+          card.classList.add('dimmed');
+        }
+      });
+
+      const status = document.getElementById('opt1StatusText');
+      if (status) {
+        status.textContent = category === 'all' ? 'All 4 Items Active' : `${matchedCount} Spotlighted · ${4 - matchedCount} Dimmed`;
+      }
+      showToast(`Smart Spotlight: Filtered to ${category}`);
+    }
+
+    // ── Option 2 Filter (Smooth Fluid Grid Reflow) ─────────────────────────────
+    function filterOpt2(category, btn) {
+      const parent = btn.closest('.filter-pills-row');
+      parent.querySelectorAll('.f-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#opt2Grid .card-opt2');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat') || '';
+        const isMatch = (category === 'all' || cat.includes(category));
+        if (isMatch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const status = document.getElementById('opt2StatusText');
+      if (status) {
+        status.textContent = `Showing ${visibleCount} of 4 Pieces`;
+      }
+      showToast(`Reflow Grid: Filtered to ${category} (${visibleCount} pieces)`);
+    }
+
+    // ── Option 3 Filter (Micro Rail Switcher) ───────────────────────────────────
+    function filterOpt3(category, btn) {
+      const parent = btn.closest('.filter-pills-row');
+      parent.querySelectorAll('.f-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('#opt3Grid .card-opt3');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat') || '';
+        const isMatch = (category === 'all' || cat.includes(category));
+        card.style.display = isMatch ? 'flex' : 'none';
+        if (isMatch) visibleCount++;
+      });
+
+      const status = document.getElementById('opt3StatusText');
+      if (status) {
+        status.textContent = `${visibleCount} Pieces Shown`;
+      }
+      showToast(`Quick Switch: Filtered to ${category}`);
+    }
+  </script>
+</body>
+</html>

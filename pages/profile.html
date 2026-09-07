@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="view-transition" content="same-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Style Profile &amp; Aesthetic Studio — nexCommerce</title>
+  <meta name="description" content="Personalize your nexCommerce wardrobe aesthetic, silhouette fits, and lifestyle preferences with our Smart Style Studio.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=42">
+  <style>
+    /* ── Wardrobe DNA Studio Canvas ────────────────── */
+    .profile-page-canvas {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 48px 32px 120px;
+    }
+    
+    /* Hero Header */
+    .profile-hero-strip {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 56px;
+    }
+    .profile-eyebrow-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 20px;
+    }
+    .profile-live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #34D399;
+      animation: live-pulse 2s ease-in-out infinite;
+    }
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .profile-dna-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+    .profile-dna-headline em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      color: #3DE0FF;
+      font-weight: 400;
+    }
+    .profile-dna-subhead {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.65);
+      margin: 0 auto 24px;
+    }
+    
+    /* Live Calibration Status Banner */
+    .profile-calibration-bar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 9999px;
+      flex-wrap: wrap;
+    }
+    .calibration-score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #3DE0FF;
+    }
+    .calibration-chip {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Section Cards */
+    .profile-studio-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 36px 32px;
+      margin-bottom: 40px;
+      transition: border-color 0.2s ease;
+    }
+    .profile-studio-section:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .section-header-block {
+      margin-bottom: 28px;
+    }
+    .section-step-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3DE0FF;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .section-main-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0 0 6px;
+    }
+    .section-sub-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Step 1: 4 Visual Style Cards (Everyday Clothing Styles) */
+    .visual-style-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1024px) {
+      .visual-style-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 580px) {
+      .visual-style-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .visual-style-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .visual-style-card:hover {
+      border-color: rgba(61, 224, 255, 0.4);
+      background: rgba(61, 224, 255, 0.04);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    }
+    .visual-style-card.active {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.07);
+      box-shadow: 0 0 20px rgba(61, 224, 255, 0.2);
+    }
+    .visual-style-photo-wrap {
+      width: 100%;
+      height: 180px;
+      border-radius: 10px;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, rgba(2, 11, 24, 0.8) 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .visual-style-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .visual-style-card:hover .visual-style-photo {
+      transform: scale(1.05);
+    }
+    .visual-style-badge-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(2, 11, 24, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      color: #020B18;
+    }
+    .visual-style-badge-check i {
+      width: 14px;
+      height: 14px;
+      display: none;
+    }
+    .visual-style-card.active .visual-style-badge-check {
+      background: #3DE0FF;
+      border-color: #3DE0FF;
+    }
+    .visual-style-card.active .visual-style-badge-check i {
+      display: block;
+    }
+    .visual-style-body {
+      padding: 2px 4px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .visual-style-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+    }
+    .visual-style-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0;
+    }
+
+    /* Step 2: Fit & Silhouette Cards */
+    .fit-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .fit-choice-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .fit-choice-card:hover {
+      border-color: rgba(61, 224, 255, 0.35);
+      background: rgba(61, 224, 255, 0.04);
+    }
+    .fit-choice-card.active {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.08);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.12);
+    }
+    .fit-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .fit-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+    }
+    .fit-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    /* Step 3: Named Color Swatches & Presets */
+    .color-dna-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .color-presets-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .btn-color-preset {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      padding: 6px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-color-preset:hover {
+      background: rgba(61, 224, 255, 0.1);
+      border-color: rgba(61, 224, 255, 0.3);
+      color: #FFFFFF;
+    }
+    .color-swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .color-item-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+    .color-item-box:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .color-item-box.active {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.08);
+    }
+    .color-circle-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+    .color-item-box.active .color-circle-dot::after {
+      content: '✓';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 11px;
+      font-weight: 900;
+      color: #020B18;
+      line-height: 1;
+    }
+    .color-item-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Step 4: Lifestyle Sliders */
+    .lifestyle-sliders-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .lifestyle-slider-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 240px 1fr 60px;
+      gap: 20px;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .lifestyle-slider-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+    .lifestyle-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .lifestyle-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+    }
+    .lifestyle-context {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+      margin: 0;
+    }
+    .lifestyle-track-wrap {
+      position: relative;
+      height: 24px;
+      display: flex;
+      align-items: center;
+    }
+    .lifestyle-range-input {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    .lifestyle-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid #3DE0FF;
+      box-shadow: 0 0 10px rgba(61, 224, 255, 0.5);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .lifestyle-range-input::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    .lifestyle-badge-val {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #3DE0FF;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Step 5: Personalized Live Lookbook */
+    .curated-lookbook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .curated-piece-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .curated-piece-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+    .piece-img-container {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(2, 11, 24, 0.8) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+    .piece-img-thumb {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .curated-piece-card:hover .piece-img-thumb {
+      transform: scale(1.06);
+    }
+    .piece-content-pane {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 8px;
+    }
+    .piece-tag-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .piece-category-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #3DE0FF;
+    }
+    .piece-price-tag {
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .piece-title-link {
+      font-family: 'Manrope', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+      text-decoration: none;
+      line-height: 1.3;
+      margin: 0;
+      transition: color 0.15s ease;
+    }
+    .piece-title-link:hover {
+      color: #3DE0FF;
+    }
+    .piece-reason-whisper {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin: 4px 0 12px;
+    }
+    .piece-action-row {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+    .btn-piece-add {
+      height: 40px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-piece-add:hover {
+      background: #3DE0FF;
+      color: #020B18;
+    }
+    .btn-piece-view {
+      height: 40px;
+      width: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-piece-view:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Final Action Footer Strip */
+    .profile-footer-action-panel {
+      background: rgba(2, 11, 24, 0.7);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    }
+    .toggle-section-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .profile-action-btn-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .privacy-whisper-text {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 8px 0 0;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .profile-page-canvas {
+        padding: 24px 14px 80px;
+      }
+      .profile-studio-section {
+        padding: 20px 14px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+      }
+      .section-main-title {
+        font-size: 18px;
+      }
+      .profile-footer-action-panel {
+        padding: 18px 14px;
+      }
+    }
+  </style>
+</head>
+<body class="account-page-bg">
+
+  <!-- LUXURY EDITORIAL BRAND PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Smart Style DNA &amp; Aesthetic Studio</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Client</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>Smart Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; Smart Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN STUDIO CONTENT -->
+  <main class="profile-page-canvas" id="aiProfileContainer">
+    
+    <!-- Hero Strip -->
+    <div class="profile-hero-strip">
+      <div class="profile-eyebrow-tag">
+        <span class="profile-live-dot"></span>
+        <span>✨ PERSONAL SMART STYLIST &amp; AESTHETIC STUDIO</span>
+      </div>
+      <h1 class="profile-dna-headline">Your Personal <em>Style DNA</em></h1>
+      <p class="profile-dna-subhead">
+        Calibrate your aesthetic taste, fit preference, and everyday lifestyle balance. Our neural stylist tailors catalog recommendations and seasonal drops in real time.
+      </p>
+
+      <!-- Live Calibration Bar -->
+      <div class="profile-calibration-bar">
+        <div class="calibration-score-badge">
+          <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+          <span>Calibration: <strong id="calibrationScoreVal">94%</strong></span>
+        </div>
+        <span class="calibration-chip" id="activeArchetypeChip">Style: Quiet Luxury</span>
+        <span class="calibration-chip" id="activeFitChip">Fit: Relaxed</span>
+        <span class="calibration-chip" id="activeColorsCountChip">Colors: 4 Selected</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Visual Clothing Style -->
+    <section class="profile-studio-section">
+      <div class="section-header-block">
+        <span class="section-step-num">01 / CLOTHING STYLE</span>
+        <h2 class="section-main-title">What Style Do You Wear Most?</h2>
+        <p class="section-sub-desc">Tap the visual aesthetic that best matches how you dress. Our smart system tailors catalog recommendations and seasonal drops to this look.</p>
+      </div>
+
+      <!-- 4 Visual Style Cards -->
+      <div class="visual-style-grid" id="visualStyleGrid" role="radiogroup" aria-label="Select your clothing style">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <!-- Step 2: Fit & Silhouette Preference -->
+    <section class="profile-studio-section">
+      <div class="section-header-block">
+        <span class="section-step-num">02 / FIT &amp; SILHOUETTE PREFERENCE</span>
+        <h2 class="section-main-title">How Do You Prefer Your Pieces to Sit?</h2>
+        <p class="section-sub-desc">Our smart assistant uses this preference to recommend optimal sizes and silhouette cuts across outerwear, knitwear, and pants.</p>
+      </div>
+
+      <div class="fit-options-grid" id="fitOptionsGrid" role="radiogroup" aria-label="Select preferred fit">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <!-- Step 3: Signature Color Palette -->
+    <section class="profile-studio-section">
+      <div class="section-header-block">
+        <span class="section-step-num">03 / SIGNATURE COLOR PALETTES</span>
+        <h2 class="section-main-title">Select Your Preferred Color Palette</h2>
+        <p class="section-sub-desc">Pick the shades you naturally gravitate toward. You can select multiple tones or use one of our custom mood presets.</p>
+      </div>
+
+      <div class="color-dna-container">
+        <!-- Preset Shortcuts -->
+        <div class="color-presets-row">
+          <span style="font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); align-self: center; margin-right: 4px;">QUICK PRESETS:</span>
+          <button type="button" class="btn-color-preset" onclick="applyColorPreset('neutral')">✨ Minimalist Neutrals</button>
+          <button type="button" class="btn-color-preset" onclick="applyColorPreset('obsidian')">✨ Deep Obsidian</button>
+          <button type="button" class="btn-color-preset" onclick="applyColorPreset('earth')">✨ Earth &amp; Warm</button>
+          <button type="button" class="btn-color-preset" onclick="applyColorPreset('all')">✨ Select All</button>
+        </div>
+
+        <!-- Color Grid with Names & Swatches -->
+        <div class="color-swatches-grid" id="colourDnaWheel" role="group" aria-label="Select colour preferences">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Lifestyle & Occasion Balance -->
+    <section class="profile-studio-section">
+      <div class="section-header-block">
+        <span class="section-step-num">04 / LIFESTYLE &amp; OCCASION BALANCE</span>
+        <h2 class="section-main-title">Calibrate Your Weekly Wardrobe Routine</h2>
+        <p class="section-sub-desc">Adjust the sliders to reflect how your lifestyle is divided between professional work, casual everyday, travel, and events.</p>
+      </div>
+
+      <div class="lifestyle-sliders-stack" id="lifestyleIntensityGrid">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <!-- Step 5: Personalized Live Lookbook -->
+    <section class="profile-studio-section" style="background: rgba(61, 224, 255, 0.02); border-color: rgba(61, 224, 255, 0.15);">
+      <div class="section-header-block">
+        <span class="section-step-num">05 / LIVE WARDROBE DROPS</span>
+        <h2 class="section-main-title">Selected For Your Active Style</h2>
+        <p class="section-sub-desc" id="curatedSubtitle">These pieces are dynamically matched to your selected archetype and fit preferences.</p>
+      </div>
+
+      <div class="curated-lookbook-grid" id="aiLookPinboard">
+        <!-- Dynamically populated live product cards -->
+      </div>
+    </section>
+
+    <!-- Final Action Footer Strip -->
+    <div class="profile-footer-action-panel">
+      <div class="toggle-section-wrap">
+        <label class="profile-personalization-toggle">
+          <input type="checkbox" id="togglePersonalization" checked aria-label="Use my style profile for recommendations">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-label" style="font-size: 14px; font-weight: 600; color: #FFFFFF;">
+            Apply Style DNA Across Catalog &amp; Search
+          </span>
+        </label>
+      </div>
+
+      <div class="profile-action-btn-cluster">
+        <button id="profileResetBtn" class="btn-profile-ghost" type="button" style="height: 46px; border-radius: 8px;">
+          RESET TO DEFAULTS
+        </button>
+        <button id="profileSaveBtn" class="btn-primary-commerce" style="height: 46px; padding: 0 28px; border-radius: 8px;" type="button">
+          <i data-lucide="check" style="width: 15px; height: 15px; margin-right: 6px;"></i>
+          SAVE STYLE PROFILE
+        </button>
+      </div>
+
+      <p class="privacy-whisper-text">
+        <i data-lucide="shield" style="width: 12px; height: 12px; vertical-align: -1px; margin-right: 4px; color: #34D399;"></i>
+        Your style preferences are stored securely in your browser session and used exclusively to personalize your recommendations.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ELEVATED LUXURY 4-COLUMN FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <script src="../js/cart.js"></script>
+  <script src="../js/notifications.js"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/visual-search-ui.js"></script>
+  <script src="../js/style-profile.js?v=7"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <!-- CDNs -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="../js/animations.js?v=6"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/context-retention.js"></script>
+  <script src="../js/concierge-engine.js?v=3"></script>
+  <script src="../js/concierge.js?v=3"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/search-overlay.js?v=1"></script>
+  <script src="../js/cookie-consent.js"></script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
+  <script>NexAuth.requireAuth();</script>
+</body>
+</html>

@@ -13,7 +13,7 @@
       id: 'default',
       name: 'Ocean Blue',
       shortName: 'Ocean',
-      description: 'Default AI blue',
+      description: 'Default Smart blue',
       swatch: '#00C8FF',
       vars: {
         '--accent-cyan':      '#00C8FF',
@@ -611,7 +611,7 @@
   /* ── Boot ────────────────────────────────────────────────────────────── */
   function init() {
     restoreTheme(); // Apply immediately to avoid FOUC
-    injectFooterThemePopup();
+    // Do not inject developer theme widget into the public luxury footer
   }
 
   if (document.readyState === 'loading') {

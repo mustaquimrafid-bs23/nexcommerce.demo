@@ -55,7 +55,15 @@ The interface should feel:
 
 > **Simple at first glance, sophisticated when interacted with.**
 
+### Visual-First & Radical Text Economy ("Show, Don't Tell")
+* **70/30 Visual Dominance**: Devote at least 70% of visible layout area to high-fidelity lifestyle photography, interactive SVG visualizers, telemetry route maps, and visual micro-UIs. Keep text elements concise (≤30% area).
+* **Strict Copy Restraint**: Headlines max 4–6 words. Body microcopy max 1–2 sentences (≤25 words). Product cards strictly 3-item metadata (Brand + Title + Price).
+* **Visual Information Replacement**: Replace narrative text logs and feature tables with interactive SVG transit maps, glowing waypoint beacons, 4-badge parcel spec matrices, interactive material swatches, silhouette overlays, and icon pedestals.
+* **Ultra-Modern Luxury Visual Polish**: Frosted dark obsidian cards (`#031838` to `#000B1A`, `backdrop-filter: blur(16px)`), specular inner highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.08)`), feather-stroke Lucide icons, and GPU spring animations.
+* **No Walls of Text**: Never render text blocks longer than 3 lines on customer storefront routes without visual anchoring.
+
 ---
+
 
 # 3. Human-Centered UX
 
@@ -273,36 +281,43 @@ Every color should come from the design system.
 
 ---
 
-# 8. Typography System
+# 8. Typography System (European Luxury E-Commerce Standard)
 
-Create a consistent typography hierarchy.
+Create a consistent, editorial typography hierarchy aligned with European luxury e-commerce:
 
-Define:
+### Font Family Roles
+* **Primary Display & Headings**: `Neue Haas Grotesk` (fallbacks: `Helvetica Now`, `Manrope`, `Plus Jakarta Sans`) — used for hero headlines, section titles, product/category headings.
+* **Primary UI & Body**: `Inter` — used for navigation, buttons, product info, prices, filters, forms, checkout, account pages, and tables.
+* **Editorial Accent**: `Instrument Serif` (fallbacks: `Playfair Display`, `Cormorant Garamond`) — strictly limited to hero accent words and selected luxury editorial campaigns.
+* **Anti-AI Font Guardrail**: Strictly NO `Orbitron`, `Audiowide`, `Exo 2`, `Rajdhani`, gaming fonts, or excessive monospace.
 
-* Display
-* H1
-* H2
-* H3
-* H4
-* Body large
-* Body
-* Body small
-* Caption
-* Label
-* Button text
-* Price
-* Discount price
-* Product title
+### Weight System Restraint
+* `400` Regular: Body copy, product descriptions, policies.
+* `500` Medium: UI labels, table cells, form fields, secondary headers.
+* `600` Semibold: Primary CTAs, active tab headers, product titles, section headers.
+* `700` Bold: Used sparingly for major price emphasis.
 
-Typography must have:
+### Tracking & Uppercase Rules
+* Display headings: `-0.02em` to `-0.01em` (tight, refined).
+* Uppercase labels: `+0.04em` to `+0.08em` (navigation items, small category chips, metadata tags only).
+* Body text: `0` to `+0.01em` (natural font metrics; NO wide tracking).
+* Never use uppercase for paragraphs, long descriptions, or checkout instructions.
 
-* consistent font family
-* consistent weights
-* consistent line heights
-* consistent letter spacing
-* responsive sizing where appropriate
+### European Latin Extended Glyph Coverage
+Mandatory verification of Latin Extended character support: `É`, `È`, `Ê`, `Ë`, `À`, `Â`, `Ç`, `Ñ`, `Ö`, `Ü`, `Å`, `Ø`, `Æ`, `ß`, `Š`, `Ž`, `Ł`, `Č`, etc.
 
-Do not use arbitrary font sizes throughout the application.
+### Typography Scale Tokens
+* **Display / Hero**: `64px–88px` (desktop), `42px–56px` (tablet), `34px–44px` (mobile); line-height `1.05–1.15`
+* **H1**: `48px–64px` (desktop), `32px–40px` (mobile); line-height `1.15–1.2`
+* **H2**: `36px–48px` (desktop), `26px–32px` (mobile); line-height `1.2–1.25`
+* **H3**: `24px–32px` (desktop), `20px–24px` (mobile); line-height `1.25–1.3`
+* **H4**: `18px–22px`; line-height `1.35–1.4`
+* **Body Large**: `18px–20px`; line-height `1.5–1.6`
+* **Body Standard**: `16px–18px`; line-height `1.5–1.65`
+* **Small / UI Text**: `13px–15px`; line-height `1.4–1.5`
+* **Micro / Metadata**: `11px–13px`; line-height `1.3–1.4`
+
+Do not use arbitrary font sizes or ad-hoc weights throughout the application. Every font size, weight, and line-height must derive from design system tokens.
 
 ---
 
@@ -1484,3 +1499,99 @@ And finally:
 > **"I can complete my purchase without friction."**
 
 That is the standard the implementation should target.
+
+---
+
+# 49. Recently Viewed & Recommendation Trays (Continuous Fluid Standard)
+
+* **Continuous Fluid Architecture**: Follow the SSENSE / Apple continuous horizontal carousel architecture for all recently viewed and recommendation feeds.
+* **Predictable & User-Paced**: NEVER introduce auto-cycling category tabs or timers that filter or hide items automatically. Feeds must remain stable, calm, and predictable.
+* **Layout & Navigation**: Uninterrupted horizontal track with `scroll-snap-type: x mandatory`, minimal floating glass chevrons (`‹` and `›`), and real-time position badges (`01 / 07`).
+* **Micro-Interactions**: Native momentum drag-to-scroll, wheel horizontal glide, tactile quick-add ripple with checkmark morph, and 3D spring hover tilt (`±5.5°`).
+* **Zero DOM Thrashing**: Feed cards must be rendered once into the DOM rather than rebuilding `innerHTML` on interaction.
+
+---
+
+# 50. Post-Checkout Order Placement & Confirmation Protocol
+
+### A. Instant Inline Authorization Standard
+* **No Artificial Blocking Popups**: Placing an order must never trigger lingering multi-step blocking modal dialogues (e.g. simulated 2-second bank challenge spinners followed by separate popup screens).
+* **Inline Button Feedback**: Order placement must trigger crisp, responsive inline button feedback on the primary CTA (`PAY & COMPLETE ORDER` → `AUTHORIZING PAYMENT…` with spinner and ~500ms micro-spring) before seamlessly transitioning to `/confirmation`.
+* **Zero Empty-Bag Flicker Guard**: Cart clearance during order placement must not flash the empty bag UI on the checkout page during navigation. Always guard checkout rendering (`items.length === 0 && !isProcessing`).
+
+### B. Strict Confirmation vs. Order Details Domain Separation
+* **Order Confirmation (`/confirmation`)**:
+  * **Purpose**: Immediate post-purchase reassurance, unboxing celebration, and concise digital receipt.
+  * **Required Elements**:
+    1. **Celebration Hero**: Glowing emerald halo, `● ORDER CONFIRMED` badge, and personalized customer greeting with explicit email receipt confirmation note.
+    2. **Concise Minimalist Receipt Pass**: Order reference (with 1-click copy), estimated delivery arrival date, total paid amount, delivery destination summary, and dynamic scannable QR tracking pass.
+    3. **Primary Call-to-Action Buttons**: Exactly two prominent, uncrowded buttons: **[View Order Details →]** (linking to `/orders/[id]`) and **[Continue Shopping]** (linking to `/category`).
+  * **Strict Clutter Ban**: The confirmation page must NEVER duplicate the full 6-card administrative operations dashboard (timeline steppers, tax invoice breakdown tables, return/cancellation actions, or recommendation carousels).
+* **Order Details (`/orders/[id]`)**:
+  * **Purpose**: Dedicated operational dashboard for long-term order lifecycle management.
+  * **Capabilities**: Live carrier GPS telemetry, status checkpoint logs, VAT tax invoice download, return/exchange management, and customer concierge support.
+
+### C. Multi-Storage Synchronization Invariant
+* Placed orders must be synchronized across both active session keys (`sessionStorage['latest_order']`, `sessionStorage['nex_confirmed_order']`) and local history lists (`localStorage['nex_placed_orders']`, `localStorage['nex_orders']`).
+* Both Confirmation and Order Details must hydrate dynamically from these keys, displaying actual purchased items and customer details without falling back to static mock data.
+
+---
+
+## 49. 24/7 Personal Stylist Chat & Interactive Look Bundles (Feature 04 Invariant)
+When designing, migrating, or testing the Personal Stylist Chat (`ConciergeDrawer.tsx` / `useConciergeStore.ts`):
+
+### A. Royal Sapphire Navy Brand Strict Invariant
+* **Zero Pitch-Black**: Generic pitch-black (`#000000`, `#0A0A0A`, `bg-black/*`) is strictly forbidden across all assistant elements.
+* **Backdrop**: `rgba(1, 20, 46, 0.80)` (`#01142e]/80`) with `backdrop-blur-md`.
+* **Drawer Container**: `linear-gradient(180deg, #071e3d 0%, #03152c 50%, #010d1c 100%)` with electric cyan border (`border-[#3DE0FF]/25`).
+* **Accents**: Electric Cyan (`#3DE0FF`) for category labels, active equalizers, and voice indicators; Accent Pink/Crimson (`#F13365` → `#E60C45`) for look bundle badges and primary action buttons.
+
+### B. In-Stream Look Bundles & Reactive Checkbox Recalculation
+* **Rich Attachments**: Styling responses must never be text-only. Inquiries regarding outfit combinations or matching pieces (e.g., blazer matching pants & shoes) must attach a structured `bundle` object (`bundle: { title, products, totalPrice, discountedPrice }`).
+* **Interactive Checkbox Items**: Look bundle cards (`.concierge-look-bundle`) must render individual item checkboxes (default checked).
+* **Real-Time Recalculation**: Checking or unchecking an item must immediately recalculate the visible subtotal and update the primary gradient CTA button text to `ADD SELECTED ITEMS TO BAG ([N] ITEMS)`.
+
+### C. In-Chat Audio Summary Player Bar
+* Every assistant styling recommendation must supply a concise `spokenSummary` string.
+* The drawer must render `.stylist-audio-bar` featuring a Play/Pause button, an animated 6-bar audio equalizer, and speech synthesis narration via `window.speechSynthesis`.
+
+### D. Contextual PDP Awareness
+* When browsing a product page (`/product/[id]`), the stylist store must track `pdpContext`.
+* Opening the drawer on a product page must greet the customer with tailored coordination suggestions for that exact item (e.g., "Suggest matching pants and shoes for this blazer").
+
+### E. Canonical ID Compliance
+* Overlay: `#nexConciergeOverlay`
+* Drawer: `#nexConciergeDrawer`
+* Floating FAB: `#nexConciergeFloatingPill`
+* Stream: `#conciergeStream`
+* Chips: `#conciergeChips`
+* Form & Input: `#conciergeForm`, `#conciergeInput`
+* Microphone: `#conciergeMicBtn`
+* Voice Toggle: `#conciergeVoiceToggleBtn`
+
+---
+
+# 51. Mandatory Authentication Route Layout Isolation & Brand Standards
+
+### A. Dedicated Full-Viewport Canvas (No Storefront Chrome)
+* **Zero Storefront Clutter**: Dedicated authentication routes (`/signin`, `/signup`, `/forgot-password`) MUST NEVER render standard storefront navigation chrome (`Header`, `Footer`, `#aiTourFloatingBtn`, or promotional announcement bars).
+* **Layout Isolation**: Global layout components (`Header.tsx`, `Footer.tsx`, `FeatureTourModal.tsx`) must check `usePathname()` and return `null` or suppress triggers on `/signin` and `/signup`.
+* **Split-Canvas Geometry**: The auth page must render as a full-viewport split canvas (`.auth-shell`, `min-h-screen`, `grid-cols-1 lg:grid-cols-[1.15fr_1fr]`).
+  * **Left Panel**: Full-bleed atelier lifestyle photography with 18s hardware-accelerated Ken Burns zoom physics (`@keyframes authKenBurns`) and vertical gradient overlay.
+  * **Right Panel**: Centered max-width 440px form portal (`auth-form-container`) with the official nexCommerce logo linking directly to `/`.
+
+### B. Brand Deep Navy Base Background Standard
+* Auth shells and background panels MUST strictly adhere to the official nexCommerce Brand Guidelines:
+  * **Base Field**: Deep navy base (`#012148` to `#0A1B3D`) with subtle radial illumination (`radial-gradient(circle at 50% 0%, #012B61 0%, #012148 60%, #0A1B3D 100%)`).
+  * **Zero Pitch-Black**: Avoid generic black (`#000000`) or desaturated grey.
+  * **Typography**: Clean sans-serif/Outfit headers (`Welcome back.`) with uppercase tracking labels (`EMAIL ADDRESS`, `PASSWORD`) in `#94A3B8`.
+  * **Accents**: Interactive focus states, sparkle icons, and links must use secondary cyan (`#3DE0FF`). High-contrast primary CTA must use crisp white (`#FFFFFF`) with dark `#030814` text.
+
+### C. Interactive Human-Centric Features & State Guards
+* **1-Click Demo Client Pill**: Must provide a high-visibility gradient pill with a `DEMO ACCESS` badge that pre-fills demo credentials (`demo@nexcommerce.ai` / `password123`) and triggers a subtle cyan border pulse on inputs.
+* **Social SSO Placement**: Vector Google & Apple SSO buttons must be positioned *before* the credentials divider for instant frictionless access.
+* **Password Visibility Peek**: Interactive `#passwordToggleBtn` with Lucide `Eye`/`EyeOff` switching between hidden dots and readable text without losing input focus.
+* **Form Validation & Micro-Interactions**: Form shake animation (`@keyframes authShake`) and high-visibility `#authError` banner on missing or invalid fields.
+* **Explicit Signed-Out Banner**: Detect `?signed_out=true` from query params, immediately clear session tokens from `localStorage`, and display an emerald confirmation alert.
+* **Contextual Subheading**: Dynamically adapt subtitle copy when redirected from a shopping cart or checkout flow (e.g. "Sign in to access your shopping bag and proceed to checkout.").
+* **Forgot Password Dispatch**: Trigger a floating status toast notification at bottom-center confirming email dispatch.

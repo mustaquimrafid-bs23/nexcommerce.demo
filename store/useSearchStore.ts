@@ -1,0 +1,494 @@
+import { create } from 'zustand';
+import { Product } from '@/types/catalog';
+import { MASTER_PRODUCTS } from '@/data/products';
+
+export interface ExtractedIntent {
+  raw: string;
+  occasion?: string | null;
+  climate?: string | null;
+  location?: string | null;
+  budgetMax?: number | null;
+  targetCategory?: string | null;
+}
+
+export interface SearchResultItem {
+  product: Product;
+  matchScore: number;
+  matchReason: string;
+  matchBadge?: string;
+}
+
+export const POPULAR_DEPARTMENTS = [
+  { label: 'Apparel', query: 'apparel' },
+  { label: 'Footwear', query: 'footwear' },
+  { label: 'Audio', query: 'audio' },
+  { label: 'Accessories', query: 'accessories' },
+  { label: 'Objects', query: 'accessories' },
+];
+
+export const SEASONAL_HIGHLIGHT_IDS = ['p1', 'p6', 'p8'];
+
+function levenshteinDistance(s1: string, s2: string): number {
+  const m = s1.length;
+  const n = s2.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+    }
+  }
+  return dp[m][n];
+}
+
+function checkTypoCorrection(rawQuery: string): string | null {
+  const q = rawQuery.toLowerCase().trim();
+  const commonVocabulary = [
+    'sweater',
+    'cashmere',
+    'blazer',
+    'overcoat',
+    'headphones',
+    'earbuds',
+    'runner',
+    'sneakers',
+    'tote',
+    'watch',
+    'jacket',
+    'shoes',
+    'audio',
+  ];
+  const words = q.split(/\s+/);
+  let corrected: string | null = null;
+
+  for (const word of words) {
+    if (word.length >= 4) {
+      for (const target of commonVocabulary) {
+        if (word !== target && levenshteinDistance(word, target) <= 2) {
+          corrected = q.replace(word, target);
+          break;
+        }
+      }
+    }
+    if (corrected) break;
+  }
+  return corrected;
+}
+
+function parsePriceValue(val: string): number | null {
+  const str = val.toLowerCase().replace(/€|eur|euros?|bdt|\$/gi, '').replace(',', '').trim();
+  if (str.endsWith('k')) return parseFloat(str.replace('k', '')) * 1000;
+  return parseFloat(str) || null;
+}
+
+interface SearchState {
+  isOpen: boolean;
+  query: string;
+  isProcessing: boolean;
+  activeDepartment: string;
+  recentSearches: string[];
+  contextPills: { tag: string; label: string }[];
+  pendingAutoSearch: string | null;
+  isVoiceMode: boolean;
+  isVoiceListening: boolean;
+  voiceSpokenQuery: string | null;
+  spokenSummary: string | null;
+  openSearch: (initialQuery?: string | unknown, autoExecute?: boolean, voiceMode?: boolean) => void;
+  openVoiceSearch: (autoDemo?: boolean) => void;
+  setVoiceMode: (active: boolean) => void;
+  setVoiceListening: (listening: boolean) => void;
+  setVoiceSpokenQuery: (query: string | null) => void;
+  setSpokenSummary: (summary: string | null) => void;
+  clearPendingAutoSearch: () => void;
+  closeSearch: () => void;
+  setQuery: (q: string) => void;
+  removeContextPill: (tag: string) => void;
+  setActiveDepartment: (dept: string) => void;
+  parseIntent: (q: string) => ExtractedIntent;
+  getSearchResults: () => SearchResultItem[];
+  getTypeaheadResults: () => {
+    departments: typeof POPULAR_DEPARTMENTS;
+    products: Product[];
+    typoCorrection: string | null;
+  };
+  getSeasonalHighlights: () => Product[];
+  loadRecentSearches: () => void;
+  saveRecentSearch: (q: string) => void;
+  deleteRecentSearch: (q: string) => void;
+  clearAllRecentSearches: () => void;
+  checkTypo: (q: string) => string | null;
+}
+
+const DEFAULT_RECENTS = ['Winter evening in Milan', 'Leather runner sneakers', 'Studio headphones'];
+
+export const useSearchStore = create<SearchState>((set, get) => ({
+  isOpen: false,
+  query: '',
+  isProcessing: false,
+  activeDepartment: 'apparel',
+  recentSearches: DEFAULT_RECENTS,
+  contextPills: [],
+  pendingAutoSearch: null,
+  isVoiceMode: false,
+  isVoiceListening: false,
+  voiceSpokenQuery: null,
+  spokenSummary: null,
+
+  openSearch: (initialQuery?: string | unknown, autoExecute: boolean = false, voiceMode: boolean = false) => {
+    get().loadRecentSearches();
+    if (typeof initialQuery === 'string' && initialQuery.trim()) {
+      const clean = initialQuery.trim();
+      const pills = clean
+        .split(/\s+/)
+        .filter((w) => w.length > 2)
+        .map((w) => ({
+          tag: w,
+          label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+        }));
+      get().saveRecentSearch(clean);
+      set({
+        isOpen: true,
+        query: clean,
+        contextPills: pills,
+        pendingAutoSearch: autoExecute ? clean : null,
+        isVoiceMode: !!voiceMode,
+      });
+    } else {
+      set({ isOpen: true, pendingAutoSearch: null, isVoiceMode: !!voiceMode });
+    }
+  },
+
+  openVoiceSearch: (autoDemo: boolean = false) => {
+    get().loadRecentSearches();
+    set({
+      isOpen: true,
+      isVoiceMode: true,
+      isVoiceListening: true,
+      voiceSpokenQuery: autoDemo ? 'Hey stylist, show me black overcoats under $300' : null,
+      spokenSummary: null,
+      pendingAutoSearch: null,
+    });
+  },
+
+  setVoiceMode: (isVoiceMode: boolean) => {
+    set({ isVoiceMode });
+  },
+
+  setVoiceListening: (isVoiceListening: boolean) => {
+    set({ isVoiceListening });
+  },
+
+  setVoiceSpokenQuery: (voiceSpokenQuery: string | null) => {
+    set({ voiceSpokenQuery });
+  },
+
+  setSpokenSummary: (spokenSummary: string | null) => {
+    set({ spokenSummary });
+  },
+
+  clearPendingAutoSearch: () => {
+    set({ pendingAutoSearch: null });
+  },
+
+  closeSearch: () => {
+    set({
+      isOpen: false,
+      query: '',
+      pendingAutoSearch: null,
+      isVoiceMode: false,
+      isVoiceListening: false,
+      voiceSpokenQuery: null,
+      spokenSummary: null,
+    });
+  },
+
+  setQuery: (query: string) => {
+    const pills = query
+      .split(/\s+/)
+      .filter((w) => w.length > 2)
+      .map((w) => ({
+        tag: w,
+        label: w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+      }));
+    set({ query, contextPills: pills });
+  },
+
+  removeContextPill: (tagToRemove: string) => {
+    const remaining = get().query
+      .split(/\s+/)
+      .filter((w) => w.toLowerCase() !== tagToRemove.toLowerCase())
+      .join(' ');
+    get().setQuery(remaining);
+  },
+
+  setActiveDepartment: (activeDepartment: string) => {
+    set({ activeDepartment });
+  },
+
+  loadRecentSearches: () => {
+    if (typeof window === 'undefined') return;
+    try {
+      const stored = localStorage.getItem('nex_recent_searches');
+      if (stored !== null) {
+        const parsed = JSON.parse(stored);
+        set({ recentSearches: Array.isArray(parsed) ? parsed : [] });
+      } else {
+        set({ recentSearches: DEFAULT_RECENTS });
+      }
+    } catch {
+      set({ recentSearches: DEFAULT_RECENTS });
+    }
+  },
+
+  saveRecentSearch: (query: string) => {
+    if (!query || query.trim().length < 2) return;
+    const clean = query.trim();
+    try {
+      const current = get().recentSearches.filter(
+        (q) => q.toLowerCase() !== clean.toLowerCase()
+      );
+      const updated = [clean, ...current].slice(0, 5);
+      set({ recentSearches: updated });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('nex_recent_searches', JSON.stringify(updated));
+      }
+    } catch {}
+  },
+
+  deleteRecentSearch: (query: string) => {
+    try {
+      const updated = get().recentSearches.filter(
+        (q) => q.toLowerCase() !== query.toLowerCase()
+      );
+      set({ recentSearches: updated });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('nex_recent_searches', JSON.stringify(updated));
+      }
+    } catch {}
+  },
+
+  clearAllRecentSearches: () => {
+    try {
+      set({ recentSearches: [] });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('nex_recent_searches', JSON.stringify([]));
+      }
+    } catch {}
+  },
+
+  checkTypo: (q: string) => checkTypoCorrection(q),
+
+  parseIntent: (query: string) => {
+    const q = (query || '').toLowerCase().trim();
+
+    let occasion: string | null = null;
+    if (/weekend|getaway/.test(q)) occasion = 'Weekend Getaway';
+    else if (/dinner|evening out|date|restaurant|night out/.test(q)) occasion = 'Dinner / Evening';
+    else if (/flight|travel|plane|vacation|trip|airport/.test(q)) occasion = 'Travel / Flight';
+    else if (/work|office|meeting|desk|business/.test(q)) occasion = 'Work / Office';
+    else if (/casual|everyday|daily|relax/.test(q)) occasion = 'Everyday / Casual';
+    else if (/gift|present|birthday|brother|sister|friend/.test(q)) occasion = 'Gift';
+    else if (/evening|night|sunset/.test(q)) occasion = 'Evening';
+
+    let climate: string | null = null;
+    if (/cold|winter|freezing|chilly|snow|ice/.test(q)) climate = 'Cold Weather (Winter)';
+    else if (/cool|15.?c|18.?c|20.?c|autumn|fall/.test(q)) climate = 'Cool Weather (15°C–20°C)';
+    else if (/summer|warm|hot|sunny|heat/.test(q)) climate = 'Warm Climate';
+    else if (/rain|waterproof|wet/.test(q)) climate = 'Rain & Weather';
+
+    let location: string | null = null;
+    if (/edinburgh/.test(q)) location = 'Edinburgh';
+    else if (/milan|milano/.test(q)) location = 'Milan';
+    else if (/london/.test(q)) location = 'London';
+    else if (/paris/.test(q)) location = 'Paris';
+    else if (/tokyo/.test(q)) location = 'Tokyo';
+    else if (/munich|münchen/.test(q)) location = 'Munich';
+    else if (/new york|nyc/.test(q)) location = 'New York';
+    else if (/rome|roma/.test(q)) location = 'Rome';
+
+    let budgetMax: number | null = null;
+    const matchUnder = q.match(/under\s*(?:€|eur|\$)?\s*([\d,]+k?)/i) || q.match(/less\s*than\s*(?:€|eur|\$)?\s*([\d,]+k?)/i);
+    const matchAround = q.match(/around\s*(?:€|eur|\$)?\s*([\d,]+k?)/i);
+    if (matchUnder) budgetMax = parsePriceValue(matchUnder[1]);
+    else if (matchAround) {
+      const base = parsePriceValue(matchAround[1]);
+      budgetMax = base ? base * 1.15 : null;
+    }
+
+    let targetCategory: string | null = null;
+    if (/coat|overcoat|parka|trench|jacket|blazer|outerwear/.test(q)) targetCategory = 'Outerwear';
+    else if (/sweater|turtleneck|knit|crew|clothing|apparel|shirt|trousers/.test(q)) targetCategory = 'Apparel';
+    else if (/headphone|earbud|audio|acoustics|music|sound|earphones/.test(q)) targetCategory = 'Audio';
+    else if (/shoe|shoes|sneaker|sneakers|runner|runners|footwear|boots/.test(q)) targetCategory = 'Footwear';
+    else if (/tote|bag|watch|chronograph|accessories|belt|wallet/.test(q)) targetCategory = 'Accessories';
+
+    return { raw: query, occasion, climate, location, budgetMax, targetCategory };
+  },
+
+  getTypeaheadResults: () => {
+    const q = get().query.toLowerCase().trim();
+    if (!q || q.length < 2) {
+      return { departments: [], products: [], typoCorrection: null };
+    }
+
+    const matchedDepartments = POPULAR_DEPARTMENTS.filter(
+      (d) => d.label.toLowerCase().includes(q) || d.query.includes(q)
+    );
+
+    const matchedProducts = MASTER_PRODUCTS.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        (p.brand && p.brand.toLowerCase().includes(q)) ||
+        (p.tags && p.tags.some((t) => t.toLowerCase().includes(q) || q.includes(t.toLowerCase()))) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.subCategory && p.subCategory.toLowerCase().includes(q)) ||
+        p.description.toLowerCase().includes(q) ||
+        (p.colors && p.colors.some((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())))
+    ).slice(0, 4);
+
+    const typoCorrection = matchedProducts.length === 0 && matchedDepartments.length === 0 ? checkTypoCorrection(q) : null;
+
+    return {
+      departments: matchedDepartments,
+      products: matchedProducts,
+      typoCorrection,
+    };
+  },
+
+  getSeasonalHighlights: () => {
+    return MASTER_PRODUCTS.filter((p) => SEASONAL_HIGHLIGHT_IDS.includes(p.id));
+  },
+
+  getSearchResults: () => {
+    const q = get().query.toLowerCase().trim();
+    if (!q) {
+      return MASTER_PRODUCTS.slice(0, 4).map((product) => ({
+        product,
+        matchScore: 98,
+        matchReason: product.reasoning || 'Featured atelier piece',
+        matchBadge: product.matchBadge || 'RECOMMENDED',
+      }));
+    }
+
+    const intent = get().parseIntent(q);
+    let matches = [...MASTER_PRODUCTS];
+
+    if (intent.budgetMax) {
+      matches = matches.filter((p) => p.price <= intent.budgetMax!);
+    }
+
+    if (intent.targetCategory) {
+      const target = intent.targetCategory.toLowerCase();
+      if (target === 'outerwear') {
+        matches = matches.filter(
+          (p) =>
+            p.category.toLowerCase() === 'outerwear' ||
+            (p.tags && (p.tags.includes('coat') || p.tags.includes('overcoat') || p.tags.includes('overcoats') || p.tags.includes('outerwear') || p.tags.includes('blazer') || p.tags.includes('warm'))) ||
+            p.name.toLowerCase().includes('coat') ||
+            p.name.toLowerCase().includes('blazer') ||
+            p.name.toLowerCase().includes('overcoat')
+        );
+      } else {
+        matches = matches.filter(
+          (p) =>
+            p.category.toLowerCase() === target ||
+            (p.subCategory && p.subCategory.toLowerCase() === target) ||
+            (p.tags && p.tags.some((t) => t.toLowerCase() === target || target.includes(t.toLowerCase())))
+        );
+      }
+    }
+
+    if (!intent.occasion && !intent.climate && !intent.budgetMax && !intent.targetCategory) {
+      matches = matches.filter((p) => {
+        const inName = p.name.toLowerCase().includes(q);
+        const inBrand = (p.brand || '').toLowerCase().includes(q);
+        const inCat = p.category.toLowerCase().includes(q) || (p.subCategory || '').toLowerCase().includes(q);
+        const inTags = p.tags ? p.tags.some((t) => t.toLowerCase().includes(q) || q.includes(t.toLowerCase())) : false;
+        const inColor = p.colors ? p.colors.some((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())) : false;
+        return inName || inBrand || inCat || inTags || inColor;
+      });
+    }
+
+    if (matches.length === 0) {
+      const stopWords = new Set(['under', 'with', 'for', 'the', 'less', 'than', 'show', 'me', 'hey', 'stylist', 'in', 'and']);
+      const words = q.split(/\s+/).filter((w) => w.length > 2 && !stopWords.has(w));
+      matches = MASTER_PRODUCTS.filter((p) => {
+        return words.some(
+          (w) =>
+            (p.tags && p.tags.some((t) => t.toLowerCase().includes(w) || w.includes(t.toLowerCase()))) ||
+            p.name.toLowerCase().includes(w) ||
+            p.category.toLowerCase().includes(w) ||
+            (p.colors && p.colors.some((c) => c.name.toLowerCase().includes(w)))
+        );
+      });
+    }
+
+    const scored = matches.map((product) => {
+      let score = 92;
+      let reason = product.reasoning || `Matches your search for "${q}"`;
+      let badge = product.matchBadge || 'RECOMMENDED';
+
+      // Specific Overcoat / Budget Demo Tuning
+      if (q.includes('overcoat') || q.includes('coat')) {
+        if (product.id === 'p3') {
+          score = 99;
+          badge = intent.budgetMax ? 'BEST VALUE MATCH' : 'CLIMATE FIT';
+          reason = 'Double-faced virgin wool & cashmere tailored overcoat in Noir Black finish under your budget.';
+        } else if (product.id === 'p2') {
+          score = 94;
+          badge = 'STYLE MATCH';
+          reason = 'Italian virgin wool tailored blazer for refined cool-weather layering.';
+        }
+      }
+      // Specific Edinburgh / Cold Weather / Weekend Overcoat Tuning
+      else if (intent.location === 'Edinburgh' || (intent.climate === 'Cold Weather (Winter)' && intent.targetCategory === 'Outerwear')) {
+        if (product.id === 'p3') {
+          score = 99;
+          badge = intent.location === 'Edinburgh' ? 'PERFECT FOR EDINBURGH' : 'CLIMATE FIT';
+          reason = intent.location === 'Edinburgh'
+            ? 'Double-faced virgin wool & cashmere overcoat providing substantial thermal warmth for Edinburgh’s cold climate.'
+            : 'Engineered with double-faced virgin wool and cashmere for optimal protection in cold winter temperatures.';
+        } else if (product.id === 'p1') {
+          score = 96;
+          badge = 'LAYERING ESSENTIAL';
+          reason = '2-ply Grade-A Mongolian cashmere knitwear engineered for thermal comfort in chilly conditions.';
+        } else if (product.id === 'p2') {
+          score = 93;
+          badge = 'WEEKEND DINNER FIT';
+          reason = 'Italian virgin wool tailored blazer designed for smart-casual evening dinners during your getaway.';
+        }
+      } else if (intent.location === 'London' || (intent.occasion === 'Dinner / Evening' && q.includes('dinner'))) {
+        if (product.id === 'p2') {
+          score = 99;
+          badge = 'STYLE MATCH';
+          reason = 'Italian virgin wool tailoring with unlined soft canvassing tailored for a London evening.';
+        } else if (product.id === 'p1') {
+          score = 95;
+          badge = 'BEST MATCH';
+          reason = 'Refined Mongolian cashmere knitwear for comfortable evening dining.';
+        }
+      } else {
+        if (intent.occasion && product.tags?.some((t) => t.includes('evening') || t.includes('dinner'))) {
+          score = 98;
+          badge = 'STYLE MATCH';
+          reason = product.reasoning || `Ideal choice for ${intent.occasion}`;
+        } else if (intent.climate && product.tags?.some((t) => t.includes('warm') || t.includes('winter') || t.includes('cool'))) {
+          score = 96;
+          badge = 'CLIMATE FIT';
+          reason = product.reasoning || `Engineered for ${intent.climate}`;
+        }
+      }
+
+      return {
+        product,
+        matchScore: score,
+        matchReason: reason,
+        matchBadge: badge,
+      };
+    });
+
+    return scored.sort((a, b) => b.matchScore - a.matchScore);
+  },
+}));

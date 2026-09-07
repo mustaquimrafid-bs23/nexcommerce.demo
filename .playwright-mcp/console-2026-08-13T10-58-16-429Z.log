@@ -1,6 +1,0 @@
-[     156ms] TypeError: Cannot read properties of undefined (reading '0')
-    at ye (https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm:7:6569)
-    at inView.margin (http://localhost:8000/js/animations.js:107:17)
-    at https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm:7:62039
-    at Array.forEach (<anonymous>)
-    at IntersectionObserver.a (https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm:7:61948)

@@ -1,14 +1,13 @@
 /**
  * nexCommerce &mdash; Homepage Engine (js/home.js)
- * Manages  entrance animations, intent prompt suggestions, featured collection rendering,
- * category tile navigation, and add-to-bag integration.
+ * Manages luxury preloader dismissal, intent prompt suggestions, 
+ * featured collection rendering, category tile navigation, and add-to-bag integration.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
-  initHeroAnimations();
   initHeroCarousel();
   initDealsCountdown();
   initDealsCards();
@@ -20,140 +19,65 @@ document.addEventListener('DOMContentLoaded', () => {
   initCategoryTiles();
   initFinalCTA();
   initScrollReveal();
+  initTrustStripInteractions();
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
 });
 
-
 /**
- * 1.  Entrance Animations (500ms content / 700ms image)
- */
-function initHeroAnimations() {
-  const content = document.querySelector('.hero-content');
-  const visual = document.querySelector('.hero-product-visual');
-
-  if (content) {
-    content.style.opacity = '0';
-    content.style.transform = 'translateY(16px)';
-    content.style.transition = 'opacity 500ms ease, transform 500ms ease';
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        content.style.opacity = '1';
-        content.style.transform = 'translateY(0)';
-      }, 50);
-    });
-  }
-
-  if (visual) {
-    visual.style.opacity = '0';
-    visual.style.transform = 'scale(0.97)';
-    visual.style.transition = 'opacity 700ms ease, transform 700ms ease';
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        visual.style.opacity = '1';
-        visual.style.transform = 'scale(1)';
-      }, 150);
-    });
-  }
-}
-
-/**
- * 1b. Interactive Hero Lifestyle Carousel & Hotspot Quick-Add
+ * 1b. Full-Bleed 3D Interactive Model Hero & Floating Shoppable Hotspot Tags
  */
 function initHeroCarousel() {
   const stories = [
     {
-      id: 'p4',
-      name: 'ACOUSTICS HEADPHONE GT',
-      price: 'BDT 32,000',
-      numericPrice: 32000,
-      context: 'Active noise cancellation · Studio sound',
-      image: 'hero_headphone_landscape.jpg',
-      thumb: 'thumb_headphones.jpg',
-      alt: 'Acoustics Headphone GT on Model',
-      chips: [
-        { icon: 'activity', text: 'Deep Bass' },
-        { icon: 'battery-charging', text: '40H Battery' },
-        { icon: 'sparkles', text: 'Premium Comfort' }
-      ]
-    },
-    {
-      id: 'p1',
-      name: 'ARCHITECTURAL CASHMERE SWEATER',
-      price: 'BDT 18,400',
-      numericPrice: 18400,
-      context: 'Minimal layering · Evening',
-      image: 'hero_sweater_landscape.jpg',
-      thumb: 'thumb_sweater.jpg',
-      alt: 'Architectural Cashmere Sweater on Model',
-      chips: [
-        { icon: 'feather', text: '100% Cashmere' },
-        { icon: 'shield-check', text: 'Thermal Lock' },
-        { icon: 'sparkles', text: 'Italian Yarn' }
-      ]
-    },
-    {
-      id: 'p7',
-      name: 'CHRONO AUTOMATIC TIMEPIECE',
-      price: 'BDT 48,000',
-      numericPrice: 48000,
-      context: 'Sapphire crystal · Swiss movement',
-      image: 'hero_watch_landscape.jpg',
-      thumb: 'thumb_watch.jpg',
-      alt: 'Chrono Automatic Timepiece on Model',
-      chips: [
-        { icon: 'shield', text: 'Sapphire Glass' },
-        { icon: 'clock', text: 'Swiss Calibre' },
-        { icon: 'sparkles', text: '42mm Case' }
-      ]
-    },
-    {
       id: 'p2',
       name: 'STRUCTURED LEATHER TOTE',
-      price: 'BDT 24,500',
-      numericPrice: 24500,
-      context: 'Italian calfskin · Laptop sleeve',
-      image: 'hero_tote_landscape.jpg',
-      thumb: 'thumb_tote.jpg',
-      alt: 'Structured Leather Tote on Model',
-      chips: [
-        { icon: 'briefcase', text: '15" Laptop' },
-        { icon: 'lock', text: 'Magnetic Clasp' },
-        { icon: 'sparkles', text: 'Handcrafted' }
-      ]
+      lookNum: 'FEATURED PIECE',
+      price: '€ 245.00',
+      numericPrice: 245,
+      category: 'Leather Goods',
+      image: 'assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg',
+      imageMobile: 'assets/images/lifestyle/Gemini_Generated_Image_tm4857tm4857tm48.jpg',
+      thumb: 'assets/images/lifestyle/thumb_tote.jpg',
+      alt: 'Model in tailored suit with structured cognac leather bag in brutalist architecture',
+      hotspot: { top: '79%', left: '72%' }
     }
   ];
 
-  const dots = document.querySelectorAll('.hero-dot');
+  const heroSection = document.getElementById('heroFullbleedSection') || document.querySelector('.hero-fullbleed-section');
+  const bgCanvas = document.getElementById('heroImgStack');
   const layerA = document.getElementById('heroLayerA');
   const layerB = document.getElementById('heroLayerB');
+  const centeredContent = document.getElementById('heroCenteredContent');
+  const hotspotWrap = document.getElementById('heroHotspotWrap');
   const hotspotCard = document.getElementById('heroHotspotCard');
   const thumbImg = document.getElementById('heroDockThumbImg');
-  const chipsContainer = document.getElementById('heroFeatureChips');
   const titleEl = document.getElementById('heroHotspotTitle');
   const priceEl = document.getElementById('heroHotspotPrice');
-  const subEl = document.getElementById('heroHotspotSub');
   const addBtn = document.getElementById('heroHotspotAddBtn');
-  const visualFrame = document.getElementById('heroVisualFrame');
-  const modelBox = document.getElementById('heroModelBox');
-  const heroSection = document.querySelector('.hero-section');
+  const prevBtn = document.getElementById('heroPrevBtn');
+  const nextBtn = document.getElementById('heroNextBtn');
+  const progressFill = document.getElementById('heroProgressFill');
+  const dockPills = document.querySelectorAll('.hero-dock-pill');
 
-  if (!hotspotCard || !dots.length) return;
+  if (!heroSection || !hotspotCard) return;
 
   let currentIndex = 0;
   let timer = null;
   let isTransitioning = false;
-  let activeLayer = layerA || document.querySelector('.hero-layer-active');
-  let incomingLayer = layerB || document.querySelector('.hero-layer-incoming');
-  const slideDuration = 5000;
+  let activeLayer = layerA || document.querySelector('.hero-fullbleed-layer-active');
+  let incomingLayer = layerB || document.querySelector('.hero-fullbleed-layer-incoming');
+  const slideDuration = 5500;
 
-  // Preload all story images to guarantee 0-latency instant cross-fades
+  // Preload hero story images for instant zero-latency rendering
   stories.forEach(s => {
     const preload = new Image();
     preload.src = s.image;
+    if (s.imageMobile) {
+      const preloadMobile = new Image();
+      preloadMobile.src = s.imageMobile;
+    }
     if (s.thumb) {
       const preloadThumb = new Image();
       preloadThumb.src = s.thumb;
@@ -161,37 +85,18 @@ function initHeroCarousel() {
   });
 
   function resetProgress() {
-    dots.forEach((dot) => {
-      const fill = dot.querySelector('.hero-dot-fill');
-      if (fill) {
-        fill.style.transition = 'none';
-        fill.style.transform = 'scaleX(0)';
-      }
-    });
+    if (progressFill) {
+      progressFill.style.transition = 'none';
+      progressFill.style.transform = 'scaleX(0)';
+    }
   }
 
   function startActiveProgress() {
     resetProgress();
-    const activeDot = dots[currentIndex];
-    if (!activeDot) return;
-    const fill = activeDot.querySelector('.hero-dot-fill');
-    if (fill) {
-      void fill.offsetWidth; // Force reflow
-      fill.style.transition = `transform ${slideDuration}ms linear`;
-      fill.style.transform = 'scaleX(1)';
-    }
-  }
-
-  function renderChips(chips) {
-    if (!chipsContainer || !chips) return;
-    chipsContainer.innerHTML = chips.map(c => `
-      <span class="hero-chip">
-        <i data-lucide="${c.icon}" style="width: 10px; height: 10px;"></i>
-        <span>${c.text}</span>
-      </span>
-    `).join('');
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+    if (progressFill && stories.length > 1) {
+      void progressFill.offsetWidth; // Force reflow
+      progressFill.style.transition = `transform ${slideDuration}ms linear`;
+      progressFill.style.transform = 'scaleX(1)';
     }
   }
 
@@ -199,32 +104,39 @@ function initHeroCarousel() {
     currentIndex = (index + stories.length) % stories.length;
     isTransitioning = false;
 
-    dots.forEach((d, i) => {
-      d.classList.toggle('active', i === currentIndex);
-      d.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
-    });
+    // Update Look Switcher Pills if present
+    if (dockPills && dockPills.length > 0) {
+      dockPills.forEach((pill, idx) => {
+        pill.classList.toggle('active', idx === currentIndex);
+      });
+    }
 
     startActiveProgress();
 
     const story = stories[currentIndex];
 
+    // Ensure CSS positioning rules govern coordinates across all viewports
+    if (hotspotWrap) {
+      hotspotWrap.style.top = '';
+      hotspotWrap.style.left = '';
+      hotspotWrap.style.bottom = '';
+      hotspotWrap.style.right = '';
+    }
+
     if (animate && activeLayer && incomingLayer) {
       isTransitioning = true;
 
-      // 1. Prepare incoming layer under the hood
+      // 1. Prepare incoming layer
       incomingLayer.src = story.image;
       incomingLayer.alt = story.alt;
-      incomingLayer.className = 'hero-layer-img hero-layer-incoming';
+      incomingLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-incoming';
 
-      // 2. Start staggered text transition
-      if (hotspotCard) hotspotCard.classList.add('hero-text-animating');
-
-      // 3. Double RAF for buttery GPU layer transition
+      // 2. Double RAF for GPU crossfade
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           if (incomingLayer && activeLayer) {
-            incomingLayer.className = 'hero-layer-img hero-layer-active';
-            activeLayer.className = 'hero-layer-img hero-layer-outgoing';
+            incomingLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-active';
+            activeLayer.className = 'hero-fullbleed-layer hero-fullbleed-layer-outgoing';
 
             // Swap layer references
             const temp = activeLayer;
@@ -234,35 +146,38 @@ function initHeroCarousel() {
         });
       });
 
-      // 4. Update text content mid-flight and reveal
+      // 3. Update floating hotspot info
       setTimeout(() => {
-        if (thumbImg && story.thumb) thumbImg.src = story.thumb;
+        if (thumbImg && story.thumb) {
+          thumbImg.src = story.thumb;
+          thumbImg.alt = story.name;
+        }
         if (titleEl) titleEl.textContent = story.name;
         if (priceEl) priceEl.textContent = story.price;
-        if (subEl) subEl.textContent = story.context;
-        renderChips(story.chips);
         hotspotCard.setAttribute('data-id', story.id);
-
-        if (hotspotCard) hotspotCard.classList.remove('hero-text-animating');
+        hotspotCard.setAttribute('aria-label', `View Featured Piece: ${story.name}`);
         setTimeout(() => { isTransitioning = false; }, 350);
-      }, 180);
+      }, 150);
 
     } else {
       if (activeLayer) {
         activeLayer.src = story.image;
         activeLayer.alt = story.alt;
       }
-      if (thumbImg && story.thumb) thumbImg.src = story.thumb;
+      if (thumbImg && story.thumb) {
+        thumbImg.src = story.thumb;
+        thumbImg.alt = story.name;
+      }
       if (titleEl) titleEl.textContent = story.name;
       if (priceEl) priceEl.textContent = story.price;
-      if (subEl) subEl.textContent = story.context;
-      renderChips(story.chips);
       hotspotCard.setAttribute('data-id', story.id);
+      hotspotCard.setAttribute('aria-label', `View Featured Piece: ${story.name}`);
     }
   }
 
   function startTimer() {
     stopTimer();
+    if (stories.length <= 1) return;
     startActiveProgress();
     timer = setInterval(() => {
       setStory(currentIndex + 1, true);
@@ -273,148 +188,173 @@ function initHeroCarousel() {
     if (timer) clearInterval(timer);
   }
 
-  // Dots navigation
-  dots.forEach((dot, index) => {
-    dot.setAttribute('role', 'button');
-    dot.setAttribute('aria-label', `View Story ${index + 1}`);
-    dot.addEventListener('click', (e) => {
+  // Initial story setup
+  setStory(0, false);
+
+  // Look Switcher Pills Event Listeners (if present)
+  dockPills.forEach((pill) => {
+    pill.addEventListener('click', (e) => {
       e.stopPropagation();
-      setStory(index, true);
-      startTimer();
+      const targetIdx = parseInt(pill.getAttribute('data-index'), 10);
+      if (!isNaN(targetIdx) && targetIdx !== currentIndex) {
+        setStory(targetIdx, true);
+        startTimer();
+      }
     });
   });
 
-  // -------------------------------------------------------------
-  // Kinetic Touch Swipe & Mouse Drag Physics (Desktop + Mobile)
-  // -------------------------------------------------------------
-  let isPointerDown = false;
-  let startX = 0;
-  let startY = 0;
-  let currentDeltaX = 0;
-  let isHorizontalDrag = false;
-  let rafId = null;
-
-  if (heroSection) {
-    heroSection.querySelectorAll('img').forEach((im) => {
-      im.setAttribute('draggable', 'false');
-      im.ondragstart = (e) => e.preventDefault();
-    });
-
-    function onDragStart(clientX, clientY, target) {
-      if (target && (target.closest('#heroHotspotAddBtn') || target.closest('.btn-hero-primary') || target.closest('.btn-hero-secondary') || target.closest('.hero-dot'))) {
-        return;
-      }
-      isPointerDown = true;
-      startX = clientX;
-      startY = clientY;
-      currentDeltaX = 0;
-      isHorizontalDrag = false;
-      stopTimer();
-      heroSection.classList.add('is-dragging');
-    }
-
-    function onDragMove(clientX, clientY) {
-      if (!isPointerDown) return;
-      const dx = clientX - startX;
-      const dy = clientY - startY;
-
-      if (!isHorizontalDrag) {
-        if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
-          isHorizontalDrag = true;
-        }
-      }
-
-      if (isHorizontalDrag) {
-        currentDeltaX = dx;
-        if (modelBox) {
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(() => {
-            modelBox.style.transition = 'none';
-            modelBox.style.transform = `translateX(${dx * 0.28}px) rotateY(${dx * 0.025}deg) scale(0.99)`;
-          });
-        }
-      }
-    }
-
-    function onDragEnd() {
-      if (!isPointerDown) return;
-      isPointerDown = false;
-      heroSection.classList.remove('is-dragging');
-
-      if (modelBox) {
-        modelBox.style.transition = 'transform 450ms cubic-bezier(0.16, 1, 0.3, 1)';
-        modelBox.style.transform = '';
-      }
-
-      const threshold = 35;
-      if (isHorizontalDrag && Math.abs(currentDeltaX) > threshold) {
-        if (currentDeltaX < 0) {
-          setStory(currentIndex + 1, true);
-        } else {
-          setStory(currentIndex - 1, true);
-        }
-      }
-
-      currentDeltaX = 0;
-      isHorizontalDrag = false;
+  // Prev / Next Arrow Navigation (if present)
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setStory(currentIndex - 1, true);
       startTimer();
-    }
-
-    // Pointer Events
-    heroSection.addEventListener('pointerdown', (e) => {
-      onDragStart(e.clientX, e.clientY, e.target);
     });
-
-    window.addEventListener('pointermove', (e) => {
-      onDragMove(e.clientX, e.clientY);
-    });
-
-    window.addEventListener('pointerup', () => {
-      onDragEnd();
-    });
-
-    window.addEventListener('pointercancel', () => {
-      onDragEnd();
-    });
-
-    // Touch Support
-    heroSection.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        onDragStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
-      }
-    }, { passive: true });
-
-    heroSection.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 1) {
-        onDragMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    }, { passive: true });
-
-    heroSection.addEventListener('touchend', () => {
-      onDragEnd();
-    });
-
-    // Keyboard Arrow Navigation
-    heroSection.setAttribute('tabindex', '0');
-    heroSection.setAttribute('aria-label', 'Featured Stories Carousel. Use left and right arrow keys to browse.');
-    heroSection.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        setStory(currentIndex - 1, true);
-        startTimer();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        setStory(currentIndex + 1, true);
-        startTimer();
-      }
-    });
-
-    // Pause on hovering the interactive glass card specifically
-    if (hotspotCard) {
-      hotspotCard.addEventListener('mouseenter', () => stopTimer());
-      hotspotCard.addEventListener('mouseleave', () => startTimer());
-    }
   }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setStory(currentIndex + 1, true);
+      startTimer();
+    });
+  }
+
+  // Pause on hover
+  if (heroSection) {
+    heroSection.addEventListener('mouseenter', () => stopTimer());
+    heroSection.addEventListener('mouseleave', () => startTimer());
+  }
+
+  // -------------------------------------------------------------
+  // 🌟 Unified 120fps Differential Column & Layer Parallax Engine
+  // Combines smooth scroll parallax and 3D spatial mouse depth
+  // into a single zero-collision physics loop with smooth lerp
+  // -------------------------------------------------------------
+  let targetScrollY = window.scrollY || 0;
+  let currentScrollY = targetScrollY;
+  let targetRotX = 0;
+  let targetRotY = 0;
+  let curRotX = 0;
+  let curRotY = 0;
+  let isMouseInside = false;
+
+  const isDesktopPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Track window scroll with passive performance
+  window.addEventListener('scroll', () => {
+    targetScrollY = window.scrollY || 0;
+  }, { passive: true });
+
+  // Track 3D Spatial Mouse Interaction (Desktop Pointer only)
+  if (heroSection && isDesktopPointer && !isReducedMotion) {
+    heroSection.addEventListener('mousemove', (e) => {
+      isMouseInside = true;
+      const rect = heroSection.getBoundingClientRect();
+      if (rect.height <= 0 || rect.width <= 0) return;
+      const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      targetRotX = -y * 8; // Max pitch tilt
+      targetRotY = x * 10; // Max yaw tilt
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      isMouseInside = false;
+      targetRotX = 0;
+      targetRotY = 0;
+    });
+  }
+
+  function updateHeroParallax() {
+    if (isReducedMotion) {
+      if (centeredContent) {
+        centeredContent.style.opacity = Math.max(0, Math.min(1, 1 - targetScrollY / 420)).toFixed(3);
+      }
+      if (hotspotWrap) {
+        hotspotWrap.style.opacity = Math.max(0, Math.min(1, 1 - targetScrollY / 340)).toFixed(3);
+      }
+      requestAnimationFrame(updateHeroParallax);
+      return;
+    }
+
+    // Fluid Deceleration Lerp for Scroll (0.12 factor)
+    currentScrollY += (targetScrollY - currentScrollY) * 0.12;
+
+    // Fluid Spring Lerp for 3D Mouse Parallax (0.08 factor)
+    if (isDesktopPointer) {
+      curRotX += (targetRotX - curRotX) * 0.08;
+      curRotY += (targetRotY - curRotY) * 0.08;
+    }
+
+    const heroHeight = heroSection ? heroSection.offsetHeight : 600;
+
+    // Only compute transforms when the hero is in or near the active viewport
+    if (currentScrollY < heroHeight * 1.3) {
+      const scrollProgress = Math.max(0, currentScrollY);
+      const isMobile = window.innerWidth <= 768;
+      const isShortHeight = window.innerHeight <= 540;
+
+      // 1. Full-Bleed Background Imagery Canvas (0.30x differential scroll + counter mouse tilt)
+      if (bgCanvas) {
+        const bgTranslateY = (scrollProgress * 0.30) - (curRotX * 1.5);
+        const bgTranslateX = -curRotY * 1.8;
+        bgCanvas.style.transform = `translate3d(${bgTranslateX.toFixed(2)}px, ${bgTranslateY.toFixed(2)}px, 0)`;
+      }
+
+      // 2. Editorial Typography Column (Preserves responsive anchoring + 0.12x differential lag + 3D depth)
+      if (centeredContent) {
+        const contentTranslateY = (scrollProgress * 0.12) + (curRotX * 1.2);
+        const contentTranslateX = (curRotY * 1.6);
+        const contentOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 420)));
+        if (isMobile && !isShortHeight) {
+          centeredContent.style.transform = `translate3d(0px, ${contentTranslateY.toFixed(2)}px, 15px)`;
+        } else {
+          centeredContent.style.transform = `translate3d(${contentTranslateX.toFixed(2)}px, calc(-50% + ${contentTranslateY.toFixed(2)}px), 15px)`;
+        }
+        centeredContent.style.opacity = contentOpacity.toFixed(3);
+      }
+
+      // 3. Floating 3D Shoppable Hotspot Tag (0.22x differential scroll + 3D perspective pop)
+      if (hotspotWrap) {
+        const hotspotTranslateY = (scrollProgress * 0.22) + (curRotX * 1.5);
+        const hotspotTranslateX = curRotY * 1.6;
+        const hotspotOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 340)));
+        hotspotWrap.style.transform = `translate3d(${hotspotTranslateX.toFixed(2)}px, ${hotspotTranslateY.toFixed(2)}px, 15px)`;
+        hotspotWrap.style.opacity = hotspotOpacity.toFixed(3);
+      }
+    }
+
+    requestAnimationFrame(updateHeroParallax);
+  }
+
+  requestAnimationFrame(updateHeroParallax);
+
+  // -------------------------------------------------------------
+  // 3️⃣ Seamless Page Transitions
+  // -------------------------------------------------------------
+  const transitionCurtain = document.getElementById('pageTransitionOverlay');
+  document.querySelectorAll('.page-nav-link, a[href^="pages/"]').forEach(link => {
+    // Header links (cart, wishlist, account, etc.) have their own dedicated
+    // click behavior (e.g. the mini-cart drawer) and must not be hijacked
+    // by this homepage-only curtain transition.
+    if (link.closest('#siteHeader')) return;
+
+    link.addEventListener('click', (e) => {
+      const targetHref = link.getAttribute('href');
+      if (!targetHref || targetHref.startsWith('#') || targetHref.startsWith('javascript:')) return;
+
+      e.preventDefault();
+      if (transitionCurtain) {
+        transitionCurtain.classList.add('is-active');
+        setTimeout(() => {
+          window.location.href = targetHref;
+        }, 220);
+      } else {
+        window.location.href = targetHref;
+      }
+    });
+  });
 
   // -------------------------------------------------------------
   // Quick-Add Action with Tactile SVG Checkmark Feedback
@@ -437,9 +377,8 @@ function initHeroCarousel() {
       }
 
       // Visual feedback with Lucide checkmark icon
-      addBtn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i>';
+      addBtn.innerHTML = '<i data-lucide="check" style="width: 13px; height: 13px;"></i>';
       addBtn.style.background = '#10B981';
-      addBtn.style.borderColor = '#10B981';
       addBtn.style.transform = 'scale(1.15)';
       if (window.lucide) window.lucide.createIcons();
 
@@ -455,20 +394,40 @@ function initHeroCarousel() {
       }
 
       setTimeout(() => {
-        addBtn.innerHTML = '<i data-lucide="plus" style="width: 14px; height: 14px;"></i>';
+        addBtn.innerHTML = '<i data-lucide="plus" style="width: 13px; height: 13px;"></i>';
         addBtn.style.background = '';
-        addBtn.style.borderColor = '';
         addBtn.style.transform = '';
         if (window.lucide) window.lucide.createIcons();
       }, 1400);
     });
 
-    // Clicking anywhere on the card navigates to product details
-    hotspotCard.addEventListener('click', (e) => {
-      if (e.target.closest('#heroHotspotAddBtn')) return;
+    // Navigate to product details
+    function navigateToProduct() {
       const currentStory = stories[currentIndex];
       if (currentStory) {
-        window.location.href = `product.html?id=${currentStory.id}`;
+        if (transitionCurtain) {
+          transitionCurtain.classList.add('is-active');
+          setTimeout(() => {
+            window.location.href = `pages/product.html?id=${currentStory.id}`;
+          }, 220);
+        } else {
+          window.location.href = `pages/product.html?id=${currentStory.id}`;
+        }
+      }
+    }
+
+    // Clicking on hotspot card navigates to product details
+    hotspotCard.addEventListener('click', (e) => {
+      if (e.target.closest('#heroHotspotAddBtn')) return;
+      navigateToProduct();
+    });
+
+    // Keyboard support (Enter / Space) for accessible navigation
+    hotspotCard.addEventListener('keydown', (e) => {
+      if (e.target.closest('#heroHotspotAddBtn')) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navigateToProduct();
       }
     });
   }
@@ -479,25 +438,49 @@ function initHeroCarousel() {
 }
 
 /**
- * 1c. Today's Deals Live Countdown Ticker
+ * 1c. Today's Deals Live Countdown Ticker & GPU scaleX Progress Bar
  */
 function initDealsCountdown() {
-  let secondsRemaining = (4 * 3600) + (32 * 60) + 15;
-  const hoursEl = document.getElementById('dealHours');
-  const minsEl = document.getElementById('dealMins');
-  const secsEl = document.getElementById('dealSecs');
+  const TOTAL_SECS = (4 * 3600) + (32 * 60) + 15;
+  let secondsRemaining = TOTAL_SECS;
+
+  const hoursEl    = document.getElementById('dealHours');
+  const minsEl     = document.getElementById('dealMins');
+  const secsEl     = document.getElementById('dealSecs');
+  const progressBar = document.getElementById('dealProgressBar');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  // Flip digit: slide up and out, replace content, slide in
+  function flipUnit(el, newVal) {
+    if (!el || el.textContent === newVal) return;
+    el.style.transition = 'transform 120ms cubic-bezier(0.4, 0, 1, 1), opacity 120ms cubic-bezier(0.4, 0, 1, 1)';
+    el.style.transform  = 'translateY(-4px)';
+    el.style.opacity    = '0';
+    setTimeout(() => {
+      el.textContent = newVal;
+      el.style.transition = 'transform 160ms cubic-bezier(0.23,1,0.32,1), opacity 160ms ease-out';
+      el.style.transform  = 'translateY(0)';
+      el.style.opacity    = '1';
+    }, 130);
+  }
 
   function updateTimer() {
-    if (secondsRemaining <= 0) {
-      secondsRemaining = 24 * 3600; // Reset for demonstration
-    }
+    if (secondsRemaining <= 0) { secondsRemaining = TOTAL_SECS; }
+
     const h = Math.floor(secondsRemaining / 3600);
     const m = Math.floor((secondsRemaining % 3600) / 60);
     const s = secondsRemaining % 60;
 
-    if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
-    if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
-    if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+    flipUnit(hoursEl, pad(h));
+    flipUnit(minsEl,  pad(m));
+    flipUnit(secsEl,  pad(s));
+
+    // GPU scaleX — shrinks from 1 (full) to 0 (expired) over TOTAL_SECS
+    if (progressBar) {
+      const ratio = secondsRemaining / TOTAL_SECS;
+      progressBar.style.transform = `scaleX(${ratio.toFixed(4)})`;
+    }
 
     secondsRemaining--;
   }
@@ -545,7 +528,7 @@ function initDealsCards() {
     });
   });
 
-  // Card click -> PDP
+  // Card click -> PDP (non-button parts)
   document.querySelectorAll('.deal-product-card').forEach(card => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.deal-add-btn') || e.target.closest('.deal-wishlist-btn') || e.target.closest('.deal-quick-add-overlay')) {
@@ -554,15 +537,33 @@ function initDealsCards() {
         return;
       }
       const id = card.getAttribute('data-id') || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      window.location.href = `pages/product.html?id=${encodeURIComponent(id)}`;
     });
   });
 
-  // Add to Bag clicks
+  // Add to Bag clicks with tactile ripple
   document.querySelectorAll('.deal-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+
+      // Tactile ripple effect
+      const rippleEl = btn.querySelector('.deal-ripple');
+      if (rippleEl) {
+        rippleEl.classList.remove('animating');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        rippleEl.style.width  = size + 'px';
+        rippleEl.style.height = size + 'px';
+        rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+        rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+        void rippleEl.offsetWidth; // force reflow to restart animation
+        rippleEl.classList.add('animating');
+        rippleEl.addEventListener('animationend', () => {
+          rippleEl.classList.remove('animating');
+        }, { once: true });
+      }
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -580,13 +581,13 @@ function initDealsCards() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 13px; height: 13px;"></i> ADDED';
+        btn.innerHTML = '<span class="deal-ripple" aria-hidden="true"></span><i data-lucide="check" style="width: 13px; height: 13px;"></i> ADDED';
         btn.style.background = '#34D399';
         btn.style.color = '#001838';
         if (window.lucide) window.lucide.createIcons();
 
         setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD';
+          btn.innerHTML = '<span class="deal-ripple" aria-hidden="true"></span><i data-lucide="plus" style="width: 13px; height: 13px;"></i> QUICK ADD';
           btn.style.background = '';
           btn.style.color = '';
           if (window.lucide) window.lucide.createIcons();
@@ -597,25 +598,56 @@ function initDealsCards() {
 }
 
 /**
- * 2. Clickable Intent Suggestions, Form Search & Rotating Placeholder
+ * 2. Clickable Intent Suggestions, Form Search & 120fps Typewriter Loop
  */
 function initIntentSuggestions() {
   const chips = document.querySelectorAll('.intent-chip-pill, .intent-suggestion-chip');
   const input = document.getElementById('homeIntentInput') || document.getElementById('homeDiscoveryInput');
-  const form = document.getElementById('homeIntentForm') || document.getElementById('homeDiscoveryForm');
+  const form  = document.getElementById('homeIntentForm') || document.getElementById('homeDiscoveryForm');
+  const submitBtn = document.getElementById('homeIntentSubmitBtn');
+  const progressBar = document.getElementById('intentTypewriterBar');
 
-  // Clear any stale value from previous session
+  // Generic ripple trigger helper
+  function triggerRipple(btn, rippleSelector, e) {
+    const rippleEl = btn.querySelector(rippleSelector);
+    if (!rippleEl) return;
+    rippleEl.classList.remove('animating');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    rippleEl.style.width  = size + 'px';
+    rippleEl.style.height = size + 'px';
+    rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+    rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+    void rippleEl.offsetWidth;
+    rippleEl.classList.add('animating');
+    rippleEl.addEventListener('animationend', () => {
+      rippleEl.classList.remove('animating');
+    }, { once: true });
+  }
+
+  // Clear stale value
   if (input) input.value = '';
 
-  // Chip click handler
+  // Chip click handler with tactile ripple
   chips.forEach(chip => {
-    chip.addEventListener('click', () => {
+    chip.addEventListener('click', (e) => {
+      triggerRipple(chip, '.intent-chip-ripple', e);
       const text = chip.getAttribute('data-query') || chip.textContent.trim();
       if (input) {
         input.value = text;
         input.focus();
       }
-      window.location.href = `discovery.html?q=${encodeURIComponent(text)}`;
+      // Delegate to page transition curtain if available
+      const curtain = document.getElementById('pageTransitionOverlay');
+      const targetUrl = `pages/discovery.html?q=${encodeURIComponent(text)}`;
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
     });
   });
 
@@ -623,60 +655,94 @@ function initIntentSuggestions() {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (submitBtn) triggerRipple(submitBtn, '.intent-btn-ripple', e);
       const activeInput = form.querySelector('input');
       const val = activeInput ? activeInput.value.trim() : '';
       if (val) {
-        window.location.href = `discovery.html?q=${encodeURIComponent(val)}`;
+        const curtain = document.getElementById('pageTransitionOverlay');
+        const targetUrl = `pages/discovery.html?q=${encodeURIComponent(val)}`;
+        if (curtain) {
+          curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
+          curtain.style.opacity = '1';
+          curtain.style.pointerEvents = 'all';
+          setTimeout(() => { window.location.href = targetUrl; }, 210);
+        } else {
+          window.location.href = targetUrl;
+        }
       }
     });
   }
 
-  // Animated Placeholder Rotation
+  // 120fps Typewriter Rotation with Progress Sync
   if (input) {
     const prompts = [
-      "Something for a winter evening in Dhaka",
-      "Minimalist linen outfit for a weekend in Sylhet",
-      "Sharp monochrome look for an executive dinner",
-      "Breathable lightweight layers under BDT 15,000",
-      "Comfortable silk blend shirt for warm weather"
+      "Something for a winter evening in Milan",
+      "Minimalist linen look for a weekend in Amalfi",
+      "Sharp monochrome look for an executive dinner in Zurich",
+      "Breathable performance wear for morning runs in Tiergarten",
+      "Tailored outerwear for European autumn travel",
+      "Understated luxury accessories for gifting"
     ];
-    let promptIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let rotationTimeout = null;
 
-    function typeEffect() {
-      // Don't rotate if user has focused or typed something
-      if (document.activeElement === input || input.value.length > 0) {
-        rotationTimeout = setTimeout(typeEffect, 2000);
+    let promptIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    let isPaused = false;
+    let holdStartTime = 0;
+    const HOLD_DURATION = 3500; // ms to pause on full prompt
+
+    // Pause typewriter if user interacts with input
+    input.addEventListener('focus', () => { isPaused = true; });
+    input.addEventListener('blur',  () => {
+      if (!input.value.trim()) { isPaused = false; }
+    });
+    input.addEventListener('input', () => {
+      isPaused = !!input.value.trim();
+    });
+
+    function typeLoop(timestamp) {
+      if (isPaused) {
+        requestAnimationFrame(typeLoop);
         return;
       }
 
-      const currentPrompt = prompts[promptIndex];
-      if (isDeleting) {
-        input.setAttribute('placeholder', currentPrompt.substring(0, charIndex - 1));
-        charIndex--;
+      const currentFullText = prompts[promptIdx];
+
+      if (!isDeleting) {
+        // Typing forward
+        input.placeholder = currentFullText.substring(0, charIdx + 1);
+        charIdx++;
+
+        if (charIdx === currentFullText.length) {
+          isDeleting = true;
+          holdStartTime = performance.now();
+        }
+        setTimeout(() => requestAnimationFrame(typeLoop), 45);
       } else {
-        input.setAttribute('placeholder', currentPrompt.substring(0, charIndex + 1));
-        charIndex++;
+        // Holding full text with progress bar sync
+        const elapsed = performance.now() - holdStartTime;
+        if (elapsed < HOLD_DURATION) {
+          if (progressBar) {
+            const ratio = Math.min(1, elapsed / HOLD_DURATION);
+            progressBar.style.transform = `scaleX(${ratio.toFixed(3)})`;
+          }
+          requestAnimationFrame(typeLoop);
+        } else {
+          // Reset progress bar & delete text
+          if (progressBar) progressBar.style.transform = 'scaleX(0)';
+          input.placeholder = currentFullText.substring(0, charIdx - 1);
+          charIdx--;
+
+          if (charIdx === 0) {
+            isDeleting = false;
+            promptIdx = (promptIdx + 1) % prompts.length;
+          }
+          setTimeout(() => requestAnimationFrame(typeLoop), 25);
+        }
       }
-
-      let speed = isDeleting ? 30 : 60;
-
-      if (!isDeleting && charIndex === currentPrompt.length) {
-        speed = 3000; // Pause at end of phrase
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        promptIndex = (promptIndex + 1) % prompts.length;
-        speed = 600; // Pause before typing next
-      }
-
-      rotationTimeout = setTimeout(typeEffect, speed);
     }
 
-    // Start rotation
-    rotationTimeout = setTimeout(typeEffect, 1500);
+    requestAnimationFrame(typeLoop);
   }
 
   // Refresh Lucide icons for any dynamic icons
@@ -686,7 +752,7 @@ function initIntentSuggestions() {
 }
 
 /**
- * 3. Curated "Pieces Matched to Your Taste" AI Recommendation Interactions
+ * 3. "Recommended for You" AI Recommendation & Personalized Style Grid Interactions
  */
 function renderFeaturedCollection() {
   // Sync AI Style Profile context if user has a profile saved
@@ -742,18 +808,45 @@ function renderFeaturedCollection() {
       });
     }
 
-    // Card click -> PDP
+    // Card click -> PDP with GPU curtain transition
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.curated-quick-add-btn') || e.target.closest('.curated-add-btn') || e.target.closest('.curated-img-action') || e.target.closest('.curated-wishlist-btn')) return;
+      if (e.target.closest('.curated-quick-add-btn') || e.target.closest('.curated-wishlist-btn')) return;
       const targetId = id || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(targetId)}`;
+      const targetUrl = `pages/product.html?id=${encodeURIComponent(targetId)}`;
+      const curtain = document.getElementById('pageTransitionOverlay');
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
     });
   });
 
-  // Add to Bag clicks (Quick Add)
-  document.querySelectorAll('.curated-quick-add-btn, .curated-add-btn').forEach(btn => {
+  // Add to Bag clicks with tactile ripple
+  document.querySelectorAll('.curated-quick-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // Tactile ripple trigger
+      const rippleEl = btn.querySelector('.curated-ripple');
+      if (rippleEl) {
+        rippleEl.classList.remove('animating');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        rippleEl.style.width  = size + 'px';
+        rippleEl.style.height = size + 'px';
+        rippleEl.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+        rippleEl.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+        void rippleEl.offsetWidth;
+        rippleEl.classList.add('animating');
+        rippleEl.addEventListener('animationend', () => {
+          rippleEl.classList.remove('animating');
+        }, { once: true });
+      }
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -771,13 +864,13 @@ function renderFeaturedCollection() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i> <span>Added</span>';
+        btn.innerHTML = '<span class="curated-ripple" aria-hidden="true"></span><i data-lucide="check" style="width: 14px; height: 14px;"></i> <span>Added</span>';
         btn.style.background = '#10B981';
         btn.style.color = '#FFFFFF';
         if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
 
         setTimeout(() => {
-          btn.innerHTML = '<i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i> <span>Quick Add</span>';
+          btn.innerHTML = '<span class="curated-ripple" aria-hidden="true"></span><i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i> <span>Quick Add</span>';
           btn.style.background = '';
           btn.style.color = '';
           if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
@@ -796,28 +889,54 @@ function renderFeaturedCollection() {
  * 4. Micro-Merchandising Interactions & View History
  */
 function initMicroMerchandising() {
-  // Row click & keyboard navigation -> PDP
+  // ── Row click & keyboard navigation -> PDP with GPU Transition ────────
   document.querySelectorAll('.micro-item-row').forEach(row => {
+    function navigateToProduct() {
+      const id = row.getAttribute('data-id') || 'p1';
+      const targetUrl = `pages/product.html?id=${encodeURIComponent(id)}`;
+      const curtain = document.getElementById('pageTransitionOverlay');
+      if (curtain) {
+        curtain.style.transition = 'opacity 200ms cubic-bezier(0.4, 0, 1, 1)';
+        curtain.style.opacity = '1';
+        curtain.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = targetUrl; }, 210);
+      } else {
+        window.location.href = targetUrl;
+      }
+    }
+
     row.addEventListener('click', (e) => {
       if (e.target.closest('.micro-item-add-btn')) return;
-      const id = row.getAttribute('data-id') || 'p1';
-      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+      navigateToProduct();
     });
 
     row.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         if (e.target.closest('.micro-item-add-btn')) return;
         e.preventDefault();
-        const id = row.getAttribute('data-id') || 'p1';
-        window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+        navigateToProduct();
       }
     });
   });
 
-  // Micro Add to Bag clicks
+  // ── Micro Add to Bag with Tactile Ripple & Checkmark Morph ──────────
   document.querySelectorAll('.micro-item-add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      // Ripple physics
+      const circle = document.createElement('span');
+      const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+      const radius = diameter / 2;
+      const rect = btn.getBoundingClientRect();
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${e.clientX - rect.left - radius}px`;
+      circle.style.top = `${e.clientY - rect.top - radius}px`;
+      circle.classList.add('micro-ripple');
+      const existingRipple = btn.querySelector('.micro-ripple');
+      if (existingRipple) existingRipple.remove();
+      btn.appendChild(circle);
+
       const id = btn.getAttribute('data-id');
       const name = btn.getAttribute('data-name');
       const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
@@ -835,15 +954,17 @@ function initMicroMerchandising() {
           category: cat
         });
 
-        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #10B981;"></i>';
+        btn.classList.add('added');
+        btn.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px; color: #FFFFFF;"></i>';
         btn.setAttribute('aria-label', `Added ${name} to Bag`);
         if (window.lucide) window.lucide.createIcons();
 
         setTimeout(() => {
+          btn.classList.remove('added');
           btn.innerHTML = '<i data-lucide="plus" style="width: 14px; height: 14px;"></i>';
           btn.setAttribute('aria-label', `Add ${name} to Bag`);
           if (window.lucide) window.lucide.createIcons();
-        }, 1500);
+        }, 1400);
       }
     });
   });
@@ -884,7 +1005,7 @@ function initEditorialBanner() {
       window.openAiSearch();
     } else {
       const qParam = queryText ? `?q=${encodeURIComponent(queryText)}` : '';
-      window.location.href = `discovery.html${qParam}`;
+      window.location.href = `pages/discovery.html${qParam}`;
     }
   }
 
@@ -915,7 +1036,7 @@ function initCategoryTiles() {
   tiles.forEach(tile => {
     tile.addEventListener('click', () => {
       const cat = tile.getAttribute('data-cat') || 'all';
-      window.location.href = `category.html?cat=${encodeURIComponent(cat)}`;
+      window.location.href = `pages/category.html?cat=${encodeURIComponent(cat)}`;
     });
   });
 }
@@ -930,7 +1051,7 @@ function initFinalCTA() {
       if (window.openAiSearch) {
         window.openAiSearch();
       } else {
-        window.location.href = 'discovery.html';
+        window.location.href = 'pages/discovery.html';
       }
     });
   }
@@ -940,10 +1061,6 @@ function initFinalCTA() {
  * 6. Scroll Reveal Observer (H13)
  */
 function initScrollReveal() {
-  document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-    el.classList.add('is-visible');
-  });
-
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -952,7 +1069,7 @@ function initScrollReveal() {
       }
     });
   }, {
-    rootMargin: '200px 0px',
+    rootMargin: '100px 0px',
     threshold: 0.05
   });
 
@@ -997,12 +1114,23 @@ window._nexNewsletterSubmit = function(form) {
 };
 
 /**
- * 8. Recently Viewed Products Tray
+ * 8. Recently Viewed Products Tray (Luxury Horizontal Glide Rail)
+ */
+/**
+ * 8. Recently Viewed Products Tray (Luxury Horizontal Glide Rail)
+ */
+/**
+ * 8. Recently Viewed Products Tray (Continuous Fluid Carousel)
  */
 function initRecentlyViewed() {
   const section = document.getElementById('homeRecentlyViewedSection');
   const rail = document.getElementById('recentProductsRail');
   const clearBtn = document.getElementById('recentClearBtn');
+  const prevBtn = document.getElementById('recentPrevBtn');
+  const nextBtn = document.getElementById('recentNextBtn');
+  const counterBadge = document.getElementById('recentCounterBadge');
+  const emptyState = document.getElementById('recentEmptyState');
+
   if (!section || !rail) return;
 
   const RECENTS_KEY = 'nex_recent_products';
@@ -1013,46 +1141,257 @@ function initRecentlyViewed() {
     recents = [];
   }
 
-  // If no items in storage yet, seed with 3 high-affinity editorial pieces for immediate showcase
+  // Editorial curated pieces across luxury categories
+  const SEED_PRODUCTS = [
+    { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', house: 'ATELIER NO. 01', price: 185, formattedPrice: '€ 185.00', image: 'assets/images/products/hero_sweater.png' },
+    { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', house: 'STUDIO FOOTWEAR', price: 185, formattedPrice: '€ 185.00', image: 'assets/images/products/prod_runner.png' },
+    { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', house: 'ACOUSTIC LAB', price: 320, formattedPrice: '€ 320.00', image: 'assets/images/products/prod_headphones.png' },
+    { id: 'p2', name: 'Structured Leather Tote', category: 'Objects', house: 'ATELIER ACCENTS', price: 245, formattedPrice: '€ 245.00', image: 'assets/images/products/prod_tote.png' },
+    { id: 'p3', name: 'Fine-Knit Merino Crew', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 160, formattedPrice: '€ 160.00', image: 'assets/images/products/plp_crewneck.png' },
+    { id: 'p5', name: 'Classic Chronograph Watch', category: 'Objects', house: 'TIMEPIECE ATELIER', price: 340, formattedPrice: '€ 340.00', image: 'assets/images/products/search_watch.png' },
+    { id: 'p7', name: 'Tailored Chino Trousers', category: 'Apparel', house: 'ATELIER ESSENTIALS', price: 170, formattedPrice: '€ 170.00', image: 'assets/images/products/plp_trousers.png' }
+  ];
+
   if (!Array.isArray(recents) || recents.length === 0) {
-    recents = [
-      { id: 'p1', name: 'Cashmere Turtleneck Sweater', category: 'Apparel', price: 18500, formattedPrice: 'BDT 18,500', image: 'hero_sweater.png' },
-      { id: 'p6', name: 'Minimalist Leather Runner', category: 'Footwear', price: 11900, formattedPrice: 'BDT 11,900', image: 'prod_runner.png' },
-      { id: 'p4', name: 'Studio Acoustics Headphone GT', category: 'Acoustics', price: 32000, formattedPrice: 'BDT 32,000', image: 'thumb_headphones.jpg' }
-    ];
+    recents = SEED_PRODUCTS;
+  } else if (recents.length < 4) {
+    const existingIds = new Set(recents.map(r => r.id));
+    SEED_PRODUCTS.forEach(seed => {
+      if (!existingIds.has(seed.id)) {
+        recents.push(seed);
+        existingIds.add(seed.id);
+      }
+    });
   }
 
-  rail.innerHTML = recents.map(item => `
-    <a href="product.html?id=${encodeURIComponent(item.id)}" class="recent-card" data-id="${item.id}">
-      <div class="recent-card-thumb">
-        <img src="${item.image || 'hero_sweater.png'}" alt="${item.name}" loading="lazy" />
-      </div>
-      <div class="recent-card-info">
-        <span class="recent-card-cat">${item.category || 'Product'}</span>
-        <h4 class="recent-card-title">${item.name}</h4>
-        <span class="recent-card-price">${item.formattedPrice || ('BDT ' + (item.price || 0).toLocaleString())}</span>
-      </div>
-    </a>
-  `).join('');
+  const PARALLAX_DEPTHS = [1, 1.4, 1.8, 1.2];
 
-  section.style.display = 'block';
+  // Render all cards into the continuous rail
+  rail.innerHTML = recents.map((item, index) => {
+    const depth = PARALLAX_DEPTHS[index % PARALLAX_DEPTHS.length];
+    const category = item.category || 'Product';
+    const house = item.house || (category.toUpperCase() + ' ATELIER');
+    const priceStr = item.formattedPrice || ('€ ' + Number(item.price || 0).toFixed(2));
+    const imageSrc = item.image || 'assets/images/products/hero_sweater.png';
 
+    return `
+      <a href="pages/product.html?id=${encodeURIComponent(item.id)}" 
+         class="recent-glide-card" 
+         data-id="${item.id}" 
+         data-category="${category}" 
+         data-parallax-depth="${depth}"
+         aria-label="${item.name}, ${priceStr}">
+        <div class="recent-card-glare" aria-hidden="true"></div>
+        <div class="recent-card-media">
+          <img src="${imageSrc}" alt="${item.name}" loading="lazy" />
+          <span class="recent-card-tag">${category}</span>
+          <button type="button" class="recent-card-quick-add" data-id="${item.id}" aria-label="Quick add ${item.name} to shopping bag">
+            <i data-lucide="plus" style="width: 15px; height: 15px;"></i>
+          </button>
+        </div>
+        <div class="recent-card-meta">
+          <span class="recent-card-brand">${house}</span>
+          <h4 class="recent-card-title">${item.name}</h4>
+          <span class="recent-card-price">${priceStr}</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+
+  // Real-time counter and nav button updates
+  const cards = Array.from(rail.querySelectorAll('.recent-glide-card'));
+  const totalCount = cards.length;
+
+  function updateRailState() {
+    if (!rail) return;
+    const scrollLeft = rail.scrollLeft;
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+
+    if (prevBtn) prevBtn.disabled = scrollLeft <= 6;
+    if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 6;
+
+    // Calculate current item index in view
+    const cardWidth = cards[0] ? cards[0].offsetWidth + 18 : 288;
+    const currentIndex = Math.min(totalCount, Math.max(1, Math.round(scrollLeft / cardWidth) + 1));
+    const padIndex = String(currentIndex).padStart(2, '0');
+    const padTotal = String(totalCount).padStart(2, '0');
+
+    if (counterBadge) {
+      counterBadge.textContent = `${padIndex} / ${padTotal}`;
+    }
+  }
+
+  // Navigation button controls
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const scrollStep = (cards[0] ? cards[0].offsetWidth + 18 : 288) * 1.5;
+      rail.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const scrollStep = (cards[0] ? cards[0].offsetWidth + 18 : 288) * 1.5;
+      rail.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  rail.addEventListener('scroll', updateRailState, { passive: true });
+
+  // Mouse Drag-to-Scroll Momentum
+  let isDown = false;
+  let startX = 0;
+  let scrollStart = 0;
+  let hasDragged = false;
+
+  rail.addEventListener('mousedown', (e) => {
+    isDown = true;
+    hasDragged = false;
+    startX = e.pageX - rail.offsetLeft;
+    scrollStart = rail.scrollLeft;
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  rail.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - rail.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    if (Math.abs(walk) > 5) hasDragged = true;
+    rail.scrollLeft = scrollStart - walk;
+  });
+
+  // Wheel horizontal scroll support
+  rail.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      rail.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
+  // Quick Add Ripple and Action Handling
+  rail.addEventListener('click', (e) => {
+    if (hasDragged) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    const addBtn = e.target.closest('.recent-card-quick-add');
+    if (!addBtn) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+
+    const productId = addBtn.getAttribute('data-id');
+    const product = recents.find(p => String(p.id) === String(productId));
+
+    // Create tactile ripple
+    const rect = addBtn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'recent-ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    addBtn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    // Morph icon to checkmark
+    addBtn.classList.add('added');
+    addBtn.innerHTML = '<i data-lucide="check" style="width: 15px; height: 15px;"></i>';
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+
+    setTimeout(() => {
+      addBtn.classList.remove('added');
+      addBtn.innerHTML = '<i data-lucide="plus" style="width: 15px; height: 15px;"></i>';
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }, 1400);
+
+    if (window.nexCart && product) {
+      window.nexCart.addItem({
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: product.price || 0,
+        formattedPrice: product.formattedPrice,
+        image: product.image || 'assets/images/products/hero_sweater.png'
+      });
+    }
+  });
+
+  // Clear History Action
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       try {
         localStorage.removeItem(RECENTS_KEY);
       } catch (e) {}
-      section.style.opacity = '0';
-      section.style.transition = 'opacity 300ms ease';
+      
+      rail.style.opacity = '0';
+      rail.style.transition = 'opacity 300ms ease';
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (counterBadge) counterBadge.style.display = 'none';
+      clearBtn.style.display = 'none';
+
       setTimeout(() => {
-        section.style.display = 'none';
-        section.style.opacity = '1';
+        rail.style.display = 'none';
+        if (emptyState) {
+          emptyState.style.display = 'block';
+          emptyState.style.opacity = '0';
+          emptyState.style.transition = 'opacity 300ms ease';
+          requestAnimationFrame(() => { emptyState.style.opacity = '1'; });
+        }
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
       }, 300);
     });
   }
 
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
+  // Initial state setup
+  section.style.display = 'block';
+  updateRailState();
+
+  if (typeof window.initRecentlyViewedMotion === 'function') {
+    window.initRecentlyViewedMotion();
   }
 }
 
+
+/**
+ * initTrustStripInteractions
+ * Handles keyboard accessibility (Enter/Space) for trust cards,
+ * navigating to the trust-link href inside each card.
+ */
+function initTrustStripInteractions() {
+  const section = document.getElementById('trustStripSection');
+  if (!section) return;
+
+  const cards = section.querySelectorAll('.trust-item-card');
+  cards.forEach(function(card) {
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const link = card.querySelector('.trust-link');
+        if (link) link.click();
+      }
+    });
+  });
+
+  // Ensure Lucide icons are rendered inside the trust strip
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons({ context: section });
+  }
+}

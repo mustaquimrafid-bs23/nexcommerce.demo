@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Size &amp; Fit Atelier &mdash; nexCommerce</title>
+  <meta name="description" content="Find your exact atelier size with our interactive 2D silhouette measurement visualizer — no more guessing, just precision.">
+  <meta name="view-transition" content="same-origin" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/design-system.css?v=40">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body.sizeguide-bg {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%);
+    }
+
+    /* ─── Page Wrapper ─────────────────────────────────────────────────── */
+    .sg-wrap {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px clamp(80px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 7vw, 96px);
+    }
+
+    /* ─── Page Hero ────────────────────────────────────────────────────── */
+    .sg-hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sg-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.25);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-hero-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .sg-hero-sub {
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 560px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Section Label ────────────────────────────────────────────────── */
+    .sg-section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .sg-section-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       1. 2D SILHOUETTE MEASUREMENT VISUALIZER
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-visualizer-section {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* Left: SVG Silhouette Stage */
+    .sg-silhouette-stage {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .sg-silhouette-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 32px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: visible;
+    }
+
+    #silhouetteSVG {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+    }
+
+    /* Animated Measurement Tape Lines */
+    .meas-tape-line {
+      stroke-dasharray: 6 4;
+      stroke-dashoffset: 0;
+      animation: tape-march 1.2s linear infinite;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .meas-tape-line.visible {
+      opacity: 1;
+    }
+
+    @keyframes tape-march {
+      to { stroke-dashoffset: -20; }
+    }
+
+    /* Measurement Label Chips on SVG */
+    .meas-chip-group {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .meas-chip-group.visible { opacity: 1; }
+
+    /* Size Result Badge at bottom of silhouette */
+    .sg-size-result-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 28px;
+      background: rgba(61, 224, 255, 0.06);
+      border: 1px solid rgba(61, 224, 255, 0.22);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .sg-size-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-size-number {
+      font-family: 'Manrope', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .sg-size-sub {
+      font-size: 13px;
+      color: #94A3B8;
+    }
+
+    .sg-confidence-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    /* Right: Control Sliders */
+    .sg-controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sg-unit-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 4px;
+      width: fit-content;
+    }
+
+    .sg-unit-btn {
+      padding: 6px 16px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .sg-unit-btn.active {
+      background: #FFFFFF;
+      color: #020B18;
+    }
+
+    /* Slider Groups */
+    .sg-slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .sg-slider-group:hover,
+    .sg-slider-group.active {
+      border-color: rgba(61, 224, 255, 0.35);
+      background: rgba(61, 224, 255, 0.03);
+    }
+
+    .sg-slider-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sg-slider-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sg-slider-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      color: var(--accent-cyan, #3DE0FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sg-slider-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .sg-slider-desc {
+      font-size: 11px;
+      color: #64748B;
+    }
+
+    .sg-slider-val {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-cyan, #3DE0FF);
+      white-space: nowrap;
+    }
+
+    /* Range Slider Styling */
+    input[type="range"].sg-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-track {
+      height: 3px;
+      border-radius: 9999px;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(61, 224, 255, 0.4);
+      cursor: grab;
+      transition: box-shadow 0.2s ease;
+    }
+
+    input[type="range"].sg-range::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      box-shadow: 0 0 0 5px rgba(61, 224, 255, 0.6);
+    }
+
+    /* Drape Preference Chips */
+    .sg-drape-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sg-drape-chip {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .sg-drape-chip.active {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* Shop CTA */
+    .sg-shop-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-sg-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      background: #FFFFFF;
+      color: #020B18;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-sg-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .btn-sg-ghost {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .btn-sg-ghost:hover { border-color: #FFFFFF; }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       2. MEASUREMENT POINT VISUAL CARDS
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-measurement-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .sg-measure-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      transition: transform 0.25s ease, opacity 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+
+    .sg-measure-card:hover {
+      border-color: rgba(61, 224, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .sg-measure-icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: rgba(61, 224, 255, 0.08);
+      border: 1px solid rgba(61, 224, 255, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-measure-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-cyan, #3DE0FF);
+      letter-spacing: 0.14em;
+    }
+
+    .sg-measure-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    .sg-measure-card-desc {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       3. SIZE CONVERSION MATRIX (Compact Visual Cards, not raw tables)
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-matrix-section {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .sg-matrix-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .sg-matrix-tabs::-webkit-scrollbar { display: none; }
+
+    .sg-matrix-tab {
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .sg-matrix-tab.active {
+      background: #FFFFFF;
+      color: #020B18;
+      border-color: #FFFFFF;
+    }
+
+    .sg-matrix-panel {
+      display: none;
+    }
+
+    .sg-matrix-panel.active {
+      display: block;
+    }
+
+    /* Visual Size Cards Grid */
+    .sg-size-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .sg-size-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .sg-size-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .sg-size-card.recommended {
+      background: rgba(61, 224, 255, 0.06);
+      border-color: rgba(61, 224, 255, 0.35);
+    }
+
+    .sg-size-card.selected,
+    .sg-shoe-card.selected {
+      border-color: #3DE0FF;
+      background: rgba(61, 224, 255, 0.1);
+      box-shadow: 0 0 16px rgba(61, 224, 255, 0.2);
+    }
+
+    .sg-size-card-num {
+      font-family: 'Manrope', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+
+    .sg-size-card.recommended .sg-size-card-num {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-size-card-intl {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    .sg-size-card-chest {
+      font-size: 10px;
+      color: #64748B;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .sg-rec-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-cyan, #3DE0FF);
+      padding: 2px 6px;
+      background: rgba(61, 224, 255, 0.12);
+      border-radius: 2px;
+    }
+
+    /* Footwear Visual Grid */
+    .sg-shoe-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .sg-shoe-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .sg-shoe-card:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .sg-shoe-card.recommended {
+      background: rgba(61, 224, 255, 0.06);
+      border-color: rgba(61, 224, 255, 0.3);
+    }
+
+    .sg-shoe-eu {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .sg-shoe-card.recommended .sg-shoe-eu {
+      color: var(--accent-cyan, #3DE0FF);
+    }
+
+    .sg-shoe-uk-us {
+      font-size: 11px;
+      color: #94A3B8;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .sg-shoe-cm {
+      font-size: 10px;
+      color: #64748B;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       4. CONCIERGE INVITATION BRIDGE
+    ═══════════════════════════════════════════════════════════════════════ */
+    .sg-concierge-bridge {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: clamp(48px, 5vw, 72px) 24px;
+      background: radial-gradient(circle at 50% 0%, rgba(61, 224, 255, 0.08) 0%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+    }
+
+    .sg-concierge-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .sg-concierge-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 480px;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .sg-visualizer-section {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .sg-silhouette-stage {
+        position: static;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .sg-silhouette-wrap {
+        flex: 0 0 200px;
+        max-width: 200px;
+      }
+      .sg-size-result-badge {
+        flex: 1;
+        min-width: 200px;
+      }
+      .sg-measurement-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sg-size-cards-grid,
+      .sg-shoe-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sg-measurement-cards {
+        grid-template-columns: 1fr;
+      }
+      .sg-size-cards-grid,
+      .sg-shoe-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sg-silhouette-stage {
+        flex-direction: column;
+        align-items: center;
+      }
+      .sg-size-result-badge {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="sizeguide-bg">
+
+  <!-- PRELOADER -->
+  <div class="page-preloader" id="pagePreloader" aria-label="Loading nexCommerce" role="status">
+    <div class="preloader-inner">
+      <div class="preloader-logo-wrap">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" class="preloader-logo-img" />
+      </div>
+      <div class="preloader-status-whisper">
+        <span class="preloader-status-dot"></span>
+        <span id="preloaderStatusText">Loading size guide...</span>
+      </div>
+      <div class="preloader-progress-track" aria-hidden="true">
+        <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- TOP ANNOUNCEMENT BAR (CLEAN EDITORIAL STRIP) -->
+  <div class="top-announcement-bar" id="topAnnouncementBar">
+    <div class="container announcement-inner">
+      <span class="announcement-item"><i data-lucide="rotate-ccw"></i> 14-day free returns</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="shield-check"></i> 100% verified authentic</span>
+      <span class="announcement-dot"></span>
+      <span class="announcement-item"><i data-lucide="truck"></i> Complimentary express delivery over € 150.00</span>
+    </div>
+  </div>
+
+  <!-- GLOBAL HEADER (ULTRA-CLEAN LUXURY NAVIGATION) -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-inner container">
+      <!-- Left: Brand Logo & Core Nav -->
+      <div class="nav-brand-group">
+        <button class="mobile-menu-trigger" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+          <i data-lucide="menu" class="menu-icon-bars"></i>
+        </button>
+        <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+          <img src="../assets/images/brand/logo_light.png" alt="nexCommerce — next generation e-commerce" class="site-logo-img" />
+        </a>
+      </div>
+
+      <nav class="nav-menu-links desktop-only" id="navMenuLinks" aria-label="Primary Navigation">
+        <span class="nav-glider-pill" id="navGliderPill" aria-hidden="true"></span>
+        <a href="category.html?cat=all" class="nav-item-link" data-nav="categories">Categories</a>
+        <a href="smart-list.html" class="nav-item-link" data-nav="smart-list">Smart List <span class="nav-badge-pink">NEW</span></a>
+      </nav>
+
+      <!-- Center: Smart Search Pill -->
+      <div class="nav-search-pill-wrap desktop-only">
+        <button class="nav-search-pill search-trigger" id="searchTriggerBtn" aria-label="Search Catalog (Ctrl + K)">
+          <span class="search-pill-icon"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+          <span class="search-pill-placeholder">Search, or describe what you need...</span>
+          <span class="search-kbd"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+        </button>
+      </div>
+
+      <!-- Right: Priority Actions & 3-Dot Overflow Menu -->
+      <div class="nav-right-actions">
+        <button class="nav-icon-btn search-trigger mobile-only-flex" id="mobileSearchTriggerBtn" aria-label="Search Catalog (Ctrl + K)" title="Search">
+          <i data-lucide="search"></i>
+        </button>
+
+        <a href="wishlist.html" class="nav-icon-btn desktop-only" id="headerWishlistLink" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <i data-lucide="heart"></i>
+          <span class="wishlist-count-badge" id="headerWishlistCount" style="display: none;">0</span>
+        </a>
+
+        <a data-auth-account href="account.html" class="nav-icon-btn desktop-only" aria-label="My Account" title="My Account">
+          <i data-lucide="user"></i>
+          <span data-auth-name style="display: none;">Tanvir</span>
+        </a>
+
+        <a href="cart.html" class="cart-trigger nav-icon-btn" id="headerCartLink" aria-label="Shopping Bag" title="Shopping Bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="bag-count-badge" id="headerCartCount">0</span>
+        </a>
+
+        <!-- 3-Dot Overflow Menu for Secondary Utilities -->
+        <div class="nav-more-menu desktop-only" id="headerMoreMenu">
+          <button class="nav-more-trigger" data-dropdown-trigger aria-label="More options" aria-haspopup="true" aria-expanded="false">
+            <i data-lucide="more-horizontal"></i>
+          </button>
+          <div class="nav-more-dropdown" data-state="closed" role="menu">
+            <a href="tracking.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="truck"></i>
+              <span>Track Order</span>
+            </a>
+            <a href="profile.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="sparkles"></i>
+              <span>Smart Style Profile</span>
+            </a>
+            <a href="orders.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="receipt"></i>
+              <span>Order History</span>
+            </a>
+            <div class="nav-more-divider"></div>
+            <a href="contact.html" class="nav-more-item" role="menuitem">
+              <i data-lucide="headphones"></i>
+              <span>Client Services</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+    <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true" role="dialog" aria-label="Navigation Menu">
+    <div class="mobile-drawer-header">
+      <a href="../index.html" class="nav-logo" aria-label="nexCommerce Home">
+        <img src="../assets/images/brand/logo_light.png" alt="nexCommerce" style="height: 24px; width: auto;" />
+      </a>
+      <button id="closeMobileDrawerBtn" class="mobile-drawer-close" aria-label="Close mobile menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="mobile-drawer-nav">
+      <a href="category.html?cat=all" class="mobile-drawer-link" data-stagger="1">
+        <span>Categories</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="smart-list.html" class="mobile-drawer-link" data-stagger="2">
+        <span>Smart List <span class="nav-badge-pink" style="margin-left: 6px;">NEW</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="wishlist.html" class="mobile-drawer-link" data-stagger="3">
+        <span>Saved Pieces <span class="mobile-drawer-badge" id="mobileWishlistCount" style="display: none;">0</span></span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <div class="mobile-drawer-divider" style="margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.08);"></div>
+      <a data-auth-account href="account.html" class="mobile-drawer-link" data-stagger="4">
+        <span>Account &amp; Smart Profile</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="orders.html" class="mobile-drawer-link" data-stagger="5">
+        <span>Orders &amp; Tracking</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+      <a href="contact.html" class="mobile-drawer-link" data-stagger="6">
+        <span>Client Services</span>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; opacity: 0.5;"></i>
+      </a>
+    </div>
+  </div>
+
+  <main class="sg-wrap" id="mainContent">
+
+    <!-- ─── PAGE HERO ─────────────────────────────────────────────────── -->
+    <section class="sg-hero">
+      <div class="sg-hero-tag">
+        <span>✦ Sartorial Precision</span>
+        <span>Atelier Fit Engine</span>
+      </div>
+      <h1 class="sg-hero-title">Your Anatomical Size, Perfected</h1>
+      <p class="sg-hero-sub">
+        Calibrate your measurements with our interactive 2D silhouette visualizer to discover your precise European atelier sizing.
+      </p>
+    </section>
+
+    <!-- ─── SECTION 1: 2D SILHOUETTE VISUALIZER & CONTROLS ─────────────── -->
+    <section class="sg-visualizer-section" aria-labelledby="vizSectionTitle">
+
+      <!-- Left: 2D Silhouette Canvas -->
+      <div class="sg-silhouette-stage">
+        <div class="sg-silhouette-wrap">
+          <svg id="silhouetteSVG" viewBox="0 0 240 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="sgGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5" />
+              </pattern>
+            </defs>
+            <rect width="240" height="380" fill="url(#sgGrid)" />
+
+            <!-- Stylized Human Tailoring Silhouette -->
+            <path d="M120 42 C128 42 134 48 134 56 C134 64 128 70 120 70 C112 70 106 64 106 56 C106 48 112 42 120 42 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" />
+            <path d="M114 70 L114 82 L126 82 L126 70 Z" fill="rgba(255,255,255,0.12)" />
+            <path d="M114 82 C100 86 66 94 62 108 C58 122 56 160 52 196 C50 210 56 216 64 214 C70 212 74 186 78 160 L84 210 L82 330 C82 340 88 344 94 344 C100 344 104 338 106 320 L116 230 L124 230 L134 320 C136 338 140 344 146 344 C152 344 158 340 158 330 L156 210 L162 160 C166 186 170 212 176 214 C184 216 190 210 188 196 C184 160 182 122 178 108 C174 94 140 86 126 82 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" />
+
+            <!-- Height Ruler Guide -->
+            <g id="heightRulerGuide" stroke="rgba(255,255,255,0.15)" stroke-width="1">
+              <line x1="28" y1="40" x2="28" y2="344" stroke-dasharray="2 2" />
+              <line x1="22" y1="40" x2="34" y2="40" />
+              <line x1="22" y1="344" x2="34" y2="344" />
+              <text id="heightLabelText" x="18" y="195" fill="#94A3B8" font-size="9" font-family="'Inter',sans-serif" text-anchor="middle" transform="rotate(-90 18 195)">180 cm</text>
+            </g>
+
+            <!-- Shoulder Measurement Tape -->
+            <g id="shoulderTapeGroup" class="meas-tape-line visible">
+              <line x1="58" y1="98" x2="182" y2="98" stroke="#A78BFA" stroke-width="1.5" />
+              <circle cx="58" cy="98" r="2.5" fill="#A78BFA" />
+              <circle cx="182" cy="98" r="2.5" fill="#A78BFA" />
+            </g>
+            <g id="shoulderChipGroup" class="meas-chip-group visible">
+              <rect x="74" y="86" width="92" height="18" rx="4" fill="#0B1528" stroke="#A78BFA" stroke-width="1" />
+              <text id="shoulderChipText" x="120" y="99" fill="#A78BFA" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">SHOULDER 46.0 cm</text>
+            </g>
+
+            <!-- Chest Measurement Tape -->
+            <g id="chestTapeGroup" class="meas-tape-line visible">
+              <line x1="68" y1="136" x2="172" y2="136" stroke="#3DE0FF" stroke-width="1.5" />
+              <circle cx="68" cy="136" r="2.5" fill="#3DE0FF" />
+              <circle cx="172" cy="136" r="2.5" fill="#3DE0FF" />
+            </g>
+            <g id="chestChipGroup" class="meas-chip-group visible">
+              <rect x="78" y="124" width="84" height="18" rx="4" fill="#0B1528" stroke="#3DE0FF" stroke-width="1" />
+              <text id="chestChipText" x="120" y="137" fill="#3DE0FF" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">CHEST 102 cm</text>
+            </g>
+
+            <!-- Waist Measurement Tape -->
+            <g id="waistTapeGroup" class="meas-tape-line visible">
+              <line x1="76" y1="172" x2="164" y2="172" stroke="#34D399" stroke-width="1.5" />
+              <circle cx="76" cy="172" r="2.5" fill="#34D399" />
+              <circle cx="164" cy="172" r="2.5" fill="#34D399" />
+            </g>
+            <g id="waistChipGroup" class="meas-chip-group visible">
+              <rect x="80" y="160" width="80" height="18" rx="4" fill="#0B1528" stroke="#34D399" stroke-width="1" />
+              <text id="waistChipText" x="120" y="173" fill="#34D399" font-size="8.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">WAIST 84 cm</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Result Card -->
+        <div class="sg-size-result-badge">
+          <span class="sg-size-label">Recommended Atelier Size</span>
+          <span class="sg-size-number" id="recSizeMain">48 · M</span>
+          <span class="sg-size-sub" id="recDrapeLabel">Regular Tailored · Balanced Drape</span>
+          <span class="sg-confidence-pill" id="recConfidencePill">98% Anatomical Match</span>
+        </div>
+      </div>
+
+      <!-- Right: Control Sliders Panel -->
+      <div class="sg-controls-panel">
+        <div>
+          <span id="vizSectionTitle" class="sg-section-eyebrow">Interactive Calibrator</span>
+          <h2 class="sg-section-title">Adjust Your Measurements</h2>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div class="sg-unit-toggle">
+          <button type="button" class="sg-unit-btn active" id="btnUnitCm" data-unit="cm" aria-pressed="true">CM</button>
+          <button type="button" class="sg-unit-btn" id="btnUnitIn" data-unit="in" aria-pressed="false">IN</button>
+        </div>
+
+        <!-- HEIGHT Slider -->
+        <div class="sg-slider-group" id="sgHeightGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon"><i data-lucide="ruler" style="width:14px;height:14px;"></i></div>
+              <div>
+                <div class="sg-slider-name">Height</div>
+                <div class="sg-slider-desc">Standing barefoot, vertical</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" id="valHeightDisplay">180 cm</span>
+          </div>
+          <input type="range" id="sliderHeight" class="sg-range" min="150" max="205" value="180" step="1" aria-label="Height slider">
+        </div>
+
+        <!-- CHEST Slider -->
+        <div class="sg-slider-group" id="sgChestGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="--icon-color:#3DE0FF;background:rgba(61,224,255,0.08);border-color:rgba(61,224,255,0.2);"><i data-lucide="move-horizontal" style="width:14px;height:14px;color:#3DE0FF;"></i></div>
+              <div>
+                <div class="sg-slider-name">Chest Circumference</div>
+                <div class="sg-slider-desc">Around fullest chest point</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#3DE0FF;" id="valChestDisplay">102 cm</span>
+          </div>
+          <input type="range" id="sliderChest" class="sg-range" min="80" max="130" value="102" step="1" aria-label="Chest circumference slider">
+        </div>
+
+        <!-- WAIST Slider -->
+        <div class="sg-slider-group" id="sgWaistGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.2);"><i data-lucide="circle" style="width:14px;height:14px;color:#34D399;"></i></div>
+              <div>
+                <div class="sg-slider-name">Natural Waist</div>
+                <div class="sg-slider-desc">Narrowest point at natural waistline</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#34D399;" id="valWaistDisplay">84 cm</span>
+          </div>
+          <input type="range" id="sliderWaist" class="sg-range" min="65" max="120" value="84" step="1" aria-label="Waist circumference slider">
+        </div>
+
+        <!-- SHOULDER Slider -->
+        <div class="sg-slider-group" id="sgShoulderGroup">
+          <div class="sg-slider-header">
+            <div class="sg-slider-meta">
+              <div class="sg-slider-icon" style="background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.2);"><i data-lucide="arrow-left-right" style="width:14px;height:14px;color:#A78BFA;"></i></div>
+              <div>
+                <div class="sg-slider-name">Shoulder Breadth</div>
+                <div class="sg-slider-desc">Acromion to acromion, upper back</div>
+              </div>
+            </div>
+            <span class="sg-slider-val" style="color:#A78BFA;" id="valShoulderDisplay">46 cm</span>
+          </div>
+          <input type="range" id="sliderShoulder" class="sg-range" min="36" max="58" value="46" step="0.5" aria-label="Shoulder breadth slider">
+        </div>
+
+        <!-- DRAPE PREFERENCE -->
+        <div>
+          <div class="sg-slider-name" style="margin-bottom:12px;">Drape Silhouette</div>
+          <div class="sg-drape-chips">
+            <button type="button" class="sg-drape-chip" data-drape="fitted">Fitted Structure</button>
+            <button type="button" class="sg-drape-chip active" data-drape="regular">Regular Tailored</button>
+            <button type="button" class="sg-drape-chip" data-drape="relaxed">Relaxed Architecture</button>
+          </div>
+        </div>
+
+        <!-- Shop & Save CTAs -->
+        <div class="sg-shop-row">
+          <a href="category.html?cat=apparel" class="btn-sg-primary">
+            <i data-lucide="grid" style="width:13px;height:13px;"></i>
+            <span>Shop Apparel</span>
+          </a>
+          <button type="button" class="btn-sg-ghost" id="btnSaveToProfile">
+            <i data-lucide="bookmark" style="width:13px;height:13px;"></i>
+            <span>Save to Profile</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2: HOW TO MEASURE VISUAL CARDS ───────────────────── -->
+    <section aria-labelledby="measureSectionTitle">
+      <div style="margin-bottom:32px;">
+        <span class="sg-section-eyebrow">Precision Anatomical Metrics</span>
+        <h2 class="sg-section-title" id="measureSectionTitle">How to Measure</h2>
+      </div>
+      <div class="sg-measurement-cards">
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="move-horizontal" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">01</div>
+            <h3 class="sg-measure-card-title">Chest Circumference</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure horizontally around the fullest part of your chest, keeping the tape comfortable under the arms.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="arrow-left-right" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">02</div>
+            <h3 class="sg-measure-card-title">Shoulder Breadth</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure across the upper back from the tip of one acromion bone to the tip of the other.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="circle" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">03</div>
+            <h3 class="sg-measure-card-title">Natural Waistline</h3>
+          </div>
+          <p class="sg-measure-card-desc">Measure around the narrowest section of your natural waist, roughly 2 inches above the navel.</p>
+        </div>
+        <div class="sg-measure-card">
+          <div class="sg-measure-icon-wrap"><i data-lucide="footprints" style="width:18px;height:18px;"></i></div>
+          <div>
+            <div class="sg-measure-num">04</div>
+            <h3 class="sg-measure-card-title">Foot Length</h3>
+          </div>
+          <p class="sg-measure-card-desc">Place your heel against a flat wall on paper, mark your longest toe, and measure straight along the axis.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 3: SIZE CONVERSION VISUAL CARDS MATRIX ───────────── -->
+    <section class="sg-matrix-section" aria-labelledby="matrixSectionTitle">
+      <div>
+        <span class="sg-section-eyebrow">Global Equivalency</span>
+        <h2 class="sg-section-title" id="matrixSectionTitle">Size Conversion Chart</h2>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="sg-matrix-tabs" role="tablist">
+        <button type="button" class="sg-matrix-tab active" data-tab="apparel" role="tab" aria-selected="true">Coats &amp; Ready-to-Wear</button>
+        <button type="button" class="sg-matrix-tab" data-tab="trousers" role="tab" aria-selected="false">Tailored Trousers</button>
+        <button type="button" class="sg-matrix-tab" data-tab="footwear" role="tab" aria-selected="false">Artisanal Footwear</button>
+      </div>
+
+      <!-- Apparel Panel -->
+      <div class="sg-matrix-panel active" id="panelApparel">
+        <div class="sg-size-cards-grid" id="apparelSizeGrid">
+          <!-- Dynamically built by JS below -->
+        </div>
+      </div>
+
+      <!-- Trousers Panel -->
+      <div class="sg-matrix-panel" id="panelTrousers">
+        <div class="sg-size-cards-grid" id="trousersSizeGrid"></div>
+      </div>
+
+      <!-- Footwear Panel -->
+      <div class="sg-matrix-panel" id="panelFootwear">
+        <div class="sg-shoe-cards-grid" id="footwearSizeGrid"></div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 4: CONCIERGE BRIDGE ──────────────────────────────── -->
+    <section class="sg-concierge-bridge">
+      <span class="sg-section-eyebrow">Bespoke Advisor</span>
+      <h2 class="sg-concierge-title">Not sure about your size?</h2>
+      <p class="sg-concierge-desc">
+        Our digital style concierge provides real-time sizing guidance for specific pieces in the collection.
+      </p>
+      <a href="concierge.html" class="btn-sg-primary" style="width:auto;padding:0 32px;">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>Consult Private Concierge</span>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo" data-footer-mount></footer>
+
+  <!-- SEARCH OVERLAY -->
+  <div id="aiSearchModal" class="search-overlay-container">
+    <div class="search-backdrop"></div>
+    <div class="search-panel">
+      <div class="search-header-bar">
+        <div class="search-input-wrapper">
+          <div class="search-ai-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <input type="text" id="aiSearchModalInput" name="q" class="search-ai-input" placeholder="Something for a winter evening in Berlin..." autocomplete="off" spellcheck="false" aria-label="Search query" />
+        </div>
+        <button class="search-close-btn" aria-label="Close search"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      </div>
+      <div id="aiSearchResultsModal" class="search-body"></div>
+    </div>
+  </div>
+
+  <!-- MINI CART -->
+  <div id="nexMiniCartOverlay" class="minicart-overlay" aria-hidden="true"></div>
+  <aside id="nexMiniCartDrawer" class="minicart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping Bag">
+    <div class="minicart-header">
+      <div class="minicart-title">Shopping Bag</div>
+      <button id="minicartCloseBtn" class="minicart-close" aria-label="Close Bag"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
+    </div>
+    <div id="minicartBody" class="minicart-body" data-lenis-prevent></div>
+    <div id="minicartFooter" class="minicart-footer" style="display:none;">
+      <div class="minicart-subtotal"><span>Subtotal</span><span id="minicartSubtotalValue">€ 0.00</span></div>
+      <a href="cart.html" class="btn-primary-commerce minicart-checkout-btn">VIEW BAG &amp; CHECKOUT</a>
+    </div>
+  </aside>
+
+  <!-- CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="../js/size-advisor.js"></script>
+  <script src="../js/cart.js?v=5"></script>
+  <script src="../js/ai-engine.js?v=3"></script>
+  <script src="../js/intent-parser.js"></script>
+  <script src="../js/catalog-engine.js"></script>
+  <script src="../js/session-context.js"></script>
+  <script src="../js/search-overlay.js?v=4"></script>
+  <script src="../js/footer.js"></script>
+  <script src="../js/visual-search-ui.js"></script>
+  <script src="../js/theme-switcher.js?v=3"></script>
+  <script src="../js/animations.js?v=12"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/cookie-consent.js"></script>
+
+  <script>
+  (function () {
+    // ── Preloader ──────────────────────────────────────────────────────────
+    const preloader = document.getElementById('pagePreloader');
+    const bar = document.getElementById('preloaderProgressBar');
+    const pct = document.getElementById('preloaderPercent');
+    if (preloader) {
+      let p = 0;
+      const iv = setInterval(() => {
+        p += 20; if (p > 100) p = 100;
+        if (bar) bar.style.width = p + '%';
+        if (pct) pct.textContent = p + '%';
+        if (p >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => preloader.remove(), 300);
+          }, 160);
+        }
+      }, 25);
+    }
+
+    // ── State ──────────────────────────────────────────────────────────────
+    let unit = 'cm';
+    let drape = 'regular';
+    let recSize = 48;
+    let recShoeEU = 42;
+
+    // ── Apparel Size Data ──────────────────────────────────────────────────
+    const APPAREL_SIZES = [
+      { mai: 44, intl: 'XS', uk: 34, chest_cm: '88–92', chest_in: '34.6–36.2', shoulder: 43, sleeve: 63 },
+      { mai: 46, intl: 'S',  uk: 36, chest_cm: '92–96', chest_in: '36.2–37.8', shoulder: 44.5, sleeve: 64 },
+      { mai: 48, intl: 'M',  uk: 38, chest_cm: '98–102', chest_in: '38.6–40.2', shoulder: 46, sleeve: 65 },
+      { mai: 50, intl: 'L',  uk: 40, chest_cm: '104–108', chest_in: '40.9–42.5', shoulder: 47.5, sleeve: 66 },
+      { mai: 52, intl: 'XL', uk: 42, chest_cm: '110–114', chest_in: '43.3–44.9', shoulder: 49, sleeve: 67 },
+      { mai: 54, intl: 'XXL',uk: 44, chest_cm: '116–120', chest_in: '45.7–47.2', shoulder: 50.5, sleeve: 68 }
+    ];
+
+    const TROUSERS_SIZES = [
+      { mai: 44, waist_cm: '74–77', waist_in: '29.1–30.3', hip_cm: '92–95', inseam: 82 },
+      { mai: 46, waist_cm: '78–81', waist_in: '30.7–31.9', hip_cm: '96–99', inseam: 83 },
+      { mai: 48, waist_cm: '82–85', waist_in: '32.3–33.5', hip_cm: '100–103', inseam: 84 },
+      { mai: 50, waist_cm: '86–89', waist_in: '33.9–35.0', hip_cm: '104–107', inseam: 85 },
+      { mai: 52, waist_cm: '90–93', waist_in: '35.4–36.6', hip_cm: '108–111', inseam: 86 }
+    ];
+
+    const FOOTWEAR_SIZES = [
+      { eu: 40, uk: '6.5', us: '7.5', cm: '25.5', inches: '10.0' },
+      { eu: 41, uk: '7.5', us: '8.5', cm: '26.2', inches: '10.3' },
+      { eu: 42, uk: '8.5', us: '9.5', cm: '27.0', inches: '10.6' },
+      { eu: 43, uk: '9.5', us: '10.5', cm: '27.8', inches: '10.9' },
+      { eu: 44, uk: '10.5', us: '11.5', cm: '28.5', inches: '11.2' },
+      { eu: 45, uk: '11.5', us: '12.5', cm: '29.2', inches: '11.5' }
+    ];
+
+    // ── Render Size Matrix Cards ───────────────────────────────────────────
+    function renderSizeCards() {
+      const apparelGrid = document.getElementById('apparelSizeGrid');
+      if (apparelGrid) {
+        apparelGrid.innerHTML = APPAREL_SIZES.map(s => {
+          const isRec = s.mai === recSize;
+          const chestLabel = unit === 'cm' ? s.chest_cm + ' cm' : s.chest_in + ' in';
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Size ${s.mai} ${s.intl}" title="${s.mai} – ${s.intl}">
+            <span class="sg-size-card-num">${s.mai}</span>
+            <span class="sg-size-card-intl">${s.intl} · UK${s.uk}</span>
+            <span class="sg-size-card-chest">Chest<br>${chestLabel}</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
+      }
+
+      const trousersGrid = document.getElementById('trousersSizeGrid');
+      if (trousersGrid) {
+        trousersGrid.innerHTML = TROUSERS_SIZES.map(s => {
+          const isRec = s.mai === recSize;
+          const waistLabel = unit === 'cm' ? s.waist_cm + ' cm' : s.waist_in + ' in';
+          return `<div class="sg-size-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Waist size ${s.mai}">
+            <span class="sg-size-card-num">${s.mai}</span>
+            <span class="sg-size-card-intl">Waist ${waistLabel}</span>
+            <span class="sg-size-card-chest">Inseam ${s.inseam} cm</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
+      }
+
+      const shoeGrid = document.getElementById('footwearSizeGrid');
+      if (shoeGrid) {
+        shoeGrid.innerHTML = FOOTWEAR_SIZES.map(s => {
+          const isRec = s.eu === recShoeEU;
+          const footLabel = unit === 'cm' ? s.cm + ' cm' : s.inches + ' in';
+          return `<div class="sg-shoe-card ${isRec ? 'recommended' : ''}" role="button" tabindex="0" aria-label="Shoe size EU ${s.eu}">
+            <span class="sg-shoe-eu">EU ${s.eu}</span>
+            <span class="sg-shoe-uk-us">UK ${s.uk}<br>US ${s.us}</span>
+            <span class="sg-shoe-cm">${footLabel}</span>
+            ${isRec ? '<span class="sg-rec-badge">✦ Your Size</span>' : ''}
+          </div>`;
+        }).join('');
+      }
+
+      // Add click selection listener to size cards
+      document.querySelectorAll('.sg-size-card, .sg-shoe-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const parentGrid = card.parentElement;
+          if (parentGrid) {
+            parentGrid.querySelectorAll('.sg-size-card, .sg-shoe-card').forEach(c => {
+              c.classList.remove('selected');
+              c.setAttribute('aria-selected', 'false');
+            });
+          }
+          card.classList.add('selected');
+          card.setAttribute('aria-selected', 'true');
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+    }
+
+    // ── Calculate Size from Measurements ──────────────────────────────────
+    function calcSize(chest) {
+      const offset = drape === 'fitted' ? -1 : drape === 'relaxed' ? 1 : 0;
+      if (chest <= 92) return 44 + offset * 2;
+      if (chest <= 96) return 46 + offset * 2;
+      if (chest <= 102) return 48 + offset * 2;
+      if (chest <= 108) return 50 + offset * 2;
+      if (chest <= 114) return 52 + offset * 2;
+      return 54 + offset * 2;
+    }
+
+    function calcShoeSize(height) {
+      if (height <= 164) return 41;
+      if (height <= 170) return 41;
+      if (height <= 176) return 42;
+      if (height <= 182) return 43;
+      if (height <= 188) return 44;
+      return 45;
+    }
+
+    // ── Update SVG Silhouette Annotations ─────────────────────────────────
+    function updateSVG(chest, waist, shoulder, height) {
+      // Show animated measurement lines
+      document.getElementById('chestTapeGroup').classList.add('visible');
+      document.getElementById('shoulderTapeGroup').classList.add('visible');
+      document.getElementById('waistTapeGroup').classList.add('visible');
+      document.getElementById('chestChipGroup').classList.add('visible');
+      document.getElementById('shoulderChipGroup').classList.add('visible');
+      document.getElementById('waistChipGroup').classList.add('visible');
+
+      // Update chip labels
+      const chestLabel = unit === 'cm' ? `CHEST ${chest} cm` : `CHEST ${(chest / 2.54).toFixed(1)} in`;
+      const shoulderLabel = unit === 'cm' ? `SHOULDER ${shoulder} cm` : `SHOULDER ${(shoulder / 2.54).toFixed(1)} in`;
+      const waistLabel = unit === 'cm' ? `WAIST ${waist} cm` : `WAIST ${(waist / 2.54).toFixed(1)} in`;
+      const heightLabel = unit === 'cm' ? `${height} cm` : `${(height / 2.54).toFixed(1)} in`;
+
+      const ct = document.getElementById('chestChipText');
+      if (ct) ct.textContent = chestLabel;
+      const st = document.getElementById('shoulderChipText');
+      if (st) st.textContent = shoulderLabel;
+      const wt = document.getElementById('waistChipText');
+      if (wt) wt.textContent = waistLabel;
+      const ht = document.getElementById('heightLabelText');
+      if (ht) ht.textContent = heightLabel;
+    }
+
+    // ── Main Update ────────────────────────────────────────────────────────
+    function updateAll() {
+      const h = parseInt(document.getElementById('sliderHeight').value, 10);
+      const c = parseInt(document.getElementById('sliderChest').value, 10);
+      const w = parseInt(document.getElementById('sliderWaist').value, 10);
+      const s = parseFloat(document.getElementById('sliderShoulder').value);
+
+      // Display values
+      const fmt = (v, d) => unit === 'cm' ? `${v} cm` : `${(v / 2.54).toFixed(d || 1)} in`;
+      document.getElementById('valHeightDisplay').textContent = fmt(h, 0);
+      document.getElementById('valChestDisplay').textContent = fmt(c, 0);
+      document.getElementById('valWaistDisplay').textContent = fmt(w, 0);
+      document.getElementById('valShoulderDisplay').textContent = fmt(s, 1);
+
+      // Calculate sizes
+      recSize = Math.min(54, Math.max(44, calcSize(c)));
+      recShoeEU = calcShoeSize(h);
+
+      // Update result badge
+      const sizeObj = APPAREL_SIZES.find(x => x.mai === recSize) || APPAREL_SIZES[2];
+      document.getElementById('recSizeMain').textContent = `${recSize} · ${sizeObj.intl}`;
+      document.getElementById('recDrapeLabel').textContent =
+        drape === 'fitted' ? 'Fitted Structure · Close-to-Body' :
+        drape === 'relaxed' ? 'Relaxed Architecture · Generous Ease' :
+        'Regular Tailored · Balanced Drape';
+
+      const confidence = c >= 88 && c <= 120 ? '98%' : '91%';
+      document.getElementById('recConfidencePill').textContent = `${confidence} Anatomical Match`;
+
+      // Update SVG
+      updateSVG(c, w, s, h);
+
+      // Re-render size cards
+      renderSizeCards();
+    }
+
+    // ── Slider Event Binding ───────────────────────────────────────────────
+    ['sliderHeight', 'sliderChest', 'sliderWaist', 'sliderShoulder'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateAll);
+        // Highlight the active slider group
+        const groupMap = {
+          sliderHeight: 'sgHeightGroup',
+          sliderChest: 'sgChestGroup',
+          sliderWaist: 'sgWaistGroup',
+          sliderShoulder: 'sgShoulderGroup'
+        };
+        el.addEventListener('focus', () => {
+          document.querySelectorAll('.sg-slider-group').forEach(g => g.classList.remove('active'));
+          const grp = document.getElementById(groupMap[id]);
+          if (grp) grp.classList.add('active');
+        });
+      }
+    });
+
+    // ── Unit Toggle ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-unit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        unit = btn.dataset.unit;
+        document.querySelectorAll('.sg-unit-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        updateAll();
+      });
+    });
+
+    // ── Drape Chips ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-drape-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        drape = chip.dataset.drape;
+        document.querySelectorAll('.sg-drape-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        updateAll();
+      });
+    });
+
+    // ── Matrix Tabs ────────────────────────────────────────────────────────
+    document.querySelectorAll('.sg-matrix-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.sg-matrix-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.sg-matrix-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById(`panel${target.charAt(0).toUpperCase() + target.slice(1)}`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // ── Save to Profile ────────────────────────────────────────────────────
+    const saveBtn = document.getElementById('btnSaveToProfile');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const heightEl   = document.getElementById('sliderHeight');
+        const chestEl    = document.getElementById('sliderChest');
+        const waistEl    = document.getElementById('sliderWaist');
+        const shoulderEl = document.getElementById('sliderShoulder');
+        const activeUnit  = document.querySelector('.sg-unit-btn.active')?.dataset.unit || 'cm';
+        const activeDrape = document.querySelector('.sg-drape-chip.active')?.dataset.drape || 'regular';
+
+        const measurements = {
+          height:   heightEl   ? parseInt(heightEl.value)   : null,
+          chest:    chestEl    ? parseInt(chestEl.value)    : null,
+          waist:    waistEl    ? parseInt(waistEl.value)    : null,
+          shoulder: shoulderEl ? parseInt(shoulderEl.value) : null,
+          unit:     activeUnit,
+          fit:      activeDrape,
+          savedAt:  new Date().toISOString()
+        };
+
+        if (window.NexSizeAdvisor) window.NexSizeAdvisor.saveMeasurements(measurements);
+
+        saveBtn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i><span>Saved!</span>';
+        if (window.lucide) window.lucide.createIcons();
+        setTimeout(() => {
+          saveBtn.innerHTML = '<i data-lucide="bookmark" style="width:13px;height:13px;"></i><span>Save to Profile</span>';
+          if (window.lucide) window.lucide.createIcons();
+        }, 2200);
+      });
+    }
+
+    // ── Init ───────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+      updateAll();
+      // Trigger SVG tape lines after brief delay for visual delight
+      setTimeout(() => {
+        updateSVG(102, 84, 46, 180);
+      }, 800);
+    });
+
+  })();
+  </script>
+  <script src="../js/cart-recovery-engine.js?v=1"></script>
+  <script src="../js/cart-recovery-ui.js?v=1"></script>
+  <script src="../js/delivery-gate-engine.js?v=1"></script>
+  <script src="../js/delivery-gate-ui.js?v=1"></script>
+  <script src="../js/concierge-engine.js?v=4"></script>
+  <script src="../js/concierge.js?v=4"></script>
+</body>
+</html>

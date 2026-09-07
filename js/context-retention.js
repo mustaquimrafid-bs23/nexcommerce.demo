@@ -15,7 +15,7 @@
     if (intent.budget && intent.budget.max) {
       var price = product.numericPrice || product.price || 0;
       if (price <= intent.budget.max) {
-        claims.push('within your BDT ' + intent.budget.max.toLocaleString() + ' budget');
+        claims.push('within your € ' + intent.budget.max.toLocaleString() + ' budget');
         isMatch = true;
       }
     }

@@ -6,13 +6,13 @@
     { pattern: /flight|travel|vacation|trip|journey|airport/,          value: 'Travel',            source: 'explicit', confidence: 'high' },
     { pattern: /work|office|meeting|professional|presentation/,        value: 'Work / Office',     source: 'explicit', confidence: 'high' },
     { pattern: /casual|weekend|everyday|daily|errand/,                 value: 'Everyday / Casual', source: 'explicit', confidence: 'high' },
-    { pattern: /gift|present|birthday|brother|sister|friend|him|her/, value: 'Gift',              source: 'explicit', confidence: 'high' },
+    { pattern: /\bgift\b|\bpresent\b|\bbirthday\b|\bbrother\b|\bsister\b|\bfriend\b|\bhim\b|\bher\b/, value: 'Gift',              source: 'explicit', confidence: 'high' },
     { pattern: /evening|night|sunset|after dark/,                      value: 'Evening',           source: 'explicit', confidence: 'high' },
     { pattern: /wedding|ceremony|formal event/,                        value: 'Formal Event',      source: 'explicit', confidence: 'high' },
   ];
 
   const CLIMATE_MAP = [
-    { pattern: /winter|cold|cool|18\.c|chilly|freeze/,  value: 'Cool weather', source: 'explicit', confidence: 'high' },
+    { pattern: /winter|cold|cool|\d+\s*°?\s*c\b|chilly|freeze/,  value: 'Cool weather', source: 'explicit', confidence: 'high' },
     { pattern: /summer|warm|hot|humid|heat/,           value: 'Warm climate', source: 'explicit', confidence: 'high' },
     { pattern: /rain|wet|drizzle|monsoon/,             value: 'Rain',         source: 'explicit', confidence: 'high' },
   ];
@@ -74,15 +74,15 @@
   }
 
   function parseBudget(q) {
-    var under = q.match(/(?:under|less\s+than|below|max|upto|up\s+to)\s*(?:bdt|tk|taka)?\s*([\d,]+k?)/i);
-    var around = q.match(/(?:around|approximately|about)\s*(?:bdt|tk|taka)?\s*([\d,]+k?)/i);
-    if (under) return { max: parseAmount(under[1]), currency: 'BDT', source: 'explicit' };
-    if (around) return { max: Math.round(parseAmount(around[1]) * 1.2), currency: 'BDT', source: 'explicit', isApproximate: true };
+    var under = q.match(/(?:under|less\s+than|below|max|upto|up\s+to)\s*(?:€|eur|euros?|bdt|tk|taka)?\s*([\d,]+k?)/i);
+    var around = q.match(/(?:around|approximately|about)\s*(?:€|eur|euros?|bdt|tk|taka)?\s*([\d,]+k?)/i);
+    if (under) return { max: parseAmount(under[1]), currency: 'EUR', source: 'explicit' };
+    if (around) return { max: Math.round(parseAmount(around[1]) * 1.2), currency: 'EUR', source: 'explicit', isApproximate: true };
     return null;
   }
 
   function parseAmount(val) {
-    var s = val.toLowerCase().replace(/,/g, '').replace(/bdt|tk|taka/gi, '').trim();
+    var s = val.toLowerCase().replace(/,/g, '').replace(/€|eur|euros?|bdt|tk|taka/gi, '').trim();
     if (s.endsWith('k')) return parseFloat(s) * 1000;
     return parseFloat(s) || null;
   }
@@ -113,7 +113,9 @@
     var cat = matchFirst(CATEGORY_MAP, q);
     var bud = parseBudget(q);
     var rec = parseRecipient(q);
-    var loc = q.includes('dhaka') ? { value: 'Dhaka', source: 'explicit', confidence: 'high' } : null;
+    var loc = /milan|milano|munich|münchen|paris|berlin|amsterdam|rome|roma|dhaka/i.test(q) 
+      ? { value: q.match(/milan|milano|munich|münchen|paris|berlin|amsterdam|rome|roma|dhaka/i)[0], source: 'explicit', confidence: 'high' } 
+      : null;
 
     return {
       raw:       rawQuery,
