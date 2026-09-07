@@ -36,9 +36,6 @@ export function EditorialBanner() {
     e.stopPropagation();
     addItem(GOWN_PRODUCT);
     setIsAdded(true);
-    setTimeout(() => {
-      openCart();
-    }, 350);
     setTimeout(() => setIsAdded(false), 1800);
   };
 

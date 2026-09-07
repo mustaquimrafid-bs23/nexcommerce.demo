@@ -48,6 +48,7 @@ const NexAuth = (() => {
   }
 
   function _setSession(user) {
+    try { localStorage.removeItem('nex_signed_out'); } catch (e) {}
     const session = {
       id:        user.id,
       name:      user.name,
@@ -60,7 +61,16 @@ const NexAuth = (() => {
   }
 
   function _clearSession() {
-    localStorage.removeItem(SESSION_KEY);
+    try {
+      localStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem('nex_auth_user');
+      localStorage.removeItem('nex_user');
+      localStorage.removeItem('nex_auth_token');
+      localStorage.setItem('nex_signed_out', 'true');
+      sessionStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem('nex_confirmed_order');
+      window.dispatchEvent(new Event('storage'));
+    } catch (e) {}
   }
 
   function _hashPassword(pw) {
@@ -154,7 +164,7 @@ const NexAuth = (() => {
   /**
    * Signs out the current user and redirects.
    */
-  function signOut(redirectTo = 'index.html') {
+  function signOut(redirectTo = 'signin.html?signed_out=true') {
     _clearSession();
     window.location.href = _resolvePage(redirectTo);
   }

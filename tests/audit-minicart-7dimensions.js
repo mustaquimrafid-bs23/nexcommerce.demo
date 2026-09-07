@@ -93,7 +93,8 @@ console.log('  ✓ Dimension 4 Passed: Global layout mount, header synchronizati
 console.log('📌 DIMENSION 5: End-to-End User Flows (Add to Bag → MiniCart → Checkout)');
 const cartStoreCode = fs.readFileSync(path.join(__dirname, '../store/useCartStore.ts'), 'utf8');
 assert.ok(cartStoreCode.includes('addItem'), 'addItem action must exist in useCartStore');
-assert.ok(cartStoreCode.includes('isOpen: true'), 'Adding item to cart must automatically open the drawer for immediate visual confirmation');
+assert.ok(!cartStoreCode.includes('return { items: updated, isOpen: true }'), 'Adding item to cart must not automatically open the drawer (manual trigger only)');
+assert.ok(cartStoreCode.includes('openCart: () => set({ isOpen: true })'), 'openCart action must exist for manual minicart button trigger');
 assert.ok(cartStoreCode.includes('removeItem'), 'removeItem action must exist');
 assert.ok(cartStoreCode.includes('updateQuantity'), 'updateQuantity action must exist');
 assert.ok(miniCartTsx.includes('href="/cart"'), 'Primary CTA must navigate to full cart page');

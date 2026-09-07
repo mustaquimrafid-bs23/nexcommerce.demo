@@ -135,7 +135,7 @@ export const useCartStore = create<CartState>()(
           if (existingIndex > -1) {
             const updated = [...currentItems];
             updated[existingIndex].quantity += qtyToAdd;
-            return { items: updated, isOpen: true };
+            return { items: updated };
           }
 
           const newItem: CartItem = {
@@ -150,7 +150,6 @@ export const useCartStore = create<CartState>()(
 
           return {
             items: [...currentItems, newItem],
-            isOpen: true,
           };
         });
       },

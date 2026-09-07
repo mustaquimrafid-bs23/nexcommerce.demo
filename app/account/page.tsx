@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ChevronRight, Check } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCartStore } from '@/store/useCartStore';
@@ -137,8 +138,10 @@ const INITIAL_SIGNALS: ActivitySignal[] = [
 ];
 
 export default function AccountPage() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [currentAuthState, setCurrentAuthState] = useState<AuthState>('signed_in');
+  const [currentUser, setCurrentUser] = useState(INITIAL_USER);
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('ALL');
 
@@ -157,11 +160,29 @@ export default function AccountPage() {
 
   const addItemToCart = useCartStore((state) => state.addItem);
 
-  // Sync hash and check confirmed order from session storage on mount
+  // Sync session, auth state, hash and check confirmed order on mount
   useEffect(() => {
     setMounted(true);
 
     try {
+      const isSignedOut = localStorage.getItem('nex_signed_out') === 'true';
+      if (isSignedOut) {
+        setCurrentAuthState('signed_out');
+      } else {
+        const storedUser = localStorage.getItem('nex_auth_user') || localStorage.getItem('nex_session');
+        if (storedUser) {
+          const parsed = JSON.parse(storedUser);
+          if (parsed && (parsed.name || parsed.email)) {
+            setCurrentUser({
+              name: parsed.name || INITIAL_USER.name,
+              email: parsed.email || INITIAL_USER.email,
+              phone: parsed.phone || INITIAL_USER.phone,
+            });
+            setCurrentAuthState('signed_in');
+          }
+        }
+      }
+
       const hash = window.location.hash.replace('#', '') as string;
       if (['overview', 'orders', 'addresses', 'style', 'style-dna'].includes(hash)) {
         setActiveTab(hash === 'style-dna' ? 'style' : (hash as TabKey));
@@ -297,6 +318,53 @@ export default function AccountPage() {
     }
   }, [showToast]);
 
+  const handleSignOut = useCallback(() => {
+    try {
+      localStorage.removeItem('nex_auth_user');
+      localStorage.removeItem('nex_session');
+      localStorage.removeItem('nex_user');
+      localStorage.removeItem('nex_auth_token');
+      localStorage.setItem('nex_signed_out', 'true');
+      sessionStorage.removeItem('nex_session');
+      sessionStorage.removeItem('nex_confirmed_order');
+      window.dispatchEvent(new Event('storage'));
+    } catch (e) {
+      console.error('Failed to clear session storage:', e);
+    }
+    setCurrentAuthState('signed_out');
+    showToast('You have been signed out successfully.');
+    setTimeout(() => {
+      router.push('/signin?signed_out=true');
+    }, 350);
+  }, [router, showToast]);
+
+  const handleSignIn = useCallback((email: string) => {
+    const rawName = email.split('@')[0].replace(/[\._\-]/g, ' ');
+    const capitalizedName = rawName
+      .split(' ')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ') || 'Valued Client';
+
+    const authenticatedUser = {
+      name: capitalizedName,
+      email: email,
+      phone: '+49 89 1234 5678',
+      tier: 'VIP Patron',
+      joined: '2026',
+    };
+    try {
+      localStorage.removeItem('nex_signed_out');
+      localStorage.setItem('nex_auth_user', JSON.stringify(authenticatedUser));
+      localStorage.setItem('nex_session', JSON.stringify({ email, name: capitalizedName }));
+      window.dispatchEvent(new Event('storage'));
+    } catch (e) {
+      console.error('Failed to store session:', e);
+    }
+    setCurrentUser(authenticatedUser);
+    setCurrentAuthState('signed_in');
+    showToast(`Welcome back, ${capitalizedName}!`);
+  }, [showToast]);
+
   if (!mounted) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
@@ -341,26 +409,21 @@ export default function AccountPage() {
 
         {/* Conditional Auth State Rendering */}
         {currentAuthState === 'signed_out' ? (
-          <SignedOutView
-            onSignIn={(email) => {
-              setCurrentAuthState('signed_in');
-              showToast(`Welcome back, ${email.split('@')[0]}!`);
-            }}
-          />
+          <SignedOutView onSignIn={handleSignIn} />
         ) : currentAuthState === 'empty_account' ? (
           <EmptyAccountView
-            user={INITIAL_USER}
-            onSignOut={() => setCurrentAuthState('signed_out')}
+            user={currentUser}
+            onSignOut={handleSignOut}
           />
         ) : (
           <div>
             {/* VIP Client Hero */}
             <AccountHero
-              user={INITIAL_USER}
+              user={currentUser}
               totalOrders={orders.length}
               activeShipments={activeOrdersCount}
               totalSpent={totalSpent}
-              onSignOut={() => setCurrentAuthState('signed_out')}
+              onSignOut={handleSignOut}
             />
 
             {/* Navigation Tabs */}

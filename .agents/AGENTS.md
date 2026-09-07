@@ -433,6 +433,35 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - When natural language conversational queries are forwarded to catalog discovery pages (`/discovery?q=...`), the context pill extractor must filter out grammatical stopwords (`for`, `and`, `the`, `with`, `under`, `to`, `of`, `in`, `at`, `by`, `from`, `or`, `a`, `an`).
 - Never allow connecting words to display as standalone context chips in the UI.
 
+**37. Deep-Link Action Parameter Focus & Visual Illumination Standard**:
+- When action buttons or concierge suggestions navigate to a destination page with action-oriented query parameters (e.g. `/tracking?order=...&pay=online`, `/orders?action=invoice`, `/product/p1?tab=sizing`):
+  1. **Dedicated Module Focusing**: The destination page MUST parse the target query parameter (`searchParams.get('pay') === 'online'`) on mount/change.
+  2. **Smooth Scroll & Ambient Halo**: The target page must automatically smooth-scroll the designated module into viewport center (`scrollIntoView({ behavior: 'smooth', block: 'center' })`) and illuminate it with an ambient glowing border (e.g. `boxShadow = '0 0 35px rgba(61, 224, 255, 0.6)'` for 2–2.5s).
+  3. **Intent Differentiation**: General overview buttons (e.g. "Track Courier & View Details") navigate to the default root view (`scrollY: 0`), while specialized action buttons (e.g. "PAY ONLINE NOW") navigate with the action query parameter to scroll straight to the active feature.
+
+**38. SPA Drawer & Modal Navigation Auto-Dismiss Invariant**:
+- In Next.js App Router (and client-side SPA routing), client-side `<Link>` transitions occur without a browser reload. When rendering links inside fixed slide-over drawers, modals, or search terminals (`fixed inset-0 z-[9999]`):
+  1. **Explicit Close on Links**: Every internal `<Link>` element MUST unconditionally call the drawer/modal close action (`onClick={closeDrawer}` / `onClick={closeConcierge}`).
+  2. **Automated Route & History Guard**: Overlays MUST implement route transition listeners (`usePathname()` with `prevPathRef`) and browser history listeners (`popstate`) to automatically dismiss themselves upon navigation, preventing the overlay from trapping the screen and blinding the user to destination page content.
+
+**39. Horizontal Chip Streams & Action Strip Containment Invariant**:
+- In horizontal switcher bars, filter rows, or pill toolbars featuring variable-length chips adjacent to a pinned action button (e.g., Order Switcher, Filter Strip), inactive sibling chips must remain minimalist (identifier only), and the chip track MUST enforce `min-w-0 flex-1 overflow-x-auto no-scrollbar`.
+- Pinned action buttons must be housed in an isolated `flex-shrink-0` dock with an explicit boundary (`border-l` or $\ge 8\text{px}$ gap), and overflow dropdowns (`+X More`) must sit outside the overflow-scroll container to avoid CSS containing block traps and guarantee zero element superposition.
+
+**40. In-Drawer Quick-Action Chips & Symmetrical 2-Option Grid Invariant**:
+- **Strict 2-Option Ceiling for Drawers**: Inside slide-out drawers, chat assistants, and compact overlay sidebars (e.g. Ask Stylist, Concierge, Mini-cart quick links), default and suggested action chips MUST be strictly capped at **exactly 2 premier options** (e.g. 1 flagship agentic/voice action + 1 primary utility/budget action).
+- **Zero Horizontal Overflow (`grid grid-cols-2 gap-2 w-full`)**:
+  - Horizontal overflow rows (`overflow-x-auto`, `flex-nowrap`) are STRICTLY FORBIDDEN for primary in-drawer action chips because standard desktop mouse wheels cannot scroll horizontally, leading to clipped or unreachable options (e.g. `[Compare t...]`).
+  - Always render chips in a balanced, full-width 2-column grid (`grid grid-cols-2 gap-2 w-full`) with `truncate`, `text-center`, and `text-[11px] sm:text-xs` sizing.
+  - Both buttons must be 100% visible on the initial frame without requiring any horizontal scroll, drag, or swipe on any viewport (from 375px mobile to 1920px desktop).
+- **Dynamic Turn Slicing Guardrail**:
+  - In all assistant message renderers and store handlers, dynamically generated `suggestedChips` arrays MUST enforce `.slice(0, 2)` before rendering to prevent subsequent conversational turns from breaking the 2-option grid symmetry.
+
+**41. Technical Sizing Lining Numerals & Anti-AI Typography Invariant**:
+- Technical sizing cards (apparel EU sizes, footwear sizes, trouser matrices), slider metric values, and counter badges MUST NEVER use serif fonts with old-style/non-lining figures (`font-editorial` / `Cormorant Garamond`). Old-style figures drop below the baseline (e.g. sagging 5s, shrunken 0s, elevated 6s) and visually mimic warped AI image hallucination glitches.
+- Sizing cards, tabular metrics, and range slider displays MUST strictly use `--font-display` (`Manrope`) or `--font-sans` (`Inter`) with `font-bold tabular-nums tracking-tight` on a 100% flat, uniform baseline.
+- Customer-facing sizing instructions and UI copy must avoid clinical medical jargon (e.g. "acromion bone") or robotic labels ("interactive calibrator"). Always use refined, natural human luxury fashion copy ("shoulder tip to shoulder tip", "Size & Fit Guide").
+
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 
 When building any screen or component for nexCommerce, reference these real-world sites as design benchmarks:

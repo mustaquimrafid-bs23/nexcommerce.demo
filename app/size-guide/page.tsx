@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, ArrowRight, MessageSquare, ArrowLeft, Ruler } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { AnatomicalVisualizer } from '@/components/size-guide/AnatomicalVisualizer';
 import { SizeConversionMatrix } from '@/components/size-guide/SizeConversionMatrix';
 import { MeasurementGuide } from '@/components/size-guide/MeasurementGuide';
@@ -11,6 +11,10 @@ import { useConciergeStore } from '@/store/useConciergeStore';
 export default function SizeGuidePage() {
   const { openConcierge, sendMessage } = useConciergeStore();
 
+  const [unit, setUnit] = useState<'cm' | 'in'>('cm');
+  const [recSize, setRecSize] = useState<number>(48);
+  const [recShoeEU, setRecShoeEU] = useState<number>(42);
+
   const handleAskStylist = () => {
     openConcierge();
     sendMessage('I need personal sizing guidance for my measurements.');
@@ -18,77 +22,71 @@ export default function SizeGuidePage() {
 
   return (
     <div
-      className="min-h-screen text-white pb-24 pt-8"
+      className="min-h-screen text-white overflow-x-hidden"
       style={{ background: 'radial-gradient(circle at 50% 0%, #031838 0%, #011126 50%, #000B1A 100%)' }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Navigation Breadcrumb */}
-        <div>
-          <Link
-            href="/category"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-white/50 hover:text-accent-cyan transition-colors"
-          >
-            <ArrowLeft size={14} />
-            <span>Return to Collections</span>
-          </Link>
-        </div>
-
-        {/* Hero Section */}
-        <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-cyan/15 border border-accent-cyan/30 text-xs font-semibold uppercase tracking-widest text-accent-cyan">
-            <Ruler size={13} />
-            <span>Find Your Exact Fit</span>
+      <main className="max-w-[1320px] w-full mx-auto px-6 pt-10 pb-24 sm:pb-32 flex flex-col gap-16 lg:gap-24">
+        {/* Page Hero matching feature/storefront-elevation:pages/size-guide.html */}
+        <section className="text-center flex flex-col items-center gap-4 pt-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-accent-cyan/10 border border-accent-cyan/25 rounded-full text-[11px] font-semibold tracking-[0.18em] uppercase text-accent-cyan">
+            <span>✦ Sartorial Precision</span>
+            <span>·</span>
+            <span>Atelier Fit Engine</span>
           </div>
 
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-white font-normal leading-[1.08]">
-            Size &amp; <span className="italic font-normal">Fit Guide</span>
+          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-[60px] font-semibold text-white tracking-tight leading-[1.1] m-0">
+            Your Anatomical Size, Perfected
           </h1>
 
-          <p className="text-sm sm:text-base text-white/70 leading-relaxed font-light">
-            Find your exact size with our interactive measurement calculator and conversion tables &mdash; no guessing, just precision.
+          {/* Subtitle & SEO text honoring clean UK Size & Fit Guide standards */}
+          <p className="text-[15px] sm:text-[17px] leading-relaxed text-slate-400 max-w-[560px] font-light m-0">
+            Calibrate your measurements with our interactive 2D silhouette visualizer to discover your precise European atelier sizing.
           </p>
-        </div>
+          <span className="sr-only">nexCommerce Luxury Size &amp; Fit Guide</span>
+        </section>
 
-        {/* 1. Interactive Anatomical Calibrator */}
-        <AnatomicalVisualizer />
+        {/* 1. 2D Silhouette Visualizer & Calibrator Controls */}
+        <AnatomicalVisualizer
+          unit={unit}
+          onUnitChange={setUnit}
+          onRecommendedSizeChange={(size, shoe) => {
+            setRecSize(size);
+            setRecShoeEU(shoe);
+          }}
+        />
 
-        {/* 2. Size Conversion Matrix */}
-        <SizeConversionMatrix />
-
-        {/* 3. Illustrated Measurement Guide */}
+        {/* 2. Precision Anatomical Metrics — How to Measure */}
         <MeasurementGuide />
 
-        {/* 4. Style Concierge Sizing Bridge */}
-        <section className="rounded-3xl bg-surface-card border border-accent-cyan/30 p-8 sm:p-10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent-cyan/10 rounded-full blur-3xl pointer-events-none" />
+        {/* 3. Global Equivalency — Size Conversion Chart (Interactive Cards) */}
+        <SizeConversionMatrix
+          recSize={recSize}
+          recShoeEU={recShoeEU}
+          unit={unit}
+        />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div className="lg:col-span-8 space-y-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-accent-cyan flex items-center gap-1.5">
-                <MessageSquare size={13} />
-                <span>Personal Advisory</span>
-              </span>
-              <h3 className="font-editorial text-2xl sm:text-3xl text-white font-normal">
-                Need Personal Sizing <span className="italic font-normal">Advice?</span>
-              </h3>
-              <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
-                Our client style advisor can recommend the best size, silhouette, and layering combinations based on your preferred fit.
-              </p>
-            </div>
+        {/* 4. Bespoke Advisor — Concierge Bridge */}
+        <section className="text-center p-12 sm:p-16 bg-white/[0.02] border border-white/[0.08] rounded-lg flex flex-col items-center gap-3.5 shadow-2xl relative overflow-hidden">
+          <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-cyan block">
+            Bespoke Advisor
+          </span>
+          <h2 className="font-editorial text-2xl sm:text-3xl font-semibold text-white tracking-tight m-0">
+            Not sure about your size?
+          </h2>
+          <p className="text-sm text-slate-400 max-w-[480px] leading-relaxed m-0 font-light mb-2">
+            Our digital style concierge provides real-time sizing guidance for specific pieces in the collection.
+          </p>
 
-            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
-              <button
-                type="button"
-                onClick={handleAskStylist}
-                className="px-6 py-3.5 rounded-2xl bg-accent-crimson hover:bg-accent-crimson/90 text-white text-xs font-semibold uppercase tracking-widest transition-all cursor-pointer shadow-xl shadow-accent-crimson/20 flex items-center justify-center gap-2 hover:scale-105"
-              >
-                <span>Ask Style Advisor</span>
-                <ArrowRight size={14} />
-              </button>
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={handleAskStylist}
+            className="h-[46px] px-8 bg-white hover:bg-slate-100 text-[#020B18] rounded-md text-[11px] font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xl hover:scale-[1.03]"
+          >
+            <Sparkles size={14} className="text-[#020B18]" />
+            <span>Consult Private Concierge</span>
+          </button>
         </section>
-      </div>
+      </main>
     </div>
   );
 }

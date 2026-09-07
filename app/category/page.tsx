@@ -8,6 +8,7 @@ import { CategoryHero } from '@/components/category/CategoryHero';
 import { CategoryToolbar } from '@/components/category/CategoryToolbar';
 import { CategoryProductGrid } from '@/components/category/CategoryProductGrid';
 import { QuickLookMiniPDP } from '@/components/category/QuickLookMiniPDP';
+import { useComparisonStore } from '@/store/useComparisonStore';
 
 function CategoryContent() {
   const searchParams = useSearchParams();
@@ -19,6 +20,15 @@ function CategoryContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>(catParam);
   const [sortBy, setSortBy] = useState<string>('recommended');
   const [quickLookProduct, setQuickLookProduct] = useState<Product | null>(null);
+
+  // Automatically trigger comparison modal if ?open=comparison is present in URL
+  useEffect(() => {
+    if (searchParams && searchParams.get('open') === 'comparison') {
+      const p1 = MASTER_PRODUCTS[0];
+      const p2 = MASTER_PRODUCTS.find((p) => p.id !== p1.id) || MASTER_PRODUCTS[1];
+      useComparisonStore.getState().openComparison(p1, p2);
+    }
+  }, [searchParams]);
 
   // Sync state if URL search params change
   useEffect(() => {

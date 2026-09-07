@@ -376,10 +376,23 @@ function renderNavigationTabs() {
 }
 
 window.handleAccountSignOut = function() {
+  try {
+    localStorage.removeItem('nex_session');
+    localStorage.removeItem('nex_auth_user');
+    localStorage.removeItem('nex_user');
+    localStorage.removeItem('nex_auth_token');
+    localStorage.setItem('nex_signed_out', 'true');
+    sessionStorage.removeItem('nex_session');
+    sessionStorage.removeItem('nex_confirmed_order');
+    window.dispatchEvent(new Event('storage'));
+  } catch (e) {}
+
   if (window.NexAuth && typeof window.NexAuth.signOut === 'function') {
-    window.NexAuth.signOut('signin.html');
+    window.NexAuth.signOut('signin.html?signed_out=true');
   } else {
     changeDevAuthState('signed_out');
+    const isSubpage = window.location.pathname.includes('/pages/') || window.location.pathname.endsWith('/pages');
+    window.location.href = (isSubpage ? 'signin.html' : 'pages/signin.html') + '?signed_out=true';
   }
 };
 

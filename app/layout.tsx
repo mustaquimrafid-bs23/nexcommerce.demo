@@ -12,6 +12,8 @@ import { PageTransitionCurtain } from '@/components/motion/PageTransitionCurtain
 import { ConciergeFloatingPill } from '@/components/layout/ConciergeFloatingPill';
 import { FeatureTourModal } from '@/components/tour/FeatureTourModal';
 import { CookieConsentBanner } from '@/components/layout/CookieConsentBanner';
+import { ComparisonModal } from '@/components/modals/ComparisonModal';
+import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,6 +59,8 @@ export default function RootLayout({
         <FeatureTourModal />
         <SearchOverlay />
         <CookieConsentBanner />
+        <ComparisonModal />
+        <BudgetCartModal />
         <PageTransitionCurtain />
       </body>
     </html>

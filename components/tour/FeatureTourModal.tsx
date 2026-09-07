@@ -26,6 +26,9 @@ import { useSearchStore } from '@/store/useSearchStore';
 import { useConciergeStore } from '@/store/useConciergeStore';
 import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 import { useDeliveryGateStore } from '@/store/useDeliveryGateStore';
+import { useComparisonStore } from '@/store/useComparisonStore';
+import { useBudgetCartStore } from '@/store/useBudgetCartStore';
+import { MASTER_PRODUCTS } from '@/data/products';
 
 export interface FeatureItem {
   num: string;
@@ -36,7 +39,7 @@ export interface FeatureItem {
   gradient: string;
   color: string;
   actionText: string;
-  actionType: 'search' | 'visual-search' | 'concierge' | 'delivery-gate' | 'link';
+  actionType: 'search' | 'visual-search' | 'voice-search' | 'concierge' | 'delivery-gate' | 'comparison' | 'budget' | 'link';
   href?: string;
   exampleQuery?: string;
 }
@@ -85,7 +88,7 @@ export const FEATURE_STAGES: FeatureStage[] = [
         gradient: 'linear-gradient(135deg, #0284c7, #0369a1)',
         color: '#0284c7',
         actionText: 'Try Voice Search',
-        actionType: 'search',
+        actionType: 'voice-search',
         exampleQuery: 'black overcoats under $300',
       },
     ],
@@ -139,7 +142,7 @@ export const FEATURE_STAGES: FeatureStage[] = [
         gradient: 'linear-gradient(135deg, #0284c7, #0369a1)',
         color: '#0284c7',
         actionText: 'Compare Items',
-        actionType: 'link',
+        actionType: 'comparison',
         href: '/category?open=comparison',
       },
     ],
@@ -259,6 +262,7 @@ export function FeatureTourModal() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const openSearch = useSearchStore((state) => state.openSearch);
+  const openVoiceSearch = useSearchStore((state) => state.openVoiceSearch);
   const openConcierge = useConciergeStore((state) => state.openConcierge);
   const openVisualSearch = useVisualSearchStore((state) => state.openVisualSearch);
   const openDeliveryGate = useDeliveryGateStore((state) => state.openModal);
@@ -280,7 +284,9 @@ export function FeatureTourModal() {
 
   const handleAction = (item: FeatureItem) => {
     setIsOpen(false);
-    if (item.actionType === 'search') {
+    if (item.actionType === 'voice-search') {
+      openVoiceSearch(true);
+    } else if (item.actionType === 'search') {
       const q = item.exampleQuery || 'Warm coat for a cold weekend in Edinburgh';
       openSearch(q, true);
     } else if (item.actionType === 'visual-search') {
@@ -293,6 +299,12 @@ export function FeatureTourModal() {
       } else if (item.href) {
         router.push(item.href);
       }
+    } else if (item.actionType === 'comparison' || item.num === '07') {
+      const p1 = MASTER_PRODUCTS[0];
+      const p2 = MASTER_PRODUCTS.find((p) => p.id !== p1.id) || MASTER_PRODUCTS[1];
+      useComparisonStore.getState().openComparison(p1, p2);
+    } else if (item.actionType === 'budget' || item.num === '08') {
+      useBudgetCartStore.getState().openBudget(500, 'autumn');
     } else if (item.href) {
       router.push(item.href);
     }
@@ -300,11 +312,12 @@ export function FeatureTourModal() {
 
   const pathname = usePathname();
   const isGuidePage = pathname === '/guide' || pathname === '/shopping-guide' || pathname === '/feature-guide';
+  const isAuthPage = pathname === '/signin' || pathname === '/signup';
 
   return (
     <>
       {/* ─── Floating Button: Bottom-Left Pill (#aiTourFloatingBtn) ─── */}
-      {!isGuidePage && (
+      {!isGuidePage && !isAuthPage && (
         <button
           id="aiTourFloatingBtn"
           type="button"

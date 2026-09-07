@@ -17,6 +17,9 @@ import {
   SlidersHorizontal,
   SearchX,
   Check,
+  Mic,
+  Play,
+  Pause,
 } from 'lucide-react';
 import { useSearchStore, POPULAR_DEPARTMENTS } from '@/store/useSearchStore';
 import { useCartStore } from '@/store/useCartStore';
@@ -24,6 +27,13 @@ import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 import { Product } from '@/types/catalog';
 import { SearchWhyModal } from './SearchWhyModal';
 import { formatPrice } from '@/lib/utils';
+import {
+  cleanVoiceQuery,
+  speakVoice,
+  stopVoice,
+  createVoiceRecognition,
+  VoiceRecognitionController,
+} from '@/lib/voiceEngine';
 
 export function SearchOverlay() {
   const router = useRouter();
@@ -35,11 +45,14 @@ export function SearchOverlay() {
   const [isProcessingSearch, setIsProcessingSearch] = useState(false);
   const [hasExecutedSearch, setHasExecutedSearch] = useState(false);
   const [focusIndex, setFocusIndex] = useState(-1);
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+  const [isSpeakingAudio, setIsSpeakingAudio] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const thinkingBarRef = useRef<HTMLDivElement>(null);
   const thinkingTrackRef = useRef<HTMLDivElement>(null);
   const resultsContainerRef = useRef<HTMLDivElement>(null);
+  const voiceRecRef = useRef<VoiceRecognitionController | null>(null);
 
   const {
     isOpen,
@@ -59,6 +72,14 @@ export function SearchOverlay() {
     checkTypo,
     pendingAutoSearch,
     clearPendingAutoSearch,
+    isVoiceMode,
+    isVoiceListening,
+    voiceSpokenQuery,
+    spokenSummary,
+    setVoiceMode,
+    setVoiceListening,
+    setVoiceSpokenQuery,
+    setSpokenSummary,
   } = useSearchStore();
 
   const addItem = useCartStore((state) => state.addItem);
@@ -187,11 +208,6 @@ export function SearchOverlay() {
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [product.id]: false }));
     }, 1400);
-
-    setTimeout(() => {
-      closeSearch();
-      openCart();
-    }, 350);
   };
 
   const handleSelectSwatch = (productId: string, swatchIndex: number, e: React.MouseEvent) => {
@@ -205,6 +221,122 @@ export function SearchOverlay() {
     closeSearch();
     router.push(`/discovery?q=${encodeURIComponent(q)}`);
   };
+
+  // Process voice query: strip filler words, execute search, and synthesize spoken summary
+  const handleVoiceQueryProcessed = useCallback(
+    (spokenText: string) => {
+      setVoiceSpokenQuery(spokenText);
+      const cleaned = cleanVoiceQuery(spokenText);
+      const effectiveQuery = cleaned || spokenText;
+      setVoiceTranscript(spokenText);
+      setQuery(effectiveQuery);
+      saveRecentSearch(effectiveQuery);
+      setVoiceListening(false);
+      setIsProcessingSearch(true);
+
+      runThinkingTrack(450, () => {
+        setIsProcessingSearch(false);
+        setHasExecutedSearch(true);
+        const results = getSearchResults();
+        const summaryText =
+          results.length > 0
+            ? `Found ${results.length} recommended pieces matching "${effectiveQuery}".`
+            : `Showing curated recommendations for "${effectiveQuery}".`;
+        setSpokenSummary(summaryText);
+        speakVoice(summaryText, {
+          onStart: () => setIsSpeakingAudio(true),
+          onEnd: () => setIsSpeakingAudio(false),
+          onError: () => setIsSpeakingAudio(false),
+        });
+      });
+    },
+    [
+      getSearchResults,
+      runThinkingTrack,
+      saveRecentSearch,
+      setQuery,
+      setSpokenSummary,
+      setVoiceListening,
+      setVoiceSpokenQuery,
+    ]
+  );
+
+  // 1-Click Spoken Demo simulation for Feature 03 Parity
+  const handleRunVoiceDemo = useCallback(() => {
+    const demoQuery = 'Hey stylist, show me black overcoats under $300';
+    setVoiceTranscript(demoQuery);
+    setVoiceListening(true);
+    setTimeout(() => {
+      handleVoiceQueryProcessed(demoQuery);
+    }, 500);
+  }, [handleVoiceQueryProcessed, setVoiceListening]);
+
+  // Toggle voice listening session
+  const handleToggleVoiceMode = () => {
+    if (isVoiceMode && isVoiceListening) {
+      if (voiceRecRef.current) voiceRecRef.current.stop();
+      setVoiceListening(false);
+      setVoiceMode(false);
+    } else {
+      setVoiceMode(true);
+      setVoiceListening(true);
+      setVoiceTranscript('');
+    }
+  };
+
+  // Web Speech API lifecycle listener
+  useEffect(() => {
+    if (isOpen && isVoiceMode && isVoiceListening) {
+      if (voiceSpokenQuery && voiceSpokenQuery.includes('Hey stylist')) {
+        const timer = setTimeout(() => {
+          handleRunVoiceDemo();
+        }, 700);
+        return () => clearTimeout(timer);
+      }
+      const rec = createVoiceRecognition({
+        onStart: () => setVoiceListening(true),
+        onResult: (text, isFinal) => {
+          setVoiceTranscript(text);
+          if (isFinal) {
+            handleVoiceQueryProcessed(text);
+          }
+        },
+        onError: (err) => {
+          console.warn('[Voice Search] SpeechRecognition error:', err);
+          setVoiceListening(false);
+        },
+        onEnd: () => {
+          setVoiceListening(false);
+        },
+      });
+
+      if (rec) {
+        voiceRecRef.current = rec;
+        rec.start();
+      }
+
+      return () => {
+        if (rec) rec.stop();
+      };
+    } else {
+      if (voiceRecRef.current) {
+        voiceRecRef.current.stop();
+        voiceRecRef.current = null;
+      }
+    }
+  }, [isOpen, isVoiceMode, isVoiceListening, voiceSpokenQuery, handleRunVoiceDemo, handleVoiceQueryProcessed, setVoiceListening]);
+
+  // Cancel voice synthesis audio on modal close
+  useEffect(() => {
+    if (!isOpen) {
+      stopVoice();
+      setIsSpeakingAudio(false);
+      if (voiceRecRef.current) {
+        voiceRecRef.current.stop();
+        voiceRecRef.current = null;
+      }
+    }
+  }, [isOpen]);
 
   if (!mounted || !isOpen) return null;
 
@@ -281,6 +413,17 @@ export function SearchOverlay() {
 
               <button
                 type="button"
+                id="globalVoiceSearchTrigger"
+                onClick={handleToggleVoiceMode}
+                className={`global-voice-trigger-btn mr-1 ${isVoiceMode && isVoiceListening ? 'active' : ''}`}
+                title="Natural Voice Search (Feature 03)"
+                aria-label="Natural Voice Search (Feature 03)"
+              >
+                <Mic size={16} />
+              </button>
+
+              <button
+                type="button"
                 id="globalVisualSearchTrigger"
                 onClick={() => {
                   closeSearch();
@@ -309,6 +452,61 @@ export function SearchOverlay() {
             <div ref={thinkingBarRef} className="nex-thinking-bar" />
           </div>
 
+          {/* Active Voice Listening Dock (Feature 03 Parity) */}
+          {isVoiceMode && isVoiceListening && (
+            <div className="voice-listening-dock mx-4 sm:mx-6 mt-4">
+              <div className="voice-status-bar">
+                <div className="voice-status-pill">
+                  <span className="voice-rec-dot" />
+                  <span>Listening... Speak Naturally</span>
+                </div>
+                <div className="voice-waveform-wrap" aria-hidden="true">
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                  <div className="voice-wave-bar" />
+                </div>
+              </div>
+
+              <div className="voice-transcript-text">
+                {voiceTranscript ? (
+                  <span>&ldquo;{voiceTranscript}&rdquo;</span>
+                ) : (
+                  <span className="text-white/60">Say something like: &ldquo;Hey stylist, show me black overcoats under $300&rdquo;</span>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between gap-3 pt-1 flex-wrap">
+                <button
+                  type="button"
+                  id="btnVoiceDemoTrigger"
+                  onClick={handleRunVoiceDemo}
+                  className="voice-demo-quick-btn"
+                >
+                  <Sparkles size={13} />
+                  <span>✨ Try Spoken Demo: &ldquo;black overcoats under $300&rdquo;</span>
+                </button>
+
+                <button
+                  type="button"
+                  id="btnCancelVoice"
+                  onClick={() => {
+                    if (voiceRecRef.current) voiceRecRef.current.stop();
+                    setVoiceListening(false);
+                    setVoiceMode(false);
+                  }}
+                  className="text-xs text-white/50 hover:text-accent-pink transition-colors font-medium cursor-pointer"
+                >
+                  Cancel Voice
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Modal Body Container */}
           <div
             id="aiSearchResultsModal"
@@ -316,6 +514,55 @@ export function SearchOverlay() {
             className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 custom-scrollbar"
             tabIndex={0}
           >
+            {/* Spoken Summary Audio Player Bar (100% Parity with Reference) */}
+            {spokenSummary && (
+              <div id="voiceSummaryAudioBar" className="stylist-audio-bar">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isSpeakingAudio) {
+                      stopVoice();
+                      setIsSpeakingAudio(false);
+                    } else {
+                      speakVoice(spokenSummary, {
+                        onStart: () => setIsSpeakingAudio(true),
+                        onEnd: () => setIsSpeakingAudio(false),
+                        onError: () => setIsSpeakingAudio(false),
+                      });
+                    }
+                  }}
+                  className="audio-play-btn"
+                  aria-label={isSpeakingAudio ? 'Pause Voice Summary' : 'Play Voice Summary'}
+                  title={isSpeakingAudio ? 'Pause Voice Summary' : 'Play Voice Summary'}
+                >
+                  {isSpeakingAudio ? (
+                    <Pause size={13} className="text-[#00122e] fill-current" />
+                  ) : (
+                    <Play size={13} className="text-[#00122e] fill-current ml-0.5" />
+                  )}
+                </button>
+                <div className="mini-waveform" aria-hidden="true">
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                  <div className="mini-wave-bar" />
+                </div>
+                <div className="audio-time-label">
+                  {isSpeakingAudio ? 'Speaking...' : 'Play Voice Summary'}
+                </div>
+                {voiceSpokenQuery && (
+                  <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#10346a] border border-[#3DE0FF]/30 text-[11px] text-[#3DE0FF] font-medium ml-auto">
+                    <Mic size={11} />
+                    <span>Spoken query</span>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* ─── STATE 1: IDLE / CURATED EDITORIAL ATELIER ───────────────────────── */}
             {isIdle && (
               <div className="space-y-5 animate-in fade-in duration-200">

@@ -209,6 +209,25 @@ function TrackingPageInner() {
     setCurrentOrder(resolveOrder(queryOrderParam));
   }, [queryOrderParam]);
 
+  // Auto-scroll and highlight payment gateway if URL requested ?pay=online (matching feature/storefront-elevation)
+  useEffect(() => {
+    const payParam = searchParams?.get('pay');
+    if (payParam === 'online' || payParam === '1') {
+      const timer = setTimeout(() => {
+        const card = document.getElementById('trackingPaymentGateway');
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.style.boxShadow = '0 0 35px rgba(61, 224, 255, 0.6)';
+          const resetTimer = setTimeout(() => {
+            card.style.boxShadow = '';
+          }, 2500);
+          return () => clearTimeout(resetTimer);
+        }
+      }, 350);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
+
   const handleSelectOrder = useCallback(
     (orderId: string) => {
       router.push(`/tracking?order=${encodeURIComponent(orderId)}`);

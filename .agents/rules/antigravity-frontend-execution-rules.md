@@ -157,7 +157,15 @@
 - **Natural Language Tokenization & Stopword Cleansing Invariant**:
   When conversational natural language queries (e.g. `"Warm coat for a cold weekend in Edinburgh"`) are forwarded to catalog discovery (`/discovery?q=...`), always sanitize connecting words via a dedicated stopword filter (`new Set(['for', 'a', 'an', 'in', 'and', 'the', 'with', 'under', 'to', 'of', 'on', 'at', 'is', 'by', 'or', 'from'])`). Never allow prepositions or connecting words to be rendered as standalone filter chips (`Understood Context: For ✕`).
 
-
-
-
-
+## 17. Horizontal Chip Streams & Action Strip Containment Invariant
+- **Concise Active Status & Minimalist Inactive Siblings**:
+  - In horizontal switcher rows or filter bars, the active chip may display a concise status badge (`(Preparing)`, `(Delivered)`, `(In Transit)`), strictly capped at $\le 15$ characters.
+  - Inactive sibling chips MUST be compact and display the primary identifier only (e.g. `#NX-9209-M`, `EUR 42`), keeping lengthy metadata strictly inside the `title` attribute for tooltip display on hover. Never render multi-clause verbose status strings across multiple sibling chips.
+- **Strict Flex Boundary & Horizontal Scroll Containment**:
+  - Variable-length chip rows MUST declare `min-w-0 flex-1 overflow-x-auto no-scrollbar` (with `scrollbar-width: none`).
+  - They must NEVER allow unbounded flex-children to expand past the parent flex container and overlap sibling action buttons.
+- **Isolated Action Dock & Zero-Overlap Separation**:
+  - Pinned action buttons (e.g., `CUSTOM LOOKUP`, `FILTER`, `SEARCH`, `CLEAR ALL`) MUST reside in a dedicated `flex-shrink-0` action dock separated from the scrollable chips track by an explicit boundary (e.g., `border-l border-white/10 pl-2` or a guaranteed $\ge 8\text{px}$–$12\text{px}$ gap).
+- **Dropdown Escape from Overflow Clipping**:
+  - Overflow dropdown triggers (e.g., `+X More ▾`) MUST be positioned outside any `overflow-x-auto` track so that dropdown menus are not clipped by the scroll container's boundary (CSS containing block trap).
+  - Dropdown menus positioned near viewport edges must use adaptive alignment (e.g., `right-0 sm:left-0`) to prevent clipping past the right screen boundary.

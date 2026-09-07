@@ -37,7 +37,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Comfort First', desc: 'Featherweight 420 GSM 2-ply cashmere avoids excessive bulk.' },
       { label: 'Craft & Origin', desc: 'Hand-finished in Biella, Italy with Mongolian sourced yarn.' },
     ],
-    tags: ['evening', 'cool weather', 'milan', 'lightweight', 'minimal', 'apparel', 'sweater', 'cashmere', 'knitwear', 'warm'],
+    tags: ['evening', 'cool weather', 'milan', 'lightweight', 'minimal', 'apparel', 'sweater', 'sweaters', 'cashmere', 'knitwear', 'warm', 'charcoal'],
   },
   {
     id: 'p2',
@@ -72,7 +72,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Premium Virgin Wool', desc: '100% Italian virgin wool weave with subtle natural sheen.' },
       { label: 'Occasion Ready', desc: 'Versatile silhouette dressed up for dinner or styled down with denim.' },
     ],
-    tags: ['blazer', 'wool', 'tailored', 'jacket', 'dinner', 'evening', 'formal', 'apparel', 'outerwear'],
+    tags: ['blazer', 'blazers', 'wool', 'tailored', 'jacket', 'jackets', 'dinner', 'evening', 'formal', 'apparel', 'outerwear', 'charcoal', 'navy'],
   },
   {
     id: 'p3',
@@ -80,8 +80,8 @@ export const MASTER_PRODUCTS: Product[] = [
     brand: 'Arc',
     category: 'outerwear',
     subCategory: 'Coats',
-    price: 380,
-    formattedPrice: '€ 380.00',
+    price: 280,
+    formattedPrice: '€ 280.00',
     currency: 'EUR',
     description: 'Ultra-soft 2-ply cashmere with structured silhouette designed for indoor/outdoor layering across seasons.',
     image: '/assets/images/products/plp_overcoat.png',
@@ -107,7 +107,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Clean Lines', desc: 'Hand-stitched lapels and deep interior welt pockets.' },
       { label: 'Layering Room', desc: 'Cut with adequate shoulder room over suits and heavy knitwear.' },
     ],
-    tags: ['overcoat', 'coat', 'winter', 'outerwear', 'charcoal', 'warm', 'wool', 'cashmere'],
+    tags: ['overcoat', 'overcoats', 'coat', 'coats', 'winter', 'outerwear', 'charcoal', 'black', 'noir', 'warm', 'wool', 'cashmere', 'tailored', 'quiet luxury'],
   },
   {
     id: 'p4',
@@ -142,7 +142,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Titanium Drivers', desc: 'Precision 40mm custom titanium drivers delivering balanced acoustic staging.' },
       { label: 'Travel Endurance', desc: '40-hour playback with fast USB-C charge (15 mins = 4 hours).' },
     ],
-    tags: ['headphones', 'audio', 'acoustics', 'travel', 'flight', 'noise cancellation', 'music', 'work', 'focus'],
+    tags: ['headphones', 'headphone', 'audio', 'acoustics', 'travel', 'flight', 'noise cancellation', 'music', 'work', 'focus', 'black'],
   },
   {
     id: 'p5',
@@ -176,7 +176,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Crystal Audio', desc: 'Dual beamforming microphones for clear call clarity on the go.' },
       { label: 'Water Resistant', desc: 'IPX5 splash resistance for workouts and light rain.' },
     ],
-    tags: ['earbuds', 'wireless', 'audio', 'acoustics', 'compact', 'travel', 'commute', 'bluetooth'],
+    tags: ['earbuds', 'earbud', 'wireless', 'audio', 'acoustics', 'compact', 'travel', 'commute', 'bluetooth', 'black', 'white'],
   },
   {
     id: 'p6',
@@ -212,7 +212,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Supple Calfskin', desc: 'Buttery Italian nappa leather lining that molds to your foot over time.' },
       { label: 'Minimalist Profile', desc: 'Zero external branding with tonal cotton waxed laces.' },
     ],
-    tags: ['runner', 'sneakers', 'shoes', 'footwear', 'leather', 'walking', 'travel', 'flight', 'comfort', 'minimal'],
+    tags: ['runner', 'runners', 'sneakers', 'sneaker', 'shoes', 'footwear', 'leather', 'walking', 'travel', 'flight', 'comfort', 'minimal', 'black', 'white'],
   },
   {
     id: 'p7',
@@ -247,7 +247,7 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Dedicated Tech Sleeve', desc: 'Padded microfiber sleeve securely fits up to 16" laptops.' },
       { label: 'Bridle Leather', desc: 'Solid brass hardware with hand-riveted full-grain leather straps.' },
     ],
-    tags: ['tote', 'bag', 'canvas', 'leather', 'accessories', 'laptop', 'travel', 'work', 'commute'],
+    tags: ['tote', 'totes', 'bag', 'bags', 'canvas', 'leather', 'accessories', 'laptop', 'travel', 'work', 'commute', 'black'],
   },
   {
     id: 'p8',
@@ -281,6 +281,6 @@ export const MASTER_PRODUCTS: Product[] = [
       { label: 'Scratch-Proof', desc: 'Anti-reflective sapphire crystal glass rated 9 on the Mohs hardness scale.' },
       { label: 'Horween Leather', desc: 'Hand-stitched genuine American Horween leather strap.' },
     ],
-    tags: ['watch', 'chronograph', 'accessories', 'timepiece', 'steel', 'leather', 'gift', 'luxury'],
+    tags: ['watch', 'watches', 'chronograph', 'accessories', 'timepiece', 'steel', 'leather', 'gift', 'luxury', 'black'],
   },
 ];

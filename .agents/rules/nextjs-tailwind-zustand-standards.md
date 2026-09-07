@@ -47,6 +47,30 @@ export async function checkSession() {
 - Always import navigation hooks from `next/navigation` (`useRouter`, `usePathname`, `useSearchParams`).
 - **NEVER** import from `next/router` (which is legacy Pages Router and will fail).
 
+### Overlay & Drawer Navigation Auto-Dismiss Standard (CRITICAL)
+In Next.js App Router, client-side `<Link>` components transition routes without a full page reload. When rendering navigation links inside fixed slide-over drawers, modals, or full-screen search terminals (`fixed inset-0 z-[9999]`):
+1. **Explicit Close on Links**: Every `<Link>` rendered inside an overlay MUST unconditionally attach the close handler (e.g. `onClick={closeConcierge}` or `onClick={closeDrawer}`).
+2. **Automated Route Change & Popstate Guard**: Every overlay component MUST monitor route transitions and browser history to dismiss itself if navigation occurs:
+   ```tsx
+   const pathname = usePathname();
+   const prevPathRef = useRef(pathname);
+
+   // Auto-close overlay on route transition
+   useEffect(() => {
+     if (prevPathRef.current !== pathname) {
+       prevPathRef.current = pathname;
+       closeDrawer();
+     }
+   }, [pathname, closeDrawer]);
+
+   // Auto-close on browser back / forward buttons
+   useEffect(() => {
+     const handlePopState = () => closeDrawer();
+     window.addEventListener('popstate', handlePopState);
+     return () => window.removeEventListener('popstate', handlePopState);
+   }, [closeDrawer]);
+   ```
+
 ---
 
 ## 2. Tailwind CSS v4 Standards
@@ -288,8 +312,6 @@ export function ComponentWithModal() {
 - **Exact Data & Microcopy Parity**: Product identifiers (`id: 'p2'`), discount percentages, eyebrow tags (`Flash Sale`, `Smart Search`, `Recommended for You`), and CTA labels must match the prototype 1-to-1.
 - **Pre-Completion Branch Parity Diff Verification**: Before declaring migration completion, run an automated parity script or diff against the reference prototype HTML to confirm that section counts, container IDs, and core interactive anchors match with zero unexplained divergence.
 
----
-
 ## 10. Modal Quick-Add Overlay Isolation Invariant
 
 - **Modal Quick-Add Side-Effect Containment**:
@@ -297,6 +319,47 @@ export function ComponentWithModal() {
   - If `addItem()` defaults to setting `isOpen: true` (opening the `MiniCartDrawer`), the modal component must immediately call `useCartStore.getState().closeCart()` (or add the item silently) so that the cart drawer backdrop (`z-[9998]`) does not render and intercept pointer events.
   - The active modal must remain in primary focus, with the quick-add button displaying a temporary inline success state (e.g., green `✓ Added`), and the cart counter badge updating ambiently.
 
+---
 
+## 11. Mandatory React Portal Architecture & Brand Surface Invariant for Overlays
 
+- **Direct Body Portaling (`createPortal`)**:
+  - Modals, drawers, and full-screen dialogs must NEVER be rendered inline within a page component's local DOM tree.
+  - Always render via `createPortal(modalContent, document.body)`.
+  - **Why**: Prevents CSS containing block traps (`transform`, `perspective`, `filter`, `backdrop-filter`, or tall page heights) from anchoring `fixed inset-0` backdrops to parent containers, which pushes dialogs hundreds or thousands of pixels offscreen below the fold.
+- **SSR Hydration Guard (`mounted`)**:
+  - Always guard portal rendering with a client mount check:
+    ```tsx
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
+    if (!mounted || !isOpen) return null;
+    return createPortal(modalContent, document.body);
+    ```
+- **Body Scroll Locking & Keydown Cleanup**:
+  - Lock body scroll when the modal is open (`document.body.style.overflow = 'hidden'`) and restore on close/unmount.
+  - Listen for `Escape` key to close the dialog cleanly.
+- **nexCommerce Brand Surface Palette Invariant**:
+  - Dialog background must strictly use the Deep Brand Navy palette:
+    `background: linear-gradient(145deg, rgba(13, 20, 40, 0.98) 0%, rgba(5, 11, 24, 0.99) 100%)`
+  - Backdrop: `rgba(3, 11, 23, 0.82)` with `backdrop-filter: blur(16px)`.
+  - Eyebrows & primary action buttons: Cyan `#3DE0FF`.
+  - Strictly avoid generic flat black, purple-magenta, or obsidian-950 palettes.
+- **Reference Branch Visual Ground Truth Protocol**:
+  - When matching UI/UX against a reference branch (e.g., `feature/storefront-elevation`), always take a full-page browser screenshot of the reference implementation first to verify exact pixel dimensions, spacing, typography scales, and interactive states before writing code.
+
+---
+
+## 12. Mandatory Authentication Route Layout Isolation Invariant
+
+- **Zero Storefront Chrome on Dedicated Auth Routes**:
+  - Dedicated authentication routes (`/signin`, `/signup`, `/forgot-password`) MUST NEVER render global navigation chrome (`Header`, `Footer`, `#aiTourFloatingBtn`, or promotional bars).
+  - Components like `Header.tsx`, `Footer.tsx`, and `FeatureTourModal.tsx` must inspect `usePathname()`:
+    ```tsx
+    const pathname = usePathname();
+    if (pathname === '/signin' || pathname === '/signup') return null;
+    ```
+- **Full-Viewport Split-Screen Geometry (`100vh`)**:
+  - Auth routes must render a dedicated 2-column split canvas (`min-h-screen grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]`).
+  - Left panel: Lifestyle photography with continuous Ken Burns motion (`@keyframes authKenBurns`).
+  - Right panel: Brand Deep Navy background (`#012148` to `#0A1B3D`) with radial gradient illumination, containing a centered `<form>` portal with direct link to `/`.
 

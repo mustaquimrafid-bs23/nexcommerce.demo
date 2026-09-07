@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   ShoppingBag,
   Heart,
@@ -32,6 +33,9 @@ import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 import { useDeliveryGateStore } from '@/store/useDeliveryGateStore';
 
 export function Header() {
+  const pathname = usePathname();
+  if (pathname === '/signin' || pathname === '/signup') return null;
+
   const { currency, toggleCurrency } = useCurrencyStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -236,24 +240,22 @@ export function Header() {
 
           {/* Center: Smart Search Pill with Focus Ring & Canonical IDs */}
           <div className="hidden lg:flex flex-1 max-w-md mx-6">
-            <button
-              onClick={openSearch}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-full bg-[#0A2A54]/80 hover:bg-[#0A2A54] border border-white/10 hover:border-white/25 focus-visible:ring-2 focus-visible:ring-[#3DE0FF]/50 focus-visible:border-[#3DE0FF] focus:outline-none text-xs text-white/60 hover:text-white transition-all shadow-inner cursor-pointer"
-              id="searchTriggerBtn"
-              aria-label="Search Catalog (Ctrl + K)"
-            >
-              <div className="flex items-center gap-2.5">
-                <Search size={14} className="text-[#3DE0FF]" />
+            <div className="w-full flex items-center justify-between px-4 py-2 rounded-full bg-[#0A2A54]/80 hover:bg-[#0A2A54] border border-white/10 hover:border-white/25 focus-within:ring-2 focus-within:ring-[#3DE0FF]/50 focus-within:border-[#3DE0FF] text-xs text-white/60 transition-all shadow-inner">
+              <button
+                type="button"
+                onClick={openSearch}
+                className="flex-1 flex items-center gap-2.5 text-left cursor-pointer focus:outline-none text-white/60 hover:text-white truncate"
+                id="searchTriggerBtn"
+                aria-label="Search Catalog (Ctrl + K)"
+              >
+                <Search size={14} className="text-[#3DE0FF] shrink-0" />
                 <span className="truncate">Search, or describe what you need...</span>
-              </div>
-              <div className="flex items-center gap-2">
+              </button>
+              <div className="flex items-center gap-2 shrink-0 ml-2">
                 <button
                   type="button"
                   id="globalVisualSearchTrigger"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openVisualSearch();
-                  }}
+                  onClick={() => openVisualSearch()}
                   className="p-1 text-white/50 hover:text-accent-pink transition-colors cursor-pointer"
                   title="Search by image"
                 >
@@ -263,7 +265,7 @@ export function Header() {
                   <kbd>Ctrl</kbd>+<kbd>K</kbd>
                 </span>
               </div>
-            </button>
+            </div>
           </div>
 
           {/* Right: Actions & 3-Dot Dropdown */}

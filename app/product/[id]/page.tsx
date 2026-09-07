@@ -18,11 +18,13 @@ import {
   Minus,
   Plus,
   CheckCircle2,
+  Columns,
 } from 'lucide-react';
 import { MASTER_PRODUCTS } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { useConciergeStore } from '@/store/useConciergeStore';
+import { useComparisonStore } from '@/store/useComparisonStore';
 import { PerspectiveSwitcher, PerspectiveMode } from '@/components/product/PerspectiveSwitcher';
 import { AIFitModal } from '@/components/product/AIFitModal';
 import { CompleteLookBundle } from '@/components/product/CompleteLookBundle';
@@ -56,7 +58,11 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   const { addItem } = useCartStore();
   const { toggleWishlist, isWishlisted } = useWishlistStore();
-  const { openConcierge, sendMessage } = useConciergeStore();
+  const { openConcierge, sendMessage, setPDPContext } = useConciergeStore();
+
+  React.useEffect(() => {
+    setPDPContext(product);
+  }, [product, setPDPContext]);
 
   const wishlisted = isWishlisted(product.id);
 
@@ -98,7 +104,10 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   const handleTriggerCompare = () => {
-    setIsCompareOpen(true);
+    const altProduct =
+      MASTER_PRODUCTS.find((p) => p.id !== product.id && p.category === product.category) ||
+      (MASTER_PRODUCTS.find((p) => p.id !== product.id) || MASTER_PRODUCTS[1]);
+    useComparisonStore.getState().openComparison(product, altProduct);
   };
 
   const toggleAccordionSection = (section: string) => {
@@ -386,10 +395,11 @@ export default function ProductPage({ params }: ProductPageProps) {
                   type="button"
                   id="pdpCompareBtn"
                   onClick={handleTriggerCompare}
-                  className="py-2.5 px-3 rounded-xl bg-obsidian-950/60 border border-white/10 hover:border-accent-pink/40 text-xs text-white/80 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className="py-2.5 px-3 rounded-xl bg-obsidian-950/60 border border-[#3DE0FF]/30 hover:border-[#3DE0FF] text-xs text-white/90 flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(61,224,255,0.15)]"
                 >
-                  <Scale size={13} className="text-accent-pink" />
-                  <span>Compare Piece</span>
+                  <Columns size={13} className="text-[#3DE0FF]" />
+                  <span>Compare with Alternative Piece</span>
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#3DE0FF]/15 text-[#3DE0FF] tracking-wider uppercase">Smart</span>
                 </button>
               </div>
             </div>

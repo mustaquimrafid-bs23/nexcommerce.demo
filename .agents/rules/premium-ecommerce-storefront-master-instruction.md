@@ -1535,3 +1535,63 @@ That is the standard the implementation should target.
 * Placed orders must be synchronized across both active session keys (`sessionStorage['latest_order']`, `sessionStorage['nex_confirmed_order']`) and local history lists (`localStorage['nex_placed_orders']`, `localStorage['nex_orders']`).
 * Both Confirmation and Order Details must hydrate dynamically from these keys, displaying actual purchased items and customer details without falling back to static mock data.
 
+---
+
+## 49. 24/7 Personal Stylist Chat & Interactive Look Bundles (Feature 04 Invariant)
+When designing, migrating, or testing the Personal Stylist Chat (`ConciergeDrawer.tsx` / `useConciergeStore.ts`):
+
+### A. Royal Sapphire Navy Brand Strict Invariant
+* **Zero Pitch-Black**: Generic pitch-black (`#000000`, `#0A0A0A`, `bg-black/*`) is strictly forbidden across all assistant elements.
+* **Backdrop**: `rgba(1, 20, 46, 0.80)` (`#01142e]/80`) with `backdrop-blur-md`.
+* **Drawer Container**: `linear-gradient(180deg, #071e3d 0%, #03152c 50%, #010d1c 100%)` with electric cyan border (`border-[#3DE0FF]/25`).
+* **Accents**: Electric Cyan (`#3DE0FF`) for category labels, active equalizers, and voice indicators; Accent Pink/Crimson (`#F13365` → `#E60C45`) for look bundle badges and primary action buttons.
+
+### B. In-Stream Look Bundles & Reactive Checkbox Recalculation
+* **Rich Attachments**: Styling responses must never be text-only. Inquiries regarding outfit combinations or matching pieces (e.g., blazer matching pants & shoes) must attach a structured `bundle` object (`bundle: { title, products, totalPrice, discountedPrice }`).
+* **Interactive Checkbox Items**: Look bundle cards (`.concierge-look-bundle`) must render individual item checkboxes (default checked).
+* **Real-Time Recalculation**: Checking or unchecking an item must immediately recalculate the visible subtotal and update the primary gradient CTA button text to `ADD SELECTED ITEMS TO BAG ([N] ITEMS)`.
+
+### C. In-Chat Audio Summary Player Bar
+* Every assistant styling recommendation must supply a concise `spokenSummary` string.
+* The drawer must render `.stylist-audio-bar` featuring a Play/Pause button, an animated 6-bar audio equalizer, and speech synthesis narration via `window.speechSynthesis`.
+
+### D. Contextual PDP Awareness
+* When browsing a product page (`/product/[id]`), the stylist store must track `pdpContext`.
+* Opening the drawer on a product page must greet the customer with tailored coordination suggestions for that exact item (e.g., "Suggest matching pants and shoes for this blazer").
+
+### E. Canonical ID Compliance
+* Overlay: `#nexConciergeOverlay`
+* Drawer: `#nexConciergeDrawer`
+* Floating FAB: `#nexConciergeFloatingPill`
+* Stream: `#conciergeStream`
+* Chips: `#conciergeChips`
+* Form & Input: `#conciergeForm`, `#conciergeInput`
+* Microphone: `#conciergeMicBtn`
+* Voice Toggle: `#conciergeVoiceToggleBtn`
+
+---
+
+# 51. Mandatory Authentication Route Layout Isolation & Brand Standards
+
+### A. Dedicated Full-Viewport Canvas (No Storefront Chrome)
+* **Zero Storefront Clutter**: Dedicated authentication routes (`/signin`, `/signup`, `/forgot-password`) MUST NEVER render standard storefront navigation chrome (`Header`, `Footer`, `#aiTourFloatingBtn`, or promotional announcement bars).
+* **Layout Isolation**: Global layout components (`Header.tsx`, `Footer.tsx`, `FeatureTourModal.tsx`) must check `usePathname()` and return `null` or suppress triggers on `/signin` and `/signup`.
+* **Split-Canvas Geometry**: The auth page must render as a full-viewport split canvas (`.auth-shell`, `min-h-screen`, `grid-cols-1 lg:grid-cols-[1.15fr_1fr]`).
+  * **Left Panel**: Full-bleed atelier lifestyle photography with 18s hardware-accelerated Ken Burns zoom physics (`@keyframes authKenBurns`) and vertical gradient overlay.
+  * **Right Panel**: Centered max-width 440px form portal (`auth-form-container`) with the official nexCommerce logo linking directly to `/`.
+
+### B. Brand Deep Navy Base Background Standard
+* Auth shells and background panels MUST strictly adhere to the official nexCommerce Brand Guidelines:
+  * **Base Field**: Deep navy base (`#012148` to `#0A1B3D`) with subtle radial illumination (`radial-gradient(circle at 50% 0%, #012B61 0%, #012148 60%, #0A1B3D 100%)`).
+  * **Zero Pitch-Black**: Avoid generic black (`#000000`) or desaturated grey.
+  * **Typography**: Clean sans-serif/Outfit headers (`Welcome back.`) with uppercase tracking labels (`EMAIL ADDRESS`, `PASSWORD`) in `#94A3B8`.
+  * **Accents**: Interactive focus states, sparkle icons, and links must use secondary cyan (`#3DE0FF`). High-contrast primary CTA must use crisp white (`#FFFFFF`) with dark `#030814` text.
+
+### C. Interactive Human-Centric Features & State Guards
+* **1-Click Demo Client Pill**: Must provide a high-visibility gradient pill with a `DEMO ACCESS` badge that pre-fills demo credentials (`demo@nexcommerce.ai` / `password123`) and triggers a subtle cyan border pulse on inputs.
+* **Social SSO Placement**: Vector Google & Apple SSO buttons must be positioned *before* the credentials divider for instant frictionless access.
+* **Password Visibility Peek**: Interactive `#passwordToggleBtn` with Lucide `Eye`/`EyeOff` switching between hidden dots and readable text without losing input focus.
+* **Form Validation & Micro-Interactions**: Form shake animation (`@keyframes authShake`) and high-visibility `#authError` banner on missing or invalid fields.
+* **Explicit Signed-Out Banner**: Detect `?signed_out=true` from query params, immediately clear session tokens from `localStorage`, and display an emerald confirmation alert.
+* **Contextual Subheading**: Dynamically adapt subtitle copy when redirected from a shopping cart or checkout flow (e.g. "Sign in to access your shopping bag and proceed to checkout.").
+* **Forgot Password Dispatch**: Trigger a floating status toast notification at bottom-center confirming email dispatch.

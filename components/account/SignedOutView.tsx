@@ -78,13 +78,22 @@ export function SignedOutView({ onSignIn }: SignedOutViewProps) {
         </button>
       </form>
 
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1 text-xs text-accent-cyan hover:underline mt-6 tracking-wide"
-      >
-        <span>CONTINUE AS GUEST</span>
-        <ArrowRight size={13} />
-      </Link>
+      <div className="flex flex-col sm:flex-row items-center gap-4 mt-6 text-xs text-white/50">
+        <Link
+          href="/signin"
+          className="inline-flex items-center gap-1.5 text-accent-cyan hover:underline font-medium tracking-wide"
+        >
+          <span>Use 1-Click Demo / SSO on Sign In Page</span>
+          <ArrowRight size={13} />
+        </Link>
+        <span className="hidden sm:inline text-white/20">&middot;</span>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-white/50 hover:text-white hover:underline tracking-wide transition-colors"
+        >
+          <span>Continue as Guest</span>
+        </Link>
+      </div>
     </div>
   );
 }

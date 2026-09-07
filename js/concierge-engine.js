@@ -135,10 +135,7 @@
         text: `Featured wardrobe pieces & styling ideas:`,
         suggestedChips: [
           'Place an order (Voice Demo)',
-          'Place an order (Text Demo)',
-          'Build cart by budget',
-          'Compare top pieces',
-          'Upload shopping slip'
+          'Build cart by budget'
         ],
         products: catalog.slice(0, 3)
       };

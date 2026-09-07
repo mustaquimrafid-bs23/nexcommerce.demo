@@ -129,6 +129,8 @@ Avoid the common visual patterns that make modern websites feel AI-generated or 
 * ❌ Oversized generic headings with empty buzzwords ("Unlock your style", "Powered by AI", "Revolutionary experience")
 * ❌ Excessive badges and chips stacked on single cards
 * ❌ Cluttered floating elements that distract from product photography
+* ❌ **Old-style serif figures on technical data**: Never use serif fonts with non-lining/old-style figures (`Cormorant Garamond`) for product sizes, metric cards, or counters—uneven baselines (e.g. dropping '5', shrunken '0', elevated '6') look like AI image generation glitches.
+* ❌ **Clinical or robotic AI copy**: Never use clinical medical jargon (e.g. "acromion bone", "interactive calibrator") in customer-facing sizing or marketing copy. Keep copy human, warm, and natural.
 * ✅ Clean, editorial typography with intentional art direction, natural daylight photography, and calm luxury copy.
 
 ---
@@ -239,5 +241,18 @@ Apply this typography system consistently across the homepage, navigation, produ
 
 ---
 
-*Last updated: 2026-08-20 | Approved European Luxury Typography Blueprint*
+## 17. Lining Numerals for Technical Sizing & Metrics (The Anti-AI Hallucination Invariant)
+
+Whenever rendering numerical data, sizes, measurements, or interactive sliders:
+1. **Strictly Sans-Serif Lining Numerals**:
+   - Garment sizes (`44`, `46`, `48`, `50`, `52`, `54`), shoe sizes (`EU 42`), slider readout values (`102 cm`, `82 cm`), and dimension badges must strictly use `--font-display` (`Manrope`) or `--font-body` (`Inter`) with `tabular-nums`.
+   - **Prohibited**: Applying `font-editorial` (`Cormorant Garamond`) to raw numbers or sizing matrices.
+2. **Uniform Cap-Height & Flat Baselines**:
+   - All numerals in a row or matrix must share identical vertical alignment, cap-height, and baseline.
+3. **Clean Measurement Stacking**:
+   - Display metric and international conversions on clean, legible single lines (`M · UK/US 38`, `Chest 98–102 cm`) rather than awkward vertical word stacks.
+
+---
+
+*Last updated: 2026-09-07 | Approved European Luxury Typography Blueprint*
 

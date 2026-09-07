@@ -25,7 +25,7 @@ describe('useCartStore Zustand Unit Tests', () => {
     expect(getSubtotal()).toBe(0);
   });
 
-  it('should add an item to the cart and open drawer', () => {
+  it('should add an item to the cart without automatically opening drawer', () => {
     useCartStore.getState().addItem(sampleProduct, 'M', 'Oatmeal');
     const { items, getItemCount, getSubtotal, isOpen } = useCartStore.getState();
 
@@ -36,7 +36,14 @@ describe('useCartStore Zustand Unit Tests', () => {
     expect(items[0].selectedColor).toBe('Oatmeal');
     expect(getItemCount()).toBe(1);
     expect(getSubtotal()).toBe(680);
-    expect(isOpen).toBe(true);
+    expect(isOpen).toBe(false);
+  });
+
+  it('should open and close drawer only when explicit actions are triggered', () => {
+    useCartStore.getState().openCart();
+    expect(useCartStore.getState().isOpen).toBe(true);
+    useCartStore.getState().closeCart();
+    expect(useCartStore.getState().isOpen).toBe(false);
   });
 
   it('should increment quantity when adding the same item with identical variant', () => {

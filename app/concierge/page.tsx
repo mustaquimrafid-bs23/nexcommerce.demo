@@ -25,6 +25,7 @@ import { Product } from '@/types/catalog';
 import { MASTER_PRODUCTS } from '@/data/products';
 
 const SCENARIO_PROMPT_CHIPS = [
+  { label: '✦ Blazer Matching Look', prompt: 'Suggest matching pants and shoes for this blazer' },
   { label: '✦ 3-Day Winter Alpine Trip', prompt: 'Style a 3-day winter trip in St. Moritz' },
   { label: '✦ Knitwear & Sweaters', prompt: 'Show me tailored knitwear and blazers' },
   { label: '✦ Fit & Sizing Advice', prompt: 'What size should I get for cashmere sweaters?' },

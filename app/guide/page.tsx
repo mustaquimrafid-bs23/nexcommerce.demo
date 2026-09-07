@@ -32,6 +32,9 @@ import {
 } from 'lucide-react';
 import { useConciergeStore } from '@/store/useConciergeStore';
 import { useSearchStore } from '@/store/useSearchStore';
+import { useComparisonStore } from '@/store/useComparisonStore';
+import { useBudgetCartStore } from '@/store/useBudgetCartStore';
+import { MASTER_PRODUCTS } from '@/data/products';
 
 interface FeatureItem {
   id: number;
@@ -45,7 +48,7 @@ interface FeatureItem {
   borderAccent: string;
   href: string;
   actionText: string;
-  actionType?: 'link' | 'search' | 'concierge' | 'photo';
+  actionType: 'search' | 'voice-search' | 'concierge' | 'comparison' | 'budget' | 'link';
 }
 
 interface StageSection {
@@ -139,7 +142,7 @@ const FEATURES: FeatureItem[] = [
     borderAccent: 'hover:border-sky-400/50',
     href: '/discovery?mode=voice',
     actionText: 'Try Voice Search',
-    actionType: 'search',
+    actionType: 'voice-search',
   },
 
   // STAGE 2
@@ -148,8 +151,8 @@ const FEATURES: FeatureItem[] = [
     num: 'Feature 04',
     stageId: 'styling',
     title: '24/7 Personal Stylist',
-    whatItDoes: 'A dedicated style assistant that knows which piece you are viewing and offers instant coordination advice, fabric care, and sizing suggestions.',
-    example: 'Viewing a merino knitwear piece? The stylist suggests matching tailored trousers and care tips.',
+    whatItDoes: 'A private chat stylist that knows what product you are viewing and gives instant styling, fabric, and size tips.',
+    example: 'Viewing a blazer? It suggests matching pants & shoes.',
     icon: MessageSquare,
     iconGradient: 'from-rose-500 to-pink-600',
     borderAccent: 'hover:border-rose-400/50',
@@ -161,13 +164,13 @@ const FEATURES: FeatureItem[] = [
     id: 5,
     num: 'Feature 05',
     stageId: 'styling',
-    title: '1-Click Complete Outfits',
-    whatItDoes: 'Puts together complete head-to-toe coordinated looks (jacket + knitwear + trousers + footwear) and lets you add the full set in a single tap.',
-    example: 'Select "City Weekend Capsule" to bundle overcoat, cashmere crewneck, and trainers together.',
+    title: '1-Click Outfit Bundles',
+    whatItDoes: 'Bundles complete head-to-toe matching looks in 1 click.',
+    example: '1 button adds jacket, shirt, pants, and watch together.',
     icon: Layers,
     iconGradient: 'from-amber-500 to-orange-600',
     borderAccent: 'hover:border-amber-400/50',
-    href: '/product/1',
+    href: '/discovery#drops',
     actionText: 'View Outfits',
     actionType: 'link',
   },
@@ -175,13 +178,13 @@ const FEATURES: FeatureItem[] = [
     id: 6,
     num: 'Feature 06',
     stageId: 'styling',
-    title: 'Precise Size & Fit Guide',
-    whatItDoes: 'Enter your chest and waist measurements to find your recommended size and see whether the garment drapes in a tailored or relaxed fit.',
-    example: 'Chest 98 cm + Waist 82 cm → Recommended Size Medium (94% fit match).',
+    title: 'Smart Size & Fit Advisor',
+    whatItDoes: 'Enter your chest and waist measurements to find your exact size and see how fitted or relaxed the garment will drape on you.',
+    example: 'Chest 98cm + Waist 82cm → Size Medium (94% fit confidence).',
     icon: Ruler,
     iconGradient: 'from-emerald-500 to-teal-600',
     borderAccent: 'hover:border-emerald-400/50',
-    href: '/product/1',
+    href: '/size-guide',
     actionText: 'Open Size Guide',
     actionType: 'link',
   },
@@ -190,14 +193,14 @@ const FEATURES: FeatureItem[] = [
     num: 'Feature 07',
     stageId: 'styling',
     title: 'Side-by-Side Comparison',
-    whatItDoes: 'Compares two similar garments side by side on fabric warmth, material composition, and price, with a clear summary on which one to choose.',
-    example: '"Choose Cashmere for cold winter evenings; choose Fine-Knit Merino for climate-controlled offices."',
+    whatItDoes: 'Compares two items side-by-side across warmth, fabric, and fit.',
+    example: '"Choose Cashmere for winter; Fine-Knit for office."',
     icon: Scale,
     iconGradient: 'from-cyan-500 to-blue-600',
     borderAccent: 'hover:border-cyan-400/50',
-    href: '/category',
+    href: '/category?open=comparison',
     actionText: 'Compare Items',
-    actionType: 'link',
+    actionType: 'comparison',
   },
 
   // STAGE 3
@@ -205,15 +208,15 @@ const FEATURES: FeatureItem[] = [
     id: 8,
     num: 'Feature 08',
     stageId: 'budget',
-    title: 'Target-Budget Wardrobe Builder',
-    whatItDoes: 'Set a total spending limit (e.g. £500), and it automatically curates a complete matching wardrobe that stays strictly within your budget.',
-    example: 'Set £500 limit → selects wool jumper + trousers + leather bag = £454 (£46 budget left over).',
+    title: 'Target-Budget Cart Builder',
+    whatItDoes: 'Set a spending limit and it builds a matching wardrobe for you.',
+    example: 'Set $500 budget → gets 3 matching pieces for $454.',
     icon: Wallet,
     iconGradient: 'from-emerald-500 to-teal-600',
     borderAccent: 'hover:border-emerald-400/50',
-    href: '/cart',
-    actionText: 'Build Within Budget',
-    actionType: 'link',
+    href: '/cart?open=budget',
+    actionText: 'Build Under Budget',
+    actionType: 'budget',
   },
   {
     id: 9,
@@ -332,13 +335,28 @@ export default function GuidePage() {
   };
 
   const handleActionClick = (feature: FeatureItem, e: React.MouseEvent) => {
-    if (feature.actionType === 'concierge') {
+    if (feature.actionType === 'voice-search') {
       e.preventDefault();
-      openConcierge(feature.example.replace(/^["']|["']$/g, ''));
+      useSearchStore.getState().openVoiceSearch(true);
+    } else if (feature.actionType === 'concierge') {
+      e.preventDefault();
+      const query =
+        feature.id === 4
+          ? 'Suggest matching pants and shoes for this blazer'
+          : feature.example.replace(/^["']|["']$/g, '');
+      openConcierge(query);
     } else if (feature.actionType === 'search') {
       e.preventDefault();
       const cleanQuery = feature.example.replace(/^["']|["']$/g, '');
       useSearchStore.getState().openSearch(cleanQuery, true);
+    } else if (feature.actionType === 'comparison' || feature.id === 7) {
+      e.preventDefault();
+      const p1 = MASTER_PRODUCTS[0];
+      const p2 = MASTER_PRODUCTS.find((p) => p.id !== p1.id) || MASTER_PRODUCTS[1];
+      useComparisonStore.getState().openComparison(p1, p2);
+    } else if (feature.actionType === 'budget' || feature.id === 8) {
+      e.preventDefault();
+      useBudgetCartStore.getState().openBudget(500, 'autumn');
     }
   };
 

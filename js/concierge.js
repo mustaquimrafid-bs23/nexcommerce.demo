@@ -1056,8 +1056,9 @@
       chipsContainerEl.innerHTML = '';
       return;
     }
-    const html = chips.map(c => `
-      <button type="button" class="concierge-chip" data-action="send-chip" data-chip-text="${escapeHtml(c)}">${escapeHtml(c)}</button>
+    const filteredChips = chips.filter(c => c !== 'Place an order (Text Demo)').slice(0, 2);
+    const html = filteredChips.map(c => `
+      <button type="button" class="concierge-chip" data-action="send-chip" data-chip-text="${escapeHtml(c)}" title="${escapeHtml(c)}">${escapeHtml(c)}</button>
     `).join('');
     chipsContainerEl.innerHTML = html;
   }

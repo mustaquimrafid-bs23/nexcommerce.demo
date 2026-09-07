@@ -52,10 +52,10 @@ console.log('  ✓ Dimension 4: Cross-Page Consistency & header triggers passed'
 // ─── DIMENSION 5: End-to-End User Flows ─────────────────────────────────────
 console.log('\n📌 Dimension 5: End-to-End User Flows');
 assert(searchOverlayCode.includes('handleNavigateDiscovery'), 'Search Overlay must link to /discovery?q=...');
-assert(searchOverlayCode.includes('openCart'), 'Search Overlay Quick-Add must open Cart drawer');
+assert(!searchOverlayCode.includes('openCart()'), 'Search Overlay Quick-Add must not automatically open Cart drawer');
 assert(discoveryCode.includes('useSearchParams'), 'Discovery Page must read ?q= search parameters');
-assert(discoveryCode.includes('openCart'), 'Discovery Page Quick-Add must open Cart drawer');
-console.log('  ✓ Dimension 5: E2E Search-to-Discovery and Search-to-Bag flows passed');
+assert(!discoveryCode.includes('openCart()'), 'Discovery Page Quick-Add must not automatically open Cart drawer');
+console.log('  ✓ Dimension 5: E2E Search-to-Discovery and silent Quick-Add flows passed');
 
 // ─── DIMENSION 6: Edge Cases & 0-Item Boundary Conditions ────────────────────
 console.log('\n📌 Dimension 6: Edge Cases & 0-Item Boundary Conditions');

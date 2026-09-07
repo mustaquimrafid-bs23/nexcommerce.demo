@@ -2,9 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Globe, Check } from 'lucide-react';
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname === '/signin' || pathname === '/signup') return null;
+
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 

@@ -76,5 +76,19 @@ When converting prototype components (`js/*.js`, `pages/*.html`) into Next.js/Re
 3. **Composite Component Assertions in Automated Tests**:
    - Tests for interactive features inside modals or drawers must assert the host container's header title, layout grid, and primary action copy in addition to individual feature button IDs.
 
+---
 
+## 10. Playwright MCP Sandbox & Tool Precision Invariants
+When using Playwright MCP tools (`browser_take_screenshot`, `browser_wait_for`):
+1. **Screenshot Sandbox Constraint**: The Playwright MCP server on Windows restricts direct file output to `.playwright-mcp`. Do not pass arbitrary absolute paths in `filename`. Take screenshots with default/relative filenames within `.playwright-mcp`, then copy resulting images to the artifact directory (`<appDataDir>\brain\<conversation-id>`) for rendering in walkthroughs and artifacts.
+2. **Waiting Unit Precision**: In `browser_wait_for`, the `time` argument specifies **seconds**, NOT milliseconds. Always pass small integer values (e.g., `time: 1` for 1 second, `time: 2` for 2 seconds).
+3. **Workspace File Writing Guardrail**: `ArtifactMetadata` must only be passed to `write_to_file` when creating documents in the artifact directory. When creating or writing workspace source code, omit `ArtifactMetadata` completely.
 
+---
+
+## 11. Reference Branch Visual Ground Truth & Side-by-Side Screenshot Rule
+When a user requests matching a specific git branch (e.g. `feature/storefront-elevation`):
+1. **Locate Reference Files & Worktree**: Check git worktrees (`git worktree list`) or worktree directories (`scratch/elevation-ref/`).
+2. **Capture Full-Page Reference Screenshot**: Capture a live full-page browser screenshot of the reference page in `chrome-devtools-mcp` or `playwright`.
+3. **Capture Matching Implementation Screenshot**: Capture a matching full-page screenshot of the newly implemented page.
+4. **Side-by-Side Visual Audit**: Perform an explicit side-by-side visual comparison (layout grid, typography, background hex values, touch targets, interactive states) before declaring completion.

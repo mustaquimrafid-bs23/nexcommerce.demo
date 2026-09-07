@@ -39,6 +39,7 @@ export default function CartPage() {
   // Modals state
   const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
   const [isSlipModalOpen, setIsSlipModalOpen] = useState(false);
+  const [slipPreset, setSlipPreset] = useState<'receipt' | 'capsule' | 'essentials' | 'ambiguous' | undefined>(undefined);
   const [isRecoveryModalOpen, setIsRecoveryModalOpen] = useState(false);
   const [removingItemId, setRemovingItemId] = useState<string | null>(null);
 
@@ -65,6 +66,23 @@ export default function CartPage() {
     setMounted(true);
     // Ensure minicart drawer is closed when viewing full cart page
     closeCart();
+
+    // Auto-open modals based on URL query parameters
+    try {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const open = params.get('open');
+        if (open === 'budget' || open === 'budget-cart') {
+          setIsBudgetModalOpen(true);
+        } else if (open === 'slip' || open === 'slip-to-cart') {
+          const preset = params.get('preset') as any;
+          if (preset && ['receipt', 'capsule', 'essentials', 'ambiguous'].includes(preset)) {
+            setSlipPreset(preset);
+          }
+          setIsSlipModalOpen(true);
+        }
+      }
+    } catch (e) {}
 
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 10 && items.length > 0) {
@@ -368,8 +386,10 @@ export default function CartPage() {
               </Link>
               <button
                 type="button"
+                id="emptyBudgetBtn"
+                data-action="open-budget-cart"
                 onClick={() => setIsBudgetModalOpen(true)}
-                className="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5"
+                className="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-white transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <Sparkles size={13} className="text-accent-cyan" />
                 <span>Smart Budget Builder</span>
@@ -712,6 +732,7 @@ export default function CartPage() {
       <SlipToCartModal
         isOpen={isSlipModalOpen}
         onClose={() => setIsSlipModalOpen(false)}
+        initialPreset={slipPreset}
       />
 
       <CartRecoveryModal

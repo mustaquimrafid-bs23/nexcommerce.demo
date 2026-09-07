@@ -91,7 +91,16 @@ interface SearchState {
   recentSearches: string[];
   contextPills: { tag: string; label: string }[];
   pendingAutoSearch: string | null;
-  openSearch: (initialQuery?: string | unknown, autoExecute?: boolean) => void;
+  isVoiceMode: boolean;
+  isVoiceListening: boolean;
+  voiceSpokenQuery: string | null;
+  spokenSummary: string | null;
+  openSearch: (initialQuery?: string | unknown, autoExecute?: boolean, voiceMode?: boolean) => void;
+  openVoiceSearch: (autoDemo?: boolean) => void;
+  setVoiceMode: (active: boolean) => void;
+  setVoiceListening: (listening: boolean) => void;
+  setVoiceSpokenQuery: (query: string | null) => void;
+  setSpokenSummary: (summary: string | null) => void;
   clearPendingAutoSearch: () => void;
   closeSearch: () => void;
   setQuery: (q: string) => void;
@@ -122,8 +131,12 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   recentSearches: DEFAULT_RECENTS,
   contextPills: [],
   pendingAutoSearch: null,
+  isVoiceMode: false,
+  isVoiceListening: false,
+  voiceSpokenQuery: null,
+  spokenSummary: null,
 
-  openSearch: (initialQuery?: string | unknown, autoExecute: boolean = false) => {
+  openSearch: (initialQuery?: string | unknown, autoExecute: boolean = false, voiceMode: boolean = false) => {
     get().loadRecentSearches();
     if (typeof initialQuery === 'string' && initialQuery.trim()) {
       const clean = initialQuery.trim();
@@ -140,10 +153,39 @@ export const useSearchStore = create<SearchState>((set, get) => ({
         query: clean,
         contextPills: pills,
         pendingAutoSearch: autoExecute ? clean : null,
+        isVoiceMode: !!voiceMode,
       });
     } else {
-      set({ isOpen: true, pendingAutoSearch: null });
+      set({ isOpen: true, pendingAutoSearch: null, isVoiceMode: !!voiceMode });
     }
+  },
+
+  openVoiceSearch: (autoDemo: boolean = false) => {
+    get().loadRecentSearches();
+    set({
+      isOpen: true,
+      isVoiceMode: true,
+      isVoiceListening: true,
+      voiceSpokenQuery: autoDemo ? 'Hey stylist, show me black overcoats under $300' : null,
+      spokenSummary: null,
+      pendingAutoSearch: null,
+    });
+  },
+
+  setVoiceMode: (isVoiceMode: boolean) => {
+    set({ isVoiceMode });
+  },
+
+  setVoiceListening: (isVoiceListening: boolean) => {
+    set({ isVoiceListening });
+  },
+
+  setVoiceSpokenQuery: (voiceSpokenQuery: string | null) => {
+    set({ voiceSpokenQuery });
+  },
+
+  setSpokenSummary: (spokenSummary: string | null) => {
+    set({ spokenSummary });
   },
 
   clearPendingAutoSearch: () => {
@@ -151,7 +193,15 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   },
 
   closeSearch: () => {
-    set({ isOpen: false, query: '', pendingAutoSearch: null });
+    set({
+      isOpen: false,
+      query: '',
+      pendingAutoSearch: null,
+      isVoiceMode: false,
+      isVoiceListening: false,
+      voiceSpokenQuery: null,
+      spokenSummary: null,
+    });
   },
 
   setQuery: (query: string) => {
@@ -294,7 +344,8 @@ export const useSearchStore = create<SearchState>((set, get) => ({
         (p.tags && p.tags.some((t) => t.toLowerCase().includes(q) || q.includes(t.toLowerCase()))) ||
         p.category.toLowerCase().includes(q) ||
         (p.subCategory && p.subCategory.toLowerCase().includes(q)) ||
-        p.description.toLowerCase().includes(q)
+        p.description.toLowerCase().includes(q) ||
+        (p.colors && p.colors.some((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())))
     ).slice(0, 4);
 
     const typoCorrection = matchedProducts.length === 0 && matchedDepartments.length === 0 ? checkTypoCorrection(q) : null;
@@ -334,7 +385,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
         matches = matches.filter(
           (p) =>
             p.category.toLowerCase() === 'outerwear' ||
-            (p.tags && (p.tags.includes('coat') || p.tags.includes('overcoat') || p.tags.includes('outerwear') || p.tags.includes('blazer') || p.tags.includes('warm'))) ||
+            (p.tags && (p.tags.includes('coat') || p.tags.includes('overcoat') || p.tags.includes('overcoats') || p.tags.includes('outerwear') || p.tags.includes('blazer') || p.tags.includes('warm'))) ||
             p.name.toLowerCase().includes('coat') ||
             p.name.toLowerCase().includes('blazer') ||
             p.name.toLowerCase().includes('overcoat')
@@ -344,7 +395,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
           (p) =>
             p.category.toLowerCase() === target ||
             (p.subCategory && p.subCategory.toLowerCase() === target) ||
-            (p.tags && p.tags.some((t) => t.toLowerCase() === target))
+            (p.tags && p.tags.some((t) => t.toLowerCase() === target || target.includes(t.toLowerCase())))
         );
       }
     }
@@ -355,18 +406,21 @@ export const useSearchStore = create<SearchState>((set, get) => ({
         const inBrand = (p.brand || '').toLowerCase().includes(q);
         const inCat = p.category.toLowerCase().includes(q) || (p.subCategory || '').toLowerCase().includes(q);
         const inTags = p.tags ? p.tags.some((t) => t.toLowerCase().includes(q) || q.includes(t.toLowerCase())) : false;
-        return inName || inBrand || inCat || inTags;
+        const inColor = p.colors ? p.colors.some((c) => c.name.toLowerCase().includes(q) || q.includes(c.name.toLowerCase())) : false;
+        return inName || inBrand || inCat || inTags || inColor;
       });
     }
 
     if (matches.length === 0) {
-      const words = q.split(/\s+/).filter((w) => w.length > 2);
+      const stopWords = new Set(['under', 'with', 'for', 'the', 'less', 'than', 'show', 'me', 'hey', 'stylist', 'in', 'and']);
+      const words = q.split(/\s+/).filter((w) => w.length > 2 && !stopWords.has(w));
       matches = MASTER_PRODUCTS.filter((p) => {
         return words.some(
           (w) =>
-            (p.tags && p.tags.some((t) => t.toLowerCase().includes(w))) ||
+            (p.tags && p.tags.some((t) => t.toLowerCase().includes(w) || w.includes(t.toLowerCase()))) ||
             p.name.toLowerCase().includes(w) ||
-            p.category.toLowerCase().includes(w)
+            p.category.toLowerCase().includes(w) ||
+            (p.colors && p.colors.some((c) => c.name.toLowerCase().includes(w)))
         );
       });
     }
@@ -376,8 +430,20 @@ export const useSearchStore = create<SearchState>((set, get) => ({
       let reason = product.reasoning || `Matches your search for "${q}"`;
       let badge = product.matchBadge || 'RECOMMENDED';
 
+      // Specific Overcoat / Budget Demo Tuning
+      if (q.includes('overcoat') || q.includes('coat')) {
+        if (product.id === 'p3') {
+          score = 99;
+          badge = intent.budgetMax ? 'BEST VALUE MATCH' : 'CLIMATE FIT';
+          reason = 'Double-faced virgin wool & cashmere tailored overcoat in Noir Black finish under your budget.';
+        } else if (product.id === 'p2') {
+          score = 94;
+          badge = 'STYLE MATCH';
+          reason = 'Italian virgin wool tailored blazer for refined cool-weather layering.';
+        }
+      }
       // Specific Edinburgh / Cold Weather / Weekend Overcoat Tuning
-      if (intent.location === 'Edinburgh' || (intent.climate === 'Cold Weather (Winter)' && intent.targetCategory === 'Outerwear')) {
+      else if (intent.location === 'Edinburgh' || (intent.climate === 'Cold Weather (Winter)' && intent.targetCategory === 'Outerwear')) {
         if (product.id === 'p3') {
           score = 99;
           badge = intent.location === 'Edinburgh' ? 'PERFECT FOR EDINBURGH' : 'CLIMATE FIT';
