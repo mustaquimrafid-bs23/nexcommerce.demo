@@ -34,7 +34,7 @@ if (fs.existsSync(storePath)) {
 
 if (fs.existsSync(headerPath)) {
   const headerContent = fs.readFileSync(headerPath, 'utf8');
-  assert('Header includes currency switcher trigger', headerContent.includes('currencyToggle') || headerContent.includes('useCurrencyStore') || headerContent.includes('setCurrency'));
+  assert('Header 3-dot dropdown has currency switcher removed per user request', !headerContent.includes('currencyToggleBtn'));
 }
 
 console.log(`\nResults: ${passed} passed, ${failed} failed`);

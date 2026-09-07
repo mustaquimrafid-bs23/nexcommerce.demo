@@ -92,3 +92,14 @@ When a user requests matching a specific git branch (e.g. `feature/storefront-el
 2. **Capture Full-Page Reference Screenshot**: Capture a live full-page browser screenshot of the reference page in `chrome-devtools-mcp` or `playwright`.
 3. **Capture Matching Implementation Screenshot**: Capture a matching full-page screenshot of the newly implemented page.
 4. **Side-by-Side Visual Audit**: Perform an explicit side-by-side visual comparison (layout grid, typography, background hex values, touch targets, interactive states) before declaring completion.
+
+---
+
+## 12. Temporary Screenshot Sandbox & Lifecycle Cleanup Invariant
+1. **Never Save Loose Screenshots to Workspace Root**:
+   - Automated visual tests, Playwright captures, and Chrome DevTools audits must NEVER write loose image files directly to the root directory (`*.png`, `*.jpg`).
+2. **Dedicated Temporary Folder Isolation**:
+   - Direct all temporary browser captures and verification screenshots into an isolated temporary folder (e.g. `.temp_screenshots/` or `tmp/screenshots/`).
+3. **Mandatory Post-Work Deletion**:
+   - Once visual verification and manual/automated audits are completed, all temporary screenshots must be deleted and cleaned up before marking the task complete or handing over to the user. Permanent visual proof belongs exclusively in `docs/visual-proof/` or conversation artifacts.
+

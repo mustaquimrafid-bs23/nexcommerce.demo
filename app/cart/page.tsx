@@ -21,7 +21,6 @@ import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
 import { OrderConfidenceStrip } from '@/components/cart/OrderConfidenceStrip';
-import { CartPromoBanner } from '@/components/cart/CartPromoBanner';
 import { SmartSavingsAdvisor } from '@/components/cart/SmartSavingsAdvisor';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 import { SlipToCartModal } from '@/components/cart/SlipToCartModal';
@@ -566,9 +565,6 @@ export default function CartPage() {
 
               {/* Order Confidence Badge Strip */}
               <OrderConfidenceStrip />
-
-              {/* Promotional Exclusive Banner */}
-              <CartPromoBanner />
             </div>
 
             {/* Right Column: Sticky Order Summary (5 cols) */}

@@ -107,7 +107,19 @@ function OrdersPageContent() {
         if (stored) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            loadedOrders = parsed;
+            loadedOrders = parsed.map((o: any) => ({
+              ...o,
+              statusLabel: o.statusLabel || (o.status === 'delivered' ? 'Delivered' : o.status === 'cancelled' ? 'Cancelled' : 'Order Confirmed'),
+              items: (o.items || []).map((it: any) => ({
+                id: it.id || it.product?.id,
+                name: it.product?.name || it.name || 'Luxury Piece',
+                tag: it.tag || (it.product?.category ? `${it.product.category} · Size ${it.selectedSize || 'M'}` : 'Apparel'),
+                price: Number(it.product?.price ?? it.price ?? 0),
+                image: it.product?.image || it.image || '/assets/images/products/p1.png',
+                quantity: Number(it.quantity || 1),
+                selectedSize: it.selectedSize || 'M',
+              })),
+            }));
           }
         }
 
@@ -137,8 +149,8 @@ function OrdersPageContent() {
               phone: latest.client?.phone || '+49 152 9876 5432',
               items: (latest.items || []).map((it: any) => ({
                 name: it.product?.name || it.name || 'Luxury Piece',
-                tag: `${it.product?.category || 'Apparel'} &middot; Size ${it.selectedSize || 'M'}`,
-                price: Number(it.product?.price || it.price || 0),
+                tag: `${it.product?.category || 'Apparel'} · Size ${it.selectedSize || 'M'}`,
+                price: Number(it.product?.price ?? it.price ?? 0),
                 image: it.product?.image || it.image || '/assets/images/products/p3.png',
                 quantity: Number(it.quantity || 1),
                 selectedSize: it.selectedSize || 'M',
@@ -174,9 +186,11 @@ function OrdersPageContent() {
         const idMatch = (order.id || '').toLowerCase().includes(cleanQuery);
         const destMatch = (order.destination || '').toLowerCase().includes(cleanQuery);
         const courierMatch = (order.courier || '').toLowerCase().includes(cleanQuery);
-        const itemMatch = (order.items || []).some(
-          (i) => (i.name || '').toLowerCase().includes(cleanQuery) || (i.tag || '').toLowerCase().includes(cleanQuery)
-        );
+        const itemMatch = (order.items || []).some((i: any) => {
+          const name = (i.product?.name || i.name || '').toLowerCase();
+          const tag = (i.product?.category || i.tag || '').toLowerCase();
+          return name.includes(cleanQuery) || tag.includes(cleanQuery);
+        });
         return idMatch || destMatch || courierMatch || itemMatch;
       }
       return true;

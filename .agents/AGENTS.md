@@ -67,7 +67,7 @@ After completing **every single task or feature change**, you MUST unconditional
    - **Mandatory List Depletion & 0-Item Boundary Verification**: For any list/curation feature (Cart, Wishlist, Smart List, Recent Searches, Notifications), verification MUST unconditionally execute a complete depletion flow down to 0 items (`[]`). Assert that *all* peripheral metrics, hero stat counters, capsule filter badges, and spotlight summaries reset cleanly to 0/empty state with zero stale DOM values.
 3. **Tier 3: Full UI / Visual Test (`chrome-devtools-mcp` / `playwright`)**:
    - Perform live browser interactions across both Desktop (`1440x900`) and Mobile (`375x812`) viewports.
-   - Verify layout reflow, touch target sizing ($\ge 44\text{px}$), visual hierarchies, interactive animations, and capture visual screenshot evidence saved to workspace root.
+   - Verify layout reflow, touch target sizing ($\ge 44\text{px}$), visual hierarchies, interactive animations, and capture visual screenshot evidence saved to a dedicated temporary directory (e.g. `.temp_screenshots/` or `tmp/screenshots/`). NEVER save loose screenshots to the workspace root. All temporary screenshots must be cleaned up / removed after work is complete.
    - **Adjacent Interactive Element Non-Overlap Assertion**: In any component featuring action clusters (e.g. card action buttons, swatch discs, badge groups, floating bars), visual testing MUST explicitly verify that adjacent interactive targets maintain clean separation ($\ge 6\text{–}8\text{px}$ gap) with zero element superposition, clipping, or z-index collisions in both idle and hover/active states.
    - **Structural Sibling Order & Flex Symmetry Assertion**: When matching layouts against a reference prototype, visual inspection must explicitly verify that shared navigation headers, sticky toolbars, and action docks maintain exact 3-column symmetry (Left Brand/Nav, Centered Search within $\pm 20\text{px}$, Right Action Cluster) with zero misplaced pills or off-center inputs.
    - **7-Dimension Cross-Page Sweep Invariant**: For all full-site audits or multi-page releases, testing must unconditionally sweep across all 7 dimensions (Content & Copy, Visual/Layout, Interactions, Cross-page Consistency, E2E User Flows, Edge Cases, Accessibility) per `.agents/rules/sqa-engineering-standards.md` Section 13, eliminating single-dimension blind spots.
@@ -121,26 +121,48 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 > `.agents/rules/modernist-design-system-standards.md`
 
 
-### UX Mindset & Human-Centered Design
-- **Start with the user, their goals, and the problem, not the screen**: UI is the visible surface; UX is the entire system of understanding the user and helping them accomplish their goal effortlessly.
-- **The 4-Step UX Questioning Framework**:
-  1. *How can I make this experience easier, clearer, faster, and more trustworthy?*
-  2. *What does the user need to understand at this exact moment?*
-  3. *What is the simplest interface that helps them accomplish it?*
-  4. *How do I verify and measure that this actually works?*
-- **The Complete UI/UX Lifecycle**: Research → Problem Definition → Information Architecture → User Flows → Wireframes → Interaction Design → Visual Design → Prototype → Usability Testing → Analytics/Measurement → Iterate.
+### UX Mindset & Human-Centered Design: Don't Design Screens, Design Experiences
+- **The Core Invariant**: When building or redesigning any interface, **never start by thinking "What should the page look like?"**
+  Start by thinking: **"What does the user want to accomplish, and how can I make that effortless?"**
+- **The Complete UI/UX Sequence**:
+  `Business → User → Information → Flow → Structure → UX → UI → Interaction → Testing → Refinement`
+- **The 10-Step Decision Order (Before Touching Code or CSS)**:
+  1. *WHY?* — Clarify the business goal and distinct value proposition.
+  2. *WHO?* — Identify the target customer and their real-world context.
+  3. *WHAT PROBLEM?* — Uncover customer doubts, anxieties, and unasked questions.
+  4. *WHAT DOES THE USER WANT?* — Pinpoint their desired outcome.
+  5. *WHAT JOURNEY?* — Map the progression: *Discover → Understand → Evaluate → Trust → Purchase → Receive → Reorder*.
+  6. *WHAT INFORMATION?* — Define purpose-driven Information Architecture (every screen/module must have a distinct purpose).
+  7. *WHAT ACTION?* — Establish clear visual hierarchy (1. Primary, 2. Secondary, 3. Supporting).
+  8. *WHAT CAN GO WRONG?* — Explicitly account for all 11 component states and error recovery paths.
+  9. *HOW SHOULD IT FEEL?* — Composition, whitespace, and luxury restraint (*"Less decoration, better composition"*).
+  10. *NOW → DESIGN THE UI* — Define typography, colors, components, and motion.
+- **Customer Questions Drive UX (Not Feature Lists)**:
+  - Don't ask: *"What features can I put on my website?"*
+  - Always ask: *"What questions does my customer have at this moment?"* (*"What does my skin need?", "Will this work with my routine?", "Is this worth €50?", "How do I use it?", "Can I return it?"*).
+- **The 5 Questions Every Screen Must Answer**:
+  1. ① *Where am I?* (Context clear in <1 second)
+  2. ② *What can I do here?* (Affordances and actions obvious)
+  3. ③ *Why should I care?* (Value proposition clear)
+  4. ④ *What should I do next?* (Single un-competing primary next step)
+  5. ⑤ *What happens after I click?* (Predictable response and tactile feedback)
+  *(If any screen fails these 5 questions, redesign it immediately).*
+- **Decision-Based UX & Cognitive Load Reduction**:
+  - Minimize mental effort — avoid choice paralysis (Hick's Law). Guide users progressively rather than dumping hundreds of options.
+- **Feature Utility Gate ("The Anti-Cool-Feature Trap")**:
+  - Strictly test every feature (chatbots, 3D viewers, AR, complex animations): *"Does this directly help the user accomplish something?"* If NO, do NOT add it.
+- **The 11 Mandatory Component States**:
+  - Always design and code all 11 states: `Default`, `Hover`, `Focus`, `Active/Pressed`, `Disabled`, `Loading`, `Success`, `Error`, `Empty`, `No results`, and `Offline`.
 - **Cognitive Psychology & Behavioral Design**:
-  - **Cognitive load**: Minimize mental effort — avoid visual clutter, competing calls-to-action, and unnecessary input fields.
-  - **Mental models & Jakob's Law**: Design in harmony with existing user mental models (e.g. cart, checkout, navigation conventions).
-  - **Hick's Law & Progressive Disclosure**: Reduce choice overload; reveal complexity only as needed.
-  - **Fitts's Law**: Make primary interactive targets large and easy to reach (minimum 44×44px touch targets).
-  - **Gestalt Principles**: Group related elements (image, price, rating, CTA) logically via proximity and similarity without box clutter.
-  - **Visual Hierarchy**: Align with natural scanning patterns (what to notice 1st, 2nd, and action to take).
-  - **Recognition over Recall & Serial Position**: Display clear summaries, history, and auto-suggestions; position key items at list edges.
-  - **Ethical Persuasion**: Use genuine trust signals and clear defaults; strictly forbid dark patterns.
-- **Root-Cause Research & Usability Testing**:
-  - Dig into the "Why?" behind user friction and drop-offs.
-  - Test via task-based observation (watch behavior, hesitation, confusion) rather than asking for subjective opinions.
+  - **Mental models & Jakob's Law**: Work in harmony with existing user conventions (cart, checkout, search).
+  - **Fitts's Law**: Minimum 44×44px touch targets on all interactive elements.
+  - **Gestalt Principles**: Group related elements logically via proximity and similarity without heavy box clutter.
+  - **Visual Hierarchy**: Align with natural scanning patterns (1st: What to notice, 2nd: Supporting info, 3rd: Action to take).
+  - **Recognition over Recall**: Display clear order summaries, recents, and auto-suggestions; position key items at list edges (Serial Position Effect).
+  - **Ethical Persuasion**: Transparent pricing and trust signals; strictly zero dark patterns.
+- **Observation-Based Usability Diagnostics**:
+  - Test prototypes by observing real task behavior without intervening.
+  - Diagnose root causes accurately: Hesitation = **UX problem**; Missed cue = **Hierarchy problem**; Misclick = **Interaction problem**; Confusion = **Content problem**.
 
 ### Information Architecture & User Flows
 - Always define sitemap and navigation structure before designing pages.
@@ -461,6 +483,25 @@ You also wear the hat of a Senior UI/UX Designer (3–5+ years). You are respons
 - Technical sizing cards (apparel EU sizes, footwear sizes, trouser matrices), slider metric values, and counter badges MUST NEVER use serif fonts with old-style/non-lining figures (`font-editorial` / `Cormorant Garamond`). Old-style figures drop below the baseline (e.g. sagging 5s, shrunken 0s, elevated 6s) and visually mimic warped AI image hallucination glitches.
 - Sizing cards, tabular metrics, and range slider displays MUST strictly use `--font-display` (`Manrope`) or `--font-sans` (`Inter`) with `font-bold tabular-nums tracking-tight` on a 100% flat, uniform baseline.
 - Customer-facing sizing instructions and UI copy must avoid clinical medical jargon (e.g. "acromion bone") or robotic labels ("interactive calibrator"). Always use refined, natural human luxury fashion copy ("shoulder tip to shoulder tip", "Size & Fit Guide").
+
+**42. Order History List vs. Details Separation & Visual Thumbnail Strip Invariant**:
+- **Zero Full-Item Stacks on List Pages**: The main Order History / List page (`/orders` or `pages/orders.html`) must NEVER render long vertical stacks of individual line-item rows with repetitive per-item action buttons ("Re-order"). This causes severe vertical bloat, destroys scannability, and violates UX separation of concerns.
+- **Visual Thumbnail Strip Standard**: Every order card on listing views MUST use a compact, uniform layout:
+  1. **Visual Thumbnail Strip**: A horizontal gallery of up to 4 compact product thumbnails (`w-13 h-15 sm:w-15 sm:h-18 rounded-xl`) with quantity badges (`×2`, `×3`) on multi-unit pieces.
+  2. **Overflow Counter Pill**: If an order contains $>4$ items, display the first 3 thumbnails and a 4th dashed interactive pill (`+X MORE`) linking directly to the order details.
+  3. **Piece Summary & Hierarchy**: Display piece count badge (`X Pieces`), primary piece name (`+ N other pieces`), and clean destination preview.
+  4. **Unified Card-Level Actions**: Replace repeated per-item buttons with unified, card-level actions: `Buy Again` (re-orders all items into cart with visual feedback), `Track` (links to tracking), and `View Order Details` (primary button).
+  5. **Domain Separation**: All deep line-by-line item audits, individual size/color configurations, variant prices, and per-item return/reorder actions belong exclusively on the dedicated **Order Details** page (`/orders/[id]`).
+
+**43. Order Data Normalization & Resilient Property Resolution**:
+- When loading orders from client storage (`localStorage`, `sessionStorage`) or heterogeneous APIs, order items can vary between nested Cart store formats (`item.product.name`, `item.product.price`) and flat records (`item.name`, `item.price`).
+- All order loaders and renderers MUST normalize items through a resilient property resolver:
+  - `name: item.product?.name || item.name || 'Luxury Piece'`
+  - `price: Number(item.product?.price ?? item.price ?? 0)`
+  - `image: item.product?.image || item.image || '/assets/images/products/p1.png'`
+  - `quantity: Math.max(1, Number(item.quantity || 1))`
+- Never assume flat properties; un-normalized parsing results in silent `€ 0.00` prices and missing titles.
+- **Mobile Adaptive Layout**: Always use `flex flex-col sm:flex-row` for thumbnail strips paired with text summaries so that narrow mobile viewports (`<640px`) stack thumbnails above text, preventing cramped text and aggressive truncation.
 
 ### Design Inspiration Reference (nexCommerce UI Benchmark)
 

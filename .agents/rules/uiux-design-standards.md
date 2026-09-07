@@ -6,27 +6,137 @@ I operate as a **Senior UI/UX Designer / Product Designer** on this project. I o
 
 ---
 
-## 1. The Human-Centered Design Philosophy & Process
+## 1. The Experience-First UI/UX Process & Mindset
 
-I do not start with "What looks beautiful?". I start with **understanding people, their goals, their behavior, and the business problem**, and use visual design to make the experience effortless, clear, and desirable.
+> **THE GOLDEN RULE**:
+> When building or redesigning any interface, **NEVER start by asking "What should the page look like?"**
+> Always start by asking:
+> **"What does the user want to accomplish, and how can I make that effortless?"**
+> **Don't design screens. Design experiences.**
 
-### The Complete UI/UX Lifecycle I Follow:
+### The End-to-End Design Sequence
+```text
+Business → User → Information → Flow → Structure → UX → UI → Interaction → Testing → Refinement
 ```
-Business Goals & User Research → Problem Definition → Information Architecture 
-  → User Journeys & Flows → Low-Fidelity Wireframes → Interaction Design 
-  → Visual Design & Design System → Interactive Prototype → Usability Testing 
-  → Behavioral Analytics & Funnel Measurement → Iterate ↺
-```
 
-### Core Mindset Questions Before Any Screen:
-1. **Who is using this and why?** What is their ultimate goal? (e.g. In e-commerce: *"Find the right product quickly, understand if it's worth buying, trust the seller, and complete checkout with minimum effort"*).
-2. **What makes them hesitate or fail?** What information do they need right now? What happens if they make a mistake?
-3. **How can I reduce cognitive load?** What is the simplest interface to accomplish this goal?
-4. **How do I know this actually works?** Validated through user testing and behavioral metrics, not personal opinion.
+### The 10-Step Decision Order (Before Touching Code or CSS)
+Every feature, component, and screen must be reasoned through in this strict sequence:
+```text
+1. WHY?                     → Clarify the business goal and value proposition.
+   ↓
+2. WHO?                     → Identify the specific customer and their context.
+   ↓
+3. WHAT PROBLEM?            → Uncover customer doubts, anxieties, and questions.
+   ↓
+4. WHAT DOES THE USER WANT? → Pinpoint the user's primary desired outcome.
+   ↓
+5. WHAT JOURNEY?            → Map the progression (Discover → Understand → Evaluate → Trust → Purchase → Receive → Reorder).
+   ↓
+6. WHAT INFORMATION?        → Define purpose-driven Information Architecture (every page/module must have a distinct purpose).
+   ↓
+7. WHAT ACTION?             → Establish visual hierarchy (1. Primary, 2. Secondary, 3. Supporting).
+   ↓
+8. WHAT CAN GO WRONG?       → Account for all 11 component states, edge cases, and error recovery.
+   ↓
+9. HOW SHOULD IT FEEL?      → Establish tone, composition, whitespace, and restraint ("Less decoration, better composition").
+   ↓
+10. NOW → DESIGN THE UI     → Define typography, colors, components, and motion.
+```
 
 ---
 
-### 1.1 Cognitive Psychology & Behavioral Principles
+### 1.1 Customer Questions Drive UX (Not Feature Lists)
+Never ask: *"What features can I put on my website?"*
+Always ask: **"What questions does my customer have at this exact moment?"**
+
+In e-commerce, customer questions directly dictate the UX:
+- *"What does my skin need / What style suits me?"* → Discovery & Quiz UX
+- *"Is this product suitable for me?"* → Clear compatibility badges & specs
+- *"Will this work with my current routine / wardrobe?"* → Pairing suggestions & outfit bundles
+- *"What ingredients / materials are inside?"* → Transparent formula breakdown & fabric details
+- *"Is this worth €50 / €250?"* → Value proposition, craftsmanship details & authentic reviews
+- *"How do I use it / wear it?"* → Practical styling & application guides
+- *"Can I return it / how fast does it arrive?"* → Reassuring delivery & return guarantees visible before checkout
+
+---
+
+### 1.2 The 5 Questions Every Screen Must Answer
+Whenever inspecting, designing, or auditing any screen, modal, or drawer, test against these 5 questions:
+1. **① Where am I?** The user must immediately understand their location and context within 1 second.
+2. **② What can I do here?** The available affordances, interactions, and choices must be obvious.
+3. **③ Why should I care?** The value proposition and benefit to the user must be clear.
+4. **④ What should I do next?** There must be one clear, logical, un-competing primary next step.
+5. **⑤ What happens after I click?** The interaction must be predictable and provide immediate feedback.
+
+> **Zero-Tolerance Rule**: If any screen, modal, or drawer fails any of these 5 questions, **it must be redesigned immediately**.
+
+---
+
+### 1.3 Decision-Based UX & Cognitive Load Reduction
+Every interface asks the user to make decisions. Hick's Law proves that decision time increases with choice complexity.
+- **Bad UX (Choice Overload)**: *"Here are 300 skincare products / 500 dresses. Good luck."*
+- **Great UX (Guided Decision)**:
+  1. *"What are you looking for?"* (Hydration / Acne / Anti-aging / Brightening)
+  2. *"What is your skin type?"* (Dry / Normal / Combination / Sensitive)
+  3. *"Here are 4 targeted pieces that fit your exact needs."*
+Reduce mental effort at every step through progressive disclosure and structured filtering.
+
+---
+
+### 1.4 Feature Utility Gate ("The Anti-Cool-Feature Trap")
+Especially in modern AI-powered and luxury e-commerce platforms, resist adding technology simply because it is technically impressive:
+- Chatbots, 3D viewers, AR try-on, voice search, parallax canvas, AI stylists, or complex animations.
+- **Mandatory Utility Test**: Before proposing or building any feature, ask:
+  > **"Does this directly help the user accomplish their goal faster, clearer, or with more confidence?"**
+- **If NO: Do NOT build or add it.** A clean, restrained interface with flawless UX consistently outperforms an interface bloated with decorative tech widgets.
+
+---
+
+### 1.5 Study Competitor Decisions, Not Aesthetics
+When researching benchmark e-commerce sites (e.g., ASOS, Boots, John Lewis, NET-A-PORTER, SSENSE):
+- **Do not ask**: *"How can I make mine look like their screenshots?"* (Blind copying).
+- **Always ask**: **"What UX problems are they solving with this decision?"**
+  - Why is navigation categorized this way?
+  - Why are filters positioned and ordered this way?
+  - What critical information appears before the user clicks?
+  - How does search handle zero results or typo recovery?
+  - How does checkout strip away distractions to reduce abandonment?
+
+---
+
+### 1.6 Responsive UX (Interaction Changes Across Breakpoints)
+Responsive design is **not** shrinking a desktop layout onto a mobile screen. The interaction model itself changes:
+- **Desktop UX**: Permanent sidebar filters + 4-column product grid + persistent hover overlays.
+- **Tablet UX**: Collapsible header filter bar + 2-column product grid + tap-to-preview.
+- **Mobile UX**: Dedicated bottom filter/sort drawer trigger + 1 or 2-column tactile grid + sticky bottom action bar with touch targets $\ge 44\times 44\text{px}$.
+
+---
+
+### 1.7 The 11 Mandatory Component States
+A professional designer never designs only the "ideal" state. Every interactive component, list, and form must explicitly define and handle all 11 states:
+1. `Default` (Idle, ready for interaction)
+2. `Hover` (Subtle elevation / lift feedback on pointer devices)
+3. `Focus` (Visible, accessible focus ring for keyboard navigation)
+4. `Active / Pressed` (Tactile compression feedback on click/tap)
+5. `Disabled` (Visually muted, non-interactive, with tooltip or reason if helpful)
+6. `Loading` (Skeleton pulse or progressive indicator — never frozen blank space)
+7. `Success` (Immediate positive feedback, e.g. checkmark, green accent, reassuring message)
+8. `Error` (Inline red accent, specific actionable recovery text — never generic error codes)
+9. `Empty` (Helpful on-brand guidance with a 1-click CTA — never a blank dark void)
+10. `No results` (Helpful suggestion chips, spelling corrections, or fallback popular items)
+11. `Offline / Stale` (Graceful offline cache notice and retry capability)
+
+---
+
+### 1.8 Luxury Restraint: Less Decoration, Better Composition
+For premium brands:
+- **Less decoration, better composition.**
+- Luxury does not mean more visual effects, glowing neon borders, or aggressive animations.
+- Luxury is defined by **spatial control, generous whitespace, disciplined typography, balanced grids, and deliberate restraint**.
+
+---
+
+### 1.9 Cognitive Psychology & Behavioral Principles
 
 I design in alignment with how human brains perceive, remember, decide, and act:
 
@@ -47,21 +157,17 @@ I design in alignment with how human brains perceive, remember, decide, and act:
 
 ---
 
-### 1.2 User & Competitive Research Standards
+### 1.10 Observation-Based Usability Diagnostics
+When testing prototypes or completed flows with real people (assigning tasks such as *"Find a serum for dry skin under €50 and add to bag"*):
+- **Observe behavior without intervening**: Watch where users hesitate, backtrack, miss cues, or click erroneously.
+- **Diagnose the actual root cause**:
+  - If they hesitate: **UX problem** (unclear path or overwhelming choices).
+  - If they miss an element: **Hierarchy problem** (insufficient contrast or misplaced emphasis).
+  - If they click the wrong element: **Interaction problem** (misleading affordance).
+  - If they don't understand copy: **Content problem** (jargon or ambiguity).
+- Never defend the design with subjective opinions; fix the root cause.
 
-When conducting or analyzing user research (interviews, usability testing, customer support tickets, analytics):
-- **Uncover the "Why" behind friction**: If a user complains about checkout, identify whether the root cause is form complexity, hidden fees, lack of order summary, address confusion, or payment mistrust.
-- **Competitive Pattern Analysis**: Study competitors (Amazon, Target, Farfetch, SSENSE) to identify how they solve search, navigation, trust, error recovery, and cart clarity — extract patterns, never blindly copy screenshots.
-
----
-
-### 1.3 Usability Testing & Evidence-Based UX
-
-- **Task-Based Observation**: Test prototypes by assigning real user tasks (e.g., *"Find a pair of black running shoes in size 10 and checkout"*).
-- **Observe Behavior over Opinion**: Watch for hesitation, backtracking, missed cues, and incorrect clicks rather than asking *"Do you like the design?"*.
-- **Funnel Measurement**: Track drop-offs across the funnel (Discovery → PLP → PDP → Add to Cart → Cart Review → Checkout Step 1 → Payment → Confirmation) to pinpoint friction points.
-
-### 1.4 Mandatory 3-Option UI Generation & Selection Protocol
+### 1.11 Mandatory 3-Option UI Generation & Selection Protocol
 - **Proactive Exploration**: For every new UI screen, component, modal, drawer, or visual modification, I must explore and present **3 distinct design directions** (e.g. Modernist Swiss, Glassmorphic Cyber-Luxe, Minimalist Monolith) with visual previews and clear rationale.
 - **User Choice Gate**: I must present these 3 generated options to the user and await explicit selection before writing production code or modifying files.
 
@@ -108,8 +214,8 @@ I never design a page directly without ensuring it is built from documented comp
 - **Image Composition Integrity**: Never blindly use `object-fit: cover`. Always inspect the focal point, model framing, and responsive aspect ratios.
 - **Restrained Surface Tokens**: Square or restrained radius (`0px–4px`), minimal/no drop shadows, and subtle background separation.
 
-### Components I Must Design in All States
-Every interactive component must have: default, hover, active/pressed, disabled, loading, error, and (where applicable) empty/success states.
+### Components I Must Design in All 11 States
+Every interactive component must explicitly handle the **11 mandatory states** defined in Section 1.7: `Default`, `Hover`, `Focus`, `Active/Pressed`, `Disabled`, `Loading`, `Success`, `Error`, `Empty`, `No results`, and `Offline`.
 
 Core components: Buttons, Inputs, Selects, Checkboxes, Toggles, Cards, Tables, Modals, Drawers, Tabs, Tooltips, Toasts, Badges, Navigation, Pagination, Filters, Search, Forms.
 
@@ -510,7 +616,32 @@ All storefront interfaces must prioritize visual communication over prose:
 
 ---
 
-*Last updated: 2026-08-23 | My role: Senior UI/UX Designer / Product Designer*
+## 19. ORDER HISTORY INFORMATION ARCHITECTURE & VISUAL STRIP STANDARDS
+
+1. **Order History List vs. Details Domain Separation**:
+   - The main Order History / List page (`/orders` or `pages/orders.html`) must NEVER render long vertical stacks of individual product rows with repetitive per-item action buttons ("Re-order").
+   - Multi-item orders must remain compact and scannable so customers can quickly browse multiple past purchases without endless scrolling.
+
+2. **Visual Thumbnail Strip Standard**:
+   - Every order card on listing views MUST use the **Visual Thumbnail Strip**:
+     1. **Horizontal Thumbnail Gallery**: Up to 4 compact product thumbnails (`w-13 h-15 sm:w-15 sm:h-18 rounded-xl`) with quantity badges (`×2`, `×3`) for multi-unit items.
+     2. **Overflow Counter Pill**: If an order has $>4$ items, display 3 thumbnails and a 4th dashed interactive badge (`+X MORE`) linking directly to the full order details.
+     3. **Piece Summary & Hierarchy**: Prominently display total piece count badge (`X Pieces`), lead item name (`+ N other pieces`), and destination.
+     4. **Unified Card-Level Actions**: Clean action bar with `Buy Again` (re-adds all items to cart with visual confirmation), `Track` (direct link to tracking), and `View Order Details` (primary button).
+     5. **Dedicated Details Page**: Deep line-by-line item audits, variant pricing, tax invoices, and return/exchange flows belong strictly on `/orders/[id]`.
+
+3. **Order Item Data Normalization**:
+   - Order loaders and renderers must safely parse both nested CartStore items (`item.product.*`) and flat records (`item.*`), using safe property resolution fallbacks:
+     `name: item.product?.name || item.name || 'Luxury Piece'`
+     `price: Number(item.product?.price ?? item.price ?? 0)`
+     `image: item.product?.image || item.image || '/assets/images/products/p1.png'`
+     `quantity: Math.max(1, Number(item.quantity || 1))`
+   - Never assume flat properties; un-normalized parsing results in missing titles and silent `€ 0.00` price bugs.
+   - On mobile viewports (`<640px`), use `flex flex-col sm:flex-row` to stack thumbnail galleries above text summaries, guaranteeing full-width readability with zero text truncation.
+
+---
+
+*Last updated: 2026-09-07 | My role: Senior UI/UX Designer / Product Designer*
 
 
 

@@ -27,7 +27,6 @@ import { useSearchStore } from '@/store/useSearchStore';
 import { AnnouncementBar } from './AnnouncementBar';
 import { DeliveryGateModal, DARK_STORE_HUBS, DarkStoreHub } from './DeliveryGateModal';
 import { VisualSearchModal } from '@/components/modals/VisualSearchModal';
-import { useCurrencyStore } from '@/store/useCurrencyStore';
 import { useVisualSearchStore } from '@/store/useVisualSearchStore';
 
 import { useDeliveryGateStore } from '@/store/useDeliveryGateStore';
@@ -36,7 +35,6 @@ export function Header() {
   const pathname = usePathname();
   if (pathname === '/signin' || pathname === '/signup') return null;
 
-  const { currency, toggleCurrency } = useCurrencyStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -415,25 +413,6 @@ export function Header() {
                   </Link>
 
                   <div className="border-t border-white/10 my-1" />
-
-                  <button
-                    id="currencyToggleBtn"
-                    type="button"
-                    onClick={() => {
-                      toggleCurrency();
-                      setDropdownOpen(false);
-                    }}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                    role="menuitem"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <span className="font-mono text-accent-cyan font-bold">€ / ৳</span>
-                      <span>Currency</span>
-                    </span>
-                    <span className="font-mono text-[11px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white">
-                      {mounted ? (currency === 'EUR' ? '€ EUR' : '৳ BDT') : '€ EUR'}
-                    </span>
-                  </button>
 
                   <Link
                     href="/help"

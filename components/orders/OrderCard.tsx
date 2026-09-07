@@ -7,10 +7,8 @@ import {
   CheckCircle2,
   XCircle,
   ArrowRight,
-  Printer,
   RotateCcw,
   Check,
-  Package,
 } from 'lucide-react';
 import { formatPrice, resolveProductImage } from '@/lib/utils';
 import { useCartStore } from '@/store/useCartStore';
@@ -18,12 +16,21 @@ import { Product } from '@/types/catalog';
 
 export interface OrderItem {
   id?: string;
-  name: string;
+  name?: string;
   tag?: string;
-  price: number;
-  image: string;
+  price?: number;
+  image?: string;
   quantity?: number;
   selectedSize?: string;
+  product?: {
+    id?: string;
+    name?: string;
+    price?: number;
+    image?: string;
+    category?: string;
+    tag?: string;
+    description?: string;
+  };
 }
 
 export interface PlacedOrder {
@@ -52,28 +59,57 @@ interface OrderCardProps {
   onCancelOrder?: (orderId: string) => void;
 }
 
+export function normalizeOrderItem(item: OrderItem) {
+  const name = item.product?.name || item.name || 'Luxury Piece';
+  const price = Number(item.product?.price ?? item.price ?? 0);
+  const image = item.product?.image || item.image || '/assets/images/products/p1.png';
+  const quantity = Math.max(1, Number(item.quantity || 1));
+  const selectedSize = item.selectedSize || 'Standard';
+  const tag = item.product?.category || item.tag || 'Apparel';
+  const id = item.product?.id || item.id || `item-${name.replace(/\s+/g, '-').toLowerCase()}`;
+
+  return {
+    id,
+    name,
+    price,
+    image,
+    quantity,
+    selectedSize,
+    tag,
+  };
+}
+
 export function OrderCard({ order, onCancelOrder }: OrderCardProps) {
   const { addItem } = useCartStore();
-  const [reorderedId, setReorderedId] = useState<string | null>(null);
+  const [reorderedAll, setReorderedAll] = useState(false);
 
   const isCancelled = order.status === 'cancelled';
   const isTransit = order.status === 'transit';
   const isDelivered = order.status === 'delivered';
 
-  const handleReorder = (item: OrderItem) => {
-    const p: Product = {
-      id: item.id || `reorder-${item.name.replace(/\s+/g, '-').toLowerCase()}`,
-      name: item.name,
-      brand: 'nexCommerce Atelier',
-      category: 'apparel',
-      price: item.price,
-      image: item.image,
-      description: item.tag || '',
-    };
+  const normalizedItems = (order.items || []).map(normalizeOrderItem);
+  const totalPieces = normalizedItems.reduce((sum, it) => sum + it.quantity, 0);
+  const leadItem = normalizedItems[0];
+  const maxThumbs = 4;
+  const showOverflow = normalizedItems.length > maxThumbs;
+  const visibleItems = showOverflow ? normalizedItems.slice(0, 3) : normalizedItems.slice(0, maxThumbs);
+  const overflowCount = normalizedItems.length - visibleItems.length;
 
-    addItem(p, item.selectedSize || 'M', 'Standard', item.quantity || 1);
-    setReorderedId(item.name);
-    setTimeout(() => setReorderedId(null), 2000);
+  const handleReorderAll = () => {
+    normalizedItems.forEach((item) => {
+      const p: Product = {
+        id: item.id,
+        name: item.name,
+        brand: 'nexCommerce Atelier',
+        category: (item.tag as any) || 'apparel',
+        price: item.price,
+        image: item.image,
+        description: item.tag || '',
+      };
+      addItem(p, item.selectedSize, 'Standard', item.quantity);
+    });
+    setReorderedAll(true);
+    setTimeout(() => setReorderedAll(false), 2200);
   };
 
   return (
@@ -85,7 +121,7 @@ export function OrderCard({ order, onCancelOrder }: OrderCardProps) {
           : 'border-white/10 bg-[#0A2A54]/30 hover:border-white/20'
       }`}
     >
-      {/* Header Bar */}
+      {/* 1. Header Bar: Meta KPIs + Status Badge */}
       <div className="p-4 sm:p-5 bg-white/[0.02] border-b border-white/10 flex flex-wrap items-center justify-between gap-4">
         {/* Order ID */}
         <div>
@@ -140,85 +176,134 @@ export function OrderCard({ order, onCancelOrder }: OrderCardProps) {
         </div>
       </div>
 
-      {/* Body: Items Preview List */}
-      <div className="p-4 sm:p-6 space-y-4">
-        <div className="divide-y divide-white/5">
-          {order.items.map((item, idx) => {
-            const imgUrl = resolveProductImage(item.image);
-            const isAdded = reorderedId === item.name;
-
-            return (
-              <div
-                key={idx}
-                className="py-3 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-              >
-                {/* Thumb + Meta */}
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-14 rounded-lg overflow-hidden border border-white/10 bg-[#071A3A] shrink-0">
+      {/* 2. Body: Visual Thumbnail Strip & Compact Meta */}
+      <div className="p-4 sm:p-5 space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          {/* Left: Thumbnail Strip + Piece Summary */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            {/* Visual Thumbnail Gallery */}
+            <div className="flex items-center gap-2 shrink-0">
+              {visibleItems.map((item, idx) => {
+                const imgUrl = resolveProductImage(item.image);
+                return (
+                  <div
+                    key={idx}
+                    className="relative w-13 h-15 sm:w-15 sm:h-18 rounded-xl overflow-hidden border border-white/15 bg-[#051833] shrink-0 group transition-all hover:border-accent-cyan/50 hover:shadow-lg hover:shadow-accent-cyan/10"
+                    title={`${item.name} · Qty ${item.quantity}`}
+                  >
                     <img
                       src={imgUrl}
                       alt={item.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/assets/images/products/p1.png';
                       }}
                     />
-                  </div>
-
-                  <div className="min-w-0">
-                    {item.tag && (
-                      <span className="text-[9px] font-semibold text-white/40 tracking-wider uppercase block">
-                        {item.tag}
+                    {item.quantity > 1 && (
+                      <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-black/85 backdrop-blur-sm text-[9px] font-mono font-bold text-white border border-white/20 leading-none">
+                        ×{item.quantity}
                       </span>
                     )}
-                    <h4 className="text-xs sm:text-sm font-semibold text-white truncate">
-                      {item.name}
-                    </h4>
-                    <div className="text-[11px] text-white/50 mt-0.5">
-                      Qty {item.quantity || 1} &middot;{' '}
-                      <strong className="text-white/80 font-mono">
-                        {formatPrice((item.price || 0) * (item.quantity || 1))}
-                      </strong>
-                    </div>
                   </div>
-                </div>
+                );
+              })}
 
-                {/* Re-order Action */}
-                <div className="shrink-0 flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleReorder(item)}
-                    className={`h-8 px-3.5 rounded-lg text-[10.5px] font-bold tracking-wider uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
-                      isAdded
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-white/[0.05] border border-white/10 text-white/80 hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    {isAdded ? (
-                      <>
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Added</span>
-                      </>
-                    ) : (
-                      <>
-                        <RotateCcw className="w-3 h-3 text-accent-cyan" />
-                        <span>Re-order</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+              {/* Overflow Counter Pill if > 4 items */}
+              {overflowCount > 0 && (
+                <Link
+                  href={`/orders/${encodeURIComponent(order.id)}`}
+                  className="w-13 h-15 sm:w-15 sm:h-18 rounded-xl border border-dashed border-white/25 bg-white/[0.03] hover:bg-white/[0.08] hover:border-accent-cyan transition-all flex flex-col items-center justify-center text-center shrink-0 group"
+                  title={`View all ${normalizedItems.length} items`}
+                >
+                  <span className="text-xs sm:text-sm font-bold text-accent-cyan group-hover:scale-110 transition-transform">
+                    +{overflowCount}
+                  </span>
+                  <span className="text-[9px] text-white/50 uppercase font-semibold tracking-wider">
+                    more
+                  </span>
+                </Link>
+              )}
+            </div>
+
+            {/* Item Title & Summary */}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-bold tracking-wider text-accent-cyan uppercase bg-accent-cyan/10 px-2 py-0.5 rounded-full border border-accent-cyan/20">
+                  {totalPieces} {totalPieces === 1 ? 'Piece' : 'Pieces'}
+                </span>
+                {leadItem?.tag && (
+                  <span className="text-[10px] text-white/40 tracking-wider uppercase truncate">
+                    {leadItem.tag}
+                  </span>
+                )}
               </div>
-            );
-          })}
+
+              <h4 className="text-xs sm:text-sm font-semibold text-white truncate max-w-sm sm:max-w-md mt-1">
+                {leadItem ? leadItem.name : 'Curated Selection'}
+                {normalizedItems.length > 1 && (
+                  <span className="text-white/45 font-normal text-xs ml-1.5">
+                    + {normalizedItems.length - 1} other {normalizedItems.length - 1 === 1 ? 'piece' : 'pieces'}
+                  </span>
+                )}
+              </h4>
+
+              {order.destination && (
+                <p className="text-[11px] text-white/50 truncate max-w-sm sm:max-w-md mt-0.5">
+                  <span className="text-white/30">Ship to:</span> {order.destination}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Unified Action Buttons */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap sm:flex-nowrap pt-1 lg:pt-0">
+            <button
+              type="button"
+              onClick={handleReorderAll}
+              className={`h-8 sm:h-9 px-3 sm:px-3.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                reorderedAll
+                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  : 'bg-white/[0.05] border border-white/12 text-white/80 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              {reorderedAll ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Added to Bag</span>
+                </>
+              ) : (
+                <>
+                  <RotateCcw className="w-3.5 h-3.5 text-accent-cyan" />
+                  <span>Buy Again</span>
+                </>
+              )}
+            </button>
+
+            <Link
+              href={`/tracking?ref=${encodeURIComponent(order.id)}`}
+              className="h-8 sm:h-9 px-3 sm:px-3.5 rounded-xl border border-white/12 bg-white/[0.04] hover:bg-white/10 hover:border-white/30 text-white/80 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-all"
+            >
+              <Truck className="w-3.5 h-3.5 text-accent-cyan" />
+              <span>Track</span>
+            </Link>
+
+            <Link
+              href={`/orders/${encodeURIComponent(order.id)}`}
+              className="h-8 sm:h-9 px-3.5 sm:px-4 rounded-xl bg-accent-cyan text-[#01132B] text-xs font-bold flex items-center gap-1.5 hover:bg-accent-cyan/90 transition-all shadow-sm shadow-accent-cyan/20"
+            >
+              <span>View Order Details</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
-        {/* Milestone Stepper for In-Transit Orders */}
+        {/* 3. Milestone Stepper for In-Transit Orders */}
         {isTransit && (
-          <div className="mt-4 pt-4 border-t border-white/10 bg-white/[0.02] rounded-xl p-4">
+          <div className="pt-3.5 mt-2 border-t border-white/10 bg-white/[0.02] rounded-xl p-3.5 sm:p-4">
             <div className="flex items-center justify-between text-xs mb-3">
               <span className="text-[10px] font-bold uppercase tracking-wider text-accent-cyan flex items-center gap-1.5">
                 <Truck className="w-3.5 h-3.5" />
-                <span>Live Courier Status</span>
+                <span>Live Courier Journey</span>
               </span>
               <span className="text-[11px] font-medium text-white/70">
                 {order.eta || 'In Transit'}
@@ -249,30 +334,6 @@ export function OrderCard({ order, onCancelOrder }: OrderCardProps) {
             </div>
           </div>
         )}
-
-        {/* Footer Actions */}
-        <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-          <div className="text-[11px] text-white/50 truncate max-w-sm">
-            <span className="text-white/30">Destination:</span> {order.destination}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href={`/tracking?ref=${encodeURIComponent(order.id)}`}
-              className="h-8 px-3.5 rounded-lg border border-white/20 text-white/80 hover:text-white hover:border-white text-xs font-semibold flex items-center gap-1.5 transition-all"
-            >
-              <Truck className="w-3.5 h-3.5 text-accent-cyan" />
-              <span>Track Shipment</span>
-            </Link>
-            <Link
-              href={`/orders/${encodeURIComponent(order.id)}`}
-              className="h-8 px-4 rounded-lg bg-accent-cyan text-[#01132B] text-xs font-bold flex items-center gap-1.5 hover:bg-accent-cyan/90 transition-all shadow-sm"
-            >
-              <span>View Order Details</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   );

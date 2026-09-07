@@ -51,7 +51,7 @@ assert.ok(cartPageCode.includes('data-action="open-slip-to-cart"'), 'Slip to Car
 
 // Check Sub-components
 assert.ok(cartPageCode.includes('<OrderConfidenceStrip'), 'OrderConfidenceStrip must be mounted in left column');
-assert.ok(cartPageCode.includes('<CartPromoBanner'), 'CartPromoBanner must be mounted in left column');
+assert.ok(!cartPageCode.includes('<CartPromoBanner'), 'CartPromoBanner must not be mounted in cart page');
 assert.ok(cartPageCode.includes('<SmartSavingsAdvisor'), 'SmartSavingsAdvisor must be mounted in summary column');
 assert.ok(cartPageCode.includes('<BudgetCartModal'), 'BudgetCartModal must be integrated');
 assert.ok(cartPageCode.includes('<SlipToCartModal'), 'SlipToCartModal must be integrated');

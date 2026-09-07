@@ -24,6 +24,10 @@ The project root directory must maintain a minimal, clean footprint:
   - Secondary HTML pages (e.g. `product.html`, `cart.html`).
   - Temporary or one-off python / JS scripts (`inject_*.py`, `organize_*.py`, `refactor_*.py`, `fixer.js`).
   - Stray scratch directories (`scratch/`).
+- **Temporary Test & Verification Screenshots**:
+  - Any screenshots captured during automated UI audits, Playwright, or devtools verification MUST be saved into an isolated temporary folder (e.g. `.temp_screenshots/` or `tmp/screenshots/`).
+  - Screenshots must NEVER be dumped into the root directory.
+  - All temporary screenshots must be deleted and cleaned up immediately after work is verified and completed.
 
 ---
 
