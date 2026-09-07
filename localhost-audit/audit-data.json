@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "health_score": 91,
+    "grade": "A",
+    "previous_score": 60,
+    "domain": "localhost:3000",
+    "business_type": "E-commerce (Luxury Apparel & Modern Lifestyle)",
+    "top_achievements": [
+      "Dynamic /robots.txt and /sitemap.xml successfully deployed and serving 200 OK.",
+      "Product Detail Pages elevated to Server Component with dynamic generateMetadata (unique titles, descriptions, canonicals, and OpenGraph tags).",
+      "Full Schema.org JSON-LD structured data implemented (Product, Offer, Brand, BreadcrumbList, Organization, and WebSite with SearchAction).",
+      "Generative Engine Optimization (GEO) activated with /llms.txt and explicit AI crawler permissions (GPTBot, ClaudeBot, PerplexityBot).",
+      "Lighthouse Desktop Audit on PDP achieved 100/100 across Accessibility, Best Practices, SEO, and Agentic Browsing."
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "weight": "22%",
+      "score": 96,
+      "status": "Resolved"
+    },
+    {
+      "name": "On-Page SEO",
+      "weight": "20%",
+      "score": 95,
+      "status": "Resolved"
+    },
+    {
+      "name": "Schema / Structured Data",
+      "weight": "10%",
+      "score": 98,
+      "status": "Resolved"
+    },
+    {
+      "name": "Content Quality & E-E-A-T",
+      "weight": "23%",
+      "score": 84,
+      "status": "Healthy"
+    },
+    {
+      "name": "Performance & CWV",
+      "weight": "10%",
+      "score": 88,
+      "status": "Healthy"
+    },
+    {
+      "name": "AI Search Readiness & GEO",
+      "weight": "10%",
+      "score": 92,
+      "status": "Resolved"
+    },
+    {
+      "name": "Images",
+      "weight": "5%",
+      "score": 75,
+      "status": "Healthy"
+    }
+  ]
+}

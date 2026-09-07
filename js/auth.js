@@ -11,7 +11,7 @@ const NexAuth = (() => {
   /* ── Helpers ─────────────────────────────── */
   function _resolvePage(page) {
     const isSubpage = window.location.pathname.includes('/pages/') || window.location.pathname.endsWith('/pages');
-    if (page === 'index.html') return isSubpage ? '../index.html' : 'index.html';
+    if (page === 'index.html' || page.startsWith('index.html')) return isSubpage ? '../' + page : page;
     return isSubpage ? page : 'pages/' + page;
   }
 
@@ -164,7 +164,7 @@ const NexAuth = (() => {
   /**
    * Signs out the current user and redirects.
    */
-  function signOut(redirectTo = 'signin.html?signed_out=true') {
+  function signOut(redirectTo = 'index.html?signed_out=true') {
     _clearSession();
     window.location.href = _resolvePage(redirectTo);
   }

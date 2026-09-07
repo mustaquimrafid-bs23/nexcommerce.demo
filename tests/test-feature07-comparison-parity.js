@@ -38,7 +38,8 @@ const modalContent = fs.readFileSync(modalPath, 'utf8');
 const layoutContent = fs.readFileSync(layoutPath, 'utf8');
 const guideContent = fs.readFileSync(guidePath, 'utf8');
 const tourContent = fs.readFileSync(tourPath, 'utf8');
-const pdpContent = fs.readFileSync(pdpPath, 'utf8');
+const pdpClientPath = path.resolve('components/product/ProductDetailClient.tsx');
+const pdpContent = fs.readFileSync(pdpPath, 'utf8') + (fs.existsSync(pdpClientPath) ? fs.readFileSync(pdpClientPath, 'utf8') : '');
 const categoryContent = fs.readFileSync(categoryPath, 'utf8');
 
 // 2. Brand guidelines and background gradient

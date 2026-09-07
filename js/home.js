@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initHeroCarousel() {
   const stories = [
     {
-      id: 'p2',
+      id: 'p7',
       name: 'STRUCTURED LEATHER TOTE',
       lookNum: 'FEATURED PIECE',
       price: '€ 245.00',

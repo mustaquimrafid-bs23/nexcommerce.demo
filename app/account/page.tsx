@@ -327,16 +327,13 @@ export default function AccountPage() {
       localStorage.setItem('nex_signed_out', 'true');
       sessionStorage.removeItem('nex_session');
       sessionStorage.removeItem('nex_confirmed_order');
+      sessionStorage.setItem('nex_signed_out_toast', 'true');
       window.dispatchEvent(new Event('storage'));
     } catch (e) {
       console.error('Failed to clear session storage:', e);
     }
-    setCurrentAuthState('signed_out');
-    showToast('You have been signed out successfully.');
-    setTimeout(() => {
-      router.push('/signin?signed_out=true');
-    }, 350);
-  }, [router, showToast]);
+    router.push('/?signed_out=true');
+  }, [router]);
 
   const handleSignIn = useCallback((email: string) => {
     const rawName = email.split('@')[0].replace(/[\._\-]/g, ' ');

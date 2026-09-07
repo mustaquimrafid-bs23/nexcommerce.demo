@@ -1,0 +1,25 @@
+# nexCommerce — Intelligent Personal Style & Luxury Modern Wardrobe
+
+> nexCommerce is an editorial e-commerce platform blending curated luxury apparel, architectural tailoring, minimalist essentials, and personal styling intelligence.
+
+## Core Philosophy & Collections
+- **Form in Motion (Autumn / Winter 2026):** Architectural cashmere knitwear, structured Italian wool tailoring, vegetable-tanned leather goods, and high-fidelity studio acoustics.
+- **Craftsmanship Guarantee:** 100% genuine, ethically sourced items, 14-day complimentary returns, and free express worldwide shipping on orders exceeding €150.00.
+
+## Primary Product Categories
+- **Apparel & Knitwear:** Architectural cashmere sweaters, tailored trousers, relaxed wool coats.
+- **Tailoring:** Italian structured blazers, minimal suiting, modern silhouettes.
+- **Footwear:** Italian leather sneakers, Chelsea boots, minimal loafers.
+- **Accessories & Audio:** Quilted leather structured totes, vegetable-tanned bags, studio headphones.
+
+## Key Storefront Destinations
+- **Homepage:** [nexCommerce Storefront](http://localhost:3000/)
+- **Curated Category Grid:** [Browse Collections](http://localhost:3000/category)
+- **Natural Language Discovery:** [Aesthetic Search & Discovery](http://localhost:3000/discovery)
+- **Size & Measurement Guide:** [Size Guide](http://localhost:3000/size-guide)
+- **Customer Care & Support:** [Help & Client Relations](http://localhost:3000/help)
+- **About & Brand Provenance:** [About nexCommerce](http://localhost:3000/about)
+
+## Dynamic Sitemaps & Technical Directives
+- **XML Sitemap:** [sitemap.xml](http://localhost:3000/sitemap.xml)
+- **Robots Policy:** [robots.txt](http://localhost:3000/robots.txt)

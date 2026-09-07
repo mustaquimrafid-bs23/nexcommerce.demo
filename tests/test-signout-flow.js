@@ -30,14 +30,23 @@ test('Imports useRouter from next/navigation', () => {
   assert(accountPageContent.includes('const router = useRouter()'), 'Missing useRouter instantiation');
 });
 
-test('Defines handleSignOut with full storage cleanup', () => {
+test('Defines handleSignOut with full storage cleanup and direct homepage redirect', () => {
   assert(accountPageContent.includes('const handleSignOut ='), 'Missing handleSignOut definition');
   assert(accountPageContent.includes("localStorage.removeItem('nex_auth_user')"), 'Missing nex_auth_user cleanup');
   assert(accountPageContent.includes("localStorage.removeItem('nex_session')"), 'Missing nex_session cleanup');
   assert(accountPageContent.includes("localStorage.removeItem('nex_user')"), 'Missing nex_user cleanup');
   assert(accountPageContent.includes("localStorage.removeItem('nex_auth_token')"), 'Missing nex_auth_token cleanup');
   assert(accountPageContent.includes("localStorage.setItem('nex_signed_out', 'true')"), 'Missing nex_signed_out setting');
-  assert(accountPageContent.includes("router.push('/signin?signed_out=true')"), 'Missing redirect to /signin with status query');
+  assert(accountPageContent.includes("router.push('/?signed_out=true')"), 'Missing redirect to / with status query');
+});
+
+test('Eliminates intermediate in-page screen flash during signout', () => {
+  // Assert handleSignOut does not call setCurrentAuthState('signed_out'), eliminating the 350ms flash
+  const handleSignOutBody = accountPageContent.slice(
+    accountPageContent.indexOf('const handleSignOut ='),
+    accountPageContent.indexOf('const handleSignIn =')
+  );
+  assert(!handleSignOutBody.includes("setCurrentAuthState('signed_out')"), 'Must not trigger in-page SignedOutView flash in handleSignOut');
 });
 
 test('Wires handleSignOut to AccountHero and EmptyAccountView', () => {
@@ -83,13 +92,38 @@ test('js/auth.js _clearSession removes all session tokens', () => {
   assert(authJsContent.includes("localStorage.removeItem('nex_auth_token')"), 'auth.js must clear nex_auth_token');
 });
 
-test('js/account.js handleAccountSignOut clears session and redirects with query param', () => {
+test('js/account.js handleAccountSignOut clears session and redirects to homepage with query param', () => {
   assert(accountJsContent.includes('signed_out=true'), 'account.js must redirect with signed_out=true');
+  assert(accountJsContent.includes('index.html'), 'account.js must redirect to index.html');
   assert(accountJsContent.includes("localStorage.removeItem('nex_auth_user')"), 'account.js must clear nex_auth_user');
+  assert(!accountJsContent.includes("changeDevAuthState('signed_out')"), 'account.js must not flash in-page signed_out view');
 });
 
-// 5. Functional Storage Lifecycle Simulation
-console.log('\n[Tier 5: Functional Storage Lifecycle Simulation]');
+// 5. Homepage Signed Out Toast Verification
+console.log('\n[Tier 5: Homepage Signed Out Toast Notification]');
+const homePageContent = fs.readFileSync(path.join(ROOT, 'app/page.tsx'), 'utf-8');
+const toastComponentContent = fs.readFileSync(path.join(ROOT, 'components/home/SignedOutToast.tsx'), 'utf-8');
+const indexHtmlContent = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf-8');
+
+test('app/page.tsx mounts SignedOutToast inside Suspense', () => {
+  assert(homePageContent.includes('<SignedOutToast />'), 'HomePage must include SignedOutToast');
+  assert(homePageContent.includes('<Suspense fallback={null}>'), 'SignedOutToast must be wrapped in Suspense');
+});
+
+test('components/home/SignedOutToast.tsx detects signed_out and strips param cleanly', () => {
+  assert(toastComponentContent.includes("searchParams?.get('signed_out') === 'true'"), 'Missing signed_out param check');
+  assert(toastComponentContent.includes('window.history.replaceState'), 'Must strip query param using replaceState');
+  assert(toastComponentContent.includes('Signed Out Safely'), 'Missing luxury toast badge');
+  assert(toastComponentContent.includes('Enjoy browsing our collection'), 'Missing toast message body');
+});
+
+test('index.html contains matching signedOutToastNotice handler', () => {
+  assert(indexHtmlContent.includes('signedOutToastNotice'), 'index.html must include signedOutToastNotice');
+  assert(indexHtmlContent.includes('SIGNED OUT SAFELY'), 'index.html must display SIGNED OUT SAFELY toast title');
+});
+
+// 6. Functional Storage Lifecycle Simulation
+console.log('\n[Tier 6: Functional Storage Lifecycle Simulation]');
 test('Simulated login -> signout -> reload lifecycle', () => {
   const mockStorage = {};
   const mockLocalStorage = {

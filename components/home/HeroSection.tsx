@@ -8,7 +8,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { Product } from '@/types/catalog';
 
 const FEATURED_PIECE: Product = {
-  id: 'p2',
+  id: 'p7',
   name: 'Structured Leather Tote',
   category: 'accessories',
   price: 245,
@@ -147,7 +147,7 @@ export function HeroSection() {
           const hotspotTranslateX = isMobile ? 0 : (curRotY * 1.6);
           const hotspotOpacity = Math.max(0, Math.min(1, 1 - (scrollProgress / 380)));
           if (isMobile) {
-            hotspotWrap.style.transform = `translateX(-50%) translate3d(0, ${hotspotTranslateY.toFixed(2)}px, 20px)`;
+            hotspotWrap.style.transform = `translate3d(0, ${hotspotTranslateY.toFixed(2)}px, 20px)`;
           } else {
             hotspotWrap.style.transform = `translate3d(${hotspotTranslateX.toFixed(2)}px, ${hotspotTranslateY.toFixed(2)}px, 20px)`;
           }
@@ -180,7 +180,7 @@ export function HeroSection() {
   };
 
   const handleCardClick = () => {
-    router.push('/product/p2');
+    router.push('/product/p7');
   };
 
   return (
@@ -262,8 +262,9 @@ export function HeroSection() {
       >
         <div
           onClick={handleCardClick}
-          className="flex items-center gap-2.5 sm:gap-3 p-2 sm:p-2.5 pr-3 sm:pr-4 rounded-full sm:rounded-[18px] bg-[#040a14]/90 backdrop-blur-xl border border-white/25 sm:border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.75)] hover:border-white/35 transition-all hover:scale-105 duration-300 group cursor-pointer"
+          className="flex items-center gap-2.5 sm:gap-3 p-1.5 sm:p-2.5 pl-2 sm:pl-2.5 pr-3.5 sm:pr-4 rounded-full sm:rounded-[18px] bg-[#040a14]/90 backdrop-blur-xl border border-white/25 sm:border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.85)] hover:border-white/35 transition-all hover:scale-105 duration-300 group cursor-pointer"
           id="heroHotspotCard"
+          data-id="p7"
         >
           {/* Thumb */}
           <div className="relative w-9 h-9 sm:w-12 sm:h-14 rounded-full sm:rounded-xl overflow-hidden bg-[#08254c] border border-white/20 sm:border-white/10 flex-shrink-0">
@@ -284,7 +285,7 @@ export function HeroSection() {
               FEATURED PIECE
             </span>
             <h3
-              className="text-[10px] sm:text-[11.5px] font-semibold text-white tracking-[0.04em] uppercase truncate max-w-[130px] sm:max-w-[160px] leading-snug mt-0.5"
+              className="text-[10px] sm:text-[11.5px] font-semibold text-white tracking-[0.04em] uppercase whitespace-nowrap leading-snug mt-0.5"
               id="heroHotspotTitle"
             >
               STRUCTURED LEATHER TOTE

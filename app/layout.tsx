@@ -15,6 +15,8 @@ import { CookieConsentBanner } from '@/components/layout/CookieConsentBanner';
 import { ComparisonModal } from '@/components/modals/ComparisonModal';
 import { BudgetCartModal } from '@/components/cart/BudgetCartModal';
 
+import { OrganizationSchema } from '@/components/seo/OrganizationSchema';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -35,9 +37,62 @@ const manrope = Manrope({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  title: 'nexCommerce — Modern Shopping & Personal Style',
-  description: 'Shop quality clothing, footwear, and accessories with personal styling and fast delivery.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'nexCommerce — Modern Shopping & Personal Style',
+    template: '%s | nexCommerce',
+  },
+  description: 'Curated luxury apparel, architectural tailoring, and personal style intelligence with fast express delivery.',
+  keywords: [
+    'luxury apparel',
+    'modern wardrobe',
+    'minimalist tailoring',
+    'cashmere knitwear',
+    'personal styling',
+    'nexCommerce',
+  ],
+  authors: [{ name: 'nexCommerce Editorial' }],
+  creator: 'nexCommerce',
+  publisher: 'nexCommerce',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'nexCommerce — Modern Shopping & Personal Style',
+    description: 'Curated luxury apparel, architectural tailoring, and personal style intelligence.',
+    url: siteUrl,
+    siteName: 'nexCommerce',
+    images: [
+      {
+        url: '/assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'nexCommerce Autumn / Winter Collection — Form in Motion',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'nexCommerce — Modern Shopping & Personal Style',
+    description: 'Curated luxury apparel, architectural tailoring, and personal style intelligence.',
+    images: ['/assets/images/lifestyle/Gemini_Generated_Image_c36exc36exc36exc.jpg'],
+    creator: '@nexcommerce',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -48,6 +103,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable} ${manrope.variable}`}>
       <body className="min-h-screen flex flex-col bg-[#01132B] bg-[radial-gradient(120%_80%_at_50%_0%,#032B5E_0%,#01132B_60%,#001838_100%)] bg-fixed text-[#F8FAFF] antialiased">
+        <OrganizationSchema />
         <PagePreloader />
         <LenisProvider />
         <Header />

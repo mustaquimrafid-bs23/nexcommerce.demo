@@ -7,6 +7,8 @@ interface ComparisonState {
   productB: Product | null;
   openComparison: (a: Product, b: Product) => void;
   closeComparison: () => void;
+  setProductA: (a: Product) => void;
+  setProductB: (b: Product) => void;
 }
 
 export const useComparisonStore = create<ComparisonState>((set) => ({
@@ -15,4 +17,7 @@ export const useComparisonStore = create<ComparisonState>((set) => ({
   productB: null,
   openComparison: (a: Product, b: Product) => set({ isOpen: true, productA: a, productB: b }),
   closeComparison: () => set({ isOpen: false, productA: null, productB: null }),
+  setProductA: (a: Product) => set({ productA: a }),
+  setProductB: (b: Product) => set({ productB: b }),
 }));
+

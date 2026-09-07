@@ -175,7 +175,7 @@
 
       <!-- Floating 3D Shoppable Look Capsule (SSENSE / NET-A-PORTER Standard) -->
       <div class="hero-3d-hotspot-wrap" id="heroHotspotWrap" role="region" aria-label="Featured Look Shoppable Piece">
-        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p2">
+        <div class="hero-hotspot-card" id="heroHotspotCard" data-id="p7">
           <div class="hero-hotspot-thumb">
             <img src="assets/images/lifestyle/thumb_tote.jpg?v=3" alt="Structured Leather Tote" id="heroDockThumbImg" />
           </div>
@@ -714,6 +714,55 @@
   <script src="js/smart-reorder.js"></script>
   <script src="js/cookie-consent.js"></script>
   <script>document.body.dataset.slPage = 'home';</script>
+
+  <!-- Sign Out Safe Notification Toast -->
+  <script>
+    (function() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isUrlSignedOut = urlParams.get('signed_out') === 'true';
+        const isSessionSignedOut = sessionStorage.getItem('nex_signed_out_toast') === 'true';
+        if (isSessionSignedOut) sessionStorage.removeItem('nex_signed_out_toast');
+
+        if (isUrlSignedOut || isSessionSignedOut) {
+          if (window.history && window.history.replaceState) {
+            const cleanUrl = window.location.pathname + (window.location.hash || '');
+            window.history.replaceState({}, '', cleanUrl);
+          }
+
+          const toast = document.createElement('aside');
+          toast.id = 'signedOutToastNotice';
+          toast.setAttribute('role', 'status');
+          toast.setAttribute('aria-live', 'polite');
+          toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:99999;width:calc(100% - 32px);max-width:440px;padding:16px;background:rgba(3,12,30,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(61,224,255,0.35);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.7),0 0 24px rgba(61,224,255,0.15);color:#fff;font-family:Inter,sans-serif;display:flex;align-items:center;gap:14px;transition:opacity 0.3s ease, transform 0.3s ease;';
+          toast.innerHTML = `
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(61,224,255,0.1);border:1px solid rgba(61,224,255,0.3);display:flex;align-items:center;justify-content:center;color:#3DE0FF;flex-shrink:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#3DE0FF;">SIGNED OUT SAFELY</span>
+                <span style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,0.3);"></span>
+                <span style="font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;">Guest Mode</span>
+              </div>
+              <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.85);line-height:1.4;">You have been signed out. Enjoy browsing our collection.</p>
+            </div>
+            <button type="button" onclick="this.closest('aside').remove()" style="background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:6px;" aria-label="Dismiss">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          `;
+          document.body.appendChild(toast);
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.style.opacity = '0';
+              toast.style.transform = 'translateX(-50%) translateY(8px)';
+              setTimeout(() => toast.remove(), 320);
+            }
+          }, 4500);
+        }
+      } catch (err) {}
+    })();
+  </script>
 
 </body>
 </html>

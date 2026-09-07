@@ -24,7 +24,7 @@ interface CuratedItem {
 const CURATED_PRODUCTS: CuratedItem[] = [
   { id: 'p1', badge: 'Top Pick',        brand: 'ARC',   name: 'Architectural Cashmere Sweater', price: 185, image: '/assets/images/products/hero_sweater.png',     category: 'outerwear',   parallaxDepth: 1 },
   { id: 'p2', badge: 'Staff Favourite', brand: 'ARC',   name: 'Structured Wool Blazer',         price: 245, image: '/assets/images/products/plp_blazer.png',        category: 'tailoring',   parallaxDepth: 2 },
-  { id: 'p7', badge: 'Trending Now',    brand: 'FORMA', name: 'Quilted Leather Structured Tote', price: 285, image: '/assets/images/products/prod_tote.png',         category: 'accessories', parallaxDepth: 3 },
+  { id: 'p7', badge: 'Trending Now',    brand: 'FORMA', name: 'Structured Leather Tote',         price: 245, image: '/assets/images/products/prod_tote.png',         category: 'accessories', parallaxDepth: 3 },
   { id: 'p4', badge: 'Most Loved',      brand: 'FORM',  name: 'Studio Acoustics Headphone GT',  price: 320, image: '/assets/images/lifestyle/thumb_headphones.jpg', category: 'accessories', parallaxDepth: 2 },
 ];
 
